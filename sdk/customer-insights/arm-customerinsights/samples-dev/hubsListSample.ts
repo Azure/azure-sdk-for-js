@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,15 +15,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all hubs in the specified subscription.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/HubsList.json
  */
-async function hubsList() {
+async function hubsList(): Promise<void> {
   const subscriptionId = "subid";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.hubs.list()) {
+  for await (const item of client.hubs.list()) {
     resArray.push(item);
   }
   console.log(resArray);

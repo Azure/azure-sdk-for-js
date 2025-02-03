@@ -16,8 +16,9 @@ import {
   BmcKeySetsCreateOrUpdateOptionalParams,
   BmcKeySetsCreateOrUpdateResponse,
   BmcKeySetsDeleteOptionalParams,
+  BmcKeySetsDeleteResponse,
   BmcKeySetsUpdateOptionalParams,
-  BmcKeySetsUpdateResponse
+  BmcKeySetsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +33,7 @@ export interface BmcKeySets {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BmcKeySetsListByClusterOptionalParams
+    options?: BmcKeySetsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<BmcKeySet>;
   /**
    * Get baseboard management controller key set of the provided cluster.
@@ -45,7 +46,7 @@ export interface BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsGetOptionalParams
+    options?: BmcKeySetsGetOptionalParams,
   ): Promise<BmcKeySetsGetResponse>;
   /**
    * Create a new baseboard management controller key set or update the existing one for the provided
@@ -61,7 +62,7 @@ export interface BmcKeySets {
     clusterName: string,
     bmcKeySetName: string,
     bmcKeySetParameters: BmcKeySet,
-    options?: BmcKeySetsCreateOrUpdateOptionalParams
+    options?: BmcKeySetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BmcKeySetsCreateOrUpdateResponse>,
@@ -82,7 +83,7 @@ export interface BmcKeySets {
     clusterName: string,
     bmcKeySetName: string,
     bmcKeySetParameters: BmcKeySet,
-    options?: BmcKeySetsCreateOrUpdateOptionalParams
+    options?: BmcKeySetsCreateOrUpdateOptionalParams,
   ): Promise<BmcKeySetsCreateOrUpdateResponse>;
   /**
    * Delete the baseboard management controller key set of the provided cluster.
@@ -95,8 +96,13 @@ export interface BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: BmcKeySetsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BmcKeySetsDeleteResponse>,
+      BmcKeySetsDeleteResponse
+    >
+  >;
   /**
    * Delete the baseboard management controller key set of the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -108,8 +114,8 @@ export interface BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsDeleteOptionalParams
-  ): Promise<void>;
+    options?: BmcKeySetsDeleteOptionalParams,
+  ): Promise<BmcKeySetsDeleteResponse>;
   /**
    * Patch properties of baseboard management controller key set for the provided cluster, or update the
    * tags associated with it. Properties and tag updates can be done independently.
@@ -122,7 +128,7 @@ export interface BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsUpdateOptionalParams
+    options?: BmcKeySetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BmcKeySetsUpdateResponse>,
@@ -141,6 +147,6 @@ export interface BmcKeySets {
     resourceGroupName: string,
     clusterName: string,
     bmcKeySetName: string,
-    options?: BmcKeySetsUpdateOptionalParams
+    options?: BmcKeySetsUpdateOptionalParams,
   ): Promise<BmcKeySetsUpdateResponse>;
 }

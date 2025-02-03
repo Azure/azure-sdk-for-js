@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure/core-client";
-import type { DTDL } from "./psuedoDtdl";
-import { convertDtmiToPath } from "./dtmiConventions";
-import { ModelError } from "./exceptions";
-import type { Fetcher } from "./fetcherAbstract";
-import { logger } from "./logger";
+import type { DTDL } from "./psuedoDtdl.js";
+import { convertDtmiToPath } from "./dtmiConventions.js";
+import { ModelError } from "./exceptions.js";
+import type { Fetcher } from "./fetcherAbstract.js";
+import { logger } from "./logger.js";
 
 /**
  * DtmiResolver handles reformatting the DTMIs to paths and passing options

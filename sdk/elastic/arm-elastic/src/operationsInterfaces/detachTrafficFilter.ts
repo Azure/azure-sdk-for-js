@@ -7,7 +7,7 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { DetachTrafficFilterUpdateOptionalParams } from "../models";
+import { DetachTrafficFilterUpdateOptionalParams } from "../models/index.js";
 
 /** Interface representing a DetachTrafficFilter. */
 export interface DetachTrafficFilter {

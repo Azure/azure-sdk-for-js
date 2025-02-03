@@ -1,0 +1,4 @@
+{
+  "extends": ["./tsconfig.src.json", "../../../tsconfig.test.base.json"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/prebuilt/prebuilt-idDocument.ts"]
+}

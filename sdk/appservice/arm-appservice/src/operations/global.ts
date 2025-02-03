@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Global } from "../operationsInterfaces";
+import { Global } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { WebSiteManagementClient } from "../webSiteManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { WebSiteManagementClient } from "../webSiteManagementClient.js";
 import {
   GlobalGetDeletedWebAppOptionalParams,
   GlobalGetDeletedWebAppResponse,
   GlobalGetDeletedWebAppSnapshotsOptionalParams,
   GlobalGetDeletedWebAppSnapshotsResponse,
   GlobalGetSubscriptionOperationWithAsyncResponseOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Global operations. */
 export class GlobalImpl implements Global {

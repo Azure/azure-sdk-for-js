@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  RoomParticipant,
   ParticipantsListOptionalParams,
-  ParticipantsListResponse,
   ParticipantsUpdateOptionalParams,
   ParticipantsUpdateResponse,
-  ParticipantsListNextOptionalParams,
-  ParticipantsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Participants. */
 export interface Participants {
   /**
@@ -24,8 +24,8 @@ export interface Participants {
    */
   list(
     roomId: string,
-    options?: ParticipantsListOptionalParams
-  ): Promise<ParticipantsListResponse>;
+    options?: ParticipantsListOptionalParams,
+  ): PagedAsyncIterableIterator<RoomParticipant>;
   /**
    * Update participants in a room.
    * @param roomId The id of the room to update the participants in.
@@ -33,17 +33,6 @@ export interface Participants {
    */
   update(
     roomId: string,
-    options?: ParticipantsUpdateOptionalParams
+    options?: ParticipantsUpdateOptionalParams,
   ): Promise<ParticipantsUpdateResponse>;
-  /**
-   * ListNext
-   * @param roomId The id of the room to get participants from.
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    roomId: string,
-    nextLink: string,
-    options?: ParticipantsListNextOptionalParams
-  ): Promise<ParticipantsListNextResponse>;
 }

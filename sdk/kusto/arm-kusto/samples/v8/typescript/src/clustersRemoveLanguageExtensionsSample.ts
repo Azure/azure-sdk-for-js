@@ -10,20 +10,18 @@
 // Licensed under the MIT License.
 import {
   LanguageExtensionsList,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Remove a list of language extensions that can run within KQL queries.
  *
  * @summary Remove a list of language extensions that can run within KQL queries.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterRemoveLanguageExtensions.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterRemoveLanguageExtensions.json
  */
-async function kustoClusterRemoveLanguageExtensions() {
+async function kustoClusterRemoveLanguageExtensions(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -31,20 +29,23 @@ async function kustoClusterRemoveLanguageExtensions() {
     process.env["KUSTO_RESOURCE_GROUP"] || "kustorptest";
   const clusterName = "kustoCluster";
   const languageExtensionsToRemove: LanguageExtensionsList = {
-    value: [{ languageExtensionName: "PYTHON" }, { languageExtensionName: "R" }]
+    value: [
+      { languageExtensionName: "PYTHON" },
+      { languageExtensionName: "R" },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginRemoveLanguageExtensionsAndWait(
     resourceGroupName,
     clusterName,
-    languageExtensionsToRemove
+    languageExtensionsToRemove,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoClusterRemoveLanguageExtensions();
+async function main(): Promise<void> {
+  await kustoClusterRemoveLanguageExtensions();
 }
 
 main().catch(console.error);

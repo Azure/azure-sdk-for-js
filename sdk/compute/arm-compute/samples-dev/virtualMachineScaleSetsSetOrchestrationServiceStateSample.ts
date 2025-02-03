@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  OrchestrationServiceStateInput,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { OrchestrationServiceStateInput } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Changes ServiceState property for a given service
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Changes ServiceState property for a given service
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const parameters: OrchestrationServiceStateInput = {
     action: "Resume",
@@ -35,12 +27,11 @@ async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -50,11 +41,9 @@ async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen() {
  * @summary Changes ServiceState property for a given service
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: OrchestrationServiceStateInput = {
     action: "Resume",
@@ -62,18 +51,17 @@ async function virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    parameters,
+  );
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen();
-  virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen();
+  await virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen();
 }
 
 main().catch(console.error);

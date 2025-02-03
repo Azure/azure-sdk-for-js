@@ -37,7 +37,7 @@ export async function main() {
   const targetInput = createTargetInput(targetUrl, "fr");
   const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
+  // Start translation
   const batchRequests = { inputs: [batchRequest] };
   const poller = await client.path("/document/batches").post({
     body: batchRequests,
@@ -47,8 +47,8 @@ export async function main() {
   }
   const id = getTranslationOperationID(poller.headers["operation-location"]);
   console.log("Translation started and the operationID is: " + id);
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

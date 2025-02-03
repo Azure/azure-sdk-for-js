@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AggregateAuthenticationError, CredentialUnavailableError } from "../errors";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { tracingClient } from "../util/tracing";
+import { AggregateAuthenticationError, CredentialUnavailableError } from "../errors.js";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
+import { tracingClient } from "../util/tracing.js";
 
 /**
  * @internal
@@ -33,8 +33,10 @@ export class ChainedTokenCredential implements TokenCredential {
    * const clientSecret = "<client-secret>";
    * const anotherClientId = "<another-client-id>";
    * const anotherSecret = "<another-client-secret>";
+   *
    * const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
    * const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
+   *
    * const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
    * ```
    */

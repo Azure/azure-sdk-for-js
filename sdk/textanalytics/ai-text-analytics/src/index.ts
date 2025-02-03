@@ -30,28 +30,28 @@ export {
   RecognizeLinkedEntitiesAction,
   AnalyzeSentimentAction,
   PollerLikeWithCancellation,
-} from "./textAnalyticsClient";
-export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
+} from "./textAnalyticsClient.js";
+export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions.js";
 export {
   DetectLanguageResult,
   DetectLanguageErrorResult,
   DetectLanguageSuccessResult,
-} from "./detectLanguageResult";
-export { DetectLanguageResultArray } from "./detectLanguageResultArray";
+} from "./detectLanguageResult.js";
+export { DetectLanguageResultArray } from "./detectLanguageResultArray.js";
 export {
   CategorizedEntity,
   RecognizeCategorizedEntitiesResult,
   RecognizeCategorizedEntitiesErrorResult,
   RecognizeCategorizedEntitiesSuccessResult,
-} from "./recognizeCategorizedEntitiesResult";
+} from "./recognizeCategorizedEntitiesResult.js";
 export {
   PiiEntity,
   RecognizePiiEntitiesResult,
   RecognizePiiEntitiesErrorResult,
   RecognizePiiEntitiesSuccessResult,
-} from "./recognizePiiEntitiesResult";
-export { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
-export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
+} from "./recognizePiiEntitiesResult.js";
+export { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray.js";
+export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray.js";
 export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,
@@ -60,20 +60,20 @@ export {
   Opinion,
   TargetSentiment,
   AssessmentSentiment,
-} from "./analyzeSentimentResult";
-export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
+} from "./analyzeSentimentResult.js";
+export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray.js";
 export {
   ExtractKeyPhrasesResult,
   ExtractKeyPhrasesErrorResult,
   ExtractKeyPhrasesSuccessResult,
-} from "./extractKeyPhrasesResult";
-export { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
+} from "./extractKeyPhrasesResult.js";
+export { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray.js";
 export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
   RecognizeLinkedEntitiesSuccessResult,
-} from "./recognizeLinkedEntitiesResult";
-export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
+} from "./recognizeLinkedEntitiesResult.js";
+export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray.js";
 export {
   PagedAnalyzeHealthcareEntitiesResult,
   PagedAsyncIterableAnalyzeHealthcareEntitiesResult,
@@ -86,7 +86,7 @@ export {
   HealthcareEntityRelation,
   HealthcareEntityRelationRole,
   HealthcareEntityRelationRoleType,
-} from "./analyzeHealthcareEntitiesResult";
+} from "./analyzeHealthcareEntitiesResult.js";
 export {
   PagedAnalyzeActionsResult,
   PagedAsyncIterableAnalyzeActionsResult,
@@ -108,15 +108,15 @@ export {
   AnalyzeSentimentActionErrorResult,
   AnalyzeSentimentActionResult,
   AnalyzeSentimentActionSuccessResult,
-} from "./analyzeActionsResult";
+} from "./analyzeActionsResult.js";
 export {
   ErrorCode,
   TextAnalyticsError,
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult,
-} from "./textAnalyticsResult";
+} from "./textAnalyticsResult.js";
 
-export { TextAnalyticsAction } from "./textAnalyticsAction";
+export { TextAnalyticsAction } from "./textAnalyticsAction.js";
 
 // Models
 export {
@@ -149,4 +149,4 @@ export {
   RelationType as HealthcareEntityRelationType,
   KnownHealthcareEntityCategory,
   HealthcareEntityCategory,
-} from "./generated/models";
+} from "./generated/models/index.js";

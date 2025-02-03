@@ -1,14 +1,26 @@
 # Release History
 
-## 4.1.2 (Unreleased)
+## 4.2.1 (Unreleased)
 
 ### Features Added
+
+- Partition merge support: This feature adds support for Partition merge (preview) feature. Requests from JS SDK will not be blocked, when the feature is enabled. [docs](https://learn.microsoft.com/azure/cosmos-db/merge)
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Fixed issue for incorrect `ParallelizeCrossPartitionQuery` header value. It was set to true if `maxDegreeOfParallelism` was set to 0 or 1 in `FeedOptions` while executing a query. [#31232](https://github.com/Azure/azure-sdk-for-js/issues/31232)
+
 ### Other Changes
+
+## 4.2.0 (2024-11-19)
+
+### Features Added
+
+- Full Text Support: This feature adds support for full text search policy and indexing policy. It also enables performing full text search queries. [docs](https://learn.microsoft.com/azure/cosmos-db/gen-ai/full-text-search)
+- Hybrid Search Support: This feature adds support for performing hybrid search queries. [docs](https://learn.microsoft.com/azure/cosmos-db/gen-ai/hybrid-search)
+- Added support for three optional properties to support `quantizedFlat` and `diskANN` vector indexing policies. The properties are: `quantizationByteSize`, `vectorIndexShardKey` and `indexingSearchListSize`.
 
 ## 4.1.1 (2024-08-30)
 
@@ -852,7 +864,7 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
   - DISTINCT queries
   - LIMIT/OFFSET queries
   - User cancelable requests
-- Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
+- Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://learn.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
 - Make it easier to use Cosmos from the browser
 - Better align with the new [Azure JS SDK guidlines](https://azure.github.io/azure-sdk/typescript_introduction.html)
 
@@ -926,7 +938,7 @@ container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchA
 
 #### Fixed Containers are now Paritioned (#308)
 
-[The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
+[The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://learn.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
 
 #### `upsert` removed for Stored Procedures (#356)
 
@@ -1226,7 +1238,7 @@ Not always the most visible changes, but they help our team ship better code, fa
 
 ## 1.0.3 (2015-06-04)
 
-- Issue [#40](https://github.com/Azure/azure-documentdb-node/issues/40) - Implemented eslint and grunt configurations in the core and promise SDK.
+- Issue [#40](https://github.com/Azure/azure-cosmosdb-node/issues/40) - Implemented eslint and grunt configurations in the core and promise SDK.
 
 ## 1.0.2 (2015-05-23)
 

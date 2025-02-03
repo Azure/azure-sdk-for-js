@@ -4,8 +4,8 @@
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
-import type { AzureHealthInsightsClient } from "./clientDefinitions";
-import { logger } from "./logger";
+import type { AzureHealthInsightsClient } from "./clientDefinitions.js";
+import { logger } from "./logger.js";
 
 /**
  * Initialize a new instance of `AzureHealthInsightsClient`

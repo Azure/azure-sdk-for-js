@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationsResultsLocation } from "../operationsInterfaces";
+import { OperationsResultsLocation } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
 import {
   OperationsResultsLocationGetOptionalParams,
-  OperationsResultsLocationGetResponse
-} from "../models";
+  OperationsResultsLocationGetResponse,
+} from "../models/index.js";
 
 /** Class containing OperationsResultsLocation operations. */
 export class OperationsResultsLocationImpl
-  implements OperationsResultsLocation {
+  implements OperationsResultsLocation
+{
   private readonly client: KustoManagementClient;
 
   /**
@@ -38,11 +39,11 @@ export class OperationsResultsLocationImpl
   get(
     location: string,
     operationId: string,
-    options?: OperationsResultsLocationGetOptionalParams
+    options?: OperationsResultsLocationGetOptionalParams,
   ): Promise<OperationsResultsLocationGetResponse> {
     return this.client.sendOperationRequest(
       { location, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -50,22 +51,21 @@ export class OperationsResultsLocationImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/operationResults/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Kusto/locations/{location}/operationResults/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {},
     202: {
-      headersMapper: Mappers.OperationsResultsLocationGetHeaders
+      headersMapper: Mappers.OperationsResultsLocationGetHeaders,
     },
-    default: {}
+    default: {},
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.location,
-    Parameters.operationId
+    Parameters.operationId,
   ],
-  serializer
+  serializer,
 };

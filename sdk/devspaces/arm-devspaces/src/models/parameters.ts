@@ -16,7 +16,7 @@ import {
   Controller as ControllerMapper,
   ControllerUpdateParameters as ControllerUpdateParametersMapper,
   ListConnectionDetailsParameters as ListConnectionDetailsParametersMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

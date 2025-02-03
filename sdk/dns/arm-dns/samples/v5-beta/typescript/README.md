@@ -91,7 +91,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [zoneslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dns/arm-dns/samples/v5-beta/typescript/src/zonesListByResourceGroupSample.ts
 [zoneslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dns/arm-dns/samples/v5-beta/typescript/src/zonesListSample.ts
 [zonesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dns/arm-dns/samples/v5-beta/typescript/src/zonesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-dns?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-dns?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dns/arm-dns/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

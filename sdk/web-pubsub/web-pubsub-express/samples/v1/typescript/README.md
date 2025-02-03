@@ -66,7 +66,7 @@ npx dev-tool run vendored cross-env  node dist/server.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [server]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-express/samples/v1/typescript/src/server.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/web-pubsub-express
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/web-pubsub-express
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

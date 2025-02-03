@@ -159,9 +159,14 @@ function tryProcessResponse(span: TracingSpan, response: PipelineResponse): void
     if (serviceRequestId) {
       span.setAttribute("serviceRequestId", serviceRequestId);
     }
-    span.setStatus({
-      status: "success",
-    });
+    // Per semantic conventions, only set the status to error if the status code is 4xx or 5xx.
+    // Otherwise, the status MUST remain unset.
+    // https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+    if (response.status >= 400) {
+      span.setStatus({
+        status: "error",
+      });
+    }
     span.end();
   } catch (e: any) {
     logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);

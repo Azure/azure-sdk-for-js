@@ -3,11 +3,11 @@
 
 import {
   Recorder,
-  RecorderStartOptions,
-  TestInfo,
+  type RecorderStartOptions,
+  type TestInfo,
   assertEnvironmentVariable,
 } from "@azure-tools/test-recorder";
-import OpenAI, { AzureClientOptions, AzureOpenAI } from "openai";
+import OpenAI, { type AzureClientOptions, AzureOpenAI } from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import {
   EnvironmentVariableNames,
@@ -15,7 +15,7 @@ import {
   EnvironmentVariableNamesForVision,
   EnvironmentVariableNamesForAudio,
 } from "./envVars.js";
-import { APIVersion, DeploymentType } from "./utils.js";
+import { APIVersion, type DeploymentType } from "./utils.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const scope = "https://cognitiveservices.azure.com/.default";

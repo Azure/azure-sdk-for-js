@@ -15,10 +15,10 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get a list of Dedicated HSM operations.
+ * This sample demonstrates how to Get a list of Hardware Security Modules operations.
  *
- * @summary Get a list of Dedicated HSM operations.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/DedicatedHsm_OperationsList.json
+ * @summary Get a list of Hardware Security Modules operations.
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/OperationsList.json
  */
 async function getAListOfDedicatedHsmOperations() {
   const subscriptionId =
@@ -34,10 +34,10 @@ async function getAListOfDedicatedHsmOperations() {
 }
 
 /**
- * This sample demonstrates how to Get a list of Dedicated HSM operations.
+ * This sample demonstrates how to Get a list of Hardware Security Modules operations.
  *
- * @summary Get a list of Dedicated HSM operations.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/PaymentHsm_OperationsList.json
+ * @summary Get a list of Hardware Security Modules operations.
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/OperationsList.json
  */
 async function getAListOfPaymentHsmOperations() {
   const subscriptionId =

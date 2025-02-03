@@ -85,10 +85,34 @@ export interface ConnectionConfig {
   useDevelopmentEmulator?: boolean;
 }
 
+const specialLocalIPs = ["::1", "0:0:0:0:0:0:0:1"];
+
 function getHost(endpoint: string): string {
-  const matches = /.*:\/\/([^/]*)/.exec(endpoint);
+  for (const ip of specialLocalIPs) {
+    if (endpoint.includes(ip)) {
+      return ip;
+    }
+  }
+
+  const matches = /.*:\/\/([^/:]*)/.exec(endpoint);
   const match = matches?.[1];
   return !match ? endpoint : match;
+}
+
+function extractPort(ep: string): number | undefined {
+  const matches = /.*:(\d*)/.exec(ep);
+  const match = matches?.[1];
+  return match ? parseInt(match, 10) : undefined;
+}
+
+function getPort(endpoint: string): number | undefined {
+  for (const ip of specialLocalIPs) {
+    if (endpoint.includes(ip)) {
+      return extractPort(endpoint.replace(ip, ""));
+    }
+  }
+
+  return extractPort(endpoint);
 }
 
 /**
@@ -121,6 +145,11 @@ export const ConnectionConfig = {
 
     if (!parsedCS.Endpoint.endsWith("/")) parsedCS.Endpoint += "/";
 
+    let port: number | undefined;
+    if (parsedCS.Endpoint.includes(":")) {
+      port = getPort(parsedCS.Endpoint);
+    }
+
     const result: ConnectionConfig = {
       connectionString: connectionString,
       endpoint: parsedCS.Endpoint,
@@ -128,6 +157,7 @@ export const ConnectionConfig = {
       sharedAccessKeyName: parsedCS.SharedAccessKeyName,
       sharedAccessKey: parsedCS.SharedAccessKey,
       useDevelopmentEmulator: parsedCS.UseDevelopmentEmulator === "true",
+      ...(port !== undefined ? { port } : undefined),
     };
 
     if (path || parsedCS.EntityPath) {
@@ -157,6 +187,10 @@ export const ConnectionConfig = {
       throw new TypeError("Missing 'host' in configuration");
     }
     config.host = String(config.host);
+
+    if (config.port !== undefined && !(config.port >= 0 && config.port <= 65535)) {
+      throw new TypeError(`Invalid 'port' of ${config.port} in configuration`);
+    }
 
     if (options.isEntityPathRequired && !config.entityPath) {
       throw new TypeError("Missing 'entityPath' in configuration");

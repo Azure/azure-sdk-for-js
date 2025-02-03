@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected } = require("../src/generated");
-const MapsRender = require("../src/mapsRender").default;
+const MapsRender = require("@azure-rest/maps-render").default,
+  { isUnexpected } = require("@azure-rest/maps-render");
 
 /**
  * @summary How to get the metadata of a certain tileset.
@@ -17,7 +17,7 @@ async function main() {
    * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
    * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
-   * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
+   * More info is available at https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
   /** Microsoft Entra ID authentication */
   const credential = new DefaultAzureCredential();

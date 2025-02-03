@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  DiskEncryptionSetsGetParameters,
-} from "@azure-rest/arm-compute";
+import type { DiskEncryptionSetsGetParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about a disk encryption set.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Gets information about a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get_WithAutoKeyRotationError.json
  */
-async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed() {
+async function getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -44,7 +39,7 @@ getInformationAboutADiskEncryptionSetWhenAutoKeyRotationFailed().catch(console.e
  * @summary Gets information about a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2022-07-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Get.json
  */
-async function getInformationAboutADiskEncryptionSet() {
+async function getInformationAboutADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AzureKeyCredential } from "@azure/core-auth";
-import { MixedRealityAccountKeyCredential } from "../../src/models/auth";
+import { MixedRealityAccountKeyCredential } from "../../src/models/auth.js";
 
 export function createTokenCredentialFromMRKeyCredential(
   accountId: string,

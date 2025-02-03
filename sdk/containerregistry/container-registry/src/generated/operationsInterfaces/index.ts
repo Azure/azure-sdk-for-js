@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./containerRegistry";
-export * from "./containerRegistryBlob";
-export * from "./authentication";
+export * from "./containerRegistry.js";
+export * from "./containerRegistryBlob.js";
+export * from "./authentication.js";

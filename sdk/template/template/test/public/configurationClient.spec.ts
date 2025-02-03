@@ -3,13 +3,12 @@
 
 import { ConfigurationClient } from "../../src/index.js";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { chaiAzure } from "@azure-tools/test-utils-vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, beforeEach, afterEach, chai } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import type { OperationOptions } from "@azure/core-client";
 
-chai.use(chaiAzure);
-
-const { assert } = chai;
+expect.extend({ toSupportTracing });
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -105,10 +104,9 @@ describe("[AAD] ConfigurationClient functional tests", function () {
       // More details here - https://github.com/Azure/azure-sdk-tools/issues/2674
       await recorder.setMatcher("HeaderlessMatcher");
       const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
-      await assert.supportsTracing(
-        (options) => client.getConfigurationSetting(key, options),
-        ["ConfigurationClient.getConfigurationSetting"],
-      );
+      await expect((options: OperationOptions) =>
+        client.getConfigurationSetting(key, options),
+      ).toSupportTracing(["ConfigurationClient.getConfigurationSetting"]);
     });
   });
 });

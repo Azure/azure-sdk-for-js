@@ -19,7 +19,7 @@ import {
   LinkableEnvironmentRequest as LinkableEnvironmentRequestMapper,
   TagRule as TagRuleMapper,
   DynatraceSingleSignOnResource as DynatraceSingleSignOnResourceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

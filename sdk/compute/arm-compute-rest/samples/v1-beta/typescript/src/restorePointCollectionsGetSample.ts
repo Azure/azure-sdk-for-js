@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  RestorePointCollectionsGetParameters
+  RestorePointCollectionsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to get the restore point collection.
@@ -24,21 +19,21 @@ async function getARestorePointCollectionButNotTheRestorePointsContainedInTheRes
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "myRpc";
   const options: RestorePointCollectionsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
       subscriptionId,
       resourceGroupName,
-      restorePointCollectionName
+      restorePointCollectionName,
     )
     .get(options);
   console.log(result);
 }
 
 getARestorePointCollectionButNotTheRestorePointsContainedInTheRestorePointCollection().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to The operation to get the restore point collection.
@@ -53,19 +48,19 @@ async function getARestorePointCollectionIncludingTheRestorePointsContainedInThe
   const resourceGroupName = "myResourceGroup";
   const restorePointCollectionName = "rpcName";
   const options: RestorePointCollectionsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}",
       subscriptionId,
       resourceGroupName,
-      restorePointCollectionName
+      restorePointCollectionName,
     )
     .get(options);
   console.log(result);
 }
 
 getARestorePointCollectionIncludingTheRestorePointsContainedInTheRestorePointCollection().catch(
-  console.error
+  console.error,
 );

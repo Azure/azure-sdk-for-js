@@ -4,8 +4,8 @@
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import type { Recorder, RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import type { TableServiceClientOptions } from "../../../src";
-import { TableClient, TableServiceClient } from "../../../src";
+import type { TableServiceClientOptions } from "../../../src/index.js";
+import { TableClient, TableServiceClient } from "../../../src/index.js";
 
 import { createTestCredential } from "@azure-tools/test-credential";
 

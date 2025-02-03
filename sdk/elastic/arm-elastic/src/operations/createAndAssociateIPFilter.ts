@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CreateAndAssociateIPFilter } from "../operationsInterfaces";
+import { CreateAndAssociateIPFilter } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftElastic } from "../microsoftElastic";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftElastic } from "../microsoftElastic.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import { CreateAndAssociateIPFilterCreateOptionalParams } from "../models";
+import { createLroSpec } from "../lroImpl.js";
+import { CreateAndAssociateIPFilterCreateOptionalParams } from "../models/index.js";
 
 /** Class containing CreateAndAssociateIPFilter operations. */
 export class CreateAndAssociateIPFilterImpl

@@ -12,7 +12,7 @@ import type {
   KeyVaultSecretNearExpiryEventData,
   KeyVaultAccessPolicyChangedEventData,
   KeyVaultSecretExpiredEventData,
-} from "./models";
+} from "./models.js";
 
 import type {
   AcsChatMessageDeletedEventData,
@@ -73,31 +73,6 @@ import type {
   MapsGeofenceEnteredEventData,
   MapsGeofenceExitedEventData,
   MapsGeofenceResultEventData,
-  MediaJobCanceledEventData,
-  MediaJobCancelingEventData,
-  MediaJobErroredEventData,
-  MediaJobFinishedEventData,
-  MediaJobOutputCanceledEventData,
-  MediaJobOutputCancelingEventData,
-  MediaJobOutputErroredEventData,
-  MediaJobOutputFinishedEventData,
-  MediaJobOutputProcessingEventData,
-  MediaJobOutputProgressEventData,
-  MediaJobOutputScheduledEventData,
-  MediaJobOutputStateChangeEventData,
-  MediaJobProcessingEventData,
-  MediaJobScheduledEventData,
-  MediaJobStateChangeEventData,
-  MediaLiveEventChannelArchiveHeartbeatEventData,
-  MediaLiveEventConnectionRejectedEventData,
-  MediaLiveEventEncoderConnectedEventData,
-  MediaLiveEventEncoderDisconnectedEventData,
-  MediaLiveEventIncomingDataChunkDroppedEventData,
-  MediaLiveEventIncomingStreamReceivedEventData,
-  MediaLiveEventIncomingStreamsOutOfSyncEventData,
-  MediaLiveEventIncomingVideoStreamsOutOfSyncEventData,
-  MediaLiveEventIngestHeartbeatEventData,
-  MediaLiveEventTrackDiscontinuityDetectedEventData,
   PolicyInsightsPolicyStateChangedEventData,
   PolicyInsightsPolicyStateCreatedEventData,
   PolicyInsightsPolicyStateDeletedEventData,
@@ -212,9 +187,9 @@ import type {
   AcsMessageDeliveryStatusUpdatedEventData,
   AcsMessageReceivedEventData,
   AcsRouterWorkerUpdatedEventData,
-} from "./cadl-generated/models";
+} from "./cadl-generated/models/index.js";
 
-import type { CloudEvent, EventGridEvent } from "./models";
+import type { CloudEvent, EventGridEvent } from "./models.js";
 
 /**
  * The Event Types for all System Events. These may be used with `isSystemEvent` to determine if an
@@ -366,56 +341,6 @@ export interface SystemEventNameToEventData {
   "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
   /** An interface for the event data of a "Microsoft.Maps.GeofenceResult" event. */
   "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobStateChange" event. */
-  "Microsoft.Media.JobStateChange": MediaJobStateChangeEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobOutputStateChange" event. */
-  "Microsoft.Media.JobOutputStateChange": MediaJobOutputStateChangeEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobScheduled" event. */
-  "Microsoft.Media.JobScheduled": MediaJobScheduledEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobProcessing" event. */
-  "Microsoft.Media.JobProcessing": MediaJobProcessingEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobCanceling" event. */
-  "Microsoft.Media.JobCanceling": MediaJobCancelingEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobFinished" event. */
-  "Microsoft.Media.JobFinished": MediaJobFinishedEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobCanceled" event. */
-  "Microsoft.Media.JobCanceled": MediaJobCanceledEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobErrored" event. */
-  "Microsoft.Media.JobErrored": MediaJobErroredEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobOutputCanceled" event. */
-  "Microsoft.Media.JobOutputCanceled": MediaJobOutputCanceledEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobOutputCanceling" event. */
-  "Microsoft.Media.JobOutputCanceling": MediaJobOutputCancelingEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobOutputErrored" event. */
-  "Microsoft.Media.JobOutputErrored": MediaJobOutputErroredEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobOutputFinished" event. */
-  "Microsoft.Media.JobOutputFinished": MediaJobOutputFinishedEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobOutputProcessing" event. */
-  "Microsoft.Media.JobOutputProcessing": MediaJobOutputProcessingEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobOutputScheduled" event. */
-  "Microsoft.Media.JobOutputScheduled": MediaJobOutputScheduledEventData;
-  /** An interface for the event data of a "Microsoft.Media.JobOutputProgress" event. */
-  "Microsoft.Media.JobOutputProgress": MediaJobOutputProgressEventData;
-  /** An interface for the event data of a "Microsoft.Media.LiveEventEncoderConnected" event. */
-  "Microsoft.Media.LiveEventEncoderConnected": MediaLiveEventEncoderConnectedEventData;
-  /** An interface for the event data of a "Microsoft.Media.LiveEventChannelArchiveHeartbeat" event. */
-  "Microsoft.Media.LiveEventChannelArchiveHeartbeat": MediaLiveEventChannelArchiveHeartbeatEventData;
-  /** An interface for the event data of a "Microsoft.Media.LiveEventConnectionRejected" event. */
-  "Microsoft.Media.LiveEventConnectionRejected": MediaLiveEventConnectionRejectedEventData;
-  /** An interface for the event data of a "Microsoft.Media.LiveEventEncoderDisconnected" event. */
-  "Microsoft.Media.LiveEventEncoderDisconnected": MediaLiveEventEncoderDisconnectedEventData;
-  /** An interface for the event data of a "Microsoft.Media.LiveEventIncomingStreamReceived" event. */
-  "Microsoft.Media.LiveEventIncomingStreamReceived": MediaLiveEventIncomingStreamReceivedEventData;
-  /** An interface for the event data of a "Microsoft.Media.LiveEventIncomingStreamsOutOfSync" event. */
-  "Microsoft.Media.LiveEventIncomingStreamsOutOfSync": MediaLiveEventIncomingStreamsOutOfSyncEventData;
-  /** An interface for the event data of a "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync" event. */
-  "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync": MediaLiveEventIncomingVideoStreamsOutOfSyncEventData;
-  /** An interface for the event data of a "Microsoft.Media.LiveEventIncomingDataChunkDropped" event. */
-  "Microsoft.Media.LiveEventIncomingDataChunkDropped": MediaLiveEventIncomingDataChunkDroppedEventData;
-  /** An interface for the event data of a "Microsoft.Media.LiveEventIngestHeartbeat" event. */
-  "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
-  /** An interface for the event data of a "Microsoft.Media.LiveEventTrackDiscontinuityDetected" event. */
-  "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
   /** An interface for the event data of a "Microsoft.PolicyInsights.PolicyStateChanged" event. */
   "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
   /** An interface for the event data of a " Microsoft.PolicyInsights.PolicyStateCreated" event. */

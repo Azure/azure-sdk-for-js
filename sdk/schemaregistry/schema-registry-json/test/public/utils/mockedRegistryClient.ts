@@ -12,7 +12,7 @@ import type {
 } from "@azure/schema-registry";
 import { SchemaRegistryClient } from "@azure/schema-registry";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { testSchemaIds } from "./dummies";
+import { testSchemaIds } from "./dummies.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { randomUUID } from "@azure/core-util";

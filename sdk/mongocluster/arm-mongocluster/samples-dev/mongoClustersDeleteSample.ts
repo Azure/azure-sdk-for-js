@@ -18,7 +18,7 @@ async function deletesAMongoClusterResource() {
 }
 
 async function main() {
-  deletesAMongoClusterResource();
+  await deletesAMongoClusterResource();
 }
 
 main().catch(console.error);

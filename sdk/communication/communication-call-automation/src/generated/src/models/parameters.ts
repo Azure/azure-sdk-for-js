@@ -29,7 +29,7 @@ import {
   HoldRequest as HoldRequestMapper,
   UnholdRequest as UnholdRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

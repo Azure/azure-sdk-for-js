@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a DataflowEndpointResource
  *
  * @summary get a DataflowEndpointResource
- * x-ms-original-file: 2024-09-15-preview/DataflowEndpoint_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/DataflowEndpoint_Get_MaximumSet_Gen.json
  */
 async function dataflowEndpointGet() {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function dataflowEndpointGet() {
 }
 
 async function main() {
-  dataflowEndpointGet();
+  await dataflowEndpointGet();
 }
 
 main().catch(console.error);

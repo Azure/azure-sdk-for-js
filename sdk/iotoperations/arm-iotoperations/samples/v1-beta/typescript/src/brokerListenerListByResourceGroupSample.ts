@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list BrokerListenerResource resources by BrokerResource
  *
  * @summary list BrokerListenerResource resources by BrokerResource
- * x-ms-original-file: 2024-09-15-preview/BrokerListener_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/BrokerListener_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function brokerListenerListByResourceGroup() {
   const credential = new DefaultAzureCredential();

@@ -15,7 +15,7 @@ async function listOperations() {
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new FabricClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listOperations() {
 }
 
 async function main() {
-  listOperations();
+  await listOperations();
 }
 
 main().catch(console.error);

@@ -28,7 +28,7 @@ import {
   UpdateRunsImpl,
   UpdateSummariesOperationsImpl,
   UpdatesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   ArcSettings,
   Clusters,
@@ -43,8 +43,8 @@ import {
   UpdateRuns,
   UpdateSummariesOperations,
   Updates,
-} from "./operationsInterfaces";
-import { AzureStackHCIClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureStackHCIClientOptionalParams } from "./models/index.js";
 
 export class AzureStackHCIClient extends coreClient.ServiceClient {
   $host: string;

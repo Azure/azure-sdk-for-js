@@ -19,14 +19,14 @@ import {
   OperationsImpl,
   TagRulesImpl,
   SingleSignOnImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Monitors,
   Operations,
   TagRules,
   SingleSignOn
-} from "./operationsInterfaces";
-import { DynatraceObservabilityOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DynatraceObservabilityOptionalParams } from "./models/index.js";
 
 export class DynatraceObservability extends coreClient.ServiceClient {
   $host: string;

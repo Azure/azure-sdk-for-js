@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RateCard } from "../operationsInterfaces";
+import { RateCard } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { UsageManagementClient } from "../usageManagementClient";
-import { RateCardGetOptionalParams, RateCardGetResponse } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { UsageManagementClient } from "../usageManagementClient.js";
+import { RateCardGetOptionalParams, RateCardGetResponse } from "../models/index.js";
 
 /** Class containing RateCard operations. */
 export class RateCardImpl implements RateCard {

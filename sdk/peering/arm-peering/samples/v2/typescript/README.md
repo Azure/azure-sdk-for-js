@@ -233,7 +233,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [registeredprefixeslistbypeeringsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/peering/arm-peering/samples/v2/typescript/src/registeredPrefixesListByPeeringSample.ts
 [updatepeeringservicetags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/peering/arm-peering/samples/v2/typescript/src/updatePeeringServiceTags.ts
 [updatepeeringtags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/peering/arm-peering/samples/v2/typescript/src/updatePeeringTags.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-peering?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-peering?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/peering/arm-peering/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

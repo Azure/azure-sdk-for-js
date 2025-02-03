@@ -6,11 +6,9 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsRoute, { RouteGetRouteMatrix200Response, isUnexpected } from "@azure-rest/maps-route";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { RouteGetRouteMatrix200Response } from "@azure-rest/maps-route";
+import MapsRoute, { isUnexpected } from "@azure-rest/maps-route";
+import "dotenv/config";
 
 async function main(): Promise<void> {
   /**
@@ -21,7 +19,7 @@ async function main(): Promise<void> {
    * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
    * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
-   * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
+   * More info is available at https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
   /** Microsoft Entra ID authentication */
   const credential = new DefaultAzureCredential();
@@ -71,7 +69,7 @@ async function main(): Promise<void> {
   console.log(
     `${summary.successfulRoutes}/${summary.totalRoutes} routes are successfully calculated. Following is the detailed info:`,
   );
-  matrix.forEach((row) => {
+  await matrix.forEach((row) => {
     row.forEach((cell) => {
       if (cell.response) console.dir(cell.response.routeSummary);
     });

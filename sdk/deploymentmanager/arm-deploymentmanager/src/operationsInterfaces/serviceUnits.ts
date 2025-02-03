@@ -16,7 +16,7 @@ import {
   ServiceUnitsDeleteOptionalParams,
   ServiceUnitsListOptionalParams,
   ServiceUnitsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ServiceUnits. */
 export interface ServiceUnits {

@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineScaleSetsGetOSUpgradeHistoryParameters,
-  paginate,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachineScaleSetsGetOSUpgradeHistoryParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets list of OS upgrades on a VM scale set instance.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Gets list of OS upgrades on a VM scale set instance.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetOSUpgradeHistory_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetsGetOSUpgradeHistoryMaximumSetGen() {
+async function virtualMachineScaleSetsGetOSUpgradeHistoryMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -50,7 +44,7 @@ virtualMachineScaleSetsGetOSUpgradeHistoryMaximumSetGen().catch(console.error);
  * @summary Gets list of OS upgrades on a VM scale set instance.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_GetOSUpgradeHistory_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetsGetOSUpgradeHistoryMinimumSetGen() {
+async function virtualMachineScaleSetsGetOSUpgradeHistoryMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

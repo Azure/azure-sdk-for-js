@@ -80,10 +80,10 @@ async function updatesAMongoClusterResource() {
 }
 
 async function main() {
-  updatesTheDiskSizeOnAMongoClusterResource();
-  disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEndpointConnection();
-  resetsTheAdministratorLoginPassword();
-  updatesAMongoClusterResource();
+  await updatesTheDiskSizeOnAMongoClusterResource();
+  await disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEndpointConnection();
+  await resetsTheAdministratorLoginPassword();
+  await updatesAMongoClusterResource();
 }
 
 main().catch(console.error);

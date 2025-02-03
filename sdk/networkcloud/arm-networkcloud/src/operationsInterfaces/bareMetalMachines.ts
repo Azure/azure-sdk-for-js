@@ -17,6 +17,7 @@ import {
   BareMetalMachinesCreateOrUpdateOptionalParams,
   BareMetalMachinesCreateOrUpdateResponse,
   BareMetalMachinesDeleteOptionalParams,
+  BareMetalMachinesDeleteResponse,
   BareMetalMachinesUpdateOptionalParams,
   BareMetalMachinesUpdateResponse,
   BareMetalMachinesCordonOptionalParams,
@@ -41,7 +42,7 @@ import {
   BareMetalMachinesStartOptionalParams,
   BareMetalMachinesStartResponse,
   BareMetalMachinesUncordonOptionalParams,
-  BareMetalMachinesUncordonResponse
+  BareMetalMachinesUncordonResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +53,7 @@ export interface BareMetalMachines {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: BareMetalMachinesListBySubscriptionOptionalParams
+    options?: BareMetalMachinesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<BareMetalMachine>;
   /**
    * Get a list of bare metal machines in the provided resource group.
@@ -61,7 +62,7 @@ export interface BareMetalMachines {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: BareMetalMachinesListByResourceGroupOptionalParams
+    options?: BareMetalMachinesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<BareMetalMachine>;
   /**
    * Get properties of the provided bare metal machine.
@@ -72,7 +73,7 @@ export interface BareMetalMachines {
   get(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesGetOptionalParams
+    options?: BareMetalMachinesGetOptionalParams,
   ): Promise<BareMetalMachinesGetResponse>;
   /**
    * Create a new bare metal machine or update the properties of the existing one.
@@ -87,7 +88,7 @@ export interface BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineParameters: BareMetalMachine,
-    options?: BareMetalMachinesCreateOrUpdateOptionalParams
+    options?: BareMetalMachinesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesCreateOrUpdateResponse>,
@@ -107,7 +108,7 @@ export interface BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineParameters: BareMetalMachine,
-    options?: BareMetalMachinesCreateOrUpdateOptionalParams
+    options?: BareMetalMachinesCreateOrUpdateOptionalParams,
   ): Promise<BareMetalMachinesCreateOrUpdateResponse>;
   /**
    * Delete the provided bare metal machine.
@@ -120,8 +121,13 @@ export interface BareMetalMachines {
   beginDelete(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: BareMetalMachinesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BareMetalMachinesDeleteResponse>,
+      BareMetalMachinesDeleteResponse
+    >
+  >;
   /**
    * Delete the provided bare metal machine.
    * All customer initiated requests will be rejected as the life cycle of this resource is managed by
@@ -133,8 +139,8 @@ export interface BareMetalMachines {
   beginDeleteAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesDeleteOptionalParams
-  ): Promise<void>;
+    options?: BareMetalMachinesDeleteOptionalParams,
+  ): Promise<BareMetalMachinesDeleteResponse>;
   /**
    * Patch properties of the provided bare metal machine, or update tags associated with the bare metal
    * machine. Properties and tag updates can be done independently.
@@ -145,7 +151,7 @@ export interface BareMetalMachines {
   beginUpdate(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesUpdateOptionalParams
+    options?: BareMetalMachinesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesUpdateResponse>,
@@ -162,7 +168,7 @@ export interface BareMetalMachines {
   beginUpdateAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesUpdateOptionalParams
+    options?: BareMetalMachinesUpdateOptionalParams,
   ): Promise<BareMetalMachinesUpdateResponse>;
   /**
    * Cordon the provided bare metal machine's Kubernetes node.
@@ -173,7 +179,7 @@ export interface BareMetalMachines {
   beginCordon(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesCordonOptionalParams
+    options?: BareMetalMachinesCordonOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesCordonResponse>,
@@ -189,7 +195,7 @@ export interface BareMetalMachines {
   beginCordonAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesCordonOptionalParams
+    options?: BareMetalMachinesCordonOptionalParams,
   ): Promise<BareMetalMachinesCordonResponse>;
   /**
    * Power off the provided bare metal machine.
@@ -200,7 +206,7 @@ export interface BareMetalMachines {
   beginPowerOff(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesPowerOffOptionalParams
+    options?: BareMetalMachinesPowerOffOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesPowerOffResponse>,
@@ -216,7 +222,7 @@ export interface BareMetalMachines {
   beginPowerOffAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesPowerOffOptionalParams
+    options?: BareMetalMachinesPowerOffOptionalParams,
   ): Promise<BareMetalMachinesPowerOffResponse>;
   /**
    * Reimage the provided bare metal machine.
@@ -227,7 +233,7 @@ export interface BareMetalMachines {
   beginReimage(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesReimageOptionalParams
+    options?: BareMetalMachinesReimageOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesReimageResponse>,
@@ -243,7 +249,7 @@ export interface BareMetalMachines {
   beginReimageAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesReimageOptionalParams
+    options?: BareMetalMachinesReimageOptionalParams,
   ): Promise<BareMetalMachinesReimageResponse>;
   /**
    * Replace the provided bare metal machine.
@@ -254,7 +260,7 @@ export interface BareMetalMachines {
   beginReplace(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesReplaceOptionalParams
+    options?: BareMetalMachinesReplaceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesReplaceResponse>,
@@ -270,7 +276,7 @@ export interface BareMetalMachines {
   beginReplaceAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesReplaceOptionalParams
+    options?: BareMetalMachinesReplaceOptionalParams,
   ): Promise<BareMetalMachinesReplaceResponse>;
   /**
    * Restart the provided bare metal machine.
@@ -281,7 +287,7 @@ export interface BareMetalMachines {
   beginRestart(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesRestartOptionalParams
+    options?: BareMetalMachinesRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesRestartResponse>,
@@ -297,7 +303,7 @@ export interface BareMetalMachines {
   beginRestartAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesRestartOptionalParams
+    options?: BareMetalMachinesRestartOptionalParams,
   ): Promise<BareMetalMachinesRestartResponse>;
   /**
    * Run the command or the script on the provided bare metal machine. The URL to storage account with
@@ -312,7 +318,7 @@ export interface BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters,
-    options?: BareMetalMachinesRunCommandOptionalParams
+    options?: BareMetalMachinesRunCommandOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesRunCommandResponse>,
@@ -332,7 +338,7 @@ export interface BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters,
-    options?: BareMetalMachinesRunCommandOptionalParams
+    options?: BareMetalMachinesRunCommandOptionalParams,
   ): Promise<BareMetalMachinesRunCommandResponse>;
   /**
    * Run one or more data extractions on the provided bare metal machine. The URL to storage account with
@@ -347,7 +353,7 @@ export interface BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters,
-    options?: BareMetalMachinesRunDataExtractsOptionalParams
+    options?: BareMetalMachinesRunDataExtractsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesRunDataExtractsResponse>,
@@ -367,7 +373,7 @@ export interface BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters,
-    options?: BareMetalMachinesRunDataExtractsOptionalParams
+    options?: BareMetalMachinesRunDataExtractsOptionalParams,
   ): Promise<BareMetalMachinesRunDataExtractsResponse>;
   /**
    * Run one or more read-only commands on the provided bare metal machine. The URL to storage account
@@ -382,7 +388,7 @@ export interface BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters,
-    options?: BareMetalMachinesRunReadCommandsOptionalParams
+    options?: BareMetalMachinesRunReadCommandsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesRunReadCommandsResponse>,
@@ -402,7 +408,7 @@ export interface BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters,
-    options?: BareMetalMachinesRunReadCommandsOptionalParams
+    options?: BareMetalMachinesRunReadCommandsOptionalParams,
   ): Promise<BareMetalMachinesRunReadCommandsResponse>;
   /**
    * Start the provided bare metal machine.
@@ -413,7 +419,7 @@ export interface BareMetalMachines {
   beginStart(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesStartOptionalParams
+    options?: BareMetalMachinesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesStartResponse>,
@@ -429,7 +435,7 @@ export interface BareMetalMachines {
   beginStartAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesStartOptionalParams
+    options?: BareMetalMachinesStartOptionalParams,
   ): Promise<BareMetalMachinesStartResponse>;
   /**
    * Uncordon the provided bare metal machine's Kubernetes node.
@@ -440,7 +446,7 @@ export interface BareMetalMachines {
   beginUncordon(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesUncordonOptionalParams
+    options?: BareMetalMachinesUncordonOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesUncordonResponse>,
@@ -456,6 +462,6 @@ export interface BareMetalMachines {
   beginUncordonAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesUncordonOptionalParams
+    options?: BareMetalMachinesUncordonOptionalParams,
   ): Promise<BareMetalMachinesUncordonResponse>;
 }

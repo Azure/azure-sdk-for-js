@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces";
+import { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { EventHubManagementClient } from "../eventHubManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { EventHubManagementClient } from "../eventHubManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import { NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams } from "../models";
+import { createLroSpec } from "../lroImpl.js";
+import { NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams } from "../models/index.js";
 
 /** Class containing NetworkSecurityPerimeterConfigurations operations. */
 export class NetworkSecurityPerimeterConfigurationsImpl

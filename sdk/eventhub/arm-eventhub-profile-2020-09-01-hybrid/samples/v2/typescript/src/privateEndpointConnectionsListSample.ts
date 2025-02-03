@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the available PrivateEndpointConnections within a namespace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the available PrivateEndpointConnections within a namespace.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2018-01-01-preview/examples/NameSpaces/PrivateEndPointConnectionList.json
  */
-async function nameSpaceCreate() {
+async function nameSpaceCreate(): Promise<void> {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
   const resourceGroupName =
     process.env["EVENTHUB_RESOURCE_GROUP"] || "SDK-EventHub-4794";
@@ -37,7 +35,7 @@ async function nameSpaceCreate() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   nameSpaceCreate();
 }
 

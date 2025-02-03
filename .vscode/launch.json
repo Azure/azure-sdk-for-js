@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "test:vitest",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["dev-tool", "run", "test:vitest"],
+      "args": ["--", "--inspect-brk", "--no-file-parallelism", "${input:filename}"],
+      "autoAttachChildProcesses": false,
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal",
+      "attachSimplePort": 9229,
+      "cwd": "${workspaceFolder}/sdk/${input:package-directory}"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "filename",
+      "type": "promptString",
+      "description": "(Optional) Enter a part of the test file name (e.g. 'foo' will run 'foo.spec.ts', 'notfoo.spec.ts', 'test.foo.spec.ts', etc.)",
+      "default": ""
+    },
+    {
+      "id": "package-directory",
+      "type": "promptString",
+      "description": "Enter the package directory (e.g., 'identity/identity', 'keyvault/keyvault-keys', etc.)"
+    }
+  ]
+}

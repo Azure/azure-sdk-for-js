@@ -28,14 +28,16 @@ export default defineConfig({
     browser: {
       enabled: true,
       headless: true,
-      name: "chromium",
-      provider: "playwright",
-      providerOptions: {
-        launch: {
-          bypassCSP: true,
-          args: ["--no-sandbox", "--disable-web-security"],
+      instances: [
+        {
+          browser: "chromium"
+          launch: {
+            bypassCSP: true,
+            args: ["--no-sandbox", "--disable-web-security"],
+          },
         },
-      },
+      ],
+      provider: "playwright",
     },
     watch: false,
     coverage: {

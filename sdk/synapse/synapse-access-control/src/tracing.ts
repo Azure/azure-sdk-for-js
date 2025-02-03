@@ -11,5 +11,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Azure.Synapse.AccessControl",
   packageName: "@azure/synapse-access-control",
-  packageVersion: "1.0.0-beta.5"
+  packageVersion: "1.0.0-beta.5",
 });

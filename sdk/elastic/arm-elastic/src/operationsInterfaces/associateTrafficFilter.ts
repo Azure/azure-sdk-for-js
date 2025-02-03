@@ -7,7 +7,7 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { AssociateTrafficFilterAssociateOptionalParams } from "../models";
+import { AssociateTrafficFilterAssociateOptionalParams } from "../models/index.js";
 
 /** Interface representing a AssociateTrafficFilter. */
 export interface AssociateTrafficFilter {

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import type { KeyCredential } from "@azure/core-auth";
-import { DEFAULT_API_VERSION } from "./constants";
-import { sha256Hmac } from "./cryptoHelpers";
-import { dateToServiceTimeString } from "./util";
+import { DEFAULT_API_VERSION } from "./constants.js";
+import { sha256Hmac } from "./cryptoHelpers.js";
+import { dateToServiceTimeString } from "./util.js";
 
 export interface GenerateSharedAccessSignatureOptions {
   /**

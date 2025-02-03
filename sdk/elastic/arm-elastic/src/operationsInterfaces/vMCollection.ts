@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VMCollectionUpdateOptionalParams } from "../models";
+import { VMCollectionUpdateOptionalParams } from "../models/index.js";
 
 /** Interface representing a VMCollection. */
 export interface VMCollection {

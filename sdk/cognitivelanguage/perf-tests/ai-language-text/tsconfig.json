@@ -1,8 +1,20 @@
 {
   "extends": "../../../../tsconfig",
   "compilerOptions": {
-    "module": "CommonJS",
-    "noEmit": true
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-ai-language-text": ["./src/index.spec.js"]
+    }
   },
-  "include": ["./test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }

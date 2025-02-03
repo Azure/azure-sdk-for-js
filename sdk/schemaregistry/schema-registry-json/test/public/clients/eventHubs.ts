@@ -14,7 +14,7 @@ import {
   earliestEventPosition,
   latestEventPosition,
 } from "@azure/event-hubs";
-import type { MessagingTestClient } from "./models";
+import type { MessagingTestClient } from "./models.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";

@@ -6,20 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { ContainerServiceFleetClient } from "../src/containerServiceFleetClient";
+import { ContainerServiceFleetClient } from "../src/containerServiceFleetClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -42,25 +36,29 @@ describe("containerservicefleet test", () => {
   let resourceGroup: string;
   let resourceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ContainerServiceFleetClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new ContainerServiceFleetClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
-    resourceName = "testresource-12a"
+    resourceName = "testresource-12a";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("operations list test", async function () {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
@@ -72,23 +70,21 @@ describe("containerservicefleet test", () => {
       resourceName,
       {
         location,
-        tags: { archv2: "", tier: "production" }
+        tags: { archv2: "", tier: "production" },
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, resourceName);
   });
 
   it("fleets get test", async function () {
-    const res = await client.fleets.get(
-      resourceGroup,
-      resourceName
-    );
+    const res = await client.fleets.get(resourceGroup, resourceName);
     assert.equal(res.name, resourceName);
   });
 
   it("fleets list test", async function () {
     const resArray = new Array();
-    for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.fleets.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -96,10 +92,10 @@ describe("containerservicefleet test", () => {
 
   it("fleets delete test", async function () {
     const resArray = new Array();
-    const res = await client.fleets.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
-    for await (let item of client.fleets.listByResourceGroup(resourceGroup)) {
+    await client.fleets.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions);
+    for await (const item of client.fleets.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

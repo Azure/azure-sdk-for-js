@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./bestPractices";
-export * from "./bestPracticesVersions";
-export * from "./configurationProfiles";
-export * from "./configurationProfilesVersions";
-export * from "./configurationProfileAssignments";
-export * from "./operations";
-export * from "./reports";
-export * from "./servicePrincipals";
-export * from "./configurationProfileHcrpAssignments";
-export * from "./hcrpReports";
-export * from "./configurationProfileHCIAssignments";
-export * from "./hCIReports";
+export * from "./bestPractices.js";
+export * from "./bestPracticesVersions.js";
+export * from "./configurationProfiles.js";
+export * from "./configurationProfilesVersions.js";
+export * from "./configurationProfileAssignments.js";
+export * from "./operations.js";
+export * from "./reports.js";
+export * from "./servicePrincipals.js";
+export * from "./configurationProfileHcrpAssignments.js";
+export * from "./hcrpReports.js";
+export * from "./configurationProfileHCIAssignments.js";
+export * from "./hCIReports.js";

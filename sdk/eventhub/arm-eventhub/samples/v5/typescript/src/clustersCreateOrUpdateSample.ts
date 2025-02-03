@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Cluster, EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an instance of an Event Hubs Cluster.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates an instance of an Event Hubs Cluster.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/Clusters/ClusterPut.json
  */
-async function clusterPut() {
+async function clusterPut(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -42,7 +40,7 @@ async function clusterPut() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   clusterPut();
 }
 

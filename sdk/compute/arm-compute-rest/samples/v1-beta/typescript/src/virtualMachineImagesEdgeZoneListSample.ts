@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineImagesEdgeZoneListParameters
+  VirtualMachineImagesEdgeZoneListParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
@@ -31,8 +26,8 @@ async function virtualMachineImagesEdgeZoneListMaximumSetGen() {
       $expand: "aaaaaaaaaaaaaaaaaaaaaaaa",
       $top: 12,
       $orderby: "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "api-version": "2022-08-01"
-    }
+      "api-version": "2022-08-01",
+    },
   };
   const result = await client
     .path(
@@ -42,7 +37,7 @@ async function virtualMachineImagesEdgeZoneListMaximumSetGen() {
       edgeZone,
       publisherName,
       offer,
-      skus
+      skus,
     )
     .get(options);
   console.log(result);
@@ -65,7 +60,7 @@ async function virtualMachineImagesEdgeZoneListMinimumSetGen() {
   const offer = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const skus = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineImagesEdgeZoneListParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -75,7 +70,7 @@ async function virtualMachineImagesEdgeZoneListMinimumSetGen() {
       edgeZone,
       publisherName,
       offer,
-      skus
+      skus,
     )
     .get(options);
   console.log(result);

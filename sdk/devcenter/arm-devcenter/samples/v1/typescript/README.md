@@ -245,7 +245,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [schedulesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/arm-devcenter/samples/v1/typescript/src/schedulesUpdateSample.ts
 [skuslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/arm-devcenter/samples/v1/typescript/src/skusListBySubscriptionSample.ts
 [usageslistbylocationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/arm-devcenter/samples/v1/typescript/src/usagesListByLocationSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-devcenter?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-devcenter?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/arm-devcenter/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

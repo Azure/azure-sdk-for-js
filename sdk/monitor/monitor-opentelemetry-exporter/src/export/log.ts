@@ -43,7 +43,6 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
    * @param logs - Logs to export.
    * @param resultCallback - Result callback.
    */
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   public async export(
     logs: ReadableLogRecord[],
     resultCallback: (result: ExportResult) => void,

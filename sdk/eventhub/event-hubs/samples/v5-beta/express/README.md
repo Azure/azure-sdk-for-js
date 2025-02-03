@@ -51,4 +51,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [eventproducer]: https://github.com/Azure/azure-sdk-for-js/tree/main//sdk/eventhub/event-hubs/samples/v5/express/src/asyncBatchingProducer.ts
 [index]: https://github.com/Azure/azure-sdk-for-js/tree/main//sdk/eventhub/event-hubs/samples/v5/express/src/index.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/event-hubs

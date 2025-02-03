@@ -11,5 +11,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Azure.Synapse.Monitoring",
   packageName: "@azure/synapse-monitoring",
-  packageVersion: "1.0.0-beta.3"
+  packageVersion: "1.0.0-beta.3",
 });

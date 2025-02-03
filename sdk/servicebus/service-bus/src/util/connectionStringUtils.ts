@@ -42,6 +42,11 @@ export interface ServiceBusConnectionStringProperties {
    * user and appended to the connection string for ease of use.
    */
   sharedAccessSignature?: string;
+  /**
+   * The value for "UseDevelopmentEmulator" in the connection string. This is typically only present in
+   * the connection string for emulator running locally.
+   */
+  useDevelopmentEmulator?: boolean;
 }
 
 /**
@@ -59,6 +64,7 @@ export function parseServiceBusConnectionString(
     SharedAccessSignature?: string;
     SharedAccessKey?: string;
     SharedAccessKeyName?: string;
+    UseDevelopmentEmulator?: string;
   }>(connectionString);
   if (!parsedResult.Endpoint) {
     throw new Error("Connection string should have an Endpoint key.");
@@ -78,8 +84,14 @@ export function parseServiceBusConnectionString(
     );
   }
 
+  const fullyQualifiedNamespace = parsedResult.Endpoint.includes("0:0:0:0:0:0:0:1")
+    ? "0:0:0:0:0:0:0:1"
+    : parsedResult.Endpoint.includes("::1")
+      ? "::1"
+      : (parsedResult.Endpoint.match(".*://([^/:]*)") || [])[1];
+
   const output: ServiceBusConnectionStringProperties = {
-    fullyQualifiedNamespace: (parsedResult.Endpoint.match(".*://([^/]*)") || [])[1],
+    fullyQualifiedNamespace,
     endpoint: parsedResult.Endpoint,
   };
   if (parsedResult.EntityPath) {
@@ -92,5 +104,7 @@ export function parseServiceBusConnectionString(
     output.sharedAccessKey = parsedResult.SharedAccessKey;
     output.sharedAccessKeyName = parsedResult.SharedAccessKeyName;
   }
+  output.useDevelopmentEmulator = Boolean(parsedResult.UseDevelopmentEmulator);
+
   return output;
 }

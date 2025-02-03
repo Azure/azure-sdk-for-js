@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the access policy from a redis cache
  *
  * @summary Deletes the access policy from a redis cache
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyDelete.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheAccessPolicyDelete.json
  */
 async function redisCacheAccessPolicyDelete() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function redisCacheAccessPolicyDelete() {
 }
 
 async function main() {
-  redisCacheAccessPolicyDelete();
+  await redisCacheAccessPolicyDelete();
 }
 
 main().catch(console.error);

@@ -31,7 +31,7 @@ async function approvesAPrivateEndpointConnectionOnAMongoClusterResource() {
 }
 
 async function main() {
-  approvesAPrivateEndpointConnectionOnAMongoClusterResource();
+  await approvesAPrivateEndpointConnectionOnAMongoClusterResource();
 }
 
 main().catch(console.error);

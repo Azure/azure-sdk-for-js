@@ -19,7 +19,7 @@ import {
   MonitoringTagRules as MonitoringTagRulesMapper,
   DatadogSingleSignOnResource as DatadogSingleSignOnResourceMapper,
   MonitoredSubscriptionProperties as MonitoredSubscriptionPropertiesMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

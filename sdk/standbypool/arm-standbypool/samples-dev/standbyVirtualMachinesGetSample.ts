@@ -19,7 +19,7 @@ async function standbyVirtualMachinesGet() {
 }
 
 async function main() {
-  standbyVirtualMachinesGet();
+  await standbyVirtualMachinesGet();
 }
 
 main().catch(console.error);

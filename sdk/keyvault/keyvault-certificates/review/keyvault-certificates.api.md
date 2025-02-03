@@ -7,15 +7,15 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
 import type { CancelOnProgress } from '@azure/core-lro';
-import type * as coreClient from '@azure/core-client';
+import type * as coreClient from '@azure-rest/core-client';
 import type { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
-// @public
-export type ActionType = "EmailContacts" | "AutoRenew";
+// @public @deprecated
+export type ActionType = CertificatePolicyAction;
 
 // @public
 export interface AdministratorContact {

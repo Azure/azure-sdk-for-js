@@ -8,15 +8,11 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest
-} from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
-import { RoleAssignmentsImpl, RoleDefinitionsImpl } from "./operations";
-import { RoleAssignments, RoleDefinitions } from "./operationsInterfaces";
-import { AccessControlClientOptionalParams } from "./models";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import type * as coreAuth from "@azure/core-auth";
+import { RoleAssignmentsImpl, RoleDefinitionsImpl } from "./operations/index.js";
+import type { RoleAssignments, RoleDefinitions } from "./operationsInterfaces/index.js";
+import type { AccessControlClientOptionalParams } from "./models/index.js";
 
 export class AccessControlClient extends coreClient.ServiceClient {
   endpoint: string;
@@ -24,15 +20,15 @@ export class AccessControlClient extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the AccessControlClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param endpoint The workspace development endpoint, for example
+   * @param credentials - Subscription credentials which uniquely identify client subscription.
+   * @param endpoint - The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
-   * @param options The parameter options
+   * @param options - The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     endpoint: string,
-    options?: AccessControlClientOptionalParams
+    options?: AccessControlClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -47,7 +43,7 @@ export class AccessControlClient extends coreClient.ServiceClient {
     }
     const defaults: AccessControlClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-synapse-access-control/1.0.0-beta.5`;
@@ -63,31 +59,30 @@ export class AccessControlClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
 
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
       if (!bearerTokenAuthenticationPolicyFound) {
         this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
         });
         this.pipeline.addPolicy(
           coreRestPipeline.bearerTokenAuthenticationPolicy({
             scopes: `${optionsWithDefaults.baseUri}/.default`,
             challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
+              authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+            },
+          }),
         );
       }
     }
@@ -102,16 +97,13 @@ export class AccessControlClient extends coreClient.ServiceClient {
   }
 
   /** A function that adds a policy that sets the api-version (or equivalent) to reflect the library version. */
-  private addCustomApiVersionPolicy(apiVersion?: string) {
+  private addCustomApiVersionPolicy(apiVersion?: string): void {
     if (!apiVersion) {
       return;
     }
     const apiVersionPolicy = {
       name: "CustomApiVersionPolicy",
-      async sendRequest(
-        request: PipelineRequest,
-        next: SendRequest
-      ): Promise<PipelineResponse> {
+      async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
           const newParams = param[1].split("&").map((item) => {
@@ -124,7 +116,7 @@ export class AccessControlClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

@@ -13,7 +13,7 @@ import {
   SavingsPlanOrderAliasCreateResponse,
   SavingsPlanOrderAliasGetOptionalParams,
   SavingsPlanOrderAliasGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SavingsPlanOrderAlias. */
 export interface SavingsPlanOrderAlias {

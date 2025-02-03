@@ -10,21 +10,21 @@ import type {
   SchemaProperties,
   SchemaRegistry,
   SchemaRegistryClientOptions,
-} from "./models";
-import type { SchemaRegistryClient as SchemaRegistryContext } from "./clientDefinitions";
+} from "./models.js";
+import type { SchemaRegistryClient as SchemaRegistryContext } from "./clientDefinitions.js";
 import {
   registerSchema,
   getSchemaProperties,
   getSchemaById,
   getSchemaByVersion,
-} from "./operations";
+} from "./operations.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { TracingClient } from "@azure/core-tracing";
 import { createTracingClient } from "@azure/core-tracing";
-import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
+import { DEFAULT_SCOPE, SDK_VERSION } from "./constants.js";
 
 /**
  * Initialize a new instance of `SchemaRegistryClient`

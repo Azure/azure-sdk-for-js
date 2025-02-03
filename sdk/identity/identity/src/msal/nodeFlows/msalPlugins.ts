@@ -3,11 +3,15 @@
 
 import type * as msalNode from "@azure/msal-node";
 
-import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DEFAULT_TOKEN_CACHE_NAME } from "../../constants";
+import {
+  CACHE_CAE_SUFFIX,
+  CACHE_NON_CAE_SUFFIX,
+  DEFAULT_TOKEN_CACHE_NAME,
+} from "../../constants.js";
 
-import type { MsalClientOptions } from "./msalClient";
-import type { NativeBrokerPluginControl } from "../../plugins/provider";
-import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import type { MsalClientOptions } from "./msalClient.js";
+import type { NativeBrokerPluginControl } from "../../plugins/provider.js";
+import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions.js";
 
 /**
  * Configuration for the plugins used by the MSAL node client.

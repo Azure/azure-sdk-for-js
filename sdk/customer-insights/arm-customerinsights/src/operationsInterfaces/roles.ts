@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RoleResourceFormat, RolesListByHubOptionalParams } from "../models";
+import { RoleResourceFormat, RolesListByHubOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Roles. */

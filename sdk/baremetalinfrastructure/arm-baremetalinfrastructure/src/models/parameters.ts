@@ -15,7 +15,7 @@ import {
   ForceState as ForceStateMapper,
   Tags as TagsMapper,
   AzureBareMetalStorageInstance as AzureBareMetalStorageInstanceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

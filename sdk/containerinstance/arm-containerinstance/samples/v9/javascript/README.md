@@ -77,6 +77,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [locationlistusagesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/locationListUsageSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/operationsListSample.js
 [subnetserviceassociationlinkdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerinstance/arm-containerinstance/samples/v9/javascript/subnetServiceAssociationLinkDeleteSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-containerinstance?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-containerinstance?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerinstance/arm-containerinstance/README.md

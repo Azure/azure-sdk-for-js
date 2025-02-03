@@ -4,15 +4,15 @@
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
 import type { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
-import type { TestRunCompletionPoller, PolledOperationOptions } from "./models";
-import type { AzureLoadTestingClient } from "./clientDefinitions";
+import type { TestRunCompletionPoller, PolledOperationOptions } from "./models.js";
+import type { AzureLoadTestingClient } from "./clientDefinitions.js";
 import type {
   TestRunCreateOrUpdate200Response,
   TestRunCreateOrUpdate201Response,
   TestRunGet200Response,
-} from "./responses";
-import { isUnexpected } from "./isUnexpected";
-import { sleep, isTestRunInProgress } from "./util/LROUtil";
+} from "./responses.js";
+import { isUnexpected } from "./isUnexpected.js";
+import { sleep, isTestRunInProgress } from "./util/LROUtil.js";
 
 /**
  * Creates a poller to poll for test run status.

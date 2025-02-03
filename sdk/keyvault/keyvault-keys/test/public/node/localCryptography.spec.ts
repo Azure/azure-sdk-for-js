@@ -8,7 +8,7 @@ import type TestClient from "../utils/testClient.js";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import type { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("Local cryptography public tests", () => {
   const keyPrefix = `localCrypto${env.KEY_NAME || "KeyName"}`;
@@ -38,7 +38,7 @@ describe("Local cryptography public tests", () => {
     let customKeyVaultKey: KeyVaultKey;
     let cryptoClientFromKey: CryptographyClient;
 
-    beforeEach(async function (ctx) {
+    beforeEach(async function () {
       customKeyName = testClient.formatName(`${keyPrefix}-beforeeachhook-${keySuffix}`);
       customKeyVaultKey = await client.createKey(customKeyName, "RSA");
       cryptoClientFromKey = new CryptographyClient(customKeyVaultKey.key!);

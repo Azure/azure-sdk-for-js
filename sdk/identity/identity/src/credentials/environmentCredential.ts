@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AuthenticationError, CredentialUnavailableError } from "../errors";
-import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging";
+import { AuthenticationError, CredentialUnavailableError } from "../errors.js";
+import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging.js";
 
-import { ClientCertificateCredential } from "./clientCertificateCredential";
-import { ClientSecretCredential } from "./clientSecretCredential";
-import type { EnvironmentCredentialOptions } from "./environmentCredentialOptions";
-import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { checkTenantId } from "../util/tenantIdUtils";
-import { tracingClient } from "../util/tracing";
+import { ClientCertificateCredential } from "./clientCertificateCredential.js";
+import { ClientSecretCredential } from "./clientSecretCredential.js";
+import type { EnvironmentCredentialOptions } from "./environmentCredentialOptions.js";
+import { UsernamePasswordCredential } from "./usernamePasswordCredential.js";
+import { checkTenantId } from "../util/tenantIdUtils.js";
+import { tracingClient } from "../util/tracing.js";
 
 /**
  * Contains the list of all supported environment variable names so that an

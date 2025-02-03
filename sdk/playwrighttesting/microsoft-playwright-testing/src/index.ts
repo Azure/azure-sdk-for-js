@@ -9,14 +9,11 @@
 
 import { ServiceAuth, ServiceOS, ServiceEnvironmentVariable } from "./common/constants";
 import type {
-  PlaywrightConfig,
-  PlaywrightConfigInput,
   OsType,
   AuthenticationType,
   BrowserConnectOptions,
-  MPTReporterConfig,
+  ReporterConfiguration,
   EndpointOptions,
-  ConnectOptions,
   PlaywrightServiceAdditionalOptions,
 } from "./common/types";
 import { getServiceConfig, getConnectOptions } from "./core/playwrightService";
@@ -27,13 +24,10 @@ export {
   ServiceOS,
   ServiceAuth,
   ServiceEnvironmentVariable,
-  PlaywrightConfig,
-  PlaywrightConfigInput,
   OsType,
   AuthenticationType,
   BrowserConnectOptions,
   EndpointOptions,
-  ConnectOptions,
-  MPTReporterConfig,
+  ReporterConfiguration,
   PlaywrightServiceAdditionalOptions,
 };

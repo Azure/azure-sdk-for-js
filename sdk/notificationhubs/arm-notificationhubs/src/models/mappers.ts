@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 export const CheckAvailabilityParameters: coreClient.CompositeMapper = {
   type: {
@@ -285,81 +285,80 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
   },
 };
 
-export const SharedAccessAuthorizationRuleProperties: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "SharedAccessAuthorizationRuleProperties",
-      modelProperties: {
-        rights: {
-          serializedName: "rights",
-          required: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "String",
-              },
+export const SharedAccessAuthorizationRuleProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedAccessAuthorizationRuleProperties",
+    modelProperties: {
+      rights: {
+        serializedName: "rights",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
             },
           },
         },
-        primaryKey: {
-          serializedName: "primaryKey",
-          type: {
-            name: "String",
-          },
+      },
+      primaryKey: {
+        serializedName: "primaryKey",
+        type: {
+          name: "String",
         },
-        secondaryKey: {
-          serializedName: "secondaryKey",
-          type: {
-            name: "String",
-          },
+      },
+      secondaryKey: {
+        serializedName: "secondaryKey",
+        type: {
+          name: "String",
         },
-        keyName: {
-          serializedName: "keyName",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      keyName: {
+        serializedName: "keyName",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        modifiedTime: {
-          serializedName: "modifiedTime",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
+      },
+      modifiedTime: {
+        serializedName: "modifiedTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
-        createdTime: {
-          serializedName: "createdTime",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
+      },
+      createdTime: {
+        serializedName: "createdTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
-        claimType: {
-          serializedName: "claimType",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      claimType: {
+        serializedName: "claimType",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        claimValue: {
-          serializedName: "claimValue",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      claimValue: {
+        serializedName: "claimValue",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        revision: {
-          serializedName: "revision",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      revision: {
+        serializedName: "revision",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const ApnsCredential: coreClient.CompositeMapper = {
   type: {
@@ -886,35 +885,34 @@ export const RegistrationResult: coreClient.CompositeMapper = {
   },
 };
 
-export const SharedAccessAuthorizationRuleListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "SharedAccessAuthorizationRuleListResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "SharedAccessAuthorizationRuleResource",
-              },
+export const SharedAccessAuthorizationRuleListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedAccessAuthorizationRuleListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SharedAccessAuthorizationRuleResource",
             },
           },
         },
-        nextLink: {
-          serializedName: "nextLink",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const ResourceListKeys: coreClient.CompositeMapper = {
   type: {
@@ -1334,35 +1332,34 @@ export const RemotePrivateEndpointConnection: coreClient.CompositeMapper = {
   },
 };
 
-export const RemotePrivateLinkServiceConnectionState: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "RemotePrivateLinkServiceConnectionState",
-      modelProperties: {
-        status: {
-          serializedName: "status",
-          type: {
-            name: "String",
-          },
+export const RemotePrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RemotePrivateLinkServiceConnectionState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String",
         },
-        description: {
-          serializedName: "description",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      description: {
+        serializedName: "description",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        actionsRequired: {
-          serializedName: "actionsRequired",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      actionsRequired: {
+        serializedName: "actionsRequired",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const NamespacePatchParameters: coreClient.CompositeMapper = {
   type: {
@@ -1724,35 +1721,34 @@ export const Availability: coreClient.CompositeMapper = {
   },
 };
 
-export const PrivateEndpointConnectionResourceListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PrivateEndpointConnectionResourceListResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          readOnly: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "PrivateEndpointConnectionResource",
-              },
+export const PrivateEndpointConnectionResourceListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionResourceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnectionResource",
             },
           },
         },
-        nextLink: {
-          serializedName: "nextLink",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const PrivateLinkResourceProperties: coreClient.CompositeMapper = {
   type: {
@@ -2075,94 +2071,93 @@ export const DebugSendResponse: coreClient.CompositeMapper = {
   },
 };
 
-export const SharedAccessAuthorizationRuleResource: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "SharedAccessAuthorizationRuleResource",
-      modelProperties: {
-        ...ProxyResource.type.modelProperties,
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const SharedAccessAuthorizationRuleResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SharedAccessAuthorizationRuleResource",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
-        tags: {
-          serializedName: "tags",
-          type: {
-            name: "Dictionary",
-            value: { type: { name: "String" } },
-          },
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } },
         },
-        rights: {
-          serializedName: "properties.rights",
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "String",
-              },
+      },
+      rights: {
+        serializedName: "properties.rights",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
             },
           },
         },
-        primaryKey: {
-          serializedName: "properties.primaryKey",
-          type: {
-            name: "String",
-          },
+      },
+      primaryKey: {
+        serializedName: "properties.primaryKey",
+        type: {
+          name: "String",
         },
-        secondaryKey: {
-          serializedName: "properties.secondaryKey",
-          type: {
-            name: "String",
-          },
+      },
+      secondaryKey: {
+        serializedName: "properties.secondaryKey",
+        type: {
+          name: "String",
         },
-        keyName: {
-          serializedName: "properties.keyName",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      keyName: {
+        serializedName: "properties.keyName",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        modifiedTime: {
-          serializedName: "properties.modifiedTime",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
+      },
+      modifiedTime: {
+        serializedName: "properties.modifiedTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
-        createdTime: {
-          serializedName: "properties.createdTime",
-          readOnly: true,
-          type: {
-            name: "DateTime",
-          },
+      },
+      createdTime: {
+        serializedName: "properties.createdTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
         },
-        claimType: {
-          serializedName: "properties.claimType",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      claimType: {
+        serializedName: "properties.claimType",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        claimValue: {
-          serializedName: "properties.claimValue",
-          readOnly: true,
-          type: {
-            name: "String",
-          },
+      },
+      claimValue: {
+        serializedName: "properties.claimValue",
+        readOnly: true,
+        type: {
+          name: "String",
         },
-        revision: {
-          serializedName: "properties.revision",
-          readOnly: true,
-          type: {
-            name: "Number",
-          },
+      },
+      revision: {
+        serializedName: "properties.revision",
+        readOnly: true,
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
 
 export const PnsCredentialsResource: coreClient.CompositeMapper = {
   type: {
@@ -2553,18 +2548,17 @@ export const NamespaceResource: coreClient.CompositeMapper = {
   },
 };
 
-export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "PrivateEndpointConnectionsDeleteHeaders",
-      modelProperties: {
-        location: {
-          serializedName: "location",
-          type: {
-            name: "String",
-          },
+export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};

@@ -17,7 +17,7 @@ import {
   GraphResourcesCreateUpdateGraphOptionalParams,
   GraphResourcesCreateUpdateGraphResponse,
   GraphResourcesDeleteGraphResourceOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GraphResources. */

@@ -68,6 +68,9 @@ export {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
+  FullTextIndex,
+  FullTextPolicy,
+  FullTextPath,
 } from "./documents";
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";

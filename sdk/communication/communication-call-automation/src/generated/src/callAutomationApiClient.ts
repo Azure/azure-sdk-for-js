@@ -16,14 +16,14 @@ import {
   CallConnectionImpl,
   CallMediaImpl,
   CallRecordingImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   CallConnection,
   CallMedia,
   CallRecording,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   CallAutomationApiClientOptionalParams,
   CreateCallRequest,
@@ -39,7 +39,7 @@ import {
   ConnectRequest,
   ConnectOptionalParams,
   ConnectResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class CallAutomationApiClient extends coreClient.ServiceClient {
   endpoint: string;

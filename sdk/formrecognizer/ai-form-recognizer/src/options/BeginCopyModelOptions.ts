@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure/core-client";
-import type { DocumentModelOperationState } from "../lro/administration";
-import type { PollerOptions } from "./PollerOptions";
+import type { DocumentModelOperationState } from "../lro/administration.js";
+import type { PollerOptions } from "./PollerOptions.js";
 
 /**
  * Options for the copy model operation.

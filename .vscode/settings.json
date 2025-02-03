@@ -10,8 +10,7 @@
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
-    "**/.DS_Store": true,
-    "**/node_modules": true
+    "**/.DS_Store": true
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,

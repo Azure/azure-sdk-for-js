@@ -1,0 +1,7 @@
+{
+  "extends": "../../../tsconfig.lib.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "lib": ["DOM"]
+  }
+}

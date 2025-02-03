@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ConsumerGroup, EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an Event Hubs consumer group as a nested resource within a Namespace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates an Event Hubs consumer group as a nested resource within a Namespace.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/ConsumerGroup/EHConsumerGroupCreate.json
  */
-async function consumerGroupCreate() {
+async function consumerGroupCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -42,7 +40,7 @@ async function consumerGroupCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   consumerGroupCreate();
 }
 

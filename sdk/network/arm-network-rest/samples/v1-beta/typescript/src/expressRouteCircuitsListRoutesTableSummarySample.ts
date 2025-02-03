@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRouteCircuitsListRoutesTableSummaryParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
@@ -27,7 +22,7 @@ async function listRouteTableSummary() {
   const peeringName = "peeringName";
   const devicePath = "devicePath";
   const options: ExpressRouteCircuitsListRoutesTableSummaryParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -36,7 +31,7 @@ async function listRouteTableSummary() {
       resourceGroupName,
       circuitName,
       peeringName,
-      devicePath
+      devicePath,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

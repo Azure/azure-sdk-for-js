@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
-import type { AzureHealthInsightsClient } from "../../src";
-import { ClinicalDocumentTypeEnum, getLongRunningPoller } from "../../src";
-import { createRecorder, createTestClient } from "./utils/recordedClient";
+import type { AzureHealthInsightsClient } from "../../src/index.js";
+import { ClinicalDocumentTypeEnum, getLongRunningPoller } from "../../src/index.js";
+import { createRecorder, createTestClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
   system: "Http://hl7.org/fhir/ValueSet/cpt-all",
@@ -169,16 +168,16 @@ describe("Critical Result Inference Test", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = await createTestClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("critical result inference test", async function () {
+  it("critical result inference test", async () => {
     const result = await client
       .path("/radiology-insights/jobs/{id}", "jobId-17138794753465")
       .put(param);

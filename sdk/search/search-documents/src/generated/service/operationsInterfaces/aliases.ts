@@ -17,7 +17,7 @@ import {
   AliasesDeleteOptionalParams,
   AliasesGetOptionalParams,
   AliasesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Aliases. */
 export interface Aliases {

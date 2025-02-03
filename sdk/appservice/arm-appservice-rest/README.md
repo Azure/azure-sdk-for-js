@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/arm-appservice)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/arm-appservice)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/arm-appservice)
 
 ## Getting started
 
@@ -30,11 +30,11 @@ npm install @azure-rest/arm-appservice
 
 ### Create and authenticate a `WebSiteManagementClient`
 
-To use an [Azure Active Directory (AAD) token credential](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/aad/app-aad-token),
+To use an [Azure Active Directory (AAD) token credential](https://learn.microsoft.com/azure/databricks/dev-tools/api/latest/aad/app-aad-token),
 provide an instance of the desired credential type obtained from the
 [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
 
 After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
@@ -45,10 +45,23 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Use the returned token credential to authenticate the client:
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_Node
 import WebSiteManagementClient from "@azure-rest/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
-const credential = new DefaultAzureCredential();
+
+const client = WebSiteManagementClient(new DefaultAzureCredential());
+```
+
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts snippet:ReadmeSampleCreateClient_Browser
+import { InteractiveBrowserCredential } from "@azure/identity";
+import WebSiteManagementClient from "@azure-rest/arm-appservice";
+
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>",
+});
 const client = WebSiteManagementClient(credential);
 ```
 
@@ -58,26 +71,25 @@ The following section shows you how to initialize and authenticate your client, 
 
 ### List All App Service Plans
 
-```typescript
-import WebSiteManagementClient, { paginate }  from "@azure-rest/arm-appservice";
+```ts snippet:ListAppServicePlans
 import { DefaultAzureCredential } from "@azure/identity";
+import WebSiteManagementClient, { paginate } from "@azure-rest/arm-appservice";
 
-async function listAppServicePlans() {
-  const subscriptionId = process.env.SUBSCRIPTION_ID as string;
-  const credential = new DefaultAzureCredential();
-  const client = WebSiteManagementClient(credential);
-  const result = [];
-  const initialResposne = await client
-    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms", subscriptionId)
-    .get();
-  const res = paginate(client, initialResposne);
-  for await (let item of res) {
-    result.push(item);
-  }
-  console.log(result);
+const subscriptionId = process.env.SUBSCRIPTION_ID as string;
+const credential = new DefaultAzureCredential();
+const client = WebSiteManagementClient(credential);
+
+const result = [];
+const initialResposne = await client
+  .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms", subscriptionId)
+  .get();
+const res = paginate(client, initialResposne);
+
+for await (const item of res) {
+  result.push(item);
 }
 
-listAppServicePlans().catch(console.error);
+console.log(result);
 ```
 
 ## Troubleshooting
@@ -86,7 +98,7 @@ listAppServicePlans().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

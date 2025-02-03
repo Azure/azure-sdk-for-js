@@ -76,7 +76,7 @@ describe("CodeSigning test", () => {
 
   it("codeSigningAccounts delete test", async function () {
     const resArray = new Array();
-    await client.codeSigningAccounts.delete(resourceGroup, resourcename);
+    await client.codeSigningAccounts.delete(resourceGroup, resourcename, testPollingOptions);
     for await (let item of client.codeSigningAccounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

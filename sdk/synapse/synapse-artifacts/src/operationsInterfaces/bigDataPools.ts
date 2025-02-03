@@ -6,26 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   BigDataPoolsListOptionalParams,
   BigDataPoolsListResponse,
   BigDataPoolsGetOptionalParams,
   BigDataPoolsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BigDataPools. */
 export interface BigDataPools {
   /**
    * List Big Data Pools
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
-  list(
-    options?: BigDataPoolsListOptionalParams,
-  ): Promise<BigDataPoolsListResponse>;
+  list(options?: BigDataPoolsListOptionalParams): Promise<BigDataPoolsListResponse>;
   /**
    * Get Big Data Pool
-   * @param bigDataPoolName The Big Data Pool name
-   * @param options The options parameters.
+   * @param bigDataPoolName - The Big Data Pool name
+   * @param options - The options parameters.
    */
   get(
     bigDataPoolName: string,

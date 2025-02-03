@@ -23,7 +23,7 @@ async function updateCapacityProperties() {
 }
 
 async function main() {
-  updateCapacityProperties();
+  await updateCapacityProperties();
 }
 
 main().catch(console.error);

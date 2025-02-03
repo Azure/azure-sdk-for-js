@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { SubscriptionFeatureRegistration as SubscriptionFeatureRegistrationMapper } from "../models/mappers";
+import { SubscriptionFeatureRegistration as SubscriptionFeatureRegistrationMapper } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -6,6 +6,8 @@ const createFaceClient = require("@azure-rest/ai-vision-face").default,
   { isUnexpected } = require("@azure-rest/ai-vision-face");
 const { readFileSync } = require("fs");
 
+require("dotenv/config");
+
 /**
  * This sample demonstrates how to create a liveness detection with face verification session with a verification image.
  *

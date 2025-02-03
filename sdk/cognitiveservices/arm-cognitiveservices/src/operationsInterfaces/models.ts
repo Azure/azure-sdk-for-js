@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Model, ModelsListOptionalParams } from "../models";
+import { Model, ModelsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Models. */
@@ -19,6 +19,6 @@ export interface Models {
    */
   list(
     location: string,
-    options?: ModelsListOptionalParams
+    options?: ModelsListOptionalParams,
   ): PagedAsyncIterableIterator<Model>;
 }

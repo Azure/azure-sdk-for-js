@@ -173,6 +173,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualnetworkruleslistbyserversample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mysql/arm-mysql/samples/v5/javascript/virtualNetworkRulesListByServerSample.js
 [waitstatisticsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mysql/arm-mysql/samples/v5/javascript/waitStatisticsGetSample.js
 [waitstatisticslistbyserversample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mysql/arm-mysql/samples/v5/javascript/waitStatisticsListByServerSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-mysql?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-mysql?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mysql/arm-mysql/README.md

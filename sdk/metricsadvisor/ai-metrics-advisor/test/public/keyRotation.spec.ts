@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
-
-import { MetricsAdvisorKeyCredential } from "../../src";
+import { MetricsAdvisorKeyCredential } from "../../src/index.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
 describe("MetricsAdvisorKeyCredential", () => {
   let credential: MetricsAdvisorKeyCredential;
 
-  beforeEach(function () {
+  beforeEach(() => {
     credential = new MetricsAdvisorKeyCredential("key1", "key2");
   });
 
-  it("update subscriptionKey", async function () {
+  it("update subscriptionKey", async () => {
     const newValue = "Abc";
     credential.updateKey({ subscriptionKey: newValue });
     assert.equal(credential.subscriptionKey, newValue);
   });
 
-  it("update apiKey", async function () {
+  it("update apiKey", async () => {
     const newValue = "Abcdef";
     credential.updateKey({ apiKey: newValue });
     assert.equal(credential.apiKey, newValue);

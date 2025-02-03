@@ -8,7 +8,7 @@ import type {
   TenantEmailRegistration,
   SentShare,
   SentShareInvitation,
-} from "./models";
+} from "./models.js";
 
 export type ReceivedSharesGetReceivedShareParameters = RequestParameters;
 

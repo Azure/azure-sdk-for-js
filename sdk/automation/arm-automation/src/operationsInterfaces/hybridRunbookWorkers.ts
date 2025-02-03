@@ -18,7 +18,7 @@ import {
   HybridRunbookWorkersCreateResponse,
   HybridRunbookWorkerMoveParameters,
   HybridRunbookWorkersMoveOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a HybridRunbookWorkers. */

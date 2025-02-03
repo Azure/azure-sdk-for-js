@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  GalleryApplicationVersionsGetParameters
+  GalleryApplicationVersionsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery Application Version.
@@ -28,8 +23,8 @@ async function getAGalleryApplicationVersionWithReplicationStatus() {
   const options: GalleryApplicationVersionsGetParameters = {
     queryParameters: {
       $expand: "ReplicationStatus",
-      "api-version": "2022-01-03"
-    }
+      "api-version": "2022-01-03",
+    },
   };
   const result = await client
     .path(
@@ -38,7 +33,7 @@ async function getAGalleryApplicationVersionWithReplicationStatus() {
       resourceGroupName,
       galleryName,
       galleryApplicationName,
-      galleryApplicationVersionName
+      galleryApplicationVersionName,
     )
     .get(options);
   console.log(result);
@@ -60,7 +55,7 @@ async function getAGalleryApplicationVersion() {
   const galleryApplicationName = "myGalleryApplicationName";
   const galleryApplicationVersionName = "1.0.0";
   const options: GalleryApplicationVersionsGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
@@ -69,7 +64,7 @@ async function getAGalleryApplicationVersion() {
       resourceGroupName,
       galleryName,
       galleryApplicationName,
-      galleryApplicationVersionName
+      galleryApplicationVersionName,
     )
     .get(options);
   console.log(result);

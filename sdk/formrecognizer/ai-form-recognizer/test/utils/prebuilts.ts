@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PrebuiltBusinessCardModel } from "./schemas/prebuilt-businessCard";
-import { PrebuiltDocumentModel } from "./schemas/prebuilt-document";
-import { PrebuiltHealthInsuranceCardUsModel } from "./schemas/prebuilt-healthInsuranceCard.us";
-import { PrebuiltIdDocumentModel } from "./schemas/prebuilt-idDocument";
-import { PrebuiltInvoiceModel } from "./schemas/prebuilt-invoice";
-import { PrebuiltLayoutModel } from "./schemas/prebuilt-layout";
-import { PrebuiltReadModel } from "./schemas/prebuilt-read";
-import { PrebuiltReceiptModel } from "./schemas/prebuilt-receipt";
-import { PrebuiltTaxUsW2Model } from "./schemas/prebuilt-tax.us.w2";
+import { PrebuiltBusinessCardModel } from "./schemas/prebuilt-businessCard.js";
+import { PrebuiltDocumentModel } from "./schemas/prebuilt-document.js";
+import { PrebuiltHealthInsuranceCardUsModel } from "./schemas/prebuilt-healthInsuranceCard.us.js";
+import { PrebuiltIdDocumentModel } from "./schemas/prebuilt-idDocument.js";
+import { PrebuiltInvoiceModel } from "./schemas/prebuilt-invoice.js";
+import { PrebuiltLayoutModel } from "./schemas/prebuilt-layout.js";
+import { PrebuiltReadModel } from "./schemas/prebuilt-read.js";
+import { PrebuiltReceiptModel } from "./schemas/prebuilt-receipt.js";
+import { PrebuiltTaxUsW2Model } from "./schemas/prebuilt-tax.us.w2.js";
 
 /**
  * Prebuilt models used for testing.

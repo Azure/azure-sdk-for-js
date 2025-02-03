@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   SecurityRulesDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified network security rule.
@@ -26,7 +21,7 @@ async function deleteNetworkSecurityRuleFromNetworkSecurityGroup() {
   const networkSecurityGroupName = "testnsg";
   const securityRuleName = "rule1";
   const options: SecurityRulesDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +29,7 @@ async function deleteNetworkSecurityRuleFromNetworkSecurityGroup() {
       subscriptionId,
       resourceGroupName,
       networkSecurityGroupName,
-      securityRuleName
+      securityRuleName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

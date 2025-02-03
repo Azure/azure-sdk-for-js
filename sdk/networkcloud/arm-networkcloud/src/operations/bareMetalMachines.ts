@@ -16,7 +16,7 @@ import { NetworkCloud } from "../networkCloud";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,6 +32,7 @@ import {
   BareMetalMachinesCreateOrUpdateOptionalParams,
   BareMetalMachinesCreateOrUpdateResponse,
   BareMetalMachinesDeleteOptionalParams,
+  BareMetalMachinesDeleteResponse,
   BareMetalMachinesUpdateOptionalParams,
   BareMetalMachinesUpdateResponse,
   BareMetalMachinesCordonOptionalParams,
@@ -58,7 +59,7 @@ import {
   BareMetalMachinesUncordonOptionalParams,
   BareMetalMachinesUncordonResponse,
   BareMetalMachinesListBySubscriptionNextResponse,
-  BareMetalMachinesListByResourceGroupNextResponse
+  BareMetalMachinesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -79,7 +80,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: BareMetalMachinesListBySubscriptionOptionalParams
+    options?: BareMetalMachinesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<BareMetalMachine> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -94,13 +95,13 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: BareMetalMachinesListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BareMetalMachine[]> {
     let result: BareMetalMachinesListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -121,7 +122,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: BareMetalMachinesListBySubscriptionOptionalParams
+    options?: BareMetalMachinesListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<BareMetalMachine> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -135,7 +136,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: BareMetalMachinesListByResourceGroupOptionalParams
+    options?: BareMetalMachinesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<BareMetalMachine> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -152,16 +153,16 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: BareMetalMachinesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BareMetalMachine[]> {
     let result: BareMetalMachinesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -176,7 +177,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -187,11 +188,11 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: BareMetalMachinesListByResourceGroupOptionalParams
+    options?: BareMetalMachinesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<BareMetalMachine> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -202,11 +203,11 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: BareMetalMachinesListBySubscriptionOptionalParams
+    options?: BareMetalMachinesListBySubscriptionOptionalParams,
   ): Promise<BareMetalMachinesListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -217,11 +218,11 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: BareMetalMachinesListByResourceGroupOptionalParams
+    options?: BareMetalMachinesListByResourceGroupOptionalParams,
   ): Promise<BareMetalMachinesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -234,11 +235,11 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   get(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesGetOptionalParams
+    options?: BareMetalMachinesGetOptionalParams,
   ): Promise<BareMetalMachinesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, bareMetalMachineName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -255,7 +256,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineParameters: BareMetalMachine,
-    options?: BareMetalMachinesCreateOrUpdateOptionalParams
+    options?: BareMetalMachinesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesCreateOrUpdateResponse>,
@@ -264,21 +265,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -287,8 +287,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -296,8 +296,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -307,9 +307,9 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         resourceGroupName,
         bareMetalMachineName,
         bareMetalMachineParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesCreateOrUpdateResponse,
@@ -317,7 +317,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -336,13 +336,13 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineParameters: BareMetalMachine,
-    options?: BareMetalMachinesCreateOrUpdateOptionalParams
+    options?: BareMetalMachinesCreateOrUpdateOptionalParams,
   ): Promise<BareMetalMachinesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       bareMetalMachineName,
       bareMetalMachineParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -358,25 +358,29 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginDelete(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: BareMetalMachinesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BareMetalMachinesDeleteResponse>,
+      BareMetalMachinesDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<BareMetalMachinesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -385,8 +389,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -394,20 +398,23 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bareMetalMachineName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      BareMetalMachinesDeleteResponse,
+      OperationState<BareMetalMachinesDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -424,12 +431,12 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginDeleteAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesDeleteOptionalParams
-  ): Promise<void> {
+    options?: BareMetalMachinesDeleteOptionalParams,
+  ): Promise<BareMetalMachinesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       bareMetalMachineName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -444,7 +451,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginUpdate(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesUpdateOptionalParams
+    options?: BareMetalMachinesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesUpdateResponse>,
@@ -453,21 +460,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -476,8 +482,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -485,15 +491,15 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bareMetalMachineName, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesUpdateResponse,
@@ -501,7 +507,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -517,12 +523,12 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginUpdateAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesUpdateOptionalParams
+    options?: BareMetalMachinesUpdateOptionalParams,
   ): Promise<BareMetalMachinesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       bareMetalMachineName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -536,7 +542,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginCordon(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesCordonOptionalParams
+    options?: BareMetalMachinesCordonOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesCordonResponse>,
@@ -545,21 +551,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesCordonResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -568,8 +573,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -577,15 +582,15 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bareMetalMachineName, options },
-      spec: cordonOperationSpec
+      spec: cordonOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesCordonResponse,
@@ -593,7 +598,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -608,12 +613,12 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginCordonAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesCordonOptionalParams
+    options?: BareMetalMachinesCordonOptionalParams,
   ): Promise<BareMetalMachinesCordonResponse> {
     const poller = await this.beginCordon(
       resourceGroupName,
       bareMetalMachineName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -627,7 +632,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginPowerOff(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesPowerOffOptionalParams
+    options?: BareMetalMachinesPowerOffOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesPowerOffResponse>,
@@ -636,21 +641,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesPowerOffResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -659,8 +663,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -668,15 +672,15 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bareMetalMachineName, options },
-      spec: powerOffOperationSpec
+      spec: powerOffOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesPowerOffResponse,
@@ -684,7 +688,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -699,12 +703,12 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginPowerOffAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesPowerOffOptionalParams
+    options?: BareMetalMachinesPowerOffOptionalParams,
   ): Promise<BareMetalMachinesPowerOffResponse> {
     const poller = await this.beginPowerOff(
       resourceGroupName,
       bareMetalMachineName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -718,7 +722,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginReimage(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesReimageOptionalParams
+    options?: BareMetalMachinesReimageOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesReimageResponse>,
@@ -727,21 +731,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesReimageResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -750,8 +753,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -759,15 +762,15 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bareMetalMachineName, options },
-      spec: reimageOperationSpec
+      spec: reimageOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesReimageResponse,
@@ -775,7 +778,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -790,12 +793,12 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginReimageAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesReimageOptionalParams
+    options?: BareMetalMachinesReimageOptionalParams,
   ): Promise<BareMetalMachinesReimageResponse> {
     const poller = await this.beginReimage(
       resourceGroupName,
       bareMetalMachineName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -809,7 +812,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginReplace(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesReplaceOptionalParams
+    options?: BareMetalMachinesReplaceOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesReplaceResponse>,
@@ -818,21 +821,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesReplaceResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -841,8 +843,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -850,15 +852,15 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bareMetalMachineName, options },
-      spec: replaceOperationSpec
+      spec: replaceOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesReplaceResponse,
@@ -866,7 +868,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -881,12 +883,12 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginReplaceAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesReplaceOptionalParams
+    options?: BareMetalMachinesReplaceOptionalParams,
   ): Promise<BareMetalMachinesReplaceResponse> {
     const poller = await this.beginReplace(
       resourceGroupName,
       bareMetalMachineName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -900,7 +902,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginRestart(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesRestartOptionalParams
+    options?: BareMetalMachinesRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesRestartResponse>,
@@ -909,21 +911,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesRestartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -932,8 +933,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -941,15 +942,15 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bareMetalMachineName, options },
-      spec: restartOperationSpec
+      spec: restartOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesRestartResponse,
@@ -957,7 +958,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -972,12 +973,12 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginRestartAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesRestartOptionalParams
+    options?: BareMetalMachinesRestartOptionalParams,
   ): Promise<BareMetalMachinesRestartResponse> {
     const poller = await this.beginRestart(
       resourceGroupName,
       bareMetalMachineName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -995,7 +996,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters,
-    options?: BareMetalMachinesRunCommandOptionalParams
+    options?: BareMetalMachinesRunCommandOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesRunCommandResponse>,
@@ -1004,21 +1005,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesRunCommandResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1027,8 +1027,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1036,8 +1036,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1047,9 +1047,9 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         resourceGroupName,
         bareMetalMachineName,
         bareMetalMachineRunCommandParameters,
-        options
+        options,
       },
-      spec: runCommandOperationSpec
+      spec: runCommandOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesRunCommandResponse,
@@ -1057,7 +1057,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1076,13 +1076,13 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters,
-    options?: BareMetalMachinesRunCommandOptionalParams
+    options?: BareMetalMachinesRunCommandOptionalParams,
   ): Promise<BareMetalMachinesRunCommandResponse> {
     const poller = await this.beginRunCommand(
       resourceGroupName,
       bareMetalMachineName,
       bareMetalMachineRunCommandParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1100,7 +1100,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters,
-    options?: BareMetalMachinesRunDataExtractsOptionalParams
+    options?: BareMetalMachinesRunDataExtractsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesRunDataExtractsResponse>,
@@ -1109,21 +1109,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesRunDataExtractsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1132,8 +1131,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1141,8 +1140,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1152,9 +1151,9 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         resourceGroupName,
         bareMetalMachineName,
         bareMetalMachineRunDataExtractsParameters,
-        options
+        options,
       },
-      spec: runDataExtractsOperationSpec
+      spec: runDataExtractsOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesRunDataExtractsResponse,
@@ -1162,7 +1161,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1181,13 +1180,13 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters,
-    options?: BareMetalMachinesRunDataExtractsOptionalParams
+    options?: BareMetalMachinesRunDataExtractsOptionalParams,
   ): Promise<BareMetalMachinesRunDataExtractsResponse> {
     const poller = await this.beginRunDataExtracts(
       resourceGroupName,
       bareMetalMachineName,
       bareMetalMachineRunDataExtractsParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1205,7 +1204,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters,
-    options?: BareMetalMachinesRunReadCommandsOptionalParams
+    options?: BareMetalMachinesRunReadCommandsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesRunReadCommandsResponse>,
@@ -1214,21 +1213,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesRunReadCommandsResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1237,8 +1235,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1246,8 +1244,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1257,9 +1255,9 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         resourceGroupName,
         bareMetalMachineName,
         bareMetalMachineRunReadCommandsParameters,
-        options
+        options,
       },
-      spec: runReadCommandsOperationSpec
+      spec: runReadCommandsOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesRunReadCommandsResponse,
@@ -1267,7 +1265,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1286,13 +1284,13 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     resourceGroupName: string,
     bareMetalMachineName: string,
     bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters,
-    options?: BareMetalMachinesRunReadCommandsOptionalParams
+    options?: BareMetalMachinesRunReadCommandsOptionalParams,
   ): Promise<BareMetalMachinesRunReadCommandsResponse> {
     const poller = await this.beginRunReadCommands(
       resourceGroupName,
       bareMetalMachineName,
       bareMetalMachineRunReadCommandsParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1306,7 +1304,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginStart(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesStartOptionalParams
+    options?: BareMetalMachinesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesStartResponse>,
@@ -1315,21 +1313,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesStartResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1338,8 +1335,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1347,15 +1344,15 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bareMetalMachineName, options },
-      spec: startOperationSpec
+      spec: startOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesStartResponse,
@@ -1363,7 +1360,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1378,12 +1375,12 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginStartAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesStartOptionalParams
+    options?: BareMetalMachinesStartOptionalParams,
   ): Promise<BareMetalMachinesStartResponse> {
     const poller = await this.beginStart(
       resourceGroupName,
       bareMetalMachineName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1397,7 +1394,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginUncordon(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesUncordonOptionalParams
+    options?: BareMetalMachinesUncordonOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachinesUncordonResponse>,
@@ -1406,21 +1403,20 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachinesUncordonResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1429,8 +1425,8 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1438,15 +1434,15 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, bareMetalMachineName, options },
-      spec: uncordonOperationSpec
+      spec: uncordonOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachinesUncordonResponse,
@@ -1454,7 +1450,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -1469,12 +1465,12 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   async beginUncordonAndWait(
     resourceGroupName: string,
     bareMetalMachineName: string,
-    options?: BareMetalMachinesUncordonOptionalParams
+    options?: BareMetalMachinesUncordonOptionalParams,
   ): Promise<BareMetalMachinesUncordonResponse> {
     const poller = await this.beginUncordon(
       resourceGroupName,
       bareMetalMachineName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1486,11 +1482,11 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: BareMetalMachinesListBySubscriptionNextOptionalParams
+    options?: BareMetalMachinesListBySubscriptionNextOptionalParams,
   ): Promise<BareMetalMachinesListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -1503,11 +1499,11 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: BareMetalMachinesListByResourceGroupNextOptionalParams
+    options?: BareMetalMachinesListByResourceGroupNextOptionalParams,
   ): Promise<BareMetalMachinesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -1515,85 +1511,81 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/bareMetalMachines",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/bareMetalMachines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BareMetalMachineList
+      bodyMapper: Mappers.BareMetalMachineList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BareMetalMachineList
+      bodyMapper: Mappers.BareMetalMachineList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BareMetalMachine
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BareMetalMachine,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.bareMetalMachineName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BareMetalMachine
+      bodyMapper: Mappers.BareMetalMachine,
     },
     201: {
-      bodyMapper: Mappers.BareMetalMachine
+      bodyMapper: Mappers.BareMetalMachine,
     },
     202: {
-      bodyMapper: Mappers.BareMetalMachine
+      bodyMapper: Mappers.BareMetalMachine,
     },
     204: {
-      bodyMapper: Mappers.BareMetalMachine
+      bodyMapper: Mappers.BareMetalMachine,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bareMetalMachineParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1601,55 +1593,61 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BareMetalMachine
+      bodyMapper: Mappers.BareMetalMachine,
     },
     201: {
-      bodyMapper: Mappers.BareMetalMachine
+      bodyMapper: Mappers.BareMetalMachine,
     },
     202: {
-      bodyMapper: Mappers.BareMetalMachine
+      bodyMapper: Mappers.BareMetalMachine,
     },
     204: {
-      bodyMapper: Mappers.BareMetalMachine
+      bodyMapper: Mappers.BareMetalMachine,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bareMetalMachineUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1657,32 +1655,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const cordonOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/cordon",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/cordon",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bareMetalMachineCordonParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1690,32 +1687,31 @@ const cordonOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const powerOffOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/powerOff",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/powerOff",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bareMetalMachinePowerOffParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1723,63 +1719,61 @@ const powerOffOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const reimageOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/reimage",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/reimage",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const replaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/replace",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/replace",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bareMetalMachineReplaceParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1787,63 +1781,61 @@ const replaceOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const restartOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/restart",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/restart",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const runCommandOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/runCommand",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/runCommand",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bareMetalMachineRunCommandParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1851,32 +1843,31 @@ const runCommandOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const runDataExtractsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/runDataExtracts",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/runDataExtracts",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bareMetalMachineRunDataExtractsParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1884,32 +1875,31 @@ const runDataExtractsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const runReadCommandsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/runReadCommands",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/runReadCommands",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bareMetalMachineRunReadCommandsParameters,
   queryParameters: [Parameters.apiVersion],
@@ -1917,110 +1907,108 @@ const runReadCommandsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/start",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/start",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const uncordonOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/uncordon",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/uncordon",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     201: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     202: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     204: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
+    Parameters.bareMetalMachineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BareMetalMachineList
+      bodyMapper: Mappers.BareMetalMachineList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BareMetalMachineList
+      bodyMapper: Mappers.BareMetalMachineList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

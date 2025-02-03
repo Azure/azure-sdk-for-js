@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   FirewallPolicyRuleCollectionGroupsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
@@ -45,14 +40,14 @@ async function createFirewallPolicyNatRuleCollectionGroup() {
                 sourceAddresses: ["2.2.2.2"],
                 sourceIpGroups: [],
                 translatedFqdn: "internalhttp.server.net",
-                translatedPort: "8080"
-              }
-            ]
-          }
-        ]
-      }
+                translatedPort: "8080",
+              },
+            ],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -60,7 +55,7 @@ async function createFirewallPolicyNatRuleCollectionGroup() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -99,14 +94,14 @@ async function createFirewallPolicyRuleCollectionGroup() {
                 destinationPorts: ["*"],
                 ipProtocols: ["TCP"],
                 ruleType: "NetworkRule",
-                sourceAddresses: ["10.1.25.0/24"]
-              }
-            ]
-          }
-        ]
-      }
+                sourceAddresses: ["10.1.25.0/24"],
+              },
+            ],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -114,7 +109,7 @@ async function createFirewallPolicyRuleCollectionGroup() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -149,21 +144,21 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
               {
                 name: "network-1",
                 destinationIpGroups: [
-                  "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups2"
+                  "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups2",
                 ],
                 destinationPorts: ["*"],
                 ipProtocols: ["TCP"],
                 ruleType: "NetworkRule",
                 sourceIpGroups: [
-                  "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+                  "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups1",
+                ],
+              },
+            ],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -171,7 +166,7 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -209,14 +204,14 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
                 protocols: [{ port: 443, protocolType: "Https" }],
                 ruleType: "ApplicationRule",
                 sourceAddresses: ["216.58.216.164", "10.0.0.0/24"],
-                webCategories: ["Hacking"]
-              }
-            ]
-          }
-        ]
-      }
+                webCategories: ["Hacking"],
+              },
+            ],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -224,7 +219,7 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

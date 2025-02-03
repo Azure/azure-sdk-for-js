@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a Fleet
@@ -20,23 +16,18 @@ dotenv.config();
  * @summary Delete a Fleet
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/Fleets_Delete.json
  */
-async function deletesAFleetResourceAsynchronouslyWithALongRunningOperation() {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+async function deletesAFleetResourceAsynchronouslyWithALongRunningOperation(): Promise<void> {
+  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
-  const result = await client.fleets.beginDeleteAndWait(
-    resourceGroupName,
-    fleetName,
-  );
+  const result = await client.fleets.beginDeleteAndWait(resourceGroupName, fleetName);
   console.log(result);
 }
 
-async function main() {
-  deletesAFleetResourceAsynchronouslyWithALongRunningOperation();
+async function main(): Promise<void> {
+  await deletesAFleetResourceAsynchronouslyWithALongRunningOperation();
 }
 
 main().catch(console.error);

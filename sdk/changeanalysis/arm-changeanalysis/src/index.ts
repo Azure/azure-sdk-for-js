@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { AzureChangeAnalysisManagementClient } from "./azureChangeAnalysisManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { AzureChangeAnalysisManagementClient } from "./azureChangeAnalysisManagementClient.js";
+export * from "./operationsInterfaces/index.js";

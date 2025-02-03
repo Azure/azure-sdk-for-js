@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineScaleSetVMsListParameters,
-  paginate,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachineScaleSetVMsListParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Gets a list of all virtual machines in a VM scale sets.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetVMSListMaximumSetGen() {
+async function virtualMachineScaleSetVMSListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -55,7 +49,7 @@ virtualMachineScaleSetVMSListMaximumSetGen().catch(console.error);
  * @summary Gets a list of all virtual machines in a VM scale sets.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetVMSListMinimumSetGen() {
+async function virtualMachineScaleSetVMSListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

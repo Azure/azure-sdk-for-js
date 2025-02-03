@@ -7,15 +7,19 @@
  * @summary use a custom classifier to classify a document
  */
 
-import DocumentIntelligence, { AnalyzeResultOperationOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" })
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+  );
   const documentUrl =
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/Invoice_1.pdf";
 
@@ -33,10 +37,9 @@ async function main() {
     throw initialResponse.body.error;
   }
 
-  const poller = await getLongRunningPoller(client, initialResponse);
-  const analyzeResult = (
-    (await (poller).pollUntilDone()).body as AnalyzeResultOperationOutput
-  ).analyzeResult;
+  const poller = getLongRunningPoller(client, initialResponse);
+  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
+    .analyzeResult;
 
   if (analyzeResult?.documents === undefined || analyzeResult.documents.length === 0) {
     throw new Error("Failed to extract any documents.");
@@ -44,7 +47,7 @@ async function main() {
 
   for (const document of analyzeResult.documents) {
     console.log(
-      `Extracted a document with type '${document.docType}' on page ${document.boundingRegions?.[0].pageNumber} (confidence: ${document.confidence})`
+      `Extracted a document with type '${document.docType}' on page ${document.boundingRegions?.[0].pageNumber} (confidence: ${document.confidence})`,
     );
   }
 }

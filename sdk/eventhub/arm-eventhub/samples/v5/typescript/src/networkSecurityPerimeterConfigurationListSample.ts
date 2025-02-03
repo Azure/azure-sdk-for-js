@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets list of current NetworkSecurityPerimeterConfiguration for Namespace
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets list of current NetworkSecurityPerimeterConfiguration for Namespace
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/NetworkSecurityPerimeterConfigurationList.json
  */
-async function namspaceNetworkSecurityPerimeterConfigurationList() {
+async function namspaceNetworkSecurityPerimeterConfigurationList(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -37,7 +35,7 @@ async function namspaceNetworkSecurityPerimeterConfigurationList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   namspaceNetworkSecurityPerimeterConfigurationList();
 }
 

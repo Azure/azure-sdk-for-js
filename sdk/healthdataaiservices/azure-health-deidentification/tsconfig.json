@@ -1,19 +1,7 @@
 {
-  "extends": "../../../tsconfig.json",
-  "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": ".",
-    "paths": {
-      "@azure/health-deidentification": ["./src/index"]
-    }
-  },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "test/**/*.ts",
-    "./test/**/*.ts",
-    "./samples-dev/**/*.ts"
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
   ]
 }

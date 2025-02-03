@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AnalyzeFromImageDataParameters, AnalyzeFromUrlParameters } from "./parameters";
+import type { AnalyzeFromImageDataParameters, AnalyzeFromUrlParameters } from "./parameters.js";
 import type {
   AnalyzeFromImageData200Response,
   AnalyzeFromImageDataDefaultResponse,
   AnalyzeFromUrl200Response,
   AnalyzeFromUrlDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AnalyzeFromImageData {

@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./marketplaceAgreements";
-export * from "./organizationOperations";
-export * from "./organization";
-export * from "./validations";
-export * from "./access";
+export * from "./marketplaceAgreements.js";
+export * from "./organizationOperations.js";
+export * from "./organization.js";
+export * from "./validations.js";
+export * from "./access.js";

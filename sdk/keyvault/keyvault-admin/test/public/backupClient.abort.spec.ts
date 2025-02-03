@@ -1,21 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 
-import { KeyVaultBackupClient } from "../../src/index.js";
+import type { KeyVaultBackupClient } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { testPollerProperties } from "./utils/recorder.js";
-import { getSasToken } from "./utils/common.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 import { AbortError } from "@azure/abort-controller";
+import { getEnvironmentVariable } from "./utils/common.js";
 
-// TODO: https://github.com/Azure/azure-sdk-for-js/issues/30273
-describe.skip("Aborting KeyVaultBackupClient's requests", () => {
+describe("Aborting KeyVaultBackupClient's requests", () => {
   let client: KeyVaultBackupClient;
   let recorder: Recorder;
   let blobStorageUri: string;
-  let blobSasToken: string;
 
   let generateFakeUUID: () => string;
 
@@ -25,9 +23,10 @@ describe.skip("Aborting KeyVaultBackupClient's requests", () => {
     recorder = authentication.recorder;
     generateFakeUUID = authentication.generateFakeUUID;
 
-    const sasTokenData = getSasToken();
-    blobStorageUri = sasTokenData.blobStorageUri;
-    blobSasToken = sasTokenData.blobSasToken;
+    blobStorageUri = new URL(
+      getEnvironmentVariable("BLOB_CONTAINER_NAME"),
+      getEnvironmentVariable("BLOB_STORAGE_URI"),
+    ).href;
   });
 
   afterEach(async function () {
@@ -39,7 +38,7 @@ describe.skip("Aborting KeyVaultBackupClient's requests", () => {
     controller.abort();
 
     await expect(
-      client.beginBackup(blobStorageUri, blobSasToken, {
+      client.beginBackup(blobStorageUri, {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
@@ -52,7 +51,7 @@ describe.skip("Aborting KeyVaultBackupClient's requests", () => {
     controller.abort();
 
     await expect(
-      client.beginRestore(backupURI, blobSasToken, {
+      client.beginRestore(backupURI, {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),
@@ -66,7 +65,7 @@ describe.skip("Aborting KeyVaultBackupClient's requests", () => {
     controller.abort();
 
     await expect(
-      client.beginSelectiveKeyRestore("key-name", backupURI, blobSasToken, {
+      client.beginSelectiveKeyRestore("key-name", backupURI, {
         ...testPollerProperties,
         abortSignal: controller.signal,
       }),

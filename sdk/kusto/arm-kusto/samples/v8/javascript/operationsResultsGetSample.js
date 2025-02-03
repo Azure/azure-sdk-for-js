@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Returns operation results.
  *
  * @summary Returns operation results.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoOperationResultsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoOperationResultsGet.json
  */
 async function kustoOperationResultsGet() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function kustoOperationResultsGet() {
 }
 
 async function main() {
-  kustoOperationResultsGet();
+  await kustoOperationResultsGet();
 }
 
 main().catch(console.error);

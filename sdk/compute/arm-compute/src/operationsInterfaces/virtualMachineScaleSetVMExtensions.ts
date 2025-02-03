@@ -19,7 +19,7 @@ import {
   VirtualMachineScaleSetVMExtensionsGetResponse,
   VirtualMachineScaleSetVMExtensionsListOptionalParams,
   VirtualMachineScaleSetVMExtensionsListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VirtualMachineScaleSetVMExtensions. */
 export interface VirtualMachineScaleSetVMExtensions {

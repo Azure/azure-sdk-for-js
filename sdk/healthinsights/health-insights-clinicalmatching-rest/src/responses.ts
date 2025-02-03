@@ -3,7 +3,7 @@
 
 import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import type { TrialMatcherResultOutput } from "./outputModels";
+import type { TrialMatcherResultOutput } from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface GetJob200Response extends HttpResponse {

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Update a Kusto cluster.
  *
  * @summary Update a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersUpdate.json
  */
 async function kustoClustersUpdate() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function kustoClustersUpdate() {
 }
 
 async function main() {
-  kustoClustersUpdate();
+  await kustoClustersUpdate();
 }
 
 main().catch(console.error);

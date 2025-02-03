@@ -8,17 +8,15 @@
  * @azsdk-weight 40
  */
 
-import { Edm, TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { Edm } from "@azure/data-tables";
+import { TableClient, AzureNamedKeyCredential } from "@azure/data-tables";
+import "dotenv/config";
 
 const tablesUrl = process.env["TABLES_URL"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
 
-async function createSimpleDateEntity() {
+async function createSimpleDateEntity(): Promise<void> {
   // Note that this sample assumes that a table with tableName exists
   const tableName = `createSimpleDateEntityTable`;
 
@@ -39,7 +37,7 @@ async function createSimpleDateEntity() {
   await client.deleteTable();
 }
 
-async function createComplexDateEntity() {
+async function createComplexDateEntity(): Promise<void> {
   // Note that this sample assumes that a table with tableName exists
   const tableName = `createComplexDateEntityTable`;
 
@@ -63,7 +61,7 @@ async function createComplexDateEntity() {
   await client.deleteTable();
 }
 
-async function createAndDeleteEntities() {
+async function createAndDeleteEntities(): Promise<void> {
   console.log("== Create and delete entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
@@ -103,7 +101,7 @@ interface Entity {
   quantity: number;
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await createAndDeleteEntities();
   await createSimpleDateEntity();
   await createComplexDateEntity();

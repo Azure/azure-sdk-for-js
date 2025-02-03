@@ -6,20 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Namespaces } from "../operationsInterfaces";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
+import type { Namespaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NotificationHubsManagementClient } from "../notificationHubsManagementClient";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { NotificationHubsManagementClient } from "../notificationHubsManagementClient.js";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
+import type {
   NamespaceResource,
   NamespacesListAllNextOptionalParams,
   NamespacesListAllOptionalParams,
@@ -57,7 +54,7 @@ import {
   NamespacesListAllNextResponse,
   NamespacesListNextResponse,
   NamespacesListAuthorizationRulesNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Namespaces operations. */
@@ -104,7 +101,7 @@ export class NamespacesImpl implements Namespaces {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listAll(options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -112,7 +109,7 @@ export class NamespacesImpl implements Namespaces {
     while (continuationToken) {
       result = await this._listAllNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -161,19 +158,15 @@ export class NamespacesImpl implements Namespaces {
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options,
-      );
+      result = await this._listNext(resourceGroupName, continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -199,11 +192,7 @@ export class NamespacesImpl implements Namespaces {
     namespaceName: string,
     options?: NamespacesListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SharedAccessAuthorizationRuleResource> {
-    const iter = this.listAuthorizationRulesPagingAll(
-      resourceGroupName,
-      namespaceName,
-      options,
-    );
+    const iter = this.listAuthorizationRulesPagingAll(resourceGroupName, namespaceName, options);
     return {
       next() {
         return iter.next();
@@ -234,12 +223,8 @@ export class NamespacesImpl implements Namespaces {
     let result: NamespacesListAuthorizationRulesResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listAuthorizationRules(
-        resourceGroupName,
-        namespaceName,
-        options,
-      );
-      let page = result.value || [];
+      result = await this._listAuthorizationRules(resourceGroupName, namespaceName, options);
+      const page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
@@ -252,7 +237,7 @@ export class NamespacesImpl implements Namespaces {
         options,
       );
       continuationToken = result.nextLink;
-      let page = result.value || [];
+      const page = result.value || [];
       setContinuationToken(page, continuationToken);
       yield page;
     }
@@ -333,8 +318,7 @@ export class NamespacesImpl implements Namespaces {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -441,9 +425,7 @@ export class NamespacesImpl implements Namespaces {
    * Lists all the available namespaces within the subscription.
    * @param options The options parameters.
    */
-  private _listAll(
-    options?: NamespacesListAllOptionalParams,
-  ): Promise<NamespacesListAllResponse> {
+  private _listAll(options?: NamespacesListAllOptionalParams): Promise<NamespacesListAllResponse> {
     return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
 
@@ -456,10 +438,7 @@ export class NamespacesImpl implements Namespaces {
     resourceGroupName: string,
     options?: NamespacesListOptionalParams,
   ): Promise<NamespacesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceGroupName, options }, listOperationSpec);
   }
 
   /**
@@ -616,10 +595,7 @@ export class NamespacesImpl implements Namespaces {
     nextLink: string,
     options?: NamespacesListAllNextOptionalParams,
   ): Promise<NamespacesListAllNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAllNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listAllNextOperationSpec);
   }
 
   /**
@@ -786,11 +762,7 @@ const listAllOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.top,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -806,16 +778,8 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skipToken,
-    Parameters.top,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.skipToken, Parameters.top],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.resourceGroupName],
   headerParameters: [Parameters.accept],
   serializer,
 };
@@ -988,11 +952,7 @@ const listAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer,
 };

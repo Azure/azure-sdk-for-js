@@ -4,7 +4,7 @@
 import { assert, describe, it, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 

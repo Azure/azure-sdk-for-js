@@ -23,6 +23,9 @@ import type { SpanKind } from '@opentelemetry/api';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export const AI_OPERATION_NAME = "ai.operation.name";
+
+// @public
 export interface ApplicationInsightsClientOptionalParams extends coreClient.ServiceClientOptions {
     endpoint?: string;
     host?: string;

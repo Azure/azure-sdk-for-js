@@ -15,7 +15,7 @@ import {
   CheckNameAvailabilityParameters,
   LocationCheckNameAvailabilityOptionalParams,
   LocationCheckNameAvailabilityResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Location. */

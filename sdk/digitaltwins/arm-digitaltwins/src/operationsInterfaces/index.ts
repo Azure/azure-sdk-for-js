@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./digitalTwins";
-export * from "./digitalTwinsEndpoint";
-export * from "./operations";
-export * from "./privateLinkResources";
-export * from "./privateEndpointConnections";
-export * from "./timeSeriesDatabaseConnections";
+export * from "./digitalTwins.js";
+export * from "./digitalTwinsEndpoint.js";
+export * from "./operations.js";
+export * from "./privateLinkResources.js";
+export * from "./privateEndpointConnections.js";
+export * from "./timeSeriesDatabaseConnections.js";

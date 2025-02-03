@@ -15,7 +15,7 @@ import {
   RepositoryWriteableProperties as RepositoryWriteablePropertiesMapper,
   TagWriteableProperties as TagWriteablePropertiesMapper,
   ManifestWriteableProperties as ManifestWriteablePropertiesMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

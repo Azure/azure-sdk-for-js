@@ -21,6 +21,12 @@ import {
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
   AccountsRenewCredentialsOptionalParams,
+  AccountsTransitionToCmkOptionalParams,
+  AccountsTransitionToCmkResponse,
+  AccountsGetChangeKeyVaultInformationOptionalParams,
+  AccountsGetChangeKeyVaultInformationResponse,
+  AccountsChangeKeyVaultOptionalParams,
+  AccountsChangeKeyVaultResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -163,4 +169,95 @@ export interface Accounts {
     accountName: string,
     options?: AccountsRenewCredentialsOptionalParams,
   ): Promise<void>;
+  /**
+   * Transitions all volumes in a VNet to a different encryption key source (Microsoft-managed key or
+   * Azure Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
+   * another account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginTransitionToCmk(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsTransitionToCmkOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsTransitionToCmkResponse>,
+      AccountsTransitionToCmkResponse
+    >
+  >;
+  /**
+   * Transitions all volumes in a VNet to a different encryption key source (Microsoft-managed key or
+   * Azure Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
+   * another account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginTransitionToCmkAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsTransitionToCmkOptionalParams,
+  ): Promise<AccountsTransitionToCmkResponse>;
+  /**
+   * Contains data from encryption.keyVaultProperties as well as information about which private endpoint
+   * is used by each encryption sibling set. Response from this endpoint can be modified and used as
+   * request body for POST request.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginGetChangeKeyVaultInformation(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsGetChangeKeyVaultInformationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsGetChangeKeyVaultInformationResponse>,
+      AccountsGetChangeKeyVaultInformationResponse
+    >
+  >;
+  /**
+   * Contains data from encryption.keyVaultProperties as well as information about which private endpoint
+   * is used by each encryption sibling set. Response from this endpoint can be modified and used as
+   * request body for POST request.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginGetChangeKeyVaultInformationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsGetChangeKeyVaultInformationOptionalParams,
+  ): Promise<AccountsGetChangeKeyVaultInformationResponse>;
+  /**
+   * Affects existing volumes that are encrypted with Key Vault/Managed HSM, and new volumes. Supports
+   * HSM to Key Vault, Key Vault to HSM, HSM to HSM and Key Vault to Key Vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginChangeKeyVault(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsChangeKeyVaultOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsChangeKeyVaultResponse>,
+      AccountsChangeKeyVaultResponse
+    >
+  >;
+  /**
+   * Affects existing volumes that are encrypted with Key Vault/Managed HSM, and new volumes. Supports
+   * HSM to Key Vault, Key Vault to HSM, HSM to HSM and Key Vault to Key Vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginChangeKeyVaultAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsChangeKeyVaultOptionalParams,
+  ): Promise<AccountsChangeKeyVaultResponse>;
 }

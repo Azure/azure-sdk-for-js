@@ -11,7 +11,7 @@ import {
   AnalyzeTextJobStatusResponse,
   AnalyzeTextCancelJobOptionalParams,
   AnalyzeTextCancelJobResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AnalyzeText. */
 export interface AnalyzeText {

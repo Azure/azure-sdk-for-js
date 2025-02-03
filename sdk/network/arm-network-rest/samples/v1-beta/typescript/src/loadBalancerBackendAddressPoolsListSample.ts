@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   LoadBalancerBackendAddressPoolsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the load balancer backed address pools.
@@ -25,14 +20,14 @@ async function loadBalancerWithBackendAddressPoolContainingBackendAddresses() {
   const resourceGroupName = "testrg";
   const loadBalancerName = "lb";
   const options: LoadBalancerBackendAddressPoolsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -43,9 +38,7 @@ async function loadBalancerWithBackendAddressPoolContainingBackendAddresses() {
   console.log(result);
 }
 
-loadBalancerWithBackendAddressPoolContainingBackendAddresses().catch(
-  console.error
-);
+loadBalancerWithBackendAddressPoolContainingBackendAddresses().catch(console.error);
 /**
  * This sample demonstrates how to Gets all the load balancer backed address pools.
  *
@@ -59,14 +52,14 @@ async function loadBalancerBackendAddressPoolList() {
   const resourceGroupName = "testrg";
   const loadBalancerName = "lb";
   const options: LoadBalancerBackendAddressPoolsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -170,9 +170,10 @@ export interface AcsChatThreadWithUserDeletedEventData extends AcsChatThreadEven
 export interface AcsEmailDeliveryReportReceivedEventData {
     deliveryAttemptTimestamp: Date;
     deliveryStatusDetails: AcsEmailDeliveryReportStatusDetails;
+    internetMessageId: string;
     messageId?: string;
-    recipient?: string;
-    sender?: string;
+    recipient: string;
+    sender: string;
     status: AcsEmailDeliveryReportStatus;
 }
 
@@ -181,6 +182,7 @@ export type AcsEmailDeliveryReportStatus = string;
 
 // @public
 export interface AcsEmailDeliveryReportStatusDetails {
+    recipientMailServerHostName?: string;
     statusMessage?: string;
 }
 
@@ -208,6 +210,7 @@ export interface AcsIncomingCallEventData {
     customContext: AcsIncomingCallCustomContext;
     fromCommunicationIdentifier: CommunicationIdentifierModel;
     incomingCallContext?: string;
+    onBehalfOfCallee?: CommunicationIdentifierModel;
     serverCallId?: string;
     toCommunicationIdentifier: CommunicationIdentifierModel;
 }
@@ -572,6 +575,7 @@ export interface AcsSmsEventBase {
 export interface AcsSmsReceivedEventData extends AcsSmsEventBase {
     message?: string;
     receivedTimestamp: Date;
+    segmentCount: number;
 }
 
 // @public
@@ -585,20 +589,20 @@ export type AcsUserEngagement = string;
 // @public
 export interface ApiCenterApiDefinitionAddedEventData {
     description?: string;
-    specification: ApiCenterApiSpecification;
-    title?: string;
+    specification?: ApiCenterApiSpecification;
+    title: string;
 }
 
 // @public
 export interface ApiCenterApiDefinitionUpdatedEventData {
     description?: string;
-    specification: ApiCenterApiSpecification;
-    title?: string;
+    specification?: ApiCenterApiSpecification;
+    title: string;
 }
 
 // @public
 export interface ApiCenterApiSpecification {
-    name?: string;
+    name: string;
     version?: string;
 }
 
@@ -796,7 +800,7 @@ export interface AvsClusterDeletedEventData extends AvsClusterEventData {
 export interface AvsClusterEventData {
     addedHostNames?: string[];
     inMaintenanceHostNames?: string[];
-    operationId?: string;
+    operationId: string;
     removedHostNames?: string[];
 }
 
@@ -815,7 +819,7 @@ export interface AvsClusterUpdatingEventData extends AvsClusterEventData {
 
 // @public
 export interface AvsPrivateCloudEventData {
-    operationId?: string;
+    operationId: string;
 }
 
 // @public
@@ -837,8 +841,8 @@ export interface AvsScriptExecutionCancelledEventData extends AvsScriptExecution
 
 // @public
 export interface AvsScriptExecutionEventData {
-    cmdletId?: string;
-    operationId?: string;
+    cmdletId: string;
+    operationId: string;
     output?: string[];
 }
 
@@ -893,10 +897,10 @@ export interface CommunicationUserIdentifierModel {
 
 // @public
 export interface ContainerRegistryArtifactEventData {
-    action?: string;
-    connectedRegistry: ContainerRegistryEventConnectedRegistry;
-    id?: string;
-    location?: string;
+    action: string;
+    connectedRegistry?: ContainerRegistryEventConnectedRegistry;
+    id: string;
+    location: string;
     target: ContainerRegistryArtifactEventTarget;
     timestamp: Date;
 }
@@ -904,9 +908,9 @@ export interface ContainerRegistryArtifactEventData {
 // @public
 export interface ContainerRegistryArtifactEventTarget {
     digest?: string;
-    mediaType?: string;
+    mediaType: string;
     name?: string;
-    repository?: string;
+    repository: string;
     size?: number;
     tag?: string;
     version?: string;
@@ -927,18 +931,18 @@ export interface ContainerRegistryEventActor {
 
 // @public
 export interface ContainerRegistryEventConnectedRegistry {
-    name?: string;
+    name: string;
 }
 
 // @public
 export interface ContainerRegistryEventData {
-    action?: string;
-    actor: ContainerRegistryEventActor;
-    connectedRegistry: ContainerRegistryEventConnectedRegistry;
-    id?: string;
-    location?: string;
-    request: ContainerRegistryEventRequest;
-    source: ContainerRegistryEventSource;
+    action: string;
+    actor?: ContainerRegistryEventActor;
+    connectedRegistry?: ContainerRegistryEventConnectedRegistry;
+    id: string;
+    location: string;
+    request?: ContainerRegistryEventRequest;
+    source?: ContainerRegistryEventSource;
     target: ContainerRegistryEventTarget;
     timestamp: Date;
 }
@@ -946,9 +950,9 @@ export interface ContainerRegistryEventData {
 // @public
 export interface ContainerRegistryEventRequest {
     addr?: string;
-    host?: string;
-    id?: string;
-    method?: string;
+    host: string;
+    id: string;
+    method: string;
     useragent?: string;
 }
 
@@ -962,8 +966,8 @@ export interface ContainerRegistryEventSource {
 export interface ContainerRegistryEventTarget {
     digest?: string;
     length?: number;
-    mediaType?: string;
-    repository?: string;
+    mediaType: string;
+    repository: string;
     size?: number;
     tag?: string;
     url?: string;
@@ -1017,21 +1021,21 @@ export interface ContainerServiceNodePoolRollingSucceededEventData extends Conta
 
 // @public
 export interface DataBoxCopyCompletedEventData {
-    serialNumber?: string;
+    serialNumber: string;
     stageName: DataBoxStageName;
     stageTime: Date;
 }
 
 // @public
 export interface DataBoxCopyStartedEventData {
-    serialNumber?: string;
+    serialNumber: string;
     stageName: DataBoxStageName;
     stageTime: Date;
 }
 
 // @public
 export interface DataBoxOrderCompletedEventData {
-    serialNumber?: string;
+    serialNumber: string;
     stageName: DataBoxStageName;
     stageTime: Date;
 }
@@ -1042,20 +1046,20 @@ export type DataBoxStageName = string;
 // @public
 export interface DeviceConnectionStateEvent {
     deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
-    deviceId?: string;
-    hubName?: string;
+    deviceId: string;
+    hubName: string;
     moduleId?: string;
 }
 
 // @public
 export interface DeviceConnectionStateEventInfo {
-    sequenceNumber?: string;
+    sequenceNumber: string;
 }
 
 // @public
 export interface DeviceLifeCycleEvent {
-    deviceId?: string;
-    hubName?: string;
+    deviceId: string;
+    hubName: string;
     twin: DeviceTwinInfo;
 }
 
@@ -1069,21 +1073,21 @@ export interface DeviceTelemetryEvent {
 // @public
 export interface DeviceTwin {
     metadata: DeviceTwinMetadata;
-    version?: number;
+    version: number;
 }
 
 // @public
 export interface DeviceTwinInfo {
-    authenticationType?: string;
-    cloudToDeviceMessageCount?: number;
-    connectionState?: string;
-    deviceId?: string;
-    etag?: string;
-    lastActivityTime?: string;
+    authenticationType: string;
+    cloudToDeviceMessageCount: number;
+    connectionState: string;
+    deviceId: string;
+    etag: string;
+    lastActivityTime: string;
     properties: DeviceTwinInfoProperties;
-    status?: string;
-    statusUpdateTime?: string;
-    version?: number;
+    status: string;
+    statusUpdateTime: string;
+    version: number;
     x509Thumbprint: DeviceTwinInfoX509Thumbprint;
 }
 
@@ -1095,13 +1099,13 @@ export interface DeviceTwinInfoProperties {
 
 // @public
 export interface DeviceTwinInfoX509Thumbprint {
-    primaryThumbprint?: string;
-    secondaryThumbprint?: string;
+    primaryThumbprint: string;
+    secondaryThumbprint: string;
 }
 
 // @public
 export interface DeviceTwinMetadata {
-    lastUpdated?: string;
+    lastUpdated: string;
 }
 
 // @public
@@ -1132,22 +1136,22 @@ export type EventGridMqttClientDisconnectionReason = string;
 
 // @public
 export interface EventGridMqttClientEventData {
-    clientAuthenticationName?: string;
-    clientName?: string;
-    namespaceName?: string;
+    clientAuthenticationName: string;
+    clientName: string;
+    namespaceName: string;
 }
 
 // @public
 export interface EventGridMqttClientSessionConnectedEventData extends EventGridMqttClientEventData {
-    clientSessionName?: string;
-    sequenceNumber?: number;
+    clientSessionName: string;
+    sequenceNumber: number;
 }
 
 // @public
 export interface EventGridMqttClientSessionDisconnectedEventData extends EventGridMqttClientEventData {
-    clientSessionName?: string;
+    clientSessionName: string;
     disconnectionReason: EventGridMqttClientDisconnectionReason;
-    sequenceNumber?: number;
+    sequenceNumber: number;
 }
 
 // @public
@@ -1168,48 +1172,48 @@ export interface EventHubCaptureFileCreatedEventData {
 
 // @public
 export interface HealthcareDicomImageCreatedEventData {
-    imageSeriesInstanceUid?: string;
-    imageSopInstanceUid?: string;
-    imageStudyInstanceUid?: string;
-    partitionName?: string;
-    sequenceNumber?: number;
-    serviceHostName?: string;
+    imageSeriesInstanceUid: string;
+    imageSopInstanceUid: string;
+    imageStudyInstanceUid: string;
+    partitionName: string;
+    sequenceNumber: number;
+    serviceHostName: string;
 }
 
 // @public
 export interface HealthcareDicomImageDeletedEventData {
-    imageSeriesInstanceUid?: string;
-    imageSopInstanceUid?: string;
-    imageStudyInstanceUid?: string;
-    partitionName?: string;
-    sequenceNumber?: number;
-    serviceHostName?: string;
+    imageSeriesInstanceUid: string;
+    imageSopInstanceUid: string;
+    imageStudyInstanceUid: string;
+    partitionName: string;
+    sequenceNumber: number;
+    serviceHostName: string;
 }
 
 // @public
 export interface HealthcareDicomImageUpdatedEventData {
-    imageSeriesInstanceUid?: string;
-    imageSopInstanceUid?: string;
-    imageStudyInstanceUid?: string;
-    partitionName?: string;
-    sequenceNumber?: number;
-    serviceHostName?: string;
+    imageSeriesInstanceUid: string;
+    imageSopInstanceUid: string;
+    imageStudyInstanceUid: string;
+    partitionName: string;
+    sequenceNumber: number;
+    serviceHostName: string;
 }
 
 // @public
 export interface HealthcareFhirResourceCreatedEventData {
-    resourceFhirAccount?: string;
-    resourceFhirId?: string;
+    resourceFhirAccount: string;
+    resourceFhirId: string;
     resourceType: HealthcareFhirResourceType;
-    resourceVersionId?: number;
+    resourceVersionId: number;
 }
 
 // @public
 export interface HealthcareFhirResourceDeletedEventData {
-    resourceFhirAccount?: string;
-    resourceFhirId?: string;
+    resourceFhirAccount: string;
+    resourceFhirId: string;
     resourceType: HealthcareFhirResourceType;
-    resourceVersionId?: number;
+    resourceVersionId: number;
 }
 
 // @public
@@ -1217,10 +1221,10 @@ export type HealthcareFhirResourceType = string;
 
 // @public
 export interface HealthcareFhirResourceUpdatedEventData {
-    resourceFhirAccount?: string;
-    resourceFhirId?: string;
+    resourceFhirAccount: string;
+    resourceFhirId: string;
     resourceType: HealthcareFhirResourceType;
-    resourceVersionId?: number;
+    resourceVersionId: number;
 }
 
 // @public
@@ -1670,47 +1674,6 @@ export enum KnownHealthcareFhirResourceType {
 }
 
 // @public
-export enum KnownMediaJobErrorCategory {
-    Account = "Account",
-    Configuration = "Configuration",
-    Content = "Content",
-    Download = "Download",
-    Service = "Service",
-    Upload = "Upload"
-}
-
-// @public
-export enum KnownMediaJobErrorCode {
-    ConfigurationUnsupported = "ConfigurationUnsupported",
-    ContentMalformed = "ContentMalformed",
-    ContentUnsupported = "ContentUnsupported",
-    DownloadNotAccessible = "DownloadNotAccessible",
-    DownloadTransientError = "DownloadTransientError",
-    IdentityUnsupported = "IdentityUnsupported",
-    ServiceError = "ServiceError",
-    ServiceTransientError = "ServiceTransientError",
-    UploadNotAccessible = "UploadNotAccessible",
-    UploadTransientError = "UploadTransientError"
-}
-
-// @public
-export enum KnownMediaJobRetry {
-    DoNotRetry = "DoNotRetry",
-    MayRetry = "MayRetry"
-}
-
-// @public
-export enum KnownMediaJobState {
-    Canceled = "Canceled",
-    Canceling = "Canceling",
-    Error = "Error",
-    Finished = "Finished",
-    Processing = "Processing",
-    Queued = "Queued",
-    Scheduled = "Scheduled"
-}
-
-// @public
 export enum KnownRecordingChannelType {
     Mixed = "Mixed",
     Unmixed = "Unmixed"
@@ -1841,228 +1804,6 @@ export interface MapsGeofenceResultEventData extends MapsGeofenceEvent {
 }
 
 // @public
-export interface MediaJobCanceledEventData extends MediaJobStateChangeEventData {
-    outputs: MediaJobOutputUnion[];
-}
-
-// @public
-export interface MediaJobCancelingEventData extends MediaJobStateChangeEventData {
-}
-
-// @public
-export interface MediaJobError {
-    category: MediaJobErrorCategory;
-    code: MediaJobErrorCode;
-    details: MediaJobErrorDetail[];
-    message?: string;
-    retry: MediaJobRetry;
-}
-
-// @public
-export type MediaJobErrorCategory = string;
-
-// @public
-export type MediaJobErrorCode = string;
-
-// @public
-export interface MediaJobErrorDetail {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface MediaJobErroredEventData extends MediaJobStateChangeEventData {
-    outputs: MediaJobOutputUnion[];
-}
-
-// @public
-export interface MediaJobFinishedEventData extends MediaJobStateChangeEventData {
-    outputs: MediaJobOutputUnion[];
-}
-
-// @public
-export interface MediaJobOutput {
-    "@odata.type": string;
-    error: MediaJobError;
-    label?: string;
-    progress: number;
-    state: MediaJobState;
-}
-
-// @public
-export interface MediaJobOutputAsset extends MediaJobOutput {
-    "@odata.type": "#Microsoft.Media.JobOutputAsset";
-    assetName?: string;
-}
-
-// @public
-export interface MediaJobOutputCanceledEventData extends MediaJobOutputStateChangeEventData {
-}
-
-// @public
-export interface MediaJobOutputCancelingEventData extends MediaJobOutputStateChangeEventData {
-}
-
-// @public
-export interface MediaJobOutputErroredEventData extends MediaJobOutputStateChangeEventData {
-}
-
-// @public
-export interface MediaJobOutputFinishedEventData extends MediaJobOutputStateChangeEventData {
-}
-
-// @public
-export interface MediaJobOutputProcessingEventData extends MediaJobOutputStateChangeEventData {
-}
-
-// @public
-export interface MediaJobOutputProgressEventData {
-    jobCorrelationData: Record<string, string>;
-    label?: string;
-    progress?: number;
-}
-
-// @public
-export interface MediaJobOutputScheduledEventData extends MediaJobOutputStateChangeEventData {
-}
-
-// @public
-export interface MediaJobOutputStateChangeEventData {
-    jobCorrelationData: Record<string, string>;
-    output: MediaJobOutputUnion;
-    previousState: MediaJobState;
-}
-
-// @public
-export type MediaJobOutputUnion = MediaJobOutputAsset | MediaJobOutput;
-
-// @public
-export interface MediaJobProcessingEventData extends MediaJobStateChangeEventData {
-}
-
-// @public
-export type MediaJobRetry = string;
-
-// @public
-export interface MediaJobScheduledEventData extends MediaJobStateChangeEventData {
-}
-
-// @public
-export type MediaJobState = string;
-
-// @public
-export interface MediaJobStateChangeEventData {
-    correlationData: Record<string, string>;
-    previousState: MediaJobState;
-    state: MediaJobState;
-}
-
-// @public
-export interface MediaLiveEventChannelArchiveHeartbeatEventData {
-    channelLatencyMs: string;
-    latencyResultCode: string;
-}
-
-// @public
-export interface MediaLiveEventConnectionRejectedEventData {
-    encoderIp?: string;
-    encoderPort?: string;
-    ingestUrl?: string;
-    resultCode?: string;
-    streamId?: string;
-}
-
-// @public
-export interface MediaLiveEventEncoderConnectedEventData {
-    encoderIp?: string;
-    encoderPort?: string;
-    ingestUrl?: string;
-    streamId?: string;
-}
-
-// @public
-export interface MediaLiveEventEncoderDisconnectedEventData {
-    encoderIp?: string;
-    encoderPort?: string;
-    ingestUrl?: string;
-    resultCode?: string;
-    streamId?: string;
-}
-
-// @public
-export interface MediaLiveEventIncomingDataChunkDroppedEventData {
-    bitrate?: number;
-    resultCode?: string;
-    timescale?: string;
-    timestamp?: string;
-    trackName?: string;
-    trackType?: string;
-}
-
-// @public
-export interface MediaLiveEventIncomingStreamReceivedEventData {
-    bitrate?: number;
-    duration?: string;
-    encoderIp?: string;
-    encoderPort?: string;
-    ingestUrl?: string;
-    timescale?: string;
-    timestamp?: string;
-    trackName?: string;
-    trackType?: string;
-}
-
-// @public
-export interface MediaLiveEventIncomingStreamsOutOfSyncEventData {
-    maxLastTimestamp?: string;
-    minLastTimestamp?: string;
-    timescaleOfMaxLastTimestamp?: string;
-    timescaleOfMinLastTimestamp?: string;
-    typeOfStreamWithMaxLastTimestamp?: string;
-    typeOfStreamWithMinLastTimestamp?: string;
-}
-
-// @public
-export interface MediaLiveEventIncomingVideoStreamsOutOfSyncEventData {
-    firstDuration?: string;
-    firstTimestamp?: string;
-    secondDuration?: string;
-    secondTimestamp?: string;
-    timescale?: string;
-}
-
-// @public
-export interface MediaLiveEventIngestHeartbeatEventData {
-    bitrate?: number;
-    discontinuityCount?: number;
-    healthy?: boolean;
-    incomingBitrate?: number;
-    ingestDriftValue?: string;
-    lastFragmentArrivalTime?: string;
-    lastTimestamp?: string;
-    nonincreasingCount?: number;
-    overlapCount?: number;
-    state?: string;
-    timescale?: string;
-    trackName?: string;
-    trackType?: string;
-    transcriptionLanguage?: string;
-    transcriptionState?: string;
-    unexpectedBitrate?: boolean;
-}
-
-// @public
-export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
-    bitrate?: number;
-    discontinuityGap?: string;
-    newTimestamp?: string;
-    previousTimestamp?: string;
-    timescale?: string;
-    trackName?: string;
-    trackType?: string;
-}
-
-// @public
 export interface MicrosoftTeamsAppIdentifierModel {
     appId: string;
     cloud: CommunicationCloudEnvironmentModel;
@@ -2082,34 +1823,34 @@ export interface PhoneNumberIdentifierModel {
 
 // @public
 export interface PolicyInsightsPolicyStateChangedEventData {
-    complianceReasonCode?: string;
-    complianceState?: string;
-    policyAssignmentId?: string;
-    policyDefinitionId?: string;
-    policyDefinitionReferenceId?: string;
-    subscriptionId?: string;
+    complianceReasonCode: string;
+    complianceState: string;
+    policyAssignmentId: string;
+    policyDefinitionId: string;
+    policyDefinitionReferenceId: string;
+    subscriptionId: string;
     timestamp: Date;
 }
 
 // @public
 export interface PolicyInsightsPolicyStateCreatedEventData {
-    complianceReasonCode?: string;
-    complianceState?: string;
-    policyAssignmentId?: string;
-    policyDefinitionId?: string;
-    policyDefinitionReferenceId?: string;
-    subscriptionId?: string;
+    complianceReasonCode: string;
+    complianceState: string;
+    policyAssignmentId: string;
+    policyDefinitionId: string;
+    policyDefinitionReferenceId: string;
+    subscriptionId: string;
     timestamp: Date;
 }
 
 // @public
 export interface PolicyInsightsPolicyStateDeletedEventData {
-    complianceReasonCode?: string;
-    complianceState?: string;
-    policyAssignmentId?: string;
-    policyDefinitionId?: string;
-    policyDefinitionReferenceId?: string;
-    subscriptionId?: string;
+    complianceReasonCode: string;
+    complianceState: string;
+    policyAssignmentId: string;
+    policyDefinitionId: string;
+    policyDefinitionReferenceId: string;
+    subscriptionId: string;
     timestamp: Date;
 }
 
@@ -2126,28 +1867,28 @@ export type RecordingFormatType = string;
 export interface RedisExportRDBCompletedEventData {
     name?: string;
     status?: string;
-    timestamp: Date;
+    timestamp?: Date;
 }
 
 // @public
 export interface RedisImportRDBCompletedEventData {
     name?: string;
     status?: string;
-    timestamp: Date;
+    timestamp?: Date;
 }
 
 // @public
 export interface RedisPatchingCompletedEventData {
     name?: string;
     status?: string;
-    timestamp: Date;
+    timestamp?: Date;
 }
 
 // @public
 export interface RedisScalingCompletedEventData {
     name?: string;
     status?: string;
-    timestamp: Date;
+    timestamp?: Date;
 }
 
 // @public
@@ -2270,9 +2011,9 @@ export interface ResourceNotificationsOperationalDetails {
 
 // @public
 export interface ResourceNotificationsResourceDeletedDetails {
-    id?: string;
-    name?: string;
-    type?: string;
+    id: string;
+    name: string;
+    type: string;
 }
 
 // @public
@@ -2291,17 +2032,17 @@ export interface ResourceNotificationsResourceManagementDeletedEventData extends
 
 // @public
 export interface ResourceNotificationsResourceUpdatedDetails {
-    id?: string;
+    id: string;
     location?: string;
-    name?: string;
-    properties: Record<string, any>;
-    tags: Record<string, string>;
-    type?: string;
+    name: string;
+    properties?: Record<string, any>;
+    tags?: Record<string, string>;
+    type: string;
 }
 
 // @public
 export interface ResourceNotificationsResourceUpdatedEventData {
-    apiVersion?: string;
+    apiVersion: string;
     operationalDetails: ResourceNotificationsOperationalDetails;
     resourceDetails: ResourceNotificationsResourceUpdatedDetails;
 }
@@ -2356,57 +2097,57 @@ export type ServiceApiVersions = "2018-01-01" | "2024-01-01";
 
 // @public
 export interface ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData {
-    entityType?: string;
-    namespaceName?: string;
-    queueName?: string;
-    requestUri?: string;
-    subscriptionName?: string;
-    topicName?: string;
+    entityType: string;
+    namespaceName: string;
+    queueName: string | null;
+    requestUri: string;
+    subscriptionName: string | null;
+    topicName: string | null;
 }
 
 // @public
 export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {
-    entityType?: string;
-    namespaceName?: string;
-    queueName?: string;
-    requestUri?: string;
-    subscriptionName?: string;
-    topicName?: string;
+    entityType: string;
+    namespaceName: string;
+    queueName: string | null;
+    requestUri: string;
+    subscriptionName: string | null;
+    topicName: string | null;
 }
 
 // @public
 export interface ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData {
-    entityType?: string;
-    namespaceName?: string;
-    queueName?: string;
-    requestUri?: string;
-    subscriptionName?: string;
-    topicName?: string;
+    entityType: string;
+    namespaceName: string;
+    queueName: string | null;
+    requestUri: string;
+    subscriptionName: string | null;
+    topicName: string | null;
 }
 
 // @public
 export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
-    entityType?: string;
-    namespaceName?: string;
-    queueName?: string;
-    requestUri?: string;
-    subscriptionName?: string;
-    topicName?: string;
+    entityType: string;
+    namespaceName: string;
+    queueName: string | null;
+    requestUri: string;
+    subscriptionName: string | null;
+    topicName: string | null;
 }
 
 // @public
 export interface SignalRServiceClientConnectionConnectedEventData {
-    connectionId?: string;
-    hubName?: string;
+    connectionId: string;
+    hubName: string;
     timestamp: Date;
     userId?: string;
 }
 
 // @public
 export interface SignalRServiceClientConnectionDisconnectedEventData {
-    connectionId?: string;
+    connectionId: string;
     errorMessage?: string;
-    hubName?: string;
+    hubName: string;
     timestamp: Date;
     userId?: string;
 }
@@ -2546,6 +2287,8 @@ export interface StorageLifecyclePolicyActionSummaryDetail {
 // @public
 export interface StorageLifecyclePolicyCompletedEventData {
     deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
+    // Warning: (ae-forgotten-export) The symbol "StorageLifecyclePolicyRunSummary" needs to be exported by the entry point index.d.ts
+    policyRunSummary: StorageLifecyclePolicyRunSummary;
     scheduleTime?: string;
     tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
     tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
@@ -2590,18 +2333,18 @@ export interface StorageTaskQueuedEventData {
 
 // @public
 export interface SubscriptionDeletedEventData {
-    eventSubscriptionId?: string;
+    eventSubscriptionId: string;
 }
 
 // @public
 export interface SubscriptionValidationEventData {
-    validationCode?: string;
-    validationUrl?: string;
+    validationCode: string;
+    validationUrl: string;
 }
 
 // @public
 export interface SubscriptionValidationResponse {
-    validationResponse?: string;
+    validationResponse: string;
 }
 
 // @public
@@ -2743,31 +2486,6 @@ export interface SystemEventNameToEventData {
     "Microsoft.Maps.GeofenceEntered": MapsGeofenceEnteredEventData;
     "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
     "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
-    "Microsoft.Media.JobCanceled": MediaJobCanceledEventData;
-    "Microsoft.Media.JobCanceling": MediaJobCancelingEventData;
-    "Microsoft.Media.JobErrored": MediaJobErroredEventData;
-    "Microsoft.Media.JobFinished": MediaJobFinishedEventData;
-    "Microsoft.Media.JobOutputCanceled": MediaJobOutputCanceledEventData;
-    "Microsoft.Media.JobOutputCanceling": MediaJobOutputCancelingEventData;
-    "Microsoft.Media.JobOutputErrored": MediaJobOutputErroredEventData;
-    "Microsoft.Media.JobOutputFinished": MediaJobOutputFinishedEventData;
-    "Microsoft.Media.JobOutputProcessing": MediaJobOutputProcessingEventData;
-    "Microsoft.Media.JobOutputProgress": MediaJobOutputProgressEventData;
-    "Microsoft.Media.JobOutputScheduled": MediaJobOutputScheduledEventData;
-    "Microsoft.Media.JobOutputStateChange": MediaJobOutputStateChangeEventData;
-    "Microsoft.Media.JobProcessing": MediaJobProcessingEventData;
-    "Microsoft.Media.JobScheduled": MediaJobScheduledEventData;
-    "Microsoft.Media.JobStateChange": MediaJobStateChangeEventData;
-    "Microsoft.Media.LiveEventChannelArchiveHeartbeat": MediaLiveEventChannelArchiveHeartbeatEventData;
-    "Microsoft.Media.LiveEventConnectionRejected": MediaLiveEventConnectionRejectedEventData;
-    "Microsoft.Media.LiveEventEncoderConnected": MediaLiveEventEncoderConnectedEventData;
-    "Microsoft.Media.LiveEventEncoderDisconnected": MediaLiveEventEncoderDisconnectedEventData;
-    "Microsoft.Media.LiveEventIncomingDataChunkDropped": MediaLiveEventIncomingDataChunkDroppedEventData;
-    "Microsoft.Media.LiveEventIncomingStreamReceived": MediaLiveEventIncomingStreamReceivedEventData;
-    "Microsoft.Media.LiveEventIncomingStreamsOutOfSync": MediaLiveEventIncomingStreamsOutOfSyncEventData;
-    "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync": MediaLiveEventIncomingVideoStreamsOutOfSyncEventData;
-    "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
-    "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
     "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
     "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
     "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;

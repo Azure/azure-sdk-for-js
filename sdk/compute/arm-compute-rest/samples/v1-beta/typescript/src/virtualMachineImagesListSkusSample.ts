@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineImagesListSkusParameters
+  VirtualMachineImagesListSkusParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
@@ -25,7 +20,7 @@ async function virtualMachineImagesListSkusMaximumSetGen() {
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const offer = "aaaaaaa";
   const options: VirtualMachineImagesListSkusParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function virtualMachineImagesListSkusMaximumSetGen() {
       subscriptionId,
       location,
       publisherName,
-      offer
+      offer,
     )
     .get(options);
   console.log(result);
@@ -54,7 +49,7 @@ async function virtualMachineImagesListSkusMinimumSetGen() {
   const publisherName = "aaaaaaaaaaaaa";
   const offer = "aaaaaaa";
   const options: VirtualMachineImagesListSkusParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -62,7 +57,7 @@ async function virtualMachineImagesListSkusMinimumSetGen() {
       subscriptionId,
       location,
       publisherName,
-      offer
+      offer,
     )
     .get(options);
   console.log(result);

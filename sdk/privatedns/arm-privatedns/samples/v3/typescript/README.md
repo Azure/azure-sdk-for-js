@@ -89,7 +89,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualnetworklinksgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/privatedns/arm-privatedns/samples/v3/typescript/src/virtualNetworkLinksGetSample.ts
 [virtualnetworklinkslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/privatedns/arm-privatedns/samples/v3/typescript/src/virtualNetworkLinksListSample.ts
 [virtualnetworklinksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/privatedns/arm-privatedns/samples/v3/typescript/src/virtualNetworkLinksUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-privatedns?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-privatedns?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/privatedns/arm-privatedns/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

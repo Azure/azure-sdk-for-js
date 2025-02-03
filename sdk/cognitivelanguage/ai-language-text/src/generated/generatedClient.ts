@@ -12,10 +12,10 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { AnalyzeTextImpl } from "./operations";
-import { AnalyzeText } from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { AnalyzeTextImpl } from "./operations/index.js";
+import { AnalyzeText } from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   GeneratedClientOptionalParams,
   AnalyzeActionUnion,
@@ -24,7 +24,7 @@ import {
   AnalyzeTextJobsInput,
   AnalyzeBatchOptionalParams,
   AnalyzeBatchResponse
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class GeneratedClient extends coreClient.ServiceClient {

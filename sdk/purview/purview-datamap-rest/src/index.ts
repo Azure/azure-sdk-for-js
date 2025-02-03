@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import PurviewDataMapClient from "./purviewDataMapClient";
+import PurviewDataMapClient from "./purviewDataMapClient.js";
 
-export * from "./purviewDataMapClient";
-export * from "./parameters";
-export * from "./responses";
-export * from "./clientDefinitions";
-export * from "./isUnexpected";
-export * from "./models";
-export * from "./outputModels";
-export * from "./serializeHelper";
+export * from "./purviewDataMapClient.js";
+export * from "./parameters.js";
+export * from "./responses.js";
+export * from "./clientDefinitions.js";
+export * from "./isUnexpected.js";
+export * from "./models.js";
+export * from "./outputModels.js";
+export * from "./serializeHelper.js";
 export {
   createFile,
   createFileFromStream,

@@ -54,7 +54,7 @@ steps:
           echo "##vso[task.setvariable variable=rushBuildCacheCred;issecret=true;]$sasToken"
 
   - pwsh: |
-      node eng/tools/rush-runner.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/rush-runner/index.js build "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
     env:
       ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
@@ -62,7 +62,7 @@ steps:
         RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
 
   - script: |
-      node eng/tools/rush-runner.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner/index.js build:samples "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Build samples for PR"
 
   - pwsh: |
@@ -70,13 +70,13 @@ steps:
     displayName: "Check api extractor output changes"
 
   - script: |
-      node eng/tools/rush-runner.js pack "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner/index.js pack "$(ChangedServices)" -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Pack libraries"
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      node eng/tools/rush-runner.js unlink
+      node eng/tools/rush-runner/index.js unlink
     displayName: "Unlink dependencies"
 
   - template: ../steps/generate-doc.yml
@@ -84,22 +84,26 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - pwsh: |
-      $artifacts = Get-ChildItem -Recurse -Force "$(Build.ArtifactStagingDirectory)/PackageInfo/*.json" `
-          | ForEach-Object { $_.Name.Replace(".json", "") }
+      $artifacts = "$(ArtifactPackageNames)".Split(",")
 
       foreach ($artifact in $artifacts)
       {
         $artifactDetails = Get-Content -Raw $(Build.ArtifactStagingDirectory)/PackageInfo/$artifact.json | ConvertFrom-Json
+        $packageJson = Join-Path $(Build.SourcesDirectory) $artifactDetails.DirectoryPath "package.json"
 
         Write-Host "Copying $artifact artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
         New-Item -Type Directory -Force -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
         Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
         Copy-Item sdk/$($artifactDetails.ServiceDirectory)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
 
-        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true)
+        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true `
+          -and (Get-Content $packageJson -Raw | ConvertFrom-Json).private -ne $true)
         {
           New-Item -Type Directory -Force -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $(Build.ArtifactStagingDirectory)/$artifact/documentation
+        }
+        else {
+          Write-Host "Skipping documentation for package $artifact."
         }
 
         Get-ChildItem $(Build.ArtifactStagingDirectory)/$artifact -Recurse

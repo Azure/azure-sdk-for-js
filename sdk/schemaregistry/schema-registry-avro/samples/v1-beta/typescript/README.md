@@ -65,7 +65,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [witheventhubsbufferedproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-avro/samples/v1-beta/typescript/src/withEventHubsBufferedProducerClient.ts
 [witheventhubsconsumerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-avro/samples/v1-beta/typescript/src/withEventHubsConsumerClient.ts
 [witheventhubsproducerclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-avro/samples/v1-beta/typescript/src/withEventHubsProducerClient.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/schema-registry-avro
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/schema-registry-avro
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureschemaregistryresource]: https://aka.ms/schemaregistry
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-avro/README.md

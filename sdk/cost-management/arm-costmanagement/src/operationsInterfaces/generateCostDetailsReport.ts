@@ -13,7 +13,7 @@ import {
   GenerateCostDetailsReportCreateOperationResponse,
   GenerateCostDetailsReportGetOperationResultsOptionalParams,
   GenerateCostDetailsReportGetOperationResultsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GenerateCostDetailsReport. */
 export interface GenerateCostDetailsReport {

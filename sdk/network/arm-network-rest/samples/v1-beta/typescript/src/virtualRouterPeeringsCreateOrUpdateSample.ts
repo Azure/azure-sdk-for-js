@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualRouterPeeringsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the specified Virtual Router Peering.
@@ -27,7 +22,7 @@ async function createVirtualRouterPeering() {
   const peeringName = "peering1";
   const options: VirtualRouterPeeringsCreateOrUpdateParameters = {
     body: { properties: { peerAsn: 20000, peerIp: "192.168.1.5" } },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -35,7 +30,7 @@ async function createVirtualRouterPeering() {
       subscriptionId,
       resourceGroupName,
       virtualRouterName,
-      peeringName
+      peeringName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

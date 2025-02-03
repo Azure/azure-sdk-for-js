@@ -48,4 +48,13 @@ export interface SharedOptions {
    * <p>Default value is null. By default all requests are of High priority</p>
    */
   priorityLevel?: PriorityLevel;
+
+  /** Consistency level required by the client. */
+  consistencyLevel?: string;
+
+  /**
+   * DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity
+   * to serve the request if regular provisioned RUs/second is exhausted.
+   */
+  disableRUPerMinuteUsage?: boolean;
 }

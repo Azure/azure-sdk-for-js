@@ -132,16 +132,17 @@ export interface OptInDetails {
     // (undocumented)
     description?: string;
     // (undocumented)
-    options?: Option[];
+    options?: Option_2[];
 }
 
 // @public (undocumented)
-export interface Option {
+interface Option_2 {
     // (undocumented)
     imageUrls?: string[];
     // (undocumented)
     type: Type;
 }
+export { Option_2 as Option }
 
 // @public
 export interface ReviewNote {

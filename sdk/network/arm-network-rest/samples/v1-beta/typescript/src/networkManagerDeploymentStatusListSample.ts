@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  NetworkManagerDeploymentStatusListParameters
+  NetworkManagerDeploymentStatusListParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Post to List of Network Manager Deployment Status.
@@ -27,16 +22,16 @@ async function networkManagerDeploymentStatusList() {
     body: {
       deploymentTypes: ["Connectivity", "SecurityAdmin"],
       regions: ["eastus", "westus"],
-      skipToken: "FakeSkipTokenCode"
+      skipToken: "FakeSkipTokenCode",
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listDeploymentStatus",
       subscriptionId,
       resourceGroupName,
-      networkManagerName
+      networkManagerName,
     )
     .post(options);
   console.log(result);

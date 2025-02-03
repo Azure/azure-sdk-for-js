@@ -4,43 +4,30 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
 
 // @public
 export interface AgentProfile {
-    kind: "Stateful" | "Stateless";
-    resourcePredictions?: Record<string, unknown>;
+    kind: string;
+    resourcePredictions?: ResourcePredictions;
     resourcePredictionsProfile?: ResourcePredictionsProfileUnion;
 }
 
-// @public (undocumented)
-export type AgentProfileUnion = AgentProfile | Stateful | StatelessAgentProfile;
-
 // @public
-export interface AgentProfileUpdate {
-    kind: "Stateful" | "Stateless";
-    resourcePredictions?: Record<string, unknown>;
-    resourcePredictionsProfile?: ResourcePredictionsProfileUpdateUnion;
-}
-
-// @public (undocumented)
-export type AgentProfileUpdateUnion = AgentProfileUpdate | StatefulUpdate | StatelessAgentProfileUpdate;
+export type AgentProfileUnion = StatelessAgentProfile | Stateful | AgentProfile;
 
 // @public
 export interface AutomaticResourcePredictionsProfile extends ResourcePredictionsProfile {
-    kind: "Automatic";
-    predictionPreference?: PredictionPreference;
-}
-
-// @public
-export interface AutomaticResourcePredictionsProfileUpdate extends ResourcePredictionsProfileUpdate {
     kind: "Automatic";
     predictionPreference?: PredictionPreference;
 }
@@ -66,6 +53,11 @@ export type AzureDevOpsPermissionType = string;
 export type CachingType = string;
 
 // @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -81,36 +73,30 @@ export interface DevOpsAzureSku {
     name: string;
 }
 
-// @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
-    readonly type?: string;
+// @public (undocumented)
+export class DevOpsInfrastructureClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DevOpsInfrastructureClientOptionalParams);
+    readonly imageVersions: ImageVersionsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly pools: PoolsOperations;
+    readonly resourceDetails: ResourceDetailsOperations;
+    readonly sku: SkuOperations;
+    readonly subscriptionUsages: SubscriptionUsagesOperations;
 }
 
 // @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
+export interface DevOpsInfrastructureClientOptionalParams extends ClientOptions {
+    apiVersion?: string;
 }
 
 // @public
 export interface FabricProfile {
-    kind: "Vmss";
+    kind: string;
 }
 
-// @public (undocumented)
-export type FabricProfileUnion = FabricProfile | VmssFabricProfile;
-
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export type FabricProfileUnion = VmssFabricProfile | FabricProfile;
 
 // @public
 export interface GitHubOrganization {
@@ -130,34 +116,18 @@ export interface ImageVersion extends ProxyResource {
 }
 
 // @public
-export interface ImageVersionListResult {
-    nextLink?: string;
-    value: ImageVersion[];
-}
-
-// @public
 export interface ImageVersionProperties {
     version: string;
 }
 
 // @public
-export interface ImageVersions {
-    listByImage(resourceGroupName: string, imageName: string, options?: ImageVersionsListByImageOptionalParams): PagedAsyncIterableIterator<ImageVersion>;
+export interface ImageVersionsListByImageOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ImageVersionsListByImageNextOptionalParams extends coreClient.OperationOptions {
+export interface ImageVersionsOperations {
+    listByImage: (resourceGroupName: string, imageName: string, options?: ImageVersionsListByImageOptionalParams) => PagedAsyncIterableIterator<ImageVersion>;
 }
-
-// @public
-export type ImageVersionsListByImageNextResponse = ImageVersionListResult;
-
-// @public
-export interface ImageVersionsListByImageOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ImageVersionsListByImageResponse = ImageVersionListResult;
 
 // @public
 export enum KnownActionType {
@@ -272,51 +242,24 @@ export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
-    StandardSsdlrs = "StandardSSD_LRS",
-    StandardSsdzrs = "StandardSSD_ZRS"
+    StandardSSDLRS = "StandardSSD_LRS",
+    StandardSSDZRS = "StandardSSD_ZRS"
+}
+
+// @public
+export enum KnownVersions {
+    "V2024-10-19" = "2024-10-19"
 }
 
 // @public
 export type LogonType = string;
-
-// @public (undocumented)
-export class ManagedDevOpsInfrastructure extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ManagedDevOpsInfrastructureOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    imageVersions: ImageVersions;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    pools: Pools;
-    // (undocumented)
-    resourceDetails: ResourceDetails;
-    // (undocumented)
-    sku: Sku;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    subscriptionUsages: SubscriptionUsages;
-}
-
-// @public
-export interface ManagedDevOpsInfrastructureOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
 
 // @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity | null;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
 // @public
@@ -328,19 +271,14 @@ export interface ManualResourcePredictionsProfile extends ResourcePredictionsPro
 }
 
 // @public
-export interface ManualResourcePredictionsProfileUpdate extends ResourcePredictionsProfileUpdate {
-    kind: "Manual";
-}
-
-// @public
 export interface NetworkProfile {
     subnetId: string;
 }
 
 // @public
 export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
+    actionType?: ActionType;
+    readonly display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -355,29 +293,13 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface Organization {
@@ -388,11 +310,11 @@ export interface Organization {
 
 // @public
 export interface OrganizationProfile {
-    kind: "AzureDevOps" | "GitHub";
+    kind: string;
 }
 
-// @public (undocumented)
-export type OrganizationProfileUnion = OrganizationProfile | AzureDevOpsOrganizationProfile | GitHubOrganizationProfile;
+// @public
+export type OrganizationProfileUnion = GitHubOrganizationProfile | AzureDevOpsOrganizationProfile | OrganizationProfile;
 
 // @public
 export type Origin = string;
@@ -404,6 +326,18 @@ export type OsDiskStorageAccountType = string;
 export interface OsProfile {
     logonType?: LogonType;
     secretsManagementSettings?: SecretsManagementSettings;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -421,12 +355,6 @@ export interface PoolImage {
 }
 
 // @public
-export interface PoolListResult {
-    nextLink?: string;
-    value: Pool[];
-}
-
-// @public
 export interface PoolProperties {
     agentProfile: AgentProfileUnion;
     devCenterProjectResourceId: string;
@@ -437,109 +365,52 @@ export interface PoolProperties {
 }
 
 // @public
-export interface Pools {
-    beginCreateOrUpdate(resourceGroupName: string, poolName: string, resource: Pool, options?: PoolsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoolsCreateOrUpdateResponse>, PoolsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, poolName: string, resource: Pool, options?: PoolsCreateOrUpdateOptionalParams): Promise<PoolsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PoolsDeleteResponse>, PoolsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams): Promise<PoolsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, poolName: string, properties: PoolUpdate, options?: PoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, poolName: string, properties: PoolUpdate, options?: PoolsUpdateOptionalParams): Promise<PoolsUpdateResponse>;
-    get(resourceGroupName: string, poolName: string, options?: PoolsGetOptionalParams): Promise<PoolsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: PoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Pool>;
-    listBySubscription(options?: PoolsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Pool>;
-}
-
-// @public
-export interface PoolsCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface PoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PoolsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PoolsCreateOrUpdateResponse = Pool;
-
-// @public
-export interface PoolsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PoolsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PoolsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PoolsDeleteResponse = PoolsDeleteHeaders;
-
-// @public
-export interface PoolsGetOptionalParams extends coreClient.OperationOptions {
+export interface PoolsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PoolsGetResponse = Pool;
-
-// @public
-export interface PoolsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface PoolsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PoolsListByResourceGroupNextResponse = PoolListResult;
-
-// @public
-export interface PoolsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface PoolsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PoolsListByResourceGroupResponse = PoolListResult;
-
-// @public
-export interface PoolsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface PoolsOperations {
+    createOrUpdate: (resourceGroupName: string, poolName: string, resource: Pool, options?: PoolsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
+    delete: (resourceGroupName: string, poolName: string, options?: PoolsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, poolName: string, options?: PoolsGetOptionalParams) => Promise<Pool>;
+    listByResourceGroup: (resourceGroupName: string, options?: PoolsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Pool>;
+    listBySubscription: (options?: PoolsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Pool>;
+    update: (resourceGroupName: string, poolName: string, properties: PoolUpdate, options?: PoolsUpdateOptionalParams) => PollerLike<OperationState<Pool>, Pool>;
 }
 
 // @public
-export type PoolsListBySubscriptionNextResponse = PoolListResult;
-
-// @public
-export interface PoolsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PoolsListBySubscriptionResponse = PoolListResult;
-
-// @public
-export interface PoolsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface PoolsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PoolsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type PoolsUpdateResponse = Pool;
 
 // @public
 export interface PoolUpdate {
     identity?: ManagedServiceIdentity;
     properties?: PoolUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface PoolUpdateProperties {
-    agentProfile?: AgentProfileUpdateUnion;
+    agentProfile?: AgentProfileUnion;
     devCenterProjectResourceId?: string;
     fabricProfile?: FabricProfileUnion;
     maximumConcurrency?: number;
@@ -558,28 +429,18 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface Quota extends ProxyResource {
-    properties?: QuotaProperties;
-}
-
-// @public
-export interface QuotaListResult {
-    nextLink?: string;
-    value: Quota[];
+export interface Quota {
+    currentValue: number;
+    id: string;
+    limit: number;
+    readonly name?: QuotaName;
+    unit: string;
 }
 
 // @public
 export interface QuotaName {
     localizedValue?: string;
     value?: string;
-}
-
-// @public
-export interface QuotaProperties {
-    currentValue: number;
-    limit: number;
-    name: QuotaName;
-    unit: string;
 }
 
 // @public
@@ -591,33 +452,12 @@ export interface Resource {
 }
 
 // @public
-export interface ResourceDetails {
-    listByPool(resourceGroupName: string, poolName: string, options?: ResourceDetailsListByPoolOptionalParams): PagedAsyncIterableIterator<ResourceDetailsObject>;
+export interface ResourceDetailsListByPoolOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface ResourceDetailsListByPoolNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceDetailsListByPoolNextResponse = ResourceDetailsObjectListResult;
-
-// @public
-export interface ResourceDetailsListByPoolOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceDetailsListByPoolResponse = ResourceDetailsObjectListResult;
 
 // @public
 export interface ResourceDetailsObject extends ProxyResource {
     properties?: ResourceDetailsObjectProperties;
-}
-
-// @public
-export interface ResourceDetailsObjectListResult {
-    nextLink?: string;
-    value: ResourceDetailsObject[];
 }
 
 // @public
@@ -628,23 +468,24 @@ export interface ResourceDetailsObjectProperties {
 }
 
 // @public
+export interface ResourceDetailsOperations {
+    listByPool: (resourceGroupName: string, poolName: string, options?: ResourceDetailsListByPoolOptionalParams) => PagedAsyncIterableIterator<ResourceDetailsObject>;
+}
+
+// @public
+export interface ResourcePredictions {
+}
+
+// @public
 export interface ResourcePredictionsProfile {
-    kind: "Automatic" | "Manual";
+    kind: ResourcePredictionsProfileType;
 }
 
 // @public
 export type ResourcePredictionsProfileType = string;
 
-// @public (undocumented)
-export type ResourcePredictionsProfileUnion = ResourcePredictionsProfile | AutomaticResourcePredictionsProfile | ManualResourcePredictionsProfile;
-
 // @public
-export interface ResourcePredictionsProfileUpdate {
-    kind: "Automatic" | "Manual";
-}
-
-// @public (undocumented)
-export type ResourcePredictionsProfileUpdateUnion = ResourcePredictionsProfileUpdate | AutomaticResourcePredictionsProfileUpdate | ManualResourcePredictionsProfileUpdate;
+export type ResourcePredictionsProfileUnion = ManualResourcePredictionsProfile | AutomaticResourcePredictionsProfile | ResourcePredictionsProfile;
 
 // @public
 export interface ResourceSku extends ProxyResource {
@@ -655,12 +496,6 @@ export interface ResourceSku extends ProxyResource {
 export interface ResourceSkuCapabilities {
     name: string;
     value: string;
-}
-
-// @public
-export interface ResourceSkuListResult {
-    nextLink?: string;
-    value: ResourceSku[];
 }
 
 // @public
@@ -712,6 +547,16 @@ export interface ResourceSkuZoneDetails {
 export type ResourceStatus = string;
 
 // @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DevOpsInfrastructureClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface SecretsManagementSettings {
     certificateStoreLocation?: string;
     keyExportable: boolean;
@@ -719,23 +564,13 @@ export interface SecretsManagementSettings {
 }
 
 // @public
-export interface Sku {
-    listByLocation(locationName: string, options?: SkuListByLocationOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
+export interface SkuListByLocationOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface SkuListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface SkuOperations {
+    listByLocation: (locationName: string, options?: SkuListByLocationOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
 }
-
-// @public
-export type SkuListByLocationNextResponse = ResourceSkuListResult;
-
-// @public
-export interface SkuListByLocationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SkuListByLocationResponse = ResourceSkuListResult;
 
 // @public
 export interface Stateful extends AgentProfile {
@@ -745,19 +580,7 @@ export interface Stateful extends AgentProfile {
 }
 
 // @public
-export interface StatefulUpdate extends AgentProfileUpdate {
-    gracePeriodTimeSpan?: string;
-    kind: "Stateful";
-    maxAgentLifetime?: string;
-}
-
-// @public
 export interface StatelessAgentProfile extends AgentProfile {
-    kind: "Stateless";
-}
-
-// @public
-export interface StatelessAgentProfileUpdate extends AgentProfileUpdate {
     kind: "Stateless";
 }
 
@@ -771,23 +594,13 @@ export interface StorageProfile {
 }
 
 // @public
-export interface SubscriptionUsages {
-    listByLocation(locationName: string, options?: SubscriptionUsagesListByLocationOptionalParams): PagedAsyncIterableIterator<Quota>;
+export interface SubscriptionUsagesOperations {
+    usages: (location: string, options?: SubscriptionUsagesUsagesOptionalParams) => PagedAsyncIterableIterator<Quota>;
 }
 
 // @public
-export interface SubscriptionUsagesListByLocationNextOptionalParams extends coreClient.OperationOptions {
+export interface SubscriptionUsagesUsagesOptionalParams extends OperationOptions {
 }
-
-// @public
-export type SubscriptionUsagesListByLocationNextResponse = QuotaListResult;
-
-// @public
-export interface SubscriptionUsagesListByLocationOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SubscriptionUsagesListByLocationResponse = QuotaListResult;
 
 // @public
 export interface SystemData {
@@ -802,9 +615,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public

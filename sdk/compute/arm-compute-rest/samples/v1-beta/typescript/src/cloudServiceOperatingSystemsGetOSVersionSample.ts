@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  CloudServiceOperatingSystemsGetOSVersionParameters
+  CloudServiceOperatingSystemsGetOSVersionParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets properties of a guest operating system version that can be specified in the XML service configuration (.cscfg) for a cloud service.
@@ -24,14 +19,14 @@ async function getCloudServiceOSVersion() {
   const location = "westus2";
   const osVersionName = "WA-GUEST-OS-3.90_202010-02";
   const options: CloudServiceOperatingSystemsGetOSVersionParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions/{osVersionName}",
       subscriptionId,
       location,
-      osVersionName
+      osVersionName,
     )
     .get(options);
   console.log(result);

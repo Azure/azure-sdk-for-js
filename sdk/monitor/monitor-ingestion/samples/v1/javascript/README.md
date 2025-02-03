@@ -57,7 +57,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [uploadcustomlogs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1/javascript/uploadCustomLogs.js
 [userdefinedconcurrency]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1/javascript/userDefinedConcurrency.js
 [usererrorhandling]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-ingestion/samples/v1/javascript/userErrorHandling.js
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuremonitor]: https://docs.microsoft.com/azure/azure-monitor/
+[createinstance_azuremonitor]: https://learn.microsoft.com/azure/azure-monitor/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-ingestion/README.md

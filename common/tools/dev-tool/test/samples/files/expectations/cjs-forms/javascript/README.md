@@ -47,7 +47,7 @@ npx dev-tool run vendored cross-env WAIT_TIME="<wait time>" node index.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [index]: https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/test/samples/files/expectations/cjs-forms/javascript/index.js
-[apiref]: https://docs.microsoft.com/
+[apiref]: https://learn.microsoft.com/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_test]: https://contoso.com
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/README.md

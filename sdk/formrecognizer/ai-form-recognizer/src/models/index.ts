@@ -19,7 +19,7 @@ export {
   DocumentCurrencyField,
   DocumentAddressField,
   DocumentField,
-} from "./fields";
+} from "./fields.js";
 export {
   BoundingRegion,
   DocumentKeyValueElement,
@@ -37,7 +37,7 @@ export {
   DocumentAnnotation,
   DocumentBarcode,
   DocumentFormula,
-} from "./documentElements";
+} from "./documentElements.js";
 
 export {
   DocumentModelSource,
@@ -47,4 +47,4 @@ export {
   AzureBlobSourceDetails,
   AzureBlobFileListSource,
   AzureBlobFileListSourceDetails,
-} from "./contentSource";
+} from "./contentSource.js";

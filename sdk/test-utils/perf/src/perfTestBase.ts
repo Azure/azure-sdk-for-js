@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { multicoreUtils } from "./multicore";
+import { multicoreUtils } from "./multicore.js";
 import {
   PerfOptionDictionary,
   parsePerfOption,
@@ -9,8 +9,8 @@ import {
   defaultPerfOptions,
   validateOptions,
   ParsedPerfOptions,
-} from "./options";
-import { Snapshot } from "./snapshot";
+} from "./options.js";
+import { Snapshot } from "./snapshot.js";
 
 /**
  * Defines the behavior of the PerfTest constructor, to use the class as a value.

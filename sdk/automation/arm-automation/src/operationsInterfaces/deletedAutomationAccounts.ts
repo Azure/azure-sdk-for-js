@@ -9,7 +9,7 @@
 import {
   DeletedAutomationAccountsListBySubscriptionOptionalParams,
   DeletedAutomationAccountsListBySubscriptionResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DeletedAutomationAccounts. */
 export interface DeletedAutomationAccounts {

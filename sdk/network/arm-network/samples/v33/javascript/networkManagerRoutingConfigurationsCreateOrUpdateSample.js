@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a network manager routing configuration.
  *
  * @summary Creates or updates a network manager routing configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerRoutingConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingConfigurationPut.json
  */
 async function createNetworkManagerRoutingConfiguration() {
   const subscriptionId =

@@ -12,5 +12,5 @@ export interface GeolocationGetLocationQueryParam {
   queryParameters: GeolocationGetLocationQueryParamProperties;
 }
 
-export type GeolocationGetLocationParameters = GeolocationGetLocationQueryParam &
-  RequestParameters;
+export type GeolocationGetLocationParameters =
+  GeolocationGetLocationQueryParam & RequestParameters;

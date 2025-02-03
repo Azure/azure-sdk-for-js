@@ -1,5 +1,24 @@
 # Release History
 
+## 12.2.0-beta.2 (2024-11-25)
+
+### Features Added
+
+- Added generative query rewriting for semantic and vectorized text queries [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+  - Use the new `queryRewrites` field in `SemanticSearchOptions` and `VectorizedTextQuery`.
+- Added hierarchical aggregation and facet filtering [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+  - `FacetResult` now includes a recursive `facets` field.
+- Added configuration for storing vectors in their uncompressed state for rescoring [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+  - Configure through `VectorSearchCompression.rescoringOptions`.
+- Added Markdown parsing mode for indexers [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+  - Configure through the `markdownParsingSubmode` and `markdownHeaderDepth` properties of `IndexingParametersConfiguration`.
+- Added `DocumentIntelligenceLayoutSkill` [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+- Added subdomain billing for skillsets [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+ 
+### Bugs Fixed
+
+- Fixed the type of `SearchResult.documentDebugInfo` to not erroneously describe it as an array [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+
 ## 12.2.0-beta.1 (2024-09-25)
 
 ### Breaking Changes
@@ -46,7 +65,7 @@
   - `VisionVectorizeSkill` allows for indexers to do the same
   - Vector queries now have the ability to accept an image in the form of a URL or base64 encoded string
 - Add support for enrichment of search results with your own ML model [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
-  - `AzureMachineLearningVectorizer` leverages your Azure AI Studio model deployment to generate embeddings for text provided at query time
+  - `AzureMachineLearningVectorizer` leverages your Azure AI Foundry model deployment to generate embeddings for text provided at query time
 - Add support for search indexers to use OneLake as a data source [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
 - Add support for search score and vector similarity to be used as a threshold on the results of vector queries [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)
 - Add support for hybrid search [#29594](https://github.com/Azure/azure-sdk-for-js/pull/29594)

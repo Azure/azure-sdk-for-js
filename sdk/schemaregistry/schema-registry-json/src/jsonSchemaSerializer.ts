@@ -6,14 +6,14 @@ import type {
   JsonSchemaSerializerOptions,
   MessageAdapter,
   MessageContent,
-} from "./models";
+} from "./models.js";
 import type { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
 import { KnownSchemaFormats } from "@azure/schema-registry";
-import { isMessageContent } from "./utility";
-import { errorWithCause, wrapError } from "./errors";
+import { isMessageContent } from "./utility.js";
+import { errorWithCause, wrapError } from "./errors.js";
 import { LRUCache } from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 
 const jsonMimeType = "application/json";
 const encoder = new TextEncoder();

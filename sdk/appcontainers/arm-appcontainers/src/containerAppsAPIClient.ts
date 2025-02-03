@@ -57,7 +57,7 @@ import {
   ContainerAppsSourceControlsImpl,
   UsagesImpl,
   ManagedEnvironmentUsagesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   AppResiliencyOperations,
   ContainerAppsAuthConfigs,
@@ -101,16 +101,16 @@ import {
   ContainerAppsSourceControls,
   Usages,
   ManagedEnvironmentUsages,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ContainerAppsAPIClientOptionalParams,
   JobExecutionOptionalParams,
   JobExecutionResponse,
   GetCustomDomainVerificationIdOptionalParams,
   GetCustomDomainVerificationIdResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class ContainerAppsAPIClient extends coreClient.ServiceClient {
   $host: string;

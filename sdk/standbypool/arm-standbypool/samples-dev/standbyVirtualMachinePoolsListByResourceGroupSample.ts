@@ -15,7 +15,7 @@ async function standbyVirtualMachinePoolsListByResourceGroup() {
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.standbyVirtualMachinePools.listByResourceGroup("rgstandbypool")) {
+  for await (const item of client.standbyVirtualMachinePools.listByResourceGroup("rgstandbypool")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function standbyVirtualMachinePoolsListByResourceGroup() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolsListByResourceGroup();
+  await standbyVirtualMachinePoolsListByResourceGroup();
 }
 
 main().catch(console.error);

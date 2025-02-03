@@ -47,6 +47,7 @@ export function toPipelineRequest(
       onUploadProgress: webResource.onUploadProgress,
       proxySettings: webResource.proxySettings,
       streamResponseStatusCodes: webResource.streamResponseStatusCodes,
+      agent: webResource.agent,
     });
     if (options.originalRequest) {
       (newRequest as PipelineRequestWithOriginal)[originalClientRequestSymbol] =
@@ -76,6 +77,7 @@ export function toWebResourceLike(
     onUploadProgress: request.onUploadProgress,
     proxySettings: request.proxySettings,
     streamResponseStatusCodes: request.streamResponseStatusCodes,
+    agent: request.agent,
     clone(): WebResourceLike {
       throw new Error("Cannot clone a non-proxied WebResourceLike");
     },
@@ -119,6 +121,7 @@ export function toWebResourceLike(
           "onUploadProgress",
           "proxySettings",
           "streamResponseStatusCodes",
+          "agent",
         ];
 
         if (typeof prop === "string" && passThroughProps.includes(prop)) {
@@ -362,6 +365,34 @@ export class HttpHeaders implements HttpHeadersLike {
 }
 
 /**
+ * An interface compatible with NodeJS's `http.Agent`.
+ * We want to avoid publicly re-exporting the actual interface,
+ * since it might vary across runtime versions.
+ */
+export interface Agent {
+  /**
+   * Destroy any sockets that are currently in use by the agent.
+   */
+  destroy(): void;
+  /**
+   * For agents with keepAlive enabled, this sets the maximum number of sockets that will be left open in the free state.
+   */
+  maxFreeSockets: number;
+  /**
+   * Determines how many concurrent sockets the agent can have open per origin.
+   */
+  maxSockets: number;
+  /**
+   * An object which contains queues of requests that have not yet been assigned to sockets.
+   */
+  requests: unknown;
+  /**
+   * An object which contains arrays of sockets currently in use by the agent.
+   */
+  sockets: unknown;
+}
+
+/**
  * A description of a HTTP request to be made to a remote server.
  */
 export interface WebResourceLike {
@@ -436,6 +467,16 @@ export interface WebResourceLike {
 
   /** Callback which fires upon download progress. */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /**
+   * NODEJS ONLY
+   *
+   * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
+   * NOTE: usually this should be one instance shared by multiple requests so that the underlying
+   *       connection to the service can be reused.
+   * Does nothing when running in the browser.
+   */
+  agent?: Agent;
 
   /**
    * Clone this request object.

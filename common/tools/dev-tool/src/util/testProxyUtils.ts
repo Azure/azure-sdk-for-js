@@ -6,9 +6,13 @@ import { createPrinter } from "./printer";
 import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
 import fs from "fs-extra";
 import path from "node:path";
-import decompress from "decompress";
+import { extract } from "tar";
+import * as unzipper from "unzipper";
 import envPaths from "env-paths";
 import { promisify } from "node:util";
+import { PassThrough } from "node:stream";
+import { pipeline } from "node:stream/promises";
+import { delay } from "./checkWithTimeout";
 
 const log = createPrinter("test-proxy");
 const downloadLocation = path.join(envPaths("azsdk-dev-tool").cache, "test-proxy");
@@ -103,7 +107,15 @@ async function downloadTestProxy(downloadLocation: string, downloadUrl: string):
   const response = await fetch(downloadUrl);
   const data = await response.arrayBuffer();
   log(`Extracting test proxy binary to ${downloadLocation}`);
-  await decompress(Buffer.from(data), downloadLocation);
+  if (downloadUrl.endsWith(".tar.gz")) {
+    const stream = new PassThrough();
+    stream.write(Buffer.from(data));
+    stream.end();
+    await pipeline(stream, extract({ cwd: downloadLocation }));
+  } else {
+    const stream = await unzipper.Open.buffer(Buffer.from(data));
+    await stream.extract({ path: downloadLocation });
+  }
 }
 
 let cachedTestProxyExecutableLocation: string | undefined;
@@ -172,12 +184,15 @@ function runCommand(executable: string, argv: string[], options: SpawnOptions = 
 }
 
 export async function runTestProxyCommand(argv: string[]): Promise<void> {
-  const result = runCommand(await getTestProxyExecutable(), argv, { stdio: "inherit" }).result;
+  const executable = await getTestProxyExecutable();
+  await delay(1000);
+  await runCommand(executable, argv, {
+    stdio: "inherit",
+    env: { ...process.env },
+  }).result;
   if (await fs.pathExists("assets.json")) {
     await linkRecordingsDirectory();
   }
-
-  return result;
 }
 
 export function createAssetsJson(project: ProjectInfo): Promise<void> {
@@ -281,6 +296,8 @@ export async function isProxyToolActive(): Promise<boolean> {
     const response = await fetch(
       `http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`,
     );
+
+    await response.text();
 
     if (!response.ok) {
       return false;

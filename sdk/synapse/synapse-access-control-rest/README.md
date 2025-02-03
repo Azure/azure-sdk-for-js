@@ -51,7 +51,7 @@ export async function main(): Promise<void> {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -67,5 +67,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fsynapse%2Faccess-control-rest%2FREADME.png)
 
-[synapse_product_documentation]: https://docs.microsoft.com/rest/api/synapse/data-plane/role-assignments/create-role-assignment
+[synapse_product_documentation]: https://learn.microsoft.com/rest/api/synapse/data-plane/role-assignments/create-role-assignment
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md

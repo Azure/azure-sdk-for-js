@@ -11,7 +11,10 @@ import {
   OperationURLParameter,
   OperationQueryParameter,
 } from "@azure/core-client";
-import { SendMessageRequest as SendMessageRequestMapper } from "../models/mappers";
+import {
+  SendMessageRequest as SendMessageRequestMapper,
+  OptOutRequest as OptOutRequestMapper,
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -57,11 +60,16 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-02-05-preview",
+    defaultValue: "2024-12-10-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String",
     },
   },
+};
+
+export const body: OperationParameter = {
+  parameterPath: "body",
+  mapper: OptOutRequestMapper,
 };

@@ -14,8 +14,8 @@ import {
   SuppressionsGetResponse,
   SuppressionsCreateOptionalParams,
   SuppressionsCreateResponse,
-  SuppressionsDeleteOptionalParams
-} from "../models";
+  SuppressionsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Suppressions. */
@@ -25,9 +25,7 @@ export interface Suppressions {
    * attribute of a recommendation is referred to as a suppression.
    * @param options The options parameters.
    */
-  list(
-    options?: SuppressionsListOptionalParams
-  ): PagedAsyncIterableIterator<SuppressionContract>;
+  list(options?: SuppressionsListOptionalParams): PagedAsyncIterableIterator<SuppressionContract>;
   /**
    * Obtains the details of a suppression.
    * @param resourceUri The fully qualified Azure Resource Manager identifier of the resource to which
@@ -40,7 +38,7 @@ export interface Suppressions {
     resourceUri: string,
     recommendationId: string,
     name: string,
-    options?: SuppressionsGetOptionalParams
+    options?: SuppressionsGetOptionalParams,
   ): Promise<SuppressionsGetResponse>;
   /**
    * Enables the snoozed or dismissed attribute of a recommendation. The snoozed or dismissed attribute
@@ -58,7 +56,7 @@ export interface Suppressions {
     recommendationId: string,
     name: string,
     suppressionContract: SuppressionContract,
-    options?: SuppressionsCreateOptionalParams
+    options?: SuppressionsCreateOptionalParams,
   ): Promise<SuppressionsCreateResponse>;
   /**
    * Enables the activation of a snoozed or dismissed recommendation. The snoozed or dismissed attribute
@@ -73,6 +71,6 @@ export interface Suppressions {
     resourceUri: string,
     recommendationId: string,
     name: string,
-    options?: SuppressionsDeleteOptionalParams
+    options?: SuppressionsDeleteOptionalParams,
   ): Promise<void>;
 }

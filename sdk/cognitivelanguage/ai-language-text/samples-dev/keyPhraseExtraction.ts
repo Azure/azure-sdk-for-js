@@ -12,8 +12,7 @@
 import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
@@ -25,7 +24,7 @@ const documents = [
   "I will travel to South America in the summer.",
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Extract Key Phrases Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));

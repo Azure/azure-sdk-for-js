@@ -61,7 +61,9 @@ export interface Identity {
   type: IdentityType;
   /** The list of user identities associated with the Kusto cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
   userAssignedIdentities?: {
-    [propertyName: string]: ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties;
+    [
+      propertyName: string
+    ]: ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties;
   };
 }
 
@@ -140,6 +142,21 @@ export interface LanguageExtension {
 export interface AcceptedAudiences {
   /** GUID or valid URL representing an accepted audience. */
   value?: string;
+}
+
+/** Configuration for external callout policies, including URI patterns, access types, and service types. */
+export interface CalloutPolicy {
+  /** Regular expression or FQDN pattern for the callout URI. */
+  calloutUriRegex?: string;
+  /** Type of the callout service, specifying the kind of external resource or service being accessed. */
+  calloutType?: CalloutType;
+  /** Indicates whether outbound access is permitted for the specified URI pattern. */
+  outboundAccess?: OutboundAccess;
+  /**
+   * Unique identifier for the callout configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly calloutId?: string;
 }
 
 /** Private endpoint which the connection belongs to. */
@@ -289,17 +306,19 @@ export interface ClusterPrincipalAssignmentListResult {
 }
 
 /** The list Kusto database principals operation response. */
-export interface FollowerDatabaseListResult {
+export interface FollowerDatabaseListResultGet {
   /** The list of follower database result. */
-  value?: FollowerDatabaseDefinition[];
+  value?: FollowerDatabaseDefinitionGet[];
+  /** The URL to get the next set of follower databases list results if there are any. */
+  nextLink?: string;
 }
 
-/** A class representing follower database request. */
-export interface FollowerDatabaseDefinition {
+/** A class representing follower database object. */
+export interface FollowerDatabaseDefinitionGet {
   /** Resource id of the cluster that follows a database owned by this cluster. */
-  clusterResourceId: string;
+  clusterResourceId?: string;
   /** Resource name of the attached database configuration in the follower cluster. */
-  attachedDatabaseConfigurationName: string;
+  attachedDatabaseConfigurationName?: string;
   /**
    * The database name owned by this cluster that was followed. * in case following all databases.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -335,6 +354,35 @@ export interface TableLevelSharingProperties {
   functionsToInclude?: string[];
   /** List of functions to exclude from the follower database */
   functionsToExclude?: string[];
+}
+
+/** The list Kusto database principals operation response. */
+export interface FollowerDatabaseListResult {
+  /** The list of follower database result. */
+  value?: FollowerDatabaseDefinition[];
+}
+
+/** A class representing follower database request. */
+export interface FollowerDatabaseDefinition {
+  /** Resource id of the cluster that follows a database owned by this cluster. */
+  clusterResourceId: string;
+  /** Resource name of the attached database configuration in the follower cluster. */
+  attachedDatabaseConfigurationName: string;
+  /**
+   * The database name owned by this cluster that was followed. * in case following all databases.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseName?: string;
+  /**
+   * Table level sharing specifications
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tableLevelSharingProperties?: TableLevelSharingProperties;
+  /**
+   * The origin of the following setup.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly databaseShareOrigin?: DatabaseShareOrigin;
 }
 
 export interface DiagnoseVirtualNetworkResult {
@@ -705,6 +753,20 @@ export interface OperationDisplay {
   description?: string;
 }
 
+/** A list of the service's callout policy objects. */
+export interface CalloutPoliciesList {
+  /** A list of the service's callout policies. */
+  value?: CalloutPolicy[];
+  /** The URL to get the next set of callout policies list results if there are any. */
+  nextLink?: string;
+}
+
+/** Configuration for an external callout policy to remove. */
+export interface CalloutPolicyToRemove {
+  /** Unique identifier for the callout configuration. */
+  calloutId?: string;
+}
+
 /** Operation Result Entity. */
 export interface OperationResult {
   /**
@@ -835,6 +897,8 @@ export interface ClusterUpdate extends Resource {
   restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
   /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster. */
   allowedFqdnList?: string[];
+  /** List of callout policies for egress from Cluster. */
+  calloutPolicies?: CalloutPolicy[];
   /** Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6) */
   publicIPType?: PublicIPType;
   /** Virtual Cluster graduation properties */
@@ -849,6 +913,11 @@ export interface ClusterUpdate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly migrationCluster?: MigrationClusterProperties;
+  /**
+   * Indicates whether the cluster is zonal or non-zonal.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zoneStatus?: ZoneStatus;
 }
 
 /** A private link resource */
@@ -995,14 +1064,20 @@ export interface Script extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** Differentiates between the type of script commands included - Database or Cluster. The default is Database. */
+  scriptLevel?: ScriptLevel;
+  /** Indicates if the permissions for the script caller are kept following completion of the script. */
+  principalPermissionsAction?: PrincipalPermissionsAction;
 }
 
 /** Class representing a Kusto sandbox custom image. */
 export interface SandboxCustomImage extends ProxyResource {
   /** The language name, for example Python. */
   language?: Language;
-  /** The version of the language. */
+  /** The version of the language. Either this property or baseImageName should be specified. */
   languageVersion?: string;
+  /** The base image name on which the custom image is built on top of. It can be one of the LanguageExtensionImageName (e.g.: 'Python3_10_8', 'Python3_10_8_DL') or the name of an existing custom image. Either this property or languageVersion should be specified. */
+  baseImageName?: string;
   /** The requirements file content. */
   requirementsFileContent?: string;
   /**
@@ -1163,6 +1238,8 @@ export interface Cluster extends TrackedResource {
   restrictOutboundNetworkAccess?: ClusterNetworkAccessFlag;
   /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Cluster. */
   allowedFqdnList?: string[];
+  /** List of callout policies for egress from Cluster. */
+  calloutPolicies?: CalloutPolicy[];
   /** Indicates what public IP type to create - IPv4 (default), or DualStack (both IPv4 and IPv6) */
   publicIPType?: PublicIPType;
   /** Virtual Cluster graduation properties */
@@ -1177,6 +1254,11 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly migrationCluster?: MigrationClusterProperties;
+  /**
+   * Indicates whether the cluster is zonal or non-zonal.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zoneStatus?: ZoneStatus;
 }
 
 /** Class representing a read write database. */
@@ -1452,6 +1534,22 @@ export interface ClustersDetachFollowerDatabasesHeaders {
 
 /** Defines headers for Clusters_diagnoseVirtualNetwork operation. */
 export interface ClustersDiagnoseVirtualNetworkHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_addCalloutPolicies operation. */
+export interface ClustersAddCalloutPoliciesHeaders {
+  /** URL to query the status of the operation. */
+  location?: string;
+  /** URL to query the status of the operation. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Clusters_removeCalloutPolicy operation. */
+export interface ClustersRemoveCalloutPolicyHeaders {
   /** URL to query the status of the operation. */
   location?: string;
   /** URL to query the status of the operation. */
@@ -1759,7 +1857,7 @@ export enum KnownAzureSkuName {
   /** StandardE8DV5 */
   StandardE8DV5 = "Standard_E8d_v5",
   /** StandardE16DV5 */
-  StandardE16DV5 = "Standard_E16d_v5"
+  StandardE16DV5 = "Standard_E16d_v5",
 }
 
 /**
@@ -1839,7 +1937,7 @@ export enum KnownAzureSkuTier {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -1861,7 +1959,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1885,7 +1983,7 @@ export enum KnownIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
 }
 
 /**
@@ -1921,7 +2019,7 @@ export enum KnownState {
   /** Updating */
   Updating = "Updating",
   /** Migrated */
-  Migrated = "Migrated"
+  Migrated = "Migrated",
 }
 
 /**
@@ -1957,7 +2055,7 @@ export enum KnownProvisioningState {
   /** Moving */
   Moving = "Moving",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -1980,7 +2078,7 @@ export enum KnownVnetState {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -1998,7 +2096,7 @@ export enum KnownLanguageExtensionName {
   /** Python */
   Python = "PYTHON",
   /** R */
-  R = "R"
+  R = "R",
 }
 
 /**
@@ -2022,7 +2120,11 @@ export enum KnownLanguageExtensionImageName {
   /** Python3108DL */
   Python3108DL = "Python3_10_8_DL",
   /** PythonCustomImage */
-  PythonCustomImage = "PythonCustomImage"
+  PythonCustomImage = "PythonCustomImage",
+  /** Python3117 */
+  Python3117 = "Python3_11_7",
+  /** Python3117DL */
+  Python3117DL = "Python3_11_7_DL",
 }
 
 /**
@@ -2034,7 +2136,9 @@ export enum KnownLanguageExtensionImageName {
  * **Python3_6_5** \
  * **Python3_10_8** \
  * **Python3_10_8_DL** \
- * **PythonCustomImage**
+ * **PythonCustomImage** \
+ * **Python3_11_7** \
+ * **Python3_11_7_DL**
  */
 export type LanguageExtensionImageName = string;
 
@@ -2043,7 +2147,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2061,7 +2165,7 @@ export enum KnownEngineType {
   /** V2 */
   V2 = "V2",
   /** V3 */
-  V3 = "V3"
+  V3 = "V3",
 }
 
 /**
@@ -2079,7 +2183,7 @@ export enum KnownClusterNetworkAccessFlag {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2092,12 +2196,75 @@ export enum KnownClusterNetworkAccessFlag {
  */
 export type ClusterNetworkAccessFlag = string;
 
+/** Known values of {@link CalloutType} that the service accepts. */
+export enum KnownCalloutType {
+  /** Kusto */
+  Kusto = "kusto",
+  /** Sql */
+  Sql = "sql",
+  /** Cosmosdb */
+  Cosmosdb = "cosmosdb",
+  /** ExternalData */
+  ExternalData = "external_data",
+  /** AzureDigitalTwins */
+  AzureDigitalTwins = "azure_digital_twins",
+  /** SandboxArtifacts */
+  SandboxArtifacts = "sandbox_artifacts",
+  /** Webapi */
+  Webapi = "webapi",
+  /** Mysql */
+  Mysql = "mysql",
+  /** Postgresql */
+  Postgresql = "postgresql",
+  /** Genevametrics */
+  Genevametrics = "genevametrics",
+  /** AzureOpenai */
+  AzureOpenai = "azure_openai",
+}
+
+/**
+ * Defines values for CalloutType. \
+ * {@link KnownCalloutType} can be used interchangeably with CalloutType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **kusto** \
+ * **sql** \
+ * **cosmosdb** \
+ * **external_data** \
+ * **azure_digital_twins** \
+ * **sandbox_artifacts** \
+ * **webapi** \
+ * **mysql** \
+ * **postgresql** \
+ * **genevametrics** \
+ * **azure_openai**
+ */
+export type CalloutType = string;
+
+/** Known values of {@link OutboundAccess} that the service accepts. */
+export enum KnownOutboundAccess {
+  /** Allow */
+  Allow = "Allow",
+  /** Deny */
+  Deny = "Deny",
+}
+
+/**
+ * Defines values for OutboundAccess. \
+ * {@link KnownOutboundAccess} can be used interchangeably with OutboundAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow** \
+ * **Deny**
+ */
+export type OutboundAccess = string;
+
 /** Known values of {@link PublicIPType} that the service accepts. */
 export enum KnownPublicIPType {
   /** IPv4 */
   IPv4 = "IPv4",
   /** DualStack */
-  DualStack = "DualStack"
+  DualStack = "DualStack",
 }
 
 /**
@@ -2115,7 +2282,7 @@ export enum KnownMigrationClusterRole {
   /** Source */
   Source = "Source",
   /** Destination */
-  Destination = "Destination"
+  Destination = "Destination",
 }
 
 /**
@@ -2128,12 +2295,33 @@ export enum KnownMigrationClusterRole {
  */
 export type MigrationClusterRole = string;
 
+/** Known values of {@link ZoneStatus} that the service accepts. */
+export enum KnownZoneStatus {
+  /** NonZonal */
+  NonZonal = "NonZonal",
+  /** ZonalInconsistency */
+  ZonalInconsistency = "ZonalInconsistency",
+  /** Zonal */
+  Zonal = "Zonal",
+}
+
+/**
+ * Defines values for ZoneStatus. \
+ * {@link KnownZoneStatus} can be used interchangeably with ZoneStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NonZonal** \
+ * **ZonalInconsistency** \
+ * **Zonal**
+ */
+export type ZoneStatus = string;
+
 /** Known values of {@link Reason} that the service accepts. */
 export enum KnownReason {
   /** Invalid */
   Invalid = "Invalid",
   /** AlreadyExists */
-  AlreadyExists = "AlreadyExists"
+  AlreadyExists = "AlreadyExists",
 }
 
 /**
@@ -2151,7 +2339,9 @@ export enum KnownClusterPrincipalRole {
   /** AllDatabasesAdmin */
   AllDatabasesAdmin = "AllDatabasesAdmin",
   /** AllDatabasesViewer */
-  AllDatabasesViewer = "AllDatabasesViewer"
+  AllDatabasesViewer = "AllDatabasesViewer",
+  /** AllDatabasesMonitor */
+  AllDatabasesMonitor = "AllDatabasesMonitor",
 }
 
 /**
@@ -2160,7 +2350,8 @@ export enum KnownClusterPrincipalRole {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AllDatabasesAdmin** \
- * **AllDatabasesViewer**
+ * **AllDatabasesViewer** \
+ * **AllDatabasesMonitor**
  */
 export type ClusterPrincipalRole = string;
 
@@ -2171,7 +2362,7 @@ export enum KnownPrincipalType {
   /** Group */
   Group = "Group",
   /** User */
-  User = "User"
+  User = "User",
 }
 
 /**
@@ -2192,7 +2383,7 @@ export enum KnownDatabaseShareOrigin {
   /** DataShare */
   DataShare = "DataShare",
   /** Other */
-  Other = "Other"
+  Other = "Other",
 }
 
 /**
@@ -2213,7 +2404,7 @@ export enum KnownAzureScaleType {
   /** Manual */
   Manual = "manual",
   /** None */
-  None = "none"
+  None = "none",
 }
 
 /**
@@ -2232,7 +2423,7 @@ export enum KnownKind {
   /** ReadWrite */
   ReadWrite = "ReadWrite",
   /** ReadOnlyFollowing */
-  ReadOnlyFollowing = "ReadOnlyFollowing"
+  ReadOnlyFollowing = "ReadOnlyFollowing",
 }
 
 /**
@@ -2250,7 +2441,7 @@ export enum KnownCallerRole {
   /** Admin */
   Admin = "Admin",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -2276,7 +2467,7 @@ export enum KnownDatabasePrincipalRole {
   /** UnrestrictedViewer */
   UnrestrictedViewer = "UnrestrictedViewer",
   /** Viewer */
-  Viewer = "Viewer"
+  Viewer = "Viewer",
 }
 
 /**
@@ -2300,7 +2491,7 @@ export enum KnownDatabasePrincipalType {
   /** Group */
   Group = "Group",
   /** User */
-  User = "User"
+  User = "User",
 }
 
 /**
@@ -2314,10 +2505,46 @@ export enum KnownDatabasePrincipalType {
  */
 export type DatabasePrincipalType = string;
 
+/** Known values of {@link ScriptLevel} that the service accepts. */
+export enum KnownScriptLevel {
+  /** Database */
+  Database = "Database",
+  /** Cluster */
+  Cluster = "Cluster",
+}
+
+/**
+ * Defines values for ScriptLevel. \
+ * {@link KnownScriptLevel} can be used interchangeably with ScriptLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Database** \
+ * **Cluster**
+ */
+export type ScriptLevel = string;
+
+/** Known values of {@link PrincipalPermissionsAction} that the service accepts. */
+export enum KnownPrincipalPermissionsAction {
+  /** RetainPermissionOnScriptCompletion */
+  RetainPermissionOnScriptCompletion = "RetainPermissionOnScriptCompletion",
+  /** RemovePermissionOnScriptCompletion */
+  RemovePermissionOnScriptCompletion = "RemovePermissionOnScriptCompletion",
+}
+
+/**
+ * Defines values for PrincipalPermissionsAction. \
+ * {@link KnownPrincipalPermissionsAction} can be used interchangeably with PrincipalPermissionsAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RetainPermissionOnScriptCompletion** \
+ * **RemovePermissionOnScriptCompletion**
+ */
+export type PrincipalPermissionsAction = string;
+
 /** Known values of {@link Language} that the service accepts. */
 export enum KnownLanguage {
   /** Python */
-  Python = "Python"
+  Python = "Python",
 }
 
 /**
@@ -2336,7 +2563,7 @@ export enum KnownDefaultPrincipalsModificationKind {
   /** Replace */
   Replace = "Replace",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -2359,7 +2586,7 @@ export enum KnownDataConnectionKind {
   /** IotHub */
   IotHub = "IotHub",
   /** CosmosDb */
-  CosmosDb = "CosmosDb"
+  CosmosDb = "CosmosDb",
 }
 
 /**
@@ -2383,7 +2610,7 @@ export enum KnownStatus {
   /** Failed */
   Failed = "Failed",
   /** Running */
-  Running = "Running"
+  Running = "Running",
 }
 
 /**
@@ -2405,7 +2632,7 @@ export enum KnownPrincipalsModificationKind {
   /** Replace */
   Replace = "Replace",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -2452,7 +2679,7 @@ export enum KnownEventHubDataFormat {
   /** Apacheavro */
   Apacheavro = "APACHEAVRO",
   /** W3Clogfile */
-  W3Clogfile = "W3CLOGFILE"
+  W3Clogfile = "W3CLOGFILE",
 }
 
 /**
@@ -2484,7 +2711,7 @@ export enum KnownCompression {
   /** None */
   None = "None",
   /** GZip */
-  GZip = "GZip"
+  GZip = "GZip",
 }
 
 /**
@@ -2502,7 +2729,7 @@ export enum KnownDatabaseRouting {
   /** Single */
   Single = "Single",
   /** Multi */
-  Multi = "Multi"
+  Multi = "Multi",
 }
 
 /**
@@ -2548,7 +2775,7 @@ export enum KnownIotHubDataFormat {
   /** Apacheavro */
   Apacheavro = "APACHEAVRO",
   /** W3Clogfile */
-  W3Clogfile = "W3CLOGFILE"
+  W3Clogfile = "W3CLOGFILE",
 }
 
 /**
@@ -2608,7 +2835,7 @@ export enum KnownEventGridDataFormat {
   /** Apacheavro */
   Apacheavro = "APACHEAVRO",
   /** W3Clogfile */
-  W3Clogfile = "W3CLOGFILE"
+  W3Clogfile = "W3CLOGFILE",
 }
 
 /**
@@ -2640,7 +2867,7 @@ export enum KnownBlobStorageEventType {
   /** MicrosoftStorageBlobCreated */
   MicrosoftStorageBlobCreated = "Microsoft.Storage.BlobCreated",
   /** MicrosoftStorageBlobRenamed */
-  MicrosoftStorageBlobRenamed = "Microsoft.Storage.BlobRenamed"
+  MicrosoftStorageBlobRenamed = "Microsoft.Storage.BlobRenamed",
 }
 
 /**
@@ -2731,6 +2958,14 @@ export interface ClustersMigrateOptionalParams
 }
 
 /** Optional parameters. */
+export interface ClustersListFollowerDatabasesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listFollowerDatabasesGet operation. */
+export type ClustersListFollowerDatabasesGetResponse =
+  FollowerDatabaseListResultGet;
+
+/** Optional parameters. */
 export interface ClustersListFollowerDatabasesOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2756,7 +2991,8 @@ export interface ClustersDiagnoseVirtualNetworkOptionalParams
 }
 
 /** Contains response data for the diagnoseVirtualNetwork operation. */
-export type ClustersDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetworkResult;
+export type ClustersDiagnoseVirtualNetworkResponse =
+  DiagnoseVirtualNetworkResult;
 
 /** Optional parameters. */
 export interface ClustersListByResourceGroupOptionalParams
@@ -2798,7 +3034,33 @@ export interface ClustersListOutboundNetworkDependenciesEndpointsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
-export type ClustersListOutboundNetworkDependenciesEndpointsResponse = OutboundNetworkDependenciesEndpointListResult;
+export type ClustersListOutboundNetworkDependenciesEndpointsResponse =
+  OutboundNetworkDependenciesEndpointListResult;
+
+/** Optional parameters. */
+export interface ClustersAddCalloutPoliciesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersRemoveCalloutPolicyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersListCalloutPoliciesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listCalloutPolicies operation. */
+export type ClustersListCalloutPoliciesResponse = CalloutPoliciesList;
 
 /** Optional parameters. */
 export interface ClustersListLanguageExtensionsOptionalParams
@@ -2830,14 +3092,16 @@ export interface ClustersListOutboundNetworkDependenciesEndpointsNextOptionalPar
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
-export type ClustersListOutboundNetworkDependenciesEndpointsNextResponse = OutboundNetworkDependenciesEndpointListResult;
+export type ClustersListOutboundNetworkDependenciesEndpointsNextResponse =
+  OutboundNetworkDependenciesEndpointListResult;
 
 /** Optional parameters. */
 export interface ClusterPrincipalAssignmentsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type ClusterPrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult;
+export type ClusterPrincipalAssignmentsCheckNameAvailabilityResponse =
+  CheckNameResult;
 
 /** Optional parameters. */
 export interface ClusterPrincipalAssignmentsGetOptionalParams
@@ -2856,7 +3120,8 @@ export interface ClusterPrincipalAssignmentsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ClusterPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipalAssignment;
+export type ClusterPrincipalAssignmentsCreateOrUpdateResponse =
+  ClusterPrincipalAssignment;
 
 /** Optional parameters. */
 export interface ClusterPrincipalAssignmentsDeleteOptionalParams
@@ -2872,7 +3137,8 @@ export interface ClusterPrincipalAssignmentsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ClusterPrincipalAssignmentsListResponse = ClusterPrincipalAssignmentListResult;
+export type ClusterPrincipalAssignmentsListResponse =
+  ClusterPrincipalAssignmentListResult;
 
 /** Optional parameters. */
 export interface SkusListOptionalParams extends coreClient.OperationOptions {}
@@ -2976,21 +3242,24 @@ export interface AttachedDatabaseConfigurationsCheckNameAvailabilityOptionalPara
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type AttachedDatabaseConfigurationsCheckNameAvailabilityResponse = CheckNameResult;
+export type AttachedDatabaseConfigurationsCheckNameAvailabilityResponse =
+  CheckNameResult;
 
 /** Optional parameters. */
 export interface AttachedDatabaseConfigurationsListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type AttachedDatabaseConfigurationsListByClusterResponse = AttachedDatabaseConfigurationListResult;
+export type AttachedDatabaseConfigurationsListByClusterResponse =
+  AttachedDatabaseConfigurationListResult;
 
 /** Optional parameters. */
 export interface AttachedDatabaseConfigurationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AttachedDatabaseConfigurationsGetResponse = AttachedDatabaseConfiguration;
+export type AttachedDatabaseConfigurationsGetResponse =
+  AttachedDatabaseConfiguration;
 
 /** Optional parameters. */
 export interface AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
@@ -3002,7 +3271,8 @@ export interface AttachedDatabaseConfigurationsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type AttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatabaseConfiguration;
+export type AttachedDatabaseConfigurationsCreateOrUpdateResponse =
+  AttachedDatabaseConfiguration;
 
 /** Optional parameters. */
 export interface AttachedDatabaseConfigurationsDeleteOptionalParams
@@ -3018,14 +3288,16 @@ export interface ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type ManagedPrivateEndpointsCheckNameAvailabilityResponse = CheckNameResult;
+export type ManagedPrivateEndpointsCheckNameAvailabilityResponse =
+  CheckNameResult;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResult;
+export type ManagedPrivateEndpointsListResponse =
+  ManagedPrivateEndpointListResult;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsGetOptionalParams
@@ -3044,7 +3316,8 @@ export interface ManagedPrivateEndpointsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpoint;
+export type ManagedPrivateEndpointsCreateOrUpdateResponse =
+  ManagedPrivateEndpoint;
 
 /** Optional parameters. */
 export interface ManagedPrivateEndpointsUpdateOptionalParams
@@ -3079,14 +3352,16 @@ export interface DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
-export type DatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNameResult;
+export type DatabasePrincipalAssignmentsCheckNameAvailabilityResponse =
+  CheckNameResult;
 
 /** Optional parameters. */
 export interface DatabasePrincipalAssignmentsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignment;
+export type DatabasePrincipalAssignmentsGetResponse =
+  DatabasePrincipalAssignment;
 
 /** Optional parameters. */
 export interface DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
@@ -3098,7 +3373,8 @@ export interface DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type DatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincipalAssignment;
+export type DatabasePrincipalAssignmentsCreateOrUpdateResponse =
+  DatabasePrincipalAssignment;
 
 /** Optional parameters. */
 export interface DatabasePrincipalAssignmentsDeleteOptionalParams
@@ -3114,7 +3390,8 @@ export interface DatabasePrincipalAssignmentsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignmentListResult;
+export type DatabasePrincipalAssignmentsListResponse =
+  DatabasePrincipalAssignmentListResult;
 
 /** Optional parameters. */
 export interface ScriptsListByDatabaseOptionalParams
@@ -3174,7 +3451,8 @@ export interface SandboxCustomImagesListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type SandboxCustomImagesListByClusterResponse = SandboxCustomImagesListResult;
+export type SandboxCustomImagesListByClusterResponse =
+  SandboxCustomImagesListResult;
 
 /** Optional parameters. */
 export interface SandboxCustomImagesGetOptionalParams
@@ -3228,7 +3506,8 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -3247,7 +3526,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -3289,7 +3569,8 @@ export interface DataConnectionsDataConnectionValidationOptionalParams
 }
 
 /** Contains response data for the dataConnectionValidation operation. */
-export type DataConnectionsDataConnectionValidationResponse = DataConnectionValidationListResult;
+export type DataConnectionsDataConnectionValidationResponse =
+  DataConnectionValidationListResult;
 
 /** Optional parameters. */
 export interface DataConnectionsCheckNameAvailabilityOptionalParams
@@ -3364,7 +3645,8 @@ export interface OperationsResultsLocationGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type OperationsResultsLocationGetResponse = OperationsResultsLocationGetHeaders;
+export type OperationsResultsLocationGetResponse =
+  OperationsResultsLocationGetHeaders;
 
 /** Optional parameters. */
 export interface KustoManagementClientOptionalParams

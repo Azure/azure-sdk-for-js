@@ -6,7 +6,7 @@ import type { Recorder, RecorderStartOptions, SanitizerOptions } from "@azure-to
 import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
 import { isDefined } from "@azure/core-util";
 import { OpenAIClient } from "@azure/openai";
-import { SearchClient, SearchIndexClient, SearchIndexerClient } from "../../../src";
+import { SearchClient, SearchIndexClient, SearchIndexerClient } from "../../../src/index.js";
 
 export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;
@@ -49,6 +49,7 @@ function createRecorderStartOptions(): RecorderStartOptions {
   };
   return {
     envSetupForPlayback,
+    removeCentralSanitizers: ["AZSDK2021", "AZSDK3493"],
     sanitizerOptions: {
       generalSanitizers,
       bodyKeySanitizers: [bodyKeySanitizer],

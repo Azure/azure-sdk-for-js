@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import type { Context } from "mocha";
-import type { AzureLoadTestingClient } from "../../src";
-import { isUnexpected } from "../../src";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import type { AzureLoadTestingClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import * as fs from "fs";
+import * as fs from "node:fs";
 import { isNodeLike } from "@azure/core-util";
-import { getLongRunningPoller } from "../../src/pollingHelper";
+import { getLongRunningPoller } from "../../src/pollingHelper.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Test Creation", () => {
   let recorder: Recorder;
@@ -18,17 +17,17 @@ describe("Test Creation", () => {
   let readStreamTestFile: fs.ReadStream;
   let readStreamAdditionalFile: fs.ReadStream;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     if (!isNodeLike || isPlaybackMode()) {
-      this.skip();
+      ctx.skip();
     }
     client = createClient(recorder);
     readStreamTestFile = fs.createReadStream("./test/public/sample.jmx");
     readStreamAdditionalFile = fs.createReadStream("./test/public/additional-data.csv");
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

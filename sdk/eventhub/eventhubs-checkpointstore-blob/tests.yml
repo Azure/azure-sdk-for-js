@@ -8,10 +8,3 @@ extends:
       MatrixFilters:
         - TestType=^(?!sample).*
         - DependencyVersion=^$
-      SupportedClouds: 'Public,UsGov,China'
-      CloudConfig:
-        Public:
-        UsGov:
-          Location: 'usgovarizona'
-        China:
-          Location: 'chinaeast'

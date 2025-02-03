@@ -6,28 +6,60 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  GalleryImageUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { GalleryImageUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a gallery image definition.
  *
  * @summary Update a gallery image definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryImage_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImage_UpdateFeatures.json
  */
-async function updateASimpleGalleryImage() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateAGalleryImageFeature(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const galleryName = "myGalleryName";
+  const galleryImageName = "myGalleryImageName";
+  const galleryImage: GalleryImageUpdate = {
+    allowUpdateImage: true,
+    features: [
+      {
+        name: "SecurityType",
+        startsAtVersion: "2.0.0",
+        value: "TrustedLaunch",
+      },
+    ],
+    hyperVGeneration: "V2",
+    identifier: {
+      offer: "myOfferName",
+      publisher: "myPublisherName",
+      sku: "mySkuName",
+    },
+    osState: "Generalized",
+    osType: "Windows",
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.galleryImages.beginUpdateAndWait(
+    resourceGroupName,
+    galleryName,
+    galleryImageName,
+    galleryImage,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Update a gallery image definition.
+ *
+ * @summary Update a gallery image definition.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2024-03-03/examples/galleryExamples/GalleryImage_Update.json
+ */
+async function updateASimpleGalleryImage(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const galleryName = "myGalleryName";
   const galleryImageName = "myGalleryImageName";
   const galleryImage: GalleryImageUpdate = {
@@ -51,8 +83,9 @@ async function updateASimpleGalleryImage() {
   console.log(result);
 }
 
-async function main() {
-  updateASimpleGalleryImage();
+async function main(): Promise<void> {
+  await updateAGalleryImageFeature();
+  await updateASimpleGalleryImage();
 }
 
 main().catch(console.error);

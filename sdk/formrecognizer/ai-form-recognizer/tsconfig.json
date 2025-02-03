@@ -1,14 +1,7 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "preserveConstEnums": true,
-    "module": "ES2020",
-    "paths": {
-      "@azure/ai-form-recognizer": ["./src/index"]
-    },
-    "skipLibCheck": true
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "bin/**/*.ts", "samples-dev/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

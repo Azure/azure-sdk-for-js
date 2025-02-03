@@ -21,7 +21,7 @@ import {
   ExtensionsDeleteOptionalParams,
   ExtensionUpgradeParameters,
   ExtensionsUpgradeOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Extensions. */

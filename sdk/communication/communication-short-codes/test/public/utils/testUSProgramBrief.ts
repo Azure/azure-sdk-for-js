@@ -2,23 +2,23 @@
 // Licensed under the MIT License.
 
 import type { RestError } from "@azure/core-rest-pipeline";
-import type { ShortCodesClient, USProgramBrief } from "../../../src";
+import type { ShortCodesClient, USProgramBrief } from "../../../src/index.js";
 import {
   CompanyInformationMapper,
   MessageDetailsMapper,
   ProgramDetailsMapper,
   TrafficDetailsMapper,
-} from "../../../src";
-import { assert } from "chai";
+} from "../../../src/index.js";
 import type { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { v4 as uuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
+import { assert } from "vitest";
 
 const TestCompanyName: string = "Contoso";
 const TestProgramBriefName: string = "Contoso Loyalty Program";
 
 export function getTestUSProgramBrief(): USProgramBrief {
-  const programBriefId = uuid();
+  const programBriefId = randomUUID();
 
   const testUSProgramBrief: USProgramBrief = {
     id: programBriefId,

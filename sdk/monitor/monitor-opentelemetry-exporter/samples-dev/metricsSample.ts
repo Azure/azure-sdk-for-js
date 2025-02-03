@@ -30,17 +30,19 @@ export async function main() {
   });
   const exporter = new AzureMonitorMetricExporter({
     connectionString:
-      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+      // Replace with your Application Insights Connection String
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
+      "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
   });
   const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
     exporter: exporter,
   };
   const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-  provider.addMetricReader(metricReader);
+  await provider.addMetricReader(metricReader);
   const meter = provider.getMeter("example-meter-node");
   // Create Counter instrument with the meter
   let counter = meter.createCounter("counter");
-  counter.add(1);
+  await counter.add(1);
 }
 
 main().catch((error) => {

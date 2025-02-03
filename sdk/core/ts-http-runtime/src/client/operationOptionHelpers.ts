@@ -16,7 +16,6 @@ export function operationOptionsToRequestParameters(options: OperationOptions): 
     abortSignal: options.abortSignal,
     onUploadProgress: options.requestOptions?.onUploadProgress,
     onDownloadProgress: options.requestOptions?.onDownloadProgress,
-    tracingOptions: options.tracingOptions,
     headers: { ...options.requestOptions?.headers },
     onResponse: options.onResponse,
   };

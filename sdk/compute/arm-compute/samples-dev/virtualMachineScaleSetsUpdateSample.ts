@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  VirtualMachineScaleSetUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachineScaleSetUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a VM scale set.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetUpdateMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetUpdateMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaa";
   const parameters: VirtualMachineScaleSetUpdate = {
     additionalCapabilities: { hibernationEnabled: true, ultraSSDEnabled: true },
@@ -74,8 +66,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
       diagnosticsProfile: {
         bootDiagnostics: {
           enabled: true,
-          storageUri:
-            "http://{existing-storage-account-name}.blob.core.windows.net",
+          storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
         },
       },
       extensionProfile: {
@@ -204,9 +195,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
           provisionVMAgent: true,
           timeZone: "aaaaaaaaaaaaaaaa",
           winRM: {
-            listeners: [
-              { certificateUrl: "aaaaaaaaaaaaaaaaaaaaaa", protocol: "Http" },
-            ],
+            listeners: [{ certificateUrl: "aaaaaaaaaaaaaaaaaaaaaa", protocol: "Http" }],
           },
         },
       },
@@ -281,11 +270,9 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
  * @summary Update a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetUpdateMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetUpdateMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaa";
   const parameters: VirtualMachineScaleSetUpdate = {};
   const credential = new DefaultAzureCredential();
@@ -298,9 +285,9 @@ async function virtualMachineScaleSetUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetUpdateMaximumSetGen();
-  virtualMachineScaleSetUpdateMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetUpdateMaximumSetGen();
+  await virtualMachineScaleSetUpdateMinimumSetGen();
 }
 
 main().catch(console.error);

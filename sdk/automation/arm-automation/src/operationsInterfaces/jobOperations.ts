@@ -22,7 +22,7 @@ import {
   JobCreateOptionalParams,
   JobCreateResponse,
   JobResumeOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobOperations. */

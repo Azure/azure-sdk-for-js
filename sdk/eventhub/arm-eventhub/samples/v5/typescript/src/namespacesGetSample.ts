@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the description of the specified namespace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the description of the specified namespace.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/EHNameSpaceGet.json
  */
-async function nameSpaceGet() {
+async function nameSpaceGet(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
   const resourceGroupName =
@@ -32,7 +30,7 @@ async function nameSpaceGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   nameSpaceGet();
 }
 

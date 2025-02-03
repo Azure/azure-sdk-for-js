@@ -8,10 +8,9 @@
 import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Send SMS Message ==");
 
   // You will need to set this environment variable or edit the following values

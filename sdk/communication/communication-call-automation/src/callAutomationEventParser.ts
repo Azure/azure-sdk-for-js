@@ -3,7 +3,7 @@
 
 import { createSerializer } from "@azure/core-client";
 
-import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters";
+import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters.js";
 
 import type {
   CallAutomationEvent,
@@ -35,10 +35,10 @@ import type {
   HoldFailed,
   CreateCallFailed,
   AnswerFailed,
-} from "./models/events";
+} from "./models/events.js";
 
-import { CloudEventMapper } from "./models/mapper";
-import type { CallParticipantInternal } from "./generated/src";
+import { CloudEventMapper } from "./models/mapper.js";
+import type { CallParticipantInternal } from "./generated/src/index.js";
 
 const serializer = createSerializer();
 

@@ -15,7 +15,7 @@ import {
   ServiceTopologiesDeleteOptionalParams,
   ServiceTopologiesListOptionalParams,
   ServiceTopologiesListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ServiceTopologies. */
 export interface ServiceTopologies {

@@ -10,5 +10,7 @@ export * from "./cloudHsmClusters";
 export * from "./cloudHsmClusterPrivateLinkResources";
 export * from "./cloudHsmClusterPrivateEndpointConnections";
 export * from "./privateEndpointConnections";
-export * from "./operations";
+export * from "./cloudHsmClusterBackupStatus";
+export * from "./cloudHsmClusterRestoreStatus";
 export * from "./dedicatedHsmOperations";
+export * from "./operations";

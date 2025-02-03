@@ -241,6 +241,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [transformsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mediaservices/arm-mediaservices/samples/v13/javascript/transformsGetSample.js
 [transformslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mediaservices/arm-mediaservices/samples/v13/javascript/transformsListSample.js
 [transformsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mediaservices/arm-mediaservices/samples/v13/javascript/transformsUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-mediaservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-mediaservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mediaservices/arm-mediaservices/README.md

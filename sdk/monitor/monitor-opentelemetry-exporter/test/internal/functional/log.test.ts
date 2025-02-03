@@ -36,12 +36,11 @@ describe("Log Exporter Scenarios", () => {
     it("should work", async () => {
       await scenario.run();
       // promisify doesn't work on this, so use callbacks/done for now
-      // eslint-disable-next-line promise/always-return
       await scenario.flush();
       setTimeout(() => {
         assertLogExpectation(ingest, scenario.expectation);
         assertCount(ingest, scenario.expectation);
-      }, 1);
+      }, 100);
     });
   });
 });

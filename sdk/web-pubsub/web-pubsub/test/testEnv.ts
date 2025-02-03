@@ -8,6 +8,7 @@ const envSetupForPlayback: Record<string, string> = {
   WPS_API_KEY: "api_key",
   WPS_ENDPOINT: "https://endpoint",
   WPS_REVERSE_PROXY_ENDPOINT: "https://endpoint",
+  WPS_SOCKETIO_ENDPOINT: "https://socketio.endpoint",
 };
 
 const recorderOptions: RecorderStartOptions = {

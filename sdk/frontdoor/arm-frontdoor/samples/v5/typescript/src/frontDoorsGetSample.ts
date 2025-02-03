@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a Front Door with the specified Front Door name under the specified subscription and resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a Front Door with the specified Front Door name under the specified subscription and resource group.
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2021-06-01/examples/FrontdoorGet.json
  */
-async function getFrontDoor() {
+async function getFrontDoor(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const frontDoorName = "frontDoor1";
@@ -30,7 +28,7 @@ async function getFrontDoor() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getFrontDoor();
 }
 

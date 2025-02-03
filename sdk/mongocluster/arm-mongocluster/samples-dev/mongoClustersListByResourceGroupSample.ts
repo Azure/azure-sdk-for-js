@@ -15,7 +15,7 @@ async function listsTheMongoClusterResourcesInAResourceGroup() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.mongoClusters.listByResourceGroup("TestResourceGroup")) {
+  for await (const item of client.mongoClusters.listByResourceGroup("TestResourceGroup")) {
     resArray.push(item);
   }
 
@@ -23,7 +23,7 @@ async function listsTheMongoClusterResourcesInAResourceGroup() {
 }
 
 async function main() {
-  listsTheMongoClusterResourcesInAResourceGroup();
+  await listsTheMongoClusterResourcesInAResourceGroup();
 }
 
 main().catch(console.error);

@@ -9,7 +9,7 @@
 import {
   DscCompilationJobStreamListByJobOptionalParams,
   DscCompilationJobStreamListByJobResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DscCompilationJobStream. */
 export interface DscCompilationJobStream {

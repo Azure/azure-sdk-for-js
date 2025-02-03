@@ -64,9 +64,9 @@ export interface RouteDirectionParameters {
    *   ignored for the calculation of the reference route's travel time and traffic delay.
    */
   supportingPoints?: Record<string, unknown>;
-  /** This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which all toll roads with vignettes are to be avoided, e.g. "AUS,CHE". Toll roads with vignettes in countries not in the list are unaffected. Note: It is an error to specify both **avoidVignette** and **allowVignette**. */
+  /** This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries/regions in which all toll roads with vignettes are to be avoided, e.g. "AUS,CHE". Toll roads with vignettes in countries/regions not in the list are unaffected. Note: It is an error to specify both **avoidVignette** and **allowVignette**. */
   avoidVignette?: Array<string>;
-  /** This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries in which toll roads with vignettes are allowed, e.g. "AUS,CHE". Specifying **allowVignette** with some countries X is equivalent to specifying **avoidVignette** with all countries but X. Specifying **allowVignette** with an empty list is the same as avoiding all toll roads with vignettes. Note: It is an error to specify both **avoidVignette** and **allowVignette**. */
+  /** This is a list of 3-character, ISO 3166-1, alpha-3 country codes of countries/regions in which toll roads with vignettes are allowed, e.g. "AUS,CHE". Specifying **allowVignette** with some countries/regions X is equivalent to specifying **avoidVignette** with all countries/regions but X. Specifying **allowVignette** with an empty list is the same as avoiding all toll roads with vignettes. Note: It is an error to specify both **avoidVignette** and **allowVignette**. */
   allowVignette?: Array<string>;
   /** A GeoJSON MultiPolygon representing list of areas to avoid. Only rectangle polygons are supported. The maximum size of a rectangle is about 160x160 km. Maximum number of avoided areas is **10**. It cannot cross the 180th meridian. It must be between -80 and +80 degrees of latitude. */
   avoidAreas?: GeoJsonMultiPolygon;

@@ -5,4 +5,4 @@ export {
   createSystemEvents,
   SystemEventsClientOptionalParams,
   SystemEventsContext,
-} from "./systemEventsContext";
+} from "./systemEventsContext.js";

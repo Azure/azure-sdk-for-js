@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RoleAssignments } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { RoleAssignments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AccessControlClient } from "../accessControlClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { AccessControlClient } from "../accessControlClient.js";
+import type {
   RoleAssignmentDetails,
   RoleAssignmentsListRoleAssignmentsOptionalParams,
   SubjectInfo,
@@ -25,17 +25,124 @@ import {
   RoleAssignmentsCreateRoleAssignmentResponse,
   RoleAssignmentsGetRoleAssignmentByIdOptionalParams,
   RoleAssignmentsGetRoleAssignmentByIdResponse,
-  RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams
-} from "../models";
+  RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const checkPrincipalAccessOperationSpec: coreClient.OperationSpec = {
+  path: "/checkAccessSynapseRbac",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckPrincipalAccessResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract,
+    },
+  },
+  requestBody: {
+    parameterPath: {
+      subject: ["subject"],
+      actions: ["actions"],
+      scope: ["scope"],
+    },
+    mapper: { ...Mappers.CheckPrincipalAccessRequest, required: true },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const listRoleAssignmentsOperationSpec: coreClient.OperationSpec = {
+  path: "/roleAssignments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleAssignmentDetailsList,
+      headersMapper: Mappers.RoleAssignmentsListRoleAssignmentsHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.roleId,
+    Parameters.principalId,
+    Parameters.scope1,
+  ],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.continuationToken],
+  serializer,
+};
+const createRoleAssignmentOperationSpec: coreClient.OperationSpec = {
+  path: "/roleAssignments/{roleAssignmentId}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleAssignmentDetails,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract,
+    },
+  },
+  requestBody: {
+    parameterPath: {
+      roleId: ["roleId"],
+      principalId: ["principalId"],
+      scope: ["scope"],
+      principalType: ["options", "principalType"],
+    },
+    mapper: { ...Mappers.RoleAssignmentRequest, required: true },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.roleAssignmentId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const getRoleAssignmentByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/roleAssignments/{roleAssignmentId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleAssignmentDetails,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.roleAssignmentId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const deleteRoleAssignmentByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/roleAssignments/{roleAssignmentId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorContract,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.scope1],
+  urlParameters: [Parameters.endpoint, Parameters.roleAssignmentId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+
 /** Class containing RoleAssignments operations. */
 export class RoleAssignmentsImpl implements RoleAssignments {
   private readonly client: AccessControlClient;
 
   /**
    * Initialize a new instance of the class RoleAssignments class.
-   * @param client Reference to the service client
+   * @param client - Reference to the service client
    */
   constructor(client: AccessControlClient) {
     this.client = client;
@@ -43,10 +150,10 @@ export class RoleAssignmentsImpl implements RoleAssignments {
 
   /**
    * List role assignments.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   public listRoleAssignments(
-    options?: RoleAssignmentsListRoleAssignmentsOptionalParams
+    options?: RoleAssignmentsListRoleAssignmentsOptionalParams,
   ): PagedAsyncIterableIterator<RoleAssignmentDetails> {
     const iter = this.listRoleAssignmentsPagingAll(options);
     return {
@@ -58,19 +165,19 @@ export class RoleAssignmentsImpl implements RoleAssignments {
       },
       byPage: () => {
         return this.listRoleAssignmentsPagingPage(options);
-      }
+      },
     };
   }
 
   private async *listRoleAssignmentsPagingPage(
-    options?: RoleAssignmentsListRoleAssignmentsOptionalParams
+    options?: RoleAssignmentsListRoleAssignmentsOptionalParams,
   ): AsyncIterableIterator<RoleAssignmentDetails[]> {
-    let result = await this._listRoleAssignments(options);
+    const result = await this._listRoleAssignments(options);
     yield result.value || [];
   }
 
   private async *listRoleAssignmentsPagingAll(
-    options?: RoleAssignmentsListRoleAssignmentsOptionalParams
+    options?: RoleAssignmentsListRoleAssignmentsOptionalParams,
   ): AsyncIterableIterator<RoleAssignmentDetails> {
     for await (const page of this.listRoleAssignmentsPagingPage(options)) {
       yield* page;
@@ -79,221 +186,114 @@ export class RoleAssignmentsImpl implements RoleAssignments {
 
   /**
    * Check if the given principalId has access to perform list of actions at a given scope.
-   * @param subject Subject details
-   * @param actions List of actions.
-   * @param scope Scope at which the check access is done.
-   * @param options The options parameters.
+   * @param subject - Subject details
+   * @param actions - List of actions.
+   * @param scope - - Scope at which the check access is done.
+   * @param options - The options parameters.
    */
   async checkPrincipalAccess(
     subject: SubjectInfo,
     actions: RequiredAction[],
     scope: string,
-    options?: RoleAssignmentsCheckPrincipalAccessOptionalParams
+    options?: RoleAssignmentsCheckPrincipalAccessOptionalParams,
   ): Promise<RoleAssignmentsCheckPrincipalAccessResponse> {
     return tracingClient.withSpan(
       "AccessControlClient.checkPrincipalAccess",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { subject, actions, scope, options },
-          checkPrincipalAccessOperationSpec
+          { subject, actions, scope, updatedOptions },
+          checkPrincipalAccessOperationSpec,
         ) as Promise<RoleAssignmentsCheckPrincipalAccessResponse>;
-      }
+      },
     );
   }
 
   /**
    * List role assignments.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   private async _listRoleAssignments(
-    options?: RoleAssignmentsListRoleAssignmentsOptionalParams
+    options?: RoleAssignmentsListRoleAssignmentsOptionalParams,
   ): Promise<RoleAssignmentsListRoleAssignmentsResponse> {
     return tracingClient.withSpan(
       "AccessControlClient._listRoleAssignments",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { options },
-          listRoleAssignmentsOperationSpec
+          { updatedOptions },
+          listRoleAssignmentsOperationSpec,
         ) as Promise<RoleAssignmentsListRoleAssignmentsResponse>;
-      }
+      },
     );
   }
 
   /**
    * Create role assignment.
-   * @param roleAssignmentId The ID of the role assignment.
-   * @param roleId Role ID of the Synapse Built-In Role
-   * @param principalId Object ID of the AAD principal or security-group
-   * @param scope Scope at which the role assignment is created
-   * @param options The options parameters.
+   * @param roleAssignmentId - The ID of the role assignment.
+   * @param roleId - Role ID of the Synapse Built-In Role
+   * @param principalId - Object ID of the AAD principal or security-group
+   * @param scope - Scope at which the role assignment is created
+   * @param options - The options parameters.
    */
   async createRoleAssignment(
     roleAssignmentId: string,
     roleId: string,
     principalId: string,
     scope: string,
-    options?: RoleAssignmentsCreateRoleAssignmentOptionalParams
+    options?: RoleAssignmentsCreateRoleAssignmentOptionalParams,
   ): Promise<RoleAssignmentsCreateRoleAssignmentResponse> {
     return tracingClient.withSpan(
       "AccessControlClient.createRoleAssignment",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { roleAssignmentId, roleId, principalId, scope, options },
-          createRoleAssignmentOperationSpec
+          { roleAssignmentId, roleId, principalId, scope, updatedOptions },
+          createRoleAssignmentOperationSpec,
         ) as Promise<RoleAssignmentsCreateRoleAssignmentResponse>;
-      }
+      },
     );
   }
 
   /**
    * Get role assignment by role assignment Id.
-   * @param roleAssignmentId The ID of the role assignment.
-   * @param options The options parameters.
+   * @param roleAssignmentId - The ID of the role assignment.
+   * @param options - The options parameters.
    */
   async getRoleAssignmentById(
     roleAssignmentId: string,
-    options?: RoleAssignmentsGetRoleAssignmentByIdOptionalParams
+    options?: RoleAssignmentsGetRoleAssignmentByIdOptionalParams,
   ): Promise<RoleAssignmentsGetRoleAssignmentByIdResponse> {
     return tracingClient.withSpan(
       "AccessControlClient.getRoleAssignmentById",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { roleAssignmentId, options },
-          getRoleAssignmentByIdOperationSpec
+          { roleAssignmentId, updatedOptions },
+          getRoleAssignmentByIdOperationSpec,
         ) as Promise<RoleAssignmentsGetRoleAssignmentByIdResponse>;
-      }
+      },
     );
   }
 
   /**
    * Delete role assignment by role assignment Id.
-   * @param roleAssignmentId The ID of the role assignment.
-   * @param options The options parameters.
+   * @param roleAssignmentId - The ID of the role assignment.
+   * @param options - The options parameters.
    */
   async deleteRoleAssignmentById(
     roleAssignmentId: string,
-    options?: RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams
+    options?: RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "AccessControlClient.deleteRoleAssignmentById",
       options ?? {},
-      async (options) => {
+      async (updatedOptions) => {
         return this.client.sendOperationRequest(
-          { roleAssignmentId, options },
-          deleteRoleAssignmentByIdOperationSpec
+          { roleAssignmentId, updatedOptions },
+          deleteRoleAssignmentByIdOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 }
-// Operation Specifications
-const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
-
-const checkPrincipalAccessOperationSpec: coreClient.OperationSpec = {
-  path: "/checkAccessSynapseRbac",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckPrincipalAccessResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      subject: ["subject"],
-      actions: ["actions"],
-      scope: ["scope"]
-    },
-    mapper: { ...Mappers.CheckPrincipalAccessRequest, required: true }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listRoleAssignmentsOperationSpec: coreClient.OperationSpec = {
-  path: "/roleAssignments",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignmentDetailsList,
-      headersMapper: Mappers.RoleAssignmentsListRoleAssignmentsHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.roleId,
-    Parameters.principalId,
-    Parameters.scope1
-  ],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.continuationToken],
-  serializer
-};
-const createRoleAssignmentOperationSpec: coreClient.OperationSpec = {
-  path: "/roleAssignments/{roleAssignmentId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignmentDetails
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      roleId: ["roleId"],
-      principalId: ["principalId"],
-      scope: ["scope"],
-      principalType: ["options", "principalType"]
-    },
-    mapper: { ...Mappers.RoleAssignmentRequest, required: true }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.roleAssignmentId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const getRoleAssignmentByIdOperationSpec: coreClient.OperationSpec = {
-  path: "/roleAssignments/{roleAssignmentId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignmentDetails
-    },
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.roleAssignmentId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteRoleAssignmentByIdOperationSpec: coreClient.OperationSpec = {
-  path: "/roleAssignments/{roleAssignmentId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.scope1],
-  urlParameters: [Parameters.endpoint, Parameters.roleAssignmentId],
-  headerParameters: [Parameters.accept],
-  serializer
-};

@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  HealthDataAIServicesClient,
-  HealthDataAIServicesClientOptionalParams,
-} from "./healthDataAIServicesClient.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+
+export { HealthDataAIServicesClient } from "./healthDataAIServicesClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
+  PrivateLinkResource,
+  PrivateLinkResourceProperties,
+  ProxyResource,
   Resource,
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  ProxyResource,
-  PrivateLinkResource,
-  PrivateLinkResourceProperties,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
   PrivateEndpointConnectionResource,
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,
@@ -25,17 +25,17 @@ export {
   PrivateEndpointServiceConnectionStatus,
   KnownPrivateEndpointConnectionProvisioningState,
   PrivateEndpointConnectionProvisioningState,
-  TrackedResource,
   DeidService,
   DeidServiceProperties,
-  KnownResourceProvisioningState,
-  ResourceProvisioningState,
+  KnownProvisioningState,
+  ProvisioningState,
   PrivateEndpointConnection,
   PublicNetworkAccess,
   ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
+  TrackedResource,
   DeidUpdate,
   ManagedServiceIdentityUpdate,
   DeidPropertiesUpdate,
@@ -45,8 +45,10 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  Versions,
-  ProvisioningState,
+  KnownVersions,
+} from "./models/index.js";
+export {
+  HealthDataAIServicesClientOptionalParams,
   OperationsListOptionalParams,
   DeidServicesGetOptionalParams,
   DeidServicesListByResourceGroupOptionalParams,
@@ -59,13 +61,11 @@ export {
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsListByDeidServiceOptionalParams,
   PrivateLinksListByDeidServiceOptionalParams,
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./models/index.js";
+} from "./api/index.js";
 export {
   DeidServicesOperations,
   OperationsOperations,
   PrivateEndpointConnectionsOperations,
   PrivateLinksOperations,
 } from "./classic/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

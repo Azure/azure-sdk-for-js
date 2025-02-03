@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApplicationGroups } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApplicationGroups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient.js";
 import {
   ApplicationGroup,
   ApplicationGroupsListByResourceGroupNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   ApplicationGroupsUpdateResponse,
   ApplicationGroupsListByResourceGroupNextResponse,
   ApplicationGroupsListBySubscriptionNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationGroups operations. */

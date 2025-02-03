@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
+import { authorizeRequestOnClaimChallenge } from "../src/index.js";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
-  it("authorize_request_on_claim_challenge", () => {
+  it("AuthorizeRequestOnClaimChallenge", () => {
     const policy = bearerTokenAuthenticationPolicy({
       challengeCallbacks: {
         authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge,

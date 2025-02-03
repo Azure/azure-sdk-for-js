@@ -9,7 +9,7 @@
 import {
   NetworkSecurityPerimeterConfigurationListOptionalParams,
   NetworkSecurityPerimeterConfigurationListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a NetworkSecurityPerimeterConfigurationOperations. */
 export interface NetworkSecurityPerimeterConfigurationOperations {

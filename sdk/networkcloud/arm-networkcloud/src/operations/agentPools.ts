@@ -16,7 +16,7 @@ import { NetworkCloud } from "../networkCloud";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,9 +29,10 @@ import {
   AgentPoolsCreateOrUpdateOptionalParams,
   AgentPoolsCreateOrUpdateResponse,
   AgentPoolsDeleteOptionalParams,
+  AgentPoolsDeleteResponse,
   AgentPoolsUpdateOptionalParams,
   AgentPoolsUpdateResponse,
-  AgentPoolsListByKubernetesClusterNextResponse
+  AgentPoolsListByKubernetesClusterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,12 +57,12 @@ export class AgentPoolsImpl implements AgentPools {
   public listByKubernetesCluster(
     resourceGroupName: string,
     kubernetesClusterName: string,
-    options?: AgentPoolsListByKubernetesClusterOptionalParams
+    options?: AgentPoolsListByKubernetesClusterOptionalParams,
   ): PagedAsyncIterableIterator<AgentPool> {
     const iter = this.listByKubernetesClusterPagingAll(
       resourceGroupName,
       kubernetesClusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +79,9 @@ export class AgentPoolsImpl implements AgentPools {
           resourceGroupName,
           kubernetesClusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +89,7 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     kubernetesClusterName: string,
     options?: AgentPoolsListByKubernetesClusterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AgentPool[]> {
     let result: AgentPoolsListByKubernetesClusterResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +97,7 @@ export class AgentPoolsImpl implements AgentPools {
       result = await this._listByKubernetesCluster(
         resourceGroupName,
         kubernetesClusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +109,7 @@ export class AgentPoolsImpl implements AgentPools {
         resourceGroupName,
         kubernetesClusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,12 +121,12 @@ export class AgentPoolsImpl implements AgentPools {
   private async *listByKubernetesClusterPagingAll(
     resourceGroupName: string,
     kubernetesClusterName: string,
-    options?: AgentPoolsListByKubernetesClusterOptionalParams
+    options?: AgentPoolsListByKubernetesClusterOptionalParams,
   ): AsyncIterableIterator<AgentPool> {
     for await (const page of this.listByKubernetesClusterPagingPage(
       resourceGroupName,
       kubernetesClusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +141,11 @@ export class AgentPoolsImpl implements AgentPools {
   private _listByKubernetesCluster(
     resourceGroupName: string,
     kubernetesClusterName: string,
-    options?: AgentPoolsListByKubernetesClusterOptionalParams
+    options?: AgentPoolsListByKubernetesClusterOptionalParams,
   ): Promise<AgentPoolsListByKubernetesClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, kubernetesClusterName, options },
-      listByKubernetesClusterOperationSpec
+      listByKubernetesClusterOperationSpec,
     );
   }
 
@@ -159,11 +160,11 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     kubernetesClusterName: string,
     agentPoolName: string,
-    options?: AgentPoolsGetOptionalParams
+    options?: AgentPoolsGetOptionalParams,
   ): Promise<AgentPoolsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, kubernetesClusterName, agentPoolName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -180,7 +181,7 @@ export class AgentPoolsImpl implements AgentPools {
     kubernetesClusterName: string,
     agentPoolName: string,
     agentPoolParameters: AgentPool,
-    options?: AgentPoolsCreateOrUpdateOptionalParams
+    options?: AgentPoolsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolsCreateOrUpdateResponse>,
@@ -189,21 +190,20 @@ export class AgentPoolsImpl implements AgentPools {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AgentPoolsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -212,8 +212,8 @@ export class AgentPoolsImpl implements AgentPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -221,8 +221,8 @@ export class AgentPoolsImpl implements AgentPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -233,9 +233,9 @@ export class AgentPoolsImpl implements AgentPools {
         kubernetesClusterName,
         agentPoolName,
         agentPoolParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AgentPoolsCreateOrUpdateResponse,
@@ -243,7 +243,7 @@ export class AgentPoolsImpl implements AgentPools {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -262,14 +262,14 @@ export class AgentPoolsImpl implements AgentPools {
     kubernetesClusterName: string,
     agentPoolName: string,
     agentPoolParameters: AgentPool,
-    options?: AgentPoolsCreateOrUpdateOptionalParams
+    options?: AgentPoolsCreateOrUpdateOptionalParams,
   ): Promise<AgentPoolsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       kubernetesClusterName,
       agentPoolName,
       agentPoolParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -285,25 +285,29 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     kubernetesClusterName: string,
     agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: AgentPoolsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolsDeleteResponse>,
+      AgentPoolsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<AgentPoolsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -312,8 +316,8 @@ export class AgentPoolsImpl implements AgentPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -321,8 +325,8 @@ export class AgentPoolsImpl implements AgentPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -332,14 +336,17 @@ export class AgentPoolsImpl implements AgentPools {
         resourceGroupName,
         kubernetesClusterName,
         agentPoolName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      AgentPoolsDeleteResponse,
+      OperationState<AgentPoolsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -356,13 +363,13 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     kubernetesClusterName: string,
     agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams
-  ): Promise<void> {
+    options?: AgentPoolsDeleteOptionalParams,
+  ): Promise<AgentPoolsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       kubernetesClusterName,
       agentPoolName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -379,7 +386,7 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     kubernetesClusterName: string,
     agentPoolName: string,
-    options?: AgentPoolsUpdateOptionalParams
+    options?: AgentPoolsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolsUpdateResponse>,
@@ -388,21 +395,20 @@ export class AgentPoolsImpl implements AgentPools {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AgentPoolsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -411,8 +417,8 @@ export class AgentPoolsImpl implements AgentPools {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -420,8 +426,8 @@ export class AgentPoolsImpl implements AgentPools {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -431,9 +437,9 @@ export class AgentPoolsImpl implements AgentPools {
         resourceGroupName,
         kubernetesClusterName,
         agentPoolName,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       AgentPoolsUpdateResponse,
@@ -441,7 +447,7 @@ export class AgentPoolsImpl implements AgentPools {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -459,13 +465,13 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     kubernetesClusterName: string,
     agentPoolName: string,
-    options?: AgentPoolsUpdateOptionalParams
+    options?: AgentPoolsUpdateOptionalParams,
   ): Promise<AgentPoolsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       kubernetesClusterName,
       agentPoolName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -482,11 +488,11 @@ export class AgentPoolsImpl implements AgentPools {
     resourceGroupName: string,
     kubernetesClusterName: string,
     nextLink: string,
-    options?: AgentPoolsListByKubernetesClusterNextOptionalParams
+    options?: AgentPoolsListByKubernetesClusterNextOptionalParams,
   ): Promise<AgentPoolsListByKubernetesClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, kubernetesClusterName, nextLink, options },
-      listByKubernetesClusterNextOperationSpec
+      listByKubernetesClusterNextOperationSpec,
     );
   }
 }
@@ -494,38 +500,15 @@ export class AgentPoolsImpl implements AgentPools {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByKubernetesClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPoolList
+      bodyMapper: Mappers.AgentPoolList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.kubernetesClusterName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -533,31 +516,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.kubernetesClusterName,
-    Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AgentPool,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.kubernetesClusterName,
+    Parameters.agentPoolName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     201: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     202: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     204: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.agentPoolParameters,
   queryParameters: [Parameters.apiVersion],
@@ -566,24 +569,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.kubernetesClusterName,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -591,31 +601,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.kubernetesClusterName,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/kubernetesClusters/{kubernetesClusterName}/agentPools/{agentPoolName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     201: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     202: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     204: {
-      bodyMapper: Mappers.AgentPool
+      bodyMapper: Mappers.AgentPool,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.agentPoolUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -624,30 +633,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.kubernetesClusterName,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByKubernetesClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AgentPoolList
+      bodyMapper: Mappers.AgentPoolList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.kubernetesClusterName
+    Parameters.kubernetesClusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetExtensionsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create or update an extension.
@@ -38,10 +33,10 @@ async function virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen() {
         publisher: "{extension-Publisher}",
         settings: {},
         suppressFailures: true,
-        typeHandlerVersion: "{handler-version}"
-      }
+        typeHandlerVersion: "{handler-version}",
+      },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -49,17 +44,15 @@ async function virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      vmssExtensionName
+      vmssExtensionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen().catch(
-  console.error
-);
+virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen().catch(console.error);
 /**
  * This sample demonstrates how to The operation to create or update an extension.
  *
@@ -75,7 +68,7 @@ async function virtualMachineScaleSetExtensionsCreateOrUpdateMinimumSetGen() {
   const vmssExtensionName = "aaaaaaaaaaa";
   const options: VirtualMachineScaleSetExtensionsCreateOrUpdateParameters = {
     body: {},
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -83,14 +76,12 @@ async function virtualMachineScaleSetExtensionsCreateOrUpdateMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      vmssExtensionName
+      vmssExtensionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-virtualMachineScaleSetExtensionsCreateOrUpdateMinimumSetGen().catch(
-  console.error
-);
+virtualMachineScaleSetExtensionsCreateOrUpdateMinimumSetGen().catch(console.error);

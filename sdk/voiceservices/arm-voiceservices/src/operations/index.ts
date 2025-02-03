@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./communicationsGateways";
-export * from "./nameAvailability";
-export * from "./testLines";
+export * from "./operations.js";
+export * from "./communicationsGateways.js";
+export * from "./nameAvailability.js";
+export * from "./testLines.js";

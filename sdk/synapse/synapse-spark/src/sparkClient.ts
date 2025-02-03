@@ -8,10 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
-import { SparkBatchImpl, SparkSessionOperationsImpl } from "./operations";
-import { SparkBatch, SparkSessionOperations } from "./operationsInterfaces";
-import { SparkClientOptionalParams } from "./models";
+import type * as coreAuth from "@azure/core-auth";
+import { SparkBatchImpl, SparkSessionOperationsImpl } from "./operations/index.js";
+import type { SparkBatch, SparkSessionOperations } from "./operationsInterfaces/index.js";
+import type { SparkClientOptionalParams } from "./models/index.js";
 
 /**
  * Represents the Synapse Spark client operations.
@@ -23,17 +23,17 @@ export class SparkClient extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the SparkClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param endpoint The workspace development endpoint, for example
+   * @param credentials - Subscription credentials which uniquely identify client subscription.
+   * @param endpoint - The workspace development endpoint, for example
    *                 https://myworkspace.dev.azuresynapse.net.
-   * @param sparkPoolName Name of the spark pool.
-   * @param options The parameter options
+   * @param sparkPoolName - Name of the spark pool.
+   * @param options - The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     endpoint: string,
     sparkPoolName: string,
-    options?: SparkClientOptionalParams
+    options?: SparkClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -51,7 +51,7 @@ export class SparkClient extends coreClient.ServiceClient {
     }
     const defaults: SparkClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-synapse-spark/1.0.0-beta.6`;
@@ -67,31 +67,30 @@ export class SparkClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
 
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
       if (!bearerTokenAuthenticationPolicyFound) {
         this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
         });
         this.pipeline.addPolicy(
           coreRestPipeline.bearerTokenAuthenticationPolicy({
             scopes: `${optionsWithDefaults.baseUri}/.default`,
             challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
+              authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
+            },
+          }),
         );
       }
     }

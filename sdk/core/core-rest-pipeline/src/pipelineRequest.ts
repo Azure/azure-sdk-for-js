@@ -2,12 +2,14 @@
 // Licensed under the MIT License.
 
 import type {
+  Agent,
   FormDataMap,
   HttpHeaders,
   MultipartRequestBody,
   PipelineRequest,
   ProxySettings,
   RequestBodyType,
+  TlsSettings,
   TransferProgressEvent,
 } from "./interfaces.js";
 import { createHttpHeaders } from "./httpHeaders.js";
@@ -75,6 +77,16 @@ export interface PipelineRequestOptions {
   streamResponseStatusCodes?: Set<number>;
 
   /**
+   * NODEJS ONLY
+   *
+   * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
+   * NOTE: usually this should be one instance shared by multiple requests so that the underlying
+   *       connection to the service can be reused.
+   * Does nothing when running in the browser.
+   */
+  agent?: Agent;
+
+  /**
    * BROWSER ONLY
    *
    * A browser only option to enable use of the Streams API. If this option is set and streaming is used
@@ -84,6 +96,9 @@ export interface PipelineRequestOptions {
    * Default value is false
    */
   enableBrowserStreams?: boolean;
+
+  /** Settings for configuring TLS authentication */
+  tlsSettings?: TlsSettings;
 
   /**
    * Proxy configuration.
@@ -128,7 +143,6 @@ class PipelineRequestImpl implements PipelineRequest {
   public formData?: FormDataMap;
   public streamResponseStatusCodes?: Set<number>;
   public enableBrowserStreams: boolean;
-
   public proxySettings?: ProxySettings;
   public disableKeepAlive: boolean;
   public abortSignal?: AbortSignalLike;
@@ -137,6 +151,8 @@ class PipelineRequestImpl implements PipelineRequest {
   public allowInsecureConnection?: boolean;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
+  public agent?: Agent;
+  public tlsSettings?: TlsSettings;
 
   constructor(options: PipelineRequestOptions) {
     this.url = options.url;
@@ -157,6 +173,8 @@ class PipelineRequestImpl implements PipelineRequest {
     this.requestId = options.requestId || randomUUID();
     this.allowInsecureConnection = options.allowInsecureConnection ?? false;
     this.enableBrowserStreams = options.enableBrowserStreams ?? false;
+    this.agent = options.agent;
+    this.tlsSettings = options.tlsSettings;
   }
 }
 

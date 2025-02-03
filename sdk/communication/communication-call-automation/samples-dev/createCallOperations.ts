@@ -5,14 +5,14 @@
  * @summary CreateCall using CallAutomationClient
  */
 
-import { CallAutomationClient, CallInvite } from "@azure/communication-call-automation";
+import type { CallInvite } from "@azure/communication-call-automation";
+import { CallAutomationClient } from "@azure/communication-call-automation";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file (you will need to set these environment variables)
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";

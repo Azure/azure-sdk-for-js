@@ -27,7 +27,7 @@ import {
   HcrpReportsImpl,
   ConfigurationProfileHCIAssignmentsImpl,
   HCIReportsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   BestPractices,
   BestPracticesVersions,
@@ -41,8 +41,8 @@ import {
   HcrpReports,
   ConfigurationProfileHCIAssignments,
   HCIReports
-} from "./operationsInterfaces";
-import { AutomanageClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AutomanageClientOptionalParams } from "./models/index.js";
 
 export class AutomanageClient extends coreClient.ServiceClient {
   $host: string;

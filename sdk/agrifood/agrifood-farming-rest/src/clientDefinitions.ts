@@ -199,7 +199,7 @@ import type {
   ZonesListParameters,
   ZonesGetCascadeDeleteJobDetailsParameters,
   ZonesCreateCascadeDeleteJobParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   ApplicationDataList200Response,
   ApplicationDataListDefaultResponse,
@@ -623,7 +623,7 @@ import type {
   ZonesGetCascadeDeleteJobDetailsDefaultResponse,
   ZonesCreateCascadeDeleteJob202Response,
   ZonesCreateCascadeDeleteJobDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ApplicationDataList {

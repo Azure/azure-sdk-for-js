@@ -36,15 +36,15 @@ async function main(): Promise<void> {
     { protocol: WebPubSubProtobufReliableProtocol() } as WebPubSubClientOptions,
   );
 
-  client.on("connected", (e) => {
+  await client.on("connected", (e) => {
     console.log(`Connection ${e.connectionId} is connected.`);
   });
 
-  client.on("disconnected", (e) => {
+  await client.on("disconnected", (e) => {
     console.log(`Connection disconnected: ${e.message}`);
   });
 
-  client.on("server-message", (e) => {
+  await client.on("server-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(`Received message ${Buffer.from(e.message.data).toString("base64")}`);
     } else {
@@ -52,7 +52,7 @@ async function main(): Promise<void> {
     }
   });
 
-  client.on("group-message", (e) => {
+  await client.on("group-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(
         `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString(

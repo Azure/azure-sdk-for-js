@@ -13,10 +13,9 @@ import {
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
@@ -45,8 +44,8 @@ export async function main() {
 
   // list all messages with newest first
   let i = 0;
-  for await (const message of chatThreadClient.listMessages()) {
-    console.log(`Message ${++i}:`, message);
+  for await (const messageItem of chatThreadClient.listMessages()) {
+    console.log(`Message ${++i}:`, messageItem);
   }
 
   // update a message

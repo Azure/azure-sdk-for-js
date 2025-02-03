@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./digitalTwinModels";
-export * from "./query";
-export * from "./digitalTwins";
-export * from "./eventRoutes";
+export * from "./digitalTwinModels.js";
+export * from "./query.js";
+export * from "./digitalTwins.js";
+export * from "./eventRoutes.js";

@@ -52,7 +52,7 @@ import {
   RunCommandInput,
   VirtualMachinesRunCommandOptionalParams,
   VirtualMachinesRunCommandResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachines. */
@@ -288,9 +288,9 @@ export interface VirtualMachines {
    * Sets the OS state of the virtual machine to generalized. It is recommended to sysprep the virtual
    * machine before performing this operation. For Windows, please refer to [Create a managed image of a
    * generalized VM in
-   * Azure](https://docs.microsoft.com/azure/virtual-machines/windows/capture-image-resource). For Linux,
+   * Azure](https://learn.microsoft.com/azure/virtual-machines/windows/capture-image-resource). For Linux,
    * please refer to [How to create an image of a virtual machine or
-   * VHD](https://docs.microsoft.com/azure/virtual-machines/linux/capture-image).
+   * VHD](https://learn.microsoft.com/azure/virtual-machines/linux/capture-image).
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
@@ -302,7 +302,8 @@ export interface VirtualMachines {
   ): Promise<void>;
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
-   * same provisioned resources. You are still charged for this virtual machine.
+   * same provisioned resources. You are still charged for this virtual machine. NOTE: This operation is
+   * not allowed on a virtual machine that is being deallocated or has already been deallocated.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.
@@ -314,7 +315,8 @@ export interface VirtualMachines {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to power off (stop) a virtual machine. The virtual machine can be restarted with the
-   * same provisioned resources. You are still charged for this virtual machine.
+   * same provisioned resources. You are still charged for this virtual machine. NOTE: This operation is
+   * not allowed on a virtual machine that is being deallocated or has already been deallocated.
    * @param resourceGroupName The name of the resource group.
    * @param vmName The name of the virtual machine.
    * @param options The options parameters.

@@ -12,7 +12,7 @@ import {
   ContainerAppsBuildsGetResponse,
   ContainerAppsBuildsDeleteOptionalParams,
   ContainerAppsBuildsDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ContainerAppsBuilds. */
 export interface ContainerAppsBuilds {

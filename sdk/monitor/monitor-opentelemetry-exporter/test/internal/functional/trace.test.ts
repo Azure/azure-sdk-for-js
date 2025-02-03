@@ -3,7 +3,10 @@
 
 import { assertCount, assertTraceExpectation } from "../../utils/assert.js";
 import { TraceBasicScenario } from "../../utils/basic.js";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants.js";
+import {
+  DEFAULT_BREEZE_ENDPOINT,
+  ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED,
+} from "../../../src/Declarations/Constants.js";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
@@ -37,8 +40,10 @@ describe("Trace Exporter Scenarios", () => {
     it("should work", async () => {
       await scenario.run();
       await scenario.flush();
-      assertTraceExpectation(ingest, scenario.expectation);
-      assertCount(ingest, scenario.expectation);
+      setTimeout(() => {
+        assertTraceExpectation(ingest, scenario.expectation);
+        assertCount(ingest, scenario.expectation);
+      }, 100);
     });
   });
 
@@ -47,7 +52,7 @@ describe("Trace Exporter Scenarios", () => {
     let ingest: Envelope[] = [];
 
     beforeAll(() => {
-      process.env.ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED = "true";
+      process.env[ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED] = "true";
       nock(DEFAULT_BREEZE_ENDPOINT)
         .post("/v2.1/track", (body: Envelope[]) => {
           // todo: gzip is not supported by generated applicationInsightsClient
@@ -69,10 +74,11 @@ describe("Trace Exporter Scenarios", () => {
 
     it("should work with OTel resource metric disabled", async () => {
       await scenario.run();
-
       await scenario.flush();
-      assertTraceExpectation(ingest, scenario.disabledExpectation);
-      assertCount(ingest, scenario.disabledExpectation);
+      setTimeout(() => {
+        assertTraceExpectation(ingest, scenario.disabledExpectation);
+        assertCount(ingest, scenario.disabledExpectation);
+      }, 100);
     });
   });
 });

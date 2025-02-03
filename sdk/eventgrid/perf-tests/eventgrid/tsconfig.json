@@ -1,13 +1,20 @@
 {
   "extends": "../../../../tsconfig",
   "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ES2015",
-    "declarationDir": "./typings/latest",
-    "lib": ["ES6", "ESNext.AsyncIterable", "DOM"],
-    "noEmit": true
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-event-grid": ["./src/index"]
+    }
   },
-  "compileOnSave": true,
-  "exclude": ["node_modules"],
-  "include": ["./test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts"
+  ]
 }

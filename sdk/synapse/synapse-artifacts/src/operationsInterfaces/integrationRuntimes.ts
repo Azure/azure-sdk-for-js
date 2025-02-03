@@ -6,26 +6,24 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   IntegrationRuntimesListOptionalParams,
   IntegrationRuntimesListResponse,
   IntegrationRuntimesGetOptionalParams,
   IntegrationRuntimesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimes. */
 export interface IntegrationRuntimes {
   /**
    * List Integration Runtimes
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
-  list(
-    options?: IntegrationRuntimesListOptionalParams,
-  ): Promise<IntegrationRuntimesListResponse>;
+  list(options?: IntegrationRuntimesListOptionalParams): Promise<IntegrationRuntimesListResponse>;
   /**
    * Get Integration Runtime
-   * @param integrationRuntimeName The Integration Runtime name
-   * @param options The options parameters.
+   * @param integrationRuntimeName - The Integration Runtime name
+   * @param options - The options parameters.
    */
   get(
     integrationRuntimeName: string,

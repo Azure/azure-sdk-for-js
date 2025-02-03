@@ -77,7 +77,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workflowlistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowListByResourceGroupSample.ts
 [workflowlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowListSample.ts
 [workflowupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devhub/arm-devhub/samples/v1-beta/typescript/src/workflowUpdateTagsSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-devhub?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-devhub?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devhub/arm-devhub/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

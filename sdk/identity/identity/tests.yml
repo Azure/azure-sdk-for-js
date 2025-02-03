@@ -3,6 +3,7 @@ trigger: none
 extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
+      Location: westus2
       PreSteps:
       - task: AzureCLI@2
         displayName: Set OIDC variables

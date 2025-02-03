@@ -61,6 +61,7 @@ import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity
 import { nativeBrokerPlugin } from "@azure/identity-broker";
 
 useIdentityPlugin(nativeBrokerPlugin);
+
 const credential = new InteractiveBrowserCredential({
   brokerOptions: {
     enabled: true,
@@ -80,14 +81,17 @@ import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity
 import { nativeBrokerPlugin } from "@azure/identity-broker";
 
 useIdentityPlugin(nativeBrokerPlugin);
+
 const credential = new InteractiveBrowserCredential({
   brokerOptions: {
     enabled: true,
     parentWindowHandle: new Uint8Array(0), // This should be a handle to the parent window
   },
 });
+
 // We'll use the Microsoft Graph scope as an example
 const scope = "https://graph.microsoft.com/.default";
+
 // Print out part of the access token
 console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
 ```
@@ -103,6 +107,7 @@ import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity
 import { nativeBrokerPlugin } from "@azure/identity-broker";
 
 useIdentityPlugin(nativeBrokerPlugin);
+
 const credential = new InteractiveBrowserCredential({
   brokerOptions: {
     enabled: true,
@@ -110,8 +115,10 @@ const credential = new InteractiveBrowserCredential({
     parentWindowHandle: new Uint8Array(0), // This should be a handle to the parent window
   },
 });
+
 // We'll use the Microsoft Graph scope as an example
 const scope = "https://graph.microsoft.com/.default";
+
 // Print out part of the access token
 console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
 ```

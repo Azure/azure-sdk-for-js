@@ -195,6 +195,8 @@ export interface StorageDirectoryRenamedEventData {
 export interface StorageLifecyclePolicyCompletedEventData {
   /** The time the policy task was scheduled. */
   scheduleTime: string;
+  /** Policy run status of an account in a Blob Management cycle. */
+  policyRunSummary: StorageLifecyclePolicyRunSummary;
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
   deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
@@ -203,6 +205,12 @@ export interface StorageLifecyclePolicyCompletedEventData {
   tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
   tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
+}
+
+/** Policy run status of an account in a Blob Management cycle. */
+export interface StorageLifecyclePolicyRunSummary {
+  /** Policy status can be Completed/CompletedWithError/Incomplete. */
+  completionStatus: StorageLifecycleCompletionStatus;
 }
 
 /** Execution statistics of a specific policy action in a Blob Management cycle. */
@@ -2331,6 +2339,8 @@ export interface AcsEmailDeliveryReportReceivedEventData {
   sender: string;
   /** The recipient Email Address */
   recipient: string;
+  /** The Internet Message Id of the email been sent */
+  internetMessageId: string;
   /** The Id of the email been sent */
   messageId: string;
   /** The status of the email. Any value other than Delivered is considered failed. */
@@ -2343,6 +2353,8 @@ export interface AcsEmailDeliveryReportReceivedEventData {
 
 /** Detailed information about the status if any */
 export interface AcsEmailDeliveryReportStatusDetails {
+  /** Recipient Mail Server Host Name */
+  recipientMailServerHostName: string;
   /** Detailed status message */
   statusMessage: string;
 }
@@ -3098,9 +3110,11 @@ export type AcsSmsDeliveryReportReceivedEventData = AcsSmsEventBase & {
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.SMSReceived event. */
 export type AcsSmsReceivedEventData = AcsSmsEventBase & {
   /** The SMS content */
-  message: string;
+  message?: string;
   /** The time at which the SMS was received */
-  receivedTimestamp: string;
+  receivedTimestamp?: string;
+  /** Number of segments in the message */
+  segmentCount: number;
 };
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageReceived event. */
@@ -3152,6 +3166,9 @@ export type ResourceNotificationsHealthResourcesAnnotatedEventData = ResourceNot
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.CreatedOrUpdated event. */
 export type ResourceNotificationsResourceManagementCreatedOrUpdatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+/** Schema of the Data property of an event grid event for a Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted preview event. */
+export type ResourceNotificationsContainerServiceEventResourcesScheduledEventData = ResourceNotificationsResourceUpdatedEventData & {};
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.Deleted event. */
 export type ResourceNotificationsResourceManagementDeletedEventData = ResourceNotificationsResourceDeletedEventData & {};
@@ -3558,6 +3575,24 @@ export const enum KnownStorageBlobAccessTier {
  * **Default**: The blob is in access tier Default(Inferred)
  */
 export type StorageBlobAccessTier = string;
+
+/** Known values of {@link StorageLifecycleCompletionStatus} that the service accepts. */
+export const enum KnownStorageLifecycleCompletionStatus {
+  Completed = "Completed",
+  CompletedWithError = "CompletedWithError",
+  Incomplete = "Incomplete"
+}
+
+/**
+ * Defines values for StorageLifecycleCompletionStatus. \
+ * {@link KnownStorageLifecycleCompletionStatus} can be used interchangeably with StorageLifecycleCompletionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Completed** \
+ * **CompletedWithError** \
+ * **Incomplete**
+ */
+export type StorageLifecycleCompletionStatus = string;
 
 /** Known values of {@link StorageTaskCompletedStatus} that the service accepts. */
 export const enum KnownStorageTaskCompletedStatus {

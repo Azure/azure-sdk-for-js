@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-undef */
 
-import type { ModelsRepositoryClientOptions } from "../../../src";
-import { ModelsRepositoryClient } from "../../../src";
-
-import { assert, expect } from "chai";
-import * as sinon from "sinon";
-
-import type { dependencyResolutionType } from "../../../src/dependencyResolutionType";
+import type { ModelsRepositoryClientOptions } from "../../../src/index.js";
+import { ModelsRepositoryClient } from "../../../src/index.js";
+import type { dependencyResolutionType } from "../../../src/dependencyResolutionType.js";
 import { ServiceClient } from "@azure/core-client";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi } from "vitest";
 
 interface RemoteResolutionScenario {
   name: string;
@@ -155,18 +151,14 @@ const remoteResolutionScenarios: RemoteResolutionScenario[] = [
   },
 ];
 
-describe("resolver - node", function () {
-  afterEach(function () {
-    sinon.restore();
-  });
-
-  describe("remote URL resolution", function () {
+describe("resolver - node", () => {
+  describe("remote URL resolution", () => {
     remoteResolutionScenarios.forEach((scenario: RemoteResolutionScenario) => {
-      it(scenario.name, async function () {
+      it(scenario.name, async () => {
         console.log(scenario.name);
-        const myStub = sinon.stub(ServiceClient.prototype, "sendRequest");
+        const myStub = vi.spyOn(ServiceClient.prototype, "sendRequest");
         for (let i = 0; i < scenario.dtmis.length; i++) {
-          myStub.onCall(i).callsFake((request: PipelineRequest) => {
+          myStub.mockImplementationOnce((request: PipelineRequest) => {
             expect(request.url, "URL not formatted for request correctly.").to.deep.equal(
               scenario.dtmis[i].expectedUri,
             );

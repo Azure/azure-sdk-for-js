@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a Traffic Manager profile.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-GET-WithEndpoints.json
  */
-async function profileGetWithEndpoints() {
+async function profileGetWithEndpoints(): Promise<void> {
   const subscriptionId =
     process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -39,7 +37,7 @@ async function profileGetWithEndpoints() {
  * @summary Gets a Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-GET-WithTrafficViewDisabled.json
  */
-async function profileGetWithTrafficViewDisabled() {
+async function profileGetWithTrafficViewDisabled(): Promise<void> {
   const subscriptionId =
     process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -58,7 +56,7 @@ async function profileGetWithTrafficViewDisabled() {
  * @summary Gets a Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-GET-WithTrafficViewEnabled.json
  */
-async function profileGetWithTrafficViewEnabled() {
+async function profileGetWithTrafficViewEnabled(): Promise<void> {
   const subscriptionId =
     process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -71,7 +69,7 @@ async function profileGetWithTrafficViewEnabled() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   profileGetWithEndpoints();
   profileGetWithTrafficViewDisabled();
   profileGetWithTrafficViewEnabled();

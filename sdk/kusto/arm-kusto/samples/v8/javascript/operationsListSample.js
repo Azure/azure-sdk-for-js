@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists available operations for the Microsoft.Kusto provider.
  *
  * @summary Lists available operations for the Microsoft.Kusto provider.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoOperationsList.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoOperationsList.json
  */
 async function kustoOperationsList() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function kustoOperationsList() {
 }
 
 async function main() {
-  kustoOperationsList();
+  await kustoOperationsList();
 }
 
 main().catch(console.error);

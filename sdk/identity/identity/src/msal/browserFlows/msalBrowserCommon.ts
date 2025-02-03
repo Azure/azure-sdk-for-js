@@ -4,23 +4,23 @@
 import type * as msalBrowser from "@azure/msal-browser";
 
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import type { AuthenticationRecord, MsalResult } from "../types";
-import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
-import type { CredentialLogger } from "../../util/logging";
-import { formatSuccess } from "../../util/logging";
-import type { MsalFlow, MsalFlowOptions } from "./flows";
-import { ensureValidMsalToken, getAuthority, getKnownAuthorities, msalToPublic } from "../utils";
+import type { AuthenticationRecord, MsalResult } from "../types.js";
+import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors.js";
+import type { CredentialLogger } from "../../util/logging.js";
+import { formatSuccess } from "../../util/logging.js";
+import type { MsalFlow, MsalFlowOptions } from "./flows.js";
+import { ensureValidMsalToken, getAuthority, getKnownAuthorities, msalToPublic } from "../utils.js";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
-} from "../../util/tenantIdUtils";
+} from "../../util/tenantIdUtils.js";
 
-import type { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
-import type { CredentialFlowGetTokenOptions } from "../credentials";
-import { DefaultTenantId } from "../../constants";
+import type { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions.js";
+import type { CredentialFlowGetTokenOptions } from "../credentials.js";
+import { DefaultTenantId } from "../../constants.js";
 import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
-import type { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
+import type { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions.js";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.

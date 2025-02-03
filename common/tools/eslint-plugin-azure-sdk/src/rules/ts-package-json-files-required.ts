@@ -13,7 +13,7 @@ import {
   getVerifiers,
   stripPath,
   isEsmPackage,
-} from "../utils";
+} from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition

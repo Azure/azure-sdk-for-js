@@ -16,7 +16,7 @@ import { AzureHSMResourceProvider } from "../azureHSMResourceProvider";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,11 +36,12 @@ import {
   DedicatedHsmUpdateOptionalParams,
   DedicatedHsmUpdateResponse,
   DedicatedHsmDeleteOptionalParams,
+  DedicatedHsmDeleteResponse,
   DedicatedHsmGetOptionalParams,
   DedicatedHsmGetResponse,
   DedicatedHsmListByResourceGroupNextResponse,
   DedicatedHsmListBySubscriptionNextResponse,
-  DedicatedHsmListOutboundNetworkDependenciesEndpointsNextResponse
+  DedicatedHsmListOutboundNetworkDependenciesEndpointsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,12 +60,12 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
   /**
    * The List operation gets information about the dedicated hsms associated with the subscription and
    * within the specified resource group.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated HSM belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DedicatedHsmListByResourceGroupOptionalParams
+    options?: DedicatedHsmListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedHsm> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -81,16 +82,16 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DedicatedHsmListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DedicatedHsm[]> {
     let result: DedicatedHsmListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -105,7 +106,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,11 +117,11 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DedicatedHsmListByResourceGroupOptionalParams
+    options?: DedicatedHsmListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DedicatedHsm> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,7 +132,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: DedicatedHsmListBySubscriptionOptionalParams
+    options?: DedicatedHsmListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DedicatedHsm> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -146,13 +147,13 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: DedicatedHsmListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DedicatedHsm[]> {
     let result: DedicatedHsmListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -173,7 +174,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: DedicatedHsmListBySubscriptionOptionalParams
+    options?: DedicatedHsmListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<DedicatedHsm> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -183,19 +184,19 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
   /**
    * Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified
    * dedicated hsm resource. The operation returns properties of each egress endpoint.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated hsm belongs.
-   * @param name The name of the dedicated HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   public listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint> {
     const iter = this.listOutboundNetworkDependenciesEndpointsPagingAll(
       resourceGroupName,
       name,
-      options
+      options,
     );
     return {
       next() {
@@ -212,9 +213,9 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
           resourceGroupName,
           name,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -222,7 +223,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
     resourceGroupName: string,
     name: string,
     options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint[]> {
     let result: DedicatedHsmListOutboundNetworkDependenciesEndpointsResponse;
     let continuationToken = settings?.continuationToken;
@@ -230,7 +231,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
       result = await this._listOutboundNetworkDependenciesEndpoints(
         resourceGroupName,
         name,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -242,7 +243,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
         resourceGroupName,
         name,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -254,12 +255,12 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
   private async *listOutboundNetworkDependenciesEndpointsPagingAll(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): AsyncIterableIterator<OutboundEnvironmentEndpoint> {
     for await (const page of this.listOutboundNetworkDependenciesEndpointsPagingPage(
       resourceGroupName,
       name,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -267,7 +268,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
 
   /**
    * Create or Update a dedicated HSM in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the dedicated Hsm
    * @param parameters Parameters to create or update the dedicated hsm
    * @param options The options parameters.
@@ -276,7 +277,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
     resourceGroupName: string,
     name: string,
     parameters: DedicatedHsm,
-    options?: DedicatedHsmCreateOrUpdateOptionalParams
+    options?: DedicatedHsmCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DedicatedHsmCreateOrUpdateResponse>,
@@ -285,21 +286,20 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DedicatedHsmCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -308,8 +308,8 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -317,22 +317,22 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DedicatedHsmCreateOrUpdateResponse,
       OperationState<DedicatedHsmCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -340,7 +340,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
 
   /**
    * Create or Update a dedicated HSM in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the dedicated Hsm
    * @param parameters Parameters to create or update the dedicated hsm
    * @param options The options parameters.
@@ -349,27 +349,27 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
     resourceGroupName: string,
     name: string,
     parameters: DedicatedHsm,
-    options?: DedicatedHsmCreateOrUpdateOptionalParams
+    options?: DedicatedHsmCreateOrUpdateOptionalParams,
   ): Promise<DedicatedHsmCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       name,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
    * Update a dedicated HSM in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the server belongs.
-   * @param name Name of the dedicated HSM
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmUpdateOptionalParams
+    options?: DedicatedHsmUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DedicatedHsmUpdateResponse>,
@@ -378,21 +378,20 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DedicatedHsmUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -401,8 +400,8 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -410,22 +409,22 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, options },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       DedicatedHsmUpdateResponse,
       OperationState<DedicatedHsmUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -433,14 +432,14 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
 
   /**
    * Update a dedicated HSM in the specified subscription.
-   * @param resourceGroupName The name of the Resource Group to which the server belongs.
-   * @param name Name of the dedicated HSM
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmUpdateOptionalParams
+    options?: DedicatedHsmUpdateOptionalParams,
   ): Promise<DedicatedHsmUpdateResponse> {
     const poller = await this.beginUpdate(resourceGroupName, name, options);
     return poller.pollUntilDone();
@@ -448,32 +447,36 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
 
   /**
    * Deletes the specified Azure Dedicated HSM.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated HSM belongs.
-   * @param name The name of the dedicated HSM to delete
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: DedicatedHsmDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DedicatedHsmDeleteResponse>,
+      DedicatedHsmDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<DedicatedHsmDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -482,8 +485,8 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -491,19 +494,22 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, name, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      DedicatedHsmDeleteResponse,
+      OperationState<DedicatedHsmDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -511,49 +517,49 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
 
   /**
    * Deletes the specified Azure Dedicated HSM.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated HSM belongs.
-   * @param name The name of the dedicated HSM to delete
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmDeleteOptionalParams
-  ): Promise<void> {
+    options?: DedicatedHsmDeleteOptionalParams,
+  ): Promise<DedicatedHsmDeleteResponse> {
     const poller = await this.beginDelete(resourceGroupName, name, options);
     return poller.pollUntilDone();
   }
 
   /**
    * Gets the specified Azure dedicated HSM.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated hsm belongs.
-   * @param name The name of the dedicated HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmGetOptionalParams
+    options?: DedicatedHsmGetOptionalParams,
   ): Promise<DedicatedHsmGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * The List operation gets information about the dedicated hsms associated with the subscription and
    * within the specified resource group.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated HSM belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DedicatedHsmListByResourceGroupOptionalParams
+    options?: DedicatedHsmListByResourceGroupOptionalParams,
   ): Promise<DedicatedHsmListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -562,46 +568,46 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: DedicatedHsmListBySubscriptionOptionalParams
+    options?: DedicatedHsmListBySubscriptionOptionalParams,
   ): Promise<DedicatedHsmListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
   /**
    * Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified
    * dedicated hsm resource. The operation returns properties of each egress endpoint.
-   * @param resourceGroupName The name of the Resource Group to which the dedicated hsm belongs.
-   * @param name The name of the dedicated HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param options The options parameters.
    */
   private _listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     name: string,
-    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): Promise<DedicatedHsmListOutboundNetworkDependenciesEndpointsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
-      listOutboundNetworkDependenciesEndpointsOperationSpec
+      listOutboundNetworkDependenciesEndpointsOperationSpec,
     );
   }
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the Resource Group to which the dedicated HSM belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DedicatedHsmListByResourceGroupNextOptionalParams
+    options?: DedicatedHsmListByResourceGroupNextOptionalParams,
   ): Promise<DedicatedHsmListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -612,18 +618,18 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: DedicatedHsmListBySubscriptionNextOptionalParams
+    options?: DedicatedHsmListBySubscriptionNextOptionalParams,
   ): Promise<DedicatedHsmListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
   /**
    * ListOutboundNetworkDependenciesEndpointsNext
-   * @param resourceGroupName The name of the Resource Group to which the dedicated hsm belongs.
-   * @param name The name of the dedicated HSM.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the dedicated Hsm
    * @param nextLink The nextLink from the previous successful call to the
    *                 ListOutboundNetworkDependenciesEndpoints method.
    * @param options The options parameters.
@@ -632,11 +638,11 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
     resourceGroupName: string,
     name: string,
     nextLink: string,
-    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsNextOptionalParams
+    options?: DedicatedHsmListOutboundNetworkDependenciesEndpointsNextOptionalParams,
   ): Promise<DedicatedHsmListOutboundNetworkDependenciesEndpointsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, nextLink, options },
-      listOutboundNetworkDependenciesEndpointsNextOperationSpec
+      listOutboundNetworkDependenciesEndpointsNextOperationSpec,
     );
   }
 }
@@ -644,236 +650,239 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedHsm
+      bodyMapper: Mappers.DedicatedHsm,
     },
     201: {
-      bodyMapper: Mappers.DedicatedHsm
+      bodyMapper: Mappers.DedicatedHsm,
     },
     202: {
-      bodyMapper: Mappers.DedicatedHsm
+      bodyMapper: Mappers.DedicatedHsm,
     },
     204: {
-      bodyMapper: Mappers.DedicatedHsm
+      bodyMapper: Mappers.DedicatedHsm,
     },
     default: {
-      bodyMapper: Mappers.DedicatedHsmError
-    }
+      bodyMapper: Mappers.DedicatedHsmError,
+    },
   },
   requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.name
+    Parameters.resourceGroupName,
+    Parameters.name,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedHsm
+      bodyMapper: Mappers.DedicatedHsm,
     },
     201: {
-      bodyMapper: Mappers.DedicatedHsm
+      bodyMapper: Mappers.DedicatedHsm,
     },
     202: {
-      bodyMapper: Mappers.DedicatedHsm
+      bodyMapper: Mappers.DedicatedHsm,
     },
     204: {
-      bodyMapper: Mappers.DedicatedHsm
+      bodyMapper: Mappers.DedicatedHsm,
     },
     default: {
-      bodyMapper: Mappers.DedicatedHsmError
-    }
+      bodyMapper: Mappers.DedicatedHsmError,
+    },
   },
   requestBody: {
     parameterPath: { tags: ["options", "tags"] },
-    mapper: { ...Mappers.DedicatedHsmPatchParameters, required: true }
+    mapper: { ...Mappers.DedicatedHsmPatchParameters, required: true },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.name
+    Parameters.resourceGroupName,
+    Parameters.name,
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.DedicatedHsmDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.DedicatedHsmDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.DedicatedHsmDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.DedicatedHsmDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.DedicatedHsmError
-    }
+      bodyMapper: Mappers.DedicatedHsmError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.name1
+    Parameters.resourceGroupName,
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedHsm
+      bodyMapper: Mappers.DedicatedHsm,
     },
     default: {
-      bodyMapper: Mappers.DedicatedHsmError
-    }
+      bodyMapper: Mappers.DedicatedHsmError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.name1
+    Parameters.resourceGroupName,
+    Parameters.name,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedHsmListResult
+      bodyMapper: Mappers.DedicatedHsmListResult,
     },
     default: {
-      bodyMapper: Mappers.DedicatedHsmError
-    }
+      bodyMapper: Mappers.DedicatedHsmError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.top],
+  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName1
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedHsmListResult
+      bodyMapper: Mappers.DedicatedHsmListResult,
     },
     default: {
-      bodyMapper: Mappers.DedicatedHsmError
-    }
+      bodyMapper: Mappers.DedicatedHsmError,
+    },
   },
-  queryParameters: [Parameters.apiVersion1, Parameters.top],
+  queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}/outboundNetworkDependenciesEndpoints",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/dedicatedHSMs/{name}/outboundNetworkDependenciesEndpoints",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
+      },
+      default: {
+        bodyMapper: Mappers.DedicatedHsmError,
+      },
     },
-    default: {
-      bodyMapper: Mappers.DedicatedHsmError
-    }
-  },
-  queryParameters: [Parameters.apiVersion1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName1,
-    Parameters.name1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.name,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedHsmListResult
+      bodyMapper: Mappers.DedicatedHsmListResult,
     },
     default: {
-      bodyMapper: Mappers.DedicatedHsmError
-    }
+      bodyMapper: Mappers.DedicatedHsmError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedHsmListResult
+      bodyMapper: Mappers.DedicatedHsmListResult,
     },
     default: {
-      bodyMapper: Mappers.DedicatedHsmError
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+      bodyMapper: Mappers.DedicatedHsmError,
     },
-    default: {
-      bodyMapper: Mappers.DedicatedHsmError
-    }
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName1,
-    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.OutboundEnvironmentEndpointCollection,
+      },
+      default: {
+        bodyMapper: Mappers.DedicatedHsmError,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+      Parameters.name,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };

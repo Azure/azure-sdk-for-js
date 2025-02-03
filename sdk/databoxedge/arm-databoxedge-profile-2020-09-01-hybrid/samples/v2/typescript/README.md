@@ -173,7 +173,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [usersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid/samples/v2/typescript/src/usersDeleteSample.ts
 [usersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid/samples/v2/typescript/src/usersGetSample.ts
 [userslistbydataboxedgedevicesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid/samples/v2/typescript/src/usersListByDataBoxEdgeDeviceSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-databoxedge-profile-2020-09-01-hybrid?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databoxedge-profile-2020-09-01-hybrid?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

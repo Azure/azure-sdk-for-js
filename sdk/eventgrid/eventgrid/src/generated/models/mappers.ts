@@ -578,6 +578,13 @@ export const StorageLifecyclePolicyCompletedEventData: coreClient.CompositeMappe
           name: "String"
         }
       },
+      policyRunSummary: {
+        serializedName: "policyRunSummary",
+        type: {
+          name: "Composite",
+          className: "StorageLifecyclePolicyRunSummary"
+        }
+      },
       deleteSummary: {
         serializedName: "deleteSummary",
         type: {
@@ -604,6 +611,22 @@ export const StorageLifecyclePolicyCompletedEventData: coreClient.CompositeMappe
         type: {
           name: "Composite",
           className: "StorageLifecyclePolicyActionSummaryDetail"
+        }
+      }
+    }
+  }
+};
+
+export const StorageLifecyclePolicyRunSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageLifecyclePolicyRunSummary",
+    modelProperties: {
+      completionStatus: {
+        serializedName: "completionStatus",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -6786,6 +6809,13 @@ export const AcsEmailDeliveryReportReceivedEventData: coreClient.CompositeMapper
           name: "String"
         }
       },
+      internetMessageId: {
+        serializedName: "internetMessageId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       messageId: {
         serializedName: "messageId",
         required: true,
@@ -6823,6 +6853,13 @@ export const AcsEmailDeliveryReportStatusDetails: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AcsEmailDeliveryReportStatusDetails",
     modelProperties: {
+      recipientMailServerHostName: {
+        serializedName: "recipientMailServerHostName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       statusMessage: {
         serializedName: "statusMessage",
         required: true,
@@ -9139,16 +9176,21 @@ export const AcsSmsReceivedEventData: coreClient.CompositeMapper = {
       ...AcsSmsEventBase.type.modelProperties,
       message: {
         serializedName: "message",
-        required: true,
         type: {
           name: "String"
         }
       },
       receivedTimestamp: {
         serializedName: "receivedTimestamp",
-        required: true,
         type: {
           name: "String"
+        }
+      },
+      segmentCount: {
+        serializedName: "segmentCount",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -9314,6 +9356,17 @@ export const ResourceNotificationsResourceManagementCreatedOrUpdatedEventData: c
     name: "Composite",
     className:
       "ResourceNotificationsResourceManagementCreatedOrUpdatedEventData",
+    modelProperties: {
+      ...ResourceNotificationsResourceUpdatedEventData.type.modelProperties
+    }
+  }
+};
+
+export const ResourceNotificationsContainerServiceEventResourcesScheduledEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "ResourceNotificationsContainerServiceEventResourcesScheduledEventData",
     modelProperties: {
       ...ResourceNotificationsResourceUpdatedEventData.type.modelProperties
     }

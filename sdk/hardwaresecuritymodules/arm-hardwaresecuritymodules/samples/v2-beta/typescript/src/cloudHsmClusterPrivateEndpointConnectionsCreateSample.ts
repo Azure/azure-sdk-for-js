@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  AzureHSMResourceProvider
+  AzureHSMResourceProvider,
 } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the private endpoint connection for the Cloud Hsm Cluster.
  *
  * @summary Creates or updates the private endpoint connection for the Cloud Hsm Cluster.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2023-12-10-preview/examples/CloudHsmClusterPrivateEndpointConnection_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmClusterPrivateEndpointConnection_Create_MaximumSet_Gen.json
  */
 async function cloudHsmClusterPrivateEndpointConnectionCreateMaximumSetGen() {
   const subscriptionId =
@@ -34,8 +34,8 @@ async function cloudHsmClusterPrivateEndpointConnectionCreateMaximumSetGen() {
   const properties: PrivateEndpointConnection = {
     privateLinkServiceConnectionState: {
       description: "My name is Joe and I'm approving this.",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function cloudHsmClusterPrivateEndpointConnectionCreateMaximumSetGen() {
     resourceGroupName,
     cloudHsmClusterName,
     peConnectionName,
-    properties
+    properties,
   );
   console.log(result);
 }

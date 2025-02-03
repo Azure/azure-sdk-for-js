@@ -9,4 +9,3 @@ extends:
         - DependencyVersion=^$
         - ${{ if contains(variables['Build.DefinitionName'], 'tests-weekly') }}:
           - Pool=.*mms-ubuntu-2004.*
-      SupportedClouds: 'Public,UsGov,China'

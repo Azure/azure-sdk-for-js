@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DataboundariesManegementClient } from "@azure/arm-databoundaries";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get data boundary at specified scope
@@ -20,7 +16,7 @@ dotenv.config();
  * @summary Get data boundary at specified scope
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-08-01/examples/GetScopedDataBoundary.json
  */
-async function getDataBoundaryAtScope() {
+async function getDataBoundaryAtScope(): Promise<void> {
   const scope =
     "subscriptions/11111111-1111-1111-1111-111111111111/resourcegroups/my-resource-group";
   const defaultParam = "default";
@@ -30,8 +26,8 @@ async function getDataBoundaryAtScope() {
   console.log(result);
 }
 
-async function main() {
-  getDataBoundaryAtScope();
+async function main(): Promise<void> {
+  await getDataBoundaryAtScope();
 }
 
 main().catch(console.error);

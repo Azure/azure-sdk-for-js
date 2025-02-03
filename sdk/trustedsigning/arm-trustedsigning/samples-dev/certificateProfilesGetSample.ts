@@ -19,7 +19,7 @@ async function getDetailsOfACertificateProfile() {
 }
 
 async function main() {
-  getDetailsOfACertificateProfile();
+  await getDetailsOfACertificateProfile();
 }
 
 main().catch(console.error);

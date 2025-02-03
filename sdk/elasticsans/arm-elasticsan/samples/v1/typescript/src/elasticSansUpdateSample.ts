@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ElasticSanUpdate, ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a Elastic San.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Update a Elastic San.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Update_MaximumSet_Gen.json
  */
-async function elasticSansUpdateMaximumSetGen() {
+async function elasticSansUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -50,7 +48,7 @@ async function elasticSansUpdateMaximumSetGen() {
  * @summary Update a Elastic San.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Update_MinimumSet_Gen.json
  */
-async function elasticSansUpdateMinimumSetGen() {
+async function elasticSansUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -67,7 +65,7 @@ async function elasticSansUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   elasticSansUpdateMaximumSetGen();
   elasticSansUpdateMinimumSetGen();
 }

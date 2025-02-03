@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ExpressRouteLinksGetParameters
+  ExpressRouteLinksGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the specified ExpressRouteLink resource.
@@ -25,7 +20,7 @@ async function expressRouteLinkGet() {
   const expressRoutePortName = "portName";
   const linkName = "linkName";
   const options: ExpressRouteLinksGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function expressRouteLinkGet() {
       subscriptionId,
       resourceGroupName,
       expressRoutePortName,
-      linkName
+      linkName,
     )
     .get(options);
   console.log(result);

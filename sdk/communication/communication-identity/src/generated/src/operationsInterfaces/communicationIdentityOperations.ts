@@ -16,7 +16,7 @@ import {
   CommunicationIdentityTokenScope,
   CommunicationIdentityIssueAccessTokenOptionalParams,
   CommunicationIdentityIssueAccessTokenResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CommunicationIdentityOperations. */
 export interface CommunicationIdentityOperations {

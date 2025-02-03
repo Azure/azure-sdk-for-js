@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to reapply a virtual machine's state.
@@ -20,23 +16,18 @@ dotenv.config();
  * @summary The operation to reapply a virtual machine's state.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Reapply.json
  */
-async function reapplyTheStateOfAVirtualMachine() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "ResourceGroup";
+async function reapplyTheStateOfAVirtualMachine(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "ResourceGroup";
   const vmName = "VMName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachines.beginReapplyAndWait(
-    resourceGroupName,
-    vmName,
-  );
+  const result = await client.virtualMachines.beginReapplyAndWait(resourceGroupName, vmName);
   console.log(result);
 }
 
-async function main() {
-  reapplyTheStateOfAVirtualMachine();
+async function main(): Promise<void> {
+  await reapplyTheStateOfAVirtualMachine();
 }
 
 main().catch(console.error);

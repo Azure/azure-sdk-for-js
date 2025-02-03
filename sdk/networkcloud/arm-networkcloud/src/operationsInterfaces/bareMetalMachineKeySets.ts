@@ -16,8 +16,9 @@ import {
   BareMetalMachineKeySetsCreateOrUpdateOptionalParams,
   BareMetalMachineKeySetsCreateOrUpdateResponse,
   BareMetalMachineKeySetsDeleteOptionalParams,
+  BareMetalMachineKeySetsDeleteResponse,
   BareMetalMachineKeySetsUpdateOptionalParams,
-  BareMetalMachineKeySetsUpdateResponse
+  BareMetalMachineKeySetsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +33,7 @@ export interface BareMetalMachineKeySets {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BareMetalMachineKeySetsListByClusterOptionalParams
+    options?: BareMetalMachineKeySetsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<BareMetalMachineKeySet>;
   /**
    * Get bare metal machine key set of the provided cluster.
@@ -45,7 +46,7 @@ export interface BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     bareMetalMachineKeySetName: string,
-    options?: BareMetalMachineKeySetsGetOptionalParams
+    options?: BareMetalMachineKeySetsGetOptionalParams,
   ): Promise<BareMetalMachineKeySetsGetResponse>;
   /**
    * Create a new bare metal machine key set or update the existing one for the provided cluster.
@@ -60,7 +61,7 @@ export interface BareMetalMachineKeySets {
     clusterName: string,
     bareMetalMachineKeySetName: string,
     bareMetalMachineKeySetParameters: BareMetalMachineKeySet,
-    options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams
+    options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachineKeySetsCreateOrUpdateResponse>,
@@ -80,7 +81,7 @@ export interface BareMetalMachineKeySets {
     clusterName: string,
     bareMetalMachineKeySetName: string,
     bareMetalMachineKeySetParameters: BareMetalMachineKeySet,
-    options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams
+    options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams,
   ): Promise<BareMetalMachineKeySetsCreateOrUpdateResponse>;
   /**
    * Delete the bare metal machine key set of the provided cluster.
@@ -93,8 +94,13 @@ export interface BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     bareMetalMachineKeySetName: string,
-    options?: BareMetalMachineKeySetsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: BareMetalMachineKeySetsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BareMetalMachineKeySetsDeleteResponse>,
+      BareMetalMachineKeySetsDeleteResponse
+    >
+  >;
   /**
    * Delete the bare metal machine key set of the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -106,8 +112,8 @@ export interface BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     bareMetalMachineKeySetName: string,
-    options?: BareMetalMachineKeySetsDeleteOptionalParams
-  ): Promise<void>;
+    options?: BareMetalMachineKeySetsDeleteOptionalParams,
+  ): Promise<BareMetalMachineKeySetsDeleteResponse>;
   /**
    * Patch properties of bare metal machine key set for the provided cluster, or update the tags
    * associated with it. Properties and tag updates can be done independently.
@@ -120,7 +126,7 @@ export interface BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     bareMetalMachineKeySetName: string,
-    options?: BareMetalMachineKeySetsUpdateOptionalParams
+    options?: BareMetalMachineKeySetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachineKeySetsUpdateResponse>,
@@ -139,6 +145,6 @@ export interface BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     bareMetalMachineKeySetName: string,
-    options?: BareMetalMachineKeySetsUpdateOptionalParams
+    options?: BareMetalMachineKeySetsUpdateOptionalParams,
   ): Promise<BareMetalMachineKeySetsUpdateResponse>;
 }

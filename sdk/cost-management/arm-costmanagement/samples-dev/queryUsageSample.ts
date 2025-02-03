@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  QueryDefinition,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { QueryDefinition } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Query the usage data for scope defined.
@@ -23,7 +17,7 @@ dotenv.config();
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountQuery.json
  */
-async function billingAccountQueryLegacy() {
+async function billingAccountQueryLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/70664866";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -36,30 +30,30 @@ async function billingAccountQueryLegacy() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -73,7 +67,7 @@ async function billingAccountQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingAccountQuery.json
  */
-async function billingAccountQueryMca() {
+async function billingAccountQueryMca(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -86,30 +80,30 @@ async function billingAccountQueryMca() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -123,16 +117,16 @@ async function billingAccountQueryMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountQueryGrouping.json
  */
-async function billingAccountQueryGroupingLegacy() {
+async function billingAccountQueryGroupingLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/70664866";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "None",
-      grouping: [{ name: "ResourceGroup", type: "Dimension" }]
+      grouping: [{ name: "ResourceGroup", type: "Dimension" }],
     },
-    timeframe: "TheLastMonth"
+    timeframe: "TheLastMonth",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -146,16 +140,16 @@ async function billingAccountQueryGroupingLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingAccountQueryGrouping.json
  */
-async function billingAccountQueryGroupingMca() {
+async function billingAccountQueryGroupingMca(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "None",
-      grouping: [{ name: "ResourceGroup", type: "Dimension" }]
+      grouping: [{ name: "ResourceGroup", type: "Dimension" }],
     },
-    timeframe: "TheLastMonth"
+    timeframe: "TheLastMonth",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -169,9 +163,8 @@ async function billingAccountQueryGroupingMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingProfileQuery.json
  */
-async function billingProfileQueryMca() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
+async function billingProfileQueryMca(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
@@ -183,30 +176,30 @@ async function billingProfileQueryMca() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -220,17 +213,16 @@ async function billingProfileQueryMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingProfileQueryGrouping.json
  */
-async function billingProfileQueryGroupingMca() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
+async function billingProfileQueryGroupingMca(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "None",
-      grouping: [{ name: "ResourceGroup", type: "Dimension" }]
+      grouping: [{ name: "ResourceGroup", type: "Dimension" }],
     },
-    timeframe: "TheLastMonth"
+    timeframe: "TheLastMonth",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -244,9 +236,8 @@ async function billingProfileQueryGroupingMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCACustomerQuery.json
  */
-async function customerQueryMca() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
+async function customerQueryMca(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
@@ -258,30 +249,30 @@ async function customerQueryMca() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -295,17 +286,16 @@ async function customerQueryMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCACustomerQueryGrouping.json
  */
-async function customerQueryGroupingMca() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
+async function customerQueryGroupingMca(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "None",
-      grouping: [{ name: "ResourceGroup", type: "Dimension" }]
+      grouping: [{ name: "ResourceGroup", type: "Dimension" }],
     },
-    timeframe: "TheLastMonth"
+    timeframe: "TheLastMonth",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -319,9 +309,8 @@ async function customerQueryGroupingMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DepartmentQuery.json
  */
-async function departmentQueryLegacy() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/departments/123";
+async function departmentQueryLegacy(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/departments/123";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
@@ -333,30 +322,30 @@ async function departmentQueryLegacy() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -370,17 +359,16 @@ async function departmentQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DepartmentQueryGrouping.json
  */
-async function departmentQueryGroupingLegacy() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/departments/123";
+async function departmentQueryGroupingLegacy(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/departments/123";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "None",
-      grouping: [{ name: "ResourceGroup", type: "Dimension" }]
+      grouping: [{ name: "ResourceGroup", type: "Dimension" }],
     },
-    timeframe: "TheLastMonth"
+    timeframe: "TheLastMonth",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -394,9 +382,8 @@ async function departmentQueryGroupingLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/EnrollmentAccountQuery.json
  */
-async function enrollmentAccountQueryLegacy() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
+async function enrollmentAccountQueryLegacy(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
@@ -408,30 +395,30 @@ async function enrollmentAccountQueryLegacy() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -445,17 +432,16 @@ async function enrollmentAccountQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/EnrollmentAccountQueryGrouping.json
  */
-async function enrollmentAccountQueryGroupingLegacy() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
+async function enrollmentAccountQueryGroupingLegacy(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "Daily",
-      grouping: [{ name: "ResourceGroup", type: "Dimension" }]
+      grouping: [{ name: "ResourceGroup", type: "Dimension" }],
     },
-    timeframe: "TheLastMonth"
+    timeframe: "TheLastMonth",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -469,7 +455,7 @@ async function enrollmentAccountQueryGroupingLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCAInvoiceSectionQuery.json
  */
-async function invoiceSectionQueryMca() {
+async function invoiceSectionQueryMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876";
   const parameters: QueryDefinition = {
@@ -483,30 +469,30 @@ async function invoiceSectionQueryMca() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -520,7 +506,7 @@ async function invoiceSectionQueryMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCAInvoiceSectionQueryGrouping.json
  */
-async function invoiceSectionQueryGroupingMca() {
+async function invoiceSectionQueryGroupingMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876";
   const parameters: QueryDefinition = {
@@ -528,9 +514,9 @@ async function invoiceSectionQueryGroupingMca() {
     dataset: {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "None",
-      grouping: [{ name: "ResourceGroup", type: "Dimension" }]
+      grouping: [{ name: "ResourceGroup", type: "Dimension" }],
     },
-    timeframe: "TheLastMonth"
+    timeframe: "TheLastMonth",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -544,7 +530,7 @@ async function invoiceSectionQueryGroupingMca() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ManagementGroupQuery.json
  */
-async function managementGroupQueryLegacy() {
+async function managementGroupQueryLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/MyMgId";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -557,30 +543,30 @@ async function managementGroupQueryLegacy() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -594,16 +580,16 @@ async function managementGroupQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ManagementGroupQueryGrouping.json
  */
-async function managementGroupQueryGroupingLegacy() {
+async function managementGroupQueryGroupingLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/MyMgId";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "None",
-      grouping: [{ name: "ResourceGroup", type: "Dimension" }]
+      grouping: [{ name: "ResourceGroup", type: "Dimension" }],
     },
-    timeframe: "TheLastMonth"
+    timeframe: "TheLastMonth",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -617,7 +603,7 @@ async function managementGroupQueryGroupingLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ResourceGroupQuery.json
  */
-async function resourceGroupQueryLegacy() {
+async function resourceGroupQueryLegacy(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ScreenSharingTest-peer";
   const parameters: QueryDefinition = {
@@ -631,30 +617,30 @@ async function resourceGroupQueryLegacy() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -668,7 +654,7 @@ async function resourceGroupQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ResourceGroupQueryGrouping.json
  */
-async function resourceGroupQueryGroupingLegacy() {
+async function resourceGroupQueryGroupingLegacy(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ScreenSharingTest-peer";
   const parameters: QueryDefinition = {
@@ -676,9 +662,9 @@ async function resourceGroupQueryGroupingLegacy() {
     dataset: {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "Daily",
-      grouping: [{ name: "ResourceType", type: "Dimension" }]
+      grouping: [{ name: "ResourceType", type: "Dimension" }],
     },
-    timeframe: "TheLastMonth"
+    timeframe: "TheLastMonth",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -692,7 +678,7 @@ async function resourceGroupQueryGroupingLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/SubscriptionQuery.json
  */
-async function subscriptionQueryLegacy() {
+async function subscriptionQueryLegacy(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const parameters: QueryDefinition = {
     type: "Usage",
@@ -705,30 +691,30 @@ async function subscriptionQueryLegacy() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -742,16 +728,16 @@ async function subscriptionQueryLegacy() {
  * @summary Query the usage data for scope defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/SubscriptionQueryGrouping.json
  */
-async function subscriptionQueryGroupingLegacy() {
+async function subscriptionQueryGroupingLegacy(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const parameters: QueryDefinition = {
     type: "Usage",
     dataset: {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "None",
-      grouping: [{ name: "ResourceGroup", type: "Dimension" }]
+      grouping: [{ name: "ResourceGroup", type: "Dimension" }],
     },
-    timeframe: "TheLastMonth"
+    timeframe: "TheLastMonth",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -759,27 +745,27 @@ async function subscriptionQueryGroupingLegacy() {
   console.log(result);
 }
 
-async function main() {
-  billingAccountQueryLegacy();
-  billingAccountQueryMca();
-  billingAccountQueryGroupingLegacy();
-  billingAccountQueryGroupingMca();
-  billingProfileQueryMca();
-  billingProfileQueryGroupingMca();
-  customerQueryMca();
-  customerQueryGroupingMca();
-  departmentQueryLegacy();
-  departmentQueryGroupingLegacy();
-  enrollmentAccountQueryLegacy();
-  enrollmentAccountQueryGroupingLegacy();
-  invoiceSectionQueryMca();
-  invoiceSectionQueryGroupingMca();
-  managementGroupQueryLegacy();
-  managementGroupQueryGroupingLegacy();
-  resourceGroupQueryLegacy();
-  resourceGroupQueryGroupingLegacy();
-  subscriptionQueryLegacy();
-  subscriptionQueryGroupingLegacy();
+async function main(): Promise<void> {
+  await billingAccountQueryLegacy();
+  await billingAccountQueryMca();
+  await billingAccountQueryGroupingLegacy();
+  await billingAccountQueryGroupingMca();
+  await billingProfileQueryMca();
+  await billingProfileQueryGroupingMca();
+  await customerQueryMca();
+  await customerQueryGroupingMca();
+  await departmentQueryLegacy();
+  await departmentQueryGroupingLegacy();
+  await enrollmentAccountQueryLegacy();
+  await enrollmentAccountQueryGroupingLegacy();
+  await invoiceSectionQueryMca();
+  await invoiceSectionQueryGroupingMca();
+  await managementGroupQueryLegacy();
+  await managementGroupQueryGroupingLegacy();
+  await resourceGroupQueryLegacy();
+  await resourceGroupQueryGroupingLegacy();
+  await subscriptionQueryLegacy();
+  await subscriptionQueryGroupingLegacy();
 }
 
 main().catch(console.error);

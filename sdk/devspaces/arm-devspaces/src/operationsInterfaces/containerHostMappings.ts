@@ -10,7 +10,7 @@ import {
   ContainerHostMapping,
   ContainerHostMappingsGetContainerHostMappingOptionalParams,
   ContainerHostMappingsGetContainerHostMappingResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ContainerHostMappings. */
 export interface ContainerHostMappings {

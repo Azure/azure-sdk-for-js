@@ -19,7 +19,7 @@ import {
   CreateAPIKeyModel as CreateAPIKeyModelMapper,
   AccessInviteUserAccountModel as AccessInviteUserAccountModelMapper,
   AccessCreateRoleBindingRequestModel as AccessCreateRoleBindingRequestModelMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

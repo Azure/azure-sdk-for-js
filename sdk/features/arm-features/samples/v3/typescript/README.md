@@ -77,7 +77,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [subscriptionfeatureregistrationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/features/arm-features/samples/v3/typescript/src/subscriptionFeatureRegistrationsGetSample.ts
 [subscriptionfeatureregistrationslistallbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/features/arm-features/samples/v3/typescript/src/subscriptionFeatureRegistrationsListAllBySubscriptionSample.ts
 [subscriptionfeatureregistrationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/features/arm-features/samples/v3/typescript/src/subscriptionFeatureRegistrationsListBySubscriptionSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-features?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-features?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/features/arm-features/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

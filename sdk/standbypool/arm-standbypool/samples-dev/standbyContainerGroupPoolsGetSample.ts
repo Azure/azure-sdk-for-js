@@ -19,7 +19,7 @@ async function standbyContainerGroupPoolsGet() {
 }
 
 async function main() {
-  standbyContainerGroupPoolsGet();
+  await standbyContainerGroupPoolsGet();
 }
 
 main().catch(console.error);

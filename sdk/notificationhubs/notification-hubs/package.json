@@ -27,7 +27,7 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run build:test && dev-tool run test:vitest --browser -- -c vitest.browser.int.config.ts",
-    "integration-test:node": "dev-tool run test:vitest -- -c vitest.int.config.ts",
+    "integration-test:node": "dev-tool run test:vitest --esm",
     "lint": "eslint README.md package.json api-extractor.json src test",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -66,14 +66,14 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.4.5",
     "eslint": "^9.9.0",
     "playwright": "^1.43.0",
     "tsx": "^4.19.1",
-    "typescript": "~5.6.2",
-    "vitest": "^2.0.5"
+    "typescript": "~5.7.2",
+    "vitest": "^3.0.3"
   },
   "dependencies": {
     "@azure-rest/core-client": "^2.0.0",
@@ -89,6 +89,7 @@
     "tslib": "^2.6.2"
   },
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",

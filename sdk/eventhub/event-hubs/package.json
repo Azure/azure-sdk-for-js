@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.13.0",
+  "version": "6.0.0-beta.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -43,9 +43,9 @@
     "generate-certs": "tsx ./scripts/generateCerts.mts",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run vendored cross-env TEST_MODE=live dev-tool run test:vitest --browser --no-test-proxy",
-    "integration-test:node": "dev-tool run vendored cross-env TEST_MODE=live npm run vitest:node",
-    "lint": "eslint package.json api-extractor.json src test README.md",
-    "lint:fix": "eslint package.json api-extractor.json src test README.md --fix --fix-type [problem,suggestion]",
+    "integration-test:node": "dev-tool run vendored cross-env TEST_MODE=live npm run vitest:node --esm",
+    "lint": "eslint README.md package.json api-extractor.json src test",
+    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "perf-test:node": "tsc -p . --module \"commonjs\" && node dist-esm/test/perf/track-2/index.spec.js",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
@@ -83,10 +83,11 @@
       "azure-event-hubs"
     ],
     "requiredResources": {
-      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
+      "Azure Event Hub": "https://learn.microsoft.com/azure/event-hubs/event-hubs-create"
     }
   },
   "tshy": {
+    "project": "tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -127,8 +128,8 @@
     "@types/debug": "^4.1.4",
     "@types/node": "^18.0.0",
     "@types/ws": "^7.2.4",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
     "chai-exclude": "^3.0.0",
@@ -139,8 +140,8 @@
     "https-proxy-agent": "^7.0.0",
     "playwright": "^1.45.3",
     "tsx": "^4.16.2",
-    "typescript": "~5.6.2",
-    "vitest": "^2.0.5",
+    "typescript": "~5.7.2",
+    "vitest": "^3.0.3",
     "ws": "^8.2.0"
   },
   "exports": {

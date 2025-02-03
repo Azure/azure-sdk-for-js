@@ -3,10 +3,10 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import "./env";
+import "./env.js";
 import type { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
-import type { ImageAnalysisClient } from "../../../src/index";
-import importedCreateClient from "../../../src/index";
+import type { ImageAnalysisClient } from "../../../src/index.js";
+import importedCreateClient from "../../../src/index.js";
 
 export async function createClient(
   recorder: Recorder,

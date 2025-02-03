@@ -5,13 +5,13 @@ import type {
   EntitiesResult,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "./generated/models";
-import type { RecognizeCategorizedEntitiesResult } from "./recognizeCategorizedEntitiesResult";
+} from "./generated/models/index.js";
+import type { RecognizeCategorizedEntitiesResult } from "./recognizeCategorizedEntitiesResult.js";
 import {
   makeRecognizeCategorizedEntitiesErrorResult,
   makeRecognizeCategorizedEntitiesResult,
-} from "./recognizeCategorizedEntitiesResult";
-import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
+} from "./recognizeCategorizedEntitiesResult.js";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult.js";
 
 /**
  * Array of `RecognizeCategorizedEntitiesResult` objects corresponding to a batch of input documents, and

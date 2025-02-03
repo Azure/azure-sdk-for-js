@@ -23,7 +23,7 @@ async function standbyContainerGroupPoolRuntimeViewsGet() {
 }
 
 async function main() {
-  standbyContainerGroupPoolRuntimeViewsGet();
+  await standbyContainerGroupPoolRuntimeViewsGet();
 }
 
 main().catch(console.error);

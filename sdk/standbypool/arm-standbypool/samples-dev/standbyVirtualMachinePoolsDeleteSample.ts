@@ -18,7 +18,7 @@ async function standbyVirtualMachinePoolsDelete() {
 }
 
 async function main() {
-  standbyVirtualMachinePoolsDelete();
+  await standbyVirtualMachinePoolsDelete();
 }
 
 main().catch(console.error);

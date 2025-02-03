@@ -1,20 +1,11 @@
 {
-  "extends": "../../../tsconfig",
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
   "compilerOptions": {
-    "paths": {
-      "@azure/openai": ["./src/index.js"]
-    },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "exclude": ["./samples/**/*.ts"],
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "./samples-dev/**/*.ts",
-    "./test/**/*.ts",
-    "./test/**/*.mts"
-  ]
+    "target": "ES2017",
+    "moduleResolution": "nodenext"
+  }
 }

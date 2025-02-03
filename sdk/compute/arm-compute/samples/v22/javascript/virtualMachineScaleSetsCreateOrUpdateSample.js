@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ComputeManagementClient } = require("@azure/arm-compute");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Create or update a VM scale set.
@@ -2554,23 +2554,30 @@ async function createAScaleSetWithPriorityMixPolicy() {
   const parameters = {
     location: "westus",
     orchestrationMode: "Flexible",
+    platformFaultDomainCount: 1,
     priorityMixPolicy: {
-      baseRegularPriorityCount: 4,
+      baseRegularPriorityCount: 10,
       regularPriorityPercentageAboveBase: 50,
     },
-    singlePlacementGroup: false,
-    sku: { name: "Standard_A8m_v2", capacity: 10, tier: "Standard" },
+    sku: { name: "Standard_A8m_v2", capacity: 2, tier: "Standard" },
     virtualMachineProfile: {
-      billingProfile: { maxPrice: -1 },
-      evictionPolicy: "Deallocate",
       networkProfile: {
+        networkApiVersion: "2020-11-01",
         networkInterfaceConfigurations: [
           {
             name: "{vmss-name}",
+            enableAcceleratedNetworking: false,
             enableIPForwarding: true,
             ipConfigurations: [
               {
                 name: "{vmss-name}",
+                applicationGatewayBackendAddressPools: [],
+                loadBalancerBackendAddressPools: [],
+                primary: true,
+                publicIPAddressConfiguration: {
+                  name: "{vmss-name}",
+                  idleTimeoutInMinutes: 15,
+                },
                 subnet: {
                   id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}",
                 },
@@ -2588,9 +2595,9 @@ async function createAScaleSetWithPriorityMixPolicy() {
       priority: "Spot",
       storageProfile: {
         imageReference: {
-          offer: "WindowsServer",
-          publisher: "MicrosoftWindowsServer",
-          sku: "2016-Datacenter",
+          offer: "0001-com-ubuntu-server-focal",
+          publisher: "Canonical",
+          sku: "20_04-lts-gen2",
           version: "latest",
         },
         osDisk: {

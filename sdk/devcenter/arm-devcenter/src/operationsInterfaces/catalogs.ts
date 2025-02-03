@@ -26,7 +26,7 @@ import {
   CatalogsSyncResponse,
   CatalogsConnectOptionalParams,
   CatalogsConnectResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Catalogs. */

@@ -1,17 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+import type { VirtualNetworksListDdosProtectionStatusParameters } from "@azure-rest/arm-network";
 import createNetworkManagementClient, {
-  VirtualNetworksListDdosProtectionStatusParameters,
   // getLongRunningPoller,
   paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the Ddos Protection Status of all IP Addresses under the Virtual Network

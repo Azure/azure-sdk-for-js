@@ -3,7 +3,7 @@
 
 /* eslint "@typescript-eslint/no-shadow": "off" */
 
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 import type {
   HttpClient,
   PipelinePhase,
@@ -11,10 +11,10 @@ import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-  AddPipelineOptions,
+  AddPolicyOptions,
   Client,
-} from "@typespec/ts-http-runtime";
-import { AbortError, createTracingClient } from "@typespec/ts-http-runtime";
+} from "../src/index.js";
+import { AbortError } from "../src/index.js";
 
 interface GetOperationResult {}
 interface DetectFromUrl {}
@@ -26,11 +26,11 @@ interface Routes {
 }
 
 describe("snippets", () => {
-  it("send_request", () => {
+  it("ReadmeSampleSendRequest", () => {
     type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
   });
 
-  it("http_request", () => {
+  it("ReadmeSampleHttpRequest", () => {
     interface HttpClient {
       /**
        * The method that makes the request and returns a response.
@@ -39,7 +39,7 @@ describe("snippets", () => {
     }
   });
 
-  it("pipeline_policy", () => {
+  it("ReadmeSamplePipelinePolicy", () => {
     interface PipelinePolicy {
       /**
        * The policy name. Must be a unique string in the pipeline.
@@ -54,7 +54,7 @@ describe("snippets", () => {
     }
   });
 
-  it("custom_policy", () => {
+  it("ReadmeSampleCustomPolicy", () => {
     // @ts-ignore
     const customPolicy = {
       name: "My wonderful policy",
@@ -65,14 +65,15 @@ describe("snippets", () => {
         if (result.status === 403) {
           // Do something special if this policy sees Forbidden
         }
+        // @ts-preserve-whitespace
         return result;
       },
     };
   });
 
-  it("pipeline", () => {
+  it("ReadmeSamplePipeline", () => {
     interface Pipeline {
-      addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
+      addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
       removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
       sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
       getOrderedPolicies(): PipelinePolicy[];
@@ -80,7 +81,7 @@ describe("snippets", () => {
     }
   });
 
-  it("add_policy_options", () => {
+  it("ReadmeSampleAddPipelineOptions", () => {
     interface AddPipelineOptions {
       beforePolicies?: string[];
       afterPolicies?: string[];
@@ -89,17 +90,18 @@ describe("snippets", () => {
     }
   });
 
-  it("abort_error", () => {
+  it("ReadmeSampleAbortError", () => {
     async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
       if (options.abortSignal.aborted) {
         throw new AbortError();
       }
-
+      // @ts-preserve-whitespace
       // do async work
     }
-
+    // @ts-preserve-whitespace
     const controller = new AbortController();
     controller.abort();
+    // @ts-preserve-whitespace
     try {
       doAsyncWork({ abortSignal: controller.signal });
     } catch (e) {
@@ -109,28 +111,9 @@ describe("snippets", () => {
     }
   });
 
-  it("path_example", () => {
+  it("ReadmeSamplePathExample", () => {
     type MyClient = Client & {
       path: Routes;
     };
-  });
-
-  it("with_span_example", async () => {
-    const tracingClient = createTracingClient({
-      namespace: "test.namespace",
-      packageName: "test-package",
-      packageVersion: "1.0.0",
-    });
-
-    const options = {};
-
-    const myOperationResult = await tracingClient.withSpan(
-      "myClassName.myOperationName",
-      options,
-      (updatedOptions) => {
-        // Do something with the updated options.
-        return "myOperationResult";
-      },
-    );
   });
 });

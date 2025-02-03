@@ -4,11 +4,14 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -26,146 +29,89 @@ export interface AssetEndpointProfile extends TrackedResource {
 }
 
 // @public
-export interface AssetEndpointProfileListResult {
-    nextLink?: string;
-    value: AssetEndpointProfile[];
-}
-
-// @public
 export interface AssetEndpointProfileProperties {
     additionalConfiguration?: string;
+    authentication?: Authentication;
+    discoveredAssetEndpointProfileRef?: string;
+    endpointProfileType: string;
     readonly provisioningState?: ProvisioningState;
+    readonly status?: AssetEndpointProfileStatus;
     targetAddress: string;
-    transportAuthentication?: TransportAuthentication;
-    userAuthentication?: UserAuthentication;
     readonly uuid?: string;
 }
 
 // @public
-export interface AssetEndpointProfiles {
-    beginCreateOrReplace(resourceGroupName: string, assetEndpointProfileName: string, resource: AssetEndpointProfile, options?: AssetEndpointProfilesCreateOrReplaceOptionalParams): Promise<SimplePollerLike<OperationState<AssetEndpointProfilesCreateOrReplaceResponse>, AssetEndpointProfilesCreateOrReplaceResponse>>;
-    beginCreateOrReplaceAndWait(resourceGroupName: string, assetEndpointProfileName: string, resource: AssetEndpointProfile, options?: AssetEndpointProfilesCreateOrReplaceOptionalParams): Promise<AssetEndpointProfilesCreateOrReplaceResponse>;
-    beginDelete(resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AssetEndpointProfilesDeleteResponse>, AssetEndpointProfilesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesDeleteOptionalParams): Promise<AssetEndpointProfilesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, assetEndpointProfileName: string, properties: AssetEndpointProfileUpdate, options?: AssetEndpointProfilesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AssetEndpointProfilesUpdateResponse>, AssetEndpointProfilesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, assetEndpointProfileName: string, properties: AssetEndpointProfileUpdate, options?: AssetEndpointProfilesUpdateOptionalParams): Promise<AssetEndpointProfilesUpdateResponse>;
-    get(resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesGetOptionalParams): Promise<AssetEndpointProfilesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: AssetEndpointProfilesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AssetEndpointProfile>;
-    listBySubscription(options?: AssetEndpointProfilesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AssetEndpointProfile>;
-}
-
-// @public
-export interface AssetEndpointProfilesCreateOrReplaceHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface AssetEndpointProfilesCreateOrReplaceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AssetEndpointProfilesCreateOrReplaceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AssetEndpointProfilesCreateOrReplaceResponse = AssetEndpointProfile;
-
-// @public
-export interface AssetEndpointProfilesDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AssetEndpointProfilesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AssetEndpointProfilesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AssetEndpointProfilesDeleteResponse = AssetEndpointProfilesDeleteHeaders;
-
-// @public
-export interface AssetEndpointProfilesGetOptionalParams extends coreClient.OperationOptions {
+export interface AssetEndpointProfilesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AssetEndpointProfilesGetResponse = AssetEndpointProfile;
-
-// @public
-export interface AssetEndpointProfilesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface AssetEndpointProfilesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AssetEndpointProfilesListByResourceGroupNextResponse = AssetEndpointProfileListResult;
-
-// @public
-export interface AssetEndpointProfilesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AssetEndpointProfilesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AssetEndpointProfilesListByResourceGroupResponse = AssetEndpointProfileListResult;
-
-// @public
-export interface AssetEndpointProfilesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface AssetEndpointProfilesOperations {
+    createOrReplace: (resourceGroupName: string, assetEndpointProfileName: string, resource: AssetEndpointProfile, options?: AssetEndpointProfilesCreateOrReplaceOptionalParams) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
+    delete: (resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, assetEndpointProfileName: string, options?: AssetEndpointProfilesGetOptionalParams) => Promise<AssetEndpointProfile>;
+    listByResourceGroup: (resourceGroupName: string, options?: AssetEndpointProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AssetEndpointProfile>;
+    listBySubscription: (options?: AssetEndpointProfilesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AssetEndpointProfile>;
+    update: (resourceGroupName: string, assetEndpointProfileName: string, properties: AssetEndpointProfileUpdate, options?: AssetEndpointProfilesUpdateOptionalParams) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
 }
 
 // @public
-export type AssetEndpointProfilesListBySubscriptionNextResponse = AssetEndpointProfileListResult;
-
-// @public
-export interface AssetEndpointProfilesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface AssetEndpointProfileStatus {
+    readonly errors?: AssetEndpointProfileStatusError[];
 }
 
 // @public
-export type AssetEndpointProfilesListBySubscriptionResponse = AssetEndpointProfileListResult;
-
-// @public
-export interface AssetEndpointProfilesUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface AssetEndpointProfileStatusError {
+    readonly code?: number;
+    readonly message?: string;
 }
 
 // @public
-export interface AssetEndpointProfilesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AssetEndpointProfilesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type AssetEndpointProfilesUpdateResponse = AssetEndpointProfile;
 
 // @public
 export interface AssetEndpointProfileUpdate {
     properties?: AssetEndpointProfileUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface AssetEndpointProfileUpdateProperties {
     additionalConfiguration?: string;
+    authentication?: Authentication;
+    endpointProfileType?: string;
     targetAddress?: string;
-    transportAuthentication?: TransportAuthenticationUpdate;
-    userAuthentication?: UserAuthenticationUpdate;
-}
-
-// @public
-export interface AssetListResult {
-    nextLink?: string;
-    value: Asset[];
 }
 
 // @public
 export interface AssetProperties {
-    assetEndpointProfileUri: string;
-    assetType?: string;
-    attributes?: {
-        [propertyName: string]: any;
-    };
-    dataPoints?: DataPoint[];
-    defaultDataPointsConfiguration?: string;
+    assetEndpointProfileRef: string;
+    attributes?: Record<string, any>;
+    datasets?: Dataset[];
+    defaultDatasetsConfiguration?: string;
     defaultEventsConfiguration?: string;
+    defaultTopic?: Topic;
     description?: string;
+    discoveredAssetRefs?: string[];
     displayName?: string;
     documentationUri?: string;
     enabled?: boolean;
@@ -185,126 +131,81 @@ export interface AssetProperties {
 }
 
 // @public
-export interface Assets {
-    beginCreateOrReplace(resourceGroupName: string, assetName: string, resource: Asset, options?: AssetsCreateOrReplaceOptionalParams): Promise<SimplePollerLike<OperationState<AssetsCreateOrReplaceResponse>, AssetsCreateOrReplaceResponse>>;
-    beginCreateOrReplaceAndWait(resourceGroupName: string, assetName: string, resource: Asset, options?: AssetsCreateOrReplaceOptionalParams): Promise<AssetsCreateOrReplaceResponse>;
-    beginDelete(resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AssetsDeleteResponse>, AssetsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams): Promise<AssetsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, assetName: string, properties: AssetUpdate, options?: AssetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AssetsUpdateResponse>, AssetsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, assetName: string, properties: AssetUpdate, options?: AssetsUpdateOptionalParams): Promise<AssetsUpdateResponse>;
-    get(resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams): Promise<AssetsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: AssetsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Asset>;
-    listBySubscription(options?: AssetsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Asset>;
-}
-
-// @public
-export interface AssetsCreateOrReplaceHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface AssetsCreateOrReplaceOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AssetsCreateOrReplaceOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AssetsCreateOrReplaceResponse = Asset;
-
-// @public
-export interface AssetsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AssetsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AssetsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AssetsDeleteResponse = AssetsDeleteHeaders;
-
-// @public
-export interface AssetsGetOptionalParams extends coreClient.OperationOptions {
+export interface AssetsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AssetsGetResponse = Asset;
-
-// @public
-export interface AssetsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface AssetsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AssetsListByResourceGroupNextResponse = AssetListResult;
-
-// @public
-export interface AssetsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface AssetsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type AssetsListByResourceGroupResponse = AssetListResult;
-
-// @public
-export interface AssetsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface AssetsOperations {
+    createOrReplace: (resourceGroupName: string, assetName: string, resource: Asset, options?: AssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<Asset>, Asset>;
+    delete: (resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams) => Promise<Asset>;
+    listByResourceGroup: (resourceGroupName: string, options?: AssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Asset>;
+    listBySubscription: (options?: AssetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Asset>;
+    update: (resourceGroupName: string, assetName: string, properties: AssetUpdate, options?: AssetsUpdateOptionalParams) => PollerLike<OperationState<Asset>, Asset>;
 }
-
-// @public
-export type AssetsListBySubscriptionNextResponse = AssetListResult;
-
-// @public
-export interface AssetsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AssetsListBySubscriptionResponse = AssetListResult;
 
 // @public
 export interface AssetStatus {
-    errors?: AssetStatusError[];
-    version?: number;
+    readonly datasets?: AssetStatusDataset[];
+    readonly errors?: AssetStatusError[];
+    readonly events?: AssetStatusEvent[];
+    readonly version?: number;
+}
+
+// @public
+export interface AssetStatusDataset {
+    readonly messageSchemaReference?: MessageSchemaReference;
+    readonly name: string;
 }
 
 // @public
 export interface AssetStatusError {
-    code?: number;
-    message?: string;
+    readonly code?: number;
+    readonly message?: string;
 }
 
 // @public
-export interface AssetsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
+export interface AssetStatusEvent {
+    readonly messageSchemaReference?: MessageSchemaReference;
+    readonly name: string;
 }
 
 // @public
-export interface AssetsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface AssetsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AssetsUpdateResponse = Asset;
-
-// @public
 export interface AssetUpdate {
     properties?: AssetUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface AssetUpdateProperties {
-    assetType?: string;
-    attributes?: {
-        [propertyName: string]: any;
-    };
-    dataPoints?: DataPoint[];
-    defaultDataPointsConfiguration?: string;
+    attributes?: Record<string, any>;
+    datasets?: Dataset[];
+    defaultDatasetsConfiguration?: string;
     defaultEventsConfiguration?: string;
+    defaultTopic?: Topic;
     description?: string;
     displayName?: string;
     documentationUri?: string;
@@ -320,49 +221,279 @@ export interface AssetUpdateProperties {
 }
 
 // @public
+export interface Authentication {
+    method: AuthenticationMethod;
+    usernamePasswordCredentials?: UsernamePasswordCredentials;
+    x509Credentials?: X509Credentials;
+}
+
+// @public
+export type AuthenticationMethod = string;
+
+// @public
+export interface BillingContainer extends ProxyResource {
+    readonly etag?: string;
+    properties?: BillingContainerProperties;
+}
+
+// @public
+export interface BillingContainerProperties {
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface BillingContainersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BillingContainersListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BillingContainersOperations {
+    get: (billingContainerName: string, options?: BillingContainersGetOptionalParams) => Promise<BillingContainer>;
+    listBySubscription: (options?: BillingContainersListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<BillingContainer>;
+}
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export type CreatedByType = string;
 
 // @public
-export interface DataPoint {
-    capabilityId?: string;
+export interface DataPoint extends DataPointBase {
+    observabilityMode?: DataPointObservabilityMode;
+}
+
+// @public
+export interface DataPointBase {
     dataPointConfiguration?: string;
     dataSource: string;
-    name?: string;
-    observabilityMode?: DataPointsObservabilityMode;
+    name: string;
 }
 
 // @public
-export type DataPointsObservabilityMode = string;
+export type DataPointObservabilityMode = string;
+
+// @public
+export interface Dataset {
+    dataPoints?: DataPoint[];
+    datasetConfiguration?: string;
+    name: string;
+    topic?: Topic;
+}
 
 // @public (undocumented)
-export class DeviceRegistryManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DeviceRegistryManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    assetEndpointProfiles: AssetEndpointProfiles;
-    // (undocumented)
-    assets: Assets;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    operationStatus: OperationStatus;
-    // (undocumented)
-    subscriptionId: string;
+export class DeviceRegistryManagementClient {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DeviceRegistryManagementClientOptionalParams);
+    readonly assetEndpointProfiles: AssetEndpointProfilesOperations;
+    readonly assets: AssetsOperations;
+    readonly billingContainers: BillingContainersOperations;
+    readonly discoveredAssetEndpointProfiles: DiscoveredAssetEndpointProfilesOperations;
+    readonly discoveredAssets: DiscoveredAssetsOperations;
+    readonly operations: OperationsOperations;
+    readonly operationStatus: OperationStatusOperations;
+    readonly pipeline: Pipeline;
+    readonly schemaRegistries: SchemaRegistriesOperations;
+    readonly schemas: SchemasOperations;
+    readonly schemaVersions: SchemaVersionsOperations;
 }
 
 // @public
-export interface DeviceRegistryManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface DeviceRegistryManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+}
+
+// @public
+export interface DiscoveredAsset extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: DiscoveredAssetProperties;
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfile extends TrackedResource {
+    extendedLocation: ExtendedLocation;
+    properties?: DiscoveredAssetEndpointProfileProperties;
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfileProperties {
+    additionalConfiguration?: string;
+    discoveryId: string;
+    endpointProfileType: string;
+    readonly provisioningState?: ProvisioningState;
+    supportedAuthenticationMethods?: AuthenticationMethod[];
+    targetAddress: string;
+    version: number;
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfilesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfilesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfilesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfilesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfilesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfilesOperations {
+    createOrReplace: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, resource: DiscoveredAssetEndpointProfile, options?: DiscoveredAssetEndpointProfilesCreateOrReplaceOptionalParams) => PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile>;
+    delete: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, options?: DiscoveredAssetEndpointProfilesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, options?: DiscoveredAssetEndpointProfilesGetOptionalParams) => Promise<DiscoveredAssetEndpointProfile>;
+    listByResourceGroup: (resourceGroupName: string, options?: DiscoveredAssetEndpointProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiscoveredAssetEndpointProfile>;
+    listBySubscription: (options?: DiscoveredAssetEndpointProfilesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DiscoveredAssetEndpointProfile>;
+    update: (resourceGroupName: string, discoveredAssetEndpointProfileName: string, properties: DiscoveredAssetEndpointProfileUpdate, options?: DiscoveredAssetEndpointProfilesUpdateOptionalParams) => PollerLike<OperationState<DiscoveredAssetEndpointProfile>, DiscoveredAssetEndpointProfile>;
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfilesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfileUpdate {
+    properties?: DiscoveredAssetEndpointProfileUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DiscoveredAssetEndpointProfileUpdateProperties {
+    additionalConfiguration?: string;
+    discoveryId?: string;
+    endpointProfileType?: string;
+    supportedAuthenticationMethods?: AuthenticationMethod[];
+    targetAddress?: string;
+    version?: number;
+}
+
+// @public
+export interface DiscoveredAssetProperties {
+    assetEndpointProfileRef: string;
+    datasets?: DiscoveredDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultEventsConfiguration?: string;
+    defaultTopic?: Topic;
+    discoveryId: string;
+    documentationUri?: string;
+    events?: DiscoveredEvent[];
+    hardwareRevision?: string;
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    readonly provisioningState?: ProvisioningState;
+    serialNumber?: string;
+    softwareRevision?: string;
+    version: number;
+}
+
+// @public
+export interface DiscoveredAssetsCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiscoveredAssetsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiscoveredAssetsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscoveredAssetsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscoveredAssetsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DiscoveredAssetsOperations {
+    createOrReplace: (resourceGroupName: string, discoveredAssetName: string, resource: DiscoveredAsset, options?: DiscoveredAssetsCreateOrReplaceOptionalParams) => PollerLike<OperationState<DiscoveredAsset>, DiscoveredAsset>;
+    delete: (resourceGroupName: string, discoveredAssetName: string, options?: DiscoveredAssetsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, discoveredAssetName: string, options?: DiscoveredAssetsGetOptionalParams) => Promise<DiscoveredAsset>;
+    listByResourceGroup: (resourceGroupName: string, options?: DiscoveredAssetsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DiscoveredAsset>;
+    listBySubscription: (options?: DiscoveredAssetsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DiscoveredAsset>;
+    update: (resourceGroupName: string, discoveredAssetName: string, properties: DiscoveredAssetUpdate, options?: DiscoveredAssetsUpdateOptionalParams) => PollerLike<OperationState<DiscoveredAsset>, DiscoveredAsset>;
+}
+
+// @public
+export interface DiscoveredAssetsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface DiscoveredAssetUpdate {
+    properties?: DiscoveredAssetUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DiscoveredAssetUpdateProperties {
+    datasets?: DiscoveredDataset[];
+    defaultDatasetsConfiguration?: string;
+    defaultEventsConfiguration?: string;
+    defaultTopic?: Topic;
+    discoveryId?: string;
+    documentationUri?: string;
+    events?: DiscoveredEvent[];
+    hardwareRevision?: string;
+    manufacturer?: string;
+    manufacturerUri?: string;
+    model?: string;
+    productCode?: string;
+    serialNumber?: string;
+    softwareRevision?: string;
+    version?: number;
+}
+
+// @public
+export interface DiscoveredDataPoint {
+    dataPointConfiguration?: string;
+    dataSource: string;
+    lastUpdatedOn?: Date;
+    name: string;
+}
+
+// @public
+export interface DiscoveredDataset {
+    dataPoints?: DiscoveredDataPoint[];
+    datasetConfiguration?: string;
+    name: string;
+    topic?: Topic;
+}
+
+// @public
+export interface DiscoveredEvent {
+    eventConfiguration?: string;
+    eventNotifier: string;
+    lastUpdatedOn?: Date;
+    name: string;
+    topic?: Topic;
 }
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -376,22 +507,21 @@ export interface ErrorDetail {
 }
 
 // @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public
-interface Event_2 {
-    capabilityId?: string;
-    eventConfiguration?: string;
-    eventNotifier: string;
-    name?: string;
-    observabilityMode?: EventsObservabilityMode;
+interface Event_2 extends EventBase {
+    observabilityMode?: EventObservabilityMode;
 }
 export { Event_2 as Event }
 
 // @public
-export type EventsObservabilityMode = string;
+export interface EventBase {
+    eventConfiguration?: string;
+    eventNotifier: string;
+    name: string;
+    topic?: Topic;
+}
+
+// @public
+export type EventObservabilityMode = string;
 
 // @public
 export interface ExtendedLocation {
@@ -400,11 +530,18 @@ export interface ExtendedLocation {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export type Format = string;
 
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAuthenticationMethod {
+    Anonymous = "Anonymous",
+    Certificate = "Certificate",
+    UsernamePassword = "UsernamePassword"
 }
 
 // @public
@@ -416,18 +553,24 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownDataPointsObservabilityMode {
-    Counter = "counter",
-    Gauge = "gauge",
-    Histogram = "histogram",
-    Log = "log",
-    None = "none"
+export enum KnownDataPointObservabilityMode {
+    Counter = "Counter",
+    Gauge = "Gauge",
+    Histogram = "Histogram",
+    Log = "Log",
+    None = "None"
 }
 
 // @public
-export enum KnownEventsObservabilityMode {
-    Log = "log",
-    None = "none"
+export enum KnownEventObservabilityMode {
+    Log = "Log",
+    None = "None"
+}
+
+// @public
+export enum KnownFormat {
+    Delta_1_0 = "Delta/1.0",
+    JsonSchemaDraft7 = "JsonSchema/draft-07"
 }
 
 // @public
@@ -441,21 +584,45 @@ export enum KnownOrigin {
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
+    Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded"
 }
 
 // @public
-export enum KnownUserAuthenticationMode {
-    Anonymous = "Anonymous",
-    Certificate = "Certificate",
-    UsernamePassword = "UsernamePassword"
+export enum KnownSchemaType {
+    MessageSchema = "MessageSchema"
+}
+
+// @public
+export enum KnownSystemAssignedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned"
+}
+
+// @public
+export enum KnownTopicRetainType {
+    Keep = "Keep",
+    Never = "Never"
+}
+
+// @public
+export enum KnownVersions {
+    V2023_11_01_Preview = "2023-11-01-preview",
+    V2024_09_01_Preview = "2024-09-01-preview"
+}
+
+// @public
+export interface MessageSchemaReference {
+    readonly schemaName: string;
+    readonly schemaRegistryNamespace: string;
+    readonly schemaVersion: string;
 }
 
 // @public
 export interface Operation {
-    readonly actionType?: ActionType;
-    display?: OperationDisplay;
+    actionType?: ActionType;
+    readonly display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -470,41 +637,22 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationStatusGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationStatusOperations {
+    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) => Promise<OperationStatusResult>;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
-
-// @public
-export interface OperationStatus {
-    get(location: string, operationId: string, options?: OperationStatusGetOptionalParams): Promise<OperationStatusGetResponse>;
-}
-
-// @public
-export interface OperationStatusGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationStatusGetResponse = OperationStatusResult;
 
 // @public
 export interface OperationStatusResult {
@@ -522,14 +670,23 @@ export interface OperationStatusResult {
 export type Origin = string;
 
 // @public
-export interface OwnCertificate {
-    certPasswordReference?: string;
-    certSecretReference?: string;
-    certThumbprint?: string;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface Resource {
@@ -538,6 +695,173 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DeviceRegistryManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface Schema extends ProxyResource {
+    properties?: SchemaProperties;
+}
+
+// @public
+export interface SchemaProperties {
+    description?: string;
+    displayName?: string;
+    format: Format;
+    readonly provisioningState?: ProvisioningState;
+    schemaType: SchemaType;
+    tags?: Record<string, string>;
+    readonly uuid?: string;
+}
+
+// @public
+export interface SchemaRegistriesCreateOrReplaceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchemaRegistriesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchemaRegistriesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaRegistriesListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaRegistriesListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaRegistriesOperations {
+    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, resource: SchemaRegistry, options?: SchemaRegistriesCreateOrReplaceOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
+    delete: (resourceGroupName: string, schemaRegistryName: string, options?: SchemaRegistriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, schemaRegistryName: string, options?: SchemaRegistriesGetOptionalParams) => Promise<SchemaRegistry>;
+    listByResourceGroup: (resourceGroupName: string, options?: SchemaRegistriesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SchemaRegistry>;
+    listBySubscription: (options?: SchemaRegistriesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SchemaRegistry>;
+    update: (resourceGroupName: string, schemaRegistryName: string, properties: SchemaRegistryUpdate, options?: SchemaRegistriesUpdateOptionalParams) => PollerLike<OperationState<SchemaRegistry>, SchemaRegistry>;
+}
+
+// @public
+export interface SchemaRegistriesUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchemaRegistry extends TrackedResource {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: SchemaRegistryProperties;
+}
+
+// @public
+export interface SchemaRegistryProperties {
+    description?: string;
+    displayName?: string;
+    namespace: string;
+    readonly provisioningState?: ProvisioningState;
+    storageAccountContainerUrl: string;
+    readonly uuid?: string;
+}
+
+// @public
+export interface SchemaRegistryUpdate {
+    identity?: SystemAssignedServiceIdentity;
+    properties?: SchemaRegistryUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface SchemaRegistryUpdateProperties {
+    description?: string;
+    displayName?: string;
+}
+
+// @public
+export interface SchemasCreateOrReplaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemasDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemasGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemasListBySchemaRegistryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemasOperations {
+    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, resource: Schema, options?: SchemasCreateOrReplaceOptionalParams) => Promise<Schema>;
+    delete: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemasDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemasGetOptionalParams) => Promise<Schema>;
+    listBySchemaRegistry: (resourceGroupName: string, schemaRegistryName: string, options?: SchemasListBySchemaRegistryOptionalParams) => PagedAsyncIterableIterator<Schema>;
+}
+
+// @public
+export type SchemaType = string;
+
+// @public
+export interface SchemaVersion extends ProxyResource {
+    properties?: SchemaVersionProperties;
+}
+
+// @public
+export interface SchemaVersionProperties {
+    description?: string;
+    readonly hash?: string;
+    readonly provisioningState?: ProvisioningState;
+    schemaContent: string;
+    readonly uuid?: string;
+}
+
+// @public
+export interface SchemaVersionsCreateOrReplaceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaVersionsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaVersionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaVersionsListBySchemaOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SchemaVersionsOperations {
+    createOrReplace: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, resource: SchemaVersion, options?: SchemaVersionsCreateOrReplaceOptionalParams) => Promise<SchemaVersion>;
+    delete: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, schemaVersionName: string, options?: SchemaVersionsGetOptionalParams) => Promise<SchemaVersion>;
+    listBySchema: (resourceGroupName: string, schemaRegistryName: string, schemaName: string, options?: SchemaVersionsListBySchemaOptionalParams) => PagedAsyncIterableIterator<SchemaVersion>;
+}
+
+// @public
+export interface SystemAssignedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: SystemAssignedServiceIdentityType;
+}
+
+// @public
+export type SystemAssignedServiceIdentityType = string;
 
 // @public
 export interface SystemData {
@@ -550,60 +874,29 @@ export interface SystemData {
 }
 
 // @public
+export interface Topic {
+    path: string;
+    retain?: TopicRetainType;
+}
+
+// @public
+export type TopicRetainType = string;
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface TransportAuthentication {
-    ownCertificates: OwnCertificate[];
-}
-
-// @public
-export interface TransportAuthenticationUpdate {
-    ownCertificates?: OwnCertificate[];
-}
-
-// @public
-export interface UserAuthentication {
-    mode: UserAuthenticationMode;
-    usernamePasswordCredentials?: UsernamePasswordCredentials;
-    x509Credentials?: X509Credentials;
-}
-
-// @public
-export type UserAuthenticationMode = string;
-
-// @public
-export interface UserAuthenticationUpdate {
-    mode?: UserAuthenticationMode;
-    usernamePasswordCredentials?: UsernamePasswordCredentialsUpdate;
-    x509Credentials?: X509CredentialsUpdate;
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface UsernamePasswordCredentials {
-    passwordReference: string;
-    usernameReference: string;
-}
-
-// @public
-export interface UsernamePasswordCredentialsUpdate {
-    passwordReference?: string;
-    usernameReference?: string;
+    passwordSecretName: string;
+    usernameSecretName: string;
 }
 
 // @public
 export interface X509Credentials {
-    certificateReference: string;
-}
-
-// @public
-export interface X509CredentialsUpdate {
-    certificateReference?: string;
+    certificateSecretName: string;
 }
 
 // (No @packageDocumentation comment for this package)

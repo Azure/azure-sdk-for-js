@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about all public IP addresses in a role instance IP configuration in a cloud service.
@@ -28,7 +23,7 @@ async function listVmssvmPublicIP() {
   const networkInterfaceName = "nic1";
   const ipConfigurationName = "ip1";
   const options: PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -38,7 +33,7 @@ async function listVmssvmPublicIP() {
       cloudServiceName,
       roleInstanceName,
       networkInterfaceName,
-      ipConfigurationName
+      ipConfigurationName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

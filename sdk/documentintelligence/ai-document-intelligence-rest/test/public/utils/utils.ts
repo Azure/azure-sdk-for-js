@@ -4,7 +4,7 @@
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createClientLogger } from "@azure/logger";
 
-import path from "path";
+import path from "node:path";
 
 export const ASSET_PATH = path.resolve(path.join(process.cwd(), "assets"));
 
@@ -30,3 +30,13 @@ export const batchTrainingFilesResultContainerUrl = (): string =>
   assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL");
 
 export const logger = createClientLogger("ai-form-recognizer:test");
+
+export function isValidPNG(uint8Array: Uint8Array): boolean {
+  const pngSignature = [137, 80, 78, 71, 13, 10, 26, 10];
+  return uint8Array.length >= 8 && pngSignature.every((byte, i) => uint8Array[i] === byte);
+}
+
+export function isValidPDF(uint8Array: Uint8Array): boolean {
+  const pdfSignature = [37, 80, 68, 70, 45]; // Corresponds to "%PDF-"
+  return uint8Array.length >= 5 && pdfSignature.every((byte, i) => uint8Array[i] === byte);
+}

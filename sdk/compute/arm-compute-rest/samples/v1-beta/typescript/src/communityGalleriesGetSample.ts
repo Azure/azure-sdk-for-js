@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  CommunityGalleriesGetParameters
+  CommunityGalleriesGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a community gallery by gallery public name.
@@ -24,14 +19,14 @@ async function getACommunityGallery() {
   const location = "myLocation";
   const publicGalleryName = "publicGalleryName";
   const options: CommunityGalleriesGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}",
       subscriptionId,
       location,
-      publicGalleryName
+      publicGalleryName,
     )
     .get(options);
   console.log(result);

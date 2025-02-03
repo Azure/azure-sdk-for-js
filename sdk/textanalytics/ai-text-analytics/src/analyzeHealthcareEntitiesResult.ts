@@ -13,13 +13,16 @@ import type {
   RelationType,
   TextAnalyticsError,
   TextDocumentBatchStatistics,
-} from "./generated/models";
-import type { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "./textAnalyticsResult";
+} from "./generated/models/index.js";
+import type {
+  TextAnalyticsErrorResult,
+  TextAnalyticsSuccessResult,
+} from "./textAnalyticsResult.js";
 import {
   makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,
-} from "./textAnalyticsResult";
-import { parseHealthcareEntityIndex } from "./util";
+} from "./textAnalyticsResult.js";
+import { parseHealthcareEntityIndex } from "./util.js";
 
 /**
  * A type representing a reference for the healthcare entity into a specific

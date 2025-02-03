@@ -13,9 +13,7 @@ import {
   CustomLocationsManagementClient
 } from "@azure/arm-extendedlocation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the target resource group associated with the resource sync rules of the Custom Location that match the rules passed in with the Find Target Resource Group Request.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Returns the target resource group associated with the resource sync rules of the Custom Location that match the rules passed in with the Find Target Resource Group Request.
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsFindTargetResourceGroup.json
  */
-async function postCustomLocationFindTargetResourceGroup() {
+async function postCustomLocationFindTargetResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] ||
     "11111111-2222-3333-4444-555555555555";
@@ -46,7 +44,7 @@ async function postCustomLocationFindTargetResourceGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   postCustomLocationFindTargetResourceGroup();
 }
 

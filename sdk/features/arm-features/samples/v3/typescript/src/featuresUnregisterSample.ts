@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Unregisters the preview feature for the subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/examples/unregisterFeature.json
  */
-async function registerFeature() {
+async function registerFeature(): Promise<void> {
   const subscriptionId = "ff23096b-f5a2-46ea-bd62-59c3e93fef9a";
   const resourceProviderNamespace = "Resource Provider Namespace";
   const featureName = "feature";

@@ -9,7 +9,7 @@
 import {
   ExtensionTopicsGetOptionalParams,
   ExtensionTopicsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ExtensionTopics. */
 export interface ExtensionTopics {

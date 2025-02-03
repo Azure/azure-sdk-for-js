@@ -9,10 +9,10 @@
   },
   "dtsRollup": {
     "enabled": true,
-    "publicTrimmedFilePath": "./types/search-documents.d.ts",
+    "publicTrimmedFilePath": "dist/search-documents.d.ts",
     "untrimmedFilePath": ""
   },
-  "mainEntryPointFilePath": "types/src/index.d.ts",
+  "mainEntryPointFilePath": "dist/esm/index.d.ts",
   "messages": {
     "extractorMessageReporting": {
       "ae-missing-release-tag": {

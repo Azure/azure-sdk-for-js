@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import "./env";
+import "./env.js";
 
-import AccessControlClient, { AccessControlRestClient } from "../../../src";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { AccessControlRestClient } from "../../../src/index.js";
+import AccessControlClient from "../../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
-import { ClientOptions } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/identity";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const replaceableVariables: { [k: string]: string } = {
@@ -19,21 +21,27 @@ const replaceableVariables: { [k: string]: string } = {
 
 export async function createClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<AccessControlRestClient> {
   await recorder.start({
-    envSetupForPlayback: replaceableVariables, removeCentralSanitizers: [
+    envSetupForPlayback: replaceableVariables,
+    removeCentralSanitizers: [
       "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
     ],
   });
 
   const credential: TokenCredential = createTestCredential();
-  const client = AccessControlClient(env.ENDPOINT ?? "", credential, recorder.configureClientOptions({ ...options, allowInsecureConnection: true }));
+  const client = AccessControlClient(
+    env.ENDPOINT ?? "",
+    credential,
+    recorder.configureClientOptions({ ...options, allowInsecureConnection: true }),
+  );
   return client;
 }
 
 export function getWorkspaceName(): string {
   const url: string = env.ENDPOINT ?? "";
+  // eslint-disable-next-line no-useless-escape
   const matches = url.match(/^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)/) ?? [];
 
   if (matches.length < 2) {

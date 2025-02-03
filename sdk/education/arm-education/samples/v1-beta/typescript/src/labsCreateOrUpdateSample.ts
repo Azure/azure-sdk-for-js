@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LabDetails, EducationManagementClient } from "@azure/arm-education";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new lab or update a previously created lab.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a new lab or update a previously created lab.
  * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/CreateLab.json
  */
-async function createLab() {
+async function createLab(): Promise<void> {
   const billingAccountName = "{billingAccountName}";
   const billingProfileName = "{billingProfileName}";
   const invoiceSectionName = "{invoiceSectionName}";
@@ -41,7 +39,7 @@ async function createLab() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createLab();
 }
 

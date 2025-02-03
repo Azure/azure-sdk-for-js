@@ -15,7 +15,7 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import type { HttpClient, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
-describe("http request related tests", function () {
+describe("http request related tests", () => {
   describe("unit tests", () => {
     describe("parseSyncToken", () => {
       it("can parse various sync tokens", () => {
@@ -79,12 +79,12 @@ describe("http request related tests", function () {
     let client: AppConfigurationClient;
     let recorder: Recorder;
 
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       recorder = await startRecorder(ctx);
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
@@ -114,11 +114,11 @@ describe("http request related tests", function () {
     let client: AppConfigurationClient;
     let syncTokens: SyncTokens;
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       syncTokens = new SyncTokens();
     });
 
-    it("policy is setup properly to send sync tokens", async function () {
+    it("policy is setup properly to send sync tokens", async () => {
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
         return { headers: createHttpHeaders(), status: 418, request };
       });

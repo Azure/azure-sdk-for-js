@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, beforeEach } from "vitest";
-import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher";
+import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher.js";
 import { IncomingMessage, ServerResponse } from "node:http";
 import { Socket } from "node:net";
 

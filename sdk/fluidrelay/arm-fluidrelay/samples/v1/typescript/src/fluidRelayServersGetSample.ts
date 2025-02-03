@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { FluidRelayManagementClient } from "@azure/arm-fluidrelay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a Fluid Relay server.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a Fluid Relay server.
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServers_Get.json
  */
-async function getFluidRelayServerDetails() {
+async function getFluidRelayServerDetails(): Promise<void> {
   const subscriptionId =
     process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "xxxx-xxxx-xxxx-xxxx";
   const resourceGroup = "myResourceGroup";
@@ -34,7 +32,7 @@ async function getFluidRelayServerDetails() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getFluidRelayServerDetails();
 }
 

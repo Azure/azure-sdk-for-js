@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a DataflowEndpointResource
  *
  * @summary delete a DataflowEndpointResource
- * x-ms-original-file: 2024-09-15-preview/DataflowEndpoint_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/DataflowEndpoint_Delete_MaximumSet_Gen.json
  */
 async function dataflowEndpointDelete() {
   const credential = new DefaultAzureCredential();

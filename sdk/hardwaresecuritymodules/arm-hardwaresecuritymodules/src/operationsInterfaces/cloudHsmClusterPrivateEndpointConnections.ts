@@ -12,8 +12,9 @@ import {
   CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams,
   CloudHsmClusterPrivateEndpointConnectionsCreateResponse,
   CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
+  CloudHsmClusterPrivateEndpointConnectionsDeleteResponse,
   CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
-  CloudHsmClusterPrivateEndpointConnectionsGetResponse
+  CloudHsmClusterPrivateEndpointConnectionsGetResponse,
 } from "../models";
 
 /** Interface representing a CloudHsmClusterPrivateEndpointConnections. */
@@ -22,7 +23,7 @@ export interface CloudHsmClusterPrivateEndpointConnections {
    * Creates or updates the private endpoint connection for the Cloud Hsm Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cloudHsmClusterName The name of the Cloud HSM Cluster within the specified resource group.
-   *                            Cloud HSM Cluster names must be between 3 and 24 characters in length.
+   *                            Cloud HSM Cluster names must be between 3 and 23 characters in length.
    * @param peConnectionName Name of the private endpoint connection associated with the Cloud HSM
    *                         Cluster.
    * @param properties Parameters of the PrivateEndpointConnection
@@ -33,13 +34,13 @@ export interface CloudHsmClusterPrivateEndpointConnections {
     cloudHsmClusterName: string,
     peConnectionName: string,
     properties: PrivateEndpointConnection,
-    options?: CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams
+    options?: CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams,
   ): Promise<CloudHsmClusterPrivateEndpointConnectionsCreateResponse>;
   /**
    * Deletes the private endpoint connection for the Cloud Hsm Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cloudHsmClusterName The name of the Cloud HSM Cluster within the specified resource group.
-   *                            Cloud HSM Cluster names must be between 3 and 24 characters in length.
+   *                            Cloud HSM Cluster names must be between 3 and 23 characters in length.
    * @param peConnectionName Name of the private endpoint connection associated with the Cloud HSM
    *                         Cluster.
    * @param options The options parameters.
@@ -48,13 +49,18 @@ export interface CloudHsmClusterPrivateEndpointConnections {
     resourceGroupName: string,
     cloudHsmClusterName: string,
     peConnectionName: string,
-    options?: CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CloudHsmClusterPrivateEndpointConnectionsDeleteResponse>,
+      CloudHsmClusterPrivateEndpointConnectionsDeleteResponse
+    >
+  >;
   /**
    * Deletes the private endpoint connection for the Cloud Hsm Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cloudHsmClusterName The name of the Cloud HSM Cluster within the specified resource group.
-   *                            Cloud HSM Cluster names must be between 3 and 24 characters in length.
+   *                            Cloud HSM Cluster names must be between 3 and 23 characters in length.
    * @param peConnectionName Name of the private endpoint connection associated with the Cloud HSM
    *                         Cluster.
    * @param options The options parameters.
@@ -63,13 +69,13 @@ export interface CloudHsmClusterPrivateEndpointConnections {
     resourceGroupName: string,
     cloudHsmClusterName: string,
     peConnectionName: string,
-    options?: CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<void>;
+    options?: CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams,
+  ): Promise<CloudHsmClusterPrivateEndpointConnectionsDeleteResponse>;
   /**
    * Gets the private endpoint connection for the Cloud Hsm Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cloudHsmClusterName The name of the Cloud HSM Cluster within the specified resource group.
-   *                            Cloud HSM Cluster names must be between 3 and 24 characters in length.
+   *                            Cloud HSM Cluster names must be between 3 and 23 characters in length.
    * @param peConnectionName Name of the private endpoint connection associated with the Cloud HSM
    *                         Cluster.
    * @param options The options parameters.
@@ -78,6 +84,6 @@ export interface CloudHsmClusterPrivateEndpointConnections {
     resourceGroupName: string,
     cloudHsmClusterName: string,
     peConnectionName: string,
-    options?: CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams
+    options?: CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams,
   ): Promise<CloudHsmClusterPrivateEndpointConnectionsGetResponse>;
 }

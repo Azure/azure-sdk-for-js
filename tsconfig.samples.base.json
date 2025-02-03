@@ -1,0 +1,4 @@
+{
+  "extends": ["./tsconfig", "./tsconfig.nonlib"],
+  "include": ["${configDir}/samples-dev"]
+}

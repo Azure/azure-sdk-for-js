@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import ContainerServiceManagementClient, { paginate } from "@azure-rest/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists managed clusters in the specified subscription and resource group.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersListByResourceGroup.json
  */
-async function getManagedClustersByResourceGroup() {
+async function getManagedClustersByResourceGroup(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const credential = new DefaultAzureCredential();
@@ -31,7 +29,7 @@ async function getManagedClustersByResourceGroup() {
     .get();
   const result = paginate(client, initialResponse);
   const resArray = new Array();
-  for await (let item of result) {
+  for await (const item of result) {
     resArray.push(item);
   }
   console.log(resArray);

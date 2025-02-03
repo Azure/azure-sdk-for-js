@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { NumberAllotmentImpl, TieringImpl } from "./operations";
-import { NumberAllotment, Tiering } from "./operationsInterfaces";
-import { TieringClientOptionalParams } from "./models";
+import { NumberAllotmentImpl, TieringImpl } from "./operations/index.js";
+import { NumberAllotment, Tiering } from "./operationsInterfaces/index.js";
+import { TieringClientOptionalParams } from "./models/index.js";
 
 export class TieringClient extends coreClient.ServiceClient {
   endpoint: string;

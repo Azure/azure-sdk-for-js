@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list DataflowProfileResource resources by InstanceResource
  *
  * @summary list DataflowProfileResource resources by InstanceResource
- * x-ms-original-file: 2024-09-15-preview/DataflowProfile_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/DataflowProfile_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function dataflowProfileListByResourceGroup() {
   const credential = new DefaultAzureCredential();

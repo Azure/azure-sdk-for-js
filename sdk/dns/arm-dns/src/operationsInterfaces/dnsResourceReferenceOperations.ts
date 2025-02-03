@@ -10,7 +10,7 @@ import {
   DnsResourceReferenceRequest,
   DnsResourceReferenceGetByTargetResourcesOptionalParams,
   DnsResourceReferenceGetByTargetResourcesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DnsResourceReferenceOperations. */
 export interface DnsResourceReferenceOperations {

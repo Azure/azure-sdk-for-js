@@ -34,7 +34,7 @@ import {
   UploadCertificateRequest,
   DevicesUploadCertificateOptionalParams,
   DevicesUploadCertificateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Devices. */

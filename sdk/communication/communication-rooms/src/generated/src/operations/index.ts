@@ -6,5 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./rooms";
-export * from "./participants";
+export * from "./rooms.js";
+export * from "./participants.js";

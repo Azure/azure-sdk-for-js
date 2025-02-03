@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   NatRulesListByVpnGatewayParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves all nat rules for a particular virtual wan vpn gateway.
@@ -25,14 +20,14 @@ async function natRuleList() {
   const resourceGroupName = "rg1";
   const gatewayName = "gateway1";
   const options: NatRulesListByVpnGatewayParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

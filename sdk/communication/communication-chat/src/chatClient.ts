@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/// <reference lib="esnext.asynciterable" />
 
 import type {
   ChatClientOptions,
   CreateChatThreadOptions,
   DeleteChatThreadOptions,
   ListChatThreadsOptions,
-} from "./models/options";
+} from "./models/options.js";
 import type {
   ChatEventId,
   ChatMessageDeletedEvent,
@@ -20,28 +19,27 @@ import type {
   ParticipantsRemovedEvent,
   ReadReceiptReceivedEvent,
   TypingIndicatorReceivedEvent,
-} from "./models/events";
-import type { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
+} from "./models/events.js";
+import type { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models.js";
 import type { SignalingClient, SignalingClientOptions } from "@azure/communication-signaling";
 import { ConnectionState } from "@azure/communication-signaling";
 import {
   mapToChatParticipantRestModel,
   mapToCreateChatThreadOptionsRestModel,
   mapToCreateChatThreadResultSdkModel,
-} from "./models/mappers";
-
-import { ChatApiClient } from "./generated/src";
-import { ChatThreadClient } from "./chatThreadClient";
+} from "./models/mappers.js";
+import { ChatApiClient } from "./generated/src/index.js";
+import { ChatThreadClient } from "./chatThreadClient.js";
 import type { CommunicationTokenCredential } from "@azure/communication-common";
-import type { CreateChatThreadRequest } from "./models/requests";
+import type { CreateChatThreadRequest } from "./models/requests.js";
 import { EventEmitter } from "events";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-import { generateUuid } from "./models/uuid";
-import { getSignalingClient } from "./signaling/signalingClient";
-import { logger } from "./models/logger";
-import { tracingClient } from "./generated/src/tracing";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy.js";
+import { generateUuid } from "./models/uuid.js";
+import { getSignalingClient } from "./signaling/signalingClient.js";
+import { logger } from "./models/logger.js";
+import { tracingClient } from "./generated/src/tracing.js";
 
 declare interface InternalChatClientOptions extends ChatClientOptions {
   signalingClientOptions?: SignalingClientOptions;

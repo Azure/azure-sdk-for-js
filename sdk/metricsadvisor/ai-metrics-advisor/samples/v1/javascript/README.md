@@ -78,7 +78,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [metricfeedback]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/metricFeedback.js
 [metricqueries]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/metricQueries.js
 [seriesdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/seriesData.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-metrics-advisor/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[createinstance_azurecognitiveservicesaccount]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/README.md

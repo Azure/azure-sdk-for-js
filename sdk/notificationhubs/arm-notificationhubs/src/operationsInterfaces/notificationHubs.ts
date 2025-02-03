@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   NotificationHubResource,
   NotificationHubsListOptionalParams,
   SharedAccessAuthorizationRuleResource,
@@ -37,7 +37,7 @@ import {
   NotificationHubsRegenerateKeysResponse,
   NotificationHubsGetPnsCredentialsOptionalParams,
   NotificationHubsGetPnsCredentialsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NotificationHubs. */

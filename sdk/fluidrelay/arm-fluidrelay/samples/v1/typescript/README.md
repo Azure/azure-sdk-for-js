@@ -79,7 +79,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [fluidrelayserverslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fluidrelay/arm-fluidrelay/samples/v1/typescript/src/fluidRelayServersListKeysSample.ts
 [fluidrelayserversregeneratekeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fluidrelay/arm-fluidrelay/samples/v1/typescript/src/fluidRelayServersRegenerateKeySample.ts
 [fluidrelayserversupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fluidrelay/arm-fluidrelay/samples/v1/typescript/src/fluidRelayServersUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-fluidrelay?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-fluidrelay?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/fluidrelay/arm-fluidrelay/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

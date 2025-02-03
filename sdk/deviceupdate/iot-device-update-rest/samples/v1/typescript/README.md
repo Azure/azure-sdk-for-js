@@ -69,8 +69,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getupdate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/typescript/src/getUpdate.ts
 [importupdate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/typescript/src/importUpdate.ts
 [listupdates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/typescript/src/listUpdates.ts
-[apiref]: https://docs.microsoft.com/rest/api/deviceupdate/2021-06-01-preview/device-update
+[apiref]: https://learn.microsoft.com/rest/api/deviceupdate/2021-06-01-preview/device-update
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureiotdeviceupdateinstance]: https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update
+[createinstance_azureiotdeviceupdateinstance]: https://learn.microsoft.com/azure/iot-hub-device-update/understand-device-update
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

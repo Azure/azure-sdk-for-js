@@ -7,10 +7,10 @@
  */
 
 import { TSESTree, ESLintUtils } from "@typescript-eslint/utils";
-import { getLocalExports, createRule } from "../utils";
+import { getLocalExports, createRule } from "../utils/index.js";
 import { globSync } from "glob";
-import { readFileSync } from "fs";
-import { relative } from "path";
+import { readFileSync } from "node:fs";
+import { relative } from "node:path";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -113,7 +113,7 @@ export default createRule({
     const fileName = context.filename;
 
     // on the first run, if on a .ts file (program.getSourceFile is file-type dependent)
-    if (context.settings.exported === undefined && /\.ts$/.test(fileName)) {
+    if (context.settings.exported === undefined && /\.ts|\.mts|\.cts$/.test(fileName)) {
       const packageExports = getLocalExports(context);
       if (packageExports !== undefined) {
         context.settings.exported = packageExports;

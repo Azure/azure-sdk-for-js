@@ -37,24 +37,24 @@ export async function main() {
   const targetInput = createTargetInput(targetUrl, "fr");
   const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
+  // Start translation
   const batchRequests = { inputs: [batchRequest] };
   const poller = await client.path("/document/batches").post({
     body: batchRequests,
   });
   const id = getTranslationOperationID(poller.headers["operation-location"]);
 
-  //Cancel translation
+  // Cancel translation
   await client.path("/document/batches/{id}", id).delete();
 
-  //get translation status and verify the job is cancelled, cancelling or notStarted
+  // get translation status and verify the job is cancelled, cancelling or notStarted
   const response = await client.path("/document/batches/{id}", id).get();
   if (isUnexpected(response)) {
     throw response.body;
   }
   console.log("The status after cancelling the batch operation is:" + response.body.status);
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

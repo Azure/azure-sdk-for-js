@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a replica.
  *
  * @summary Deletes a replica.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresDeleteReplica.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresDeleteReplica.json
  */
 async function replicasDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function replicasDelete() {
   const result = await client.replicas.beginDeleteAndWait(
     resourceGroupName,
     configStoreName,
-    replicaName
+    replicaName,
   );
   console.log(result);
 }

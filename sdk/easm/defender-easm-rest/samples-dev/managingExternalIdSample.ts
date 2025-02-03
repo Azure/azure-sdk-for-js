@@ -30,9 +30,7 @@
 
 import EasmDefender, { isUnexpected } from "@azure-rest/defender-easm";
 import { DefaultAzureCredential } from "@azure/identity";
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 type MappingType = {
   name: string;
@@ -40,7 +38,7 @@ type MappingType = {
   external_id: string;
 };
 
-async function main() {
+async function main(): Promise<void> {
   // To create an EasmClient, you need your subscription ID, region, and some sort of credential.
   const subscription_id = process.env.SUBSCRIPTION_ID || "";
   const resource_group = process.env.RESOURCE_GROUP_NAME || "";
@@ -54,12 +52,15 @@ async function main() {
   const external_id_mapping: MappingType[] = JSON.parse(process.env.MAPPING!);
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
-    workspace_name,
+    endpoint +
+      "/subscriptions/" +
+      subscription_id +
+      "/resourceGroups/" +
+      resource_group +
+      "/workspaces/" +
+      workspace_name,
     credential,
-    {}
+    {},
   );
 
   // Using the client, we can update each asset and append the tracking id of the update to our update ID list,
@@ -67,7 +68,7 @@ async function main() {
   const external_ids: string[] = [];
   const update_ids: string[] = [];
 
-  external_id_mapping.forEach(async (mapping) => {
+  await external_id_mapping.forEach(async (mapping) => {
     external_ids.push(mapping.external_id);
 
     const task_response = await client.path("/assets").post({
@@ -87,7 +88,7 @@ async function main() {
   });
 
   // By calling the /tasks/{taskId} endpoint, we can view the progress of each update using the `get` method
-  update_ids.forEach(async (id) => {
+  await update_ids.forEach(async (id) => {
     const task_response = await client.path("/tasks/{taskId}", id).get();
 
     if (isUnexpected(task_response)) {
@@ -114,7 +115,7 @@ async function main() {
 
   const assets = assets_response.body.value!;
 
-  assets.forEach((asset) => {
+  await assets.forEach((asset) => {
     console.log(`${asset.externalId}, ${asset.name}`);
   });
 }

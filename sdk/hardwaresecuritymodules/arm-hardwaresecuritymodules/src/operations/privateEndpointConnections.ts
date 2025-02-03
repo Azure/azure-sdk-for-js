@@ -18,13 +18,14 @@ import {
   PrivateEndpointConnectionsListByCloudHsmClusterNextOptionalParams,
   PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams,
   PrivateEndpointConnectionsListByCloudHsmClusterResponse,
-  PrivateEndpointConnectionsListByCloudHsmClusterNextResponse
+  PrivateEndpointConnectionsListByCloudHsmClusterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections {
+  implements PrivateEndpointConnections
+{
   private readonly client: AzureHSMResourceProvider;
 
   /**
@@ -40,18 +41,18 @@ export class PrivateEndpointConnectionsImpl
    * HSM Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cloudHsmClusterName The name of the Cloud HSM Cluster within the specified resource group.
-   *                            Cloud HSM Cluster names must be between 3 and 24 characters in length.
+   *                            Cloud HSM Cluster names must be between 3 and 23 characters in length.
    * @param options The options parameters.
    */
   public listByCloudHsmCluster(
     resourceGroupName: string,
     cloudHsmClusterName: string,
-    options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams
+    options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection> {
     const iter = this.listByCloudHsmClusterPagingAll(
       resourceGroupName,
       cloudHsmClusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -68,9 +69,9 @@ export class PrivateEndpointConnectionsImpl
           resourceGroupName,
           cloudHsmClusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +79,7 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     cloudHsmClusterName: string,
     options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnection[]> {
     let result: PrivateEndpointConnectionsListByCloudHsmClusterResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +87,7 @@ export class PrivateEndpointConnectionsImpl
       result = await this._listByCloudHsmCluster(
         resourceGroupName,
         cloudHsmClusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -98,7 +99,7 @@ export class PrivateEndpointConnectionsImpl
         resourceGroupName,
         cloudHsmClusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +111,12 @@ export class PrivateEndpointConnectionsImpl
   private async *listByCloudHsmClusterPagingAll(
     resourceGroupName: string,
     cloudHsmClusterName: string,
-    options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams
+    options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnection> {
     for await (const page of this.listByCloudHsmClusterPagingPage(
       resourceGroupName,
       cloudHsmClusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,17 +127,17 @@ export class PrivateEndpointConnectionsImpl
    * HSM Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cloudHsmClusterName The name of the Cloud HSM Cluster within the specified resource group.
-   *                            Cloud HSM Cluster names must be between 3 and 24 characters in length.
+   *                            Cloud HSM Cluster names must be between 3 and 23 characters in length.
    * @param options The options parameters.
    */
   private _listByCloudHsmCluster(
     resourceGroupName: string,
     cloudHsmClusterName: string,
-    options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams
+    options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams,
   ): Promise<PrivateEndpointConnectionsListByCloudHsmClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudHsmClusterName, options },
-      listByCloudHsmClusterOperationSpec
+      listByCloudHsmClusterOperationSpec,
     );
   }
 
@@ -144,7 +145,7 @@ export class PrivateEndpointConnectionsImpl
    * ListByCloudHsmClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cloudHsmClusterName The name of the Cloud HSM Cluster within the specified resource group.
-   *                            Cloud HSM Cluster names must be between 3 and 24 characters in length.
+   *                            Cloud HSM Cluster names must be between 3 and 23 characters in length.
    * @param nextLink The nextLink from the previous successful call to the ListByCloudHsmCluster method.
    * @param options The options parameters.
    */
@@ -152,11 +153,11 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     cloudHsmClusterName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsListByCloudHsmClusterNextOptionalParams
+    options?: PrivateEndpointConnectionsListByCloudHsmClusterNextOptionalParams,
   ): Promise<PrivateEndpointConnectionsListByCloudHsmClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, cloudHsmClusterName, nextLink, options },
-      listByCloudHsmClusterNextOperationSpec
+      listByCloudHsmClusterNextOperationSpec,
     );
   }
 }
@@ -164,45 +165,44 @@ export class PrivateEndpointConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByCloudHsmClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/privateEndpointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HardwareSecurityModules/cloudHsmClusters/{cloudHsmClusterName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudHsmClusterError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.cloudHsmClusterName
+    Parameters.cloudHsmClusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByCloudHsmClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudHsmClusterError
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.cloudHsmClusterName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

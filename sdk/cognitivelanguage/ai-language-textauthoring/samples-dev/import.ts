@@ -11,17 +11,14 @@
 
 import createAuthoringClient from "@azure/ai-language-textauthoring";
 import { AzureKeyCredential } from "@azure/core-auth";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
 const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
 const projectName = process.env["PROJECT_NAME"] || "<project name>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Single Label Classification Sample ==");
 
   const client = createAuthoringClient(endpoint, new AzureKeyCredential(apiKey));

@@ -1,14 +1,10 @@
 # Release History
 
-## 5.1.1 (Unreleased)
+## 5.2.0-beta.1 (2025-01-13)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- release a preview version to resolve doc issue
 
 ## 5.1.0 (2023-05-18)
     

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes a managed private endpoint.
  *
  * @summary Deletes a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoManagedPrivateEndpointsDelete.json
  */
 async function managedPrivateEndpointsDelete() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function managedPrivateEndpointsDelete() {
 }
 
 async function main() {
-  managedPrivateEndpointsDelete();
+  await managedPrivateEndpointsDelete();
 }
 
 main().catch(console.error);

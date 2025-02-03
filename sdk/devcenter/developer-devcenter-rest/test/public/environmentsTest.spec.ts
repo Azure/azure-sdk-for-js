@@ -30,7 +30,7 @@ describe("DevCenter Environments Operations Test", () => {
   let environmentName: string;
   let userId: string;
 
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     recorder = await createRecorder(context);
 
     endpoint = env["ENDPOINT"] || "";
@@ -46,11 +46,11 @@ describe("DevCenter Environments Operations Test", () => {
     });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("Get catalog by project and name", async function () {
+  it("Get catalog by project and name", async () => {
     const catalog = await client
       .path("/projects/{projectName}/catalogs/{catalogName}", projectName, catalogName)
       .get();
@@ -62,7 +62,7 @@ describe("DevCenter Environments Operations Test", () => {
     expect(catalog.body.name).to.equal(env["DEFAULT_CATALOG_NAME"]);
   });
 
-  it("List catalogs in a project", async function () {
+  it("List catalogs in a project", async () => {
     const catalogList = await client.path("/projects/{projectName}/catalogs", projectName).get();
 
     if (isUnexpected(catalogList)) {
@@ -82,7 +82,7 @@ describe("DevCenter Environments Operations Test", () => {
     expect(catalogs[0].name).to.equal(env["DEFAULT_CATALOG_NAME"]);
   });
 
-  it("Get environment definition by project, catalog, and item name", async function () {
+  it("Get environment definition by project, catalog, and item name", async () => {
     const environmentDefinitionOutput = await client
       .path(
         "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions/{definitionName}",
@@ -99,7 +99,7 @@ describe("DevCenter Environments Operations Test", () => {
     expect(environmentDefinitionOutput.body.name).to.equal(envDefinitionName);
   });
 
-  it("List environment definition by project, catalog", async function () {
+  it("List environment definition by project, catalog", async () => {
     const environmentDefinitionsList = await client
       .path(
         "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
@@ -123,7 +123,7 @@ describe("DevCenter Environments Operations Test", () => {
     expect(environmentDefinitions.length).to.equal(8);
   });
 
-  it("List environments within a project", async function () {
+  it("List environments within a project", async () => {
     await createDevelopmentEnvironment();
 
     const environmentsList = await client
@@ -148,7 +148,7 @@ describe("DevCenter Environments Operations Test", () => {
     await deleteDevelopmentEnvironment();
   });
 
-  it("List environments within a project by userId", async function () {
+  it("List environments within a project by userId", async () => {
     await createDevelopmentEnvironment();
 
     const environmentsList = await client
@@ -173,7 +173,7 @@ describe("DevCenter Environments Operations Test", () => {
     await deleteDevelopmentEnvironment();
   });
 
-  it("Get environment by projectName, userId, and environment name", async function () {
+  it("Get environment by projectName, userId, and environment name", async () => {
     await createDevelopmentEnvironment();
 
     const environmentOutput = await client
@@ -194,7 +194,7 @@ describe("DevCenter Environments Operations Test", () => {
     await deleteDevelopmentEnvironment();
   });
 
-  it("List environment types by project", async function () {
+  it("List environment types by project", async () => {
     const environmentTypesList = await client
       .path("/projects/{projectName}/environmentTypes", projectName)
       .get();
@@ -215,7 +215,7 @@ describe("DevCenter Environments Operations Test", () => {
     expect(environmentTypes[0].name).to.equal(environmentTypeName);
   });
 
-  it("Create and then delete deployment environment", async function () {
+  it("Create and then delete deployment environment", async () => {
     await createDevelopmentEnvironment();
     await deleteDevelopmentEnvironment();
   });

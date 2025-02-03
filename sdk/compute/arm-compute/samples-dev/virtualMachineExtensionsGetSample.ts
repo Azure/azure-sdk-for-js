@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  VirtualMachineExtensionsGetOptionalParams,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { VirtualMachineExtensionsGetOptionalParams } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to get the extension.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary The operation to get the extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Get_MaximumSet_Gen.json
  */
-async function virtualMachineExtensionGetMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineExtensionGetMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmExtensionName = "aaaaaaa";
   const expand = "aaaaaa";
@@ -49,11 +41,9 @@ async function virtualMachineExtensionGetMaximumSetGen() {
  * @summary The operation to get the extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Get_MinimumSet_Gen.json
  */
-async function virtualMachineExtensionGetMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineExtensionGetMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "myVM";
   const vmExtensionName = "myVMExtension";
   const credential = new DefaultAzureCredential();
@@ -66,9 +56,9 @@ async function virtualMachineExtensionGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineExtensionGetMaximumSetGen();
-  virtualMachineExtensionGetMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineExtensionGetMaximumSetGen();
+  await virtualMachineExtensionGetMinimumSetGen();
 }
 
 main().catch(console.error);

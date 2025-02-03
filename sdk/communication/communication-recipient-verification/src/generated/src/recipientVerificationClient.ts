@@ -13,9 +13,9 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { AcsVerificationOperationsImpl } from "./operations";
-import { AcsVerificationOperations } from "./operationsInterfaces";
-import { RecipientVerificationClientOptionalParams } from "./models";
+import { AcsVerificationOperationsImpl } from "./operations/index.js";
+import { AcsVerificationOperations } from "./operationsInterfaces/index.js";
+import { RecipientVerificationClientOptionalParams } from "./models/index.js";
 
 export class RecipientVerificationClient extends coreClient.ServiceClient {
   endpoint: string;

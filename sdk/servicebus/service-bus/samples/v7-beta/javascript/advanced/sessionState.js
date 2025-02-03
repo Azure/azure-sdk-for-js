@@ -15,7 +15,7 @@
  *
  * Setup: To run this sample, you would need session enabled Queue/Subscription.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state
+ * See https://learn.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state
  * to learn about session state.
  *
  * @summary Demonstrates usage of SessionState.

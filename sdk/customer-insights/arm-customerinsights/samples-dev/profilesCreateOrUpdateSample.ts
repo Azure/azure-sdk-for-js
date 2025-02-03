@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ProfileResourceFormat,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { ProfileResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -20,7 +16,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a profile within a Hub, or updates an existing profile.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/ProfilesCreateOrUpdate.json
  */
-async function profilesCreateOrUpdate() {
+async function profilesCreateOrUpdate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";
@@ -32,32 +28,32 @@ async function profilesCreateOrUpdate() {
         fieldName: "Id",
         fieldType: "Edm.String",
         isArray: false,
-        isRequired: true
+        isRequired: true,
       },
       {
         fieldName: "ProfileId",
         fieldType: "Edm.String",
         isArray: false,
-        isRequired: true
+        isRequired: true,
       },
       {
         fieldName: "LastName",
         fieldType: "Edm.String",
         isArray: false,
-        isRequired: true
+        isRequired: true,
       },
       {
         fieldName: "TestProfileType396",
         fieldType: "Edm.String",
         isArray: false,
-        isRequired: true
+        isRequired: true,
       },
       {
         fieldName: "SavingAccountBalance",
         fieldType: "Edm.Int32",
         isArray: false,
-        isRequired: true
-      }
+        isRequired: true,
+      },
     ],
     largeImage: "\\\\Images\\\\LargeImage",
     mediumImage: "\\\\Images\\\\MediumImage",
@@ -65,19 +61,16 @@ async function profilesCreateOrUpdate() {
     smallImage: "\\\\Images\\\\smallImage",
     strongIds: [
       { keyPropertyNames: ["Id", "SavingAccountBalance"], strongIdName: "Id" },
-      { keyPropertyNames: ["ProfileId", "LastName"], strongIdName: "ProfileId" }
-    ]
+      { keyPropertyNames: ["ProfileId", "LastName"], strongIdName: "ProfileId" },
+    ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.profiles.beginCreateOrUpdateAndWait(
     resourceGroupName,
     hubName,
     profileName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

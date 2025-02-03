@@ -394,7 +394,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken,
+    Parameters.skipToken1,
   ],
   urlParameters: [
     Parameters.$host,

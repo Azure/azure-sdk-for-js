@@ -30,7 +30,7 @@ import {
   UpdateRun as UpdateRunMapper,
   UpdateSummaries as UpdateSummariesMapper,
   Update as UpdateMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

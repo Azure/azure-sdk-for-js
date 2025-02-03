@@ -11,7 +11,7 @@ import {
   RackSku,
   RackSkusListBySubscriptionOptionalParams,
   RackSkusGetOptionalParams,
-  RackSkusGetResponse
+  RackSkusGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface RackSkus {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: RackSkusListBySubscriptionOptionalParams
+    options?: RackSkusListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RackSku>;
   /**
    * Get the properties of the provided rack SKU.
@@ -31,6 +31,6 @@ export interface RackSkus {
    */
   get(
     rackSkuName: string,
-    options?: RackSkusGetOptionalParams
+    options?: RackSkusGetOptionalParams,
   ): Promise<RackSkusGetResponse>;
 }

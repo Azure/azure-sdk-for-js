@@ -115,7 +115,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [servicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric/samples/v3/typescript/src/servicesGetSample.ts
 [serviceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric/samples/v3/typescript/src/servicesListSample.ts
 [servicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabric/arm-servicefabric/samples/v3/typescript/src/servicesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-servicefabric?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-servicefabric?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabric/arm-servicefabric/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Removes the subscription from GroupQuotas. The request's TenantId is validated against the subscription's TenantId.
  *
  * @summary Removes the subscription from GroupQuotas. The request's TenantId is validated against the subscription's TenantId.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotasSubscriptions/DeleteGroupQuotaSubscriptions.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/GroupQuotasSubscriptions/DeleteGroupQuotaSubscriptions.json
  */
 async function groupQuotaSubscriptionsDeleteSubscriptions() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function groupQuotaSubscriptionsDeleteSubscriptions() {
 }
 
 async function main() {
-  groupQuotaSubscriptionsDeleteSubscriptions();
+  await groupQuotaSubscriptionsDeleteSubscriptions();
 }
 
 main().catch(console.error);

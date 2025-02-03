@@ -8,20 +8,21 @@ import {
   ErrorResponseOutput,
   RouteDirectionsOutput,
   RouteRangeResultOutput,
-  RouteDirectionsBatchResultOutput
-} from "./outputModels";
+  RouteDirectionsBatchResultOutput,
+} from "./outputModels.js";
 
 /**
  *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- * The Matrix Routing service allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using an asynchronous (async) or synchronous (sync) POST request. For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
+ * The `Post Route Matrix` API is an HTTP `POST` request that allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using an asynchronous (async) request. To make a synchronous (sync) request, see [Post Route Matrix Sync](/rest/api/maps/route/post-route-matrix-sync). For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
  *
  *
  * For each route, the travel times and distances are returned. You can use the computed costs to determine which detailed routes to calculate using the Route Directions API.
  *
  *
  * The maximum size of a matrix for async request is **700** and for sync request it's **100** (the number of origins multiplied by the number of destinations).
+ *
+ * > [!NOTE]
+ * > All origins and destinations should be contained in an axis-aligned 400 km x 400 km bounding box. Otherwise some matrix cells will be resolved as OUT_OF_REGION.
  *
  *
  *
@@ -39,7 +40,7 @@ import {
  * The maximum size of a matrix for this API is **700** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 50x10, 10x10, 28x25. 10x70 (it does not need to be square).
  *
  *
- * The asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.
+ * The asynchronous responses are stored for **24** hours. The redirect URL returns a 404 response if used after the expiration period.
  *
  *
  *
@@ -88,21 +89,22 @@ export interface RouteRequestRouteMatrix200Response extends HttpResponse {
 }
 
 export interface RouteRequestRouteMatrix202Headers {
-  /** New URL to check for the results of the long running process. */
+  /** New URL to check for the results of the long-running operation. */
   location?: string;
 }
 
 /**
  *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- * The Matrix Routing service allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using an asynchronous (async) or synchronous (sync) POST request. For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
+ * The `Post Route Matrix` API is an HTTP `POST` request that allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using an asynchronous (async) request. To make a synchronous (sync) request, see [Post Route Matrix Sync](/rest/api/maps/route/post-route-matrix-sync). For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
  *
  *
  * For each route, the travel times and distances are returned. You can use the computed costs to determine which detailed routes to calculate using the Route Directions API.
  *
  *
  * The maximum size of a matrix for async request is **700** and for sync request it's **100** (the number of origins multiplied by the number of destinations).
+ *
+ * > [!NOTE]
+ * > All origins and destinations should be contained in an axis-aligned 400 km x 400 km bounding box. Otherwise some matrix cells will be resolved as OUT_OF_REGION.
  *
  *
  *
@@ -120,7 +122,7 @@ export interface RouteRequestRouteMatrix202Headers {
  * The maximum size of a matrix for this API is **700** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 50x10, 10x10, 28x25. 10x70 (it does not need to be square).
  *
  *
- * The asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.
+ * The asynchronous responses are stored for **24** hours. The redirect URL returns a 404 response if used after the expiration period.
  *
  *
  *
@@ -165,14 +167,57 @@ export interface RouteRequestRouteMatrix202Headers {
  */
 export interface RouteRequestRouteMatrix202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & RouteRequestRouteMatrix202Headers;
 }
 
 /**
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * If the Matrix Route request was accepted successfully, the Location header in the response contains the URL to download the results of the request. This status URI looks like the following:
+ * The `Get Route Matrix` API is an HTTP `GET` request that computes the travel time and distance for all possible pairs in a list of origins and destinations. Unlike the [Get Route Directions](/rest/api/maps/route/get-route-directions) API, which provide detailed route instructions, this API focuses on efficiency by giving you the cost (travel time and distance) of routing from each origin to every destination.  For more information, see [Best practices for Azure Maps Route service](/azure/azure-maps/how-to-use-best-practices-for-routing).
+ *
+ * For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
+ *
+ *
+ * For each route, the travel times and distances are returned. You can use the computed costs to determine which detailed routes to calculate using the Route Directions API.
+ *
+ *
+ * The maximum size of a matrix for async request is **700** and for sync request it's **100** (the number of origins multiplied by the number of destinations).
+ *
+ *
+ *
+ * ### Submit Synchronous Route Matrix Request
+ * If your scenario requires synchronous requests and the maximum size of the matrix is less than or equal to 100, you might want to make synchronous request. The maximum size of a matrix for this API is **100** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 10x10, 6x8, 9x8 (it does not need to be square).
+ *
+ * ```
+ * GET https://atlas.microsoft.com/route/matrix/sync/json?api-version=1.0&subscription-key={subscription-key}
+ * ```
+ *
+ * ### Submit Asynchronous Route Matrix Request
+ * The Asynchronous API is appropriate for processing big volumes of relatively complex routing requests. When you make a request by using async request, by default the service returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available. If `waitForResults` parameter in the request is set to true, user will get a 200 response if the request is finished under 120 seconds.
+ *
+ *
+ * The maximum size of a matrix for this API is **700** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 50x10, 10x10, 28x25. 10x70 (it does not need to be square).
+ *
+ *
+ * The asynchronous responses are stored for **24** hours. The redirect URL returns a 404 response if used after the expiration period.
+ *
+ *
+ *
+ *
+ * ```
+ * GET https://atlas.microsoft.com/route/matrix/json?api-version=1.0&subscription-key={subscription-key}
+ * ```
+ *
+ * Here's a typical sequence of asynchronous operations:
+ * 1. Client sends a Route Matrix GET request to Azure Maps
+ *
+ * 2. The server will respond with one of the following:
+ *
+ *     > HTTP `202 Accepted` -  Route Matrix request has been accepted.
+ *
+ *     > HTTP `Error` - There was an error processing your Route Matrix request. This could either be a 400 Bad Request or any other Error status code.
+ *
+ *
+ * 3. If the Matrix Route request was accepted successfully, the Location header in the response contains the URL to download the results of the request. This status URI looks like the following:
  *
  *   ```
  *     GET https://atlas.microsoft.com/route/matrix/{matrixId}?api-version=1.0?subscription-key={subscription-key}
@@ -182,7 +227,7 @@ export interface RouteRequestRouteMatrix202Response extends HttpResponse {
  * 4. Client issues a GET request on the download URL obtained in Step 3 to download the results
  *
  * ### Download Sync Results
- * When you make a POST request for Route Matrix Sync API, the service returns 200 response code for successful request and a response array. The response body will contain the data and there will be no possibility to retrieve the results later.
+ * When you make a GET request for Route Matrix Sync API, the service returns 200 response code for successful request and a response array. The response body will contain the data and there will be no possibility to retrieve the results later.
  *
  * ### Download Async Results
  * When a request issues a `202 Accepted` response, the request is being processed using our async pipeline. You will be given a URL to check the progress of your  async request in the location header of the response. This status URI looks like the following:
@@ -202,14 +247,58 @@ export interface RouteGetRouteMatrix200Response extends HttpResponse {
 }
 
 export interface RouteGetRouteMatrix202Headers {
-  /** New URL to check for the results of the long running process. */
+  /** New URL to check for the results of the long-running operation. */
   location?: string;
 }
 
 /**
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- * If the Matrix Route request was accepted successfully, the Location header in the response contains the URL to download the results of the request. This status URI looks like the following:
+ * The `Get Route Matrix` API is an HTTP `GET` request that computes the travel time and distance for all possible pairs in a list of origins and destinations. Unlike the [Get Route Directions](/rest/api/maps/route/get-route-directions) API, which provide detailed route instructions, this API focuses on efficiency by giving you the cost (travel time and distance) of routing from each origin to every destination.  For more information, see [Best practices for Azure Maps Route service](/azure/azure-maps/how-to-use-best-practices-for-routing).
+ *
+ * For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
+ *
+ *
+ * For each route, the travel times and distances are returned. You can use the computed costs to determine which detailed routes to calculate using the Route Directions API.
+ *
+ *
+ * The maximum size of a matrix for async request is **700** and for sync request it's **100** (the number of origins multiplied by the number of destinations).
+ *
+ *
+ *
+ * ### Submit Synchronous Route Matrix Request
+ * If your scenario requires synchronous requests and the maximum size of the matrix is less than or equal to 100, you might want to make synchronous request. The maximum size of a matrix for this API is **100** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 10x10, 6x8, 9x8 (it does not need to be square).
+ *
+ * ```
+ * GET https://atlas.microsoft.com/route/matrix/sync/json?api-version=1.0&subscription-key={subscription-key}
+ * ```
+ *
+ * ### Submit Asynchronous Route Matrix Request
+ * The Asynchronous API is appropriate for processing big volumes of relatively complex routing requests. When you make a request by using async request, by default the service returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available. If `waitForResults` parameter in the request is set to true, user will get a 200 response if the request is finished under 120 seconds.
+ *
+ *
+ * The maximum size of a matrix for this API is **700** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 50x10, 10x10, 28x25. 10x70 (it does not need to be square).
+ *
+ *
+ * The asynchronous responses are stored for **24** hours. The redirect URL returns a 404 response if used after the expiration period.
+ *
+ *
+ *
+ *
+ * ```
+ * GET https://atlas.microsoft.com/route/matrix/json?api-version=1.0&subscription-key={subscription-key}
+ * ```
+ *
+ * Here's a typical sequence of asynchronous operations:
+ * 1. Client sends a Route Matrix GET request to Azure Maps
+ *
+ * 2. The server will respond with one of the following:
+ *
+ *     > HTTP `202 Accepted` -  Route Matrix request has been accepted.
+ *
+ *     > HTTP `Error` - There was an error processing your Route Matrix request. This could either be a 400 Bad Request or any other Error status code.
+ *
+ *
+ * 3. If the Matrix Route request was accepted successfully, the Location header in the response contains the URL to download the results of the request. This status URI looks like the following:
  *
  *   ```
  *     GET https://atlas.microsoft.com/route/matrix/{matrixId}?api-version=1.0?subscription-key={subscription-key}
@@ -219,7 +308,7 @@ export interface RouteGetRouteMatrix202Headers {
  * 4. Client issues a GET request on the download URL obtained in Step 3 to download the results
  *
  * ### Download Sync Results
- * When you make a POST request for Route Matrix Sync API, the service returns 200 response code for successful request and a response array. The response body will contain the data and there will be no possibility to retrieve the results later.
+ * When you make a GET request for Route Matrix Sync API, the service returns 200 response code for successful request and a response array. The response body will contain the data and there will be no possibility to retrieve the results later.
  *
  * ### Download Async Results
  * When a request issues a `202 Accepted` response, the request is being processed using our async pipeline. You will be given a URL to check the progress of your  async request in the location header of the response. This status URI looks like the following:
@@ -235,15 +324,12 @@ export interface RouteGetRouteMatrix202Headers {
  */
 export interface RouteGetRouteMatrix202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & RouteGetRouteMatrix202Headers;
 }
 
 /**
  *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- * The Matrix Routing service allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using an asynchronous (async) or synchronous (sync) POST request. For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
+ * The `Post Route Matrix Sync` API is an HTTP `POST` request that allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using a single synchronous (sync) request. To make an asynchronous (async) request, see [Post Route Matrix](/rest/api/maps/route/post-route-matrix). For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
  *
  *
  * For each route, the travel times and distances are returned. You can use the computed costs to determine which detailed routes to calculate using the Route Directions API.
@@ -267,7 +353,7 @@ export interface RouteGetRouteMatrix202Response extends HttpResponse {
  * The maximum size of a matrix for this API is **700** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 50x10, 10x10, 28x25. 10x70 (it does not need to be square).
  *
  *
- * The asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.
+ * The asynchronous responses are stored for **24** hours. The redirect URL returns a 404 response if used after the expiration period.
  *
  *
  *
@@ -317,9 +403,7 @@ export interface RouteRequestRouteMatrixSync200Response extends HttpResponse {
 
 /**
  *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- * The Matrix Routing service allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using an asynchronous (async) or synchronous (sync) POST request. For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
+ * The `Post Route Matrix Sync` API is an HTTP `POST` request that allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using a single synchronous (sync) request. To make an asynchronous (async) request, see [Post Route Matrix](/rest/api/maps/route/post-route-matrix). For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
  *
  *
  * For each route, the travel times and distances are returned. You can use the computed costs to determine which detailed routes to calculate using the Route Directions API.
@@ -343,7 +427,7 @@ export interface RouteRequestRouteMatrixSync200Response extends HttpResponse {
  * The maximum size of a matrix for this API is **700** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 50x10, 10x10, 28x25. 10x70 (it does not need to be square).
  *
  *
- * The asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.
+ * The asynchronous responses are stored for **24** hours. The redirect URL returns a 404 response if used after the expiration period.
  *
  *
  *
@@ -393,9 +477,7 @@ export interface RouteRequestRouteMatrixSync408Response extends HttpResponse {
 
 /**
  *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- * The Matrix Routing service allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using an asynchronous (async) or synchronous (sync) POST request. For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
+ * The `Post Route Matrix Sync` API is an HTTP `POST` request that allows calculation of a matrix of route summaries for a set of routes defined by origin and destination locations by using a single synchronous (sync) request. To make an asynchronous (async) request, see [Post Route Matrix](/rest/api/maps/route/post-route-matrix). For every given origin, the service calculates the cost of routing from that origin to every given destination. The set of origins and the set of destinations can be thought of as the column and row headers of a table and each cell in the table contains the costs of routing from the origin to the destination for that cell. As an example, let's say a food delivery company has 20 drivers and they need to find the closest driver to pick up the delivery from the restaurant. To solve this use case, they can call Matrix Route API.
  *
  *
  * For each route, the travel times and distances are returned. You can use the computed costs to determine which detailed routes to calculate using the Route Directions API.
@@ -419,7 +501,7 @@ export interface RouteRequestRouteMatrixSync408Response extends HttpResponse {
  * The maximum size of a matrix for this API is **700** (the number of origins multiplied by the number of destinations). With that constraint in mind, examples of possible matrix dimensions are: 50x10, 10x10, 28x25. 10x70 (it does not need to be square).
  *
  *
- * The asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.
+ * The asynchronous responses are stored for **24** hours. The redirect URL returns a 404 response if used after the expiration period.
  *
  *
  *
@@ -469,14 +551,12 @@ export interface RouteRequestRouteMatrixSyncDefaultResponse
 }
 
 /**
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- *
- * Returns  a route between an origin and a destination, passing through waypoints if they are specified. The route will take into account factors such as current traffic and the typical road speeds on the requested day of the week and time of day.
+ * The `Get Route Directions` API is an HTTP `GET` request that returns a route between an origin and a destination, passing through waypoints if specified. The route takes into account factors such as current traffic and the typical road speeds on the requested day of the week and time of day.
  *
  * Information returned includes the distance, estimated travel time, and a representation of the route geometry. Additional routing information such as optimized waypoint order or turn by turn instructions is also available, depending on the options selected.
  *
- * Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
+ * Routing service provides a set of parameters for a detailed description of a vehicle-specific consumption model. For more information, see [Consumption Model](/azure/azure-maps/consumption-model).
  */
 export interface RouteGetRouteDirections200Response extends HttpResponse {
   status: "200";
@@ -484,14 +564,12 @@ export interface RouteGetRouteDirections200Response extends HttpResponse {
 }
 
 /**
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- *
- * Returns  a route between an origin and a destination, passing through waypoints if they are specified. The route will take into account factors such as current traffic and the typical road speeds on the requested day of the week and time of day.
+ * The `Get Route Directions` API is an HTTP `GET` request that returns a route between an origin and a destination, passing through waypoints if specified. The route takes into account factors such as current traffic and the typical road speeds on the requested day of the week and time of day.
  *
  * Information returned includes the distance, estimated travel time, and a representation of the route geometry. Additional routing information such as optimized waypoint order or turn by turn instructions is also available, depending on the options selected.
  *
- * Routing service provides a set of parameters for a detailed description of vehicle-specific Consumption Model. Please check [Consumption Model](https://docs.microsoft.com/azure/azure-maps/consumption-model) for detailed explanation of the concepts and parameters involved.
+ * Routing service provides a set of parameters for a detailed description of a vehicle-specific consumption model. For more information, see [Consumption Model](/azure/azure-maps/consumption-model).
  */
 export interface RouteGetRouteDirectionsDefaultResponse extends HttpResponse {
   status: string;
@@ -499,10 +577,8 @@ export interface RouteGetRouteDirectionsDefaultResponse extends HttpResponse {
 }
 
 /**
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- *
- * Returns  a route between an origin and a destination, passing through waypoints if they are specified. The route will take into account factors such as current traffic and the typical road speeds on the requested day of the week and time of day.
+ * The `Post Route Directions` API is an HTTP `POST` request that returns a route between an origin and a destination, passing through waypoints if they are specified. The route will take into account factors such as current traffic and the typical road speeds on the requested day of the week and time of day.
  *
  * Information returned includes the distance, estimated travel time, and a representation of the route geometry. Additional routing information such as optimized waypoint order or turn by turn instructions is also available, depending on the options selected.
  *
@@ -515,10 +591,8 @@ export interface RouteGetRouteDirectionsWithAdditionalParameters200Response
 }
 
 /**
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
  *
- *
- * Returns  a route between an origin and a destination, passing through waypoints if they are specified. The route will take into account factors such as current traffic and the typical road speeds on the requested day of the week and time of day.
+ * The `Post Route Directions` API is an HTTP `POST` request that returns a route between an origin and a destination, passing through waypoints if they are specified. The route will take into account factors such as current traffic and the typical road speeds on the requested day of the week and time of day.
  *
  * Information returned includes the distance, estimated travel time, and a representation of the route geometry. Additional routing information such as optimized waypoint order or turn by turn instructions is also available, depending on the options selected.
  *
@@ -531,14 +605,10 @@ export interface RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse
 }
 
 /**
- * __Route Range (Isochrone) API__
  *
+ * The `Get Route Range` (Isochrone) API is an HTTP `GET` request that will calculate a set of locations that can be reached from the origin point based on fuel, energy, time or distance budget that is specified. A polygon boundary (or Isochrone) is returned in a counterclockwise  orientation as well as the precise polygon center which was the result of the origin point.
  *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- * This service will calculate a set of locations that can be reached from the origin point based on fuel, energy,  time or distance budget that is specified. A polygon boundary (or Isochrone) is returned in a counterclockwise  orientation as well as the precise polygon center which was the result of the origin point.
- *
- * The returned polygon can be used for further processing such as  [Search Inside Geometry](https://docs.microsoft.com/rest/api/maps/search/postsearchinsidegeometry) to  search for POIs within the provided Isochrone.
+ * The returned polygon can be used for further processing such as  [Search Inside Geometry](/rest/api/maps/search/post-search-inside-geometry) to  search for POIs within the provided isochrone.
  */
 export interface RouteGetRouteRange200Response extends HttpResponse {
   status: "200";
@@ -546,14 +616,10 @@ export interface RouteGetRouteRange200Response extends HttpResponse {
 }
 
 /**
- * __Route Range (Isochrone) API__
  *
+ * The `Get Route Range` (Isochrone) API is an HTTP `GET` request that will calculate a set of locations that can be reached from the origin point based on fuel, energy, time or distance budget that is specified. A polygon boundary (or Isochrone) is returned in a counterclockwise  orientation as well as the precise polygon center which was the result of the origin point.
  *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- * This service will calculate a set of locations that can be reached from the origin point based on fuel, energy,  time or distance budget that is specified. A polygon boundary (or Isochrone) is returned in a counterclockwise  orientation as well as the precise polygon center which was the result of the origin point.
- *
- * The returned polygon can be used for further processing such as  [Search Inside Geometry](https://docs.microsoft.com/rest/api/maps/search/postsearchinsidegeometry) to  search for POIs within the provided Isochrone.
+ * The returned polygon can be used for further processing such as  [Search Inside Geometry](/rest/api/maps/search/post-search-inside-geometry) to  search for POIs within the provided isochrone.
  */
 export interface RouteGetRouteRangeDefaultResponse extends HttpResponse {
   status: string;
@@ -561,14 +627,9 @@ export interface RouteGetRouteRangeDefaultResponse extends HttpResponse {
 }
 
 /**
- * **Route Directions Batch API**
  *
+ * The `Post Route Directions Batch` API is an HTTP `POST` request that sends batches of queries to the [Get Route Directions](/rest/api/maps/route/get-route-directions) API using a single asynchronous request. You can call `Route Directions Batch` API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries. To call the `Post Route Directions Batch` API in a synchronous request, see [Post Route Directions Batch Sync](/rest/api/maps/route/post-route-directions-batch-sync).
  *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- *
- *
- * The Route Directions Batch API sends batches of queries to [Route Directions API](https://docs.microsoft.com/rest/api/maps/route/getroutedirections) using just a single API call. You can call Route Directions Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries.
  * ### Submit Asynchronous Batch Request
  * The Asynchronous API is appropriate for processing big volumes of relatively complex route requests
  * - It allows the retrieval of results in a separate call (multiple downloads are possible).
@@ -576,10 +637,13 @@ export interface RouteGetRouteRangeDefaultResponse extends HttpResponse {
  * - The number of batch items is limited to **700** for this API.
  *
  * When you make a request by using async request, by default the service returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available.
- * The asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.
+ * The asynchronous responses are stored for **24** hours. The redirect URL returns a 404 response if used after the expiration period.
  *
- * Please note that asynchronous batch request is a long-running request. Here's a typical sequence of operations:
- * 1. Client sends a Route Directions Batch `POST` request to Azure Maps
+ * Please note that asynchronous batch request is a long-running operation. Here's a typical sequence of operations:
+ * 1. Client sends a Route Directions Batch `POST` request to Azure Maps.
+ * ```
+ * POST https://atlas.microsoft.com/route/directions/batch/json?api-version=1.0&subscription-key={subscription-key}
+ * ```
  * 2. The server will respond with one of the following:
  *
  *     > HTTP `202 Accepted` - Batch request has been accepted.
@@ -588,9 +652,9 @@ export interface RouteGetRouteRangeDefaultResponse extends HttpResponse {
  *
  * 3. If the batch request was accepted successfully, the `Location` header in the response contains the URL to download the results of the batch request.
  *     This status URI looks like following:
- *
- * ``` GET https://atlas.microsoft.com/route/directions/batch/{batch-id}?api-version=1.0 ```
- * Note:- Please remember to add AUTH information (subscription-key/azure_auth - See [Security](#security)) to the _status URI_ before running it. <br>
+ * ```
+ * GET https://atlas.microsoft.com/route/directions/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}
+ * ```
  * 4. Client issues a `GET` request on the _download URL_ obtained in Step 3 to download the batch results.
  *
  * ### POST Body for Batch Request
@@ -718,19 +782,14 @@ export interface RouteRequestRouteDirectionsBatch200Response
 }
 
 export interface RouteRequestRouteDirectionsBatch202Headers {
-  /** New URL to check for the results of the long running process. */
+  /** New URL to check for the results of the long-running operation. */
   location?: string;
 }
 
 /**
- * **Route Directions Batch API**
  *
+ * The `Post Route Directions Batch` API is an HTTP `POST` request that sends batches of queries to the [Get Route Directions](/rest/api/maps/route/get-route-directions) API using a single asynchronous request. You can call `Route Directions Batch` API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries. To call the `Post Route Directions Batch` API in a synchronous request, see [Post Route Directions Batch Sync](/rest/api/maps/route/post-route-directions-batch-sync).
  *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- *
- *
- * The Route Directions Batch API sends batches of queries to [Route Directions API](https://docs.microsoft.com/rest/api/maps/route/getroutedirections) using just a single API call. You can call Route Directions Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries.
  * ### Submit Asynchronous Batch Request
  * The Asynchronous API is appropriate for processing big volumes of relatively complex route requests
  * - It allows the retrieval of results in a separate call (multiple downloads are possible).
@@ -738,10 +797,13 @@ export interface RouteRequestRouteDirectionsBatch202Headers {
  * - The number of batch items is limited to **700** for this API.
  *
  * When you make a request by using async request, by default the service returns a 202 response code along a redirect URL in the Location field of the response header. This URL should be checked periodically until the response data or error information is available.
- * The asynchronous responses are stored for **14** days. The redirect URL returns a 404 response if used after the expiration period.
+ * The asynchronous responses are stored for **24** hours. The redirect URL returns a 404 response if used after the expiration period.
  *
- * Please note that asynchronous batch request is a long-running request. Here's a typical sequence of operations:
- * 1. Client sends a Route Directions Batch `POST` request to Azure Maps
+ * Please note that asynchronous batch request is a long-running operation. Here's a typical sequence of operations:
+ * 1. Client sends a Route Directions Batch `POST` request to Azure Maps.
+ * ```
+ * POST https://atlas.microsoft.com/route/directions/batch/json?api-version=1.0&subscription-key={subscription-key}
+ * ```
  * 2. The server will respond with one of the following:
  *
  *     > HTTP `202 Accepted` - Batch request has been accepted.
@@ -750,9 +812,9 @@ export interface RouteRequestRouteDirectionsBatch202Headers {
  *
  * 3. If the batch request was accepted successfully, the `Location` header in the response contains the URL to download the results of the batch request.
  *     This status URI looks like following:
- *
- * ``` GET https://atlas.microsoft.com/route/directions/batch/{batch-id}?api-version=1.0 ```
- * Note:- Please remember to add AUTH information (subscription-key/azure_auth - See [Security](#security)) to the _status URI_ before running it. <br>
+ * ```
+ * GET https://atlas.microsoft.com/route/directions/batch/{batch-id}?api-version=1.0&subscription-key={subscription-key}
+ * ```
  * 4. Client issues a `GET` request on the _download URL_ obtained in Step 3 to download the batch results.
  *
  * ### POST Body for Batch Request
@@ -876,12 +938,12 @@ export interface RouteRequestRouteDirectionsBatch202Headers {
 export interface RouteRequestRouteDirectionsBatch202Response
   extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & RouteRequestRouteDirectionsBatch202Headers;
 }
 
 /**
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+ *
+ * The `Get Route Directions Batch` API is an HTTP `GET` request that sends batches of queries to the [Get Route Directions](/rest/api/maps/route/get-route-directions) API using a single request. You can call `Get Route Directions Batch` API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries.
  *
  * ### Download Asynchronous Batch Results
  * To download the async batch results you will issue a `GET` request to the batch download endpoint. This _download URL_ can be obtained from the `Location` header of a successful `POST` batch request and looks like the following:
@@ -987,12 +1049,13 @@ export interface RouteGetRouteDirectionsBatch200Response extends HttpResponse {
 }
 
 export interface RouteGetRouteDirectionsBatch202Headers {
-  /** New URL to check for the results of the long running process. */
+  /** New URL to check for the results of the long-running operation. */
   location?: string;
 }
 
 /**
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+ *
+ * The `Get Route Directions Batch` API is an HTTP `GET` request that sends batches of queries to the [Get Route Directions](/rest/api/maps/route/get-route-directions) API using a single request. You can call `Get Route Directions Batch` API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries.
  *
  * ### Download Asynchronous Batch Results
  * To download the async batch results you will issue a `GET` request to the batch download endpoint. This _download URL_ can be obtained from the `Location` header of a successful `POST` batch request and looks like the following:
@@ -1094,19 +1157,12 @@ export interface RouteGetRouteDirectionsBatch202Headers {
  */
 export interface RouteGetRouteDirectionsBatch202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & RouteGetRouteDirectionsBatch202Headers;
 }
 
 /**
- * **Route Directions Batch API**
  *
- *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- *
- *
- * The Route Directions Batch API sends batches of queries to [Route Directions API](https://docs.microsoft.com/rest/api/maps/route/getroutedirections) using just a single API call. You can call Route Directions Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries.
+ * The `Post Route Directions Batch Sync` API is an HTTP `POST` request that sends batches of queries to the [Get Route Directions](/rest/api/maps/route/get-route-directions) API using a single synchronous request. You can call `Route Directions Batch` API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries. To call the `Post Route Directions Batch` API in a asynchronous request, see [Post Route Directions Batch](/rest/api/maps/route/post-route-directions-batch).
  * ### Submit Synchronous Batch Request
  * The Synchronous API is recommended for lightweight batch requests. When the service receives a request, it will respond as soon as the batch items are calculated and there will be no possibility to retrieve the results later. The Synchronous API will return a timeout error (a 408 response) if the request takes longer than 60 seconds. The number of batch items is limited to **100** for this API.
  * ```
@@ -1201,14 +1257,8 @@ export interface RouteRequestRouteDirectionsBatchSync200Response
 }
 
 /**
- * **Route Directions Batch API**
  *
- *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- *
- *
- * The Route Directions Batch API sends batches of queries to [Route Directions API](https://docs.microsoft.com/rest/api/maps/route/getroutedirections) using just a single API call. You can call Route Directions Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries.
+ * The `Post Route Directions Batch Sync` API is an HTTP `POST` request that sends batches of queries to the [Get Route Directions](/rest/api/maps/route/get-route-directions) API using a single synchronous request. You can call `Route Directions Batch` API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries. To call the `Post Route Directions Batch` API in a asynchronous request, see [Post Route Directions Batch](/rest/api/maps/route/post-route-directions-batch).
  * ### Submit Synchronous Batch Request
  * The Synchronous API is recommended for lightweight batch requests. When the service receives a request, it will respond as soon as the batch items are calculated and there will be no possibility to retrieve the results later. The Synchronous API will return a timeout error (a 408 response) if the request takes longer than 60 seconds. The number of batch items is limited to **100** for this API.
  * ```
@@ -1303,14 +1353,8 @@ export interface RouteRequestRouteDirectionsBatchSync408Response
 }
 
 /**
- * **Route Directions Batch API**
  *
- *
- * **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
- *
- *
- *
- * The Route Directions Batch API sends batches of queries to [Route Directions API](https://docs.microsoft.com/rest/api/maps/route/getroutedirections) using just a single API call. You can call Route Directions Batch API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries.
+ * The `Post Route Directions Batch Sync` API is an HTTP `POST` request that sends batches of queries to the [Get Route Directions](/rest/api/maps/route/get-route-directions) API using a single synchronous request. You can call `Route Directions Batch` API to run either asynchronously (async) or synchronously (sync). The async API allows caller to batch up to **700** queries and sync API up to **100** queries. To call the `Post Route Directions Batch` API in a asynchronous request, see [Post Route Directions Batch](/rest/api/maps/route/post-route-directions-batch).
  * ### Submit Synchronous Batch Request
  * The Synchronous API is recommended for lightweight batch requests. When the service receives a request, it will respond as soon as the batch items are calculated and there will be no possibility to retrieve the results later. The Synchronous API will return a timeout error (a 408 response) if the request takes longer than 60 seconds. The number of batch items is limited to **100** for this API.
  * ```

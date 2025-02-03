@@ -9,7 +9,7 @@ import {
   ContainerRegistryContentClient,
   ContainerRegistryClient,
   KnownContainerRegistryAudience,
-} from "../../src";
+} from "../../src/index.js";
 import { createXhrHttpClient } from "@azure-tools/test-utils";
 import { isNodeLike } from "@azure/core-util";
 

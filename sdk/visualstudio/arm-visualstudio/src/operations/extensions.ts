@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Extensions } from "../operationsInterfaces";
+import { Extensions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { VisualStudioResourceProviderClient } from "../visualStudioResourceProviderClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { VisualStudioResourceProviderClient } from "../visualStudioResourceProviderClient.js";
 import {
   ExtensionsListByAccountOptionalParams,
   ExtensionsListByAccountResponse,
@@ -22,7 +22,7 @@ import {
   ExtensionsGetResponse,
   ExtensionsUpdateOptionalParams,
   ExtensionsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Extensions operations. */
 export class ExtensionsImpl implements Extensions {

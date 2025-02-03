@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The List operation gets information about the private endpoint connections associated with the Cloud HSM Cluster
  *
  * @summary The List operation gets information about the private endpoint connections associated with the Cloud HSM Cluster
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2023-12-10-preview/examples/CloudHsmClusterPrivateEndpointConnection_ListByCloudHsmCluster_MaximumSet_Gen.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmClusterPrivateEndpointConnection_ListByCloudHsmCluster_MaximumSet_Gen.json
  */
 async function cloudHsmClusterPrivateEndpointConnectionListByResourceMaximumSetGen() {
   const subscriptionId =

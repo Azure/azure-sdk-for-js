@@ -37,7 +37,7 @@ npm install @azure/iot-modelsrepository
 // When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
 // https://devicemodels.azure.com/ is used and the model dependency resolution
 // configuration is set to TryFromExpanded.
-const { ModelsRepositoryClient } = require("@azure/iot-modelsrepository");
+import { ModelsRepositoryClient } from "@azure/iot-modelsrepository";
 
 const client = new ModelsRepositoryClient();
 console.log(`Initialized client point to global endpoint: ${client.repositoryLocation}`);
@@ -55,7 +55,7 @@ console.log(`Initialized client pointing to local path: ${client.repositoryLocat
 
 ### Publish Models
 
-Publishing models to the models repository requires [exercising](https://docs.microsoft.com/azure/iot-pnp/concepts-model-repository#publish-a-model) common GitHub workflows.
+Publishing models to the models repository requires [exercising](https://learn.microsoft.com/azure/iot-pnp/concepts-model-repository#publish-a-model) common GitHub workflows.
 
 ### Get Models
 
@@ -138,7 +138,7 @@ isValidDtmi("dtmi:com:example:Thermostat");
 const localRepositoryUri: string = "file:///path/to/repository/";
 const fullyQualifiedModelPath: string = getModelUri(
   "dtmi:com:example:Thermostat;1",
-  localRepositoryUri
+  localRepositoryUri,
 );
 
 // Prints '/path/to/repository/dtmi/com/example/thermostat-1.json'
@@ -148,7 +148,7 @@ console.log(fullyQualifiedModelPath);
 const remoteRepositoryUri: string = "https://contoso.com/models/";
 const fullyQualifiedModelPath: string = GetModelUri(
   "dtmi:com:example:Thermostat;1",
-  remoteRepositoryUri
+  remoteRepositoryUri,
 );
 
 // Prints 'https://contoso.com/models/dtmi/com/example/thermostat-1.json'
@@ -163,7 +163,7 @@ console.log(fullyQualifiedModelPath);
 
 ## Next steps
 
-- Review the [DTDL Spec](https://docs.microsoft.com/azure/iot-pnp/concepts-model-parser).
+- Review the [DTDL Spec](https://learn.microsoft.com/azure/iot-pnp/concepts-model-parser).
 - Understand the [Device Models Repository](https://devicemodels.azure.com/).
 - Code a IoT Plug and Play 'Device' using the [Azure IoT SDK for Node](https://github.com/Azure/azure-iot-sdk-node/tree/master/device/samples#plug-and-play-examples).
 

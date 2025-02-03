@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the private endpoint connection for the Cloud Hsm Cluster.
  *
  * @summary Deletes the private endpoint connection for the Cloud Hsm Cluster.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2023-12-10-preview/examples/CloudHsmClusterPrivateEndpointConnection_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmClusterPrivateEndpointConnection_Delete_MaximumSet_Gen.json
  */
 async function cloudHsmClusterPrivateEndpointConnectionDeleteMaximumSetGen() {
   const subscriptionId =
@@ -30,11 +30,12 @@ async function cloudHsmClusterPrivateEndpointConnectionDeleteMaximumSetGen() {
   const peConnectionName = "sample-pec";
   const credential = new DefaultAzureCredential();
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
-  const result = await client.cloudHsmClusterPrivateEndpointConnections.beginDeleteAndWait(
-    resourceGroupName,
-    cloudHsmClusterName,
-    peConnectionName
-  );
+  const result =
+    await client.cloudHsmClusterPrivateEndpointConnections.beginDeleteAndWait(
+      resourceGroupName,
+      cloudHsmClusterName,
+      peConnectionName,
+    );
   console.log(result);
 }
 

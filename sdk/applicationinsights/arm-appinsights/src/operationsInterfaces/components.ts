@@ -24,7 +24,7 @@ import {
   ComponentsPurgeResponse,
   ComponentsGetPurgeStatusOptionalParams,
   ComponentsGetPurgeStatusResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Components. */

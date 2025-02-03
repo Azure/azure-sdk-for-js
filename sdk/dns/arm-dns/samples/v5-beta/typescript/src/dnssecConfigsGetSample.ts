@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the DNSSEC configuration.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the DNSSEC configuration.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetDnssecConfig.json
  */
-async function getDnssecConfig() {
+async function getDnssecConfig(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -30,7 +28,7 @@ async function getDnssecConfig() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDnssecConfig();
 }
 

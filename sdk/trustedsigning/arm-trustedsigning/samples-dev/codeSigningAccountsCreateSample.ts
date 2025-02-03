@@ -22,7 +22,7 @@ async function createATrustedSigningAccount() {
 }
 
 async function main() {
-  createATrustedSigningAccount();
+  await createATrustedSigningAccount();
 }
 
 main().catch(console.error);

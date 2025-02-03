@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Response } from "express";
-import { logger } from "./logger.mts";
+import type { Response } from "express";
+import { logger } from "./logger.mjs";
 
-export function sendHeaders(res: Response) {
+export function sendHeaders(res: Response): void {
   res.writeHead(200, {
     "Cache-Control": "no-cache",
     "Content-Type": "text/event-stream",
@@ -12,7 +12,11 @@ export function sendHeaders(res: Response) {
   });
 }
 
-export async function sendEvents(res: Response, count: number, waitTimeInMs: number) {
+export async function sendEvents(
+  res: Response,
+  count: number,
+  waitTimeInMs: number,
+): Promise<void> {
   for (let i = 0; i < count; i++) {
     await new Promise((resolve) => setTimeout(resolve, waitTimeInMs));
     logger.verbose("Emit", ++i);

@@ -22,7 +22,7 @@ import {
   ScopingConfigurationImpl,
   SnapshotImpl,
   WebhookImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   ProviderActions,
   Operations,
@@ -31,8 +31,8 @@ import {
   ScopingConfiguration,
   Snapshot,
   Webhook,
-} from "./operationsInterfaces";
-import { AppComplianceAutomationToolForMicrosoft365OptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AppComplianceAutomationToolForMicrosoft365OptionalParams } from "./models/index.js";
 
 export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.ServiceClient {
   $host: string;

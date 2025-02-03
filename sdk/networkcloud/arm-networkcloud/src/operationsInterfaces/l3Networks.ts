@@ -17,8 +17,9 @@ import {
   L3NetworksCreateOrUpdateOptionalParams,
   L3NetworksCreateOrUpdateResponse,
   L3NetworksDeleteOptionalParams,
+  L3NetworksDeleteResponse,
   L3NetworksUpdateOptionalParams,
-  L3NetworksUpdateResponse
+  L3NetworksUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +30,7 @@ export interface L3Networks {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: L3NetworksListBySubscriptionOptionalParams
+    options?: L3NetworksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<L3Network>;
   /**
    * Get a list of layer 3 (L3) networks in the provided resource group.
@@ -38,7 +39,7 @@ export interface L3Networks {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: L3NetworksListByResourceGroupOptionalParams
+    options?: L3NetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<L3Network>;
   /**
    * Get properties of the provided layer 3 (L3) network.
@@ -49,7 +50,7 @@ export interface L3Networks {
   get(
     resourceGroupName: string,
     l3NetworkName: string,
-    options?: L3NetworksGetOptionalParams
+    options?: L3NetworksGetOptionalParams,
   ): Promise<L3NetworksGetResponse>;
   /**
    * Create a new layer 3 (L3) network or update the properties of the existing network.
@@ -62,7 +63,7 @@ export interface L3Networks {
     resourceGroupName: string,
     l3NetworkName: string,
     l3NetworkParameters: L3Network,
-    options?: L3NetworksCreateOrUpdateOptionalParams
+    options?: L3NetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3NetworksCreateOrUpdateResponse>,
@@ -80,7 +81,7 @@ export interface L3Networks {
     resourceGroupName: string,
     l3NetworkName: string,
     l3NetworkParameters: L3Network,
-    options?: L3NetworksCreateOrUpdateOptionalParams
+    options?: L3NetworksCreateOrUpdateOptionalParams,
   ): Promise<L3NetworksCreateOrUpdateResponse>;
   /**
    * Delete the provided layer 3 (L3) network.
@@ -91,8 +92,13 @@ export interface L3Networks {
   beginDelete(
     resourceGroupName: string,
     l3NetworkName: string,
-    options?: L3NetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: L3NetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<L3NetworksDeleteResponse>,
+      L3NetworksDeleteResponse
+    >
+  >;
   /**
    * Delete the provided layer 3 (L3) network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -102,8 +108,8 @@ export interface L3Networks {
   beginDeleteAndWait(
     resourceGroupName: string,
     l3NetworkName: string,
-    options?: L3NetworksDeleteOptionalParams
-  ): Promise<void>;
+    options?: L3NetworksDeleteOptionalParams,
+  ): Promise<L3NetworksDeleteResponse>;
   /**
    * Update tags associated with the provided layer 3 (L3) network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -113,6 +119,6 @@ export interface L3Networks {
   update(
     resourceGroupName: string,
     l3NetworkName: string,
-    options?: L3NetworksUpdateOptionalParams
+    options?: L3NetworksUpdateOptionalParams,
   ): Promise<L3NetworksUpdateResponse>;
 }

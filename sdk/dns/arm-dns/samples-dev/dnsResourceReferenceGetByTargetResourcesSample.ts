@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DnsResourceReferenceRequest,
-  DnsManagementClient,
-} from "@azure/arm-dns";
+import type { DnsResourceReferenceRequest } from "@azure/arm-dns";
+import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the DNS records specified by the referencing targetResourceIds.
@@ -23,7 +17,7 @@ dotenv.config();
  * @summary Returns the DNS records specified by the referencing targetResourceIds.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetDnsResourceReference.json
  */
-async function getDnsResourceReference() {
+async function getDnsResourceReference(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const parameters: DnsResourceReferenceRequest = {
     targetResources: [
@@ -34,15 +28,12 @@ async function getDnsResourceReference() {
   };
   const credential = new DefaultAzureCredential();
   const client = new DnsManagementClient(credential, subscriptionId);
-  const result =
-    await client.dnsResourceReferenceOperations.getByTargetResources(
-      parameters,
-    );
+  const result = await client.dnsResourceReferenceOperations.getByTargetResources(parameters);
   console.log(result);
 }
 
-async function main() {
-  getDnsResourceReference();
+async function main(): Promise<void> {
+  await getDnsResourceReference();
 }
 
 main().catch(console.error);

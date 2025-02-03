@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Regenerates an access key for the specified configuration store.
  *
  * @summary Regenerates an access key for the specified configuration store.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresRegenerateKey.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresRegenerateKey.json
  */
 async function configurationStoresRegenerateKey() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function configurationStoresRegenerateKey() {
   const result = await client.configurationStores.regenerateKey(
     resourceGroupName,
     configStoreName,
-    regenerateKeyParameters
+    regenerateKeyParameters,
   );
   console.log(result);
 }

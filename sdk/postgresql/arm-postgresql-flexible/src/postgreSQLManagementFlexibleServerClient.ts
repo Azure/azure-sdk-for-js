@@ -33,13 +33,12 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateEndpointConnectionOperationsImpl,
   PrivateLinkResourcesImpl,
-  QuotaUsagesImpl,
   ReplicasImpl,
   LogFilesImpl,
   ServerThreatProtectionSettingsImpl,
   VirtualEndpointsImpl,
   VirtualNetworkSubnetUsageImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Administrators,
   Backups,
@@ -59,21 +58,20 @@ import {
   PrivateEndpointConnections,
   PrivateEndpointConnectionOperations,
   PrivateLinkResources,
-  QuotaUsages,
   Replicas,
   LogFiles,
   ServerThreatProtectionSettings,
   VirtualEndpoints,
   VirtualNetworkSubnetUsage,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   PostgreSQLManagementFlexibleServerClientOptionalParams,
   MigrationNameAvailabilityResource,
   CheckMigrationNameAvailabilityOptionalParams,
   CheckMigrationNameAvailabilityResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class PostgreSQLManagementFlexibleServerClient extends coreClient.ServiceClient {
   $host: string;
@@ -123,7 +121,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0-beta.7`;
+    const packageDetails = `azsdk-js-arm-postgresql-flexible/8.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -177,7 +175,7 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-12-01-preview";
+    this.apiVersion = options.apiVersion || "2024-08-01";
     this.administrators = new AdministratorsImpl(this);
     this.backups = new BackupsImpl(this);
     this.locationBasedCapabilities = new LocationBasedCapabilitiesImpl(this);
@@ -198,7 +196,6 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
     this.privateEndpointConnectionOperations =
       new PrivateEndpointConnectionOperationsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
-    this.quotaUsages = new QuotaUsagesImpl(this);
     this.replicas = new ReplicasImpl(this);
     this.logFiles = new LogFilesImpl(this);
     this.serverThreatProtectionSettings =
@@ -281,7 +278,6 @@ export class PostgreSQLManagementFlexibleServerClient extends coreClient.Service
   privateEndpointConnections: PrivateEndpointConnections;
   privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
   privateLinkResources: PrivateLinkResources;
-  quotaUsages: QuotaUsages;
   replicas: Replicas;
   logFiles: LogFiles;
   serverThreatProtectionSettings: ServerThreatProtectionSettings;

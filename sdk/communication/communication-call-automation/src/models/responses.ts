@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CallConnection } from "../callConnection";
-import { CallConnectionProperties, CallParticipant } from "./models";
-import { RecordingState, RecordingKind } from "../generated/src";
+import { CallConnection } from "../callConnection.js";
+import { CallConnectionProperties, CallParticipant } from "./models.js";
+import { RecordingState, RecordingKind } from "../generated/src/index.js";
 
 /**
  * The interface used as parent of [action]CallResult

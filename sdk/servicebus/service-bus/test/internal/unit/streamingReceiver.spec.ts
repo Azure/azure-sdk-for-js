@@ -170,8 +170,7 @@ describe("StreamingReceiver unit tests", () => {
 
       await assertThrows(() => subscribePromise, {
         name: "AbortError",
-        message:
-          "Error 0: AbortError: Cannot request messages on the receiver since it is suspended.",
+        message: "Cannot request messages on the receiver since it is suspended.",
       });
 
       // closeLink is called on cleanup when we fail to add credits (which we would because our receiver
@@ -210,7 +209,7 @@ describe("StreamingReceiver unit tests", () => {
 
       await assertThrows(() => subscribePromise, {
         name: "AbortError",
-        message: "Error 0: AbortError: Receiver was suspended during initialization.",
+        message: "Receiver was suspended during initialization.",
       });
 
       // closeLink should not be called if no link was created
@@ -218,7 +217,7 @@ describe("StreamingReceiver unit tests", () => {
 
       assert.deepEqual(errors, [
         {
-          message: "Error 0: AbortError: Receiver was suspended during initialization.",
+          message: "Receiver was suspended during initialization.",
           errorSource: "receive",
         },
       ]);

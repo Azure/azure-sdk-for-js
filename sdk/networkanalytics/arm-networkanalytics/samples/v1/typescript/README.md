@@ -99,7 +99,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [datatypeslistbydataproductsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataTypesListByDataProductSample.ts
 [datatypesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataTypesUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/operationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-networkanalytics?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-networkanalytics?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkanalytics/arm-networkanalytics/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

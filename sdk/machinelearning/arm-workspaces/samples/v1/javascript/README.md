@@ -75,6 +75,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspaceslistworkspacekeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-workspaces/samples/v1/javascript/workspacesListWorkspaceKeysSample.js
 [workspacesresyncstoragekeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-workspaces/samples/v1/javascript/workspacesResyncStorageKeysSample.js
 [workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-workspaces/samples/v1/javascript/workspacesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-workspaces?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-workspaces?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-workspaces/README.md

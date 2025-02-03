@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Containers } from "../operationsInterfaces";
+import { Containers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerInstanceManagementClient } from "../containerInstanceManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerInstanceManagementClient } from "../containerInstanceManagementClient.js";
 import {
   ContainersListLogsOptionalParams,
   ContainersListLogsResponse,
@@ -19,7 +19,7 @@ import {
   ContainersExecuteCommandResponse,
   ContainersAttachOptionalParams,
   ContainersAttachResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Containers operations. */
 export class ContainersImpl implements Containers {

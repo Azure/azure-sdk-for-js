@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   CapacityReservationsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details.
@@ -26,7 +21,7 @@ async function capacityReservationsDeleteMaximumSetGen() {
   const capacityReservationGroupName = "aaaaaaaaaaa";
   const capacityReservationName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: CapacityReservationsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -34,10 +29,10 @@ async function capacityReservationsDeleteMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       capacityReservationGroupName,
-      capacityReservationName
+      capacityReservationName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -57,7 +52,7 @@ async function capacityReservationsDeleteMinimumSetGen() {
   const capacityReservationGroupName = "aaa";
   const capacityReservationName = "aaaaaa";
   const options: CapacityReservationsDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -65,10 +60,10 @@ async function capacityReservationsDeleteMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       capacityReservationGroupName,
-      capacityReservationName
+      capacityReservationName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

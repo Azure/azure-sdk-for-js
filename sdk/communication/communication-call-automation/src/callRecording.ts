@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CallRecordingImpl } from "./generated/src/operations";
+import { CallRecordingImpl } from "./generated/src/operations/index.js";
 import {
   CallAutomationApiClientOptionalParams,
   StartCallRecordingRequest,
-} from "./generated/src/models/index";
-import { RecordingStateResult } from "./models/responses";
+} from "./generated/src/models/index.js";
+import { RecordingStateResult } from "./models/responses.js";
 import {
   StartRecordingOptions,
   StopRecordingOptions,
@@ -14,13 +14,13 @@ import {
   ResumeRecordingOptions,
   DeleteRecordingOptions,
   DownloadRecordingOptions,
-} from "./models/options";
-import { communicationIdentifierModelConverter } from "./utli/converters";
-import { ContentDownloaderImpl } from "./contentDownloader";
-import * as fs from "fs";
+} from "./models/options.js";
+import { communicationIdentifierModelConverter } from "./utli/converters.js";
+import { ContentDownloaderImpl } from "./contentDownloader.js";
+import * as fs from "node:fs";
 import { randomUUID } from "@azure/core-util";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { CallAutomationApiClient } from "./generated/src";
+import { CallAutomationApiClient } from "./generated/src/index.js";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 
 /**

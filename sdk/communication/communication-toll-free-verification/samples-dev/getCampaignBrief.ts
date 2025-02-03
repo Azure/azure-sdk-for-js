@@ -5,16 +5,13 @@
  * @summary Get a Campaign Brief.
  */
 
-import {
-  CampaignBrief,
-  TollFreeVerificationClient,
-} from "@azure-tools/communication-toll-free-verification";
+import type { CampaignBrief } from "@azure-tools/communication-toll-free-verification";
+import { TollFreeVerificationClient } from "@azure-tools/communication-toll-free-verification";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Get a Campaign Brief ==\n");
 
   // You will need to set this environment variable or edit the following values

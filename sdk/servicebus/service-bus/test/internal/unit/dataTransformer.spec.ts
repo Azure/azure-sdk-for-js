@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 import isBuffer from "is-buffer";
 import { defaultDataTransformer } from "../../../src/dataTransformer.js";

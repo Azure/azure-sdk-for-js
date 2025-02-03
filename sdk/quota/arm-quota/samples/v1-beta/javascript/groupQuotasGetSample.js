@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the GroupQuotas for the name passed. It will return the GroupQuotas properties only. The details on group quota can be access from the group quota APIs.
  *
  * @summary Gets the GroupQuotas for the name passed. It will return the GroupQuotas properties only. The details on group quota can be access from the group quota APIs.
- * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotas/GetGroupQuotas.json
+ * x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2024-12-18-preview/examples/GroupQuotas/GetGroupQuotas.json
  */
 async function groupQuotasGetRequestForCompute() {
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
@@ -28,7 +28,7 @@ async function groupQuotasGetRequestForCompute() {
 }
 
 async function main() {
-  groupQuotasGetRequestForCompute();
+  await groupQuotasGetRequestForCompute();
 }
 
 main().catch(console.error);

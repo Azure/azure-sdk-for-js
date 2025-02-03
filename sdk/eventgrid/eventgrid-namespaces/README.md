@@ -2,14 +2,14 @@
 
 [Azure Event Grid](https://azure.microsoft.com/services/event-grid/) is a cloud-based service that provides reliable event delivery at massive scale.
 
-Use the client library to Send events to Event Grid Namespaces 
+Use the client library to Send events to Event Grid Namespaces
 
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-namespaces/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-namespaces)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
-- [Product documentation](https://docs.microsoft.com/azure/event-grid/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
+- [Product documentation](https://learn.microsoft.com/azure/event-grid/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
 
 ## Getting started
@@ -69,16 +69,20 @@ az eventgrid topic key list --resource-group <your-resource-group-name> --name <
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
 ```js
-const { EventGridSenderClient, EventGridReceiverClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
+const {
+  EventGridSenderClient,
+  EventGridReceiverClient,
+  AzureKeyCredential,
+} = require("@azure/eventgrid-namespaces");
 
 const eventGridSenderClient = new EventGridSenderClient(
   "<endpoint>",
-  new AzureKeyCredential("<Access Key>")
+  new AzureKeyCredential("<Access Key>"),
 );
 
 const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
-  new AzureKeyCredential("<Access Key>")
+  new AzureKeyCredential("<Access Key>"),
 );
 ```
 
@@ -97,14 +101,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const eventGridSenderClient = new EventGridSenderClient(
   "<endpoint>",
   new DefaultAzureCredential(),
-  "<topicName>"
+  "<topicName>",
 );
 
 const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
   new DefaultAzureCredential(),
   "<topicName>",
-  "<subscriptionName>"
+  "<subscriptionName>",
 );
 ```
 
@@ -118,7 +122,7 @@ const eventGridReceiverClient = new EventGridReceiverClient(
 const eventGridSenderClient = new EventGridSenderClient(
   "<endpoint>",
   new AzureKeyCredential("<API Key>"),
-  "<topicName>"
+  "<topicName>",
 );
 ```
 
@@ -129,7 +133,7 @@ const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
   new AzureKeyCredential("<API Key>"),
   "<topicName>",
-  "<subscriptionName>"
+  "<subscriptionName>",
 );
 ```
 
@@ -198,10 +202,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventgrid%2Feventgrid%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[event_grid]: https://docs.microsoft.com/azure/event-grid
+[event_grid]: https://learn.microsoft.com/azure/event-grid
 [azure_portal]: https://portal.azure.com
 [azure-core-tracing-github]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing
 [cloud-events-distributed-tracing-spec]: https://github.com/cloudevents/spec/blob/v1.0.1/extensions/distributed-tracing.md
-[eventgrid-on-kubernetes-using-azure-arc]: https://docs.microsoft.com/azure/event-grid/kubernetes/
+[eventgrid-on-kubernetes-using-azure-arc]: https://learn.microsoft.com/azure/event-grid/kubernetes/

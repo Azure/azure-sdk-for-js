@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  SshPublicKeyResource,
-  ComputeManagementClient
-} from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import type { SshPublicKeyResource } from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new SSH public key resource.
@@ -23,28 +17,22 @@ dotenv.config();
  * @summary Creates a new SSH public key resource.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateAnSshPublicKey.json
  */
-async function createANewSshPublicKeyResource() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createANewSshPublicKeyResource(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const sshPublicKeyName = "mySshPublicKeyName";
   const parameters: SshPublicKeyResource = {
     location: "westus",
-    publicKey: "{ssh-rsa public key}"
+    publicKey: "{ssh-rsa public key}",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.sshPublicKeys.create(
-    resourceGroupName,
-    sshPublicKeyName,
-    parameters
-  );
+  const result = await client.sshPublicKeys.create(resourceGroupName, sshPublicKeyName, parameters);
   console.log(result);
 }
 
-async function main() {
-  createANewSshPublicKeyResource();
+async function main(): Promise<void> {
+  await createANewSshPublicKeyResource();
 }
 
 main().catch(console.error);

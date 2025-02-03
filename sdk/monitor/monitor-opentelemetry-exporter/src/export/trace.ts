@@ -44,7 +44,6 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    * @param spans - Spans to export.
    * @param resultCallback - Result callback.
    */
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async export(
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void,

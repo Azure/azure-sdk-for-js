@@ -94,7 +94,6 @@ stages:
                               condition: succeeded()
                             - template: /eng/pipelines/templates/steps/npm-release-task.yml
                               parameters:
-                                ArtifactName: ${{parameters.ArtifactName}}
                                 Artifact: ${{artifact}}
                                 Registry: ${{parameters.Registry}}
                                 PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
@@ -258,7 +257,6 @@ stages:
                     displayName: Detecting package archive_${{artifact.name}}
                   - template: /eng/pipelines/templates/steps/npm-release-task.yml
                     parameters:
-                      ArtifactName: ${{parameters.ArtifactName}}
                       Artifact: ${{artifact}}
                       Registry: ${{parameters.Registry}}
                       PathToArtifacts: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}

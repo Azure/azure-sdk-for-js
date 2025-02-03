@@ -221,6 +221,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [registeredprefixeslistbypeeringsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/peering/arm-peering/samples/v2/javascript/registeredPrefixesListByPeeringSample.js
 [updatepeeringservicetags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/peering/arm-peering/samples/v2/javascript/updatePeeringServiceTags.js
 [updatepeeringtags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/peering/arm-peering/samples/v2/javascript/updatePeeringTags.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-peering?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-peering?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/peering/arm-peering/README.md

@@ -16,7 +16,7 @@ import { NetworkCloud } from "../networkCloud";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,10 +32,11 @@ import {
   L3NetworksCreateOrUpdateOptionalParams,
   L3NetworksCreateOrUpdateResponse,
   L3NetworksDeleteOptionalParams,
+  L3NetworksDeleteResponse,
   L3NetworksUpdateOptionalParams,
   L3NetworksUpdateResponse,
   L3NetworksListBySubscriptionNextResponse,
-  L3NetworksListByResourceGroupNextResponse
+  L3NetworksListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +57,7 @@ export class L3NetworksImpl implements L3Networks {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: L3NetworksListBySubscriptionOptionalParams
+    options?: L3NetworksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<L3Network> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -71,13 +72,13 @@ export class L3NetworksImpl implements L3Networks {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: L3NetworksListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<L3Network[]> {
     let result: L3NetworksListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +99,7 @@ export class L3NetworksImpl implements L3Networks {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: L3NetworksListBySubscriptionOptionalParams
+    options?: L3NetworksListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<L3Network> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -112,7 +113,7 @@ export class L3NetworksImpl implements L3Networks {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: L3NetworksListByResourceGroupOptionalParams
+    options?: L3NetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<L3Network> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -129,16 +130,16 @@ export class L3NetworksImpl implements L3Networks {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: L3NetworksListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<L3Network[]> {
     let result: L3NetworksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -153,7 +154,7 @@ export class L3NetworksImpl implements L3Networks {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -164,11 +165,11 @@ export class L3NetworksImpl implements L3Networks {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: L3NetworksListByResourceGroupOptionalParams
+    options?: L3NetworksListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<L3Network> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -179,11 +180,11 @@ export class L3NetworksImpl implements L3Networks {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: L3NetworksListBySubscriptionOptionalParams
+    options?: L3NetworksListBySubscriptionOptionalParams,
   ): Promise<L3NetworksListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -194,11 +195,11 @@ export class L3NetworksImpl implements L3Networks {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: L3NetworksListByResourceGroupOptionalParams
+    options?: L3NetworksListByResourceGroupOptionalParams,
   ): Promise<L3NetworksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -211,11 +212,11 @@ export class L3NetworksImpl implements L3Networks {
   get(
     resourceGroupName: string,
     l3NetworkName: string,
-    options?: L3NetworksGetOptionalParams
+    options?: L3NetworksGetOptionalParams,
   ): Promise<L3NetworksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, l3NetworkName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -230,7 +231,7 @@ export class L3NetworksImpl implements L3Networks {
     resourceGroupName: string,
     l3NetworkName: string,
     l3NetworkParameters: L3Network,
-    options?: L3NetworksCreateOrUpdateOptionalParams
+    options?: L3NetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<L3NetworksCreateOrUpdateResponse>,
@@ -239,21 +240,20 @@ export class L3NetworksImpl implements L3Networks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<L3NetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -262,8 +262,8 @@ export class L3NetworksImpl implements L3Networks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -271,15 +271,15 @@ export class L3NetworksImpl implements L3Networks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l3NetworkName, l3NetworkParameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       L3NetworksCreateOrUpdateResponse,
@@ -287,7 +287,7 @@ export class L3NetworksImpl implements L3Networks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -304,13 +304,13 @@ export class L3NetworksImpl implements L3Networks {
     resourceGroupName: string,
     l3NetworkName: string,
     l3NetworkParameters: L3Network,
-    options?: L3NetworksCreateOrUpdateOptionalParams
+    options?: L3NetworksCreateOrUpdateOptionalParams,
   ): Promise<L3NetworksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       l3NetworkName,
       l3NetworkParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -324,25 +324,29 @@ export class L3NetworksImpl implements L3Networks {
   async beginDelete(
     resourceGroupName: string,
     l3NetworkName: string,
-    options?: L3NetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: L3NetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<L3NetworksDeleteResponse>,
+      L3NetworksDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<L3NetworksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -351,8 +355,8 @@ export class L3NetworksImpl implements L3Networks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -360,20 +364,23 @@ export class L3NetworksImpl implements L3Networks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, l3NetworkName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      L3NetworksDeleteResponse,
+      OperationState<L3NetworksDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -388,12 +395,12 @@ export class L3NetworksImpl implements L3Networks {
   async beginDeleteAndWait(
     resourceGroupName: string,
     l3NetworkName: string,
-    options?: L3NetworksDeleteOptionalParams
-  ): Promise<void> {
+    options?: L3NetworksDeleteOptionalParams,
+  ): Promise<L3NetworksDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       l3NetworkName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -407,11 +414,11 @@ export class L3NetworksImpl implements L3Networks {
   update(
     resourceGroupName: string,
     l3NetworkName: string,
-    options?: L3NetworksUpdateOptionalParams
+    options?: L3NetworksUpdateOptionalParams,
   ): Promise<L3NetworksUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, l3NetworkName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -422,11 +429,11 @@ export class L3NetworksImpl implements L3Networks {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: L3NetworksListBySubscriptionNextOptionalParams
+    options?: L3NetworksListBySubscriptionNextOptionalParams,
   ): Promise<L3NetworksListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -439,11 +446,11 @@ export class L3NetworksImpl implements L3Networks {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: L3NetworksListByResourceGroupNextOptionalParams
+    options?: L3NetworksListByResourceGroupNextOptionalParams,
   ): Promise<L3NetworksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -451,85 +458,81 @@ export class L3NetworksImpl implements L3Networks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/l3Networks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/l3Networks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L3NetworkList
+      bodyMapper: Mappers.L3NetworkList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L3NetworkList
+      bodyMapper: Mappers.L3NetworkList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks/{l3NetworkName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.L3Network
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3NetworkName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks/{l3NetworkName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.L3Network,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.l3NetworkName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks/{l3NetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks/{l3NetworkName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.L3Network
+      bodyMapper: Mappers.L3Network,
     },
     201: {
-      bodyMapper: Mappers.L3Network
+      bodyMapper: Mappers.L3Network,
     },
     202: {
-      bodyMapper: Mappers.L3Network
+      bodyMapper: Mappers.L3Network,
     },
     204: {
-      bodyMapper: Mappers.L3Network
+      bodyMapper: Mappers.L3Network,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.l3NetworkParameters,
   queryParameters: [Parameters.apiVersion],
@@ -537,46 +540,52 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3NetworkName
+    Parameters.l3NetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks/{l3NetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks/{l3NetworkName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3NetworkName
+    Parameters.l3NetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks/{l3NetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/l3Networks/{l3NetworkName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.L3Network
+      bodyMapper: Mappers.L3Network,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.l3NetworkUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -584,48 +593,48 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.l3NetworkName
+    Parameters.l3NetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L3NetworkList
+      bodyMapper: Mappers.L3NetworkList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.L3NetworkList
+      bodyMapper: Mappers.L3NetworkList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

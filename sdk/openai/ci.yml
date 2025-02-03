@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
@@ -27,3 +27,7 @@ extends:
     Artifacts:
       - name: azure-openai
         safeName: azureopenai
+        # Disable publishing to learn.microsoft.com until support is added
+        # to type2docfx tooling for this kind of package layout
+        # https://github.com/Azure/azure-sdk-for-js/issues/31787
+        skipPublishDocMs: true

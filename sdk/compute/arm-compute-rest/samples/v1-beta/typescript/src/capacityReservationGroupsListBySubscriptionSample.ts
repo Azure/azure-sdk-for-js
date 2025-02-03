@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   CapacityReservationGroupsListBySubscriptionParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
@@ -25,13 +20,13 @@ async function listCapacityReservationGroupsInSubscription() {
   const options: CapacityReservationGroupsListBySubscriptionParameters = {
     queryParameters: {
       "api-version": "2022-08-01",
-      $expand: "virtualMachines/$ref"
-    }
+      $expand: "virtualMachines/$ref",
+    },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

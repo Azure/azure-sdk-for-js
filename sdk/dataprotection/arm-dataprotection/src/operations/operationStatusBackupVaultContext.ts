@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationStatusBackupVaultContext } from "../operationsInterfaces";
+import { OperationStatusBackupVaultContext } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataProtectionClient } from "../dataProtectionClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataProtectionClient } from "../dataProtectionClient.js";
 import {
   OperationStatusBackupVaultContextGetOptionalParams,
   OperationStatusBackupVaultContextGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing OperationStatusBackupVaultContext operations. */
 export class OperationStatusBackupVaultContextImpl

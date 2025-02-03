@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   KqlScriptResource,
   KqlScriptCreateOrUpdateOptionalParams,
   KqlScriptCreateOrUpdateResponse,
@@ -16,15 +16,15 @@ import {
   KqlScriptDeleteByNameOptionalParams,
   ArtifactRenameRequest,
   KqlScriptRenameOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a KqlScriptOperations. */
 export interface KqlScriptOperations {
   /**
    * Creates or updates a KQL Script
-   * @param kqlScriptName KQL script name
-   * @param kqlScript KQL script
-   * @param options The options parameters.
+   * @param kqlScriptName - KQL script name
+   * @param kqlScript - KQL script
+   * @param options - The options parameters.
    */
   beginCreateOrUpdate(
     kqlScriptName: string,
@@ -38,9 +38,9 @@ export interface KqlScriptOperations {
   >;
   /**
    * Creates or updates a KQL Script
-   * @param kqlScriptName KQL script name
-   * @param kqlScript KQL script
-   * @param options The options parameters.
+   * @param kqlScriptName - KQL script name
+   * @param kqlScript - KQL script
+   * @param options - The options parameters.
    */
   beginCreateOrUpdateAndWait(
     kqlScriptName: string,
@@ -49,8 +49,8 @@ export interface KqlScriptOperations {
   ): Promise<KqlScriptCreateOrUpdateResponse>;
   /**
    * Get KQL script by name
-   * @param kqlScriptName KQL script name
-   * @param options The options parameters.
+   * @param kqlScriptName - KQL script name
+   * @param options - The options parameters.
    */
   getByName(
     kqlScriptName: string,
@@ -58,8 +58,8 @@ export interface KqlScriptOperations {
   ): Promise<KqlScriptGetByNameResponse>;
   /**
    * Delete KQL script by name
-   * @param kqlScriptName KQL script name
-   * @param options The options parameters.
+   * @param kqlScriptName - KQL script name
+   * @param options - The options parameters.
    */
   beginDeleteByName(
     kqlScriptName: string,
@@ -67,8 +67,8 @@ export interface KqlScriptOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete KQL script by name
-   * @param kqlScriptName KQL script name
-   * @param options The options parameters.
+   * @param kqlScriptName - KQL script name
+   * @param options - The options parameters.
    */
   beginDeleteByNameAndWait(
     kqlScriptName: string,
@@ -76,9 +76,9 @@ export interface KqlScriptOperations {
   ): Promise<void>;
   /**
    * Rename KQL script
-   * @param kqlScriptName KQL script name
-   * @param renameRequest Rename request
-   * @param options The options parameters.
+   * @param kqlScriptName - KQL script name
+   * @param renameRequest - Rename request
+   * @param options - The options parameters.
    */
   beginRename(
     kqlScriptName: string,
@@ -87,9 +87,9 @@ export interface KqlScriptOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Rename KQL script
-   * @param kqlScriptName KQL script name
-   * @param renameRequest Rename request
-   * @param options The options parameters.
+   * @param kqlScriptName - KQL script name
+   * @param renameRequest - Rename request
+   * @param options - The options parameters.
    */
   beginRenameAndWait(
     kqlScriptName: string,

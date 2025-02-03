@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { RecordSetsImpl, ZonesImpl } from "./operations";
-import { RecordSets, Zones } from "./operationsInterfaces";
-import { DnsManagementClientOptionalParams } from "./models";
+import { RecordSetsImpl, ZonesImpl } from "./operations/index.js";
+import { RecordSets, Zones } from "./operationsInterfaces/index.js";
+import { DnsManagementClientOptionalParams } from "./models/index.js";
 
 export class DnsManagementClient extends coreClient.ServiceClient {
   $host: string;

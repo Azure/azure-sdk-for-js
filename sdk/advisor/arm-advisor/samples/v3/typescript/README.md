@@ -83,7 +83,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [suppressionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/advisor/arm-advisor/samples/v3/typescript/src/suppressionsDeleteSample.ts
 [suppressionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/advisor/arm-advisor/samples/v3/typescript/src/suppressionsGetSample.ts
 [suppressionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/advisor/arm-advisor/samples/v3/typescript/src/suppressionsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-advisor?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-advisor?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/advisor/arm-advisor/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

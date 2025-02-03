@@ -13,7 +13,7 @@ import {
   PrivateEndpointConnectionUpdateResponse,
   PrivateEndpointConnectionDeleteOptionalParams,
   PrivateEndpointConnectionDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PrivateEndpointConnectionOperations. */
 export interface PrivateEndpointConnectionOperations {

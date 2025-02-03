@@ -15,7 +15,7 @@ import {
   CreateConversionSettings as CreateConversionSettingsMapper,
   RenderingSessionSettings as RenderingSessionSettingsMapper,
   UpdateSessionSettings as UpdateSessionSettingsMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

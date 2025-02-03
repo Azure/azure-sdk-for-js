@@ -1,13 +1,7 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "paths": {
-      "@azure/core-lro": ["./src/index.ts"]
-    },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "exclude": ["./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./test/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

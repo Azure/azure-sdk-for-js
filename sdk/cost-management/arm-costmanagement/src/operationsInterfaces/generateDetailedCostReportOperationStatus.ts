@@ -9,7 +9,7 @@
 import {
   GenerateDetailedCostReportOperationStatusGetOptionalParams,
   GenerateDetailedCostReportOperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GenerateDetailedCostReportOperationStatus. */
 export interface GenerateDetailedCostReportOperationStatus {

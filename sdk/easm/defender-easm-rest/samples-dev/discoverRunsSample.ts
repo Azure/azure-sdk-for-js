@@ -15,13 +15,12 @@
     6) DOMAINS - a comma separated list of hosts you would like to run discovery on
  */
 
-import EasmDefender, { isUnexpected, DiscoSource } from "@azure-rest/defender-easm";
+import type { DiscoSource } from "@azure-rest/defender-easm";
+import EasmDefender, { isUnexpected } from "@azure-rest/defender-easm";
 import { DefaultAzureCredential } from "@azure/identity";
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   // To create an EasmClient, you need your subscription ID, region, and some sort of credential.
   const subscription_id = process.env.SUBSCRIPTION_ID || "";
   const resource_group = process.env.RESOURCE_GROUP_NAME || "";
@@ -34,12 +33,15 @@ async function main() {
   const discovery_group_description = "This is a sample description for a discovery group";
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
-    workspace_name,
+    endpoint +
+      "/subscriptions/" +
+      subscription_id +
+      "/resourceGroups/" +
+      resource_group +
+      "/workspaces/" +
+      workspace_name,
     credential,
-    {}
+    {},
   );
 
   // In order to start discovery runs, we must first create a discovery group, which is a collection of known assets that we can pivot off of.
@@ -55,7 +57,7 @@ async function main() {
     .concat(
       domains.map<DiscoSource>((domain) => {
         return { name: domain, kind: "domain" };
-      })
+      }),
     );
 
   await client.path("/discoGroups/{groupName}", discovery_group_name).put({
@@ -74,7 +76,7 @@ async function main() {
     throw new Error(discovery_groups.body?.error.message);
   }
 
-  discovery_groups.body.value?.forEach(async (discovery_group) => {
+  await discovery_groups.body.value?.forEach(async (discovery_group) => {
     console.log(discovery_group.name);
     const disco_runs = await client
       .path("/discoGroups/{groupName}/runs", discovery_group.name!)
@@ -86,7 +88,7 @@ async function main() {
 
     disco_runs.body.value?.slice(0, 5).forEach((disco_run) => {
       console.log(
-        ` - started: ${disco_run.startedDate}, finished: ${disco_run.completedDate}, assets found: ${disco_run.totalAssetsFoundCount}`
+        ` - started: ${disco_run.startedDate}, finished: ${disco_run.completedDate}, assets found: ${disco_run.totalAssetsFoundCount}`,
       );
     });
   });

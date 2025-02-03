@@ -5,13 +5,13 @@ import type {
   EntityLinkingResult,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "./generated/models";
-import type { RecognizeLinkedEntitiesResult } from "./recognizeLinkedEntitiesResult";
+} from "./generated/models/index.js";
+import type { RecognizeLinkedEntitiesResult } from "./recognizeLinkedEntitiesResult.js";
 import {
   makeRecognizeLinkedEntitiesErrorResult,
   makeRecognizeLinkedEntitiesResult,
-} from "./recognizeLinkedEntitiesResult";
-import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
+} from "./recognizeLinkedEntitiesResult.js";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult.js";
 
 /**
  * Array of `RecognizeLinkedEntitiesResult` objects corresponding to a batch of input documents, and

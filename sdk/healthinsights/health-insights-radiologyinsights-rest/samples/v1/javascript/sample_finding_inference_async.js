@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the finding inference results of the Radiology Insights request.
+ * @summary Displays the finding of the Radiology Insights request.
  */
-
-const dotenv = require("dotenv");
-const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
-  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+const dotenv = require("dotenv");
+
+const AzureHealthInsightsClient = require("../src").default,
+  { ClinicalDocumentTypeEnum, getLongRunningPoller, isUnexpected } = require("../src");
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ dotenv.config();
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the finding inferences
+ * Print the finding inference
  */
 
 function printResults(radiologyInsightsResult) {
@@ -42,7 +42,7 @@ function printResults(radiologyInsightsResult) {
                 displayCodes(inter);
               });
 
-              find.component?.forEach((comp) => {
+              inference.finding.component?.forEach((comp) => {
                 console.log("   Component code: ");
                 displayCodes(comp.code);
                 if ("valueCodeableConcept" in comp) {
@@ -53,69 +53,67 @@ function printResults(radiologyInsightsResult) {
 
               if ("extension" in inference) {
                 displaySectionInfo(inference);
-              };
+              }
             }
           });
         }
       });
     }
   } else {
-    const errors = radiologyInsightsResult.errors;
-    if (errors) {
-      for (const error of errors) {
-        console.log(error.code, ":", error.message);
-      }
+    const error = radiologyInsightsResult.error;
+    if (error) {
+      console.log(error.code, ":", error.message);
     }
+  }
+
+  function displayCodes(codeableConcept) {
+    codeableConcept.coding?.forEach((coding) => {
+      if ("code" in coding) {
+        console.log(
+          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+        );
+      }
+    });
+  }
+
+  function displaySectionInfo(inference) {
+    inference.extension?.forEach((ext) => {
+      if ("url" in ext && ext.url === "section") {
+        console.log("   Section:");
+        ext.extension?.forEach((subextension) => {
+          if ("url" in subextension && "valueString" in subextension) {
+            console.log("      " + subextension.url + ": " + subextension.valueString);
+          }
+        });
+      }
+    });
   }
 }
 
-function displayCodes(codeableConcept) {
-  codeableConcept.coding?.forEach((coding) => {
-    if ("code" in coding && "display" in coding && "system" in coding) {
-      console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
-    }
-  });
-}
-
-function displaySectionInfo(inference) {
-  inference.extension?.forEach((ext) => {
-    if ("url" in ext && ext.url === "section") {
-      console.log("   Section:");
-      ex.extension?.forEach((subextension) => {
-        if ("url" in subextension && "valueString" in subextension) {
-          console.log("      " + subextension.url + ": " + subextension.valueString);
-        }
-      });
-    }
-  });
-}
-
-
 // Create request body for radiology insights
 function createRequestBody() {
-
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
     code: "ANG366",
-    display: "XA VENACAVA FILTER INSERTION"
+    display: "XA VENACAVA FILTER INSERTION",
   };
 
   const code = {
-    coding: [codingData]
+    coding: [codingData],
   };
 
   const patientInfo = {
     sex: "male",
-    birthDate: new Date("1980-04-22T02:00:00+00:00")
+    birthDate: new Date("1980-04-22T02:00:00+00:00"),
   };
 
   const encounterData = {
     id: "encounterid1",
     period: {
-      "start": "2021-8-28T00:00:00",
-      "end": "2021-8-28T00:00:00"
+      start: "2021-8-28T00:00:00",
+      end: "2021-8-28T00:00:00",
     },
-    class: "inpatient"
+    class: "inpatient",
   };
 
   const authorData = {
@@ -125,12 +123,12 @@ function createRequestBody() {
 
   const orderedProceduresData = {
     code: code,
-    description: "XA VENACAVA FILTER INSERTION"
+    description: "XA VENACAVA FILTER INSERTION",
   };
 
   const administrativeMetadata = {
     orderedProcedures: [orderedProceduresData],
-    encounterId: "encounterid1"
+    encounterId: "encounterid1",
   };
 
   const content = {
@@ -140,7 +138,10 @@ function createRequestBody() {
     in course and caliber without filling defects to indicate clot. It
     measures 19.8 mm. in diameter infrarenally.
 
-    2. Successful placement of IVC filter in infrarenal location.`
+
+
+
+    2. Successful placement of IVC filter in infrarenal location.`,
   };
   const patientDocumentData = {
     type: "note",
@@ -152,15 +153,14 @@ function createRequestBody() {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: new Date("2021-05-31T16:00:00.000Z"),
-    orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION"
+    orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION",
   };
-
 
   const patientData = {
     id: "Roberto Lewis",
     details: patientInfo,
     encounters: [encounterData],
-    patientDocuments: [patientDocumentData]
+    patientDocuments: [patientDocumentData],
   };
 
   const inferenceTypes = [
@@ -174,21 +174,22 @@ function createRequestBody() {
     "criticalRecommendation",
     "followupRecommendation",
     "followupCommunication",
-    "radiologyProcedure"];
+    "radiologyProcedure",
+  ];
 
   const followupRecommendationOptions = {
     includeRecommendationsWithNoSpecifiedModality: true,
     includeRecommendationsInReferences: true,
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const findingOptions = {
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const inferenceOptions = {
     followupRecommendationOptions: followupRecommendationOptions,
-    findingOptions: findingOptions
+    findingOptions: findingOptions,
   };
 
   // Create RI Configuration
@@ -197,27 +198,25 @@ function createRequestBody() {
     inferenceTypes: inferenceTypes,
     locale: "en-US",
     verbose: false,
-    includeEvidence: true
+    includeEvidence: true,
   };
 
+  // create RI Data
   const RadiologyInsightsJob = {
     jobData: {
       patients: [patientData],
       configuration: configuration,
-    }
+    },
   };
 
-
-
   return {
-    body: radiologyInsightsData
-  }
-
+    body: RadiologyInsightsJob,
+  };
 }
 
 async function main() {
   const credential = new DefaultAzureCredential();
-  const client = new AzureHealthInsightsClient(endpoint, credential);
+  const client = AzureHealthInsightsClient(endpoint, credential);
 
   // Create request body
   const radiologyInsightsParameter = createRequestBody();
@@ -225,7 +224,9 @@ async function main() {
   // Initiate radiology insights job and retrieve results
   const dateString = Date.now();
   const jobID = "jobId-" + dateString;
-  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
+  const initialResponse = await client
+    .path("/radiology-insights/jobs/{id}", jobID)
+    .put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
@@ -239,7 +240,7 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error("The finding inference encountered an error:", err);
+  console.error("The finding encountered an error:", err);
 });
 
 module.exports = { main };

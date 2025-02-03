@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { CreateTestCredentialOptions, DefaultAzureCredentialCombinedOptions } from ".";
+import type {
+  CreateTestCredentialOptions,
+  DefaultAzureCredentialCombinedOptions,
+} from "./index.js";
 
 /**
  * Authentication error thrown when the relay server could not authenticate.
@@ -63,8 +66,9 @@ async function getTokenFromRelay(
   scopes: string | string[],
   options: GetTokenOptions = {},
 ): Promise<AccessToken> {
+  const scope = typeof scopes === "string" ? scopes : scopes[0];
   const params = new URLSearchParams({
-    scopes,
+    scopes: scope,
     options: JSON.stringify(options),
   });
 

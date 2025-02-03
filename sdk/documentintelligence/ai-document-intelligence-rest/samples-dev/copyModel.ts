@@ -8,13 +8,15 @@
  * @summary copy a model from one resource to another
  */
 
-import DocumentIntelligence, { DocumentModelCopyToOperationDetailsOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import type { DocumentModelCopyToOperationDetailsOutput } from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
-
+async function main(): Promise<void> {
   const random = Date.now().toString();
   const destinationModelId =
     (process.env.CUSTOM_MODEL_ID || "<model id>") + random.substring(random.length - 6);
@@ -23,7 +25,8 @@ async function main() {
   // const destinationClient = new DocumentModelAdministrationClient(endpoint, credential);
   const destinationClient = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" })
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+  );
   // const authorization = await destinationClient.getCopyAuthorization(destinationModelId);
   const targetAuth = await destinationClient.path("/documentModels:authorizeCopy").post({
     body: {
@@ -37,9 +40,9 @@ async function main() {
   const sourceModelId = process.env.COPY_SOURCE_MODEL_ID || "<source model id>";
 
   // Then, the source resource can initiate the copy operation.
-  const sourceClient = DocumentIntelligence(
-    sourceEndpoint,
-    { key: process.env.DOCUMENT_INTELLIGENCE_SOURCE_API_KEY || "<source api key>" })
+  const sourceClient = DocumentIntelligence(sourceEndpoint, {
+    key: process.env.DOCUMENT_INTELLIGENCE_SOURCE_API_KEY || "<source api key>",
+  });
 
   const copyInitResponse = await sourceClient
     .path("/documentModels/{modelId}:copyTo", sourceModelId)
@@ -52,7 +55,7 @@ async function main() {
   }
   const copyPoller = getLongRunningPoller(sourceClient, copyInitResponse);
   const model = (
-    (await (await copyPoller).pollUntilDone()).body as DocumentModelCopyToOperationDetailsOutput
+    (await copyPoller.pollUntilDone()).body as DocumentModelCopyToOperationDetailsOutput
   ).result!;
 
   console.log("Model ID:", model.modelId);

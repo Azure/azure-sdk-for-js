@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ManagedPrivateEndpointModel,
-  DashboardManagementClient
-} from "@azure/arm-dashboard";
+import type { ManagedPrivateEndpointModel } from "@azure/arm-dashboard";
+import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a managed private endpoint for a grafana resource.
@@ -23,12 +17,10 @@ dotenv.config();
  * @summary Create or update a managed private endpoint for a grafana resource.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/ManagedPrivateEndpoints_Create.json
  */
-async function managedPrivateEndpointCreate() {
+async function managedPrivateEndpointCreate(): Promise<void> {
   const subscriptionId =
-    process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["DASHBOARD_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
   const workspaceName = "myWorkspace";
   const managedPrivateEndpointName = "myMPEName";
   const requestBodyParameters: ManagedPrivateEndpointModel = {
@@ -38,7 +30,7 @@ async function managedPrivateEndpointCreate() {
       "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-000000000000/resourceGroups/xx-rg/providers/Microsoft.Kusto/Clusters/sampleKustoResource",
     privateLinkResourceRegion: "West US",
     privateLinkServiceUrl: "my-self-hosted-influxdb.westus.mydomain.com",
-    requestMessage: "Example Request Message"
+    requestMessage: "Example Request Message",
   };
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
@@ -46,13 +38,13 @@ async function managedPrivateEndpointCreate() {
     resourceGroupName,
     workspaceName,
     managedPrivateEndpointName,
-    requestBodyParameters
+    requestBodyParameters,
   );
   console.log(result);
 }
 
-async function main() {
-  managedPrivateEndpointCreate();
+async function main(): Promise<void> {
+  await managedPrivateEndpointCreate();
 }
 
 main().catch(console.error);

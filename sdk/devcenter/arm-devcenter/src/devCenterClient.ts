@@ -38,7 +38,7 @@ import {
   PoolsImpl,
   SchedulesImpl,
   NetworkConnectionsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   DevCenters,
   Projects,
@@ -63,8 +63,8 @@ import {
   Pools,
   Schedules,
   NetworkConnections,
-} from "./operationsInterfaces";
-import { DevCenterClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DevCenterClientOptionalParams } from "./models/index.js";
 
 export class DevCenterClient extends coreClient.ServiceClient {
   $host: string;

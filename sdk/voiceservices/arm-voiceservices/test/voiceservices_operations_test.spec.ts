@@ -6,23 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { MicrosoftVoiceServices } from "../src/microsoftVoiceServices";
+import { MicrosoftVoiceServices } from "../src/microsoftVoiceServices.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -45,23 +39,27 @@ describe("voiceservices test", () => {
   let resourceGroup: string;
   let communicationsGatewayName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new MicrosoftVoiceServices(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new MicrosoftVoiceServices(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "westcentralus";
     resourceGroup = "czwjstest";
-    communicationsGatewayName = "mycgtest6";// if you got this error message"Existing entry found in CosmosDB for new resource mycgtest - reject the request" when creating, use a new name to create
+    communicationsGatewayName = "mycgtest6"; // if you got this error message"Existing entry found in CosmosDB for new resource mycgtest - reject the request" when creating, use a new name to create
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("communicationsGateways create test", async function () {
+  it("communicationsGateways create test", async () => {
     const res = await client.communicationsGateways.beginCreateOrUpdateAndWait(
       resourceGroup,
       communicationsGatewayName,
@@ -78,43 +76,43 @@ describe("voiceservices test", () => {
             primaryRegionProperties: {
               allowedMediaSourceAddressPrefixes: ["10.1.2.0/24"],
               allowedSignalingSourceAddressPrefixes: ["10.1.1.0/24"],
-              operatorAddresses: ["198.51.100.1"]
-            }
+              operatorAddresses: ["198.51.100.1"],
+            },
           },
           {
             name: "eastus2",
             primaryRegionProperties: {
               allowedMediaSourceAddressPrefixes: ["10.2.2.0/24"],
               allowedSignalingSourceAddressPrefixes: ["10.2.1.0/24"],
-              operatorAddresses: ["198.51.100.2"]
-            }
-          }
+              operatorAddresses: ["198.51.100.2"],
+            },
+          },
         ],
-        teamsVoicemailPilotNumber: "1234567890"
+        teamsVoicemailPilotNumber: "1234567890",
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, communicationsGatewayName);
   });
 
-  it("communicationsGateways get test", async function () {
+  it("communicationsGateways get test", async () => {
     const res = await client.communicationsGateways.get(resourceGroup, communicationsGatewayName);
     assert.equal(res.name, communicationsGatewayName);
   });
 
-  it("communicationsGateways list test", async function () {
+  it("communicationsGateways list test", async () => {
     const resArray = new Array();
-    for await (let item of client.communicationsGateways.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.communicationsGateways.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("communicationsGateways delete test", async function () {
+  it("communicationsGateways delete test", async () => {
     const resArray = new Array();
-    const res = await client.communicationsGateways.beginDeleteAndWait(resourceGroup, communicationsGatewayName, testPollingOptions)
-    for await (let item of client.communicationsGateways.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.communicationsGateways.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

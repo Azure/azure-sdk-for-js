@@ -6,7 +6,7 @@
 
 ```yaml
 v3: true
-package-version: 13.3.0
+package-version: 13.3.1
 package-name: "@azure/data-tables"
 title: TablesClient
 description: Tables Client
@@ -14,7 +14,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a8cd09ab6963b6dd36088aafca81975d32ee561/specification/cosmos-db/data-plane/Microsoft.Tables/preview/2019-02-02/table.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/4ae412cf228fb0320ced6fd6020435296752bf68/specification/cosmos-db/data-plane/Microsoft.Tables/preview/2019-02-02/table.json
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:

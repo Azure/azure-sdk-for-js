@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a managed private endpoint.
  *
  * @summary Gets a managed private endpoint.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsGet.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoManagedPrivateEndpointsGet.json
  */
 async function kustoManagedPrivateEndpointsGet() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function kustoManagedPrivateEndpointsGet() {
 }
 
 async function main() {
-  kustoManagedPrivateEndpointsGet();
+  await kustoManagedPrivateEndpointsGet();
 }
 
 main().catch(console.error);

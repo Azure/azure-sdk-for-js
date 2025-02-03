@@ -6,1350 +6,1350 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiManagementService } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
 import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller
+    createHttpPoller,
+    OperationState,
+    SimplePollerLike
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { ApiManagementClient } from "../apiManagementClient.js";
+import { createLroSpec } from "../lroImpl.js";
 import {
-  ApiManagementServiceResource,
-  ApiManagementServiceListByResourceGroupNextOptionalParams,
-  ApiManagementServiceListByResourceGroupOptionalParams,
-  ApiManagementServiceListByResourceGroupResponse,
-  ApiManagementServiceListNextOptionalParams,
-  ApiManagementServiceListOptionalParams,
-  ApiManagementServiceListResponse,
-  ApiManagementServiceBackupRestoreParameters,
-  ApiManagementServiceRestoreOptionalParams,
-  ApiManagementServiceRestoreResponse,
-  ApiManagementServiceBackupOptionalParams,
-  ApiManagementServiceBackupResponse,
-  ApiManagementServiceCreateOrUpdateOptionalParams,
-  ApiManagementServiceCreateOrUpdateResponse,
-  ApiManagementServiceUpdateParameters,
-  ApiManagementServiceUpdateOptionalParams,
-  ApiManagementServiceUpdateResponse,
-  ApiManagementServiceGetOptionalParams,
-  ApiManagementServiceGetResponse,
-  ApiManagementServiceDeleteOptionalParams,
-  ApiManagementServiceMigrateToStv2OptionalParams,
-  ApiManagementServiceMigrateToStv2Response,
-  ApiManagementServiceGetSsoTokenOptionalParams,
-  ApiManagementServiceGetSsoTokenResponse,
-  ApiManagementServiceCheckNameAvailabilityParameters,
-  ApiManagementServiceCheckNameAvailabilityOptionalParams,
-  ApiManagementServiceCheckNameAvailabilityResponse,
-  ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams,
-  ApiManagementServiceGetDomainOwnershipIdentifierResponse,
-  ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams,
-  ApiManagementServiceApplyNetworkConfigurationUpdatesResponse,
-  ApiManagementServiceListByResourceGroupNextResponse,
-  ApiManagementServiceListNextResponse
-} from "../models";
+    ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams,
+    ApiManagementServiceApplyNetworkConfigurationUpdatesResponse,
+    ApiManagementServiceBackupOptionalParams,
+    ApiManagementServiceBackupResponse,
+    ApiManagementServiceBackupRestoreParameters,
+    ApiManagementServiceCheckNameAvailabilityOptionalParams,
+    ApiManagementServiceCheckNameAvailabilityParameters,
+    ApiManagementServiceCheckNameAvailabilityResponse,
+    ApiManagementServiceCreateOrUpdateOptionalParams,
+    ApiManagementServiceCreateOrUpdateResponse,
+    ApiManagementServiceDeleteOptionalParams,
+    ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams,
+    ApiManagementServiceGetDomainOwnershipIdentifierResponse,
+    ApiManagementServiceGetOptionalParams,
+    ApiManagementServiceGetResponse,
+    ApiManagementServiceGetSsoTokenOptionalParams,
+    ApiManagementServiceGetSsoTokenResponse,
+    ApiManagementServiceListByResourceGroupNextOptionalParams,
+    ApiManagementServiceListByResourceGroupNextResponse,
+    ApiManagementServiceListByResourceGroupOptionalParams,
+    ApiManagementServiceListByResourceGroupResponse,
+    ApiManagementServiceListNextOptionalParams,
+    ApiManagementServiceListNextResponse,
+    ApiManagementServiceListOptionalParams,
+    ApiManagementServiceListResponse,
+    ApiManagementServiceMigrateToStv2OptionalParams,
+    ApiManagementServiceMigrateToStv2Response,
+    ApiManagementServiceResource,
+    ApiManagementServiceRestoreOptionalParams,
+    ApiManagementServiceRestoreResponse,
+    ApiManagementServiceUpdateOptionalParams,
+    ApiManagementServiceUpdateParameters,
+    ApiManagementServiceUpdateResponse
+} from "../models/index.js";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiManagementService } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiManagementService operations. */
 export class ApiManagementServiceImpl implements ApiManagementService {
-  private readonly client: ApiManagementClient;
+    private readonly client: ApiManagementClient;
 
-  /**
-   * Initialize a new instance of the class ApiManagementService class.
-   * @param client Reference to the service client
-   */
-  constructor(client: ApiManagementClient) {
-    this.client = client;
-  }
+    /**
+     * Initialize a new instance of the class ApiManagementService class.
+     * @param client Reference to the service client
+     */
+    constructor(client: ApiManagementClient) {
+        this.client = client;
+    }
 
-  /**
-   * List all API Management services within a resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  public listByResourceGroup(
-    resourceGroupName: string,
-    options?: ApiManagementServiceListByResourceGroupOptionalParams
-  ): PagedAsyncIterableIterator<ApiManagementServiceResource> {
-    const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
+    /**
+     * List all API Management services within a resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param options The options parameters.
+     */
+    public listByResourceGroup(
+        resourceGroupName: string,
+        options?: ApiManagementServiceListByResourceGroupOptionalParams
+    ): PagedAsyncIterableIterator<ApiManagementServiceResource> {
+        const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
+        return {
+            next() {
+                return iter.next();
+            },
+            [Symbol.asyncIterator]() {
+                return this;
+            },
+            byPage: (settings?: PageSettings) => {
+                if (settings?.maxPageSize) {
+                    throw new Error("maxPageSize is not supported by this operation.");
+                }
+                return this.listByResourceGroupPagingPage(
+                    resourceGroupName,
+                    options,
+                    settings
+                );
+            }
+        };
+    }
+
+    private async *listByResourceGroupPagingPage(
+        resourceGroupName: string,
+        options?: ApiManagementServiceListByResourceGroupOptionalParams,
+        settings?: PageSettings
+    ): AsyncIterableIterator<ApiManagementServiceResource[]> {
+        let result: ApiManagementServiceListByResourceGroupResponse;
+        let continuationToken = settings?.continuationToken;
+        if (!continuationToken) {
+            result = await this._listByResourceGroup(resourceGroupName, options);
+            let page = result.value || [];
+            continuationToken = result.nextLink;
+            setContinuationToken(page, continuationToken);
+            yield page;
         }
-        return this.listByResourceGroupPagingPage(
-          resourceGroupName,
-          options,
-          settings
+        while (continuationToken) {
+            result = await this._listByResourceGroupNext(
+                resourceGroupName,
+                continuationToken,
+                options
+            );
+            continuationToken = result.nextLink;
+            let page = result.value || [];
+            setContinuationToken(page, continuationToken);
+            yield page;
+        }
+    }
+
+    private async *listByResourceGroupPagingAll(
+        resourceGroupName: string,
+        options?: ApiManagementServiceListByResourceGroupOptionalParams
+    ): AsyncIterableIterator<ApiManagementServiceResource> {
+        for await (const page of this.listByResourceGroupPagingPage(
+            resourceGroupName,
+            options
+        )) {
+            yield* page;
+        }
+    }
+
+    /**
+     * Lists all API Management services within an Azure subscription.
+     * @param options The options parameters.
+     */
+    public list(
+        options?: ApiManagementServiceListOptionalParams
+    ): PagedAsyncIterableIterator<ApiManagementServiceResource> {
+        const iter = this.listPagingAll(options);
+        return {
+            next() {
+                return iter.next();
+            },
+            [Symbol.asyncIterator]() {
+                return this;
+            },
+            byPage: (settings?: PageSettings) => {
+                if (settings?.maxPageSize) {
+                    throw new Error("maxPageSize is not supported by this operation.");
+                }
+                return this.listPagingPage(options, settings);
+            }
+        };
+    }
+
+    private async *listPagingPage(
+        options?: ApiManagementServiceListOptionalParams,
+        settings?: PageSettings
+    ): AsyncIterableIterator<ApiManagementServiceResource[]> {
+        let result: ApiManagementServiceListResponse;
+        let continuationToken = settings?.continuationToken;
+        if (!continuationToken) {
+            result = await this._list(options);
+            let page = result.value || [];
+            continuationToken = result.nextLink;
+            setContinuationToken(page, continuationToken);
+            yield page;
+        }
+        while (continuationToken) {
+            result = await this._listNext(continuationToken, options);
+            continuationToken = result.nextLink;
+            let page = result.value || [];
+            setContinuationToken(page, continuationToken);
+            yield page;
+        }
+    }
+
+    private async *listPagingAll(
+        options?: ApiManagementServiceListOptionalParams
+    ): AsyncIterableIterator<ApiManagementServiceResource> {
+        for await (const page of this.listPagingPage(options)) {
+            yield* page;
+        }
+    }
+
+    /**
+     * Restores a backup of an API Management service created using the ApiManagementService_Backup
+     * operation on the current service. This is a long running operation and could take several minutes to
+     * complete.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param parameters Parameters supplied to the Restore API Management service from backup operation.
+     * @param options The options parameters.
+     */
+    async beginRestore(
+        resourceGroupName: string,
+        serviceName: string,
+        parameters: ApiManagementServiceBackupRestoreParameters,
+        options?: ApiManagementServiceRestoreOptionalParams
+    ): Promise<
+        SimplePollerLike<
+            OperationState<ApiManagementServiceRestoreResponse>,
+            ApiManagementServiceRestoreResponse
+        >
+    > {
+        const directSendOperation = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ): Promise<ApiManagementServiceRestoreResponse> => {
+            return this.client.sendOperationRequest(args, spec);
+        };
+        const sendOperationFn = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ) => {
+            let currentRawResponse:
+                | coreClient.FullOperationResponse
+                | undefined = undefined;
+            const providedCallback = args.options?.onResponse;
+            const callback: coreClient.RawResponseCallback = (
+                rawResponse: coreClient.FullOperationResponse,
+                flatResponse: unknown
+            ) => {
+                currentRawResponse = rawResponse;
+                providedCallback?.(rawResponse, flatResponse);
+            };
+            const updatedArgs = {
+                ...args,
+                options: {
+                    ...args.options,
+                    onResponse: callback
+                }
+            };
+            const flatResponse = await directSendOperation(updatedArgs, spec);
+            return {
+                flatResponse,
+                rawResponse: {
+                    statusCode: currentRawResponse!.status,
+                    body: currentRawResponse!.parsedBody,
+                    headers: currentRawResponse!.headers.toJSON()
+                }
+            };
+        };
+
+        const lro = createLroSpec({
+            sendOperationFn,
+            args: { resourceGroupName, serviceName, parameters, options },
+            spec: restoreOperationSpec
+        });
+        const poller = await createHttpPoller<
+            ApiManagementServiceRestoreResponse,
+            OperationState<ApiManagementServiceRestoreResponse>
+        >(lro, {
+            restoreFrom: options?.resumeFrom,
+            intervalInMs: options?.updateIntervalInMs,
+            resourceLocationConfig: "location"
+        });
+        await poller.poll();
+        return poller;
+    }
+
+    /**
+     * Restores a backup of an API Management service created using the ApiManagementService_Backup
+     * operation on the current service. This is a long running operation and could take several minutes to
+     * complete.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param parameters Parameters supplied to the Restore API Management service from backup operation.
+     * @param options The options parameters.
+     */
+    async beginRestoreAndWait(
+        resourceGroupName: string,
+        serviceName: string,
+        parameters: ApiManagementServiceBackupRestoreParameters,
+        options?: ApiManagementServiceRestoreOptionalParams
+    ): Promise<ApiManagementServiceRestoreResponse> {
+        const poller = await this.beginRestore(
+            resourceGroupName,
+            serviceName,
+            parameters,
+            options
         );
-      }
-    };
-  }
-
-  private async *listByResourceGroupPagingPage(
-    resourceGroupName: string,
-    options?: ApiManagementServiceListByResourceGroupOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<ApiManagementServiceResource[]> {
-    let result: ApiManagementServiceListByResourceGroupResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByResourceGroup(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
+        return poller.pollUntilDone();
     }
-    while (continuationToken) {
-      result = await this._listByResourceGroupNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+
+    /**
+     * Creates a backup of the API Management service to the given Azure Storage Account. This is long
+     * running operation and could take several minutes to complete.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param parameters Parameters supplied to the ApiManagementService_Backup operation.
+     * @param options The options parameters.
+     */
+    async beginBackup(
+        resourceGroupName: string,
+        serviceName: string,
+        parameters: ApiManagementServiceBackupRestoreParameters,
+        options?: ApiManagementServiceBackupOptionalParams
+    ): Promise<
+        SimplePollerLike<
+            OperationState<ApiManagementServiceBackupResponse>,
+            ApiManagementServiceBackupResponse
+        >
+    > {
+        const directSendOperation = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ): Promise<ApiManagementServiceBackupResponse> => {
+            return this.client.sendOperationRequest(args, spec);
+        };
+        const sendOperationFn = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ) => {
+            let currentRawResponse:
+                | coreClient.FullOperationResponse
+                | undefined = undefined;
+            const providedCallback = args.options?.onResponse;
+            const callback: coreClient.RawResponseCallback = (
+                rawResponse: coreClient.FullOperationResponse,
+                flatResponse: unknown
+            ) => {
+                currentRawResponse = rawResponse;
+                providedCallback?.(rawResponse, flatResponse);
+            };
+            const updatedArgs = {
+                ...args,
+                options: {
+                    ...args.options,
+                    onResponse: callback
+                }
+            };
+            const flatResponse = await directSendOperation(updatedArgs, spec);
+            return {
+                flatResponse,
+                rawResponse: {
+                    statusCode: currentRawResponse!.status,
+                    body: currentRawResponse!.parsedBody,
+                    headers: currentRawResponse!.headers.toJSON()
+                }
+            };
+        };
+
+        const lro = createLroSpec({
+            sendOperationFn,
+            args: { resourceGroupName, serviceName, parameters, options },
+            spec: backupOperationSpec
+        });
+        const poller = await createHttpPoller<
+            ApiManagementServiceBackupResponse,
+            OperationState<ApiManagementServiceBackupResponse>
+        >(lro, {
+            restoreFrom: options?.resumeFrom,
+            intervalInMs: options?.updateIntervalInMs,
+            resourceLocationConfig: "location"
+        });
+        await poller.poll();
+        return poller;
     }
-  }
 
-  private async *listByResourceGroupPagingAll(
-    resourceGroupName: string,
-    options?: ApiManagementServiceListByResourceGroupOptionalParams
-  ): AsyncIterableIterator<ApiManagementServiceResource> {
-    for await (const page of this.listByResourceGroupPagingPage(
-      resourceGroupName,
-      options
-    )) {
-      yield* page;
+    /**
+     * Creates a backup of the API Management service to the given Azure Storage Account. This is long
+     * running operation and could take several minutes to complete.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param parameters Parameters supplied to the ApiManagementService_Backup operation.
+     * @param options The options parameters.
+     */
+    async beginBackupAndWait(
+        resourceGroupName: string,
+        serviceName: string,
+        parameters: ApiManagementServiceBackupRestoreParameters,
+        options?: ApiManagementServiceBackupOptionalParams
+    ): Promise<ApiManagementServiceBackupResponse> {
+        const poller = await this.beginBackup(
+            resourceGroupName,
+            serviceName,
+            parameters,
+            options
+        );
+        return poller.pollUntilDone();
     }
-  }
 
-  /**
-   * Lists all API Management services within an Azure subscription.
-   * @param options The options parameters.
-   */
-  public list(
-    options?: ApiManagementServiceListOptionalParams
-  ): PagedAsyncIterableIterator<ApiManagementServiceResource> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      }
-    };
-  }
+    /**
+     * Creates or updates an API Management service. This is long running operation and could take several
+     * minutes to complete.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
+     * @param options The options parameters.
+     */
+    async beginCreateOrUpdate(
+        resourceGroupName: string,
+        serviceName: string,
+        parameters: ApiManagementServiceResource,
+        options?: ApiManagementServiceCreateOrUpdateOptionalParams
+    ): Promise<
+        SimplePollerLike<
+            OperationState<ApiManagementServiceCreateOrUpdateResponse>,
+            ApiManagementServiceCreateOrUpdateResponse
+        >
+    > {
+        const directSendOperation = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ): Promise<ApiManagementServiceCreateOrUpdateResponse> => {
+            return this.client.sendOperationRequest(args, spec);
+        };
+        const sendOperationFn = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ) => {
+            let currentRawResponse:
+                | coreClient.FullOperationResponse
+                | undefined = undefined;
+            const providedCallback = args.options?.onResponse;
+            const callback: coreClient.RawResponseCallback = (
+                rawResponse: coreClient.FullOperationResponse,
+                flatResponse: unknown
+            ) => {
+                currentRawResponse = rawResponse;
+                providedCallback?.(rawResponse, flatResponse);
+            };
+            const updatedArgs = {
+                ...args,
+                options: {
+                    ...args.options,
+                    onResponse: callback
+                }
+            };
+            const flatResponse = await directSendOperation(updatedArgs, spec);
+            return {
+                flatResponse,
+                rawResponse: {
+                    statusCode: currentRawResponse!.status,
+                    body: currentRawResponse!.parsedBody,
+                    headers: currentRawResponse!.headers.toJSON()
+                }
+            };
+        };
 
-  private async *listPagingPage(
-    options?: ApiManagementServiceListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<ApiManagementServiceResource[]> {
-    let result: ApiManagementServiceListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
+        const lro = createLroSpec({
+            sendOperationFn,
+            args: { resourceGroupName, serviceName, parameters, options },
+            spec: createOrUpdateOperationSpec
+        });
+        const poller = await createHttpPoller<
+            ApiManagementServiceCreateOrUpdateResponse,
+            OperationState<ApiManagementServiceCreateOrUpdateResponse>
+        >(lro, {
+            restoreFrom: options?.resumeFrom,
+            intervalInMs: options?.updateIntervalInMs
+        });
+        await poller.poll();
+        return poller;
     }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+
+    /**
+     * Creates or updates an API Management service. This is long running operation and could take several
+     * minutes to complete.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
+     * @param options The options parameters.
+     */
+    async beginCreateOrUpdateAndWait(
+        resourceGroupName: string,
+        serviceName: string,
+        parameters: ApiManagementServiceResource,
+        options?: ApiManagementServiceCreateOrUpdateOptionalParams
+    ): Promise<ApiManagementServiceCreateOrUpdateResponse> {
+        const poller = await this.beginCreateOrUpdate(
+            resourceGroupName,
+            serviceName,
+            parameters,
+            options
+        );
+        return poller.pollUntilDone();
     }
-  }
 
-  private async *listPagingAll(
-    options?: ApiManagementServiceListOptionalParams
-  ): AsyncIterableIterator<ApiManagementServiceResource> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
+    /**
+     * Updates an existing API Management service.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
+     * @param options The options parameters.
+     */
+    async beginUpdate(
+        resourceGroupName: string,
+        serviceName: string,
+        parameters: ApiManagementServiceUpdateParameters,
+        options?: ApiManagementServiceUpdateOptionalParams
+    ): Promise<
+        SimplePollerLike<
+            OperationState<ApiManagementServiceUpdateResponse>,
+            ApiManagementServiceUpdateResponse
+        >
+    > {
+        const directSendOperation = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ): Promise<ApiManagementServiceUpdateResponse> => {
+            return this.client.sendOperationRequest(args, spec);
+        };
+        const sendOperationFn = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ) => {
+            let currentRawResponse:
+                | coreClient.FullOperationResponse
+                | undefined = undefined;
+            const providedCallback = args.options?.onResponse;
+            const callback: coreClient.RawResponseCallback = (
+                rawResponse: coreClient.FullOperationResponse,
+                flatResponse: unknown
+            ) => {
+                currentRawResponse = rawResponse;
+                providedCallback?.(rawResponse, flatResponse);
+            };
+            const updatedArgs = {
+                ...args,
+                options: {
+                    ...args.options,
+                    onResponse: callback
+                }
+            };
+            const flatResponse = await directSendOperation(updatedArgs, spec);
+            return {
+                flatResponse,
+                rawResponse: {
+                    statusCode: currentRawResponse!.status,
+                    body: currentRawResponse!.parsedBody,
+                    headers: currentRawResponse!.headers.toJSON()
+                }
+            };
+        };
+
+        const lro = createLroSpec({
+            sendOperationFn,
+            args: { resourceGroupName, serviceName, parameters, options },
+            spec: updateOperationSpec
+        });
+        const poller = await createHttpPoller<
+            ApiManagementServiceUpdateResponse,
+            OperationState<ApiManagementServiceUpdateResponse>
+        >(lro, {
+            restoreFrom: options?.resumeFrom,
+            intervalInMs: options?.updateIntervalInMs
+        });
+        await poller.poll();
+        return poller;
     }
-  }
 
-  /**
-   * Restores a backup of an API Management service created using the ApiManagementService_Backup
-   * operation on the current service. This is a long running operation and could take several minutes to
-   * complete.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the Restore API Management service from backup operation.
-   * @param options The options parameters.
-   */
-  async beginRestore(
-    resourceGroupName: string,
-    serviceName: string,
-    parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceRestoreOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApiManagementServiceRestoreResponse>,
-      ApiManagementServiceRestoreResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ApiManagementServiceRestoreResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
+    /**
+     * Updates an existing API Management service.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
+     * @param options The options parameters.
+     */
+    async beginUpdateAndWait(
+        resourceGroupName: string,
+        serviceName: string,
+        parameters: ApiManagementServiceUpdateParameters,
+        options?: ApiManagementServiceUpdateOptionalParams
+    ): Promise<ApiManagementServiceUpdateResponse> {
+        const poller = await this.beginUpdate(
+            resourceGroupName,
+            serviceName,
+            parameters,
+            options
+        );
+        return poller.pollUntilDone();
+    }
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, serviceName, parameters, options },
-      spec: restoreOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ApiManagementServiceRestoreResponse,
-      OperationState<ApiManagementServiceRestoreResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
+    /**
+     * Gets an API Management service resource description.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    get(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: ApiManagementServiceGetOptionalParams
+    ): Promise<ApiManagementServiceGetResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, options },
+            getOperationSpec
+        );
+    }
 
-  /**
-   * Restores a backup of an API Management service created using the ApiManagementService_Backup
-   * operation on the current service. This is a long running operation and could take several minutes to
-   * complete.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the Restore API Management service from backup operation.
-   * @param options The options parameters.
-   */
-  async beginRestoreAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceRestoreOptionalParams
-  ): Promise<ApiManagementServiceRestoreResponse> {
-    const poller = await this.beginRestore(
-      resourceGroupName,
-      serviceName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
+    /**
+     * Deletes an existing API Management service.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    async beginDelete(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: ApiManagementServiceDeleteOptionalParams
+    ): Promise<SimplePollerLike<OperationState<void>, void>> {
+        const directSendOperation = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ): Promise<void> => {
+            return this.client.sendOperationRequest(args, spec);
+        };
+        const sendOperationFn = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ) => {
+            let currentRawResponse:
+                | coreClient.FullOperationResponse
+                | undefined = undefined;
+            const providedCallback = args.options?.onResponse;
+            const callback: coreClient.RawResponseCallback = (
+                rawResponse: coreClient.FullOperationResponse,
+                flatResponse: unknown
+            ) => {
+                currentRawResponse = rawResponse;
+                providedCallback?.(rawResponse, flatResponse);
+            };
+            const updatedArgs = {
+                ...args,
+                options: {
+                    ...args.options,
+                    onResponse: callback
+                }
+            };
+            const flatResponse = await directSendOperation(updatedArgs, spec);
+            return {
+                flatResponse,
+                rawResponse: {
+                    statusCode: currentRawResponse!.status,
+                    body: currentRawResponse!.parsedBody,
+                    headers: currentRawResponse!.headers.toJSON()
+                }
+            };
+        };
 
-  /**
-   * Creates a backup of the API Management service to the given Azure Storage Account. This is long
-   * running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the ApiManagementService_Backup operation.
-   * @param options The options parameters.
-   */
-  async beginBackup(
-    resourceGroupName: string,
-    serviceName: string,
-    parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceBackupOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApiManagementServiceBackupResponse>,
-      ApiManagementServiceBackupResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ApiManagementServiceBackupResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
+        const lro = createLroSpec({
+            sendOperationFn,
+            args: { resourceGroupName, serviceName, options },
+            spec: deleteOperationSpec
+        });
+        const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+            restoreFrom: options?.resumeFrom,
+            intervalInMs: options?.updateIntervalInMs
+        });
+        await poller.poll();
+        return poller;
+    }
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, serviceName, parameters, options },
-      spec: backupOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ApiManagementServiceBackupResponse,
-      OperationState<ApiManagementServiceBackupResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
+    /**
+     * Deletes an existing API Management service.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    async beginDeleteAndWait(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: ApiManagementServiceDeleteOptionalParams
+    ): Promise<void> {
+        const poller = await this.beginDelete(
+            resourceGroupName,
+            serviceName,
+            options
+        );
+        return poller.pollUntilDone();
+    }
 
-  /**
-   * Creates a backup of the API Management service to the given Azure Storage Account. This is long
-   * running operation and could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the ApiManagementService_Backup operation.
-   * @param options The options parameters.
-   */
-  async beginBackupAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    parameters: ApiManagementServiceBackupRestoreParameters,
-    options?: ApiManagementServiceBackupOptionalParams
-  ): Promise<ApiManagementServiceBackupResponse> {
-    const poller = await this.beginBackup(
-      resourceGroupName,
-      serviceName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
+    /**
+     * Upgrades an API Management service to the Stv2 platform. For details refer to
+     * https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and
+     * could take several minutes to complete.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    async beginMigrateToStv2(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: ApiManagementServiceMigrateToStv2OptionalParams
+    ): Promise<
+        SimplePollerLike<
+            OperationState<ApiManagementServiceMigrateToStv2Response>,
+            ApiManagementServiceMigrateToStv2Response
+        >
+    > {
+        const directSendOperation = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ): Promise<ApiManagementServiceMigrateToStv2Response> => {
+            return this.client.sendOperationRequest(args, spec);
+        };
+        const sendOperationFn = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ) => {
+            let currentRawResponse:
+                | coreClient.FullOperationResponse
+                | undefined = undefined;
+            const providedCallback = args.options?.onResponse;
+            const callback: coreClient.RawResponseCallback = (
+                rawResponse: coreClient.FullOperationResponse,
+                flatResponse: unknown
+            ) => {
+                currentRawResponse = rawResponse;
+                providedCallback?.(rawResponse, flatResponse);
+            };
+            const updatedArgs = {
+                ...args,
+                options: {
+                    ...args.options,
+                    onResponse: callback
+                }
+            };
+            const flatResponse = await directSendOperation(updatedArgs, spec);
+            return {
+                flatResponse,
+                rawResponse: {
+                    statusCode: currentRawResponse!.status,
+                    body: currentRawResponse!.parsedBody,
+                    headers: currentRawResponse!.headers.toJSON()
+                }
+            };
+        };
 
-  /**
-   * Creates or updates an API Management service. This is long running operation and could take several
-   * minutes to complete.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdate(
-    resourceGroupName: string,
-    serviceName: string,
-    parameters: ApiManagementServiceResource,
-    options?: ApiManagementServiceCreateOrUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApiManagementServiceCreateOrUpdateResponse>,
-      ApiManagementServiceCreateOrUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ApiManagementServiceCreateOrUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
+        const lro = createLroSpec({
+            sendOperationFn,
+            args: { resourceGroupName, serviceName, options },
+            spec: migrateToStv2OperationSpec
+        });
+        const poller = await createHttpPoller<
+            ApiManagementServiceMigrateToStv2Response,
+            OperationState<ApiManagementServiceMigrateToStv2Response>
+        >(lro, {
+            restoreFrom: options?.resumeFrom,
+            intervalInMs: options?.updateIntervalInMs,
+            resourceLocationConfig: "location"
+        });
+        await poller.poll();
+        return poller;
+    }
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, serviceName, parameters, options },
-      spec: createOrUpdateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ApiManagementServiceCreateOrUpdateResponse,
-      OperationState<ApiManagementServiceCreateOrUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
+    /**
+     * Upgrades an API Management service to the Stv2 platform. For details refer to
+     * https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and
+     * could take several minutes to complete.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    async beginMigrateToStv2AndWait(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: ApiManagementServiceMigrateToStv2OptionalParams
+    ): Promise<ApiManagementServiceMigrateToStv2Response> {
+        const poller = await this.beginMigrateToStv2(
+            resourceGroupName,
+            serviceName,
+            options
+        );
+        return poller.pollUntilDone();
+    }
 
-  /**
-   * Creates or updates an API Management service. This is long running operation and could take several
-   * minutes to complete.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
-   * @param options The options parameters.
-   */
-  async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    parameters: ApiManagementServiceResource,
-    options?: ApiManagementServiceCreateOrUpdateOptionalParams
-  ): Promise<ApiManagementServiceCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      serviceName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
+    /**
+     * List all API Management services within a resource group.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param options The options parameters.
+     */
+    private _listByResourceGroup(
+        resourceGroupName: string,
+        options?: ApiManagementServiceListByResourceGroupOptionalParams
+    ): Promise<ApiManagementServiceListByResourceGroupResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, options },
+            listByResourceGroupOperationSpec
+        );
+    }
 
-  /**
-   * Updates an existing API Management service.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
-   * @param options The options parameters.
-   */
-  async beginUpdate(
-    resourceGroupName: string,
-    serviceName: string,
-    parameters: ApiManagementServiceUpdateParameters,
-    options?: ApiManagementServiceUpdateOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApiManagementServiceUpdateResponse>,
-      ApiManagementServiceUpdateResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ApiManagementServiceUpdateResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
+    /**
+     * Lists all API Management services within an Azure subscription.
+     * @param options The options parameters.
+     */
+    private _list(
+        options?: ApiManagementServiceListOptionalParams
+    ): Promise<ApiManagementServiceListResponse> {
+        return this.client.sendOperationRequest({ options }, listOperationSpec);
+    }
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, serviceName, parameters, options },
-      spec: updateOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ApiManagementServiceUpdateResponse,
-      OperationState<ApiManagementServiceUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
+    /**
+     * Gets the Single-Sign-On token for the API Management Service which is valid for 5 Minutes.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    getSsoToken(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: ApiManagementServiceGetSsoTokenOptionalParams
+    ): Promise<ApiManagementServiceGetSsoTokenResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, options },
+            getSsoTokenOperationSpec
+        );
+    }
 
-  /**
-   * Updates an existing API Management service.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param parameters Parameters supplied to the CreateOrUpdate API Management service operation.
-   * @param options The options parameters.
-   */
-  async beginUpdateAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    parameters: ApiManagementServiceUpdateParameters,
-    options?: ApiManagementServiceUpdateOptionalParams
-  ): Promise<ApiManagementServiceUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceGroupName,
-      serviceName,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
+    /**
+     * Checks availability and correctness of a name for an API Management service.
+     * @param parameters Parameters supplied to the CheckNameAvailability operation.
+     * @param options The options parameters.
+     */
+    checkNameAvailability(
+        parameters: ApiManagementServiceCheckNameAvailabilityParameters,
+        options?: ApiManagementServiceCheckNameAvailabilityOptionalParams
+    ): Promise<ApiManagementServiceCheckNameAvailabilityResponse> {
+        return this.client.sendOperationRequest(
+            { parameters, options },
+            checkNameAvailabilityOperationSpec
+        );
+    }
 
-  /**
-   * Gets an API Management service resource description.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ApiManagementServiceGetOptionalParams
-  ): Promise<ApiManagementServiceGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      getOperationSpec
-    );
-  }
+    /**
+     * Get the custom domain ownership identifier for an API Management service.
+     * @param options The options parameters.
+     */
+    getDomainOwnershipIdentifier(
+        options?: ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams
+    ): Promise<ApiManagementServiceGetDomainOwnershipIdentifierResponse> {
+        return this.client.sendOperationRequest(
+            { options },
+            getDomainOwnershipIdentifierOperationSpec
+        );
+    }
 
-  /**
-   * Deletes an existing API Management service.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ApiManagementServiceDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
+    /**
+     * Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS
+     * changes.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    async beginApplyNetworkConfigurationUpdates(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams
+    ): Promise<
+        SimplePollerLike<
+            OperationState<
+                ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
+            >,
+            ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
+        >
+    > {
+        const directSendOperation = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ): Promise<ApiManagementServiceApplyNetworkConfigurationUpdatesResponse> => {
+            return this.client.sendOperationRequest(args, spec);
+        };
+        const sendOperationFn = async (
+            args: coreClient.OperationArguments,
+            spec: coreClient.OperationSpec
+        ) => {
+            let currentRawResponse:
+                | coreClient.FullOperationResponse
+                | undefined = undefined;
+            const providedCallback = args.options?.onResponse;
+            const callback: coreClient.RawResponseCallback = (
+                rawResponse: coreClient.FullOperationResponse,
+                flatResponse: unknown
+            ) => {
+                currentRawResponse = rawResponse;
+                providedCallback?.(rawResponse, flatResponse);
+            };
+            const updatedArgs = {
+                ...args,
+                options: {
+                    ...args.options,
+                    onResponse: callback
+                }
+            };
+            const flatResponse = await directSendOperation(updatedArgs, spec);
+            return {
+                flatResponse,
+                rawResponse: {
+                    statusCode: currentRawResponse!.status,
+                    body: currentRawResponse!.parsedBody,
+                    headers: currentRawResponse!.headers.toJSON()
+                }
+            };
+        };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, serviceName, options },
-      spec: deleteOperationSpec
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-    await poller.poll();
-    return poller;
-  }
+        const lro = createLroSpec({
+            sendOperationFn,
+            args: { resourceGroupName, serviceName, options },
+            spec: applyNetworkConfigurationUpdatesOperationSpec
+        });
+        const poller = await createHttpPoller<
+            ApiManagementServiceApplyNetworkConfigurationUpdatesResponse,
+            OperationState<
+                ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
+            >
+        >(lro, {
+            restoreFrom: options?.resumeFrom,
+            intervalInMs: options?.updateIntervalInMs,
+            resourceLocationConfig: "location"
+        });
+        await poller.poll();
+        return poller;
+    }
 
-  /**
-   * Deletes an existing API Management service.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  async beginDeleteAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ApiManagementServiceDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
-      resourceGroupName,
-      serviceName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
+    /**
+     * Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS
+     * changes.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    async beginApplyNetworkConfigurationUpdatesAndWait(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams
+    ): Promise<ApiManagementServiceApplyNetworkConfigurationUpdatesResponse> {
+        const poller = await this.beginApplyNetworkConfigurationUpdates(
+            resourceGroupName,
+            serviceName,
+            options
+        );
+        return poller.pollUntilDone();
+    }
 
-  /**
-   * Upgrades an API Management service to the Stv2 platform. For details refer to
-   * https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and
-   * could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  async beginMigrateToStv2(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ApiManagementServiceMigrateToStv2OptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApiManagementServiceMigrateToStv2Response>,
-      ApiManagementServiceMigrateToStv2Response
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ApiManagementServiceMigrateToStv2Response> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
+    /**
+     * ListByResourceGroupNext
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
+     * @param options The options parameters.
+     */
+    private _listByResourceGroupNext(
+        resourceGroupName: string,
+        nextLink: string,
+        options?: ApiManagementServiceListByResourceGroupNextOptionalParams
+    ): Promise<ApiManagementServiceListByResourceGroupNextResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, nextLink, options },
+            listByResourceGroupNextOperationSpec
+        );
+    }
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, serviceName, options },
-      spec: migrateToStv2OperationSpec
-    });
-    const poller = await createHttpPoller<
-      ApiManagementServiceMigrateToStv2Response,
-      OperationState<ApiManagementServiceMigrateToStv2Response>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Upgrades an API Management service to the Stv2 platform. For details refer to
-   * https://aka.ms/apim-migrate-stv2. This change is not reversible. This is long running operation and
-   * could take several minutes to complete.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  async beginMigrateToStv2AndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ApiManagementServiceMigrateToStv2OptionalParams
-  ): Promise<ApiManagementServiceMigrateToStv2Response> {
-    const poller = await this.beginMigrateToStv2(
-      resourceGroupName,
-      serviceName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * List all API Management services within a resource group.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: ApiManagementServiceListByResourceGroupOptionalParams
-  ): Promise<ApiManagementServiceListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
-  }
-
-  /**
-   * Lists all API Management services within an Azure subscription.
-   * @param options The options parameters.
-   */
-  private _list(
-    options?: ApiManagementServiceListOptionalParams
-  ): Promise<ApiManagementServiceListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
-  }
-
-  /**
-   * Gets the Single-Sign-On token for the API Management Service which is valid for 5 Minutes.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  getSsoToken(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ApiManagementServiceGetSsoTokenOptionalParams
-  ): Promise<ApiManagementServiceGetSsoTokenResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      getSsoTokenOperationSpec
-    );
-  }
-
-  /**
-   * Checks availability and correctness of a name for an API Management service.
-   * @param parameters Parameters supplied to the CheckNameAvailability operation.
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    parameters: ApiManagementServiceCheckNameAvailabilityParameters,
-    options?: ApiManagementServiceCheckNameAvailabilityOptionalParams
-  ): Promise<ApiManagementServiceCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { parameters, options },
-      checkNameAvailabilityOperationSpec
-    );
-  }
-
-  /**
-   * Get the custom domain ownership identifier for an API Management service.
-   * @param options The options parameters.
-   */
-  getDomainOwnershipIdentifier(
-    options?: ApiManagementServiceGetDomainOwnershipIdentifierOptionalParams
-  ): Promise<ApiManagementServiceGetDomainOwnershipIdentifierResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      getDomainOwnershipIdentifierOperationSpec
-    );
-  }
-
-  /**
-   * Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS
-   * changes.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  async beginApplyNetworkConfigurationUpdates(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<
-        ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
-      >,
-      ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<ApiManagementServiceApplyNetworkConfigurationUpdatesResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, serviceName, options },
-      spec: applyNetworkConfigurationUpdatesOperationSpec
-    });
-    const poller = await createHttpPoller<
-      ApiManagementServiceApplyNetworkConfigurationUpdatesResponse,
-      OperationState<
-        ApiManagementServiceApplyNetworkConfigurationUpdatesResponse
-      >
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Updates the Microsoft.ApiManagement resource running in the Virtual network to pick the updated DNS
-   * changes.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  async beginApplyNetworkConfigurationUpdatesAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: ApiManagementServiceApplyNetworkConfigurationUpdatesOptionalParams
-  ): Promise<ApiManagementServiceApplyNetworkConfigurationUpdatesResponse> {
-    const poller = await this.beginApplyNetworkConfigurationUpdates(
-      resourceGroupName,
-      serviceName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ApiManagementServiceListByResourceGroupNextOptionalParams
-  ): Promise<ApiManagementServiceListByResourceGroupNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
-    );
-  }
-
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  private _listNext(
-    nextLink: string,
-    options?: ApiManagementServiceListNextOptionalParams
-  ): Promise<ApiManagementServiceListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
-  }
+    /**
+     * ListNext
+     * @param nextLink The nextLink from the previous successful call to the List method.
+     * @param options The options parameters.
+     */
+    private _listNext(
+        nextLink: string,
+        options?: ApiManagementServiceListNextOptionalParams
+    ): Promise<ApiManagementServiceListNextResponse> {
+        return this.client.sendOperationRequest(
+            { nextLink, options },
+            listNextOperationSpec
+        );
+    }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const restoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/restore",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/restore",
+    httpMethod: "POST",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        201: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        202: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        204: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters35,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.parameters35,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer
 };
 const backupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backup",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backup",
+    httpMethod: "POST",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        201: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        202: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        204: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters35,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.parameters35,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
+    httpMethod: "PUT",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        201: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        202: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        204: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters36,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.parameters36,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
+    httpMethod: "PATCH",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        201: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        202: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        204: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters37,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.parameters37,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}",
+    httpMethod: "DELETE",
+    responses: {
+        200: {},
+        201: {},
+        202: {},
+        204: {},
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const migrateToStv2OperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/migrateToStv2",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/migrateToStv2",
+    httpMethod: "POST",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        201: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        202: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        204: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceListResult
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceListResult
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/service",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceListResult
+    path:
+        "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/service",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceListResult
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const getSsoTokenOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/getssotoken",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceGetSsoTokenResult
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/getssotoken",
+    httpMethod: "POST",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceGetSsoTokenResult
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/checkNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceNameAvailabilityResult
+    path:
+        "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/checkNameAvailability",
+    httpMethod: "POST",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceNameAvailabilityResult
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters38,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.parameters38,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer
 };
 const getDomainOwnershipIdentifierOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/getDomainOwnershipIdentifier",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceGetDomainOwnershipIdentifierResult
+    path:
+        "/subscriptions/{subscriptionId}/providers/Microsoft.ApiManagement/getDomainOwnershipIdentifier",
+    httpMethod: "POST",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceGetDomainOwnershipIdentifierResult
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [Parameters.$host, Parameters.subscriptionId],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const applyNetworkConfigurationUpdatesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/applynetworkconfigurationupdates",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceResource
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/applynetworkconfigurationupdates",
+    httpMethod: "POST",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        201: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        202: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        204: {
+            bodyMapper: Mappers.ApiManagementServiceResource
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    201: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    202: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    204: {
-      bodyMapper: Mappers.ApiManagementServiceResource
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters39,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.parameters39,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept, Parameters.contentType],
+    mediaType: "json",
+    serializer
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceListResult
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceListResult
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.subscriptionId,
+        Parameters.nextLink
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiManagementServiceListResult
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiManagementServiceListResult
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    urlParameters: [
+        Parameters.$host,
+        Parameters.subscriptionId,
+        Parameters.nextLink
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };

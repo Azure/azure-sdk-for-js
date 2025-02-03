@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a subscription-level key used for Real User Metrics collection.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create or update a subscription-level key used for Real User Metrics collection.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/TrafficManagerUserMetricsKeys-PUT.json
  */
-async function trafficManagerUserMetricsKeysPut() {
+async function trafficManagerUserMetricsKeysPut(): Promise<void> {
   const subscriptionId =
     process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function trafficManagerUserMetricsKeysPut() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   trafficManagerUserMetricsKeysPut();
 }
 

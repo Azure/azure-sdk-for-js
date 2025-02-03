@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Test } from "mocha";
-
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 
-import { EventGridSenderClient, EventGridReceiverClient } from "../../../src";
+import { EventGridSenderClient, EventGridReceiverClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { AdditionalPolicyConfig } from "@azure/core-client";
 
@@ -31,7 +28,7 @@ export const recorderOptions: RecorderStartOptions = {
 };
 
 export async function createRecordedClient(
-  currentTest: Test | undefined,
+  currentTest: TestInfo | undefined,
   endpointEnv: string,
   topicName: string,
   subscriptionName: string,

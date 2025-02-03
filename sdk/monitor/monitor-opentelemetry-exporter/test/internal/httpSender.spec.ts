@@ -27,7 +27,6 @@ class TestTokenCredential implements TokenCredential {
     this.expiresOn = expiresOn || new Date();
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   async getToken(): Promise<AccessToken | null> {
     this.numberOfRefreshs++;
     return {
@@ -71,7 +70,6 @@ describe("HttpSender", () => {
         exporterOptions: {},
       });
       scope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       setTimeout(async () => {
         const { result, statusCode } = await sender.send([envelope]);
         assert.strictEqual(statusCode, 200);
@@ -104,7 +102,6 @@ describe("HttpSender", () => {
         exporterOptions: {},
       });
       scope.reply(206, JSON.stringify(partialBreezeResponse([200, 408, 408])));
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       setTimeout(async () => {
         const { result, statusCode } = await sender.send([envelope, envelope]);
         assert.strictEqual(statusCode, 206);

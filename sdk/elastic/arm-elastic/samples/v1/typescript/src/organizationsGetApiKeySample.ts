@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftElastic } from "@azure/arm-elastic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Fetch User API Key from internal database, if it was generated and stored while creating the Elasticsearch Organization.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Fetch User API Key from internal database, if it was generated and stored while creating the Elasticsearch Organization.
  * x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/stable/2024-03-01/examples/Organizations_GetApiKey.json
  */
-async function organizationsGetApiKey() {
+async function organizationsGetApiKey(): Promise<void> {
   const subscriptionId =
     process.env["ELASTIC_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -30,7 +28,7 @@ async function organizationsGetApiKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationsGetApiKey();
 }
 

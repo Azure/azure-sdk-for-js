@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { assert } from "chai";
-import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
-import { mockListPhoneNumbersHttpClient } from "../public/utils/mockHttpClients";
+import { PhoneNumbersClient } from "../../src/phoneNumbersClient.js";
+import { mockListPhoneNumbersHttpClient } from "../public/utils/mockHttpClients.js";
+import { describe, it, assert } from "vitest";
 
-describe("PhoneNumbersClient - custom policies ", function () {
+describe("PhoneNumbersClient - custom policies ", () => {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
   let client: PhoneNumbersClient;
 
-  it("applies the phoneNumbersPagingPolicy", async function () {
+  it("applies the phoneNumbersPagingPolicy", async () => {
     client = new PhoneNumbersClient(endpoint, new AzureKeyCredential(accessKey), {
       httpClient: mockListPhoneNumbersHttpClient,
     });

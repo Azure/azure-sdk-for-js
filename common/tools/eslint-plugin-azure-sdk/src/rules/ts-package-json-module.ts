@@ -7,7 +7,13 @@
  */
 
 import { TSESTree } from "@typescript-eslint/utils";
-import { VerifierMessages, createRule, getVerifiers, stripPath, isEsmPackage } from "../utils";
+import {
+  VerifierMessages,
+  createRule,
+  getVerifiers,
+  stripPath,
+  isEsmPackage,
+} from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition

@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { TieringClient } from "./tieringClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { TieringClient } from "./tieringClient.js";
+export * from "./operationsInterfaces/index.js";

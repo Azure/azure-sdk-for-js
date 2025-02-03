@@ -12,8 +12,7 @@
 import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-language-text";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
@@ -21,7 +20,7 @@ const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
 
 const documents = ["This document is written in English."];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Choosing Model Version Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
@@ -32,7 +31,7 @@ export async function main() {
      * the latest generally availabe version of the model. When not specified,
      * latest will be assumed. Model versions are date based, e.g "2021-06-01".
      * See the documentation for a list of all model versions:
-     * https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/concepts/model-lifecycle
+     * https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/concepts/model-lifecycle
      */
     modelVersion: "latest",
     /**
@@ -55,7 +54,7 @@ export async function main() {
          * the latest generally availabe version of the model. When not specified,
          * latest will be assumed. Model versions are date based, e.g "2022-03-01".
          * See the documentation for a list of all model versions:
-         * https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/concepts/model-lifecycle
+         * https://learn.microsoft.com/en-us/azure/cognitive-services/language-service/concepts/model-lifecycle
          */
         modelVersion: "latest",
       },

@@ -12,7 +12,7 @@
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
-import { PrebuiltLayoutModel } from "./prebuilt/prebuilt-layout";
+import { PrebuiltLayoutModel } from "./prebuilt/prebuilt-layout.js";
 
 import * as dotenv from "dotenv";
 dotenv.config();

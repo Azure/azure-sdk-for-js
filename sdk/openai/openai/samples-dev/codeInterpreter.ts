@@ -13,6 +13,7 @@ import { AzureOpenAI } from "openai";
 import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 
 export async function main() {
+  const apiVersion = "2024-11-01-preview";
   // Create AzureOpenAI client with Microsoft Entra ID
   const credential = new DefaultAzureCredential();
   const scope = "https://cognitiveservices.azure.com/.default";
@@ -20,6 +21,7 @@ export async function main() {
 
   const client = new AzureOpenAI({
     azureADTokenProvider,
+    apiVersion,
   });
 
   // Create an assistant using code interpreter tool

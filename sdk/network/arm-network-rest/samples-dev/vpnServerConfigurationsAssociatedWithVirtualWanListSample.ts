@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VpnServerConfigurationsAssociatedWithVirtualWanListParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { VpnServerConfigurationsAssociatedWithVirtualWanListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group.

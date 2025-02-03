@@ -5,7 +5,7 @@
  * Defines the Hotel Interface.
  */
 
-import { GeographyPoint } from "@azure/search-documents";
+import type { GeographyPoint } from "@azure/search-documents";
 
 export interface Hotel {
   hotelId?: string;

@@ -1,13 +1,21 @@
 {
   "extends": "../../../../tsconfig",
   "compilerOptions": {
-    "outDir": "./dist-esm",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ESNext",
-    "lib": ["ESNext", "DOM"]
+    "paths": {
+      "@azure-tests/perf-core-rest-pipeline": ["./src/index"]
+    },
+    "rootDir": "."
   },
-  "compileOnSave": true,
-  "exclude": ["node_modules"],
-  "include": ["./test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }

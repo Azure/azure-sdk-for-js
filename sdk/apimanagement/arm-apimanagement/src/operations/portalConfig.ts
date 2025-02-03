@@ -6,281 +6,281 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PortalConfig } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
-  PortalConfigListByServiceOptionalParams,
-  PortalConfigListByServiceResponse,
-  PortalConfigGetEntityTagOptionalParams,
-  PortalConfigGetEntityTagResponse,
-  PortalConfigGetOptionalParams,
-  PortalConfigGetResponse,
-  PortalConfigContract,
-  PortalConfigUpdateOptionalParams,
-  PortalConfigUpdateResponse,
-  PortalConfigCreateOrUpdateOptionalParams,
-  PortalConfigCreateOrUpdateResponse
-} from "../models";
+    PortalConfigContract,
+    PortalConfigCreateOrUpdateOptionalParams,
+    PortalConfigCreateOrUpdateResponse,
+    PortalConfigGetEntityTagOptionalParams,
+    PortalConfigGetEntityTagResponse,
+    PortalConfigGetOptionalParams,
+    PortalConfigGetResponse,
+    PortalConfigListByServiceOptionalParams,
+    PortalConfigListByServiceResponse,
+    PortalConfigUpdateOptionalParams,
+    PortalConfigUpdateResponse
+} from "../models/index.js";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PortalConfig } from "../operationsInterfaces/index.js";
 
 /** Class containing PortalConfig operations. */
 export class PortalConfigImpl implements PortalConfig {
-  private readonly client: ApiManagementClient;
+    private readonly client: ApiManagementClient;
 
-  /**
-   * Initialize a new instance of the class PortalConfig class.
-   * @param client Reference to the service client
-   */
-  constructor(client: ApiManagementClient) {
-    this.client = client;
-  }
+    /**
+     * Initialize a new instance of the class PortalConfig class.
+     * @param client Reference to the service client
+     */
+    constructor(client: ApiManagementClient) {
+        this.client = client;
+    }
 
-  /**
-   * Lists the developer portal configurations.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  listByService(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: PortalConfigListByServiceOptionalParams
-  ): Promise<PortalConfigListByServiceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
-    );
-  }
+    /**
+     * Lists the developer portal configurations.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    listByService(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: PortalConfigListByServiceOptionalParams
+    ): Promise<PortalConfigListByServiceResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, options },
+            listByServiceOperationSpec
+        );
+    }
 
-  /**
-   * Gets the entity state (Etag) version of the developer portal configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param portalConfigId Portal configuration identifier.
-   * @param options The options parameters.
-   */
-  getEntityTag(
-    resourceGroupName: string,
-    serviceName: string,
-    portalConfigId: string,
-    options?: PortalConfigGetEntityTagOptionalParams
-  ): Promise<PortalConfigGetEntityTagResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, portalConfigId, options },
-      getEntityTagOperationSpec
-    );
-  }
+    /**
+     * Gets the entity state (Etag) version of the developer portal configuration.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param portalConfigId Portal configuration identifier.
+     * @param options The options parameters.
+     */
+    getEntityTag(
+        resourceGroupName: string,
+        serviceName: string,
+        portalConfigId: string,
+        options?: PortalConfigGetEntityTagOptionalParams
+    ): Promise<PortalConfigGetEntityTagResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, portalConfigId, options },
+            getEntityTagOperationSpec
+        );
+    }
 
-  /**
-   * Get the developer portal configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param portalConfigId Portal configuration identifier.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    serviceName: string,
-    portalConfigId: string,
-    options?: PortalConfigGetOptionalParams
-  ): Promise<PortalConfigGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, portalConfigId, options },
-      getOperationSpec
-    );
-  }
+    /**
+     * Get the developer portal configuration.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param portalConfigId Portal configuration identifier.
+     * @param options The options parameters.
+     */
+    get(
+        resourceGroupName: string,
+        serviceName: string,
+        portalConfigId: string,
+        options?: PortalConfigGetOptionalParams
+    ): Promise<PortalConfigGetResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, portalConfigId, options },
+            getOperationSpec
+        );
+    }
 
-  /**
-   * Update the developer portal configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param portalConfigId Portal configuration identifier.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   *                response of the GET request or it should be * for unconditional update.
-   * @param parameters Update the developer portal configuration.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    serviceName: string,
-    portalConfigId: string,
-    ifMatch: string,
-    parameters: PortalConfigContract,
-    options?: PortalConfigUpdateOptionalParams
-  ): Promise<PortalConfigUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        portalConfigId,
-        ifMatch,
-        parameters,
-        options
-      },
-      updateOperationSpec
-    );
-  }
+    /**
+     * Update the developer portal configuration.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param portalConfigId Portal configuration identifier.
+     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+     *                response of the GET request or it should be * for unconditional update.
+     * @param parameters Update the developer portal configuration.
+     * @param options The options parameters.
+     */
+    update(
+        resourceGroupName: string,
+        serviceName: string,
+        portalConfigId: string,
+        ifMatch: string,
+        parameters: PortalConfigContract,
+        options?: PortalConfigUpdateOptionalParams
+    ): Promise<PortalConfigUpdateResponse> {
+        return this.client.sendOperationRequest(
+            {
+                resourceGroupName,
+                serviceName,
+                portalConfigId,
+                ifMatch,
+                parameters,
+                options
+            },
+            updateOperationSpec
+        );
+    }
 
-  /**
-   * Create or update the developer portal configuration.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param portalConfigId Portal configuration identifier.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   *                response of the GET request or it should be * for unconditional update.
-   * @param parameters Update the developer portal configuration.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    serviceName: string,
-    portalConfigId: string,
-    ifMatch: string,
-    parameters: PortalConfigContract,
-    options?: PortalConfigCreateOrUpdateOptionalParams
-  ): Promise<PortalConfigCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        portalConfigId,
-        ifMatch,
-        parameters,
-        options
-      },
-      createOrUpdateOperationSpec
-    );
-  }
+    /**
+     * Create or update the developer portal configuration.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param portalConfigId Portal configuration identifier.
+     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+     *                response of the GET request or it should be * for unconditional update.
+     * @param parameters Update the developer portal configuration.
+     * @param options The options parameters.
+     */
+    createOrUpdate(
+        resourceGroupName: string,
+        serviceName: string,
+        portalConfigId: string,
+        ifMatch: string,
+        parameters: PortalConfigContract,
+        options?: PortalConfigCreateOrUpdateOptionalParams
+    ): Promise<PortalConfigCreateOrUpdateResponse> {
+        return this.client.sendOperationRequest(
+            {
+                resourceGroupName,
+                serviceName,
+                portalConfigId,
+                ifMatch,
+                parameters,
+                options
+            },
+            createOrUpdateOperationSpec
+        );
+    }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PortalConfigCollection
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.PortalConfigCollection
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
-  httpMethod: "HEAD",
-  responses: {
-    200: {
-      headersMapper: Mappers.PortalConfigGetEntityTagHeaders
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
+    httpMethod: "HEAD",
+    responses: {
+        200: {
+            headersMapper: Mappers.PortalConfigGetEntityTagHeaders
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.portalConfigId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.portalConfigId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PortalConfigContract,
-      headersMapper: Mappers.PortalConfigGetHeaders
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.PortalConfigContract,
+            headersMapper: Mappers.PortalConfigGetHeaders
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.portalConfigId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.portalConfigId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PortalConfigContract
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
+    httpMethod: "PATCH",
+    responses: {
+        200: {
+            bodyMapper: Mappers.PortalConfigContract
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters58,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.portalConfigId
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch1
-  ],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.parameters58,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.portalConfigId
+    ],
+    headerParameters: [
+        Parameters.accept,
+        Parameters.contentType,
+        Parameters.ifMatch1
+    ],
+    mediaType: "json",
+    serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PortalConfigContract
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs/{portalConfigId}",
+    httpMethod: "PUT",
+    responses: {
+        200: {
+            bodyMapper: Mappers.PortalConfigContract
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters58,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.portalConfigId
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch1
-  ],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.parameters58,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.portalConfigId
+    ],
+    headerParameters: [
+        Parameters.accept,
+        Parameters.contentType,
+        Parameters.ifMatch1
+    ],
+    mediaType: "json",
+    serializer
 };

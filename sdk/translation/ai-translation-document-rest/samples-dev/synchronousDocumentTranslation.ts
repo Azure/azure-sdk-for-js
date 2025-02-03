@@ -6,7 +6,8 @@
  */
 
 import * as dotenv from "dotenv";
-import { DocumentTranslateParameters, isUnexpected } from "../src";
+import type { DocumentTranslateParameters } from "../src";
+import { isUnexpected } from "../src";
 import createClient from "../src/documentTranslationClient";
 dotenv.config();
 
@@ -47,8 +48,8 @@ export async function main() {
     throw response.body;
   }
   console.log("Response code: " + response.status + ", Response body: " + response.body);
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

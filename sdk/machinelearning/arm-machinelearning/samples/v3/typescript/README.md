@@ -479,7 +479,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspacespreparenotebooksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-machinelearning/samples/v3/typescript/src/workspacesPrepareNotebookSample.ts
 [workspacesresynckeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-machinelearning/samples/v3/typescript/src/workspacesResyncKeysSample.ts
 [workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearning/arm-machinelearning/samples/v3/typescript/src/workspacesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearning/arm-machinelearning/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

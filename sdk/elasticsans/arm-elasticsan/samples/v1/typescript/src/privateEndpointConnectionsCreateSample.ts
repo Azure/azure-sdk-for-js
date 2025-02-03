@@ -13,9 +13,7 @@ import {
   ElasticSanManagement,
 } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the Elastic San
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update the state of specified private endpoint connection associated with the Elastic San
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/PrivateEndpointConnections_Create_MaximumSet_Gen.json
  */
-async function privateEndpointConnectionsCreateMaximumSetGen() {
+async function privateEndpointConnectionsCreateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -58,7 +56,7 @@ async function privateEndpointConnectionsCreateMaximumSetGen() {
  * @summary Update the state of specified private endpoint connection associated with the Elastic San
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/PrivateEndpointConnections_Create_MinimumSet_Gen.json
  */
-async function privateEndpointConnectionsCreateMinimumSetGen() {
+async function privateEndpointConnectionsCreateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -79,7 +77,7 @@ async function privateEndpointConnectionsCreateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionsCreateMaximumSetGen();
   privateEndpointConnectionsCreateMinimumSetGen();
 }

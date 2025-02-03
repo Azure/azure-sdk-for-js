@@ -8,8 +8,8 @@ import {
   MapTilesetOutput,
   MapAttributionOutput,
   CopyrightCaptionOutput,
-  CopyrightOutput
-} from "./outputModels";
+  CopyrightOutput,
+} from "./outputModels.js";
 
 export interface RenderGetMapTile200Headers {
   /** The content-type for the response. */
