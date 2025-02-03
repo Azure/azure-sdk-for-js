@@ -20,7 +20,7 @@ describe("chat test suite", () => {
     await recorder.stop();
   });
 
-  it("chat streaming test", async function () {
+  it("chat streaming test", async () => {
     const response = await client
       .path("/chat/completions")
       .post({

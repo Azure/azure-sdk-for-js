@@ -3,16 +3,16 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, beforeAll } from "vitest";
-import { createClient } from "./utils/createClient.js";
+import { createClient } from "../utils/createClient.js";
 import {
   APIMatrix,
   type APIVersion,
   type DeploymentInfo,
   getDeployments,
   withDeployments,
-} from "./utils/utils.js";
+} from "../utils/utils.js";
 import type { OpenAI, AzureOpenAI } from "openai";
-import { assertEmbeddings } from "./utils/asserts.js";
+import { assertEmbeddings } from "../utils/asserts.js";
 
 describe("Embeddings", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {

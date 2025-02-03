@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { matrix } from "@azure-tools/test-utils-vitest";
-import { createClient } from "./utils/createClient.js";
+import { createClient } from "../utils/createClient.js";
 import {
   APIMatrix,
   type APIVersion,
@@ -11,11 +11,11 @@ import {
   getSucceeded,
   updateWithSucceeded,
   withDeployments,
-} from "./utils/utils.js";
-import { assertImagesWithJSON, assertImagesWithURLs } from "./utils/asserts.js";
+} from "../utils/utils.js";
+import { assertImagesWithJSON, assertImagesWithURLs } from "../utils/asserts.js";
 import type { OpenAI, AzureOpenAI } from "openai";
 import { describe, it, beforeAll } from "vitest";
-import { incompatibleAudioModels, o1ModelsToSkip } from "./utils/models.js";
+import { incompatibleAudioModels, o1ModelsToSkip } from "../utils/models.js";
 
 describe("Images", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
