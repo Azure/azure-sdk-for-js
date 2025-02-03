@@ -79,6 +79,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [servicevalidateaddresssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v5/javascript/serviceValidateAddressSample.js
 [servicevalidateinputsbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v5/javascript/serviceValidateInputsByResourceGroupSample.js
 [servicevalidateinputssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v5/javascript/serviceValidateInputsSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-databox?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databox?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databox/arm-databox/README.md

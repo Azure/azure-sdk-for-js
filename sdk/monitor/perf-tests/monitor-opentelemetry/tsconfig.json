@@ -3,11 +3,18 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
     "paths": {
-      "@azure/monitor-opentelemetry-exporter": ["./src/index"]
-    }
+      "@azure-tests/perf-monitor-opentelemetry": ["./src/index"]
+    },
+    "rootDir": "."
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts"
+  ]
 }

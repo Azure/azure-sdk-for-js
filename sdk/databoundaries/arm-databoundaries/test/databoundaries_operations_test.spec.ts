@@ -6,20 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { DataboundariesManegementClient } from "../src/databoundariesManegementClient";
+import { DataboundariesManegementClient } from "../src/databoundariesManegementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -38,31 +32,23 @@ describe("DataBoundary test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DataboundariesManegementClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new DataboundariesManegementClient(credential, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
-
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("dataBoundaries get test", async function () {
-    const scope =
-      "subscriptions/" + subscriptionId + "/resourcegroups/myjstest";
+    const scope = "subscriptions/" + subscriptionId + "/resourcegroups/myjstest";
     const result = await client.dataBoundaries.getScope(scope, "default");
-    console.log(result);
+    assert.isDefined(result);
   });
-})
+});

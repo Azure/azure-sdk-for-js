@@ -18,7 +18,7 @@ async function standbyContainerGroupPoolsDelete() {
 }
 
 async function main() {
-  standbyContainerGroupPoolsDelete();
+  await standbyContainerGroupPoolsDelete();
 }
 
 main().catch(console.error);

@@ -1,14 +1,31 @@
 # Release History
 
-## 5.8.1 (Unreleased)
+## 5.10.0 (2025-01-21)
 
 ### Features Added
 
-### Breaking Changes
+- Added `internetMessageId` property to `AcsEmailDeliveryReportReceivedEventData`.
+- Added `recipientMailServerHostName` property to `AcsEmailDeliveryReportStatusDetails`.
+- For `AcsSmsReceivedEventData`:
+  - Added `segmentCount` property
 
 ### Bugs Fixed
 
+- For `AcsSmsReceivedEventData`:
+  - Made `message` & `receivedTimestamp` properties optional.
+
+## 5.9.0 (2024-12-02)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted`
+
 ### Other Changes
+
+- A new property `policyRunSummary` has been added to `StorageLifecyclePolicyCompletedEventData` interface.
+- New properties `StorageLifecycleCompletionStatus` and `KnownStorageLifecycleCompletionStatus` have been added.
 
 ## 5.8.0 (2024-10-14)
 

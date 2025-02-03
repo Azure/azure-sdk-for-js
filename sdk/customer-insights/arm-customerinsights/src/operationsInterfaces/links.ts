@@ -16,7 +16,7 @@ import {
   LinksGetOptionalParams,
   LinksGetResponse,
   LinksDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Links. */

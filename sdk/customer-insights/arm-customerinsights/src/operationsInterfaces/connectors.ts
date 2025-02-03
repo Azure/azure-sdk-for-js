@@ -16,7 +16,7 @@ import {
   ConnectorsGetOptionalParams,
   ConnectorsGetResponse,
   ConnectorsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Connectors. */

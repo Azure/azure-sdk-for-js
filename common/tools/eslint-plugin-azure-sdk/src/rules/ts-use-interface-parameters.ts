@@ -23,7 +23,7 @@ import {
   canHaveModifiers,
 } from "typescript";
 import { ESLintUtils, ParserServicesWithTypeInformation, TSESTree } from "@typescript-eslint/utils";
-import { createRule } from "../utils";
+import { createRule } from "../utils/index.js";
 import { RuleContext } from "@typescript-eslint/utils/ts-eslint";
 
 //------------------------------------------------------------------------------

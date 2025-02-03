@@ -103,6 +103,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [clustersupgradesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hdinsight/arm-hdinsightcontainers/samples/v1-beta/javascript/clustersUpgradeSample.js
 [locationschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hdinsight/arm-hdinsightcontainers/samples/v1-beta/javascript/locationsCheckNameAvailabilitySample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hdinsight/arm-hdinsightcontainers/samples/v1-beta/javascript/operationsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hdinsightcontainers?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hdinsightcontainers?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hdinsight/arm-hdinsightcontainers/README.md

@@ -9,7 +9,7 @@ import type {
   ApprovalResponseComment,
   ReassignCommand,
   TaskUpdateCommand,
-} from "./models";
+} from "./models.js";
 
 export type ListWorkflowsParameters = RequestParameters;
 export type GetWorkflowParameters = RequestParameters;

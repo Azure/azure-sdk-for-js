@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { SparkBatch } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import type { SparkBatch } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SparkClient } from "../sparkClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { SparkClient } from "../sparkClient.js";
+import type {
   SparkBatchGetSparkBatchJobsOptionalParams,
   SparkBatchGetSparkBatchJobsResponse,
   SparkBatchJobOptions,
@@ -20,103 +20,9 @@ import {
   SparkBatchCreateSparkBatchJobResponse,
   SparkBatchGetSparkBatchJobOptionalParams,
   SparkBatchGetSparkBatchJobResponse,
-  SparkBatchCancelSparkBatchJobOptionalParams
-} from "../models";
+  SparkBatchCancelSparkBatchJobOptionalParams,
+} from "../models/index.js";
 
-/** Class containing SparkBatch operations. */
-export class SparkBatchImpl implements SparkBatch {
-  private readonly client: SparkClient;
-
-  /**
-   * Initialize a new instance of the class SparkBatch class.
-   * @param client Reference to the service client
-   */
-  constructor(client: SparkClient) {
-    this.client = client;
-  }
-
-  /**
-   * List all spark batch jobs which are running under a particular spark pool.
-   * @param options The options parameters.
-   */
-  async getSparkBatchJobs(
-    options?: SparkBatchGetSparkBatchJobsOptionalParams
-  ): Promise<SparkBatchGetSparkBatchJobsResponse> {
-    return tracingClient.withSpan(
-      "SparkClient.getSparkBatchJobs",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { options },
-          getSparkBatchJobsOperationSpec
-        ) as Promise<SparkBatchGetSparkBatchJobsResponse>;
-      }
-    );
-  }
-
-  /**
-   * Create new spark batch job.
-   * @param sparkBatchJobOptions Livy compatible batch job request payload.
-   * @param options The options parameters.
-   */
-  async createSparkBatchJob(
-    sparkBatchJobOptions: SparkBatchJobOptions,
-    options?: SparkBatchCreateSparkBatchJobOptionalParams
-  ): Promise<SparkBatchCreateSparkBatchJobResponse> {
-    return tracingClient.withSpan(
-      "SparkClient.createSparkBatchJob",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { sparkBatchJobOptions, options },
-          createSparkBatchJobOperationSpec
-        ) as Promise<SparkBatchCreateSparkBatchJobResponse>;
-      }
-    );
-  }
-
-  /**
-   * Gets a single spark batch job.
-   * @param batchId Identifier for the batch job.
-   * @param options The options parameters.
-   */
-  async getSparkBatchJob(
-    batchId: number,
-    options?: SparkBatchGetSparkBatchJobOptionalParams
-  ): Promise<SparkBatchGetSparkBatchJobResponse> {
-    return tracingClient.withSpan(
-      "SparkClient.getSparkBatchJob",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { batchId, options },
-          getSparkBatchJobOperationSpec
-        ) as Promise<SparkBatchGetSparkBatchJobResponse>;
-      }
-    );
-  }
-
-  /**
-   * Cancels a running spark batch job.
-   * @param batchId Identifier for the batch job.
-   * @param options The options parameters.
-   */
-  async cancelSparkBatchJob(
-    batchId: number,
-    options?: SparkBatchCancelSparkBatchJobOptionalParams
-  ): Promise<void> {
-    return tracingClient.withSpan(
-      "SparkClient.cancelSparkBatchJob",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { batchId, options },
-          cancelSparkBatchJobOperationSpec
-        ) as Promise<void>;
-      }
-    );
-  }
-}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -125,66 +31,151 @@ const getSparkBatchJobsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SparkBatchJobCollection
-    }
+      bodyMapper: Mappers.SparkBatchJobCollection,
+    },
   },
   queryParameters: [Parameters.fromParam, Parameters.size, Parameters.detailed],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.livyApiVersion,
-    Parameters.sparkPoolName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.livyApiVersion, Parameters.sparkPoolName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createSparkBatchJobOperationSpec: coreClient.OperationSpec = {
   path: "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/batches",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SparkBatchJob
-    }
+      bodyMapper: Mappers.SparkBatchJob,
+    },
   },
   requestBody: Parameters.sparkBatchJobOptions,
   queryParameters: [Parameters.detailed],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.livyApiVersion,
-    Parameters.sparkPoolName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.livyApiVersion, Parameters.sparkPoolName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getSparkBatchJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/batches/{batchId}",
+  path: "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/batches/{batchId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SparkBatchJob
-    }
+      bodyMapper: Mappers.SparkBatchJob,
+    },
   },
   queryParameters: [Parameters.detailed],
   urlParameters: [
     Parameters.endpoint,
     Parameters.livyApiVersion,
     Parameters.sparkPoolName,
-    Parameters.batchId
+    Parameters.batchId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelSparkBatchJobOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/batches/{batchId}",
+  path: "/livyApi/versions/{livyApiVersion}/sparkPools/{sparkPoolName}/batches/{batchId}",
   httpMethod: "DELETE",
   responses: { 200: {} },
   urlParameters: [
     Parameters.endpoint,
     Parameters.livyApiVersion,
     Parameters.sparkPoolName,
-    Parameters.batchId
+    Parameters.batchId,
   ],
-  serializer
+  serializer,
 };
+
+/** Class containing SparkBatch operations. */
+export class SparkBatchImpl implements SparkBatch {
+  private readonly client: SparkClient;
+
+  /**
+   * Initialize a new instance of the class SparkBatch class.
+   * @param client - Reference to the service client
+   */
+  constructor(client: SparkClient) {
+    this.client = client;
+  }
+
+  /**
+   * List all spark batch jobs which are running under a particular spark pool.
+   * @param options - The options parameters.
+   */
+  async getSparkBatchJobs(
+    options?: SparkBatchGetSparkBatchJobsOptionalParams,
+  ): Promise<SparkBatchGetSparkBatchJobsResponse> {
+    return tracingClient.withSpan(
+      "SparkClient.getSparkBatchJobs",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { updatedOptions },
+          getSparkBatchJobsOperationSpec,
+        ) as Promise<SparkBatchGetSparkBatchJobsResponse>;
+      },
+    );
+  }
+
+  /**
+   * Create new spark batch job.
+   * @param sparkBatchJobOptions - Livy compatible batch job request payload.
+   * @param options - The options parameters.
+   */
+  async createSparkBatchJob(
+    sparkBatchJobOptions: SparkBatchJobOptions,
+    options?: SparkBatchCreateSparkBatchJobOptionalParams,
+  ): Promise<SparkBatchCreateSparkBatchJobResponse> {
+    return tracingClient.withSpan(
+      "SparkClient.createSparkBatchJob",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { sparkBatchJobOptions, updatedOptions },
+          createSparkBatchJobOperationSpec,
+        ) as Promise<SparkBatchCreateSparkBatchJobResponse>;
+      },
+    );
+  }
+
+  /**
+   * Gets a single spark batch job.
+   * @param batchId - Identifier for the batch job.
+   * @param options - The options parameters.
+   */
+  async getSparkBatchJob(
+    batchId: number,
+    options?: SparkBatchGetSparkBatchJobOptionalParams,
+  ): Promise<SparkBatchGetSparkBatchJobResponse> {
+    return tracingClient.withSpan(
+      "SparkClient.getSparkBatchJob",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { batchId, updatedOptions },
+          getSparkBatchJobOperationSpec,
+        ) as Promise<SparkBatchGetSparkBatchJobResponse>;
+      },
+    );
+  }
+
+  /**
+   * Cancels a running spark batch job.
+   * @param batchId - Identifier for the batch job.
+   * @param options - The options parameters.
+   */
+  async cancelSparkBatchJob(
+    batchId: number,
+    options?: SparkBatchCancelSparkBatchJobOptionalParams,
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "SparkClient.cancelSparkBatchJob",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { batchId, updatedOptions },
+          cancelSparkBatchJobOperationSpec,
+        ) as Promise<void>;
+      },
+    );
+  }
+}

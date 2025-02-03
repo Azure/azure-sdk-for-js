@@ -7,7 +7,7 @@
 import type { AzureKeyCredential } from '@azure/core-auth';
 import type { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
@@ -345,6 +345,11 @@ export default MapsSearch;
 export type MapsSearchClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface MapsSearchClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface ReverseGeocodingBatchRequestBody {

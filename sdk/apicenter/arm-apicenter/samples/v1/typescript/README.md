@@ -145,7 +145,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspacesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apicenter/arm-apicenter/samples/v1/typescript/src/workspacesGetSample.ts
 [workspacesheadsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apicenter/arm-apicenter/samples/v1/typescript/src/workspacesHeadSample.ts
 [workspaceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apicenter/arm-apicenter/samples/v1/typescript/src/workspacesListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-apicenter?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-apicenter?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/apicenter/arm-apicenter/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

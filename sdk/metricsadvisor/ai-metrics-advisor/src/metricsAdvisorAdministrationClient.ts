@@ -3,17 +3,16 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { logger } from "./logger";
-import type { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
-import { createMetricsAdvisorKeyCredentialPolicy } from "./metricsAdvisorKeyCredentialPolicy";
-import { GeneratedClient } from "./generated/generatedClient";
+import { logger } from "./logger.js";
+import type { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy.js";
+import { createMetricsAdvisorKeyCredentialPolicy } from "./metricsAdvisorKeyCredentialPolicy.js";
+import { GeneratedClient } from "./generated/generatedClient.js";
 import type {
   AlertConfigurationsPageResponse,
   AnomalyAlertConfiguration,
@@ -39,8 +38,8 @@ import type {
   RestResponse,
   WebNotificationHook,
   WebNotificationHookPatch,
-} from "./models";
-import type { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
+} from "./models.js";
+import type { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models/index.js";
 import {
   fromServiceAlertConfiguration,
   fromServiceAnomalyDetectionConfiguration,
@@ -57,14 +56,14 @@ import {
   toServiceDataFeedSourcePatch,
   toServiceGranularity,
   toServiceRollupSettings,
-} from "./transforms";
+} from "./transforms.js";
 import {
   DEFAULT_COGNITIVE_SCOPE,
   MetricsAdvisorLoggingAllowedHeaderNames,
   MetricsAdvisorLoggingAllowedQueryParameters,
-} from "./constants";
+} from "./constants.js";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { tracingClient } from "./tracing";
+import { tracingClient } from "./tracing.js";
 
 /**
  * Client options used to configure API requests.
@@ -1495,6 +1494,7 @@ export class MetricsAdvisorAdministrationClient {
    * ```
    */
   public listDataSourceCredential(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListDataSourceCredentialsOptions = {},
   ): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse> {
     const iter = this.listItemsOfDataSourceCredentials(options);

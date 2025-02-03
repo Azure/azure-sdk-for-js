@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves a network manager security user configuration.
  *
  * @summary Retrieves a network manager security user configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerSecurityUserConfigurationGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityUserConfigurationGet.json
  */
 async function getSecurityUserConfigurations() {
   const subscriptionId =

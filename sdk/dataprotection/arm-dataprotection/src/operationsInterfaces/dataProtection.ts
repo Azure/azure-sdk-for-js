@@ -10,7 +10,7 @@ import {
   FeatureValidationRequestBaseUnion,
   DataProtectionCheckFeatureSupportOptionalParams,
   DataProtectionCheckFeatureSupportResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DataProtection. */
 export interface DataProtection {

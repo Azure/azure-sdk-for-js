@@ -31,6 +31,7 @@
   },
   "files": [
     "dist/",
+    "!dist/**/*.d.*ts.map",
     "README.md",
     "LICENSE"
   ],
@@ -62,8 +63,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
-    "lint": "eslint package.json api-extractor.json src test",
-    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint README.md package.json api-extractor.json src test",
+    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
@@ -82,12 +83,12 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^18.0.0",
     "@types/trusted-types": "^2.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "eslint": "^9.9.0",
     "playwright": "^1.41.2",
-    "typescript": "~5.6.2",
-    "vitest": "^2.0.5"
+    "typescript": "~5.7.2",
+    "vitest": "^3.0.3"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"
@@ -105,7 +106,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "module": "./dist/esm/index.js"
 }

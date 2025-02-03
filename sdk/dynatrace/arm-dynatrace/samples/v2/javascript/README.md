@@ -87,6 +87,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tagrulesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dynatrace/arm-dynatrace/samples/v2/javascript/tagRulesDeleteSample.js
 [tagrulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dynatrace/arm-dynatrace/samples/v2/javascript/tagRulesGetSample.js
 [tagruleslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dynatrace/arm-dynatrace/samples/v2/javascript/tagRulesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-dynatrace?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-dynatrace?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dynatrace/arm-dynatrace/README.md

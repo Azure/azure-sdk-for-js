@@ -33,9 +33,14 @@ describe("instrumentation end-to-end tests", () => {
       assert.equal(inner.kind, SpanKind.CLIENT);
 
       // Check status
-      assert.deepEqual(coreRestPipeline.status, { code: SpanStatusCode.OK });
-      assert.deepEqual(inner.status, { code: SpanStatusCode.OK });
-      assert.deepEqual(outer.status, { code: SpanStatusCode.OK });
+      // Status MUST be kept UNSET for http spans https://opentelemetry.io/docs/specs/semconv/http/http-spans/#status
+      assert.deepEqual(coreRestPipeline.status, { code: SpanStatusCode.UNSET });
+      // For general spans:
+      // > Generally, Instrumentation Libraries SHOULD NOT set the status code to Ok, unless explicitly configured to do so.
+      // > Instrumentation Libraries SHOULD leave the status code as Unset unless there is an error, as described above.
+      // https://github.com/open-telemetry/opentelemetry-specification/blob/v1.40.0/specification/trace/api.md#set-status
+      assert.deepEqual(inner.status, { code: SpanStatusCode.UNSET });
+      assert.deepEqual(outer.status, { code: SpanStatusCode.UNSET });
 
       // Check instrumentationLibrary
       assert.equal(outer.instrumentationLibrary.name, tracingClientAttributes.packageName);

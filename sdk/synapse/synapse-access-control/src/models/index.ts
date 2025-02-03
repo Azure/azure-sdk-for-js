@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /** Check access request details */
 export interface CheckPrincipalAccessRequest {
@@ -237,8 +237,7 @@ export interface RoleDefinitionsGetRoleDefinitionByIdOptionalParams
 export type RoleDefinitionsGetRoleDefinitionByIdResponse = SynapseRoleDefinition;
 
 /** Optional parameters. */
-export interface RoleDefinitionsListScopesOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RoleDefinitionsListScopesOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listScopes operation. */
 export type RoleDefinitionsListScopesResponse = {
@@ -247,8 +246,7 @@ export type RoleDefinitionsListScopesResponse = {
 };
 
 /** Optional parameters. */
-export interface AccessControlClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface AccessControlClientOptionalParams extends coreClient.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
   /** Overrides client endpoint. */

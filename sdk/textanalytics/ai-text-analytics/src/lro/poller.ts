@@ -4,9 +4,9 @@
 import type { PollOperation, PollOperationState } from "@azure/core-lro";
 import { Poller } from "@azure/core-lro";
 import type { TracingClient } from "@azure/core-tracing";
-import type { GeneratedClient } from "../generated/generatedClient";
-import type { State, TextDocumentInput } from "../generated/models";
-import { delay } from "../util";
+import type { GeneratedClient } from "../generated/generatedClient.js";
+import type { State, TextDocumentInput } from "../generated/models/index.js";
+import { delay } from "../util.js";
 
 /**
  * Common parameters to a Poller.

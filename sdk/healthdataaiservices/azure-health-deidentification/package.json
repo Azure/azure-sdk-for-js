@@ -21,7 +21,8 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "type": "module",
   "keywords": [
@@ -58,9 +59,9 @@
       "disableDocsMs": true,
       "productName": "Health Deidentification Service",
       "productSlugs": [],
-      "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+      "apiRefLink": "https://learn.microsoft.com/javascript/api/",
       "requiredResources": {
-        "De-identification Service": "https://docs.microsoft.com/javascript/api/"
+        "De-identification Service": "https://learn.microsoft.com/javascript/api/"
       }
     }
   },
@@ -83,13 +84,13 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "eslint": "^9.9.0",
     "loupe": "~3.1.1",
     "playwright": "^1.41.2",
-    "typescript": "~5.6.2",
-    "vitest": "^2.0.5"
+    "typescript": "~5.7.2",
+    "vitest": "^3.0.3"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",

@@ -13,7 +13,7 @@ Azure Cosmos DB is a globally distributed, multi-model database service that sup
 Key links:
 
 - [Package (npm)][npm]
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/cosmos/?view=azure-node-lates)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/cosmos/?view=azure-node-lates)
 - [Product documentation][cosmos_docs]
 
 ## Getting started
@@ -38,7 +38,7 @@ This package is distributed via [npm][npm] which comes preinstalled with [NodeJS
 
 #### CORS
 
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/azure/cosmos-db/how-to-configure-cross-origin-resource-sharing) rules for your Cosmos DB account if you need to develop for browsers. Follow the instructions in the linked document to create new CORS rules for your Cosmos DB.
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://learn.microsoft.com/azure/cosmos-db/how-to-configure-cross-origin-resource-sharing) rules for your Cosmos DB account if you need to develop for browsers. Follow the instructions in the linked document to create new CORS rules for your Cosmos DB.
 
 ### Install this package
 
@@ -57,7 +57,7 @@ az cosmosdb keys list --resource-group <your-resource-group> --name <your-accoun
 
 ### Create an instance of `CosmosClient`
 
-Interaction with Cosmos DB starts with an instance of the [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest) class
+Interaction with Cosmos DB starts with an instance of the [CosmosClient](https://learn.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest) class
 
 ```js
 const { CosmosClient } = require("@azure/cosmos");
@@ -81,13 +81,13 @@ In production environments, secrets like keys should be stored in [Azure Key Vau
 
 ## Key concepts
 
-Once you've initialized a [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-lates), you can interact with the primary resource types in Cosmos DB:
+Once you've initialized a [CosmosClient](https://learn.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-lates), you can interact with the primary resource types in Cosmos DB:
 
-- [Database](https://docs.microsoft.com/javascript/api/@azure/cosmos/database?view=azure-node-latest): A Cosmos DB account can contain multiple databases. When you create a database, you specify the API you'd like to use when interacting with its documents: SQL, MongoDB, Gremlin, Cassandra, or Azure Table. Use the [Database](https://docs.microsoft.com/javascript/api/@azure/cosmos/database?view=azure-node-latest) object to manage its containers.
+- [Database](https://learn.microsoft.com/javascript/api/@azure/cosmos/database?view=azure-node-latest): A Cosmos DB account can contain multiple databases. When you create a database, you specify the API you'd like to use when interacting with its documents: SQL, MongoDB, Gremlin, Cassandra, or Azure Table. Use the [Database](https://learn.microsoft.com/javascript/api/@azure/cosmos/database?view=azure-node-latest) object to manage its containers.
 
-- [Container](https://docs.microsoft.com/javascript/api/@azure/cosmos/container?view=azure-node-latest): A container is a collection of JSON documents. You create (insert), read, update, and delete items in a container by using methods on the [Container](https://docs.microsoft.com/javascript/api/@azure/cosmos/container?view=azure-node-latest) object.
+- [Container](https://learn.microsoft.com/javascript/api/@azure/cosmos/container?view=azure-node-latest): A container is a collection of JSON documents. You create (insert), read, update, and delete items in a container by using methods on the [Container](https://learn.microsoft.com/javascript/api/@azure/cosmos/container?view=azure-node-latest) object.
 
-- [Item](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest): An Item is a JSON document stored in a container. Each Item must include an `id` key with a value that uniquely identifies the item within the container. If you do not provide an `id`, the SDK will generate one automatically.
+- [Item](https://learn.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest): An Item is a JSON document stored in a container. Each Item must include an `id` key with a value that uniquely identifies the item within the container. If you do not provide an `id`, the SDK will generate one automatically.
 
 For more information about these resources, see [Working with Azure Cosmos databases, containers and items][cosmos_resources].
 
@@ -103,9 +103,10 @@ The following sections provide several code snippets covering some of the most c
 - [Read an item](#read-an-item)
 - [Delete an item](#delete-an-data)
 - [CRUD on Container with hierarchical partition key](#container-hierarchical-partition-key)
+
 ### Create a database
 
-After authenticating your [CosmosClient](https://docs.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a NOSQL API database.
+After authenticating your [CosmosClient](https://learn.microsoft.com/javascript/api/@azure/cosmos/cosmosclient?view=azure-node-latest), you can work with any resource in the account. The code snippet below creates a NOSQL API database.
 
 ```js
 const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
@@ -122,14 +123,16 @@ console.log(container.id);
 ```
 
 ### Using Partition Keys
+
 This example shows various types of partition Keys supported.
+
 ```js
-await container.item("id", "1").read();        // string type
-await container.item("id", 2).read();          // number type
-await container.item("id", true).read();       // boolean type
-await container.item("id", {}).read();         // None type
-await container.item("id", undefined).read();  // None type
-await container.item("id", null).read();       // null type
+await container.item("id", "1").read(); // string type
+await container.item("id", 2).read(); // number type
+await container.item("id", true).read(); // boolean type
+await container.item("id", {}).read(); // None type
+await container.item("id", undefined).read(); // None type
+await container.item("id", null).read(); // null type
 ```
 
 If the Partition Key consists of a single value, it could be supplied either as a literal value, or an array.
@@ -140,18 +143,18 @@ await container.item("id", ["1"]).read();
 ```
 
 If the Partition Key consists of more than one values, it should be supplied as an array.
+
 ```js
 await container.item("id", ["a", "b"]).read();
 await container.item("id", ["a", 2]).read();
 await container.item("id", [{}, {}]).read();
 await container.item("id", ["a", {}]).read();
 await container.item("id", [2, null]).read();
-
 ```
 
 ### Insert items
 
-To insert items into a container, pass an object containing your data to [Items.upsert](https://docs.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#upsert-t--requestoptions-). The Azure Cosmos DB service requires each item has an `id` key. If you do not provide one, the SDK will generate an `id` automatically.
+To insert items into a container, pass an object containing your data to [Items.upsert](https://learn.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#upsert-t--requestoptions-). The Azure Cosmos DB service requires each item has an `id` key. If you do not provide one, the SDK will generate an `id` automatically.
 
 This example inserts several items into the container
 
@@ -159,7 +162,7 @@ This example inserts several items into the container
 const cities = [
   { id: "1", name: "Olympia", state: "WA", isCapitol: true },
   { id: "2", name: "Redmond", state: "WA", isCapitol: false },
-  { id: "3", name: "Chicago", state: "IL", isCapitol: false }
+  { id: "3", name: "Chicago", state: "IL", isCapitol: false },
 ];
 for (const city of cities) {
   await container.items.create(city);
@@ -168,14 +171,16 @@ for (const city of cities) {
 
 ### Read an item
 
-To read a single item from a container, use [Item.read](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#read-requestoptions-). This is a less expensive operation than using SQL to query by `id`.
+To read a single item from a container, use [Item.read](https://learn.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#read-requestoptions-). This is a less expensive operation than using SQL to query by `id`.
 
 ```js
 await container.item("1", "1").read();
 ```
+
 ### CRUD on Container with hierarchical partition key
 
 Create a Container with hierarchical partition key
+
 ```js
 const containerDefinition = {
   id: "Test Database",
@@ -184,41 +189,47 @@ const containerDefinition = {
     version: PartitionKeyDefinitionVersion.V2,
     kind: PartitionKeyKind.MultiHash,
   },
-}
+};
 const { container } = await database.containers.createIfNotExists(containerDefinition);
 console.log(container.id);
 ```
+
 Insert an item with hierarchical partition key defined as - `["/name", "/address/zip"]`
+
 ```js
 const item = {
   id: "1",
-  name: 'foo',
+  name: "foo",
   address: {
-    zip: 100
+    zip: 100,
   },
-  active: true
-}
+  active: true,
+};
 await container.items.create(item);
 ```
 
 To read a single item from a container with hierarchical partition key defined as - `["/name", "/address/zip"],`
+
 ```js
 await container.item("1", ["foo", 100]).read();
 ```
+
 Query an item with hierarchical partition key with hierarchical partition key defined as - `["/name", "/address/zip"],`
+
 ```js
 const { resources } = await container.items
   .query("SELECT * from c WHERE c.active = true", {
-          partitionKey: ["foo", 100],
-        })
+    partitionKey: ["foo", 100],
+  })
   .fetchAll();
 for (const item of resources) {
   console.log(`${item.name}, ${item.address.zip} `);
 }
 ```
+
 ### Delete an item
 
-To delete items from a container, use [Item.delete](https://docs.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-).
+To delete items from a container, use [Item.delete](https://learn.microsoft.com/javascript/api/@azure/cosmos/item?view=azure-node-latest#delete-requestoptions-).
 
 ```js
 // Delete the first item returned by the query above
@@ -227,7 +238,7 @@ await container.item("1").delete();
 
 ### Query the database
 
-A Cosmos DB SQL API database supports querying the items in a container with [Items.query](https://docs.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-) using SQL-like syntax:
+A Cosmos DB SQL API database supports querying the items in a container with [Items.query](https://learn.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-) using SQL-like syntax:
 
 ```js
 const { resources } = await container.items
@@ -238,13 +249,13 @@ for (const city of resources) {
 }
 ```
 
-Perform parameterized queries by passing an object containing the parameters and their values to [Items.query](https://docs.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-):
+Perform parameterized queries by passing an object containing the parameters and their values to [Items.query](https://learn.microsoft.com/javascript/api/@azure/cosmos/items?view=azure-node-latest#query-string---sqlqueryspec--feedoptions-):
 
 ```js
 const { resources } = await container.items
   .query({
     query: "SELECT * from c WHERE c.isCapitol = @isCapitol",
-    parameters: [{ name: "@isCapitol", value: true }]
+    parameters: [{ name: "@isCapitol", value: true }],
   })
   .fetchAll();
 for (const city of resources) {
@@ -397,35 +408,42 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ### Diagnostics
 
-Cosmos Diagnostics feature provides enhanced insights into all your client operations. A CosmosDiagnostics object is added to response of all client operations. such as 
+Cosmos Diagnostics feature provides enhanced insights into all your client operations. A CosmosDiagnostics object is added to response of all client operations. such as
+
 - Point look up operation reponse - `item.read()`, `container.create()`, `database.delete()`
-- Query operation reponse -`queryIterator.fetchAll()`, 
+- Query operation reponse -`queryIterator.fetchAll()`,
 - Bulk and Batch operations -`item.batch()`.
 - Error/Exception response objects.
 
 A CosmosDiagnostics object is added to response of all client operations.
 There are 3 Cosmos Diagnostic levels, info, debug and debug-unsafe. Where only info is meant for production systems and debug and debug-unsafe are meant to be used during development and debugging, since they consume significantly higher resources. Cosmos Diagnostic level can be set in 2 ways
+
 - Programatically
+
 ```js
-  const client = new CosmosClient({ endpoint, key, diagnosticLevel: CosmosDbDiagnosticLevel.debug });
+const client = new CosmosClient({ endpoint, key, diagnosticLevel: CosmosDbDiagnosticLevel.debug });
 ```
+
 - Using environment variables. (Diagnostic level set by Environment variable has higher priority over setting it through client options.)
+
 ```bash
   export AZURE_COSMOSDB_DIAGNOSTICS_LEVEL="debug"
 ```
 
 Cosmos Diagnostic has three members
-- ClientSideRequestStatistics Type: Contains aggregates diagnostic details, including metadata lookups, retries, endpoints contacted, and request and response statistics like payload size and duration. (is always collected, can be used in production systems.) 
 
-- DiagnosticNode: Is a tree-like structure that captures detailed diagnostic information. Similar to `har` recording present in browsers. This feature is disabled by default and is intended for debugging non-production environments only. (collected at diagnostic level debug and debug-unsafe) 
+- ClientSideRequestStatistics Type: Contains aggregates diagnostic details, including metadata lookups, retries, endpoints contacted, and request and response statistics like payload size and duration. (is always collected, can be used in production systems.)
 
-- ClientConfig: Captures essential information related to client's configuration settings during client initialization. (collected at diagnostic level debug and debug-unsafe) 
+- DiagnosticNode: Is a tree-like structure that captures detailed diagnostic information. Similar to `har` recording present in browsers. This feature is disabled by default and is intended for debugging non-production environments only. (collected at diagnostic level debug and debug-unsafe)
+
+- ClientConfig: Captures essential information related to client's configuration settings during client initialization. (collected at diagnostic level debug and debug-unsafe)
 
 Please make sure to never set diagnostic level to `debug-unsafe` in production environment, since it this level `CosmosDiagnostics` captures request and response payloads and if you choose to log it (it is by default logged by @azure/logger at `verbose` level). These payloads might get captured in your log sinks.
 
 #### Consuming Diagnostics
 
-- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows. 
+- Since `diagnostics` is added to all Response objects. You could programatically access `CosmosDiagnostic` as follows.
+
 ```js
   // For point look up operations
   const { container, diagnostics: containerCreateDiagnostic } =
@@ -443,8 +461,8 @@ Please make sure to never set diagnostic level to `debug-unsafe` in production e
       resourceBody: { id: 'A', key: "A", school: "high" },
     },
   ];
-  const response = await container.items.batch(operations, "A"); 
-  
+  const response = await container.items.batch(operations, "A");
+
   // For query operations
   const queryIterator = container.items.query("select * from c");
   const { resources, diagnostics } = await queryIterator.fetchAll();
@@ -456,7 +474,9 @@ Please make sure to never set diagnostic level to `debug-unsafe` in production e
     const diagnostics = err.diagnostics
   }
 ```
+
 - You could also log `diagnostics` using `@azure/logger`, diagnostic is always logged using `@azure/logger` at `verbose` level. So if you set Diagnostic level to `debug` or `debug-unsafe` and `@azure/logger` level to `verbose`, `diagnostics` will be logged.
+
 ## Next steps
 
 ### More sample code
@@ -472,29 +492,30 @@ Please make sure to never set diagnostic level to `debug-unsafe` in production e
 - Changing Database/Container throughput settings
 - Multi Region Write Operations
 
-### Limitations 
+### Limitations
 
 Currently the features below are **not supported**. For alternatives options, check the **Workarounds** section below.
 
 ### Data Plane Limitations:
 
-* Queries with COUNT from a DISTINCT subquery​
-* Direct TCP Mode access​
-* Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens.       Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
-* Change Feed: Processor
-* Change Feed: Read multiple partitions key values
-* Change Feed pull model support for partial hierarchical partition keys [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
-* Cross-partition ORDER BY for mixed types
+- Queries with COUNT from a DISTINCT subquery​
+- Direct TCP Mode access​
+- Aggregate cross-partition queries, like sorting, counting, and distinct, don't support continuation tokens. Streamable queries, like SELECT \* FROM <table> WHERE <condition>, support continuation tokens. See the "Workaround" section for executing non-streamable queries without a continuation token.
+- Change Feed: Processor
+- Change Feed: Read multiple partitions key values
+- Change Feed pull model support for partial hierarchical partition keys [#27059](https://github.com/Azure/azure-sdk-for-js/issues/27059)
+- Cross-partition ORDER BY for mixed types
 
 ### Control Plane Limitations:
 
-* Get CollectionSizeUsage, DatabaseUsage, and DocumentUsage metrics​
-* Create Geospatial Index
-* Update Autoscale throughput
+- Get CollectionSizeUsage, DatabaseUsage, and DocumentUsage metrics​
+- Create Geospatial Index
+- Update Autoscale throughput
 
 ## Workarounds
 
 ### Continuation token for cross partitions queries
+
 You can achieve cross partition queries with continuation token support by using
 [Side car pattern](https://github.com/Azure-Samples/Cosmosdb-query-sidecar).
 This pattern can also enable applications to be composed of heterogeneous components and technologies.
@@ -521,23 +542,23 @@ while (querIterator.hasMoreResults()) {
 This approach can also be used for streamable queries.
 
 ### Control Plane operations
-Typically, you can use [Azure Portal](https://portal.azure.com/), [Azure Cosmos DB Resource Provider REST API](https://docs.microsoft.com/rest/api/cosmos-db-resource-provider), [Azure CLI](https://docs.microsoft.com/cli/azure/azure-cli-reference-for-cosmos-db) or [PowerShell](https://docs.microsoft.com/azure/cosmos-db/manage-with-powershell) for the control plane unsupported limitations.
 
+Typically, you can use [Azure Portal](https://portal.azure.com/), [Azure Cosmos DB Resource Provider REST API](https://learn.microsoft.com/rest/api/cosmos-db-resource-provider), [Azure CLI](https://learn.microsoft.com/cli/azure/azure-cli-reference-for-cosmos-db) or [PowerShell](https://learn.microsoft.com/azure/cosmos-db/manage-with-powershell) for the control plane unsupported limitations.
 
 ### Additional documentation
 
-For more extensive documentation on the Cosmos DB service, see the [Azure Cosmos DB documentation][cosmos_docs] on docs.microsoft.com.
+For more extensive documentation on the Cosmos DB service, see the [Azure Cosmos DB documentation][cosmos_docs] on learn.microsoft.com.
 
 ## Useful links
 
-- [Welcome to Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/community)
-- [Quick start](https://docs.microsoft.com/azure/cosmos-db/sql-api-nodejs-get-started)
-- [Tutorial](https://docs.microsoft.com/azure/cosmos-db/sql-api-nodejs-application)
+- [Welcome to Azure Cosmos DB](https://learn.microsoft.com/azure/cosmos-db/community)
+- [Quick start](https://learn.microsoft.com/azure/cosmos-db/sql-api-nodejs-get-started)
+- [Tutorial](https://learn.microsoft.com/azure/cosmos-db/sql-api-nodejs-application)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/samples)
-- [Introduction to Resource Model of Azure Cosmos DB Service](https://docs.microsoft.com/azure/cosmos-db/sql-api-resources)
-- [Introduction to SQL API of Azure Cosmos DB Service](https://docs.microsoft.com/azure/cosmos-db/sql-api-sql-query)
-- [Partitioning](https://docs.microsoft.com/azure/cosmos-db/sql-api-partition-data)
-- [API Documentation](https://docs.microsoft.com/javascript/api/%40azure/cosmos/?view=azure-node-latest)
+- [Introduction to Resource Model of Azure Cosmos DB Service](https://learn.microsoft.com/azure/cosmos-db/sql-api-resources)
+- [Introduction to SQL API of Azure Cosmos DB Service](https://learn.microsoft.com/azure/cosmos-db/sql-api-sql-query)
+- [Partitioning](https://learn.microsoft.com/azure/cosmos-db/sql-api-partition-data)
+- [API Documentation](https://learn.microsoft.com/javascript/api/%40azure/cosmos/?view=azure-node-latest)
 
 ## Contributing
 
@@ -547,23 +568,23 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 <!-- LINKS -->
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_pattern_circuit_breaker]: https://docs.microsoft.com/azure/architecture/patterns/circuit-breaker
-[azure_pattern_retry]: https://docs.microsoft.com/azure/architecture/patterns/retry
+[azure_cli]: https://learn.microsoft.com/cli/azure
+[azure_pattern_circuit_breaker]: https://learn.microsoft.com/azure/architecture/patterns/circuit-breaker
+[azure_pattern_retry]: https://learn.microsoft.com/azure/architecture/patterns/retry
 [azure_portal]: https://portal.azure.com
 [azure_sub]: https://azure.microsoft.com/free/
-[cloud_shell]: https://docs.microsoft.com/azure/cloud-shell/overview
+[cloud_shell]: https://learn.microsoft.com/azure/cloud-shell/overview
 [cloud_shell_bash]: https://shell.azure.com/bash
-[cosmos_account_create]: https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account
-[cosmos_account]: https://docs.microsoft.com/azure/cosmos-db/account-overview
-[cosmos_container]: https://docs.microsoft.com/azure/cosmos-db/databases-containers-items#azure-cosmos-containers
-[cosmos_database]: https://docs.microsoft.com/azure/cosmos-db/databases-containers-items#azure-cosmos-databases
-[cosmos_docs]: https://docs.microsoft.com/azure/cosmos-db/
-[cosmos_http_status_codes]: https://docs.microsoft.com/rest/api/cosmos-db/http-status-codes-for-cosmosdb
-[cosmos_item]: https://docs.microsoft.com/azure/cosmos-db/databases-containers-items#azure-cosmos-items
-[cosmos_request_units]: https://docs.microsoft.com/azure/cosmos-db/request-units
-[cosmos_resources]: https://docs.microsoft.com/azure/cosmos-db/databases-containers-items
+[cosmos_account_create]: https://learn.microsoft.com/azure/cosmos-db/how-to-manage-database-account
+[cosmos_account]: https://learn.microsoft.com/azure/cosmos-db/account-overview
+[cosmos_container]: https://learn.microsoft.com/azure/cosmos-db/databases-containers-items#azure-cosmos-containers
+[cosmos_database]: https://learn.microsoft.com/azure/cosmos-db/databases-containers-items#azure-cosmos-databases
+[cosmos_docs]: https://learn.microsoft.com/azure/cosmos-db/
+[cosmos_http_status_codes]: https://learn.microsoft.com/rest/api/cosmos-db/http-status-codes-for-cosmosdb
+[cosmos_item]: https://learn.microsoft.com/azure/cosmos-db/databases-containers-items#azure-cosmos-items
+[cosmos_request_units]: https://learn.microsoft.com/azure/cosmos-db/request-units
+[cosmos_resources]: https://learn.microsoft.com/azure/cosmos-db/databases-containers-items
 [cosmos_samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/samples
-[cosmos_sql_queries]: https://docs.microsoft.com/azure/cosmos-db/how-to-sql-query
-[cosmos_ttl]: https://docs.microsoft.com/azure/cosmos-db/time-to-live
+[cosmos_sql_queries]: https://learn.microsoft.com/azure/cosmos-db/how-to-sql-query
+[cosmos_ttl]: https://learn.microsoft.com/azure/cosmos-db/time-to-live
 [npm]: https://www.npmjs.com/package/@azure/cosmos

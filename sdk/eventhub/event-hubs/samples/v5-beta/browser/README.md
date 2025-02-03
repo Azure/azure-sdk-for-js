@@ -30,7 +30,7 @@ You can set the Event Hubs and authentication properties you'll need to run the 
 
 Register a new application in AAD and assign the "Azure Event Hubs Data Owner" role to it.
 
-- See https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+- See https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
   to register a new application in the Azure Active Directory.
 - Note down the client id and tenant id from the above step.
   You will need to set these in the [configuration.js][configuration] file.
@@ -82,9 +82,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [configuration]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/v5/browser/src/configuration.js
 [app]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/v5/browser/src/index.js
 [htmlpage]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples/v5/browser/index.html
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
-[azhubacct]: https://docs.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send
-[aziothub]: https://docs.microsoft.com/azure/iot-hub/iot-hub-node-node-module-twin-getstarted
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/event-hubs
+[azhubacct]: https://learn.microsoft.com/azure/event-hubs/event-hubs-node-get-started-send
+[aziothub]: https://learn.microsoft.com/azure/iot-hub/iot-hub-node-node-module-twin-getstarted
 [freesub]: https://azure.microsoft.com/free/
 [browsercred]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/using-azure-identity.md#interactivebrowsercredential
-[implicitgrantflow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
+[implicitgrantflow]: https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow

@@ -6,8 +6,12 @@ import type {
   ArtifactManifestOrderBy as ServiceManifestOrderBy,
   ManifestWriteableProperties as ServiceManifestWritableProperties,
   ArtifactManifestProperties as ServiceArtifactManifestProperties,
-} from "./generated/models";
-import type { ArtifactManifestProperties, ArtifactTagOrder, ArtifactManifestOrder } from "./models";
+} from "./generated/models/index.js";
+import type {
+  ArtifactManifestProperties,
+  ArtifactTagOrder,
+  ArtifactManifestOrder,
+} from "./models.js";
 
 /** Changeable attributes. Filter out `quarantineState` and `quarantineDetails` returned by service */
 interface ManifestWriteableProperties {

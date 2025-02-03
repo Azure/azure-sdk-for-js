@@ -95,6 +95,8 @@ async function calculatePatchFileContents(): Promise<string> {
   try {
     // Initialize temp git repo
     await run(["git", "init"], { cwd: tmpDir });
+    await run(["git", "config", "user.name", "azsdkbot"], { cwd: tmpDir });
+    await run(["git", "config", "user.email", "cloudtest@noreply.dx.internal.cloudapp.net"], { cwd: tmpDir });
 
     // Copy over the Azure Core files to where are expected to be in the unbranded Core package
     for (const [azurePath, newLocation] of Object.entries(AZURE_SOURCES)) {

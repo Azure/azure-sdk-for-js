@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { AccessToken } from "@azure/core-auth";
-import type { GetTokenResponse } from "../generated";
-import { retrieveJwtExpirationTimestamp } from "../util/jwt";
+import type { GetTokenResponse } from "../generated/index.js";
+import { retrieveJwtExpirationTimestamp } from "../util/jwt.js";
 
 /**
  * Mapping token REST model to AccessToken.

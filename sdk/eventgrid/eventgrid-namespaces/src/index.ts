@@ -17,13 +17,13 @@ export {
   RenewCloudEventLocksOptionalParams as RenewEventLocksOptionalParams,
   PublishCloudEventsOptionalParams as SendEventsOptionalParams,
   PublishCloudEventOptionalParams as SendEventOptionalParams,
-} from "./cadl-generated/models";
+} from "./cadl-generated/models/index.js";
 
-export { EventGridSenderClient } from "./eventGridSenderClient";
+export { EventGridSenderClient } from "./eventGridSenderClient.js";
 
-export { EventGridReceiverClient } from "./eventGridReceiverClient";
+export { EventGridReceiverClient } from "./eventGridReceiverClient.js";
 
-export { EventGridClientOptions } from "./cadl-generated";
+export { EventGridClientOptions } from "./cadl-generated/index.js";
 
 export { OperationOptions } from "@azure-rest/core-client";
 
@@ -40,6 +40,6 @@ export {
   EventGridSenderClientOptions,
   EventGridReceiverClientOptions,
   KnownReleaseDelay,
-} from "./models";
+} from "./models.js";
 
-export { EventGridDeserializer } from "./consumer";
+export { EventGridDeserializer } from "./consumer.js";

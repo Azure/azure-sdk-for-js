@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a ServiceResource
  * x-ms-original-file: 2024-03-01/Services_CreateOrUpdate.json
  */
-async function servicesCreateOrUpdate() {
+async function servicesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const result = await client.services.createOrUpdate(
@@ -21,8 +21,8 @@ async function servicesCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  servicesCreateOrUpdate();
+async function main(): Promise<void> {
+  await servicesCreateOrUpdate();
 }
 
 main().catch(console.error);

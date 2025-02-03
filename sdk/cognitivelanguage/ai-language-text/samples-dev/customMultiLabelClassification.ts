@@ -9,15 +9,11 @@
  * @azsdk-weight 50
  */
 
-import {
-  AnalyzeBatchAction,
-  AzureKeyCredential,
-  TextAnalysisClient,
-} from "@azure/ai-language-text";
+import type { AnalyzeBatchAction } from "@azure/ai-language-text";
+import { AzureKeyCredential, TextAnalysisClient } from "@azure/ai-language-text";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
@@ -29,7 +25,7 @@ const documents = [
   "The plot begins with a large group of characters where everyone thinks that the two main ones should be together but foolish things keep them apart. Misunderstandings, miscommunication, and confusion cause a series of humorous situations.",
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Custom Entity Recognition Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));

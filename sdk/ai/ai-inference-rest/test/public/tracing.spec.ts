@@ -57,7 +57,7 @@ describe("tracing test suite", () => {
     return `The temperature in ${location} is 72 degrees ${unit}`;
   };
 
-  const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
+  const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>): void => {
     const dummyFunction = { name: "", arguments: "", id: "" };
     while (functionArray.length < toolCallArray.length) {
       functionArray.push(dummyFunction);
@@ -78,7 +78,14 @@ describe("tracing test suite", () => {
     }
   };
 
-  const handleToolCalls = (functionArray: Array<any>) => {
+  const handleToolCalls = (
+    functionArray: Array<any>,
+  ): {
+    role: string;
+    content: string;
+    tool_call_id: any;
+    name: any;
+  }[] => {
     const messageArray = [];
     for (const func of functionArray) {
       const funcArgs = JSON.parse(func.arguments);
@@ -115,7 +122,6 @@ describe("tracing test suite", () => {
         content: "What's the weather like in Boston?",
       },
       {
-        content: null,
         role: "assistant",
         tool_calls: [
           {

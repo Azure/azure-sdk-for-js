@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure/core-client";
-import type { DTDL } from "./psuedoDtdl";
+import type { DTDL } from "./psuedoDtdl.js";
 
 /**
  * Base Interface for Fetchers, which fetch models from endpoints.

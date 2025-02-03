@@ -155,7 +155,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [transformationscreateorreplacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/streamanalytics/arm-streamanalytics/samples/v5-beta/typescript/src/transformationsCreateOrReplaceSample.ts
 [transformationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/streamanalytics/arm-streamanalytics/samples/v5-beta/typescript/src/transformationsGetSample.ts
 [transformationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/streamanalytics/arm-streamanalytics/samples/v5-beta/typescript/src/transformationsUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-streamanalytics?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-streamanalytics?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/streamanalytics/arm-streamanalytics/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

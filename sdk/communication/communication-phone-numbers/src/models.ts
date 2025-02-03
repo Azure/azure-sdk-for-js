@@ -7,7 +7,7 @@ import type {
   PhoneNumberSearchRequest,
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
-} from "./generated/src/models/";
+} from "./generated/src/models/index.js";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -113,9 +113,9 @@ export {
   OperatorInformationOptions,
   OperatorInformationResult,
   OperatorNumberType,
-} from "./generated/src/models/";
+} from "./generated/src/models/index.js";
 
-export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";
+export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models/index.js";
 
 /**
  * Represents a SIP trunk for routing calls. See RFC 4904.

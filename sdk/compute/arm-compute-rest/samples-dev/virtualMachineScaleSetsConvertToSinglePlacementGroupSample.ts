@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachineScaleSetsConvertToSinglePlacementGroupParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen() {
+async function virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -45,7 +40,7 @@ virtualMachineScaleSetsConvertToSinglePlacementGroupMaximumSetGen().catch(consol
  * @summary Converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen() {
+async function virtualMachineScaleSetsConvertToSinglePlacementGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

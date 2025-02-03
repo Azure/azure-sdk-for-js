@@ -20,6 +20,10 @@ import {
   MachineExtension as MachineExtensionMapper,
   MachineExtensionUpdate as MachineExtensionUpdateMapper,
   MachineExtensionUpgrade as MachineExtensionUpgradeMapper,
+  MachineRunCommand as MachineRunCommandMapper,
+  Gateway as GatewayMapper,
+  GatewayUpdate as GatewayUpdateMapper,
+  Settings as SettingsMapper,
   HybridComputePrivateLinkScope as HybridComputePrivateLinkScopeMapper,
   TagsResource as TagsResourceMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
@@ -69,7 +73,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-07-10",
+    defaultValue: "2024-07-31-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -307,6 +311,110 @@ export const version: OperationURLParameter = {
   },
 };
 
+export const runCommandProperties: OperationParameter = {
+  parameterPath: "runCommandProperties",
+  mapper: MachineRunCommandMapper,
+};
+
+export const runCommandName: OperationURLParameter = {
+  parameterPath: "runCommandName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+"),
+    },
+    serializedName: "runCommandName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayMapper,
+};
+
+export const gatewayName: OperationURLParameter = {
+  parameterPath: "gatewayName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+"),
+    },
+    serializedName: "gatewayName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: GatewayUpdateMapper,
+};
+
+export const baseProvider: OperationURLParameter = {
+  parameterPath: "baseProvider",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+"),
+    },
+    serializedName: "baseProvider",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const baseResourceType: OperationURLParameter = {
+  parameterPath: "baseResourceType",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+"),
+    },
+    serializedName: "baseResourceType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const baseResourceName: OperationURLParameter = {
+  parameterPath: "baseResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+"),
+    },
+    serializedName: "baseResourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const settingsResourceName: OperationURLParameter = {
+  parameterPath: "settingsResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("default"),
+    },
+    serializedName: "settingsResourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SettingsMapper,
+};
+
 export const scopeName: OperationURLParameter = {
   parameterPath: "scopeName",
   mapper: {
@@ -321,7 +429,7 @@ export const scopeName: OperationURLParameter = {
   },
 };
 
-export const parameters4: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: HybridComputePrivateLinkScopeMapper,
 };
@@ -360,6 +468,7 @@ export const machineName2: OperationURLParameter = {
   parameterPath: "machineName",
   mapper: {
     constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-_\\.]{1,54}$"),
       MinLength: 1,
     },
     serializedName: "machineName",
@@ -392,7 +501,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   },
 };
 
-export const parameters5: OperationParameter = {
+export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper,
 };

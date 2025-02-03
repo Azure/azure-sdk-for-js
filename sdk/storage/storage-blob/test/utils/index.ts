@@ -235,8 +235,8 @@ export async function createRandomLocalFile(
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    function randomValueHex(blockIndex: number) {
-      if (blockSizeOrContent instanceof Buffer) {
+    function randomValueHex(blockIndex: number): string | Buffer<ArrayBufferLike> {
+      if (typeof blockSizeOrContent !== "number") {
         return blockSizeOrContent;
       }
 

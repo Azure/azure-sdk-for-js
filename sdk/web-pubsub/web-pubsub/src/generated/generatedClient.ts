@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { HealthApiImpl, WebPubSubImpl } from "./operations";
-import { HealthApi, WebPubSub } from "./operationsInterfaces";
-import { GeneratedClientOptionalParams } from "./models";
+import { HealthApiImpl, WebPubSubImpl } from "./operations/index.js";
+import { HealthApi, WebPubSub } from "./operationsInterfaces/index.js";
+import { GeneratedClientOptionalParams } from "./models/index.js";
 
 /** @internal */
 export class GeneratedClient extends coreClient.ServiceClient {

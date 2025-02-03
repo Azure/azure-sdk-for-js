@@ -111,6 +111,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [webhookgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appcomplianceautomation/arm-appcomplianceautomation/samples/v1/javascript/webhookGetSample.js
 [webhooklistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appcomplianceautomation/arm-appcomplianceautomation/samples/v1/javascript/webhookListSample.js
 [webhookupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appcomplianceautomation/arm-appcomplianceautomation/samples/v1/javascript/webhookUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appcomplianceautomation?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appcomplianceautomation?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcomplianceautomation/arm-appcomplianceautomation/README.md

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the replicas for a given configuration store.
  *
  * @summary Lists the replicas for a given configuration store.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresListReplicas.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresListReplicas.json
  */
 async function replicasListByConfigurationStore() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function replicasListByConfigurationStore() {
   const resArray = new Array();
   for await (let item of client.replicas.listByConfigurationStore(
     resourceGroupName,
-    configStoreName
+    configStoreName,
   )) {
     resArray.push(item);
   }

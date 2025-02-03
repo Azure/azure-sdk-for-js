@@ -5,7 +5,7 @@
  * @file Rule to force package.json's license value to be set to "MIT".
  */
 
-import { VerifierMessages, createRule, getVerifiers, stripPath } from "../utils";
+import { VerifierMessages, createRule, getVerifiers, stripPath } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition

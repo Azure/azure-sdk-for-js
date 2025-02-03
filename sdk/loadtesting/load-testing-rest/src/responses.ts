@@ -19,7 +19,7 @@ import type {
   DimensionValueListOutput,
   TestRunAppComponentsOutput,
   TestRunServerMetricConfigOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Create a new test or update an existing test. */
 export interface TestCreateOrUpdate200Response extends HttpResponse {

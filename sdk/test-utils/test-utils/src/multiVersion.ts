@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { env, isLiveMode } from "@azure-tools/test-recorder";
-import { getGlobalObject } from "./global";
 
 export interface TestFunctionWrapper {
   it:
@@ -169,12 +168,12 @@ export function supports(
   // Record and playback depends on titles for recording file names so keeping them
   // in order to be compatible with existing recordings.
   const wrappedDescribe = isLiveMode()
-    ? function (title: string, fn: Mocha.Func | Mocha.AsyncFunc) {
+    ? function (title: string, fn: (this: Mocha.Suite) => void) {
         return supports.global.describe(`${title} (service version ${currentVersion})`, fn);
       }
     : supports.global.describe;
   const wrappedDescribeOnly = isLiveMode()
-    ? function (title: string, fn: Mocha.Func | Mocha.AsyncFunc) {
+    ? function (title: string, fn: (this: Mocha.Suite) => void) {
         return supports.global.describe.only(`${title} (service version ${currentVersion})`, fn);
       }
     : supports.global.describe.only;
@@ -197,7 +196,7 @@ export function supports(
   return chain;
 }
 
-supports.global = getGlobalObject();
+supports.global = globalThis;
 
 /**
  * Options to multi-service-version tests

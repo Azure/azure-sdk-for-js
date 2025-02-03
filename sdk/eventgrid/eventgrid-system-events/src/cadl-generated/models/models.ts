@@ -4,17 +4,17 @@
 /** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionAdded event. */
 export interface ApiCenterApiDefinitionAddedEventData {
   /** API definition title. */
-  title?: string;
+  title: string;
   /** API definition description. */
   description?: string;
   /** API definition specification. */
-  specification: ApiCenterApiSpecification;
+  specification?: ApiCenterApiSpecification;
 }
 
 /** API specification details. */
 export interface ApiCenterApiSpecification {
   /** Specification name. */
-  name?: string;
+  name: string;
   /** Specification version. */
   version?: string;
 }
@@ -22,11 +22,11 @@ export interface ApiCenterApiSpecification {
 /** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionUpdated event. */
 export interface ApiCenterApiDefinitionUpdatedEventData {
   /** API definition title. */
-  title?: string;
+  title: string;
   /** API definition description. */
   description?: string;
   /** API definition specification. */
-  specification: ApiCenterApiSpecification;
+  specification?: ApiCenterApiSpecification;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserCreated event. */
@@ -230,7 +230,7 @@ export interface AppConfigurationSnapshotModifiedEventData
 /** Schema of the Data property of an EventGridEvent for Microsoft.AVS/privateClouds events. */
 export interface AvsPrivateCloudEventData {
   /** Id of the operation that caused this event. */
-  operationId?: string;
+  operationId: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdating event. */
@@ -248,7 +248,7 @@ export interface AvsPrivateCloudFailedEventData extends AvsPrivateCloudEventData
 /** Schema of the Data property of an EventGridEvent for Microsoft.AVS/clusters events. */
 export interface AvsClusterEventData {
   /** Id of the operation that caused this event. */
-  operationId?: string;
+  operationId: string;
   /** Hosts added to the cluster in this event, if any. */
   addedHostNames?: string[];
   /** Hosts removed from the cluster in this event, if any. */
@@ -278,9 +278,9 @@ export interface AvsClusterFailedEventData extends AvsClusterEventData {
 /** Schema of the Data property of an EventGridEvent for Microsoft.AVS/scriptExecutions events. */
 export interface AvsScriptExecutionEventData {
   /** Id of the operation that caused this event. */
-  operationId?: string;
+  operationId: string;
   /** Cmdlet referenced in the execution that caused this event. */
-  cmdletId?: string;
+  cmdletId: string;
   /** Stdout outputs from the execution, if any. */
   output?: string[];
 }
@@ -317,6 +317,8 @@ export interface AcsIncomingCallEventData {
   customContext: AcsIncomingCallCustomContext;
   /** Signed incoming call context. */
   incomingCallContext?: string;
+  /** The communication identifier of the user on behalf of whom the call is made. */
+  onBehalfOfCallee?: CommunicationIdentifierModel;
   /** CorrelationId (CallId). */
   correlationId?: string;
 }
@@ -699,6 +701,8 @@ export interface AcsSmsReceivedEventData extends AcsSmsEventBase {
   message?: string;
   /** The time at which the SMS was received */
   receivedTimestamp: Date;
+  /** Number of segments in the message */
+  segmentCount: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RecordingFileStatusUpdated event. */
@@ -801,10 +805,12 @@ export type RecordingFormatType = string;
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailDeliveryReportReceived event. */
 export interface AcsEmailDeliveryReportReceivedEventData {
   /** The Sender Email Address */
-  sender?: string;
+  sender: string;
   /** The recipient Email Address */
-  recipient?: string;
-  /** The Id of the email been sent */
+  recipient: string;
+  /** The Internet Message Id of the email that has been sent */
+  internetMessageId: string;
+  /** The Id of the email that has been sent */
   messageId?: string;
   /** The status of the email. Any value other than Delivered is considered failed. */
   status: AcsEmailDeliveryReportStatus;
@@ -848,6 +854,8 @@ export type AcsEmailDeliveryReportStatus = string;
 export interface AcsEmailDeliveryReportStatusDetails {
   /** Detailed status message */
   statusMessage?: string;
+  /** Recipient mail server host name */
+  recipientMailServerHostName?: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailEngagementTrackingReportReceived event. */
@@ -1495,29 +1503,29 @@ export interface AcsMessageInteractiveListReplyContent {
 /** The content of the event request message. */
 export interface ContainerRegistryEventData {
   /** The event ID. */
-  id?: string;
+  id: string;
   /** The time at which the event occurred. */
   timestamp: Date;
   /** The action that encompasses the provided event. */
-  action?: string;
+  action: string;
   /** The location of the event. */
-  location?: string;
+  location: string;
   /** The target of the event. */
   target: ContainerRegistryEventTarget;
   /** The request that generated the event. */
-  request: ContainerRegistryEventRequest;
+  request?: ContainerRegistryEventRequest;
   /** The agent that initiated the event. For most situations, this could be from the authorization context of the request. */
-  actor: ContainerRegistryEventActor;
+  actor?: ContainerRegistryEventActor;
   /** The registry node that generated the event. Put differently, while the actor initiates the event, the source generates it. */
-  source: ContainerRegistryEventSource;
+  source?: ContainerRegistryEventSource;
   /** The connected registry information if the event is generated by a connected registry. */
-  connectedRegistry: ContainerRegistryEventConnectedRegistry;
+  connectedRegistry?: ContainerRegistryEventConnectedRegistry;
 }
 
 /** The target of the event. */
 export interface ContainerRegistryEventTarget {
   /** The MIME type of the referenced object. */
-  mediaType?: string;
+  mediaType: string;
   /** The number of bytes of the content. Same as Length field. */
   size?: number;
   /** The digest of the content, as defined by the Registry V2 HTTP API Specification. */
@@ -1525,7 +1533,7 @@ export interface ContainerRegistryEventTarget {
   /** The number of bytes of the content. Same as Size field. */
   length?: number;
   /** The repository name. */
-  repository?: string;
+  repository: string;
   /** The direct URL to the content. */
   url?: string;
   /** The tag name. */
@@ -1535,13 +1543,13 @@ export interface ContainerRegistryEventTarget {
 /** The request that generated the event. */
 export interface ContainerRegistryEventRequest {
   /** The ID of the request that initiated the event. */
-  id?: string;
+  id: string;
   /** The IP or hostname and possibly port of the client connection that initiated the event. This is the RemoteAddr from the standard http request. */
   addr?: string;
   /** The externally accessible hostname of the registry instance, as specified by the http host header on incoming requests. */
-  host?: string;
+  host: string;
   /** The request method that generated the event. */
-  method?: string;
+  method: string;
   /** The user agent header of the request. */
   useragent?: string;
 }
@@ -1563,7 +1571,7 @@ export interface ContainerRegistryEventSource {
 /** The connected registry information if the event is generated by a connected registry. */
 export interface ContainerRegistryEventConnectedRegistry {
   /** The name of the connected registry that generated this event. */
-  name?: string;
+  name: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ImagePushed event. */
@@ -1575,29 +1583,29 @@ export interface ContainerRegistryImageDeletedEventData extends ContainerRegistr
 /** The content of the event request message. */
 export interface ContainerRegistryArtifactEventData {
   /** The event ID. */
-  id?: string;
+  id: string;
   /** The time at which the event occurred. */
   timestamp: Date;
   /** The action that encompasses the provided event. */
-  action?: string;
+  action: string;
   /** The location of the event. */
-  location?: string;
+  location: string;
   /** The target of the event. */
   target: ContainerRegistryArtifactEventTarget;
   /** The connected registry information if the event is generated by a connected registry. */
-  connectedRegistry: ContainerRegistryEventConnectedRegistry;
+  connectedRegistry?: ContainerRegistryEventConnectedRegistry;
 }
 
 /** The target of the event. */
 export interface ContainerRegistryArtifactEventTarget {
   /** The MIME type of the artifact. */
-  mediaType?: string;
+  mediaType: string;
   /** The size in bytes of the artifact. */
   size?: number;
   /** The digest of the artifact. */
   digest?: string;
   /** The repository name of the artifact. */
-  repository?: string;
+  repository: string;
   /** The tag of the artifact. */
   tag?: string;
   /** The name of the artifact. */
@@ -1660,7 +1668,7 @@ export interface ContainerServiceNodePoolRollingFailedEventData
 /** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.CopyStarted event. */
 export interface DataBoxCopyStartedEventData {
   /** Serial Number of the device associated with the event. The list is comma separated if more than one serial number is associated. */
-  serialNumber?: string;
+  serialNumber: string;
   /** Name of the current Stage */
   stageName: DataBoxStageName;
   /** The time at which the stage happened. */
@@ -1691,7 +1699,7 @@ export type DataBoxStageName = string;
 /** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.CopyCompleted event. */
 export interface DataBoxCopyCompletedEventData {
   /** Serial Number of the device associated with the event. The list is comma separated if more than one serial number is associated. */
-  serialNumber?: string;
+  serialNumber: string;
   /** Name of the current Stage */
   stageName: DataBoxStageName;
   /** The time at which the stage happened. */
@@ -1701,7 +1709,7 @@ export interface DataBoxCopyCompletedEventData {
 /** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.OrderCompleted event. */
 export interface DataBoxOrderCompletedEventData {
   /** Serial Number of the device associated with the event. The list is comma separated if more than one serial number is associated. */
-  serialNumber?: string;
+  serialNumber: string;
   /** Name of the current Stage */
   stageName: DataBoxStageName;
   /** The time at which the stage happened. */
@@ -1770,9 +1778,9 @@ export interface MapsGeofenceResultEventData extends MapsGeofenceEvent {}
 /** Schema of the Data property of an EventGridEvent for a device life cycle event (DeviceCreated, DeviceDeleted). */
 export interface DeviceLifeCycleEvent {
   /** The unique identifier of the device. This case-sensitive string can be up to 128 characters long, and supports ASCII 7-bit alphanumeric characters plus the following special characters: - : . + % _ &#35; * ? ! ( ) , = `@` ; $ '. */
-  deviceId?: string;
+  deviceId: string;
   /** Name of the IoT Hub where the device was created or deleted. */
-  hubName?: string;
+  hubName: string;
   /** Information about the device twin, which is the cloud representation of application device metadata. */
   twin: DeviceTwinInfo;
 }
@@ -1780,25 +1788,25 @@ export interface DeviceLifeCycleEvent {
 /** Information about the device twin, which is the cloud representation of application device metadata. */
 export interface DeviceTwinInfo {
   /** Authentication type used for this device: either SAS, SelfSigned, or CertificateAuthority. */
-  authenticationType?: string;
+  authenticationType: string;
   /** Count of cloud to device messages sent to this device. */
-  cloudToDeviceMessageCount?: number;
+  cloudToDeviceMessageCount: number;
   /** Whether the device is connected or disconnected. */
-  connectionState?: string;
+  connectionState: string;
   /** The unique identifier of the device twin. */
-  deviceId?: string;
+  deviceId: string;
   /** A piece of information that describes the content of the device twin. Each etag is guaranteed to be unique per device twin. */
-  etag?: string;
+  etag: string;
   /** The ISO8601 timestamp of the last activity. */
-  lastActivityTime?: string;
+  lastActivityTime: string;
   /** Properties JSON element. */
   properties: DeviceTwinInfoProperties;
   /** Whether the device twin is enabled or disabled. */
-  status?: string;
+  status: string;
   /** The ISO8601 timestamp of the last device twin status update. */
-  statusUpdateTime?: string;
+  statusUpdateTime: string;
   /** An integer that is incremented by one each time the device twin is updated. */
-  version?: number;
+  version: number;
   /** The thumbprint is a unique value for the x509 certificate, commonly used to find a particular certificate in a certificate store. The thumbprint is dynamically generated using the SHA1 algorithm, and does not physically exist in the certificate. */
   x509Thumbprint: DeviceTwinInfoX509Thumbprint;
 }
@@ -1816,31 +1824,31 @@ export interface DeviceTwin {
   /** Metadata information for the properties JSON document. */
   metadata: DeviceTwinMetadata;
   /** Version of device twin properties. */
-  version?: number;
+  version: number;
 }
 
 /** Metadata information for the properties JSON document. */
 export interface DeviceTwinMetadata {
   /** The ISO8601 timestamp of the last time the properties were updated. */
-  lastUpdated?: string;
+  lastUpdated: string;
 }
 
 /** The thumbprint is a unique value for the x509 certificate, commonly used to find a particular certificate in a certificate store. The thumbprint is dynamically generated using the SHA1 algorithm, and does not physically exist in the certificate. */
 export interface DeviceTwinInfoX509Thumbprint {
   /** Primary thumbprint for the x509 certificate. */
-  primaryThumbprint?: string;
+  primaryThumbprint: string;
   /** Secondary thumbprint for the x509 certificate. */
-  secondaryThumbprint?: string;
+  secondaryThumbprint: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a device connection state event (DeviceConnected, DeviceDisconnected). */
 export interface DeviceConnectionStateEvent {
   /** The unique identifier of the device. This case-sensitive string can be up to 128 characters long, and supports ASCII 7-bit alphanumeric characters plus the following special characters: - : . + % _ &#35; * ? ! ( ) , = `@` ; $ '. */
-  deviceId?: string;
+  deviceId: string;
   /** The unique identifier of the module. This case-sensitive string can be up to 128 characters long, and supports ASCII 7-bit alphanumeric characters plus the following special characters: - : . + % _ &#35; * ? ! ( ) , = `@` ; $ '. */
   moduleId?: string;
   /** Name of the IoT Hub where the device was created or deleted. */
-  hubName?: string;
+  hubName: string;
   /** Information about the device connection state event. */
   deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
 }
@@ -1848,7 +1856,7 @@ export interface DeviceConnectionStateEvent {
 /** Information about the device connection state event. */
 export interface DeviceConnectionStateEventInfo {
   /** Sequence number is string representation of a hexadecimal number. string compare can be used to identify the larger number because both in ASCII and HEX numbers come after alphabets. If you are converting the string to hex, then the number is a 256 bit number. */
-  sequenceNumber?: string;
+  sequenceNumber: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a device telemetry event (DeviceTelemetry). */
@@ -1881,11 +1889,11 @@ export interface HealthcareFhirResourceCreatedEventData {
   /** Type of HL7 FHIR resource. */
   resourceType: HealthcareFhirResourceType;
   /** Domain name of FHIR account for this resource. */
-  resourceFhirAccount?: string;
+  resourceFhirAccount: string;
   /** Id of HL7 FHIR resource. */
-  resourceFhirId?: string;
+  resourceFhirId: string;
   /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
-  resourceVersionId?: number;
+  resourceVersionId: number;
 }
 
 /** Known values of {@link HealthcareFhirResourceType} that the service accepts. */
@@ -2388,11 +2396,11 @@ export interface HealthcareFhirResourceUpdatedEventData {
   /** Type of HL7 FHIR resource. */
   resourceType: HealthcareFhirResourceType;
   /** Domain name of FHIR account for this resource. */
-  resourceFhirAccount?: string;
+  resourceFhirAccount: string;
   /** Id of HL7 FHIR resource. */
-  resourceFhirId?: string;
+  resourceFhirId: string;
   /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
-  resourceVersionId?: number;
+  resourceVersionId: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceDeleted event. */
@@ -2400,239 +2408,239 @@ export interface HealthcareFhirResourceDeletedEventData {
   /** Type of HL7 FHIR resource. */
   resourceType: HealthcareFhirResourceType;
   /** Domain name of FHIR account for this resource. */
-  resourceFhirAccount?: string;
+  resourceFhirAccount: string;
   /** Id of HL7 FHIR resource. */
-  resourceFhirId?: string;
+  resourceFhirId: string;
   /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
-  resourceVersionId?: number;
+  resourceVersionId: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageCreated event. */
 export interface HealthcareDicomImageCreatedEventData {
   /** Data partition name */
-  partitionName?: string;
+  partitionName: string;
   /** Unique identifier for the Study */
-  imageStudyInstanceUid?: string;
+  imageStudyInstanceUid: string;
   /** Unique identifier for the Series */
-  imageSeriesInstanceUid?: string;
+  imageSeriesInstanceUid: string;
   /** Unique identifier for the DICOM Image */
-  imageSopInstanceUid?: string;
+  imageSopInstanceUid: string;
   /** Domain name of the DICOM account for this image. */
-  serviceHostName?: string;
+  serviceHostName: string;
   /** Sequence number of the DICOM Service within Azure Health Data Services. It is unique for every image creation and deletion within the service. */
-  sequenceNumber?: number;
+  sequenceNumber: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageDeleted event. */
 export interface HealthcareDicomImageDeletedEventData {
   /** Data partition name */
-  partitionName?: string;
+  partitionName: string;
   /** Unique identifier for the Study */
-  imageStudyInstanceUid?: string;
+  imageStudyInstanceUid: string;
   /** Unique identifier for the Series */
-  imageSeriesInstanceUid?: string;
+  imageSeriesInstanceUid: string;
   /** Unique identifier for the DICOM Image */
-  imageSopInstanceUid?: string;
+  imageSopInstanceUid: string;
   /** Host name of the DICOM account for this image. */
-  serviceHostName?: string;
+  serviceHostName: string;
   /** Sequence number of the DICOM Service within Azure Health Data Services. It is unique for every image creation and deletion within the service. */
-  sequenceNumber?: number;
+  sequenceNumber: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageUpdated event. */
 export interface HealthcareDicomImageUpdatedEventData {
   /** Data partition name */
-  partitionName?: string;
+  partitionName: string;
   /** Unique identifier for the Study */
-  imageStudyInstanceUid?: string;
+  imageStudyInstanceUid: string;
   /** Unique identifier for the Series */
-  imageSeriesInstanceUid?: string;
+  imageSeriesInstanceUid: string;
   /** Unique identifier for the DICOM Image */
-  imageSopInstanceUid?: string;
+  imageSopInstanceUid: string;
   /** Domain name of the DICOM account for this image. */
-  serviceHostName?: string;
+  serviceHostName: string;
   /** Sequence number of the DICOM Service within Azure Health Data Services. It is unique for every image creation, updation and deletion within the service. */
-  sequenceNumber?: number;
+  sequenceNumber: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.CertificateNewVersionCreated event. */
 export interface KeyVaultCertificateNewVersionCreatedEventData {
   /** The id of the object that triggered this event. */
-  id?: string;
+  id: string;
   /** Key vault name of the object that triggered this event. */
-  vaultName?: string;
+  vaultName: string;
   /** The type of the object that triggered this event */
-  objectType?: string;
+  objectType: string;
   /** The name of the object that triggered this event */
-  objectName?: string;
+  objectName: string;
   /** The version of the object that triggered this event */
-  version?: string;
+  version: string;
   /** Not before date of the object that triggered this event */
-  nBF?: number;
+  nBF: number;
   /** The expiration date of the object that triggered this event */
-  eXP?: number;
+  eXP: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.CertificateNearExpiry event. */
 export interface KeyVaultCertificateNearExpiryEventData {
   /** The id of the object that triggered this event. */
-  id?: string;
+  id: string;
   /** Key vault name of the object that triggered this event. */
-  vaultName?: string;
+  vaultName: string;
   /** The type of the object that triggered this event */
-  objectType?: string;
+  objectType: string;
   /** The name of the object that triggered this event */
-  objectName?: string;
+  objectName: string;
   /** The version of the object that triggered this event */
-  version?: string;
+  version: string;
   /** Not before date of the object that triggered this event */
-  nBF?: number;
+  nBF: number;
   /** The expiration date of the object that triggered this event */
-  eXP?: number;
+  eXP: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.CertificateExpired event. */
 export interface KeyVaultCertificateExpiredEventData {
   /** The id of the object that triggered this event. */
-  id?: string;
+  id: string;
   /** Key vault name of the object that triggered this event. */
-  vaultName?: string;
+  vaultName: string;
   /** The type of the object that triggered this event */
-  objectType?: string;
+  objectType: string;
   /** The name of the object that triggered this event */
-  objectName?: string;
+  objectName: string;
   /** The version of the object that triggered this event */
-  version?: string;
+  version: string;
   /** Not before date of the object that triggered this event */
-  nBF?: number;
+  nBF: number;
   /** The expiration date of the object that triggered this event */
-  eXP?: number;
+  eXP: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.KeyNewVersionCreated event. */
 export interface KeyVaultKeyNewVersionCreatedEventData {
   /** The id of the object that triggered this event. */
-  id?: string;
+  id: string;
   /** Key vault name of the object that triggered this event. */
-  vaultName?: string;
+  vaultName: string;
   /** The type of the object that triggered this event */
-  objectType?: string;
+  objectType: string;
   /** The name of the object that triggered this event */
-  objectName?: string;
+  objectName: string;
   /** The version of the object that triggered this event */
-  version?: string;
+  version: string;
   /** Not before date of the object that triggered this event */
-  nBF?: number;
+  nBF: number;
   /** The expiration date of the object that triggered this event */
-  eXP?: number;
+  eXP: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.KeyNearExpiry event. */
 export interface KeyVaultKeyNearExpiryEventData {
   /** The id of the object that triggered this event. */
-  id?: string;
+  id: string;
   /** Key vault name of the object that triggered this event. */
-  vaultName?: string;
+  vaultName: string;
   /** The type of the object that triggered this event */
-  objectType?: string;
+  objectType: string;
   /** The name of the object that triggered this event */
-  objectName?: string;
+  objectName: string;
   /** The version of the object that triggered this event */
-  version?: string;
+  version: string;
   /** Not before date of the object that triggered this event */
-  nBF?: number;
+  nBF: number;
   /** The expiration date of the object that triggered this event */
-  eXP?: number;
+  eXP: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.KeyExpired event. */
 export interface KeyVaultKeyExpiredEventData {
   /** The id of the object that triggered this event. */
-  id?: string;
+  id: string;
   /** Key vault name of the object that triggered this event. */
-  vaultName?: string;
+  vaultName: string;
   /** The type of the object that triggered this event */
-  objectType?: string;
+  objectType: string;
   /** The name of the object that triggered this event */
-  objectName?: string;
+  objectName: string;
   /** The version of the object that triggered this event */
-  version?: string;
+  version: string;
   /** Not before date of the object that triggered this event */
-  nBF?: number;
+  nBF: number;
   /** The expiration date of the object that triggered this event */
-  eXP?: number;
+  eXP: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.SecretNewVersionCreated event. */
 export interface KeyVaultSecretNewVersionCreatedEventData {
   /** The id of the object that triggered this event. */
-  id?: string;
+  id: string;
   /** Key vault name of the object that triggered this event. */
-  vaultName?: string;
+  vaultName: string;
   /** The type of the object that triggered this event */
-  objectType?: string;
+  objectType: string;
   /** The name of the object that triggered this event */
-  objectName?: string;
+  objectName: string;
   /** The version of the object that triggered this event */
-  version?: string;
+  version: string;
   /** Not before date of the object that triggered this event */
-  nBF?: number;
+  nBF: number;
   /** The expiration date of the object that triggered this event */
-  eXP?: number;
+  eXP: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.SecretNearExpiry event. */
 export interface KeyVaultSecretNearExpiryEventData {
   /** The id of the object that triggered this event. */
-  id?: string;
+  id: string;
   /** Key vault name of the object that triggered this event. */
-  vaultName?: string;
+  vaultName: string;
   /** The type of the object that triggered this event */
-  objectType?: string;
+  objectType: string;
   /** The name of the object that triggered this event */
-  objectName?: string;
+  objectName: string;
   /** The version of the object that triggered this event */
-  version?: string;
+  version: string;
   /** Not before date of the object that triggered this event */
-  nBF?: number;
+  nBF: number;
   /** The expiration date of the object that triggered this event */
-  eXP?: number;
+  eXP: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.SecretExpired event. */
 export interface KeyVaultSecretExpiredEventData {
   /** The id of the object that triggered this event. */
-  id?: string;
+  id: string;
   /** Key vault name of the object that triggered this event. */
-  vaultName?: string;
+  vaultName: string;
   /** The type of the object that triggered this event */
-  objectType?: string;
+  objectType: string;
   /** The name of the object that triggered this event */
-  objectName?: string;
+  objectName: string;
   /** The version of the object that triggered this event */
-  version?: string;
+  version: string;
   /** Not before date of the object that triggered this event */
-  nBF?: number;
+  nBF: number;
   /** The expiration date of the object that triggered this event */
-  eXP?: number;
+  eXP: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.VaultAccessPolicyChanged event. */
 export interface KeyVaultAccessPolicyChangedEventData {
   /** The id of the object that triggered this event. */
-  id?: string;
+  id: string;
   /** Key vault name of the object that triggered this event. */
-  vaultName?: string;
+  vaultName: string;
   /** The type of the object that triggered this event */
-  objectType?: string;
+  objectType: string;
   /** The name of the object that triggered this event */
-  objectName?: string;
+  objectName: string;
   /** The version of the object that triggered this event */
-  version?: string;
+  version: string;
   /** Not before date of the object that triggered this event */
-  nBF?: number;
+  nBF: number;
   /** The expiration date of the object that triggered this event */
-  eXP?: number;
+  eXP: number;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.ModelRegistered event. */
@@ -2715,479 +2723,22 @@ export interface MachineLearningServicesRunStatusChangedEventData {
   runStatus?: string;
 }
 
-/**
- * Schema of the Data property of an EventGridEvent for a
- *   Microsoft.Media.JobStateChange event.
- */
-export interface MediaJobStateChangeEventData {
-  /** The previous state of the Job. */
-  previousState: MediaJobState;
-  /** The new state of the Job. */
-  state: MediaJobState;
-  /** Gets the Job correlation data. */
-  correlationData: Record<string, string>;
-}
-
-/** Known values of {@link MediaJobState} that the service accepts. */
-export enum KnownMediaJobState {
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Canceling */
-  Canceling = "Canceling",
-  /** Error */
-  Error = "Error",
-  /** Finished */
-  Finished = "Finished",
-  /** Processing */
-  Processing = "Processing",
-  /** Queued */
-  Queued = "Queued",
-  /** Scheduled */
-  Scheduled = "Scheduled",
-}
-
-/**
- * State of a Media Job.
- * {@link KnownMediaJobState} can be used interchangeably with MediaJobState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Canceled**
- * **Canceling**
- * **Error**
- * **Finished**
- * **Processing**
- * **Queued**
- * **Scheduled**
- */
-export type MediaJobState = string;
-
-/** Details of JobOutput errors. */
-export interface MediaJobError {
-  /** Error code describing the error. */
-  code: MediaJobErrorCode;
-  /** A human-readable language-dependent representation of the error. */
-  message?: string;
-  /** Helps with categorization of errors. */
-  category: MediaJobErrorCategory;
-  /** Indicates that it may be possible to retry the Job. If retry is unsuccessful, please contact Azure support via Azure Portal. */
-  retry: MediaJobRetry;
-  /** An array of details about specific errors that led to this reported error. */
-  details: MediaJobErrorDetail[];
-}
-
-/** Known values of {@link MediaJobErrorCode} that the service accepts. */
-export enum KnownMediaJobErrorCode {
-  /** ServiceError */
-  ServiceError = "ServiceError",
-  /** ServiceTransientError */
-  ServiceTransientError = "ServiceTransientError",
-  /** DownloadNotAccessible */
-  DownloadNotAccessible = "DownloadNotAccessible",
-  /** DownloadTransientError */
-  DownloadTransientError = "DownloadTransientError",
-  /** UploadNotAccessible */
-  UploadNotAccessible = "UploadNotAccessible",
-  /** UploadTransientError */
-  UploadTransientError = "UploadTransientError",
-  /** ConfigurationUnsupported */
-  ConfigurationUnsupported = "ConfigurationUnsupported",
-  /** ContentMalformed */
-  ContentMalformed = "ContentMalformed",
-  /** ContentUnsupported */
-  ContentUnsupported = "ContentUnsupported",
-  /** IdentityUnsupported */
-  IdentityUnsupported = "IdentityUnsupported",
-}
-
-/**
- * Media Job Error Codes.
- * {@link KnownMediaJobErrorCode} can be used interchangeably with MediaJobErrorCode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ServiceError**
- * **ServiceTransientError**
- * **DownloadNotAccessible**
- * **DownloadTransientError**
- * **UploadNotAccessible**
- * **UploadTransientError**
- * **ConfigurationUnsupported**
- * **ContentMalformed**
- * **ContentUnsupported**
- * **IdentityUnsupported**
- */
-export type MediaJobErrorCode = string;
-
-/** Known values of {@link MediaJobErrorCategory} that the service accepts. */
-export enum KnownMediaJobErrorCategory {
-  /** Service */
-  Service = "Service",
-  /** Download */
-  Download = "Download",
-  /** Upload */
-  Upload = "Upload",
-  /** Configuration */
-  Configuration = "Configuration",
-  /** Content */
-  Content = "Content",
-  /** Account */
-  Account = "Account",
-}
-
-/**
- * Error categories for Media Job Errors.
- * {@link KnownMediaJobErrorCategory} can be used interchangeably with MediaJobErrorCategory,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Service**
- * **Download**
- * **Upload**
- * **Configuration**
- * **Content**
- * **Account**
- */
-export type MediaJobErrorCategory = string;
-
-/** Known values of {@link MediaJobRetry} that the service accepts. */
-export enum KnownMediaJobRetry {
-  /** DoNotRetry */
-  DoNotRetry = "DoNotRetry",
-  /** MayRetry */
-  MayRetry = "MayRetry",
-}
-
-/**
- * Media Job Retry Options.
- * {@link KnownMediaJobRetry} can be used interchangeably with MediaJobRetry,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DoNotRetry**
- * **MayRetry**
- */
-export type MediaJobRetry = string;
-
-/** Details of JobOutput errors. */
-export interface MediaJobErrorDetail {
-  /** Code describing the error detail. */
-  code?: string;
-  /** A human-readable representation of the error. */
-  message?: string;
-}
-
-/** The event data for a Job output. */
-export interface MediaJobOutput {
-  /** the discriminator possible values: #Microsoft.Media.JobOutputAsset */
-  "@odata.type": string;
-  /** Gets the Job output error. */
-  error: MediaJobError;
-  /** Gets the Job output label. */
-  label?: string;
-  /** Gets the Job output progress. */
-  progress: number;
-  /** Gets the Job output state. */
-  state: MediaJobState;
-}
-
-/** The event data for a Job output asset. */
-export interface MediaJobOutputAsset extends MediaJobOutput {
-  /** Gets the Job output asset name. */
-  assetName?: string;
-  /** The discriminator for derived types. */
-  "@odata.type": "#Microsoft.Media.JobOutputAsset";
-}
-
-/**
- * Job Output Progress Event Data. Schema of the Data property of an
- *   EventGridEvent for a Microsoft.Media.JobOutputProgress event.
- */
-export interface MediaJobOutputProgressEventData {
-  /** Gets the Job output label. */
-  label?: string;
-  /** Gets the Job output progress. */
-  progress?: number;
-  /** Gets the Job correlation data. */
-  jobCorrelationData: Record<string, string>;
-}
-
-/**
- * Schema of the Data property of an EventGridEvent for a
- *   Microsoft.Media.JobOutputStateChange event.
- */
-export interface MediaJobOutputStateChangeEventData {
-  /** The previous state of the Job. */
-  previousState: MediaJobState;
-  /** Gets the output. */
-  output: MediaJobOutputUnion;
-  /** Gets the Job correlation data. */
-  jobCorrelationData: Record<string, string>;
-}
-
-/**
- * Job scheduled event data. Schema of the data property of an EventGridEvent for
- * a Microsoft.Media.JobScheduled event.
- */
-export interface MediaJobScheduledEventData extends MediaJobStateChangeEventData {}
-
-/**
- * Job processing event data. Schema of the data property of an EventGridEvent for
- * a Microsoft.Media.JobProcessing event.
- */
-export interface MediaJobProcessingEventData extends MediaJobStateChangeEventData {}
-
-/**
- * Job canceling event data. Schema of the data property of an EventGridEvent for
- * a Microsoft.Media.JobCanceling event.
- */
-export interface MediaJobCancelingEventData extends MediaJobStateChangeEventData {}
-
-/**
- * Job finished event data. Schema of the data property of an EventGridEvent for a
- * Microsoft.Media.JobFinished event.
- */
-export interface MediaJobFinishedEventData extends MediaJobStateChangeEventData {
-  /** Gets the Job outputs. */
-  outputs: MediaJobOutputUnion[];
-}
-
-/**
- * Job canceled event data. Schema of the data property of an EventGridEvent for a
- * Microsoft.Media.JobCanceled event.
- */
-export interface MediaJobCanceledEventData extends MediaJobStateChangeEventData {
-  /** Gets the Job outputs. */
-  outputs: MediaJobOutputUnion[];
-}
-
-/**
- * Job error state event data. Schema of the data property of an EventGridEvent
- * for a Microsoft.Media.JobErrored event.
- */
-export interface MediaJobErroredEventData extends MediaJobStateChangeEventData {
-  /** Gets the Job outputs. */
-  outputs: MediaJobOutputUnion[];
-}
-
-/**
- * Job output canceled event data. Schema of the data property of an
- * EventGridEvent for a Microsoft.Media.JobOutputCanceled event.
- */
-export interface MediaJobOutputCanceledEventData extends MediaJobOutputStateChangeEventData {}
-
-/**
- * Job output canceling event data. Schema of the data property of an
- * EventGridEvent for a Microsoft.Media.JobOutputCanceling event.
- */
-export interface MediaJobOutputCancelingEventData extends MediaJobOutputStateChangeEventData {}
-
-/**
- * Job output error event data. Schema of the data property of an EventGridEvent
- * for a Microsoft.Media.JobOutputErrored event.
- */
-export interface MediaJobOutputErroredEventData extends MediaJobOutputStateChangeEventData {}
-
-/**
- * Job output finished event data. Schema of the data property of an
- * EventGridEvent for a Microsoft.Media.JobOutputFinished event.
- */
-export interface MediaJobOutputFinishedEventData extends MediaJobOutputStateChangeEventData {}
-
-/**
- * Job output processing event data. Schema of the data property of an
- * EventGridEvent for a Microsoft.Media.JobOutputProcessing event.
- */
-export interface MediaJobOutputProcessingEventData extends MediaJobOutputStateChangeEventData {}
-
-/**
- * Job output scheduled event data. Schema of the data property of an
- * EventGridEvent for a Microsoft.Media.JobOutputScheduled event.
- */
-export interface MediaJobOutputScheduledEventData extends MediaJobOutputStateChangeEventData {}
-
-/** Encoder connect event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventEncoderConnected event. */
-export interface MediaLiveEventEncoderConnectedEventData {
-  /** Gets the ingest URL provided by the live event. */
-  ingestUrl?: string;
-  /** Gets the stream Id. */
-  streamId?: string;
-  /** Gets the remote IP. */
-  encoderIp?: string;
-  /** Gets the remote port. */
-  encoderPort?: string;
-}
-
-/** Encoder connection rejected event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventConnectionRejected event. */
-export interface MediaLiveEventConnectionRejectedEventData {
-  /** Gets the ingest URL provided by the live event. */
-  ingestUrl?: string;
-  /** Gets the stream Id. */
-  streamId?: string;
-  /** Gets the remote IP. */
-  encoderIp?: string;
-  /** Gets the remote port. */
-  encoderPort?: string;
-  /** Gets the result code. */
-  resultCode?: string;
-}
-
-/** Encoder disconnected event data. Schema of the Data property of an EventGridEvent for a Microsoft.Media.LiveEventEncoderDisconnected event. */
-export interface MediaLiveEventEncoderDisconnectedEventData {
-  /** Gets the ingest URL provided by the live event. */
-  ingestUrl?: string;
-  /** Gets the stream Id. */
-  streamId?: string;
-  /** Gets the remote IP. */
-  encoderIp?: string;
-  /** Gets the remote port. */
-  encoderPort?: string;
-  /** Gets the result code. */
-  resultCode?: string;
-}
-
-/** Encoder connect event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventIncomingStreamReceived event. */
-export interface MediaLiveEventIncomingStreamReceivedEventData {
-  /** Gets the ingest URL provided by the live event. */
-  ingestUrl?: string;
-  /** Gets the type of the track (Audio / Video). */
-  trackType?: string;
-  /** Gets the track name. */
-  trackName?: string;
-  /** Gets the bitrate of the track. */
-  bitrate?: number;
-  /** Gets the remote IP. */
-  encoderIp?: string;
-  /** Gets the remote port. */
-  encoderPort?: string;
-  /** Gets the first timestamp of the data chunk received. */
-  timestamp?: string;
-  /** Gets the duration of the first data chunk. */
-  duration?: string;
-  /** Gets the timescale in which timestamp is represented. */
-  timescale?: string;
-}
-
-/** Incoming streams out of sync event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventIncomingStreamsOutOfSync event. */
-export interface MediaLiveEventIncomingStreamsOutOfSyncEventData {
-  /** Gets the minimum last timestamp received. */
-  minLastTimestamp?: string;
-  /** Gets the type of stream with minimum last timestamp. */
-  typeOfStreamWithMinLastTimestamp?: string;
-  /** Gets the maximum timestamp among all the tracks (audio or video). */
-  maxLastTimestamp?: string;
-  /** Gets the type of stream with maximum last timestamp. */
-  typeOfStreamWithMaxLastTimestamp?: string;
-  /** Gets the timescale in which"MinLastTimestamp\" is represented. */
-  timescaleOfMinLastTimestamp?: string;
-  /** Gets the timescale in which"MaxLastTimestamp\" is represented. */
-  timescaleOfMaxLastTimestamp?: string;
-}
-
-/** Incoming video stream out of sync event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync event. */
-export interface MediaLiveEventIncomingVideoStreamsOutOfSyncEventData {
-  /** Gets the first timestamp received for one of the quality levels. */
-  firstTimestamp?: string;
-  /** Gets the duration of the data chunk with first timestamp. */
-  firstDuration?: string;
-  /** Gets the timestamp received for some other quality levels. */
-  secondTimestamp?: string;
-  /** Gets the duration of the data chunk with second timestamp. */
-  secondDuration?: string;
-  /** Gets the timescale in which both the timestamps and durations are represented. */
-  timescale?: string;
-}
-
-/** Ingest fragment dropped event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventIncomingDataChunkDropped event. */
-export interface MediaLiveEventIncomingDataChunkDroppedEventData {
-  /** Gets the timestamp of the data chunk dropped. */
-  timestamp?: string;
-  /** Gets the type of the track (Audio / Video). */
-  trackType?: string;
-  /** Gets the bitrate of the track. */
-  bitrate?: number;
-  /** Gets the timescale of the Timestamp. */
-  timescale?: string;
-  /** Gets the result code for fragment drop operation. */
-  resultCode?: string;
-  /** Gets the name of the track for which fragment is dropped. */
-  trackName?: string;
-}
-
-/** Ingest heartbeat event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventIngestHeartbeat event. */
-export interface MediaLiveEventIngestHeartbeatEventData {
-  /** Gets the type of the track (Audio / Video). */
-  trackType?: string;
-  /** Gets the track name. */
-  trackName?: string;
-  /** Gets the Live Transcription language. */
-  transcriptionLanguage?: string;
-  /** Gets the Live Transcription state. */
-  transcriptionState?: string;
-  /** Gets the bitrate of the track. */
-  bitrate?: number;
-  /** Gets the incoming bitrate. */
-  incomingBitrate?: number;
-  /** Gets the track ingest drift value. */
-  ingestDriftValue?: string;
-  /** Gets the arrival UTC time of the last fragment. */
-  lastFragmentArrivalTime?: string;
-  /** Gets the last timestamp. */
-  lastTimestamp?: string;
-  /** Gets the timescale of the last timestamp. */
-  timescale?: string;
-  /** Gets the fragment Overlap count. */
-  overlapCount?: number;
-  /** Gets the fragment Discontinuity count. */
-  discontinuityCount?: number;
-  /** Gets Non increasing count. */
-  nonincreasingCount?: number;
-  /** Gets a value indicating whether unexpected bitrate is present or not. */
-  unexpectedBitrate?: boolean;
-  /** Gets the state of the live event. */
-  state?: string;
-  /** Gets a value indicating whether preview is healthy or not. */
-  healthy?: boolean;
-}
-
-/** Ingest track discontinuity detected event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventTrackDiscontinuityDetected event. */
-export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
-  /** Gets the type of the track (Audio / Video). */
-  trackType?: string;
-  /** Gets the track name. */
-  trackName?: string;
-  /** Gets the bitrate. */
-  bitrate?: number;
-  /** Gets the timestamp of the previous fragment. */
-  previousTimestamp?: string;
-  /** Gets the timestamp of the current fragment. */
-  newTimestamp?: string;
-  /** Gets the timescale in which both timestamps and discontinuity gap are represented. */
-  timescale?: string;
-  /** Gets the discontinuity gap between PreviousTimestamp and NewTimestamp. */
-  discontinuityGap?: string;
-}
-
-/** Channel Archive heartbeat event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventChannelArchiveHeartbeat event. */
-export interface MediaLiveEventChannelArchiveHeartbeatEventData {
-  /** Gets the channel latency in ms. */
-  channelLatencyMs: string;
-  /** Gets the latency result code. */
-  latencyResultCode: string;
-}
-
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateCreated event. */
 export interface PolicyInsightsPolicyStateCreatedEventData {
   /** The time that the resource was scanned by Azure Policy in the Universal ISO 8601 DateTime format yyyy-MM-ddTHH:mm:ss.fffffffZ. */
   timestamp: Date;
   /** The resource ID of the policy assignment. */
-  policyAssignmentId?: string;
+  policyAssignmentId: string;
   /** The resource ID of the policy definition. */
-  policyDefinitionId?: string;
+  policyDefinitionId: string;
   /** The reference ID for the policy definition inside the initiative definition, if the policy assignment is for an initiative. May be empty. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId: string;
   /** The compliance state of the resource with respect to the policy assignment. */
-  complianceState?: string;
+  complianceState: string;
   /** The subscription ID of the resource. */
-  subscriptionId?: string;
+  subscriptionId: string;
   /** The compliance reason code. May be empty. */
-  complianceReasonCode?: string;
+  complianceReasonCode: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateChanged event. */
@@ -3195,17 +2746,17 @@ export interface PolicyInsightsPolicyStateChangedEventData {
   /** The time that the resource was scanned by Azure Policy in the Universal ISO 8601 DateTime format yyyy-MM-ddTHH:mm:ss.fffffffZ. */
   timestamp: Date;
   /** The resource ID of the policy assignment. */
-  policyAssignmentId?: string;
+  policyAssignmentId: string;
   /** The resource ID of the policy definition. */
-  policyDefinitionId?: string;
+  policyDefinitionId: string;
   /** The reference ID for the policy definition inside the initiative definition, if the policy assignment is for an initiative. May be empty. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId: string;
   /** The compliance state of the resource with respect to the policy assignment. */
-  complianceState?: string;
+  complianceState: string;
   /** The subscription ID of the resource. */
-  subscriptionId?: string;
+  subscriptionId: string;
   /** The compliance reason code. May be empty. */
-  complianceReasonCode?: string;
+  complianceReasonCode: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateDeleted event. */
@@ -3213,23 +2764,23 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
   /** The time that the resource was scanned by Azure Policy in the Universal ISO 8601 DateTime format yyyy-MM-ddTHH:mm:ss.fffffffZ. */
   timestamp: Date;
   /** The resource ID of the policy assignment. */
-  policyAssignmentId?: string;
+  policyAssignmentId: string;
   /** The resource ID of the policy definition. */
-  policyDefinitionId?: string;
+  policyDefinitionId: string;
   /** The reference ID for the policy definition inside the initiative definition, if the policy assignment is for an initiative. May be empty. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId: string;
   /** The compliance state of the resource with respect to the policy assignment. */
-  complianceState?: string;
+  complianceState: string;
   /** The subscription ID of the resource. */
-  subscriptionId?: string;
+  subscriptionId: string;
   /** The compliance reason code. May be empty. */
-  complianceReasonCode?: string;
+  complianceReasonCode: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Cache.PatchingCompleted event. */
 export interface RedisPatchingCompletedEventData {
   /** The time at which the event occurred. */
-  timestamp: Date;
+  timestamp?: Date;
   /** The name of this event. */
   name?: string;
   /** The status of this event. Failed or  succeeded */
@@ -3239,7 +2790,7 @@ export interface RedisPatchingCompletedEventData {
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Cache.ScalingCompleted event. */
 export interface RedisScalingCompletedEventData {
   /** The time at which the event occurred. */
-  timestamp: Date;
+  timestamp?: Date;
   /** The name of this event. */
   name?: string;
   /** The status of this event. Failed or  succeeded */
@@ -3249,7 +2800,7 @@ export interface RedisScalingCompletedEventData {
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Cache.ExportRDBCompleted event. */
 export interface RedisExportRDBCompletedEventData {
   /** The time at which the event occurred. */
-  timestamp: Date;
+  timestamp?: Date;
   /** The name of this event. */
   name?: string;
   /** The status of this event. Failed or  succeeded */
@@ -3259,7 +2810,7 @@ export interface RedisExportRDBCompletedEventData {
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Cache.ImportRDBCompleted event. */
 export interface RedisImportRDBCompletedEventData {
   /** The time at which the event occurred. */
-  timestamp: Date;
+  timestamp?: Date;
   /** The name of this event. */
   name?: string;
   /** The status of this event. Failed or  succeeded */
@@ -3525,65 +3076,65 @@ export interface ResourceActionCancelEventData {
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners event. */
 export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {
   /** The namespace name of the Microsoft.ServiceBus resource. */
-  namespaceName?: string;
+  namespaceName: string;
   /** The endpoint of the Microsoft.ServiceBus resource. */
-  requestUri?: string;
+  requestUri: string;
   /** The entity type of the Microsoft.ServiceBus resource. Could be one of 'queue' or 'subscriber'. */
-  entityType?: string;
+  entityType: string;
   /** The name of the Microsoft.ServiceBus queue. If the entity type is of type 'subscriber', then this value will be null. */
-  queueName?: string;
+  queueName: string | null;
   /** The name of the Microsoft.ServiceBus topic. If the entity type is of type 'queue', then this value will be null. */
-  topicName?: string;
+  topicName: string | null;
   /** The name of the Microsoft.ServiceBus topic's subscription. If the entity type is of type 'queue', then this value will be null. */
-  subscriptionName?: string;
+  subscriptionName: string | null;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners event. */
 export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
   /** The namespace name of the Microsoft.ServiceBus resource. */
-  namespaceName?: string;
+  namespaceName: string;
   /** The endpoint of the Microsoft.ServiceBus resource. */
-  requestUri?: string;
+  requestUri: string;
   /** The entity type of the Microsoft.ServiceBus resource. Could be one of 'queue' or 'subscriber'. */
-  entityType?: string;
+  entityType: string;
   /** The name of the Microsoft.ServiceBus queue. If the entity type is of type 'subscriber', then this value will be null. */
-  queueName?: string;
+  queueName: string | null;
   /** The name of the Microsoft.ServiceBus topic. If the entity type is of type 'queue', then this value will be null. */
-  topicName?: string;
+  topicName: string | null;
   /** The name of the Microsoft.ServiceBus topic's subscription. If the entity type is of type 'queue', then this value will be null. */
-  subscriptionName?: string;
+  subscriptionName: string | null;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ServiceBus.ActiveMessagesAvailablePeriodicNotifications event. */
 export interface ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData {
   /** The namespace name of the Microsoft.ServiceBus resource. */
-  namespaceName?: string;
+  namespaceName: string;
   /** The endpoint of the Microsoft.ServiceBus resource. */
-  requestUri?: string;
+  requestUri: string;
   /** The entity type of the Microsoft.ServiceBus resource. Could be one of 'queue' or 'subscriber'. */
-  entityType?: string;
+  entityType: string;
   /** The name of the Microsoft.ServiceBus queue. If the entity type is of type 'subscriber', then this value will be null. */
-  queueName?: string;
+  queueName: string | null;
   /** The name of the Microsoft.ServiceBus topic. If the entity type is of type 'queue', then this value will be null. */
-  topicName?: string;
+  topicName: string | null;
   /** The name of the Microsoft.ServiceBus topic's subscription. If the entity type is of type 'queue', then this value will be null. */
-  subscriptionName?: string;
+  subscriptionName: string | null;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ServiceBus.DeadletterMessagesAvailablePeriodicNotifications event. */
 export interface ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData {
   /** The namespace name of the Microsoft.ServiceBus resource. */
-  namespaceName?: string;
+  namespaceName: string;
   /** The endpoint of the Microsoft.ServiceBus resource. */
-  requestUri?: string;
+  requestUri: string;
   /** The entity type of the Microsoft.ServiceBus resource. Could be one of 'queue' or 'subscriber'. */
-  entityType?: string;
+  entityType: string;
   /** The name of the Microsoft.ServiceBus queue. If the entity type is of type 'subscriber', then this value will be null. */
-  queueName?: string;
+  queueName: string | null;
   /** The name of the Microsoft.ServiceBus topic. If the entity type is of type 'queue', then this value will be null. */
-  topicName?: string;
+  topicName: string | null;
   /** The name of the Microsoft.ServiceBus topic's subscription. If the entity type is of type 'queue', then this value will be null. */
-  subscriptionName?: string;
+  subscriptionName: string | null;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.SignalRService.ClientConnectionConnected event. */
@@ -3591,9 +3142,9 @@ export interface SignalRServiceClientConnectionConnectedEventData {
   /** The time at which the event occurred. */
   timestamp: Date;
   /** The hub of connected client connection. */
-  hubName?: string;
+  hubName: string;
   /** The connection Id of connected client connection. */
-  connectionId?: string;
+  connectionId: string;
   /** The user Id of connected client connection. */
   userId?: string;
 }
@@ -3603,9 +3154,9 @@ export interface SignalRServiceClientConnectionDisconnectedEventData {
   /** The time at which the event occurred. */
   timestamp: Date;
   /** The hub of connected client connection. */
-  hubName?: string;
+  hubName: string;
   /** The connection Id of connected client connection. */
-  connectionId?: string;
+  connectionId: string;
   /** The user Id of connected client connection. */
   userId?: string;
   /** The message of error that cause the client connection disconnected. */
@@ -3775,6 +3326,8 @@ export interface StorageDirectoryRenamedEventData {
 export interface StorageLifecyclePolicyCompletedEventData {
   /** The time the policy task was scheduled. */
   scheduleTime?: string;
+  /** Policy execution summary which shows the completion status of a LCM run" */
+  policyRunSummary: StorageLifecyclePolicyRunSummary;
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
   deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
@@ -3784,6 +3337,33 @@ export interface StorageLifecyclePolicyCompletedEventData {
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
   tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
 }
+
+/** Policy run status of an account in a Blob Management cycle. */
+export interface StorageLifecyclePolicyRunSummary {
+  /** Policy status can be Completed/CompletedWithError/Incomplete. */
+  completionStatus: StorageLifecycleCompletionStatus;
+}
+
+/** Known values of {@link StorageLifecycleCompletionStatus} that the service accepts. */
+export enum KnownStorageLifecycleCompletionStatus {
+  /** Completed */
+  Completed = "Completed",
+  /** CompletedWithError */
+  CompletedWithError = "CompletedWithError",
+  /** Incomplete */
+  Incomplete = "Incomplete",
+}
+
+/**
+ * The status for a LCM policy.
+ * {@link KnownStorageLifecycleCompletionStatus} can be used interchangeably with StorageLifecycleCompletionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Completed**
+ * **CompletedWithError**
+ * **Incomplete**
+ */
+export type StorageLifecycleCompletionStatus = string;
 
 /** Execution statistics of a specific policy action in a Blob Management cycle. */
 export interface StorageLifecyclePolicyActionSummaryDetail {
@@ -4305,13 +3885,13 @@ export interface SubscriptionValidationEventData {
    * To complete the validation handshake, the subscriber must either respond with this validation code as part of the validation response,
    * or perform a GET request on the validationUrl (available starting version 2018-05-01-preview).
    */
-  validationCode?: string;
+  validationCode: string;
   /**
    * The validation URL sent by Azure Event Grid (available starting version 2018-05-01-preview).
    * To complete the validation handshake, the subscriber must either respond with the validationCode as part of the validation response,
    * or perform a GET request on the validationUrl (available starting version 2018-05-01-preview).
    */
-  validationUrl?: string;
+  validationUrl: string;
 }
 
 /**
@@ -4322,7 +3902,7 @@ export interface SubscriptionValidationEventData {
  */
 export interface SubscriptionValidationResponse {
   /** The validation response sent by the subscriber to Azure Event Grid to complete the validation of an event subscription. */
-  validationResponse?: string;
+  validationResponse: string;
 }
 
 /**
@@ -4331,7 +3911,7 @@ export interface SubscriptionValidationResponse {
  */
 export interface SubscriptionDeletedEventData {
   /** The Azure resource ID of the deleted event subscription. */
-  eventSubscriptionId?: string;
+  eventSubscriptionId: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for MQTT Client state changes. */
@@ -4341,11 +3921,11 @@ export interface EventGridMqttClientEventData {
    * for authentication. This case-sensitive string can be up to 128 characters
    * long, and supports UTF-8 characters.
    */
-  clientAuthenticationName?: string;
+  clientAuthenticationName: string;
   /** Name of the client resource in the Event Grid namespace. */
-  clientName?: string;
+  clientName: string;
   /** Name of the Event Grid namespace where the MQTT client was created or updated. */
-  namespaceName?: string;
+  namespaceName: string;
 }
 
 /** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
@@ -4391,13 +3971,13 @@ export interface EventGridMqttClientSessionConnectedEventData extends EventGridM
    * Unique identifier for the MQTT client's session. This case-sensitive string can
    * be up to 128 characters long, and supports UTF-8 characters.
    */
-  clientSessionName?: string;
+  clientSessionName: string;
   /**
    * A number that helps indicate order of MQTT client session connected or
    * disconnected events. Latest event will have a sequence number that is higher
    * than the previous event.
    */
-  sequenceNumber?: number;
+  sequenceNumber: number;
 }
 
 /** Event data for Microsoft.EventGrid.MQTTClientSessionDisconnected event. */
@@ -4407,13 +3987,13 @@ export interface EventGridMqttClientSessionDisconnectedEventData
    * Unique identifier for the MQTT client's session. This case-sensitive string can
    * be up to 128 characters long, and supports UTF-8 characters.
    */
-  clientSessionName?: string;
+  clientSessionName: string;
   /**
    * A number that helps indicate order of MQTT client session connected or
    * disconnected events. Latest event will have a sequence number that is higher
    * than the previous event.
    */
-  sequenceNumber?: number;
+  sequenceNumber: number;
   /**
    * Reason for the disconnection of the MQTT client's session. The value could be
    * one of the values in the disconnection reasons table.
@@ -4473,7 +4053,7 @@ export interface ResourceNotificationsResourceUpdatedEventData {
   /** details about operational info */
   operationalDetails: ResourceNotificationsOperationalDetails;
   /** api version of the resource properties bag */
-  apiVersion?: string;
+  apiVersion: string;
 }
 
 /**
@@ -4482,17 +4062,17 @@ export interface ResourceNotificationsResourceUpdatedEventData {
  */
 export interface ResourceNotificationsResourceUpdatedDetails {
   /** id of the resource for which the event is being emitted */
-  id?: string;
+  id: string;
   /** name of the resource for which the event is being emitted */
-  name?: string;
+  name: string;
   /** the type of the resource for which the event is being emitted */
-  type?: string;
+  type: string;
   /** the location of the resource for which the event is being emitted */
   location?: string;
   /** the tags on the resource for which the event is being emitted */
-  tags: Record<string, string>;
+  tags?: Record<string, string>;
   /** properties in the payload of the resource for which the event is being emitted */
-  properties: Record<string, any>;
+  properties?: Record<string, any>;
 }
 
 /** details of operational info */
@@ -4517,11 +4097,17 @@ export interface ResourceNotificationsHealthResourcesAnnotatedEventData
   extends ResourceNotificationsResourceUpdatedEventData {}
 
 /**
- * Schema of the Data property of an EventGridEvent for a
- * Microsoft.ResourceNotifications.Resources.CreatedOrUpdated event.
+ * Describes the schema of the properties under resource info which are common
+ * across all ARN system topic delete events
  */
-export interface ResourceNotificationsResourceManagementCreatedOrUpdatedEventData
-  extends ResourceNotificationsResourceUpdatedEventData {}
+export interface ResourceNotificationsResourceDeletedDetails {
+  /** id of the resource for which the event is being emitted */
+  id: string;
+  /** name of the resource for which the event is being emitted */
+  name: string;
+  /** the type of the resource for which the event is being emitted */
+  type: string;
+}
 
 /**
  * Describes the schema of the common properties across all ARN system topic
@@ -4535,17 +4121,11 @@ export interface ResourceNotificationsResourceDeletedEventData {
 }
 
 /**
- * Describes the schema of the properties under resource info which are common
- * across all ARN system topic delete events
+ * Schema of the Data property of an EventGridEvent for a
+ * Microsoft.ResourceNotifications.Resources.CreatedOrUpdated event.
  */
-export interface ResourceNotificationsResourceDeletedDetails {
-  /** id of the resource for which the event is being emitted */
-  id?: string;
-  /** name of the resource for which the event is being emitted */
-  name?: string;
-  /** the type of the resource for which the event is being emitted */
-  type?: string;
-}
+export interface ResourceNotificationsResourceManagementCreatedOrUpdatedEventData
+  extends ResourceNotificationsResourceUpdatedEventData {}
 
 /**
  * Schema of the Data property of an EventGridEvent for a
@@ -4554,7 +4134,9 @@ export interface ResourceNotificationsResourceDeletedDetails {
 export interface ResourceNotificationsResourceManagementDeletedEventData
   extends ResourceNotificationsResourceDeletedEventData {}
 
+/** Schema of the Data property of an event grid event for a Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted preview event. */
+export interface ResourceNotificationsContainerServiceEventResourcesScheduledEventData
+  extends ResourceNotificationsResourceUpdatedEventData {}
+
 /** Type of ServiceApiVersions */
 export type ServiceApiVersions = "2018-01-01" | "2024-01-01";
-/** Alias for MediaJobOutputUnion */
-export type MediaJobOutputUnion = MediaJobOutputAsset | MediaJobOutput;

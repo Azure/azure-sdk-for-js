@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PipelineResponse } from "@azure/core-rest-pipeline";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 
 interface Dimensions {
   width: number;

@@ -204,6 +204,7 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 export interface AcsEmailDeliveryReportReceivedEventData {
     deliveryAttemptTimestamp: string;
     deliveryStatusDetails: AcsEmailDeliveryReportStatusDetails;
+    internetMessageId: string;
     messageId: string;
     recipient: string;
     sender: string;
@@ -215,6 +216,7 @@ export type AcsEmailDeliveryReportStatus = string;
 
 // @public
 export interface AcsEmailDeliveryReportStatusDetails {
+    recipientMailServerHostName: string;
     statusMessage: string;
 }
 
@@ -637,8 +639,9 @@ export interface AcsSmsEventBase {
 
 // @public
 export type AcsSmsReceivedEventData = AcsSmsEventBase & {
-    message: string;
-    receivedTimestamp: string;
+    message?: string;
+    receivedTimestamp?: string;
+    segmentCount: number;
 };
 
 // @public
@@ -1847,6 +1850,16 @@ export const enum KnownStampKind {
 }
 
 // @public
+export const enum KnownStorageLifecycleCompletionStatus {
+    // (undocumented)
+    Completed = "Completed",
+    // (undocumented)
+    CompletedWithError = "CompletedWithError",
+    // (undocumented)
+    Incomplete = "Incomplete"
+}
+
+// @public
 export const enum KnownStorageTaskAssignmentCompletedStatus {
     // (undocumented)
     Failed = "Failed",
@@ -2341,6 +2354,9 @@ export interface ResourceHttpRequest {
 }
 
 // @public
+export type ResourceNotificationsContainerServiceEventResourcesScheduledEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+// @public
 export type ResourceNotificationsHealthResourcesAnnotatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
 
 // @public
@@ -2615,6 +2631,9 @@ export interface StorageDirectoryRenamedEventData {
 }
 
 // @public
+export type StorageLifecycleCompletionStatus = string;
+
+// @public
 export interface StorageLifecyclePolicyActionSummaryDetail {
     errorList: string;
     successCount: number;
@@ -2624,10 +2643,16 @@ export interface StorageLifecyclePolicyActionSummaryDetail {
 // @public
 export interface StorageLifecyclePolicyCompletedEventData {
     deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
+    policyRunSummary: StorageLifecyclePolicyRunSummary;
     scheduleTime: string;
     tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
     tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
     tierToCoolSummary: StorageLifecyclePolicyActionSummaryDetail;
+}
+
+// @public
+export interface StorageLifecyclePolicyRunSummary {
+    completionStatus: StorageLifecycleCompletionStatus;
 }
 
 // @public
@@ -2847,6 +2872,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.PolicyInsights.PolicyStateChanged ": PolicyInsightsPolicyStateChangedEventData;
     "Microsoft.PolicyInsights.PolicyStateCreated": PolicyInsightsPolicyStateCreatedEventData;
     "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
+    "Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted": ResourceNotificationsContainerServiceEventResourcesScheduledEventData;
     "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;
     "Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated": ResourceNotificationsHealthResourcesAnnotatedEventData;
     "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;

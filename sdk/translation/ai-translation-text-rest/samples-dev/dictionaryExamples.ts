@@ -4,20 +4,18 @@
 /**
  * @summary This sample demonstrates how to make a simple call to the Azure Text Translator service to get grammatical structure and context examples for the source term and target term pair.
  */
-import TextTranslationClient, {
+import type {
   TranslatorCredential,
   DictionaryExampleTextItem,
-  isUnexpected,
 } from "@azure-rest/ai-translation-text";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
+import "dotenv/config";
 
 const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 const apiKey = process.env["TEXT_TRANSLATOR_API_KEY"] || "<api key>";
 const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Dictionary Examples sample ==");
 
   const translateCedential: TranslatorCredential = {

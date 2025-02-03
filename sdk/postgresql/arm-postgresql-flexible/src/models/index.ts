@@ -179,7 +179,7 @@ export interface ConfigurationListResult {
 
 /** Represents a Configuration. */
 export interface ConfigurationForUpdate {
-  /** Value of the configuration. */
+  /** Value of the configuration. Required to update the configuration. */
   value?: string;
   /**
    * Description of the configuration.
@@ -201,7 +201,7 @@ export interface ConfigurationForUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allowedValues?: string;
-  /** Source of the configuration. */
+  /** Source of the configuration. Required to update the configuration. */
   source?: string;
   /**
    * Configuration dynamic or static.
@@ -414,6 +414,8 @@ export interface ServerForUpdate {
   identity?: UserAssignedIdentity;
   /** Application-specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
+  /** The administrator's login name of a server. Can only be specified when the server is trying to switch to password authentication and does not have default administrator login. */
+  administratorLogin?: string;
   /**
    * The password of the administrator login.
    * This value contains a credential. Consider obscuring before showing to users
@@ -672,9 +674,9 @@ export interface MigrationResourceForPatch {
   tags?: { [propertyName: string]: string };
   /** ResourceId of the source database server */
   sourceDbServerResourceId?: string;
-  /** Source server fully qualified domain name or ip. It is a optional value, if customer provide it, dms will always use it for connection */
+  /** Source server fully qualified domain name (FQDN) or IP address. It is a optional value, if customer provide it, migration service will always use it for connection */
   sourceDbServerFullyQualifiedDomainName?: string;
-  /** Target server fully qualified domain name or ip. It is a optional value, if customer provide it, dms will always use it for connection */
+  /** Target server fully qualified domain name (FQDN) or IP address. It is a optional value, if customer provide it, migration service will always use it for connection */
   targetDbServerFullyQualifiedDomainName?: string;
   /** Migration secret parameters */
   secretParameters?: MigrationSecretParameters;
@@ -826,42 +828,6 @@ export interface PrivateLinkResourceListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** Capability for the PostgreSQL server */
-export interface QuotaUsagesListResult {
-  /**
-   * A list of quota usages.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: QuotaUsage[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Quota usage for flexible servers */
-export interface QuotaUsage {
-  /** Name of quota usage for flexible servers */
-  name?: NameProperty;
-  /** Quota limit */
-  limit?: number;
-  /** Quota unit */
-  unit?: string;
-  /** Current Quota usage value */
-  currentValue?: number;
-  /** Fully qualified ARM resource Id */
-  id?: string;
-}
-
-/** Name property for quota usage */
-export interface NameProperty {
-  /** Name value */
-  value?: string;
-  /** Localized name */
-  localizedValue?: string;
 }
 
 /** A List of logFiles. */
@@ -1282,7 +1248,7 @@ export interface ServerBackup extends ProxyResource {
 
 /** Represents a Configuration. */
 export interface Configuration extends ProxyResource {
-  /** Value of the configuration. */
+  /** Value of the configuration. Required to update the configuration. */
   value?: string;
   /**
    * Description of the configuration.
@@ -1304,7 +1270,7 @@ export interface Configuration extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allowedValues?: string;
-  /** Source of the configuration. */
+  /** Source of the configuration. Required to update the configuration. */
   source?: string;
   /**
    * Configuration dynamic or static.
@@ -1506,14 +1472,14 @@ export interface MigrationResource extends TrackedResource {
   readonly targetDbServerMetadata?: DbServerMetadata;
   /** ResourceId of the source database server in case the sourceType is PostgreSQLSingleServer. For other source types this should be ipaddress:port@username or hostname:port@username */
   sourceDbServerResourceId?: string;
-  /** Source server fully qualified domain name or ip. It is a optional value, if customer provide it, dms will always use it for connection */
+  /** Source server fully qualified domain name (FQDN) or IP address. It is a optional value, if customer provide it, migration service will always use it for connection */
   sourceDbServerFullyQualifiedDomainName?: string;
   /**
    * ResourceId of the source database server
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly targetDbServerResourceId?: string;
-  /** Target server fully qualified domain name or ip. It is a optional value, if customer provide it, dms will always use it for connection */
+  /** Target server fully qualified domain name (FQDN) or IP address. It is a optional value, if customer provide it, migration service will always use it for connection */
   targetDbServerFullyQualifiedDomainName?: string;
   /** Migration secret parameters */
   secretParameters?: MigrationSecretParameters;
@@ -1548,6 +1514,16 @@ export interface AdministratorsCreateHeaders {
 
 /** Defines headers for Administrators_delete operation. */
 export interface AdministratorsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for Backups_create operation. */
+export interface BackupsCreateHeaders {
+  location?: string;
+}
+
+/** Defines headers for Backups_delete operation. */
+export interface BackupsDeleteHeaders {
   location?: string;
 }
 
@@ -1721,6 +1697,8 @@ export type CreatedByType = string;
 export enum KnownOrigin {
   /** Full */
   Full = "Full",
+  /** CustomerOnDemand */
+  CustomerOnDemand = "Customer On-Demand",
 }
 
 /**
@@ -1728,7 +1706,8 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Full**
+ * **Full** \
+ * **Customer On-Demand**
  */
 export type Origin = string;
 
@@ -1945,6 +1924,8 @@ export enum KnownIdentityType {
   None = "None",
   /** UserAssigned */
   UserAssigned = "UserAssigned",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
 }
 
 /**
@@ -1953,12 +1934,15 @@ export enum KnownIdentityType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None** \
- * **UserAssigned**
+ * **UserAssigned** \
+ * **SystemAssigned**
  */
 export type IdentityType = string;
 
 /** Known values of {@link ServerVersion} that the service accepts. */
 export enum KnownServerVersion {
+  /** Sixteen */
+  Sixteen = "16",
   /** Fifteen */
   Fifteen = "15",
   /** Fourteen */
@@ -1969,8 +1953,6 @@ export enum KnownServerVersion {
   Twelve = "12",
   /** Eleven */
   Eleven = "11",
-  /** Sixteen */
-  Sixteen = "16",
 }
 
 /**
@@ -1978,12 +1960,12 @@ export enum KnownServerVersion {
  * {@link KnownServerVersion} can be used interchangeably with ServerVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **16** \
  * **15** \
  * **14** \
  * **13** \
  * **12** \
- * **11** \
- * **16**
+ * **11**
  */
 export type ServerVersion = string;
 
@@ -3009,6 +2991,30 @@ export interface AdministratorsListByServerNextOptionalParams
 export type AdministratorsListByServerNextResponse = AdministratorListResult;
 
 /** Optional parameters. */
+export interface BackupsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type BackupsCreateResponse = ServerBackup;
+
+/** Optional parameters. */
+export interface BackupsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type BackupsDeleteResponse = BackupsDeleteHeaders;
+
+/** Optional parameters. */
 export interface BackupsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
@@ -3477,20 +3483,6 @@ export interface PrivateLinkResourcesListByServerNextOptionalParams
 /** Contains response data for the listByServerNext operation. */
 export type PrivateLinkResourcesListByServerNextResponse =
   PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface QuotaUsagesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type QuotaUsagesListResponse = QuotaUsagesListResult;
-
-/** Optional parameters. */
-export interface QuotaUsagesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type QuotaUsagesListNextResponse = QuotaUsagesListResult;
 
 /** Optional parameters. */
 export interface ReplicasListByServerOptionalParams

@@ -87,6 +87,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [datatypeslistbydataproductsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/javascript/dataTypesListByDataProductSample.js
 [datatypesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/javascript/dataTypesUpdateSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/javascript/operationsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-networkanalytics?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-networkanalytics?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkanalytics/arm-networkanalytics/README.md

@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for NetAppManagementClient.",
-  "version": "21.3.1",
+  "version": "21.4.0-beta.2",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -28,13 +28,13 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-netapp.d.ts",
   "devDependencies": {
-    "typescript": "~5.6.2",
+    "typescript": "~5.7.2",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.2.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.1.0",
-    "mocha": "^10.0.0",
+    "mocha": "^11.0.2",
     "@types/mocha": "^10.0.0",
     "tsx": "^4.7.1",
     "@types/chai": "^4.2.8",
@@ -67,7 +67,7 @@
     "types/*"
   ],
   "scripts": {
-    "build": "npm run clean && tsc && dev-tool run bundle && npm run minify && dev-tool run vendored mkdirp ./review && npm run extract-api",
+    "build": "npm run clean && tsc && dev-tool run bundle && npm run minify && npm run extract-api",
     "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "prepack": "npm run build",
     "pack": "npm pack 2>&1",
@@ -89,7 +89,8 @@
     "unit-test:browser": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
-    "integration-test:browser": "echo skipped"
+    "integration-test:browser": "echo skipped",
+    "update-snippets": "echo skipped"
   },
   "sideEffects": false,
   "//metadata": {
@@ -108,6 +109,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-netapp?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-netapp?view=azure-node-preview"
   }
 }

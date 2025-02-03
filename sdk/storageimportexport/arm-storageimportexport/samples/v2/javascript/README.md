@@ -89,6 +89,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storageimportexport/arm-storageimportexport/samples/v2/javascript/operationsListSample.js
 [updateexportjob]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storageimportexport/arm-storageimportexport/samples/v2/javascript/updateExportJob.js
 [updateimportjob]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storageimportexport/arm-storageimportexport/samples/v2/javascript/updateImportJob.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-storageimportexport?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-storageimportexport?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storageimportexport/arm-storageimportexport/README.md

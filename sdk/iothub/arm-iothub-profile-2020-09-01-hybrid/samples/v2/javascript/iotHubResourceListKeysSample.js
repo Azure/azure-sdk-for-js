@@ -13,9 +13,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Get the security metadata for an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
+ * This sample demonstrates how to Get the security metadata for an IoT hub. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
  *
- * @summary Get the security metadata for an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
+ * @summary Get the security metadata for an IoT hub. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2019-07-01-preview/examples/iothub_listkeys.json
  */
 async function iotHubResourceListKeys() {

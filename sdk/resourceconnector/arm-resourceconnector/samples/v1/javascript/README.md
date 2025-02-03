@@ -65,6 +65,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [applianceslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/javascript/appliancesListKeysSample.js
 [applianceslistoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/javascript/appliancesListOperationsSample.js
 [appliancesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourceconnector/arm-resourceconnector/samples/v1/javascript/appliancesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resourceconnector?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourceconnector?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourceconnector/arm-resourceconnector/README.md

@@ -241,7 +241,6 @@ describe("With messaging clients", function () {
           writerSchema,
           readerSchema,
           processMessage: async (p: Promise<unknown>) =>
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             assert.deepStrictEqual(await p, (({ favorite_color, ...rest }) => rest)(value)),
         });
       });

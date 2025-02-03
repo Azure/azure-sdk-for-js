@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AnalyzeDocumentOptions, FormRecognizerFeature } from "./AnalyzeDocumentOptions";
+import { AnalyzeDocumentOptions, FormRecognizerFeature } from "./AnalyzeDocumentOptions.js";
 import {
   CreateDocumentModelOptions,
   CommonModelCreationOptions,
   DocumentModelBuildMode,
   BeginBuildDocumentModelOptions,
   BeginComposeDocumentModelOptions,
-} from "./BuildModelOptions";
-import { BeginCopyModelOptions } from "./BeginCopyModelOptions";
-import { DeleteDocumentModelOptions } from "./DeleteModelOptions";
+} from "./BuildModelOptions.js";
+import { BeginCopyModelOptions } from "./BeginCopyModelOptions.js";
+import { DeleteDocumentModelOptions } from "./DeleteModelOptions.js";
 import {
   DocumentAnalysisClientOptions,
   DocumentModelAdministrationClientOptions,
   StringIndexType,
-} from "./FormRecognizerClientOptions";
-import { GetCopyAuthorizationOptions } from "./GetCopyAuthorizationOptions";
-import { GetResourceDetailsOptions } from "./GetResourceDetailsOptions";
-import { GetModelOptions } from "./GetModelOptions";
-import { GetOperationOptions } from "./GetOperationOptions";
-import { ListModelsOptions } from "./ListModelsOptions";
-import { ListOperationsOptions } from "./ListOperationsOptions";
-import { PollerOptions } from "./PollerOptions";
+} from "./FormRecognizerClientOptions.js";
+import { GetCopyAuthorizationOptions } from "./GetCopyAuthorizationOptions.js";
+import { GetResourceDetailsOptions } from "./GetResourceDetailsOptions.js";
+import { GetModelOptions } from "./GetModelOptions.js";
+import { GetOperationOptions } from "./GetOperationOptions.js";
+import { ListModelsOptions } from "./ListModelsOptions.js";
+import { ListOperationsOptions } from "./ListOperationsOptions.js";
+import { PollerOptions } from "./PollerOptions.js";
 
-import { BeginBuildDocumentClassifierOptions } from "./BuildDocumentClassifierOptions";
+import { BeginBuildDocumentClassifierOptions } from "./BuildDocumentClassifierOptions.js";
 
-import { ClassifyDocumentOptions } from "./ClassifyDocumentOptions";
+import { ClassifyDocumentOptions } from "./ClassifyDocumentOptions.js";
 
 export {
   AnalyzeDocumentOptions,

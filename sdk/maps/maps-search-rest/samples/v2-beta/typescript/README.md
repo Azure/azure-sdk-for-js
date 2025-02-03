@@ -67,8 +67,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [reversegeocoding]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search-rest/samples/v2-beta/typescript/src/reverseGeocoding.ts
 [reversegeocodingbatch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search-rest/samples/v2-beta/typescript/src/reverseGeocodingBatch.ts
 [searchpolygons]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/maps-search-rest/samples/v2-beta/typescript/src/searchPolygons.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/maps-search
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/maps-search
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuremapsresource]: https://docs.microsoft.com/azure/azure-maps/how-to-create-template
+[createinstance_azuremapsresource]: https://learn.microsoft.com/azure/azure-maps/how-to-create-template
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

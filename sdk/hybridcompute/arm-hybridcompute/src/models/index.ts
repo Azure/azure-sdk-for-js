@@ -230,6 +230,77 @@ export interface ServiceStatus {
   startupType?: string;
 }
 
+/** Describes the hardware of the machine */
+export interface HardwareProfile {
+  /**
+   * The total physical memory on the machine
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly totalPhysicalMemoryInBytes?: number;
+  /**
+   * The total number of CPU sockets available on the machine
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfCpuSockets?: number;
+  /**
+   * The physical processors of the machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly processors?: Processor[];
+}
+
+/** Describes the firmware of the machine */
+export interface Processor {
+  /**
+   * The name of the processor.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The total number of physical cores on the processor.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly numberOfCores?: number;
+}
+
+/** Describes the storage configuration of the machine */
+export interface StorageProfile {
+  /** The disks on the machine. */
+  disks?: Disk[];
+}
+
+/** Describes a disk on the machine */
+export interface Disk {
+  /** The path of the disk. */
+  path?: string;
+  /** The type of the disk. */
+  diskType?: string;
+  /** The generated ID of the disk. */
+  generatedId?: string;
+  /** The ID of the disk. */
+  id?: string;
+  /** The name of the disk. */
+  name?: string;
+  /** The size of the disk, in bytes */
+  maxSizeInBytes?: number;
+  /** The amount of space used on the disk, in bytes */
+  usedSpaceInBytes?: number;
+}
+
+/** Describes the firmware of the machine */
+export interface FirmwareProfile {
+  /**
+   * The serial number of the firmware
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serialNumber?: string;
+  /**
+   * The type of the firmware
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
 /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
 export interface CloudMetadata {
   /**
@@ -243,9 +314,9 @@ export interface CloudMetadata {
 export interface AgentUpgrade {
   /** Specifies the version info w.r.t AgentUpgrade for the machine. */
   desiredVersion?: string;
-  /** The correlation ID passed in from RSM per upgrade. */
+  /** The correlation ID associated with an agent upgrade operation. */
   correlationId?: string;
-  /** Specifies if RSM should try to upgrade this machine */
+  /** Specifies if the machine's agent should be upgraded */
   enableAutomaticUpgrade?: boolean;
   /**
    * Specifies the version of the last attempt
@@ -461,6 +532,12 @@ export interface NetworkProfile {
 
 /** Describes a network interface. */
 export interface NetworkInterface {
+  /** Represents MAC address of the network interface. */
+  macAddress?: string;
+  /** Represents the ID of the network interface. */
+  id?: string;
+  /** Represents the name of the network interface. */
+  name?: string;
   /** The list of IP addresses in this interface. */
   ipAddresses?: IpAddress[];
 }
@@ -873,6 +950,119 @@ export interface OperationValueDisplay {
   readonly provider?: string;
 }
 
+/** Describes the script sources for run command. Use only one of script, scriptUri, commandId. */
+export interface MachineRunCommandScriptSource {
+  /** Specifies the script content to be executed on the machine. */
+  script?: string;
+  /** Specifies the script download location. It can be either SAS URI of an Azure storage blob with read access or public URI. */
+  scriptUri?: string;
+  /** Specifies the commandId of predefined built-in script. */
+  commandId?: string;
+  /** User-assigned managed identity that has access to scriptUri in case of Azure storage blob. Use an empty object in case of system-assigned identity. Make sure the Azure storage blob exists, and managed identity has been given access to blob's container with 'Storage Blob Data Reader' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged. */
+  scriptUriManagedIdentity?: RunCommandManagedIdentity;
+}
+
+/**  Contains clientId or objectId (use only one, not both) of a user-assigned managed identity that has access to storage blob used in Run Command. Use an empty RunCommandManagedIdentity object in case of system-assigned identity. Make sure the Azure storage blob exists in case of scriptUri, and managed identity has been given access to blob's container with 'Storage Blob Data Reader' role assignment with scriptUri blob and 'Storage Blob Data Contributor' for Append blobs(outputBlobUri, errorBlobUri). In case of user assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged. */
+export interface RunCommandManagedIdentity {
+  /** Client Id (GUID value) of the user-assigned managed identity. ObjectId should not be used if this is provided. */
+  clientId?: string;
+  /** Object Id (GUID value) of the user-assigned managed identity. ClientId should not be used if this is provided. */
+  objectId?: string;
+}
+
+/** Describes the properties of a run command parameter. */
+export interface RunCommandInputParameter {
+  /** The run command parameter name. */
+  name: string;
+  /** The run command parameter value. */
+  value: string;
+}
+
+/** The instance view of a machine run command. */
+export interface MachineRunCommandInstanceView {
+  /** Script execution status. */
+  executionState?: ExecutionState;
+  /** Communicate script configuration errors or execution messages. */
+  executionMessage?: string;
+  /** Exit code returned from script execution. */
+  exitCode?: number;
+  /** Script output stream. */
+  output?: string;
+  /** Script error stream. */
+  error?: string;
+  /** Script start time. */
+  startTime?: Date;
+  /** Script end time. */
+  endTime?: Date;
+  /** The  status information. */
+  statuses?: ExtensionsResourceStatus[];
+}
+
+/** Instance view status. */
+export interface ExtensionsResourceStatus {
+  /** The status code. */
+  code?: string;
+  /** The level code. */
+  level?: ExtensionsStatusLevelTypes;
+  /** The short localizable label for the status. */
+  displayStatus?: string;
+  /** The detailed status message, including for alerts and error messages. */
+  message?: string;
+  /** The time of the status. */
+  time?: Date;
+}
+
+/** Describes the Run Commands List Result. */
+export interface MachineRunCommandsListResult {
+  /** The list of run commands */
+  value?: MachineRunCommand[];
+  /** The uri to fetch the next page of run commands. Call ListNext() with this to fetch the next page of run commands. */
+  nextLink?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponseAutoGenerated {
+  /** The error object. */
+  error?: ErrorDetailAutoGenerated;
+}
+
+/** The error detail. */
+export interface ErrorDetailAutoGenerated {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetailAutoGenerated[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The List license operation response. */
+export interface GatewaysListResult {
+  /** The list of Gateways. */
+  value: Gateway[];
+  /** The URI to fetch the next page of Gateways. Call ListNext() with this URI to fetch the next page of Gateways. */
+  nextLink?: string;
+}
+
 /** Describes the list of Azure Arc PrivateLinkScope resources. */
 export interface HybridComputePrivateLinkScopeListResult {
   /** List of Azure Arc PrivateLinkScope definitions. */
@@ -1246,18 +1436,30 @@ export interface NetworkSecurityPerimeterConfigurationReconcileResult {
   location?: string;
 }
 
-/** Instance view status. */
-export interface ExtensionsResourceStatus {
-  /** The status code. */
-  code?: string;
-  /** The level code. */
-  level?: ExtensionsStatusLevelTypes;
-  /** The short localizable label for the status. */
-  displayStatus?: string;
-  /** The detailed status message, including for alerts and error messages. */
-  message?: string;
-  /** The time of the status. */
-  time?: Date;
+/** List of HybridIdentityMetadata. */
+export interface HybridIdentityMetadataList {
+  /** Url to follow for getting next page of HybridIdentityMetadata. */
+  nextLink?: string;
+  /** Array of HybridIdentityMetadata */
+  value: HybridIdentityMetadata[];
+}
+
+/** Describes AgentVersions List. */
+export interface AgentVersionsList {
+  /** The list of available Agent Versions. */
+  value?: AgentVersion[];
+  /** The URI to fetch the next 10 available Agent Versions. */
+  nextLink?: string;
+}
+
+/** Describes properties of Agent Version. */
+export interface AgentVersion {
+  /** Represents the agent version. */
+  agentVersion?: string;
+  /** Represents the download link of specific agent version. */
+  downloadLink?: string;
+  /** Defines the os type. */
+  osType?: string;
 }
 
 /** Public key information for client authentication */
@@ -1354,6 +1556,12 @@ export interface MachineExtensionUpdate extends ResourceUpdate {
   protectedSettings?: { [propertyName: string]: any };
 }
 
+/** Describes a License Update. */
+export interface GatewayUpdate extends ResourceUpdate {
+  /** Specifies the list of features that are enabled for this Gateway. */
+  allowedFeatures?: string[];
+}
+
 /** Describes a hybrid machine Update. */
 export interface MachineUpdate extends ResourceUpdate {
   /** Identity for the resource. */
@@ -1373,6 +1581,9 @@ export interface MachineUpdate extends ResourceUpdate {
   /** The resource id of the private link scope this machine is assigned to, if any. */
   privateLinkScopeResourceId?: string;
 }
+
+/** Describes a Machine Extension Update. */
+export interface MachineRunCommandUpdate extends ResourceUpdate {}
 
 /** Describes the properties of a License Profile ARM model. */
 export interface LicenseProfileArmEsuPropertiesWithoutAssignedLicense
@@ -1396,6 +1607,14 @@ export interface LicenseProfileArmEsuPropertiesWithoutAssignedLicense
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends ResourceAutoGenerated {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
 
 /** An Azure Arc PrivateLinkScope definition. */
 export interface HybridComputePrivateLinkScope
@@ -1450,6 +1669,21 @@ export interface Machine extends TrackedResource {
   readonly agentConfiguration?: AgentConfiguration;
   /** Statuses of dependent services that are reported back to ARM. */
   serviceStatuses?: ServiceStatuses;
+  /**
+   * Information about the machine's hardware
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hardwareProfile?: HardwareProfile;
+  /**
+   * Information about the machine's storage
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageProfile?: StorageProfile;
+  /**
+   * Information about the machine's firmware
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly firmwareProfile?: FirmwareProfile;
   /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
   cloudMetadata?: CloudMetadata;
   /** The info of the machine w.r.t Agent Upgrade */
@@ -1628,6 +1862,52 @@ export interface LicenseProfile extends TrackedResource {
   softwareAssuranceCustomer?: boolean;
 }
 
+/** Describes a Run Command */
+export interface MachineRunCommand extends TrackedResource {
+  /** The source of the run command script. */
+  source?: MachineRunCommandScriptSource;
+  /** The parameters used by the script. */
+  parameters?: RunCommandInputParameter[];
+  /** The parameters used by the script. */
+  protectedParameters?: RunCommandInputParameter[];
+  /** Optional. If set to true, provisioning will complete as soon as script starts and will not wait for script to complete. */
+  asyncExecution?: boolean;
+  /** Specifies the user account on the machine when executing the run command. */
+  runAsUser?: string;
+  /** Specifies the user account password on the machine when executing the run command. */
+  runAsPassword?: string;
+  /** The timeout in seconds to execute the run command. */
+  timeoutInSeconds?: number;
+  /** Specifies the Azure storage blob where script output stream will be uploaded. Use a SAS URI with read, append, create, write access OR use managed identity to provide the VM access to the blob. Refer outputBlobManagedIdentity parameter. */
+  outputBlobUri?: string;
+  /** Specifies the Azure storage blob where script error stream will be uploaded. Use a SAS URI with read, append, create, write access OR use managed identity to provide the VM access to the blob. Refer errorBlobManagedIdentity parameter. */
+  errorBlobUri?: string;
+  /** User-assigned managed identity that has access to outputBlobUri storage blob. Use an empty object in case of system-assigned identity. Make sure managed identity has been given access to blob's container with 'Storage Blob Data Contributor' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged */
+  outputBlobManagedIdentity?: RunCommandManagedIdentity;
+  /** User-assigned managed identity that has access to errorBlobUri storage blob. Use an empty object in case of system-assigned identity. Make sure managed identity has been given access to blob's container with 'Storage Blob Data Contributor' role assignment. In case of user-assigned identity, make sure you add it under VM's identity. For more info on managed identity and Run Command, refer https://aka.ms/ManagedIdentity and https://aka.ms/RunCommandManaged */
+  errorBlobManagedIdentity?: RunCommandManagedIdentity;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The machine run command instance view.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instanceView?: MachineRunCommandInstanceView;
+}
+
+export interface Settings extends ProxyResourceAutoGenerated {
+  /**
+   * Azure resource tenant Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Associated Gateway Resource Id */
+  gatewayResourceId?: string;
+}
+
 /** A private link resource */
 export interface PrivateLinkResource extends ProxyResourceAutoGenerated {
   /** Resource properties. */
@@ -1638,6 +1918,38 @@ export interface PrivateLinkResource extends ProxyResourceAutoGenerated {
 export interface PrivateEndpointConnection extends ProxyResourceAutoGenerated {
   /** Resource properties. */
   properties?: PrivateEndpointConnectionProperties;
+}
+
+/** Defines the HybridIdentityMetadata. */
+export interface HybridIdentityMetadata extends ProxyResourceAutoGenerated {
+  /** The unique identifier for the resource. */
+  vmId?: string;
+  /** The Public Key. */
+  publicKey?: string;
+  /**
+   * Identity for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly identity?: Identity;
+}
+
+export interface NetworkConfiguration extends ProxyResourceAutoGenerated {
+  /** Resource location */
+  location?: string;
+  /**
+   * Azure resource tenant Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Associated Network Configuration Scope Id (GUID) */
+  networkConfigurationScopeId?: string;
+  /** Associated Network Configuration Scope Resource Id */
+  networkConfigurationScopeResourceId?: string;
+  /**
+   * Public key information for client authentication
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyProperties?: KeyProperties;
 }
 
 /** Properties for the Machine ESU profile. */
@@ -1673,6 +1985,29 @@ export interface ExtensionValue extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly publisher?: string;
+}
+
+/** Describes an Arc Gateway. */
+export interface Gateway extends TrackedResourceAutoGenerated {
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * A unique, immutable, identifier for the Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gatewayId?: string;
+  /** The type of the Gateway resource. */
+  gatewayType?: GatewayType;
+  /**
+   * The endpoint fqdn for the Gateway.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gatewayEndpoint?: string;
+  /** Specifies the list of features that are enabled for this Gateway. */
+  allowedFeatures?: string[];
 }
 
 /** Defines headers for Machines_assessPatches operation. */
@@ -1739,6 +2074,46 @@ export interface MachineExtensionsDeleteHeaders {
 
 /** Defines headers for HybridComputeManagementClient_upgradeExtensions operation. */
 export interface HybridComputeManagementClientUpgradeExtensionsHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for MachineRunCommands_createOrUpdate operation. */
+export interface MachineRunCommandsCreateOrUpdateHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for MachineRunCommands_delete operation. */
+export interface MachineRunCommandsDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Gateways_createOrUpdate operation. */
+export interface GatewaysCreateOrUpdateHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
+  retryAfter?: number;
+  /** The URI to poll for completion status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Gateways_delete operation. */
+export interface GatewaysDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
@@ -2515,6 +2890,54 @@ export enum KnownVMGuestPatchRebootStatus {
  */
 export type VMGuestPatchRebootStatus = string;
 
+/** Known values of {@link ExecutionState} that the service accepts. */
+export enum KnownExecutionState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Pending */
+  Pending = "Pending",
+  /** Running */
+  Running = "Running",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** TimedOut */
+  TimedOut = "TimedOut",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for ExecutionState. \
+ * {@link KnownExecutionState} can be used interchangeably with ExecutionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Pending** \
+ * **Running** \
+ * **Failed** \
+ * **Succeeded** \
+ * **TimedOut** \
+ * **Canceled**
+ */
+export type ExecutionState = string;
+
+/** Known values of {@link GatewayType} that the service accepts. */
+export enum KnownGatewayType {
+  /** Public */
+  Public = "Public",
+}
+
+/**
+ * Defines values for GatewayType. \
+ * {@link KnownGatewayType} can be used interchangeably with GatewayType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Public**
+ */
+export type GatewayType = string;
+
 /** Known values of {@link PublicNetworkAccessType} that the service accepts. */
 export enum KnownPublicNetworkAccessType {
   /** Allows Azure Arc agents to communicate with Azure Arc services over both public (internet) and private endpoints. */
@@ -2917,6 +3340,141 @@ export interface NetworkProfileGetOptionalParams
 
 /** Contains response data for the get operation. */
 export type NetworkProfileGetResponse = NetworkProfile;
+
+/** Optional parameters. */
+export interface MachineRunCommandsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type MachineRunCommandsCreateOrUpdateResponse = MachineRunCommand;
+
+/** Optional parameters. */
+export interface MachineRunCommandsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type MachineRunCommandsDeleteResponse = MachineRunCommandsDeleteHeaders;
+
+/** Optional parameters. */
+export interface MachineRunCommandsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MachineRunCommandsGetResponse = MachineRunCommand;
+
+/** Optional parameters. */
+export interface MachineRunCommandsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** The expand expression to apply on the operation. */
+  expand?: string;
+}
+
+/** Contains response data for the list operation. */
+export type MachineRunCommandsListResponse = MachineRunCommandsListResult;
+
+/** Optional parameters. */
+export interface MachineRunCommandsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MachineRunCommandsListNextResponse = MachineRunCommandsListResult;
+
+/** Optional parameters. */
+export interface GatewaysCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type GatewaysCreateOrUpdateResponse = Gateway;
+
+/** Optional parameters. */
+export interface GatewaysUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type GatewaysUpdateResponse = Gateway;
+
+/** Optional parameters. */
+export interface GatewaysGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GatewaysGetResponse = Gateway;
+
+/** Optional parameters. */
+export interface GatewaysDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type GatewaysDeleteResponse = GatewaysDeleteHeaders;
+
+/** Optional parameters. */
+export interface GatewaysListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type GatewaysListByResourceGroupResponse = GatewaysListResult;
+
+/** Optional parameters. */
+export interface GatewaysListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type GatewaysListBySubscriptionResponse = GatewaysListResult;
+
+/** Optional parameters. */
+export interface GatewaysListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type GatewaysListByResourceGroupNextResponse = GatewaysListResult;
+
+/** Optional parameters. */
+export interface GatewaysListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type GatewaysListBySubscriptionNextResponse = GatewaysListResult;
+
+/** Optional parameters. */
+export interface SettingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SettingsGetResponse = Settings;
+
+/** Optional parameters. */
+export interface SettingsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SettingsUpdateResponse = Settings;
+
+/** Optional parameters. */
+export interface SettingsPatchOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the patch operation. */
+export type SettingsPatchResponse = Settings;
 
 /** Optional parameters. */
 export interface PrivateLinkScopesListOptionalParams

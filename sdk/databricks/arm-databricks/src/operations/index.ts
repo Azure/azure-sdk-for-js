@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./workspaces";
-export * from "./operations";
-export * from "./privateLinkResources";
-export * from "./privateEndpointConnections";
-export * from "./outboundNetworkDependenciesEndpoints";
-export * from "./vNetPeering";
-export * from "./accessConnectors";
+export * from "./workspaces.js";
+export * from "./operations.js";
+export * from "./privateLinkResources.js";
+export * from "./privateEndpointConnections.js";
+export * from "./outboundNetworkDependenciesEndpoints.js";
+export * from "./vNetPeering.js";
+export * from "./accessConnectors.js";

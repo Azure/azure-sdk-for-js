@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest)
 - [Package (NPM)](https://aka.ms/npm-azure-rest-ai-inference)
-- [API reference documentation](https://aka.ms/AAp1kxa)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/ai-inference/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/samples)
 
 ## Getting started
@@ -18,18 +18,16 @@ import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 const client = new ModelClient(
   "https://<Azure Model endpoint>",
-  new AzureKeyCredential("<Azure API key>")
+  new AzureKeyCredential("<Azure API key>"),
 );
 
 const response = await client.path("/chat/completions").post({
   body: {
-    messages: [
-      {role: "user", content: "How many feet are in a mile?"},
-    ],
-  }
+    messages: [{ role: "user", content: "How many feet are in a mile?" }],
+  },
 });
 
-if(isUnexpected(response)) {
+if (isUnexpected(response)) {
   throw response.body.error;
 }
 console.log(response.body.choices[0].message.content);
@@ -52,6 +50,7 @@ npm install @azure-rest/ai-inference
 ```
 
 ### Create and authenticate a `ModelClient`
+
 #### Using an API Key from Azure
 
 You can authenticate with an Azure API key using the [Azure Core Auth library][azure_core_auth]. To use the AzureKeyCredential provider shown below, please install the `@azure/core-auth` package:
@@ -86,7 +85,7 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 
 ```javascript
 import ModelClient from "@azure-rest/ai-inference";
-import { DefaultAzureCredential }  from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new ModelClient("<endpoint>", new DefaultAzureCredential());
 ```
@@ -99,20 +98,19 @@ The main concept to understand is [Completions][azure_openai_completions_docs]. 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-async function main(){
+async function main() {
   const client = new ModelClient(
-  "https://your-model-endpoint/",
-  new AzureKeyCredential("your-model-api-key"));
+    "https://your-model-endpoint/",
+    new AzureKeyCredential("your-model-api-key"),
+  );
 
   const response = await client.path("/chat/completions").post({
     body: {
-      messages: [
-        {role: "user", content: "Hello, world!"},
-      ],
-    }
+      messages: [{ role: "user", content: "Hello, world!" }],
+    },
   });
 
-  if(isUnexpected(response)) {
+  if (isUnexpected(response)) {
     throw response.body.error;
   }
 
@@ -141,7 +139,7 @@ import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 import { createSseStream } from "@azure/core-sse";
 
-async function main(){
+async function main() {
   const endpoint = "https://myaccount.openai.azure.com/";
   const client = new ModelClient(endpoint, new DefaultAzureCredential());
 
@@ -155,13 +153,16 @@ async function main(){
 
   console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
 
-  const response = await client.path("/chat/completions").post({
-    body: {
-      messages,
-      stream: true,
-      max_tokens: 128
-    }
-  }).asNodeStream();
+  const response = await client
+    .path("/chat/completions")
+    .post({
+      body: {
+        messages,
+        stream: true,
+        max_tokens: 128,
+      },
+    })
+    .asNodeStream();
 
   const stream = response.body;
   if (!stream) {
@@ -178,7 +179,7 @@ async function main(){
     if (event.data === "[DONE]") {
       return;
     }
-    for (const choice of (JSON.parse(event.data)).choices) {
+    for (const choice of JSON.parse(event.data).choices) {
       console.log(choice.delta?.content ?? "");
     }
   }
@@ -197,7 +198,7 @@ This example generates text responses to input prompts using an Azure subscripti
 import ModelClient from "@azure-rest/ai-inference";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-async function main(){
+async function main() {
   // Replace with your Model API key
   const key = "YOUR_MODEL_API_KEY";
   const endpoint = "https://your-model-endpoint/";
@@ -208,17 +209,21 @@ async function main(){
     { role: "user", content: "What is inference in the context of AI?" },
     { role: "user", content: "Why do children love dinosaurs?" },
     { role: "user", content: "Generate a proof of Euler's identity" },
-    { role: "user", content: "Describe in single words only the good things that come into your mind about your mother." },
+    {
+      role: "user",
+      content:
+        "Describe in single words only the good things that come into your mind about your mother.",
+    },
   ];
 
   let promptIndex = 0;
   const response = await client.path("/chat/completions").post({
     body: {
-      messages
-    }
+      messages,
+    },
   });
 
-  if(response.status !== "200") {
+  if (response.status !== "200") {
     throw response.body.error;
   }
   for (const choice of response.body.choices) {
@@ -241,7 +246,7 @@ This example generates a summarization of the given input prompt.
 import ModelClient from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main(){
+async function main() {
   const endpoint = "https://your-model-endpoint/";
   const client = new ModelClient(endpoint, new DefaultAzureCredential());
 
@@ -266,14 +271,12 @@ async function main(){
 
   const response = await client.path("/chat/completions").post({
     body: {
-      messages: [
-        { role: "user", content: summarizationPrompt }
-      ],
-      max_tokens: 64
-    }
+      messages: [{ role: "user", content: summarizationPrompt }],
+      max_tokens: 64,
+    },
   });
 
-  if(response.status !== "200") {
+  if (response.status !== "200") {
     throw response.body.error;
   }
   const completion = response.body.choices[0].message.content;
@@ -292,23 +295,23 @@ process of fulfilling a chat completions request. To use chat tools, start by de
 
 ```js
 const getCurrentWeather = {
-    name: "get_current_weather",
-    description: "Get the current weather in a given location",
-    parameters: {
-      type: "object",
-      properties: {
-        location: {
-          type: "string",
-          description: "The city and state, e.g. San Francisco, CA",
-        },
-        unit: {
-          type: "string",
-          enum: ["celsius", "fahrenheit"],
-        },
+  name: "get_current_weather",
+  description: "Get the current weather in a given location",
+  parameters: {
+    type: "object",
+    properties: {
+      location: {
+        type: "string",
+        description: "The city and state, e.g. San Francisco, CA",
       },
-      required: ["location"],
+      unit: {
+        type: "string",
+        enum: ["celsius", "fahrenheit"],
+      },
     },
-  };
+    required: ["location"],
+  },
+};
 ```
 
 With the tool defined, include that new definition in the options for a chat completions request:
@@ -324,8 +327,8 @@ const tools = [
 const result = await client.path("/chat/completions").post({
   body: {
     messages,
-    tools
-  }
+    tools,
+  },
 });
 ```
 
@@ -336,16 +339,16 @@ new request messages can be thought of as a sort of "callback" for chat completi
 ```js
 // Purely for convenience and clarity, this function handles tool call responses.
 function applyToolCall({ function: call, id }) {
-    if (call.name === "get_current_weather") {
-      const { location, unit } = JSON.parse(call.arguments);
-      // In a real application, this would be a call to a weather API with location and unit parameters
-      return {
-        role: "tool",
-        content: `The weather in ${location} is 72 degrees ${unit} and sunny.`,
-        toolCallId: id,
-      }
-    }
-    throw new Error(`Unknown tool call: ${call.name}`);
+  if (call.name === "get_current_weather") {
+    const { location, unit } = JSON.parse(call.arguments);
+    // In a real application, this would be a call to a weather API with location and unit parameters
+    return {
+      role: "tool",
+      content: `The weather in ${location} is 72 degrees ${unit} and sunny.`,
+      toolCallId: id,
+    };
+  }
+  throw new Error(`Unknown tool call: ${call.name}`);
 }
 ```
 
@@ -366,15 +369,15 @@ if (responseMessage?.role === "assistant") {
     ];
     const toolCallResolutionResult = await client.path("/chat/completions").post({
       body: {
-        messages: toolCallResolutionMessages
-      }
+        messages: toolCallResolutionMessages,
+      },
     });
     // continue handling the response as normal
   }
 }
 ```
 
-### Chat with images (using models supporting image chat, such as gpt-4o) 
+### Chat with images (using models supporting image chat, such as gpt-4o)
 
 Some Azure models allow you to use images as input components into chat completions.
 
@@ -399,14 +402,14 @@ of `finish_reason`:
 ```js
 const response = await client.path("/chat/completions").post({
   body: {
-    messages 
+    messages
 });
 console.log(`Chatbot: ${response.choices[0].message?.content}`);
 ```
 
 ### Text Embeddings example
 
-This example demonstrates how to get text embeddings with Entra ID authentication. 
+This example demonstrates how to get text embeddings with Entra ID authentication.
 
 ```javascript
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
@@ -415,19 +418,21 @@ import { DefaultAzureCredential } from "@azure/identity";
 const endpoint = "<your_model_endpoint>";
 const credential = new DefaultAzureCredential();
 
-async function main(){
+async function main() {
   const client = ModelClient(endpoint, credential);
   const response = await client.path("/embeddings").post({
     body: {
-      input: ["first phrase", "second phrase", "third phrase"]
-    }
+      input: ["first phrase", "second phrase", "third phrase"],
+    },
   });
 
   if (isUnexpected(response)) {
     throw response.body.error;
   }
   for (const data of response.body.data) {
-    console.log(`data length: ${data.length}, [${data[0]}, ${data[1]}, ..., ${data[data.length - 2]}, ${data[data.length - 1]}]`);
+    console.log(
+      `data length: ${data.length}, [${data[0]}, ${data[1]}, ..., ${data[data.length - 2]}, ${data[data.length - 1]}]`,
+    );
   }
 }
 
@@ -446,18 +451,79 @@ data: length=1024, [0.04196167, 0.029083252, ..., -0.0027484894, 0.0073127747]
 
 To generate embeddings for additional phrases, simply call `client.path("/embeddings").post` multiple times using the same `client`.
 
-### Instrumentation 
+### Image Embeddings example
+
+This example demonstrates how to get image embeddings with Entra ID authentication.
+
+```javascript
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
+import { DefaultAzureCredential } from "@azure/identity";
+import fs from "fs";
+
+const endpoint = "<your_model_endpoint>";
+const credential = new DefaultAzureCredential();
+
+function getImageDataUrl(imageFile, imageFormat) {
+  try {
+    const imageBuffer = fs.readFileSync(imageFile);
+    const imageBase64 = imageBuffer.toString("base64");
+    return `data:image/${imageFormat};base64,${imageBase64}`;
+  } catch (error) {
+    console.error(`Could not read '${imageFile}'.`);
+    console.error("Set the correct path to the image file before running this sample.");
+    process.exit(1);
+  }
+}
+
+async function main() {
+  const client = ModelClient(endpoint, credential);
+  const image = getImageDataUrl("<image_file>", "<image_format>");
+  const response = await client.path("/images/embeddings").post({
+    body: {
+      input: [{image}],
+    },
+  });
+
+  if (isUnexpected(response)) {
+    throw response.body.error;
+  }
+  for (const data of response.body.data) {
+    console.log(
+      `data length: ${data.length}, [${data[0]}, ${data[1]}, ..., ${data[data.length - 2]}, ${data[data.length - 1]}]`,
+    );
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+The length of the embedding vector depends on the model, but you should see something like this:
+
+```text
+data: length=1024, [0.0013399124, -0.01576233, ..., 0.007843018, 0.000238657]
+data: length=1024, [0.036590576, -0.0059547424, ..., 0.011405945, 0.004863739]
+data: length=1024, [0.04196167, 0.029083252, ..., -0.0027484894, 0.0073127747]
+```
+
+### Instrumentation
+
 Currently instrumentation is only supported for `Chat Completion without streaming`.
 To enable instrumentation, it is required to register exporter(s).
 
 Here is an example to add console as a exporter:
+
 ```js
-import { ConsoleSpanExporter, NodeTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import {
+  ConsoleSpanExporter,
+  NodeTracerProvider,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
 
 const provider = new NodeTracerProvider();
 provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 provider.register();
-
 ```
 
 Here is an example to add application insight to be a exporter:
@@ -491,9 +557,13 @@ import ModelClient from "@azure-rest/ai-inference";
 ```
 
 Finally when you are making a call for chat completion, you need to include
+
 ```js
-tracingOptions: { tracingContext: context.active() }
+tracingOptions: {
+  tracingContext: context.active();
+}
 ```
+
 Here is an example:
 
 ```js
@@ -505,7 +575,8 @@ client.path("/chat/completions").post({
 ```
 
 ### Tracing Your Own Functions
-Open Telemetry provides `startActiveSpan` to instrument you own code.  Here is an example:
+
+Open Telemetry provides `startActiveSpan` to instrument you own code. Here is an example:
 
 ```js
 import { trace } from "@opentelemetry/api";
@@ -524,7 +595,6 @@ const getWeatherFunc = (location: string, unit: string): string => {
 }
 ```
 
-
 ## Troubleshooting
 
 ### Logging
@@ -540,11 +610,12 @@ setLogLevel("info");
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 <!-- LINKS -->
+
 [stream_chat_completion_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/ai/ai-inference-rest/samples/v1-beta/typescript/streamChatCompletions.ts
 [azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure_core_auth]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-auth
-[register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[register_aad_app]: https://learn.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_portal]: https://portal.azure.com

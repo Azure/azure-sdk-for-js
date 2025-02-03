@@ -77,7 +77,7 @@ import type {
   TextAnalysisAuthoringGetSupportedLanguagesDefaultResponse,
   TextAnalysisAuthoringListTrainingConfigVersions200Response,
   TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /authoring/analyze-text/projects": ["200"],

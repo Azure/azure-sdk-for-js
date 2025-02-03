@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   AvailableServiceAliasesListByResourceGroupParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all available service aliases for this resource group in this region.
@@ -25,14 +20,14 @@ async function getAvailableServiceAliasesInTheResourceGroup() {
   const resourceGroupName = "rg1";
   const location = "westcentralus";
   const options: AvailableServiceAliasesListByResourceGroupParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
       subscriptionId,
       resourceGroupName,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

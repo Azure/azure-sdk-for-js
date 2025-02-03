@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a configuration store.
  *
  * @summary Deletes a configuration store.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresDelete.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresDelete.json
  */
 async function configurationStoresDelete() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function configurationStoresDelete() {
   const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.configurationStores.beginDeleteAndWait(
     resourceGroupName,
-    configStoreName
+    configStoreName,
   );
   console.log(result);
 }

@@ -35,6 +35,109 @@ export type BaseCosmosDataTransferDataSourceSinkUnion =
   | CosmosMongoDataTransferDataSourceSink
   | CosmosSqlDataTransferDataSourceSink;
 
+/** Chaos Fault List Response. */
+export interface ChaosFaultListResponse {
+  /**
+   * List of Chaos Faults.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ChaosFaultResource[];
+  /**
+   * The link used to get the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** IpAddressOrRange object */
 export interface IpAddressOrRange {
   /** A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12, 192.168.0.0/16, since these are not enforceable by the IP address filter. Example of valid inputs: “23.40.210.245” or “23.40.210.0/8”. */
@@ -72,7 +175,7 @@ export interface Location {
    */
   readonly documentEndpoint?: string;
   /**
-   * The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation. 'DeletionFailed' – the Cosmos DB account deletion failed.
+   * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
@@ -120,46 +223,6 @@ export interface PrivateLinkServiceConnectionStateProperty {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly actionsRequired?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 export interface ApiProperties {
@@ -507,55 +570,6 @@ export interface DatabaseAccountConnectionString {
 export interface RegionForOnlineOffline {
   /** Cosmos DB region, with spaces between words and each word capitalized. */
   region: string;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
 }
 
 /** Parameters to regenerate the keys within the database account. */
@@ -934,6 +948,8 @@ export interface ThroughputSettingsResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly softAllowedMaximumThroughput?: string;
+  /** Array of Throughput Bucket limits to be applied to the Cosmos DB container */
+  throughputBuckets?: ThroughputBucketResource[];
 }
 
 /** Cosmos DB provisioned throughput settings object */
@@ -961,6 +977,14 @@ export interface ThroughputPolicyResource {
   isEnabled?: boolean;
   /** Represents the percentage by which throughput can increase every time throughput policy kicks in. */
   incrementPercent?: number;
+}
+
+/** Cosmos DB throughput bucket object */
+export interface ThroughputBucketResource {
+  /** Represents the throughput bucket id */
+  id: number;
+  /** Represents maximum percentage throughput that can be used by the bucket */
+  maxThroughputPercentage: number;
 }
 
 /** The List operation response, that contains the client encryption keys and their properties. */
@@ -1056,6 +1080,8 @@ export interface SqlContainerResource {
   materializedViewDefinition?: MaterializedViewDefinition;
   /** List of computed properties */
   computedProperties?: ComputedProperty[];
+  /** The vector embedding policy for the container. */
+  vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
 }
 
 /** Cosmos DB indexing policy */
@@ -1072,6 +1098,8 @@ export interface IndexingPolicy {
   compositeIndexes?: CompositePath[][];
   /** List of spatial specifics */
   spatialIndexes?: SpatialSpec[];
+  /** List of paths to include in the vector indexing */
+  vectorIndexes?: VectorIndex[];
 }
 
 /** The paths that are included in indexing */
@@ -1109,6 +1137,13 @@ export interface SpatialSpec {
   path?: string;
   /** List of path's spatial type */
   types?: SpatialType[];
+}
+
+export interface VectorIndex {
+  /** The path to the vector field in the document. */
+  path: string;
+  /** The index type of the vector. Currently, flat, diskANN, and quantizedFlat are supported. */
+  type: VectorIndexType;
 }
 
 /** The configuration of the partition key to be used for partitioning data into multiple partitions */
@@ -1187,6 +1222,24 @@ export interface ComputedProperty {
   name?: string;
   /** The query that evaluates the value for computed property, for example - "SELECT VALUE LOWER(c.name) FROM c" */
   query?: string;
+}
+
+/** Cosmos DB Vector Embedding Policy */
+export interface VectorEmbeddingPolicy {
+  /** List of vector embeddings */
+  vectorEmbeddings?: VectorEmbedding[];
+}
+
+/** Represents a vector embedding. A vector embedding is used to define a vector field in the documents. */
+export interface VectorEmbedding {
+  /** The path to the vector field in the document. */
+  path: string;
+  /** Indicates the data type of vector. */
+  dataType: VectorDataType;
+  /** The distance function to use for distance calculation in between vectors. */
+  distanceFunction: DistanceFunction;
+  /** The number of dimensions in the vector. */
+  dimensions: number;
 }
 
 /** The properties of an Azure Cosmos DB merge operations */
@@ -1792,6 +1845,26 @@ export interface CommandPostBody {
   /** The command which should be run */
   command: string;
   /** The arguments for the command to be run */
+  arguments?: { [propertyName: string]: string };
+  /** IP address of the cassandra host to run the command on */
+  host: string;
+  /** If true, stops cassandra before executing the command and then start it again */
+  cassandraStopStart?: boolean;
+  /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
+  readwrite?: boolean;
+}
+
+/** Response of /command api */
+export interface CommandOutput {
+  /** Output of the command. */
+  commandOutput?: string;
+}
+
+/** Specification of which command to run where */
+export interface CommandAsyncPostBody {
+  /** The command which should be run */
+  command: string;
+  /** The arguments for the command to be run */
   arguments?: Record<string, unknown>;
   /** IP address of the cassandra host to run the command on */
   host: string;
@@ -1799,12 +1872,6 @@ export interface CommandPostBody {
   cassandraStopStart?: boolean;
   /** If true, allows the command to *write* to the cassandra directory, otherwise read-only. */
   readWrite?: boolean;
-}
-
-/** Response of /command api */
-export interface CommandOutput {
-  /** Output of the command. */
-  commandOutput?: string;
 }
 
 /** resource representing a command */
@@ -3090,13 +3157,37 @@ export interface ThroughputPoolAccountsListResult {
   readonly nextLink?: string;
 }
 
-/** Chaos Fault List Response. */
-export interface ChaosFaultListResponse {
+/** The set of data plane operations permitted through this Role Definition. */
+export interface PermissionAutoGenerated {
+  /** The id for the permission. */
+  id?: string;
+  /** An array of data actions that are allowed. */
+  dataActions?: string[];
+  /** An array of data actions that are denied. */
+  notDataActions?: string[];
+}
+
+/** The relevant Role Definitions. */
+export interface TableRoleDefinitionListResult {
   /**
-   * List of Chaos Faults.
+   * List of Role Definitions and their properties.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly value?: ChaosFaultResource[];
+  readonly value?: TableRoleDefinitionResource[];
+  /**
+   * The link used to get the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The relevant Role Assignments. */
+export interface TableRoleAssignmentListResult {
+  /**
+   * List of Role Assignments and their properties
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: TableRoleAssignmentResource[];
   /**
    * The link used to get the next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3227,7 +3318,7 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    */
   readonly systemData?: SystemData;
   /**
-   * The status of the Cosmos DB account at the time the operation was called. The status can be one of following. 'Creating' – the Cosmos DB account is being created. When an account is in Creating state, only properties that are specified as input for the Create Cosmos DB account operation are returned. 'Succeeded' – the Cosmos DB account is active for use. 'Updating' – the Cosmos DB account is being updated. 'Deleting' – the Cosmos DB account is being deleted. 'Failed' – the Cosmos DB account failed creation. 'DeletionFailed' – the Cosmos DB account deletion failed.
+   * The provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
@@ -4199,6 +4290,23 @@ export interface GraphAPIComputeRegionalServiceResource
 export interface MaterializedViewsBuilderRegionalServiceResource
   extends RegionalServiceResource {}
 
+/** A request object to enable/disable the chaos fault */
+export interface ChaosFaultResource extends ProxyResource {
+  /** Indicates whether what action to take for the Chaos Fault. */
+  action?: SupportedActions;
+  /** Region of the account where the Chaos Fault is to be enabled/disabled. */
+  region?: string;
+  /** Database name. */
+  databaseName?: string;
+  /** Container name. */
+  containerName?: string;
+  /**
+   * A provisioning state of the Chaos Fault.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+}
+
 /** A private endpoint connection */
 export interface PrivateEndpointConnection extends ProxyResource {
   /** Private endpoint which the connection belongs to. */
@@ -4232,18 +4340,30 @@ export interface ThroughputPoolAccountResource extends ProxyResource {
   readonly accountInstanceId?: string;
 }
 
-/** A request object to enable/disable the chaos fault */
-export interface ChaosFaultResource extends ProxyResource {
-  /** Indicates whether what action to take for the Chaos Fault. */
-  action?: SupportedActions;
-  /** Region of the account where the Chaos Fault is to be enabled/disabled. */
-  region?: string;
-  /** Database name. */
-  databaseName?: string;
-  /** Container name. */
-  containerName?: string;
+/** Parameters to create and update an Azure Cosmos DB Table Role Definition. */
+export interface TableRoleDefinitionResource extends ProxyResource {
+  /** The path id for the Role Definition. */
+  idPropertiesId?: string;
+  /** A user-friendly name for the Role Definition. Must be unique for the database account. */
+  roleName?: string;
+  /** Indicates whether the Role Definition was built-in or user created. */
+  typePropertiesType?: RoleDefinitionType;
+  /** A set of fully qualified Scopes at or below which Table Role Assignments may be created using this Role Definition. This will allow application of this Role Definition on the entire database account or any underlying Database / Collection. Must have at least one element. Scopes higher than Database account are not enforceable as assignable Scopes. Note that resources referenced in assignable Scopes need not exist. */
+  assignableScopes?: string[];
+  /** The set of operations allowed through this Role Definition. */
+  permissions?: PermissionAutoGenerated[];
+}
+
+/** Parameters to create and update an Azure Cosmos DB Table Role Assignment. */
+export interface TableRoleAssignmentResource extends ProxyResource {
+  /** The unique identifier for the associated Role Definition. */
+  roleDefinitionId?: string;
+  /** The data plane resource path for which access is being granted through this Table Role Assignment. */
+  scope?: string;
+  /** The unique identifier for the associated AAD principal in the AAD graph to which access is being granted through this Table Role Assignment. Tenant ID for the principal is inferred using the tenant associated with the subscription. */
+  principalId?: string;
   /**
-   * A provisioning state of the Chaos Fault.
+   * Provisioning state of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
@@ -4692,6 +4812,38 @@ export interface TableResourcesMigrateTableToManualThroughputHeaders {
   location?: string;
 }
 
+/** Defines headers for TableResources_createUpdateTableRoleDefinition operation. */
+export interface TableResourcesCreateUpdateTableRoleDefinitionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for TableResources_deleteTableRoleDefinition operation. */
+export interface TableResourcesDeleteTableRoleDefinitionHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for TableResources_createUpdateTableRoleAssignment operation. */
+export interface TableResourcesCreateUpdateTableRoleAssignmentHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for TableResources_deleteTableRoleAssignment operation. */
+export interface TableResourcesDeleteTableRoleAssignmentHeaders {
+  /** URI to poll for completion status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for completion status. */
+  location?: string;
+}
+
 /** Defines headers for CassandraResources_createUpdateCassandraKeyspace operation. */
 export interface CassandraResourcesCreateUpdateCassandraKeyspaceHeaders {
   /** URI to poll for completion status. */
@@ -4937,27 +5089,6 @@ export interface ThroughputPoolAccountDeleteHeaders {
   location?: string;
 }
 
-/** Known values of {@link DatabaseAccountKind} that the service accepts. */
-export enum KnownDatabaseAccountKind {
-  /** GlobalDocumentDB */
-  GlobalDocumentDB = "GlobalDocumentDB",
-  /** MongoDB */
-  MongoDB = "MongoDB",
-  /** Parse */
-  Parse = "Parse",
-}
-
-/**
- * Defines values for DatabaseAccountKind. \
- * {@link KnownDatabaseAccountKind} can be used interchangeably with DatabaseAccountKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **GlobalDocumentDB** \
- * **MongoDB** \
- * **Parse**
- */
-export type DatabaseAccountKind = string;
-
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -4981,6 +5112,27 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link DatabaseAccountKind} that the service accepts. */
+export enum KnownDatabaseAccountKind {
+  /** GlobalDocumentDB */
+  GlobalDocumentDB = "GlobalDocumentDB",
+  /** MongoDB */
+  MongoDB = "MongoDB",
+  /** Parse */
+  Parse = "Parse",
+}
+
+/**
+ * Defines values for DatabaseAccountKind. \
+ * {@link KnownDatabaseAccountKind} can be used interchangeably with DatabaseAccountKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GlobalDocumentDB** \
+ * **MongoDB** \
+ * **Parse**
+ */
+export type DatabaseAccountKind = string;
 
 /** Known values of {@link ConnectorOffer} that the service accepts. */
 export enum KnownConnectorOffer {
@@ -5495,6 +5647,27 @@ export enum KnownSpatialType {
  */
 export type SpatialType = string;
 
+/** Known values of {@link VectorIndexType} that the service accepts. */
+export enum KnownVectorIndexType {
+  /** Flat */
+  Flat = "flat",
+  /** DiskANN */
+  DiskANN = "diskANN",
+  /** QuantizedFlat */
+  QuantizedFlat = "quantizedFlat",
+}
+
+/**
+ * Defines values for VectorIndexType. \
+ * {@link KnownVectorIndexType} can be used interchangeably with VectorIndexType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **flat** \
+ * **diskANN** \
+ * **quantizedFlat**
+ */
+export type VectorIndexType = string;
+
 /** Known values of {@link PartitionKind} that the service accepts. */
 export enum KnownPartitionKind {
   /** Hash */
@@ -5533,6 +5706,48 @@ export enum KnownConflictResolutionMode {
  * **Custom**
  */
 export type ConflictResolutionMode = string;
+
+/** Known values of {@link VectorDataType} that the service accepts. */
+export enum KnownVectorDataType {
+  /** Float32 */
+  Float32 = "float32",
+  /** Uint8 */
+  Uint8 = "uint8",
+  /** Int8 */
+  Int8 = "int8",
+}
+
+/**
+ * Defines values for VectorDataType. \
+ * {@link KnownVectorDataType} can be used interchangeably with VectorDataType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **float32** \
+ * **uint8** \
+ * **int8**
+ */
+export type VectorDataType = string;
+
+/** Known values of {@link DistanceFunction} that the service accepts. */
+export enum KnownDistanceFunction {
+  /** Euclidean */
+  Euclidean = "euclidean",
+  /** Cosine */
+  Cosine = "cosine",
+  /** Dotproduct */
+  Dotproduct = "dotproduct",
+}
+
+/**
+ * Defines values for DistanceFunction. \
+ * {@link KnownDistanceFunction} can be used interchangeably with DistanceFunction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **euclidean** \
+ * **cosine** \
+ * **dotproduct**
+ */
+export type DistanceFunction = string;
 
 /** Known values of {@link ThroughputPolicyType} that the service accepts. */
 export enum KnownThroughputPolicyType {
@@ -6277,6 +6492,8 @@ export enum KnownNodeStatus {
  * **Down**
  */
 export type NodeStatus = string;
+/** Defines values for SupportedActions. */
+export type SupportedActions = "Enable" | "Disable";
 /** Defines values for DefaultConsistencyLevel. */
 export type DefaultConsistencyLevel =
   | "Eventual"
@@ -6298,8 +6515,39 @@ export type ResourceIdentityType =
 export type MongoRoleDefinitionType = "BuiltInRole" | "CustomRole";
 /** Defines values for RoleDefinitionType. */
 export type RoleDefinitionType = "BuiltInRole" | "CustomRole";
-/** Defines values for SupportedActions. */
-export type SupportedActions = "Enable" | "Disable";
+
+/** Optional parameters. */
+export interface ChaosFaultListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ChaosFaultListOperationResponse = ChaosFaultListResponse;
+
+/** Optional parameters. */
+export interface ChaosFaultEnableDisableOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the enableDisable operation. */
+export type ChaosFaultEnableDisableResponse = ChaosFaultResource;
+
+/** Optional parameters. */
+export interface ChaosFaultGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ChaosFaultGetResponse = ChaosFaultResource;
+
+/** Optional parameters. */
+export interface ChaosFaultListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ChaosFaultListNextResponse = ChaosFaultListResponse;
 
 /** Optional parameters. */
 export interface DatabaseAccountsGetOptionalParams
@@ -7575,6 +7823,82 @@ export type TableResourcesRetrieveContinuousBackupInformationResponse =
   BackupInformation;
 
 /** Optional parameters. */
+export interface TableResourcesGetTableRoleDefinitionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getTableRoleDefinition operation. */
+export type TableResourcesGetTableRoleDefinitionResponse =
+  TableRoleDefinitionResource;
+
+/** Optional parameters. */
+export interface TableResourcesCreateUpdateTableRoleDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdateTableRoleDefinition operation. */
+export type TableResourcesCreateUpdateTableRoleDefinitionResponse =
+  TableRoleDefinitionResource;
+
+/** Optional parameters. */
+export interface TableResourcesDeleteTableRoleDefinitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TableResourcesListTableRoleDefinitionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listTableRoleDefinitions operation. */
+export type TableResourcesListTableRoleDefinitionsResponse =
+  TableRoleDefinitionListResult;
+
+/** Optional parameters. */
+export interface TableResourcesGetTableRoleAssignmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getTableRoleAssignment operation. */
+export type TableResourcesGetTableRoleAssignmentResponse =
+  TableRoleAssignmentResource;
+
+/** Optional parameters. */
+export interface TableResourcesCreateUpdateTableRoleAssignmentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createUpdateTableRoleAssignment operation. */
+export type TableResourcesCreateUpdateTableRoleAssignmentResponse =
+  TableRoleAssignmentResource;
+
+/** Optional parameters. */
+export interface TableResourcesDeleteTableRoleAssignmentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface TableResourcesListTableRoleAssignmentsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listTableRoleAssignments operation. */
+export type TableResourcesListTableRoleAssignmentsResponse =
+  TableRoleAssignmentListResult;
+
+/** Optional parameters. */
 export interface CassandraResourcesListCassandraKeyspacesOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -8188,7 +8512,7 @@ export interface CassandraClustersGetCommandAsyncOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCommandAsync operation. */
-export type CassandraClustersGetCommandAsyncResponse = ListCommands;
+export type CassandraClustersGetCommandAsyncResponse = CommandPublicResource;
 
 /** Optional parameters. */
 export interface CassandraClustersListBackupsOptionalParams
@@ -8742,39 +9066,6 @@ export interface ThroughputPoolAccountDeleteOptionalParams
 /** Contains response data for the delete operation. */
 export type ThroughputPoolAccountDeleteResponse =
   ThroughputPoolAccountDeleteHeaders;
-
-/** Optional parameters. */
-export interface ChaosFaultListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ChaosFaultListOperationResponse = ChaosFaultListResponse;
-
-/** Optional parameters. */
-export interface ChaosFaultEnableDisableOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the enableDisable operation. */
-export type ChaosFaultEnableDisableResponse = ChaosFaultResource;
-
-/** Optional parameters. */
-export interface ChaosFaultGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ChaosFaultGetResponse = ChaosFaultResource;
-
-/** Optional parameters. */
-export interface ChaosFaultListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ChaosFaultListNextResponse = ChaosFaultListResponse;
 
 /** Optional parameters. */
 export interface CosmosDBManagementClientOptionalParams

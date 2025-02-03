@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * [Azure Cognitive Language Services](https://docs.microsoft.com/azure/cognitive-services/language-service/overview)
+ * [Azure Cognitive Language Services](https://learn.microsoft.com/azure/cognitive-services/language-service/overview)
  * is a suite of natural language processing (NLP) skills built with
  * best-in-class Microsoft machine learning algorithms used to analyze
  * unstructured text for actions such as sentiment analysis, key phrase
@@ -13,8 +13,8 @@
 
 export { AzureKeyCredential } from "@azure/core-auth";
 
-export { TextAnalysisClient } from "./textAnalysisClient";
-export * from "./models";
+export { TextAnalysisClient } from "./textAnalysisClient.js";
+export * from "./models.js";
 export {
   AssessmentSentiment,
   SentimentAnalysisAction,
@@ -70,4 +70,4 @@ export {
   KnownRelationType,
   KnownExtractiveSummarizationOrderingCriteria,
   KnownHealthcareEntityCategory,
-} from "./generated/models";
+} from "./generated/models/index.js";

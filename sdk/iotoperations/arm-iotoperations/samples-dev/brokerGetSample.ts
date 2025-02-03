@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a BrokerResource
  *
  * @summary get a BrokerResource
- * x-ms-original-file: 2024-09-15-preview/Broker_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/Broker_Get_MaximumSet_Gen.json
  */
 async function brokerGet() {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function brokerGet() {
 }
 
 async function main() {
-  brokerGet();
+  await brokerGet();
 }
 
 main().catch(console.error);

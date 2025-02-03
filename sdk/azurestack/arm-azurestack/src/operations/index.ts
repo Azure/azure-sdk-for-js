@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./cloudManifestFile";
-export * from "./customerSubscriptions";
-export * from "./products";
-export * from "./registrations";
-export * from "./linkedSubscriptions";
+export * from "./operations.js";
+export * from "./cloudManifestFile.js";
+export * from "./customerSubscriptions.js";
+export * from "./products.js";
+export * from "./registrations.js";
+export * from "./linkedSubscriptions.js";

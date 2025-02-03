@@ -28,9 +28,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
 
-  let client = new ArtifactsClient(credential, "https://mysynapse.dev.azuresynapse.net");
-  let list = await client.pipelineOperations.listPipelinesByWorkspace();
-  for await (let item of list) {
+  const client = new ArtifactsClient(credential, "https://mysynapse.dev.azuresynapse.net");
+  const list = await client.pipelineOperations.listPipelinesByWorkspace();
+  for await (const item of list) {
     console.log("item:", item);
   }
 }
@@ -46,7 +46,7 @@ export async function main(): Promise<void> {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

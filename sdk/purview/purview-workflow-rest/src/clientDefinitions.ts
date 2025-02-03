@@ -16,7 +16,7 @@ import type {
   RejectApprovalTaskParameters,
   ReassignWorkflowTaskParameters,
   UpdateTaskStatusParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   ListWorkflows200Response,
   ListWorkflowsDefaultResponse,
@@ -46,7 +46,7 @@ import type {
   ReassignWorkflowTaskDefaultResponse,
   UpdateTaskStatus200Response,
   UpdateTaskStatusDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListWorkflows {

@@ -1,10 +1,20 @@
 {
   "extends": "../../../../tsconfig",
   "compilerOptions": {
-    "module": "CommonJS",
-    "lib": ["ES6", "ESNext.AsyncIterable"],
-    "noEmit": true
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "paths": {
+      "@azure-tests/perf-container-registry": ["./src/index"]
+    }
   },
-  "compileOnSave": true,
-  "include": ["./test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }

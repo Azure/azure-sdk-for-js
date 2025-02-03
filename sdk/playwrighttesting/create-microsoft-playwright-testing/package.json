@@ -1,6 +1,6 @@
 {
   "name": "@azure/create-microsoft-playwright-testing",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Package to setup @azure/microsoft-playwright-testing",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/playwrighttesting/create-microsoft-playwright-testing/README.md",
   "sdk-type": "client",
@@ -68,10 +68,10 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^20.12.12",
     "@types/prompts": "^2.4.9",
-    "@vitest/coverage-istanbul": "^2.1.2",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "eslint": "^9.9.0",
-    "typescript": "~5.6.2",
-    "vitest": "^2.1.2"
+    "typescript": "~5.7.2",
+    "vitest": "^3.0.3"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {
@@ -92,7 +92,8 @@
       "esm",
       "commonjs"
     ],
-    "selfLink": false
+    "selfLink": false,
+    "project": "./tsconfig.src.json"
   },
   "exports": {
     "./package.json": "./package.json",

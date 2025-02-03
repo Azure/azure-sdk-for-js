@@ -5,13 +5,13 @@ import type {
   KeyPhraseResult,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "./generated/models";
-import type { ExtractKeyPhrasesResult } from "./extractKeyPhrasesResult";
+} from "./generated/models/index.js";
+import type { ExtractKeyPhrasesResult } from "./extractKeyPhrasesResult.js";
 import {
   makeExtractKeyPhrasesErrorResult,
   makeExtractKeyPhrasesResult,
-} from "./extractKeyPhrasesResult";
-import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
+} from "./extractKeyPhrasesResult.js";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult.js";
 
 /**
  * Array of `ExtractKeyPhrasesResult` objects corresponding to a batch of input documents, and

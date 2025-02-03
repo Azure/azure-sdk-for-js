@@ -5,6 +5,8 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
 tag: package-access-control-2020-12-01
 package-name: "@azure-rest/synapse-access-control"
 package-version: "1.0.0-beta.1"

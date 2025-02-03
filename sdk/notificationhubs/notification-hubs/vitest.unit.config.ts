@@ -8,10 +8,7 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: [
-        "test/internal/unit/{,!(browser)/**/}*.spec.ts",
-        "test/public/unit/{,!(browser)/**/}*.spec.ts",
-      ],
+      exclude: ["test/internal/{,!(unit)/**/}*.spec.ts", "test/public/**/*.spec.ts"],
     },
   }),
 );

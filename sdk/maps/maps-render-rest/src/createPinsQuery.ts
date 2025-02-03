@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { LatLon } from "@azure/maps-common";
-import { createMultiCollection } from "./createMultiCollection";
+import { createMultiCollection } from "./createMultiCollection.js";
 
 /**
  * Specify how the pin's position and label text.

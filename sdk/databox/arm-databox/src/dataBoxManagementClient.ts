@@ -14,15 +14,15 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, JobsImpl, ServiceImpl } from "./operations";
-import { Operations, Jobs, Service } from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { OperationsImpl, JobsImpl, ServiceImpl } from "./operations/index.js";
+import { Operations, Jobs, Service } from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   DataBoxManagementClientOptionalParams,
   MitigateJobRequest,
   MitigateOptionalParams
-} from "./models";
+} from "./models/index.js";
 
 export class DataBoxManagementClient extends coreClient.ServiceClient {
   $host: string;

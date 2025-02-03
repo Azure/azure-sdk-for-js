@@ -23,7 +23,7 @@ import {
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Clusters,
   Servers,
@@ -33,8 +33,8 @@ import {
   Operations,
   PrivateEndpointConnections,
   PrivateLinkResources,
-} from "./operationsInterfaces";
-import { CosmosDBForPostgreSQLOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { CosmosDBForPostgreSQLOptionalParams } from "./models/index.js";
 
 export class CosmosDBForPostgreSQL extends coreClient.ServiceClient {
   $host: string;

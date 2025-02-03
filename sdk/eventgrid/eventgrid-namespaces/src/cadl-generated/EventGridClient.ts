@@ -11,7 +11,7 @@ import type {
   ReleaseResult,
   RejectResult,
   RenewLocksResult,
-} from "./models/models";
+} from "./models/models.js";
 import type {
   PublishCloudEventOptionalParams,
   PublishCloudEventsOptionalParams,
@@ -20,8 +20,8 @@ import type {
   ReleaseCloudEventsOptionalParams,
   RejectCloudEventsOptionalParams,
   RenewCloudEventLocksOptionalParams,
-} from "./models/options";
-import type { EventGridClientOptions, EventGridContext } from "./api/index";
+} from "./models/options.js";
+import type { EventGridClientOptions, EventGridContext } from "./api/index.js";
 import {
   createEventGrid,
   publishCloudEvent,
@@ -31,9 +31,9 @@ import {
   releaseCloudEvents,
   rejectCloudEvents,
   renewCloudEventLocks,
-} from "./api/index";
+} from "./api/index.js";
 
-export { EventGridClientOptions } from "./api/EventGridContext";
+export { EventGridClientOptions } from "./api/EventGridContext.js";
 
 export class EventGridClient {
   private _client: EventGridContext;

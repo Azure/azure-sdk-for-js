@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PerfTest, PerfOptionDictionary } from "../src";
+import { PerfTest, PerfOptionDictionary } from "../src/index.js";
 
 /**
  * Showcases and verifies some of the expected behaviors of the setup, globalSetup, cleanup and globalCleanup methods

@@ -17,7 +17,7 @@ import {
   APIKeysDeleteResponse,
   APIKeysGetOptionalParams,
   APIKeysGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a APIKeys. */

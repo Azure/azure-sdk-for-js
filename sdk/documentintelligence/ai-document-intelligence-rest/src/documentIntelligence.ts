@@ -22,11 +22,11 @@ export interface DocumentIntelligenceClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
-  { apiVersion = "2024-07-31-preview", ...options }: DocumentIntelligenceClientOptions = {},
+  { apiVersion = "2024-11-30", ...options }: DocumentIntelligenceClientOptions = {},
 ): DocumentIntelligenceClient {
   const endpointUrl =
     options.endpoint ?? options.baseUrl ?? `${endpointParam}/documentintelligence`;
-  const userAgentInfo = `azsdk-js-ai-document-intelligence-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-document-intelligence-rest/1.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

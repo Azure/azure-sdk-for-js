@@ -14,15 +14,19 @@
  * @summary use the "prebuilt-receipt" model ID to extract data from a receipt document (weakly-typed)
  */
 
-import DocumentIntelligence, { AnalyzeResultOperationOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" })
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+  );
 
   const initialResponse = await client
     .path("/documentModels/{modelId}:analyze", "prebuilt-receipt")
@@ -30,18 +34,18 @@ async function main() {
       contentType: "application/json",
       body: {
         // The Document Intelligence service will access the following URL to a receipt image and extract data from it
-        urlSource: "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png",
-      }
+        urlSource:
+          "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png",
+      },
     });
   if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
   }
-  const poller = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
 
-  poller.onProgress((state) => console.log("Operation:", state.result, state.status));
-  const analyzeResult = (
-    (await (poller).pollUntilDone()).body as AnalyzeResultOperationOutput
-  ).analyzeResult;
+  await poller.onProgress((state) => console.log("Operation:", state.result, state.status));
+  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
+    .analyzeResult;
 
   const documents = analyzeResult?.documents;
 

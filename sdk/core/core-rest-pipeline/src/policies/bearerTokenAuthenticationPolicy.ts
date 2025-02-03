@@ -7,7 +7,8 @@ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfac
 import type { PipelinePolicy } from "../pipeline.js";
 import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
-import { isRestError, RestError } from "../restError.js";
+import type { RestError } from "../restError.js";
+import { isRestError } from "../restError.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -63,7 +64,7 @@ export interface AuthorizeRequestOnChallengeOptions {
 }
 
 /**
- * Options to override the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
+ * Options to override the processing of [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
  */
 export interface ChallengeCallbacks {
   /**
@@ -92,7 +93,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
    */
   scopes: string | string[];
   /**
-   * Allows for the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
+   * Allows for the processing of [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
    * If provided, it must contain at least the `authorizeRequestOnChallenge` method.
    * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
    */
@@ -188,8 +189,10 @@ export function bearerTokenAuthenticationPolicy(
   const { credential, scopes, challengeCallbacks } = options;
   const logger = options.logger || coreLogger;
   const callbacks = {
-    authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
-    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
+    authorizeRequest:
+      challengeCallbacks?.authorizeRequest?.bind(challengeCallbacks) ?? defaultAuthorizeRequest,
+    authorizeRequestOnChallenge:
+      challengeCallbacks?.authorizeRequestOnChallenge?.bind(challengeCallbacks),
   };
 
   // This function encapsulates the entire process of reliably retrieving the token

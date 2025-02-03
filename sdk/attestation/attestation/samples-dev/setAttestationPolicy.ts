@@ -36,21 +36,17 @@ import {
   KnownAttestationType,
 } from "@azure/attestation";
 import { DefaultAzureCredential } from "@azure/identity";
-
-// Load environment from a .env file if it exists.
-import * as dotenv from "dotenv";
 import { writeBanner } from "./utils/helpers.js";
 import { createRSAKey, createX509Certificate, generateSha256Hash } from "./utils/cryptoUtils.js";
-
 import { X509 } from "jsrsasign";
-
-dotenv.config();
+// Load environment from a .env file if it exists.
+import "dotenv/config";
 
 /**
  * Sets the OpenEnclave attestation policy using an Unsecured attestation policy.
  */
-async function setOpenEnclaveAttestationPolicyAadUnsecured() {
-  writeBanner("Set OpenEnclave Attestation Policy - Unsecured policy");
+async function setOpenEnclaveAttestationPolicyAadUnsecured(): Promise<void> {
+  await writeBanner("Set OpenEnclave Attestation Policy - Unsecured policy");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -102,8 +98,8 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured() {
   console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);
 }
 
-async function setOpenEnclaveAttestationPolicyAadSecured() {
-  writeBanner("Set Open Enclave Attestation Policy - Secured policy");
+async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
+  await writeBanner("Set Open Enclave Attestation Policy - Secured policy");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -154,7 +150,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   // the certificate sent in the request.
 
   const policySetCertificate = new X509();
-  policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
+  await policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
   console.log("Signer subject name: ", policySetCertificate.getSubjectString());
 
   // Now reset the policy to the default policy. Note that we use an unsecured
@@ -165,8 +161,8 @@ async function setOpenEnclaveAttestationPolicyAadSecured() {
   console.log("Reset attestation policy. Policy status: ", resetPolicyResult.body.policyResolution);
 }
 
-async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
-  writeBanner("Set SGX Enclave Attestation Policy - Secured policy");
+async function setSgxEnclaveAttestationPolicyIsolatedSecured(): Promise<void> {
+  await writeBanner("Set SGX Enclave Attestation Policy - Secured policy");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;
@@ -224,7 +220,7 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured() {
   // the certificate sent in the request.
 
   const policySetCertificate = new X509();
-  policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
+  await policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
   console.log("Signer subject name: ", policySetCertificate.getSubjectString());
 
   // Now reset the policy to the default policy.
@@ -254,7 +250,7 @@ export function pemFromBase64(base64: string, pemType: PemType): string {
   return pem;
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await setOpenEnclaveAttestationPolicyAadUnsecured();
   await setOpenEnclaveAttestationPolicyAadSecured();
   await setSgxEnclaveAttestationPolicyIsolatedSecured();

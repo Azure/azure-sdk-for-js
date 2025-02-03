@@ -18,7 +18,7 @@ async function deletesAFirewallRuleOnAMongoClusterResource() {
 }
 
 async function main() {
-  deletesAFirewallRuleOnAMongoClusterResource();
+  await deletesAFirewallRuleOnAMongoClusterResource();
 }
 
 main().catch(console.error);

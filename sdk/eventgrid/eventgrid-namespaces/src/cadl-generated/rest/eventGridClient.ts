@@ -3,10 +3,10 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "../logger";
+import { logger } from "../logger.js";
 import type { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { isKeyCredential } from "@azure/core-auth";
-import type { EventGridContext } from "./clientDefinitions";
+import type { EventGridContext } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `EventGridContext`

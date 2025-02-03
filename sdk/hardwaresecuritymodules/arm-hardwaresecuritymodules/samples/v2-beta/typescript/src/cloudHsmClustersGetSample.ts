@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Cloud HSM Cluster
  *
  * @summary Gets the specified Cloud HSM Cluster
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2023-12-10-preview/examples/CloudHsmCluster_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmCluster_Get_MaximumSet_Gen.json
  */
 async function cloudHsmClusterGetMaximumSetGen() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function cloudHsmClusterGetMaximumSetGen() {
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const result = await client.cloudHsmClusters.get(
     resourceGroupName,
-    cloudHsmClusterName
+    cloudHsmClusterName,
   );
   console.log(result);
 }

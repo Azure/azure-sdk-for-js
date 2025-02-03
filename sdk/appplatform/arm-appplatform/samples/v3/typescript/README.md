@@ -383,7 +383,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storagesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appplatform/arm-appplatform/samples/v3/typescript/src/storagesDeleteSample.ts
 [storagesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appplatform/arm-appplatform/samples/v3/typescript/src/storagesGetSample.ts
 [storageslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appplatform/arm-appplatform/samples/v3/typescript/src/storagesListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appplatform?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appplatform?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appplatform/arm-appplatform/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

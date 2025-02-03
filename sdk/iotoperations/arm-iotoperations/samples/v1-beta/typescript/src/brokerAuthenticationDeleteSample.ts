@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a BrokerAuthenticationResource
  *
  * @summary delete a BrokerAuthenticationResource
- * x-ms-original-file: 2024-09-15-preview/BrokerAuthentication_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/BrokerAuthentication_Delete_MaximumSet_Gen.json
  */
 async function brokerAuthenticationDelete() {
   const credential = new DefaultAzureCredential();

@@ -95,7 +95,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [privateendpointconnectionslistbymongoclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mongocluster/arm-mongocluster/samples/v1/typescript/src/privateEndpointConnectionsListByMongoClusterSample.ts
 [privatelinkslistbymongoclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mongocluster/arm-mongocluster/samples/v1/typescript/src/privateLinksListByMongoClusterSample.ts
 [replicaslistbyparentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mongocluster/arm-mongocluster/samples/v1/typescript/src/replicasListByParentSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongocluster/arm-mongocluster/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

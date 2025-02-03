@@ -6,6 +6,7 @@ import { SpanStatusCode, trace } from "@opentelemetry/api";
 import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
 import { getExportedSpan } from "./util/testHelpers.js";
 import { inMemoryExporter } from "./util/setup.js";
+import { RestError } from "@azure/core-rest-pipeline";
 
 describe("OpenTelemetrySpanWrapper", () => {
   let span: OpenTelemetrySpanWrapper;
@@ -17,10 +18,10 @@ describe("OpenTelemetrySpanWrapper", () => {
 
   describe("#setStatus", () => {
     describe("with a successful status", () => {
-      it("sets the status on the span", () => {
+      it("Maintains a span status of unset", () => {
         span.setStatus({ status: "success" });
         const otSpan = getExportedSpan(span);
-        assert.deepEqual(otSpan.status, { code: SpanStatusCode.OK });
+        assert.deepEqual(otSpan.status, { code: SpanStatusCode.UNSET });
       });
     });
 
@@ -40,6 +41,24 @@ describe("OpenTelemetrySpanWrapper", () => {
         const exception = otSpan.events[0];
         assert.equal(exception.name, "exception");
         assert.equal(exception.attributes!["exception.message"], error.message);
+      });
+    });
+
+    describe("with a non-recordable error", () => {
+      const error = new RestError("test", {
+        statusCode: 304,
+      });
+
+      it("leaves the status unset", () => {
+        span.setStatus({ status: "error", error });
+        const otSpan = getExportedSpan(span);
+        assert.equal(otSpan.status.code, SpanStatusCode.UNSET);
+      });
+
+      it("does not record an exception", () => {
+        span.setStatus({ status: "error", error });
+        const otSpan = getExportedSpan(span);
+        assert.lengthOf(otSpan.events, 0);
       });
     });
   });

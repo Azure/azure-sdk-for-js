@@ -217,43 +217,6 @@ export {
   MachineLearningServicesRunCompletedEventData,
   MachineLearningServicesDatasetDriftDetectedEventData,
   MachineLearningServicesRunStatusChangedEventData,
-  MediaJobStateChangeEventData,
-  KnownMediaJobState,
-  MediaJobState,
-  MediaJobError,
-  KnownMediaJobErrorCode,
-  MediaJobErrorCode,
-  KnownMediaJobErrorCategory,
-  MediaJobErrorCategory,
-  KnownMediaJobRetry,
-  MediaJobRetry,
-  MediaJobErrorDetail,
-  MediaJobOutput,
-  MediaJobOutputAsset,
-  MediaJobOutputProgressEventData,
-  MediaJobOutputStateChangeEventData,
-  MediaJobScheduledEventData,
-  MediaJobProcessingEventData,
-  MediaJobCancelingEventData,
-  MediaJobFinishedEventData,
-  MediaJobCanceledEventData,
-  MediaJobErroredEventData,
-  MediaJobOutputCanceledEventData,
-  MediaJobOutputCancelingEventData,
-  MediaJobOutputErroredEventData,
-  MediaJobOutputFinishedEventData,
-  MediaJobOutputProcessingEventData,
-  MediaJobOutputScheduledEventData,
-  MediaLiveEventEncoderConnectedEventData,
-  MediaLiveEventConnectionRejectedEventData,
-  MediaLiveEventEncoderDisconnectedEventData,
-  MediaLiveEventIncomingStreamReceivedEventData,
-  MediaLiveEventIncomingStreamsOutOfSyncEventData,
-  MediaLiveEventIncomingVideoStreamsOutOfSyncEventData,
-  MediaLiveEventIncomingDataChunkDroppedEventData,
-  MediaLiveEventIngestHeartbeatEventData,
-  MediaLiveEventTrackDiscontinuityDetectedEventData,
-  MediaLiveEventChannelArchiveHeartbeatEventData,
   PolicyInsightsPolicyStateCreatedEventData,
   PolicyInsightsPolicyStateChangedEventData,
   PolicyInsightsPolicyStateDeletedEventData,
@@ -345,8 +308,7 @@ export {
   ResourceNotificationsResourceDeletedDetails,
   ResourceNotificationsResourceManagementDeletedEventData,
   ServiceApiVersions,
-  MediaJobOutputUnion,
-} from "./cadl-generated";
+} from "./cadl-generated/index.js";
 
 export {
   CloudEvent,
@@ -361,6 +323,6 @@ export {
   KeyVaultSecretNearExpiryEventData,
   KeyVaultAccessPolicyChangedEventData,
   KeyVaultSecretExpiredEventData,
-} from "./models";
+} from "./models.js";
 
-export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates";
+export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates.js";

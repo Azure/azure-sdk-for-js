@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-type OnYourDataContextProperty = "citations" | "intent" | "all_retrieved_documents";
+/** The type of included properties of the output context. */
+export type OnYourDataContextProperty = "citations" | "intent" | "all_retrieved_documents";
 
 /**
  * A specific representation of configurable options for Azure Search when using it as an Azure OpenAI chat
@@ -27,15 +28,18 @@ export interface AzureSearchChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication?: OnYourDataAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataApiKeyAuthenticationOptions
+    | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions
+    | OnYourDataUserAssignedManagedIdentityAuthenticationOptions
+    | OnYourDataAccessTokenAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
   in_scope?: boolean;
   /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
   strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
   /**
    * The max number of rewritten queries should be send to search provider for one user message. If not specified,
    * the system will decide the number of queries to send.
@@ -110,15 +114,16 @@ export interface ElasticsearchChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication?: OnYourDataAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataKeyAndKeyIdAuthenticationOptions
+    | OnYourDataEncodedApiKeyAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
   in_scope?: boolean;
   /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
   strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
   /**
    * The max number of rewritten queries should be send to search provider for one user message. If not specified,
    * the system will decide the number of queries to send.
@@ -199,15 +204,15 @@ export interface AzureCosmosDBChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication?: OnYourDataAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataConnectionStringAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
   in_scope?: boolean;
   /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
   strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
   /**
    * The max number of rewritten queries should be send to search provider for one user message. If not specified,
    * the system will decide the number of queries to send.
@@ -278,7 +283,7 @@ export interface OnYourDataConnectionStringAuthenticationOptions
  */
 export interface OnYourDataDeploymentNameVectorizationSource
   extends OnYourDataVectorizationSourceParent {
-  /** The type of vectorization source to use. Always 'DeploymentName' for this type. */
+  /** The type of vectorization source to use. Always 'deployment_name' for this type. */
   type: "deployment_name";
   /** The embedding model deployment name within the same Azure OpenAI resource. This enables you to use vector search without Azure OpenAI api-key and without Azure OpenAI public network access. */
   deployment_name: string;
@@ -313,12 +318,15 @@ export interface OnYourDataUsernameAndPasswordAuthenticationOptions
  * on a public Azure OpenAI endpoint call for embeddings.
  */
 export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectorizationSourceParent {
-  /** The type of vectorization source to use. Always 'Endpoint' for this type. */
+  /** The type of vectorization source to use. Always 'endpoint' for this type. */
   type: "endpoint";
   /** Specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings. The api-version query parameter is not allowed. */
   endpoint: string;
   /** Specifies the authentication options to use when retrieving embeddings from the specified endpoint. */
-  authentication: OnYourDataVectorSearchAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataVectorSearchApiKeyAuthenticationOptions
+    | OnYourDataVectorSearchAccessTokenAuthenticationOptions;
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using an Elasticsearch key and key ID pair. */
@@ -398,15 +406,13 @@ export interface PineconeChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication?: OnYourDataAuthenticationOptions;
+  authentication: OnYourDataAuthenticationOptionsParent | OnYourDataApiKeyAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
   in_scope?: boolean;
   /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
   strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
   /**
    * The max number of rewritten queries should be send to search provider for one user message. If not specified,
    * the system will decide the number of queries to send.
@@ -469,15 +475,15 @@ export interface MongoDBChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication?: OnYourDataUsernameAndPasswordAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataUsernameAndPasswordAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
   in_scope?: boolean;
   /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
   strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
   /**
    * The max number of rewritten queries should be send to search provider for one user message. If not specified,
    * the system will decide the number of queries to send.
@@ -532,9 +538,6 @@ export interface OnYourDataVectorSearchAuthenticationOptions {
   type: string;
 }
 
-/**
- * The authentication options for Azure OpenAI On Your Data when using an API key.
- */
 /**
  * The authentication options for Azure OpenAI On Your Data vector search when using an API key.
  */

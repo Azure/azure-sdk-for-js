@@ -10,5 +10,5 @@ export {
   TokenIssuanceStartRequest,
   TokenIssuanceStartResponse,
   TokenIssuanceStartAction,
-} from "./context";
-export { ProvideClaimsForToken, TokenClaim, createProvideClaimsForToken } from "./actions";
+} from "./context.js";
+export { ProvideClaimsForToken, TokenClaim, createProvideClaimsForToken } from "./actions.js";

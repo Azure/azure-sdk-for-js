@@ -28,6 +28,9 @@ import {
   ExtensionMetadataImpl,
   OperationsImpl,
   NetworkProfileOperationsImpl,
+  MachineRunCommandsImpl,
+  GatewaysImpl,
+  SettingsOperationsImpl,
   PrivateLinkScopesImpl,
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
@@ -41,6 +44,9 @@ import {
   ExtensionMetadata,
   Operations,
   NetworkProfileOperations,
+  MachineRunCommands,
+  Gateways,
+  SettingsOperations,
   PrivateLinkScopes,
   PrivateLinkResources,
   PrivateEndpointConnections,
@@ -86,7 +92,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcompute/4.0.1`;
+    const packageDetails = `azsdk-js-arm-hybridcompute/4.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -140,7 +146,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-07-10";
+    this.apiVersion = options.apiVersion || "2024-07-31-preview";
     this.licenses = new LicensesImpl(this);
     this.machines = new MachinesImpl(this);
     this.licenseProfiles = new LicenseProfilesImpl(this);
@@ -148,6 +154,9 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     this.extensionMetadata = new ExtensionMetadataImpl(this);
     this.operations = new OperationsImpl(this);
     this.networkProfileOperations = new NetworkProfileOperationsImpl(this);
+    this.machineRunCommands = new MachineRunCommandsImpl(this);
+    this.gateways = new GatewaysImpl(this);
+    this.settingsOperations = new SettingsOperationsImpl(this);
     this.privateLinkScopes = new PrivateLinkScopesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -282,6 +291,9 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
   extensionMetadata: ExtensionMetadata;
   operations: Operations;
   networkProfileOperations: NetworkProfileOperations;
+  machineRunCommands: MachineRunCommands;
+  gateways: Gateways;
+  settingsOperations: SettingsOperations;
   privateLinkScopes: PrivateLinkScopes;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;

@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RestorableTimeRanges } from "../operationsInterfaces";
+import { RestorableTimeRanges } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DataProtectionClient } from "../dataProtectionClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DataProtectionClient } from "../dataProtectionClient.js";
 import {
   AzureBackupFindRestorableTimeRangesRequest,
   RestorableTimeRangesFindOptionalParams,
   RestorableTimeRangesFindResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing RestorableTimeRanges operations. */
 export class RestorableTimeRangesImpl implements RestorableTimeRanges {

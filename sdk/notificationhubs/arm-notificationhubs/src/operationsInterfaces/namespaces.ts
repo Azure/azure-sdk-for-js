@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   NamespaceResource,
   NamespacesListAllOptionalParams,
   NamespacesListOptionalParams,
@@ -37,7 +37,7 @@ import {
   NamespacesRegenerateKeysResponse,
   NamespacesGetPnsCredentialsOptionalParams,
   NamespacesGetPnsCredentialsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Namespaces. */
@@ -46,9 +46,7 @@ export interface Namespaces {
    * Lists all the available namespaces within the subscription.
    * @param options The options parameters.
    */
-  listAll(
-    options?: NamespacesListAllOptionalParams,
-  ): PagedAsyncIterableIterator<NamespaceResource>;
+  listAll(options?: NamespacesListAllOptionalParams): PagedAsyncIterableIterator<NamespaceResource>;
   /**
    * Lists the available namespaces within a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

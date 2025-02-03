@@ -3,7 +3,7 @@
 
 import type { AccessToken } from "@azure/core-auth";
 
-import type { IdentityClient } from "../../client/identityClient";
+import type { IdentityClient } from "../../client/identityClient.js";
 
 /**
  * @internal

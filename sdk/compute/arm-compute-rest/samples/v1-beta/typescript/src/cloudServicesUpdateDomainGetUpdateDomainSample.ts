@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  CloudServicesUpdateDomainGetUpdateDomainParameters
+  CloudServicesUpdateDomainGetUpdateDomainParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified update domain of a cloud service. Use nextLink property in the response to get the next page of update domains. Do this till nextLink is null to fetch all the update domains.
@@ -25,7 +20,7 @@ async function getCloudServiceUpdateDomain() {
   const cloudServiceName = "{cs-name}";
   const updateDomain = 1;
   const options: CloudServicesUpdateDomainGetUpdateDomainParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getCloudServiceUpdateDomain() {
       subscriptionId,
       resourceGroupName,
       cloudServiceName,
-      updateDomain
+      updateDomain,
     )
     .get(options);
   console.log(result);

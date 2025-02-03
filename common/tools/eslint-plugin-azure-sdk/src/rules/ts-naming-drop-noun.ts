@@ -6,7 +6,7 @@
  *
  */
 
-import { getPublicMethods, createRule } from "../utils";
+import { getPublicMethods, createRule } from "../utils/index.js";
 import { TSESTree } from "@typescript-eslint/utils";
 
 //------------------------------------------------------------------------------

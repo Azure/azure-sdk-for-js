@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  PrivateLinkServicesGetPrivateEndpointConnectionParameters
+  PrivateLinkServicesGetPrivateEndpointConnectionParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the specific private end point connection by specific private link service in the resource group.
@@ -25,7 +20,7 @@ async function getPrivateEndPointConnection() {
   const serviceName = "testPls";
   const peConnectionName = "testPlePeConnection";
   const options: PrivateLinkServicesGetPrivateEndpointConnectionParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getPrivateEndPointConnection() {
       subscriptionId,
       resourceGroupName,
       serviceName,
-      peConnectionName
+      peConnectionName,
     )
     .get(options);
   console.log(result);

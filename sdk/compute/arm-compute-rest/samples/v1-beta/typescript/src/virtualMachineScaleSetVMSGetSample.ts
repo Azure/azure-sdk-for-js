@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineScaleSetVMsGetParameters
+  VirtualMachineScaleSetVMsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a virtual machine from a VM scale set.
@@ -25,7 +20,7 @@ async function getVMScaleSetVMWithUserData() {
   const vmScaleSetName = "{vmss-name}";
   const instanceId = "0";
   const options: VirtualMachineScaleSetVMsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getVMScaleSetVMWithUserData() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .get(options);
   console.log(result);
@@ -54,7 +49,7 @@ async function getVMScaleSetVMWithVMSizeProperties() {
   const vmScaleSetName = "{vmss-name}";
   const instanceId = "0";
   const options: VirtualMachineScaleSetVMsGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -62,7 +57,7 @@ async function getVMScaleSetVMWithVMSizeProperties() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .get(options);
   console.log(result);

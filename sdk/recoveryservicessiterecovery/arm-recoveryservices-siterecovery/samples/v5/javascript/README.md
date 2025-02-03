@@ -319,6 +319,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [replicationvcentersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/samples/v5/javascript/replicationvCentersUpdateSample.js
 [supportedoperatingsystemsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/samples/v5/javascript/supportedOperatingSystemsGetSample.js
 [targetcomputesizeslistbyreplicationprotecteditemssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/samples/v5/javascript/targetComputeSizesListByReplicationProtectedItemsSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservices-siterecovery?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservices-siterecovery?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery/README.md

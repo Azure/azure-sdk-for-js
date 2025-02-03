@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,21 +15,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the KPIs that enrich the profile Type identified by the supplied name. Enrichment happens through participants of the Interaction on an Interaction KPI and through Relationships for Profile KPIs.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/ProfileGetEnrichingKpis.json
  */
-async function profilesGetEnrichingKpis() {
+async function profilesGetEnrichingKpis(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";
   const profileName = "TestProfileType396";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.profiles.getEnrichingKpis(
-    resourceGroupName,
-    hubName,
-    profileName
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
+  const result = await client.profiles.getEnrichingKpis(resourceGroupName, hubName, profileName);
   console.log(result);
 }
 

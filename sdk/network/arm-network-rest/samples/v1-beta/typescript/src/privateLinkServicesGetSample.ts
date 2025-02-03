@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  PrivateLinkServicesGetParameters
+  PrivateLinkServicesGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified private link service by resource group.
@@ -24,14 +19,14 @@ async function getPrivateLinkService() {
   const resourceGroupName = "rg1";
   const serviceName = "testPls";
   const options: PrivateLinkServicesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
       subscriptionId,
       resourceGroupName,
-      serviceName
+      serviceName,
     )
     .get(options);
   console.log(result);

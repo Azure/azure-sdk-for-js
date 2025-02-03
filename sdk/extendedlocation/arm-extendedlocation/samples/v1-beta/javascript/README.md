@@ -71,6 +71,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [resourcesyncrulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/extendedlocation/arm-extendedlocation/samples/v1-beta/javascript/resourceSyncRulesGetSample.js
 [resourcesyncruleslistbycustomlocationidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/extendedlocation/arm-extendedlocation/samples/v1-beta/javascript/resourceSyncRulesListByCustomLocationIdSample.js
 [resourcesyncrulesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/extendedlocation/arm-extendedlocation/samples/v1-beta/javascript/resourceSyncRulesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-extendedlocation?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-extendedlocation?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/extendedlocation/arm-extendedlocation/README.md

@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  CheckDnsNameAvailabilityParameters
+  CheckDnsNameAvailabilityParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks whether a domain name in the cloudapp.azure.com zone is available for use.
@@ -23,13 +18,13 @@ async function checkDnsNameAvailability() {
   const subscriptionId = "";
   const location = "westus";
   const options: CheckDnsNameAvailabilityParameters = {
-    queryParameters: { domainNameLabel: "testdns", "api-version": "2022-05-01" }
+    queryParameters: { domainNameLabel: "testdns", "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/CheckDnsNameAvailability",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   console.log(result);

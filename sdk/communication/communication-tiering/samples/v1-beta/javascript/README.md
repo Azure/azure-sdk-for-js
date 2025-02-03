@@ -60,5 +60,5 @@ Here are some [samples] <!--TODO: Enable link after release (https://github.com/
 [getacquirednumberlimits]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-tiering/samples/v1-beta/javascript/getAcquiredNumberLimits.js
 [gettierinfo]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-tiering/samples/v1-beta/javascript/getTierInfo.js
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
+[createinstance_azurecommunicationservicesaccount]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-tiering/README.md

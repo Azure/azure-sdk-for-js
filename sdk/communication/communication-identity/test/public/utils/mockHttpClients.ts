@@ -3,7 +3,7 @@
 
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import type { CommunicationAccessToken } from "../../../src";
+import type { CommunicationAccessToken } from "../../../src/index.js";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,

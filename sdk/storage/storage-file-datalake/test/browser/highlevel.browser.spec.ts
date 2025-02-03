@@ -167,7 +167,7 @@ describe("Highlevel browser only", () => {
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
     await fileClient.upload(uint8ArrayPartial);
     const downloadedBlob2 = await (await fileClient.read()).contentAsBlob!;
-    assert.ok(arrayBufferEqual(await downloadedBlob2.arrayBuffer(), uint8ArrayPartial));
+    assert.ok(arrayBufferEqual(await downloadedBlob2.arrayBuffer(), uint8ArrayPartial.buffer));
 
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
     await fileClient.upload(uint16Array);
@@ -175,7 +175,7 @@ describe("Highlevel browser only", () => {
     assert.ok(
       arrayBufferEqual(
         await downloadedBlob3.arrayBuffer(),
-        new Uint8Array(uint16Array.buffer, uint16Array.byteOffset, uint16Array.byteLength),
+        new Uint8Array(uint16Array.buffer, uint16Array.byteOffset, uint16Array.byteLength).buffer,
       ),
     );
   });

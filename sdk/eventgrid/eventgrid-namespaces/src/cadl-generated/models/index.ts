@@ -15,7 +15,7 @@ export {
   RenewLocksResult,
   ServiceApiVersions,
   ErrorResponse,
-} from "./models";
+} from "./models.js";
 export {
   PublishCloudEventOptionalParams,
   PublishCloudEventsOptionalParams,
@@ -24,4 +24,4 @@ export {
   ReleaseCloudEventsOptionalParams,
   RejectCloudEventsOptionalParams,
   RenewCloudEventLocksOptionalParams,
-} from "./options";
+} from "./options.js";

@@ -15,7 +15,7 @@ import {
   MonitoringSettingsUpdatePutResponse,
   MonitoringSettingsUpdatePatchOptionalParams,
   MonitoringSettingsUpdatePatchResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MonitoringSettings. */
 export interface MonitoringSettings {

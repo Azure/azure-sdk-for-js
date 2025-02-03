@@ -249,6 +249,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workloadnetworksupdateportmirroringsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/avs/arm-avs/samples/v6/javascript/workloadNetworksUpdatePortMirroringSample.js
 [workloadnetworksupdatesegmentssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/avs/arm-avs/samples/v6/javascript/workloadNetworksUpdateSegmentsSample.js
 [workloadnetworksupdatevmgroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/avs/arm-avs/samples/v6/javascript/workloadNetworksUpdateVMGroupSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-avs
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-avs
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/avs/arm-avs/README.md

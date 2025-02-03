@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  FleetMember,
-  ContainerServiceFleetClient,
-} from "@azure/arm-containerservicefleet";
+import type { FleetMember } from "@azure/arm-containerservicefleet";
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a FleetMember
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Create a FleetMember
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/FleetMembers_Create.json
  */
-async function createsAFleetMemberResourceWithALongRunningOperation() {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+async function createsAFleetMemberResourceWithALongRunningOperation(): Promise<void> {
+  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const fleetMemberName = "member-1";
   const resource: FleetMember = {
@@ -45,8 +37,8 @@ async function createsAFleetMemberResourceWithALongRunningOperation() {
   console.log(result);
 }
 
-async function main() {
-  createsAFleetMemberResourceWithALongRunningOperation();
+async function main(): Promise<void> {
+  await createsAFleetMemberResourceWithALongRunningOperation();
 }
 
 main().catch(console.error);

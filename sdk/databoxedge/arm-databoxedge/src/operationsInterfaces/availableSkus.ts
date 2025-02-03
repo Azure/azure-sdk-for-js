@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { DataBoxEdgeSku, AvailableSkusListOptionalParams } from "../models";
+import { DataBoxEdgeSku, AvailableSkusListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AvailableSkus. */

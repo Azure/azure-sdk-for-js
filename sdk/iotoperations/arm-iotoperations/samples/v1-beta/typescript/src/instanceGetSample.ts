@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a InstanceResource
  *
  * @summary get a InstanceResource
- * x-ms-original-file: 2024-09-15-preview/Instance_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/Instance_Get_MaximumSet_Gen.json
  */
 async function instanceGet() {
   const credential = new DefaultAzureCredential();

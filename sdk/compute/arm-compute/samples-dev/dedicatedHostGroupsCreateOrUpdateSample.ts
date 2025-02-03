@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DedicatedHostGroup,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { DedicatedHostGroup } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate_WithUltraSSD.json
  */
-async function createOrUpdateADedicatedHostGroupWithUltraSsdSupport() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createOrUpdateADedicatedHostGroupWithUltraSsdSupport(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const parameters: DedicatedHostGroup = {
     additionalCapabilities: { ultraSSDEnabled: true },
@@ -53,11 +45,9 @@ async function createOrUpdateADedicatedHostGroupWithUltraSsdSupport() {
  * @summary Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate.json
  */
-async function createOrUpdateADedicatedHostGroup() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createOrUpdateADedicatedHostGroup(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const parameters: DedicatedHostGroup = {
     location: "westus",
@@ -76,9 +66,9 @@ async function createOrUpdateADedicatedHostGroup() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateADedicatedHostGroupWithUltraSsdSupport();
-  createOrUpdateADedicatedHostGroup();
+async function main(): Promise<void> {
+  await createOrUpdateADedicatedHostGroupWithUltraSsdSupport();
+  await createOrUpdateADedicatedHostGroup();
 }
 
 main().catch(console.error);

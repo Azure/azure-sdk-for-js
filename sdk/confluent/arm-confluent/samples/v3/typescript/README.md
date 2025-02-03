@@ -117,7 +117,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [organizationupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/confluent/arm-confluent/samples/v3/typescript/src/organizationUpdateSample.ts
 [validationsvalidateorganizationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/confluent/arm-confluent/samples/v3/typescript/src/validationsValidateOrganizationSample.ts
 [validationsvalidateorganizationv2sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/confluent/arm-confluent/samples/v3/typescript/src/validationsValidateOrganizationV2Sample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-confluent?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-confluent?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confluent/arm-confluent/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

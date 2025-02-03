@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 export const JobDetailsList: coreClient.CompositeMapper = {
   type: {
@@ -21,26 +21,26 @@ export const JobDetailsList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "JobDetails"
-            }
-          }
-        }
+              className: "JobDetails",
+            },
+          },
+        },
       },
       count: {
         serializedName: "count",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const JobDetails: coreClient.CompositeMapper = {
@@ -51,119 +51,119 @@ export const JobDetails: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       containerUri: {
         serializedName: "containerUri",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       inputDataUri: {
         serializedName: "inputDataUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       inputDataFormat: {
         serializedName: "inputDataFormat",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       inputParams: {
         serializedName: "inputParams",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
+          value: { type: { name: "any" } },
+        },
       },
       providerId: {
         serializedName: "providerId",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       metadata: {
         serializedName: "metadata",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       outputDataUri: {
         serializedName: "outputDataUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       outputDataFormat: {
         serializedName: "outputDataFormat",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       creationTime: {
         serializedName: "creationTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       beginExecutionTime: {
         serializedName: "beginExecutionTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       endExecutionTime: {
         serializedName: "endExecutionTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       cancellationTime: {
         serializedName: "cancellationTime",
         readOnly: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       errorData: {
         serializedName: "errorData",
         type: {
           name: "Composite",
-          className: "ErrorData"
-        }
-      }
-    }
-  }
+          className: "ErrorData",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorData: coreClient.CompositeMapper = {
@@ -174,17 +174,17 @@ export const ErrorData: coreClient.CompositeMapper = {
       code: {
         serializedName: "code",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const RestError: coreClient.CompositeMapper = {
@@ -196,11 +196,11 @@ export const RestError: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorData"
-        }
-      }
-    }
-  }
+          className: "ErrorData",
+        },
+      },
+    },
+  },
 };
 
 export const ProviderStatusList: coreClient.CompositeMapper = {
@@ -216,20 +216,20 @@ export const ProviderStatusList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ProviderStatus"
-            }
-          }
-        }
+              className: "ProviderStatus",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ProviderStatus: coreClient.CompositeMapper = {
@@ -241,15 +241,15 @@ export const ProviderStatus: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       currentAvailability: {
         serializedName: "currentAvailability",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       targets: {
         serializedName: "targets",
@@ -259,13 +259,13 @@ export const ProviderStatus: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TargetStatus"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "TargetStatus",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const TargetStatus: coreClient.CompositeMapper = {
@@ -277,32 +277,32 @@ export const TargetStatus: coreClient.CompositeMapper = {
         serializedName: "id",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       currentAvailability: {
         serializedName: "currentAvailability",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       averageQueueTime: {
         serializedName: "averageQueueTime",
         readOnly: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       statusPage: {
         serializedName: "statusPage",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const BlobDetails: coreClient.CompositeMapper = {
@@ -314,17 +314,17 @@ export const BlobDetails: coreClient.CompositeMapper = {
         serializedName: "containerName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       blobName: {
         serializedName: "blobName",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SasUriResponse: coreClient.CompositeMapper = {
@@ -335,11 +335,11 @@ export const SasUriResponse: coreClient.CompositeMapper = {
       sasUri: {
         serializedName: "sasUri",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const QuotaList: coreClient.CompositeMapper = {
@@ -355,20 +355,20 @@ export const QuotaList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Quota"
-            }
-          }
-        }
+              className: "Quota",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Quota: coreClient.CompositeMapper = {
@@ -379,45 +379,45 @@ export const Quota: coreClient.CompositeMapper = {
       dimension: {
         serializedName: "dimension",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       scope: {
         serializedName: "scope",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       providerId: {
         serializedName: "providerId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       utilization: {
         serializedName: "utilization",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       holds: {
         serializedName: "holds",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       limit: {
         serializedName: "limit",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       period: {
         serializedName: "period",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };

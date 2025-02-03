@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { EmailImpl } from "./operations";
-import { Email } from "./operationsInterfaces";
-import { EmailRestApiClientOptionalParams } from "./models";
+import { EmailImpl } from "./operations/index.js";
+import { Email } from "./operationsInterfaces/index.js";
+import { EmailRestApiClientOptionalParams } from "./models/index.js";
 
 export class EmailRestApiClient extends coreClient.ServiceClient {
   endpoint: string;

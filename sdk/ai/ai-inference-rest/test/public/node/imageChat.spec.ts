@@ -18,7 +18,7 @@ function getImageDataUrl(imageFile: string, imageFormat: string): string {
   } catch (error) {
     console.error(`Could not read '${imageFile}'.`);
     console.error("Set the correct path to the image file before running this sample.");
-    process.exit(1);
+    throw error;
   }
 }
 

@@ -4,9 +4,9 @@
 import { describe, it, assert } from "vitest";
 import {
   getPagedAsyncIterator,
-  PagedAsyncIterableIterator,
-  PagedResult,
-  PageSettings,
+  type PagedAsyncIterableIterator,
+  type PagedResult,
+  type PageSettings,
 } from "../src/index.js";
 
 function buildIterator<T>(input: T): PagedAsyncIterableIterator<unknown, T, PageSettings> {
@@ -175,9 +175,7 @@ describe("getPagedAsyncIterator", function () {
 
   describe("Strong typing experience", function () {
     type IsAny<T> = boolean extends (T extends never ? true : false) ? true : false;
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     function assertNotAny<T extends IsAny<T> extends true ? never : any>(_: T): void {}
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     function assertAny<T extends IsAny<T> extends false ? never : any>(_: T): void {}
 
     const totalElementsCount = 100;

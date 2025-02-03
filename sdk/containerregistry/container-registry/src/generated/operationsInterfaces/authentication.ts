@@ -13,7 +13,7 @@ import {
   TokenGrantType,
   AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalParams,
   AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Authentication. */
 export interface Authentication {

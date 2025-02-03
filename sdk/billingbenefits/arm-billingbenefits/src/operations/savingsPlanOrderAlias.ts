@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SavingsPlanOrderAlias } from "../operationsInterfaces";
+import { SavingsPlanOrderAlias } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { BillingBenefitsRP } from "../billingBenefitsRP";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { BillingBenefitsRP } from "../billingBenefitsRP.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   SavingsPlanOrderAliasModel,
   SavingsPlanOrderAliasCreateOptionalParams,
   SavingsPlanOrderAliasCreateResponse,
   SavingsPlanOrderAliasGetOptionalParams,
   SavingsPlanOrderAliasGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing SavingsPlanOrderAlias operations. */
 export class SavingsPlanOrderAliasImpl implements SavingsPlanOrderAlias {

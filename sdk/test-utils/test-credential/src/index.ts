@@ -13,10 +13,10 @@ import {
   EnvironmentCredential,
 } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { NoOpCredential } from "./noOpCredential";
+import { NoOpCredential } from "./noOpCredential.js";
 import { TokenCredential } from "@azure/core-auth";
 import { isBrowser } from "@azure/core-util";
-import { createBrowserRelayCredential } from "./browserRelayCredential";
+import { createBrowserRelayCredential } from "./browserRelayCredential.js";
 
 /**
  * Alias of the different possible options shapes for the DefaultAzureCredential constructor.

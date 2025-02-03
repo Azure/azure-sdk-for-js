@@ -22,7 +22,7 @@ import {
   OperationsImpl,
   TargetTypesImpl,
   TargetsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Capabilities,
   CapabilityTypes,
@@ -31,8 +31,8 @@ import {
   Operations,
   TargetTypes,
   Targets,
-} from "./operationsInterfaces";
-import { ChaosManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ChaosManagementClientOptionalParams } from "./models/index.js";
 
 export class ChaosManagementClient extends coreClient.ServiceClient {
   $host: string;

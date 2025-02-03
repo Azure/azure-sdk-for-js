@@ -25,7 +25,7 @@ import type {
   AssignedResourceDeploymentsMetadataOutput,
   SupportedLanguagesOutput,
   TrainingConfigVersionsOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Lists the existing projects. */
 export interface TextAnalysisAuthoringListProjects200Response extends HttpResponse {

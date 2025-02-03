@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import ContainerServiceManagementClient, {
+import type {
   ContainerServiceClient,
   ManagedClustersCreateOrUpdateParameters,
+} from "@azure-rest/arm-containerservice";
+import ContainerServiceManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +21,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersAssociate_CRG.json
  */
-async function associateManagedClusterWithCapacityReservationGroup() {
+async function associateManagedClusterWithCapacityReservationGroup(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -79,7 +79,7 @@ async function associateManagedClusterWithCapacityReservationGroup() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -92,7 +92,7 @@ associateManagedClusterWithCapacityReservationGroup().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_MCSnapshot.json
  */
-async function createManagedClusterUsingAManagedClusterSnapshot() {
+async function createManagedClusterUsingAManagedClusterSnapshot(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -138,7 +138,7 @@ async function createManagedClusterUsingAManagedClusterSnapshot() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -151,7 +151,7 @@ createManagedClusterUsingAManagedClusterSnapshot().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_Snapshot.json
  */
-async function createManagedClusterUsingAnAgentPoolSnapshot() {
+async function createManagedClusterUsingAnAgentPoolSnapshot(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -213,7 +213,7 @@ async function createManagedClusterUsingAnAgentPoolSnapshot() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -226,7 +226,7 @@ createManagedClusterUsingAnAgentPoolSnapshot().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_ManagedNATGateway.json
  */
-async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
+async function createManagedClusterWithAksManagedNatGatewayAsOutboundType(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -282,7 +282,7 @@ async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -295,7 +295,7 @@ createManagedClusterWithAksManagedNatGatewayAsOutboundType().catch(console.error
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_EnableCustomCATrust.json
  */
-async function createManagedClusterWithCustomCaTrustEnabled() {
+async function createManagedClusterWithCustomCaTrustEnabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -352,7 +352,7 @@ async function createManagedClusterWithCustomCaTrustEnabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -365,7 +365,7 @@ createManagedClusterWithCustomCaTrustEnabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_DedicatedHostGroup.json
  */
-async function createManagedClusterWithDedicatedHostGroup() {
+async function createManagedClusterWithDedicatedHostGroup(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -423,7 +423,7 @@ async function createManagedClusterWithDedicatedHostGroup() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -436,7 +436,7 @@ createManagedClusterWithDedicatedHostGroup().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_EnableEncryptionAtHost.json
  */
-async function createManagedClusterWithEncryptionAtHostEnabled() {
+async function createManagedClusterWithEncryptionAtHostEnabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -493,7 +493,7 @@ async function createManagedClusterWithEncryptionAtHostEnabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -506,7 +506,7 @@ createManagedClusterWithEncryptionAtHostEnabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_EnabledFIPS.json
  */
-async function createManagedClusterWithFipsEnabledOS() {
+async function createManagedClusterWithFipsEnabledOS(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -564,7 +564,7 @@ async function createManagedClusterWithFipsEnabledOS() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -577,7 +577,7 @@ createManagedClusterWithFipsEnabledOS().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_GPUMIG.json
  */
-async function createManagedClusterWithGpumig() {
+async function createManagedClusterWithGpumig(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -640,7 +640,7 @@ async function createManagedClusterWithGpumig() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -653,7 +653,7 @@ createManagedClusterWithGpumig().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_HTTPProxy.json
  */
-async function createManagedClusterWithHttpProxyConfigured() {
+async function createManagedClusterWithHttpProxyConfigured(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -716,7 +716,7 @@ async function createManagedClusterWithHttpProxyConfigured() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -729,7 +729,7 @@ createManagedClusterWithHttpProxyConfigured().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_NodePublicIPPrefix.json
  */
-async function createManagedClusterWithNodePublicIPPrefix() {
+async function createManagedClusterWithNodePublicIPPrefix(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -788,7 +788,7 @@ async function createManagedClusterWithNodePublicIPPrefix() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -801,7 +801,7 @@ createManagedClusterWithNodePublicIPPrefix().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_OSSKU.json
  */
-async function createManagedClusterWithOssku() {
+async function createManagedClusterWithOssku(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -865,7 +865,7 @@ async function createManagedClusterWithOssku() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -878,7 +878,7 @@ createManagedClusterWithOssku().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_PPG.json
  */
-async function createManagedClusterWithPpg() {
+async function createManagedClusterWithPpg(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -936,7 +936,7 @@ async function createManagedClusterWithPpg() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -949,7 +949,7 @@ createManagedClusterWithPpg().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_PodIdentity.json
  */
-async function createManagedClusterWithPodIdentityEnabled() {
+async function createManagedClusterWithPodIdentityEnabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1007,7 +1007,7 @@ async function createManagedClusterWithPodIdentityEnabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1020,7 +1020,7 @@ createManagedClusterWithPodIdentityEnabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_DisableRunCommand.json
  */
-async function createManagedClusterWithRunCommandDisabled() {
+async function createManagedClusterWithRunCommandDisabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1077,7 +1077,7 @@ async function createManagedClusterWithRunCommandDisabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1090,7 +1090,7 @@ createManagedClusterWithRunCommandDisabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_SecurityProfile.json
  */
-async function createManagedClusterWithSecurityProfileConfigured() {
+async function createManagedClusterWithSecurityProfileConfigured(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1142,7 +1142,7 @@ async function createManagedClusterWithSecurityProfileConfigured() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1155,7 +1155,7 @@ createManagedClusterWithSecurityProfileConfigured().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_EnableUltraSSD.json
  */
-async function createManagedClusterWithUltraSsdEnabled() {
+async function createManagedClusterWithUltraSsdEnabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1213,7 +1213,7 @@ async function createManagedClusterWithUltraSsdEnabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1226,7 +1226,7 @@ createManagedClusterWithUltraSsdEnabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_IngressProfile_WebAppRouting.json
  */
-async function createManagedClusterWithWebAppRoutingIngressProfileConfigured() {
+async function createManagedClusterWithWebAppRoutingIngressProfileConfigured(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1280,7 +1280,7 @@ async function createManagedClusterWithWebAppRoutingIngressProfileConfigured() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1293,7 +1293,7 @@ createManagedClusterWithWebAppRoutingIngressProfileConfigured().catch(console.er
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_UserAssignedNATGateway.json
  */
-async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
+async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1349,7 +1349,7 @@ async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1362,7 +1362,7 @@ createManagedClusterWithUserAssignedNatGatewayAsOutboundType().catch(console.err
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_PrivateClusterPublicFQDN.json
  */
-async function createManagedPrivateClusterWithPublicFqdnSpecified() {
+async function createManagedPrivateClusterWithPublicFqdnSpecified(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1422,7 +1422,7 @@ async function createManagedPrivateClusterWithPublicFqdnSpecified() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1435,7 +1435,7 @@ createManagedPrivateClusterWithPublicFqdnSpecified().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_PrivateClusterFQDNSubdomain.json
  */
-async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
+async function createManagedPrivateClusterWithFqdnSubdomainSpecified(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1496,7 +1496,7 @@ async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1509,7 +1509,7 @@ createManagedPrivateClusterWithFqdnSubdomainSpecified().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_UpdateWithEnableAzureRBAC.json
  */
-async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
+async function createOrUpdateAadManagedClusterWithEnableAzureRbac(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1567,7 +1567,7 @@ async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1580,7 +1580,7 @@ createOrUpdateAadManagedClusterWithEnableAzureRbac().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_Update.json
  */
-async function createOrUpdateManagedCluster() {
+async function createOrUpdateManagedCluster(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1653,7 +1653,7 @@ async function createOrUpdateManagedCluster() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1666,7 +1666,7 @@ createOrUpdateManagedCluster().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_UpdateWithAHUB.json
  */
-async function createOrUpdateManagedClusterWithEnableAhub() {
+async function createOrUpdateManagedClusterWithEnableAhub(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1733,7 +1733,7 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1746,7 +1746,7 @@ createOrUpdateManagedClusterWithEnableAhub().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_UpdateWithEnableNamespaceResources.json
  */
-async function createOrUpdateManagedClusterWithEnableNamespaceResources() {
+async function createOrUpdateManagedClusterWithEnableNamespaceResources(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1805,7 +1805,7 @@ async function createOrUpdateManagedClusterWithEnableNamespaceResources() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1818,7 +1818,7 @@ createOrUpdateManagedClusterWithEnableNamespaceResources().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_UpdateWindowsGmsa.json
  */
-async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
+async function createOrUpdateManagedClusterWithWindowsGMsaEnabled(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1883,7 +1883,7 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -1896,7 +1896,7 @@ createOrUpdateManagedClusterWithWindowsGMsaEnabled().catch(console.error);
  * @summary Creates or updates a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersCreate_DualStackNetworking.json
  */
-async function createOrUpdateManagedClusterWithDualStackNetworking() {
+async function createOrUpdateManagedClusterWithDualStackNetworking(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";
@@ -1970,7 +1970,7 @@ async function createOrUpdateManagedClusterWithDualStackNetworking() {
       resourceName,
     )
     .put(parameters);
-  const poller = getLongRunningPoller(client, initalResponse);
+  const poller = await getLongRunningPoller(client, initalResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

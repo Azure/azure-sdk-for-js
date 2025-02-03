@@ -20,7 +20,7 @@ import {
   UpdateRun as UpdateRunMapper,
   SkipProperties as SkipPropertiesMapper,
   FleetUpdateStrategy as FleetUpdateStrategyMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

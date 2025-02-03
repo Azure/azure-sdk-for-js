@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RequestParameters } from "@azure-rest/core-client";
-import type { MetadataPolicy } from "./models";
+import type { MetadataPolicy } from "./models.js";
 
 export type MetadataRolesListParameters = RequestParameters;
 
@@ -22,5 +22,12 @@ export interface MetadataPolicyUpdateBodyParam {
   body?: MetadataPolicy;
 }
 
-export type MetadataPolicyUpdateParameters = MetadataPolicyUpdateBodyParam & RequestParameters;
+export interface MetadataPolicyUpdateMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type MetadataPolicyUpdateParameters = MetadataPolicyUpdateMediaTypesParam &
+  MetadataPolicyUpdateBodyParam &
+  RequestParameters;
 export type MetadataPolicyGetParameters = RequestParameters;

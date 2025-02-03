@@ -35,7 +35,7 @@ import {
   TriggersImpl,
   SupportPackagesImpl,
   UsersImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   AvailableSkus,
@@ -57,8 +57,8 @@ import {
   Triggers,
   SupportPackages,
   Users
-} from "./operationsInterfaces";
-import { DataBoxEdgeManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DataBoxEdgeManagementClientOptionalParams } from "./models/index.js";
 
 export class DataBoxEdgeManagementClient extends coreClient.ServiceClient {
   $host: string;

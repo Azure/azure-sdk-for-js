@@ -1,24 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
-import type { Context } from "mocha";
-
-import { getYieldedValue, matrix } from "@azure-tools/test-utils";
-
+import { getYieldedValue, matrix } from "@azure-tools/test-utils-vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-
 import {
   createRecorder,
   getRandomNumber,
   makeCredential,
   testPollingOptions,
-} from "../utils/recordedClients";
-
-import type { DocumentModelDetails } from "../../src";
-import { DocumentAnalysisClient, DocumentModelAdministrationClient } from "../../src";
-import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions";
+} from "../utils/recordedClients.js";
+import type { DocumentModelDetails } from "../../src/index.js";
+import { DocumentAnalysisClient, DocumentModelAdministrationClient } from "../../src/index.js";
+import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 const containerSasUrl = (): string =>
@@ -36,11 +31,11 @@ matrix(
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;
 
-      beforeEach(async function (this: Context) {
-        recorder = await createRecorder(this.currentTest);
+      beforeEach(async function (ctx) {
+        recorder = await createRecorder(ctx);
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         await recorder.stop();
       });
 
@@ -52,7 +47,7 @@ matrix(
        * "describe" block
        */
 
-      describe("model build", async function () {
+      describe("model build", async () => {
         const allModels: string[] = [];
 
         let client: DocumentModelAdministrationClient;
@@ -242,7 +237,7 @@ matrix(
 
       // #endregion
 
-      it(`compose model (${buildMode})`, async function () {
+      it(`compose model (${buildMode})`, async () => {
         const client = new DocumentModelAdministrationClient(
           endpoint(),
           makeCredential(useAad),
@@ -288,7 +283,7 @@ matrix(
         assert.equal(Object.entries(composedModel.docTypes ?? {}).length, 2);
       });
 
-      it(`copy model (${buildMode})`, async function () {
+      it(`copy model (${buildMode})`, { timeout: 60000 }, async () => {
         // Since this test is isolated, we'll create a fresh set of resources for it
 
         const trainingClient = new DocumentModelAdministrationClient(
@@ -339,6 +334,6 @@ matrix(
         assert.equal(targetModel.modelId, targetAuth.targetModelId);
         assert.equal(targetModel.modelId, copyResult.modelId);
       });
-    }).timeout(60000);
+    });
   },
 );

@@ -191,7 +191,27 @@ export interface NodeTypes {
    * @param parameters The parameters to update the node type configuration.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeUpdateParameters,
+    options?: NodeTypesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesUpdateResponse>,
+      NodeTypesUpdateResponse
+    >
+  >;
+  /**
+   * Update the configuration of a node type of a given managed cluster, only updating tags.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters The parameters to update the node type configuration.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
     nodeTypeName: string,

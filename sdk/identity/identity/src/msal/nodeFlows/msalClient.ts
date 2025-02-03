@@ -4,11 +4,11 @@
 import * as msal from "@azure/msal-node";
 
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import type { AuthenticationRecord, CertificateParts } from "../types";
-import type { CredentialLogger } from "../../util/logging";
-import { credentialLogger, formatSuccess } from "../../util/logging";
-import type { PluginConfiguration } from "./msalPlugins";
-import { msalPlugins } from "./msalPlugins";
+import type { AuthenticationRecord, CertificateParts } from "../types.js";
+import type { CredentialLogger } from "../../util/logging.js";
+import { credentialLogger, formatSuccess } from "../../util/logging.js";
+import type { PluginConfiguration } from "./msalPlugins.js";
+import { msalPlugins } from "./msalPlugins.js";
 import {
   defaultLoggerCallback,
   ensureValidMsalToken,
@@ -19,18 +19,17 @@ import {
   handleMsalError,
   msalToPublic,
   publicToMsal,
-} from "../utils";
+} from "../utils.js";
 
-import { AuthenticationRequiredError } from "../../errors";
-import type { BrokerOptions } from "./brokerOptions";
-import type { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
-import { IdentityClient } from "../../client/identityClient";
-import type { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
-import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { calculateRegionalAuthority } from "../../regionalAuthority";
+import { AuthenticationRequiredError } from "../../errors.js";
+import type { BrokerOptions } from "./brokerOptions.js";
+import type { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions.js";
+import { IdentityClient } from "../../client/identityClient.js";
+import type { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions.js";
+import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions.js";
+import { calculateRegionalAuthority } from "../../regionalAuthority.js";
 import { getLogLevel } from "@azure/logger";
-import open from "open";
-import { resolveTenantId } from "../../util/tenantIdUtils";
+import { resolveTenantId } from "../../util/tenantIdUtils.js";
 
 /**
  * The default logger used if no logger was passed in by the credential.
@@ -243,14 +242,6 @@ export interface MsalClientOptions {
    */
   authenticationRecord?: AuthenticationRecord;
 }
-
-/**
- * A call to open(), but mockable
- * @internal
- */
-export const interactiveBrowserMockable = {
-  open,
-};
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
@@ -835,7 +826,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     function createBaseInteractiveRequest(): msal.InteractiveRequest {
       return {
         openBrowser: async (url) => {
-          await interactiveBrowserMockable.open(url, { wait: true, newInstance: true });
+          const open = await import("open");
+          await open.default(url, { wait: true, newInstance: true });
         },
         scopes,
         authority: calculateRequestAuthority(options),

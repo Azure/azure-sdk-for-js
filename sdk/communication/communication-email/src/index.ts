@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./emailClient";
-export * from "./models";
+export * from "./emailClient.js";
+export * from "./models.js";

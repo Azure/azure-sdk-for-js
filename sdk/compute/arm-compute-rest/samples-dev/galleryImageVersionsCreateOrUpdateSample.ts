@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  GalleryImageVersionsCreateOrUpdateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { GalleryImageVersionsCreateOrUpdateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a gallery image version.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -98,7 +92,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -110,7 +104,7 @@ createOrUpdateASimpleGalleryImageVersionUsingVMAsSource().catch(console.error);
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -190,7 +184,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -202,7 +196,7 @@ createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource().catch(consol
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -284,7 +278,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -296,7 +290,7 @@ createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource().c
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode() {
+async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -331,7 +325,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -343,7 +337,7 @@ createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode().catch(cons
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -423,7 +417,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -435,7 +429,7 @@ createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource().catch(console
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -517,7 +511,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -529,7 +523,7 @@ createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource().catch(console.
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD.json
  */
-async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
+async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -600,7 +594,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -612,7 +606,7 @@ createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource().catch(console.error)
  * @summary Create or update a gallery image version.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
  */
-async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified() {
+async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -692,7 +686,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
       galleryImageVersionName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

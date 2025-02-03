@@ -1,11 +1,10 @@
 // @ts-check
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
+export default azsdkEslint.config([
   {
     ignores: ["**/src/utils/hashing/murmurHash.ts"],
   },
-  ...azsdkEslint.configs.recommended,
   {
     languageOptions: {
       parserOptions: {
@@ -39,4 +38,4 @@ export default [
       "@typescript-eslint/no-unused-expressions": "off",
     },
   },
-];
+]);

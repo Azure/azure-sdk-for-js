@@ -1,15 +1,23 @@
 # Release History
-
-## 1.0.0-beta.3 (Unreleased)
-
+    
+## 1.0.0-beta.3 (2024-12-12)
+Compared with version 1.0.0-beta.2
+    
 ### Features Added
+
+  - Added operation NodeTypes.beginUpdate
+  - Added operation NodeTypes.beginUpdateAndWait
+  - Added Interface NodeTypesUpdateHeaders
+  - Interface ManagedCluster has a new optional parameter allocatedOutboundPorts
+  - Interface NodeTypesUpdateOptionalParams has a new optional parameter resumeFrom
+  - Interface NodeTypesUpdateOptionalParams has a new optional parameter updateIntervalInMs
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation NodeTypes.update
+  - Interface ManagedCluster no longer has parameter customFqdn
+    
+    
 ## 1.0.0-beta.2 (2024-10-16)
 Compared with version 1.0.0-beta.1
     

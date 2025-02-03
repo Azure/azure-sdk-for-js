@@ -15,6 +15,12 @@ It provides a place to centralize scripts, resources, and processes for developm
 `dev-tool`
 
 - `about` (display command help and information)
+- `check` (run checks on the package). See [Checks](#checks), below, for more information.
+  - `--tag=local` to run checks that should pass before pushing your code
+  - `--tag=ci` to run checks that should pass as part of the CI pipeline
+  - `--tag=release` to run checks that should pass before you release the package to npm
+  - `--verbose` to show more detailed output
+  - `--fix` to automatically fix some issues
 - `package`
   - `resolve` (display information about the project that owns a directory)
 - `samples`
@@ -231,6 +237,53 @@ Each variant supports an optional `shortName` field that specifies a one-letter 
 - Using the `subCommand` and `leafCommand` helpers is not required. If a command module exports any function with the signature `(...args: string[]) => Promise<boolean>` as its default export, it will run when the command is invoked and will be given the arguments passed in the parameters. **However**, only `subCommand` and `leafCommand` provide automatic argument parsing and handling of `--help`. The functions used to provide this behavior are located in the `src/util/commandBuilder.ts` module.
 - Some additional helper modules can be found in `src/util` such as `resolveProject.ts` which walks up the directory hierarchy and finds the absolute path of the nearest SDK package directory (useful for commands like `samples` which always operate relative to the package directory)
 - The tool runs using the `transpileOnly` option in the `ts-node` configuration, meaning it does not perform run-time type-checking. The build step of the package will run type-checking using `tsc`, so to check the tool's code for type errors, simply use `rushx build`.
+
+## Checks
+
+`dev-tool check` is a command which can be used to run pass/fail checks on SDK packages.
+
+### Usage
+
+```
+dev-tool check [--tag=<tag>] [--verbose] [--fix]
+```
+
+### What is a check?
+
+A check consists of a combination of metadata (name, description, "hasFix", tags, severity) and a _check function_. When a check is run, the check function is called with arguments providing information about the package being checked. If the check function runs to completion, the check passes; otherwise if an error is thrown then the check fails. A helper function, `check`, is provided which throws an error if a boolean condition is not met.
+
+Checks are defined in files under the `src/checks` directory in dev-tool. The check runner automatically discovers files in the directory. Each export from a file in the `src/checks` directory is expected to be a check. When running checks, the output is grouped by file, and then the name of the check. The name of the check, unless overridden in the metadata, is the name it is exported under.
+
+### Check metadata
+
+Checks can have this metadata, all optional:
+- `name`: the name of the check; if unspecified the name will be inferred from the name of the export
+- `description`: an extended description of the check which is shown if the check fails
+- `hasFix`: see "Fix mode", below; defaults to `false`, but if set to `true` indicates to the runner that the check is able to attempt to fix itself
+- `tags`: a list of "tags" which can be used to specify in what contexts the check should be run. If none are specified, the check will be run in all contexts. See "Tags" below.
+- `severity`: either "warning" or "error". Defaults to "error". If the severity is "error", the check failing will cause a failure exit code, but if the severity is only "warning" then a message will be output if the check fails but it will not cause a failure exit code.
+- `enable`: an optional additional function alongside the main check function. The check will only be run if the `enable` function returns `true` for the given project. This is useful for making checks that only run on ESM packages, for example.
+
+### Fix mode and `hasFix`
+
+A check can specify `hasFix: true` in its metadata to signal that the check is able to fix itself. If a check is fixable, running `dev-tool check` with `--fix` will pass `fix: true` to the check function. If this is passed, the check function is responsible for writing changes that fix the check to the filesystem.
+
+### Tags
+
+Not all checks need to be run all the time. For example, you might not want to run lengthy release checks like the package installability check locally every time you run `dev-tool check`. For this purpose, checks can specify "tags" in their metadata which govern when the check should be run. The `--tag` option can be passed in to the check command to specify which tag of check you want to run. By default, `dev-tool check` will only run checks which do not have a tag. Checks can use a wildcard tag `*` to run in all contexts.
+
+Currently available tags are:
+  - `local`: the check is intended to be run locally before you push your work
+  - `ci`: the check is intended to be run as part of the CI pipeline (e.g., format)
+  - `release`: the check is intended to be run as a final step before releasing the package (e.g., checking if the package is installable)
+  - if the `tags` field is left empty, the check will run all the time regardless of the value of the `--tag` argument. This is intended for quick checks that don't take long to run.
+
+### Building blocks for checks
+
+Many checks follow common patterns. Helper functions are available which can be used to create checks more easily. You can see them in action in the existing checks under `src/checks/`:
+- `scriptCheck`: creates a check which runs the given CLI command `checkCommand` and passes or fails based on the exit code of the command. An optional `fixCommand` can also be specified which will be run in fix mode.
+- `packageJsonCheck`: creates a check which can make assertions about the package.json file. This is intended to replace the package.json eslint rules we already have. Checks created with `packageJsonCheck` are passed the serialized package.json file. The check can make assertions about the serialized file. It can also mutate the serialized object; any material changes as a result of the mutation will cause the check to fail. If hasFix is set to true, the mutated package.json will be written to disk in fix mode.
+- `workingTreeUnchangedCheck`: can wrap an existing check or a fix command. The check or fix command will be run in fix mode always, and any changes to the working tree as a result of running the check will cause the check to fail. After the check is run, any working tree changes will be reverted, unless the check was run in fix mode.
 
 ## Contributing
 

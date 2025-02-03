@@ -31,9 +31,9 @@ Install the CancerProfiling REST client library for JavaScript with `npm`:
 npm install @azure-rest/health-insights-cancerprofiling
 ```
 
-|SDK version|Supported API version of service |
-|-------------|---------------|
-|1.0.0-beta.1 | 2023-03-01-preview|
+| SDK version  | Supported API version of service |
+| ------------ | -------------------------------- |
+| 1.0.0-beta.1 | 2023-03-01-preview               |
 
 ### Create and authenticate a `CancerProfilingRestClient`
 
@@ -41,7 +41,7 @@ To use an [Azure Active Directory (AAD) token credential](https://github.com/Azu
 provide an instance of the desired credential type obtained from the
 [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
 
 After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
@@ -55,57 +55,57 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 The Cancer Profiling model allows you to infer cancer attributes such as tumor site, histology, clinical stage TNM categories and pathologic stage TNM categories from unstructured clinical documents.
 
 ## Examples
+
 - [Infer Cancer Profiling](#cancer_profiling)
 
 ```typescript
 const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
-const endpoint =
-  process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 const credential = new AzureKeyCredential(apiKey);
 const client = CancerProfilingRestClient(endpoint, credential);
 
 // Define patient information and clinical documents for the request body
 const patientInfo = {
-        sex: "FEMALE",
-        birthDate: new Date("1979-10-08T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
-    };
+  sex: "FEMALE",
+  birthDate: new Date("1979-10-08T00:00:00.000Z"), // Note: Months are zero-based (11 represents December)
+};
 
-const doc1 = "15.8.2021"
-    "Jane Doe 091175-8967"
-    "42 year old female, married with 3 children, works as a nurse. "
-    "Healthy, no medications taken on a regular basis."
-    "PMHx is significant for migraines with aura, uses Mirena for contraception."
-    "Smoking history of 10 pack years (has stopped and relapsed several times)."
-    "She is in c/o 2 weeks of productive cough and shortness of breath."
-    "She has a fever of 37.8 and general weakness. "
-    "Denies night sweats and rash. She denies symptoms of rhinosinusitis, asthma, and heartburn. "
-    "On PE:"
-    "GENERAL: mild pallor, no cyanosis. Regular breathing rate. "
-    "LUNGS: decreased breath sounds on the base of the right lung. Vesicular breathing."
-    " No crackles, rales, and wheezes. Resonant percussion. "
-    "PLAN: "
-    "Will be referred for a chest x-ray. "
-    "======================================"
-    "CXR showed mild nonspecific opacities in right lung base. "
-    "PLAN:"
-    "Findings are suggestive of a working diagnosis of pneumonia. The patient is referred to a "
-    "follow-up CXR in 2 weeks. ";
+const doc1 = "15.8.2021";
+("Jane Doe 091175-8967");
+("42 year old female, married with 3 children, works as a nurse. ");
+("Healthy, no medications taken on a regular basis.");
+("PMHx is significant for migraines with aura, uses Mirena for contraception.");
+("Smoking history of 10 pack years (has stopped and relapsed several times).");
+("She is in c/o 2 weeks of productive cough and shortness of breath.");
+("She has a fever of 37.8 and general weakness. ");
+("Denies night sweats and rash. She denies symptoms of rhinosinusitis, asthma, and heartburn. ");
+("On PE:");
+("GENERAL: mild pallor, no cyanosis. Regular breathing rate. ");
+("LUNGS: decreased breath sounds on the base of the right lung. Vesicular breathing.");
+(" No crackles, rales, and wheezes. Resonant percussion. ");
+("PLAN: ");
+("Will be referred for a chest x-ray. ");
+("======================================");
+("CXR showed mild nonspecific opacities in right lung base. ");
+("PLAN:");
+("Findings are suggestive of a working diagnosis of pneumonia. The patient is referred to a ");
+("follow-up CXR in 2 weeks. ");
 
 const docContent = {
-    sourceType: "INLINE",
-    value: doc1
+  sourceType: "INLINE",
+  value: doc1,
 };
 
 const patientDoc1 = {
-    type: "NOTE",
-    id: "doc1",
-    content: docContent,
-    clinicalType: "IMAGING",
-    language: "en", 
-    createdDateTime: new Date("2021-15-08T00:00:00.000Z")
+  type: "NOTE",
+  id: "doc1",
+  content: docContent,
+  clinicalType: "IMAGING",
+  language: "en",
+  createdDateTime: new Date("2021-15-08T00:00:00.000Z"),
 };
 
- const doc1 = `15.8.2021
+const doc1 = `15.8.2021
         Jane Doe 091175-8967
         42 year old female, married with 3 children, works as a nurse. 
         Healthy, no medications taken on a regular basis.
@@ -126,21 +126,21 @@ const patientDoc1 = {
         Findings are suggestive of a working diagnosis of pneumonia. The patient is referred to a 
         follow-up CXR in 2 weeks. `;
 
-    const docContent = {
-        sourceType: "INLINE",
-        value: doc1
-    };
+const docContent = {
+  sourceType: "INLINE",
+  value: doc1,
+};
 
-    const patientDoc1 = {
-        type: "NOTE",
-        id: "doc1",
-        content: docContent,
-        clinicalType: "IMAGING",
-        language: "en", 
-        createdDateTime: new Date("2021-15-08T00:00:00.000Z")
-    };
+const patientDoc1 = {
+  type: "NOTE",
+  id: "doc1",
+  content: docContent,
+  clinicalType: "IMAGING",
+  language: "en",
+  createdDateTime: new Date("2021-15-08T00:00:00.000Z"),
+};
 
-    const doc2 = `Oncology Clinic 
+const doc2 = `Oncology Clinic 
        20.10.2021
        Jane Doe 091175-8967
        42-year-old healthy female who works as a nurse in the ER of this hospital. 
@@ -168,68 +168,72 @@ const patientDoc1 = {
        Different treatment options were explained- the patient wants to get a second opinion.`;
 
 const docContent2 = {
-    sourceType: "INLINE",
-    value: doc2
+  sourceType: "INLINE",
+  value: doc2,
 };
 
 const patientDoc2 = {
-    type: "NOTE",
-    id: "doc2",
-    content: docContent3,
-    clinicalType: "PATHOLOGY",
-    language: "en", 
-    createdDateTime: new Date("2022-01-01T00:00:00.000Z")
+  type: "NOTE",
+  id: "doc2",
+  content: docContent3,
+  clinicalType: "PATHOLOGY",
+  language: "en",
+  createdDateTime: new Date("2022-01-01T00:00:00.000Z"),
 };
 
 const patient1 = {
-    id: "patient_id",
-    info: patientInfo,
-    data: [patientDoc1, patientDoc2]
+  id: "patient_id",
+  info: patientInfo,
+  data: [patientDoc1, patientDoc2],
 };
 
 const cancerProfilingData: OncoPhenotypeData = {
-    patients: [patient1],
-    configuration: {includeEvidence: true}
+  patients: [patient1],
+  configuration: { includeEvidence: true },
 };
 
 const parameters = {
-    body: cancerProfilingData
+  body: cancerProfilingData,
 };
 
 // Initiate cancer profiling job and retrieve results
 const initialResponse = await client.path("/oncophenotype/jobs").post(parameters);
 if (isUnexpected(initialResponse)) {
-    throw initialResponse;
+  throw initialResponse;
 }
 const poller = await getLongRunningPoller(client, initialResponse);
 const cancerProfilingResult = await poller.pollUntilDone();
 if (isUnexpected(cancerProfilingResult)) {
-    throw cancerProfilingResult;
+  throw cancerProfilingResult;
 }
 const resultBody = cancerProfilingResult.body;
 // Print the inference results for a patient's cancer attributes
 if (cancerProfilingResult.status === "succeeded") {
-    const results = cancerProfilingResult.results;
-    if (results) {
-        for (const patientResult of results.patients) {
-            console.log(`Inferences of Patient ${patientResult.id}`);
-            for (const { type, value, confidenceScore, evidence } of patientResult.inferences) {
-                console.log(`Clinical Type: ${String(type)} Value: ${value}, ConfidenceScore: ${confidenceScore}`);
-                for (const { patientDataEvidence } of evidence || []) {
-                    if (patientDataEvidence) {
-                        console.log(`Evidence: ${patientDataEvidence.id} ${patientDataEvidence.offset} ${patientDataEvidence.length} ${patientDataEvidence.text}`);
-                    }
-                }
-            }
+  const results = cancerProfilingResult.results;
+  if (results) {
+    for (const patientResult of results.patients) {
+      console.log(`Inferences of Patient ${patientResult.id}`);
+      for (const { type, value, confidenceScore, evidence } of patientResult.inferences) {
+        console.log(
+          `Clinical Type: ${String(type)} Value: ${value}, ConfidenceScore: ${confidenceScore}`,
+        );
+        for (const { patientDataEvidence } of evidence || []) {
+          if (patientDataEvidence) {
+            console.log(
+              `Evidence: ${patientDataEvidence.id} ${patientDataEvidence.offset} ${patientDataEvidence.length} ${patientDataEvidence.text}`,
+            );
+          }
         }
-    }
-} else {
-    const errors = cancerProfilingResult.errors;
-    if (errors) {
-      for (const error of errors) {
-          console.log(error.code, ":", error.message);
       }
     }
+  }
+} else {
+  const errors = cancerProfilingResult.errors;
+  if (errors) {
+    for (const error of errors) {
+      console.log(error.code, ":", error.message);
+    }
+  }
 }
 ```
 
@@ -250,13 +254,12 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 ## Next steps
 
 This code sample show common scenario operation with the Azure Health Insights Cancer Profiling library. More samples can be found under the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta/typescript/src/) directory.
-- Infer Cancer Profiling: [sample_infer_cancer_profiling.ts](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta/typescript/src/sample_infer_cancer_profiling.ts)
 
+- Infer Cancer Profiling: [sample_infer_cancer_profiling.ts](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-cancerprofiling-rest/samples/v1-beta/typescript/src/sample_infer_cancer_profiling.ts)
 
 ### Additional documentation
 
-For more extensive documentation on Azure Health Insights Cancer Profiling, see the [Cancer Profiling documentation](https://learn.microsoft.com/azure/azure-health-insights/oncophenotype/overview) on docs.microsoft.com.
-
+For more extensive documentation on Azure Health Insights Cancer Profiling, see the [Cancer Profiling documentation](https://learn.microsoft.com/azure/azure-health-insights/oncophenotype/overview) on learn.microsoft.com.
 
 ## Contributing
 
@@ -267,6 +270,7 @@ When you submit a pull request, a CLA-bot will automatically determine whether y
 This project has adopted the [Microsoft Open Source Code of Conduct][code_of_conduct]. For more information see the [Code of Conduct FAQ][coc_faq] or contact [opencode@microsoft.com][coc_contact] with any additional questions or comments.
 
 <!-- LINKS -->
+
 [cla]: https://cla.microsoft.com
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/

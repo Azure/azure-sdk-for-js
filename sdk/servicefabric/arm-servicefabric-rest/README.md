@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabric/arm-servicefabric-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/arm-servicefabric)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/arm-servicefabric?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/arm-servicefabric?view=azure-node-preview)
 - [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -35,7 +35,7 @@ To use an [Azure Active Directory (AAD) token credential](https://github.com/Azu
 provide an instance of the desired credential type obtained from the
 [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
 
 After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
@@ -43,7 +43,6 @@ can be used to authenticate the client.
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
-
 
 ## Examples
 
@@ -62,7 +61,7 @@ async function listClusters() {
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters",
-      subscriptionId
+      subscriptionId,
     )
     .get();
   console.log(result);
@@ -70,7 +69,6 @@ async function listClusters() {
 
 listClusters().catch(console.error);
 ```
-
 
 ## Troubleshooting
 

@@ -23,7 +23,7 @@ import {
   VirtualMachineRunCommandsDeleteOptionalParams,
   VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
   VirtualMachineRunCommandsGetByVirtualMachineResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachineRunCommands. */

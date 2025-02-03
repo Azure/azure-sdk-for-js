@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import AzureHealthInsightsClient from "./azureHealthInsightsClient";
+import AzureHealthInsightsClient from "./azureHealthInsightsClient.js";
 
-export * from "./azureHealthInsightsClient";
-export * from "./clientDefinitions";
-export * from "./isUnexpected";
-export * from "./models";
-export * from "./outputModels";
-export * from "./parameters";
-export * from "./pollingHelper";
-export * from "./responses";
-export * from "./serializeHelper";
+export * from "./azureHealthInsightsClient.js";
+export * from "./clientDefinitions.js";
+export * from "./isUnexpected.js";
+export * from "./models.js";
+export * from "./outputModels.js";
+export * from "./parameters.js";
+export * from "./pollingHelper.js";
+export * from "./responses.js";
+export * from "./serializeHelper.js";
 
+// eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
 export default AzureHealthInsightsClient;

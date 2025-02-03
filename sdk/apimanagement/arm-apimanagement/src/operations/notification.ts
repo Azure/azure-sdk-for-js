@@ -6,286 +6,286 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Notification } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
-  NotificationContract,
-  NotificationListByServiceNextOptionalParams,
-  NotificationListByServiceOptionalParams,
-  NotificationListByServiceResponse,
-  NotificationName,
-  NotificationGetOptionalParams,
-  NotificationGetResponse,
-  NotificationCreateOrUpdateOptionalParams,
-  NotificationCreateOrUpdateResponse,
-  NotificationListByServiceNextResponse
-} from "../models";
+    NotificationContract,
+    NotificationCreateOrUpdateOptionalParams,
+    NotificationCreateOrUpdateResponse,
+    NotificationGetOptionalParams,
+    NotificationGetResponse,
+    NotificationListByServiceNextOptionalParams,
+    NotificationListByServiceNextResponse,
+    NotificationListByServiceOptionalParams,
+    NotificationListByServiceResponse,
+    NotificationName
+} from "../models/index.js";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { Notification } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Notification operations. */
 export class NotificationImpl implements Notification {
-  private readonly client: ApiManagementClient;
+    private readonly client: ApiManagementClient;
 
-  /**
-   * Initialize a new instance of the class Notification class.
-   * @param client Reference to the service client
-   */
-  constructor(client: ApiManagementClient) {
-    this.client = client;
-  }
+    /**
+     * Initialize a new instance of the class Notification class.
+     * @param client Reference to the service client
+     */
+    constructor(client: ApiManagementClient) {
+        this.client = client;
+    }
 
-  /**
-   * Lists a collection of properties defined within a service instance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  public listByService(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: NotificationListByServiceOptionalParams
-  ): PagedAsyncIterableIterator<NotificationContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          options,
-          settings
+    /**
+     * Lists a collection of properties defined within a service instance.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    public listByService(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: NotificationListByServiceOptionalParams
+    ): PagedAsyncIterableIterator<NotificationContract> {
+        const iter = this.listByServicePagingAll(
+            resourceGroupName,
+            serviceName,
+            options
         );
-      }
-    };
-  }
-
-  private async *listByServicePagingPage(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: NotificationListByServiceOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<NotificationContract[]> {
-    let result: NotificationListByServiceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
+        return {
+            next() {
+                return iter.next();
+            },
+            [Symbol.asyncIterator]() {
+                return this;
+            },
+            byPage: (settings?: PageSettings) => {
+                if (settings?.maxPageSize) {
+                    throw new Error("maxPageSize is not supported by this operation.");
+                }
+                return this.listByServicePagingPage(
+                    resourceGroupName,
+                    serviceName,
+                    options,
+                    settings
+                );
+            }
+        };
     }
-    while (continuationToken) {
-      result = await this._listByServiceNext(
-        resourceGroupName,
-        serviceName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+
+    private async *listByServicePagingPage(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: NotificationListByServiceOptionalParams,
+        settings?: PageSettings
+    ): AsyncIterableIterator<NotificationContract[]> {
+        let result: NotificationListByServiceResponse;
+        let continuationToken = settings?.continuationToken;
+        if (!continuationToken) {
+            result = await this._listByService(
+                resourceGroupName,
+                serviceName,
+                options
+            );
+            let page = result.value || [];
+            continuationToken = result.nextLink;
+            setContinuationToken(page, continuationToken);
+            yield page;
+        }
+        while (continuationToken) {
+            result = await this._listByServiceNext(
+                resourceGroupName,
+                serviceName,
+                continuationToken,
+                options
+            );
+            continuationToken = result.nextLink;
+            let page = result.value || [];
+            setContinuationToken(page, continuationToken);
+            yield page;
+        }
     }
-  }
 
-  private async *listByServicePagingAll(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: NotificationListByServiceOptionalParams
-  ): AsyncIterableIterator<NotificationContract> {
-    for await (const page of this.listByServicePagingPage(
-      resourceGroupName,
-      serviceName,
-      options
-    )) {
-      yield* page;
+    private async *listByServicePagingAll(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: NotificationListByServiceOptionalParams
+    ): AsyncIterableIterator<NotificationContract> {
+        for await (const page of this.listByServicePagingPage(
+            resourceGroupName,
+            serviceName,
+            options
+        )) {
+            yield* page;
+        }
     }
-  }
 
-  /**
-   * Lists a collection of properties defined within a service instance.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param options The options parameters.
-   */
-  private _listByService(
-    resourceGroupName: string,
-    serviceName: string,
-    options?: NotificationListByServiceOptionalParams
-  ): Promise<NotificationListByServiceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, options },
-      listByServiceOperationSpec
-    );
-  }
+    /**
+     * Lists a collection of properties defined within a service instance.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param options The options parameters.
+     */
+    private _listByService(
+        resourceGroupName: string,
+        serviceName: string,
+        options?: NotificationListByServiceOptionalParams
+    ): Promise<NotificationListByServiceResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, options },
+            listByServiceOperationSpec
+        );
+    }
 
-  /**
-   * Gets the details of the Notification specified by its identifier.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param notificationName Notification Name Identifier.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    serviceName: string,
-    notificationName: NotificationName,
-    options?: NotificationGetOptionalParams
-  ): Promise<NotificationGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, notificationName, options },
-      getOperationSpec
-    );
-  }
+    /**
+     * Gets the details of the Notification specified by its identifier.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param notificationName Notification Name Identifier.
+     * @param options The options parameters.
+     */
+    get(
+        resourceGroupName: string,
+        serviceName: string,
+        notificationName: NotificationName,
+        options?: NotificationGetOptionalParams
+    ): Promise<NotificationGetResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, notificationName, options },
+            getOperationSpec
+        );
+    }
 
-  /**
-   * Create or Update API Management publisher notification.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param notificationName Notification Name Identifier.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    serviceName: string,
-    notificationName: NotificationName,
-    options?: NotificationCreateOrUpdateOptionalParams
-  ): Promise<NotificationCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, notificationName, options },
-      createOrUpdateOperationSpec
-    );
-  }
+    /**
+     * Create or Update API Management publisher notification.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param notificationName Notification Name Identifier.
+     * @param options The options parameters.
+     */
+    createOrUpdate(
+        resourceGroupName: string,
+        serviceName: string,
+        notificationName: NotificationName,
+        options?: NotificationCreateOrUpdateOptionalParams
+    ): Promise<NotificationCreateOrUpdateResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, notificationName, options },
+            createOrUpdateOperationSpec
+        );
+    }
 
-  /**
-   * ListByServiceNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param nextLink The nextLink from the previous successful call to the ListByService method.
-   * @param options The options parameters.
-   */
-  private _listByServiceNext(
-    resourceGroupName: string,
-    serviceName: string,
-    nextLink: string,
-    options?: NotificationListByServiceNextOptionalParams
-  ): Promise<NotificationListByServiceNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, nextLink, options },
-      listByServiceNextOperationSpec
-    );
-  }
+    /**
+     * ListByServiceNext
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param nextLink The nextLink from the previous successful call to the ListByService method.
+     * @param options The options parameters.
+     */
+    private _listByServiceNext(
+        resourceGroupName: string,
+        serviceName: string,
+        nextLink: string,
+        options?: NotificationListByServiceNextOptionalParams
+    ): Promise<NotificationListByServiceNextResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, nextLink, options },
+            listByServiceNextOperationSpec
+        );
+    }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NotificationCollection
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.NotificationCollection
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.top, Parameters.skip, Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.top, Parameters.skip, Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NotificationContract
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.NotificationContract
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.notificationName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.notificationName
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NotificationContract
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/notifications/{notificationName}",
+    httpMethod: "PUT",
+    responses: {
+        200: {
+            bodyMapper: Mappers.NotificationContract
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.notificationName
-  ],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.notificationName
+    ],
+    headerParameters: [Parameters.accept, Parameters.ifMatch],
+    serializer
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NotificationCollection
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.NotificationCollection
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.nextLink
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };

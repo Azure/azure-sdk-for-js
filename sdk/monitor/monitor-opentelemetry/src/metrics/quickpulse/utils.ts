@@ -3,7 +3,6 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 
-import * as os from "os";
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import type { LogRecord } from "@opentelemetry/sdk-logs";
 import type {
@@ -34,16 +33,6 @@ import {
   SEMATTRS_NET_PEER_NAME,
   SEMATTRS_NET_PEER_PORT,
   SEMATTRS_RPC_GRPC_STATUS_CODE,
-  SEMRESATTRS_K8S_CRONJOB_NAME,
-  SEMRESATTRS_K8S_DAEMONSET_NAME,
-  SEMRESATTRS_K8S_DEPLOYMENT_NAME,
-  SEMRESATTRS_K8S_JOB_NAME,
-  SEMRESATTRS_K8S_POD_NAME,
-  SEMRESATTRS_K8S_REPLICASET_NAME,
-  SEMRESATTRS_K8S_STATEFULSET_NAME,
-  SEMRESATTRS_SERVICE_INSTANCE_ID,
-  SEMRESATTRS_SERVICE_NAME,
-  SEMRESATTRS_SERVICE_NAMESPACE,
   SEMRESATTRS_TELEMETRY_SDK_VERSION,
   SEMATTRS_EXCEPTION_STACKTRACE,
   SEMATTRS_DB_SYSTEM,
@@ -65,7 +54,6 @@ import {
   AZURE_MONITOR_PREFIX,
   AttachTypePrefix,
 } from "../../types";
-import type { Resource } from "@opentelemetry/resources";
 import type { RequestData, DependencyData, ExceptionData, TraceData, TelemetryData } from "./types";
 import {
   QuickPulseMetricNames,
@@ -76,6 +64,7 @@ import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
 import type { LogAttributes } from "@opentelemetry/api-logs";
 import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils";
+import { Logger } from "../../shared/logging";
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {
@@ -97,71 +86,6 @@ export function setSdkPrefix(): void {
     process.env[AZURE_MONITOR_PREFIX] =
       `${getResourceProvider()}${getOsPrefix()}${prefixAttachType}_`;
   }
-}
-
-export function getCloudRole(resource: Resource): string {
-  let cloudRole = "";
-  // Service attributes
-  const serviceName = resource.attributes[SEMRESATTRS_SERVICE_NAME];
-  const serviceNamespace = resource.attributes[SEMRESATTRS_SERVICE_NAMESPACE];
-  if (serviceName) {
-    // Custom Service name provided by customer is highest precedence
-    if (!String(serviceName).startsWith("unknown_service")) {
-      if (serviceNamespace) {
-        return `${serviceNamespace}.${serviceName}`;
-      } else {
-        return String(serviceName);
-      }
-    } else {
-      // Service attributes will be only used if K8S attributes are not present
-      if (serviceNamespace) {
-        cloudRole = `${serviceNamespace}.${serviceName}`;
-      } else {
-        cloudRole = String(serviceName);
-      }
-    }
-  }
-  // Kubernetes attributes should take precedence
-  const kubernetesDeploymentName = resource.attributes[SEMRESATTRS_K8S_DEPLOYMENT_NAME];
-  if (kubernetesDeploymentName) {
-    return String(kubernetesDeploymentName);
-  }
-  const kuberneteReplicasetName = resource.attributes[SEMRESATTRS_K8S_REPLICASET_NAME];
-  if (kuberneteReplicasetName) {
-    return String(kuberneteReplicasetName);
-  }
-  const kubernetesStatefulSetName = resource.attributes[SEMRESATTRS_K8S_STATEFULSET_NAME];
-  if (kubernetesStatefulSetName) {
-    return String(kubernetesStatefulSetName);
-  }
-  const kubernetesJobName = resource.attributes[SEMRESATTRS_K8S_JOB_NAME];
-  if (kubernetesJobName) {
-    return String(kubernetesJobName);
-  }
-  const kubernetesCronjobName = resource.attributes[SEMRESATTRS_K8S_CRONJOB_NAME];
-  if (kubernetesCronjobName) {
-    return String(kubernetesCronjobName);
-  }
-  const kubernetesDaemonsetName = resource.attributes[SEMRESATTRS_K8S_DAEMONSET_NAME];
-  if (kubernetesDaemonsetName) {
-    return String(kubernetesDaemonsetName);
-  }
-  return cloudRole;
-}
-
-export function getCloudRoleInstance(resource: Resource): string {
-  // Kubernetes attributes should take precedence
-  const kubernetesPodName = resource.attributes[SEMRESATTRS_K8S_POD_NAME];
-  if (kubernetesPodName) {
-    return String(kubernetesPodName);
-  }
-  // Service attributes
-  const serviceInstanceId = resource.attributes[SEMRESATTRS_SERVICE_INSTANCE_ID];
-  if (serviceInstanceId) {
-    return String(serviceInstanceId);
-  }
-  // Default
-  return os && os.hostname();
 }
 
 export function resourceMetricsToQuickpulseDataPoint(
@@ -305,8 +229,12 @@ function getRequestData(span: ReadableSpan): RequestData {
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
     requestData.Url = getUrl(span.attributes);
-    const urlObj = new URL(requestData.Url);
-    requestData.Name = `${httpMethod} ${urlObj.pathname}`;
+    if (URL.canParse(requestData.Url)) {
+      const urlObj = new URL(requestData.Url);
+      requestData.Name = `${httpMethod} ${urlObj.pathname}`;
+    } else {
+      Logger.getInstance().info("Request data sent to live metrics has no valid URL field.");
+    }
     const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
     if (httpStatusCode) {
       requestData.ResponseCode = Number(httpStatusCode);
@@ -345,11 +273,11 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   if (httpMethod) {
     const httpUrl = span.attributes[SEMATTRS_HTTP_URL];
     if (httpUrl) {
-      try {
+      if (URL.canParse(String(httpUrl))) {
         const dependencyUrl = new URL(String(httpUrl));
         dependencyData.Name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex: any) {
-        /* no-op */
+      } else {
+        Logger.getInstance().info("Dependency data sent to live metrics has no valid URL field.");
       }
     }
     dependencyData.Type = DependencyTypes.Http;

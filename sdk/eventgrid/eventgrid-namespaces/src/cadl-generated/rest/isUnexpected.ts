@@ -16,7 +16,7 @@ import type {
   RejectCloudEventsDefaultResponse,
   RenewCloudEventLocks200Response,
   RenewCloudEventLocksDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /topics/{topicName}:publish": ["200"],

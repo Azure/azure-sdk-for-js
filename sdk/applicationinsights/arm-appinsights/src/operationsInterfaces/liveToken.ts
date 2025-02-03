@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { LiveTokenGetOptionalParams, LiveTokenGetResponse } from "../models";
+import { LiveTokenGetOptionalParams, LiveTokenGetResponse } from "../models/index.js";
 
 /** Interface representing a LiveToken. */
 export interface LiveToken {

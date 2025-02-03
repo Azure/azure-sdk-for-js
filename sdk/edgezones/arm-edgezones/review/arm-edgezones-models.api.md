@@ -4,15 +4,8 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -55,22 +48,6 @@ export interface ExtendedZoneProperties {
     readonly regionCategory: string;
     readonly regionType: string;
     readonly registrationState?: RegistrationState;
-}
-
-// @public
-export interface ExtendedZonesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExtendedZonesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExtendedZonesRegisterOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ExtendedZonesUnregisterOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -126,23 +103,7 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export type ProvisioningState = string | ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted";

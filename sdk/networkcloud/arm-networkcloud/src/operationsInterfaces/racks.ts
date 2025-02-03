@@ -17,8 +17,9 @@ import {
   RacksCreateOrUpdateOptionalParams,
   RacksCreateOrUpdateResponse,
   RacksDeleteOptionalParams,
+  RacksDeleteResponse,
   RacksUpdateOptionalParams,
-  RacksUpdateResponse
+  RacksUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +30,7 @@ export interface Racks {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: RacksListBySubscriptionOptionalParams
+    options?: RacksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Rack>;
   /**
    * Get a list of racks in the provided resource group.
@@ -38,7 +39,7 @@ export interface Racks {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: RacksListByResourceGroupOptionalParams
+    options?: RacksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Rack>;
   /**
    * Get properties of the provided rack.
@@ -49,7 +50,7 @@ export interface Racks {
   get(
     resourceGroupName: string,
     rackName: string,
-    options?: RacksGetOptionalParams
+    options?: RacksGetOptionalParams,
   ): Promise<RacksGetResponse>;
   /**
    * Create a new rack or update properties of the existing one.
@@ -64,7 +65,7 @@ export interface Racks {
     resourceGroupName: string,
     rackName: string,
     rackParameters: Rack,
-    options?: RacksCreateOrUpdateOptionalParams
+    options?: RacksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RacksCreateOrUpdateResponse>,
@@ -84,7 +85,7 @@ export interface Racks {
     resourceGroupName: string,
     rackName: string,
     rackParameters: Rack,
-    options?: RacksCreateOrUpdateOptionalParams
+    options?: RacksCreateOrUpdateOptionalParams,
   ): Promise<RacksCreateOrUpdateResponse>;
   /**
    * Delete the provided rack.
@@ -97,8 +98,10 @@ export interface Racks {
   beginDelete(
     resourceGroupName: string,
     rackName: string,
-    options?: RacksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: RacksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<OperationState<RacksDeleteResponse>, RacksDeleteResponse>
+  >;
   /**
    * Delete the provided rack.
    * All customer initiated requests will be rejected as the life cycle of this resource is managed by
@@ -110,8 +113,8 @@ export interface Racks {
   beginDeleteAndWait(
     resourceGroupName: string,
     rackName: string,
-    options?: RacksDeleteOptionalParams
-  ): Promise<void>;
+    options?: RacksDeleteOptionalParams,
+  ): Promise<RacksDeleteResponse>;
   /**
    * Patch properties of the provided rack, or update the tags associated with the rack. Properties and
    * tag updates can be done independently.
@@ -122,7 +125,7 @@ export interface Racks {
   beginUpdate(
     resourceGroupName: string,
     rackName: string,
-    options?: RacksUpdateOptionalParams
+    options?: RacksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RacksUpdateResponse>, RacksUpdateResponse>
   >;
@@ -136,6 +139,6 @@ export interface Racks {
   beginUpdateAndWait(
     resourceGroupName: string,
     rackName: string,
-    options?: RacksUpdateOptionalParams
+    options?: RacksUpdateOptionalParams,
   ): Promise<RacksUpdateResponse>;
 }

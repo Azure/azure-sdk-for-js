@@ -1,15 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  AdminRulesGetParameters
-} from "@azure-rest/arm-network";
+import createNetworkManagementClient, { AdminRulesGetParameters } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a network manager security configuration admin rule.
@@ -27,7 +20,7 @@ async function getsSecurityAdminRule() {
   const ruleCollectionName = "testRuleCollection";
   const ruleName = "SampleAdminRule";
   const options: AdminRulesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -37,7 +30,7 @@ async function getsSecurityAdminRule() {
       networkManagerName,
       configurationName,
       ruleCollectionName,
-      ruleName
+      ruleName,
     )
     .get(options);
   console.log(result);
@@ -60,7 +53,7 @@ async function getsSecurityDefaultAdminRule() {
   const ruleCollectionName = "testRuleCollection";
   const ruleName = "SampleDefaultAdminRule";
   const options: AdminRulesGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -70,7 +63,7 @@ async function getsSecurityDefaultAdminRule() {
       networkManagerName,
       configurationName,
       ruleCollectionName,
-      ruleName
+      ruleName,
     )
     .get(options);
   console.log(result);

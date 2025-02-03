@@ -10,8 +10,8 @@ import type {
   PiiEntityRecognitionResult,
   PiiEntityRecognitionSuccessResult,
   SentimentAnalysisResult,
-} from "../../src/";
-import { KnownErrorCode } from "../../src/";
+} from "../../src/index.js";
+import { KnownErrorCode } from "../../src/index.js";
 
 const failedOn = undefined as any;
 const modelVersion = undefined as any;

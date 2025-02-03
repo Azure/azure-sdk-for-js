@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { paginate } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the specified network interface ip configuration in a virtual machine scale set.
@@ -32,7 +32,7 @@ async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
       resourceGroupName,
       virtualMachineScaleSetName,
       virtualmachineIndex,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

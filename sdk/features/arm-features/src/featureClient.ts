@@ -15,17 +15,17 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "./pagingHelper";
+import { setContinuationToken } from "./pagingHelper.js";
 import {
   FeaturesImpl,
   SubscriptionFeatureRegistrationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Features,
   SubscriptionFeatureRegistrations
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   FeatureClientOptionalParams,
   Operation,
@@ -33,7 +33,7 @@ import {
   ListOperationsOptionalParams,
   ListOperationsResponse,
   ListOperationsNextResponse
-} from "./models";
+} from "./models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 export class FeatureClient extends coreClient.ServiceClient {

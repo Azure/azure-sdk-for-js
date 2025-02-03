@@ -10,23 +10,23 @@ export interface ErrorResponseOutput {
 /** The error detail. */
 export interface ErrorDetailOutput {
   /** The error code. */
-  code?: string;
+  readonly code?: string;
   /** The error message. */
-  message?: string;
+  readonly message?: string;
   /** The error target. */
-  target?: string;
+  readonly target?: string;
   /** The error details. */
-  details?: Array<ErrorDetailOutput>;
+  readonly details?: Array<ErrorDetailOutput>;
   /** The error additional info. */
-  additionalInfo?: Array<ErrorAdditionalInfoOutput>;
+  readonly additionalInfo?: Array<ErrorAdditionalInfoOutput>;
 }
 
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfoOutput {
   /** The additional info type. */
-  type?: string;
+  readonly type?: string;
   /** The additional info. */
-  info?: Record<string, unknown>;
+  readonly info?: Record<string, unknown>;
 }
 
 /** Metadata for a tileset in the TileJSON format. */
@@ -72,32 +72,32 @@ export interface MapAttributionOutput {
 /** This object is returned from a successful copyright call */
 export interface CopyrightCaptionOutput {
   /** Format Version property */
-  formatVersion?: string;
+  readonly formatVersion?: string;
   /** Copyrights Caption property */
-  copyrightsCaption: string;
+  readonly copyrightsCaption: string;
 }
 
 /** This object is returned from a successful copyright request */
 export interface CopyrightOutput {
   /** Format Version property */
-  formatVersion?: string;
+  readonly formatVersion?: string;
   /** General Copyrights array */
-  generalCopyrights?: Array<string>;
+  readonly generalCopyrights?: Array<string>;
   /** Regions array */
-  regions?: Array<RegionCopyrightsOutput>;
+  readonly regions?: Array<RegionCopyrightsOutput>;
 }
 
 export interface RegionCopyrightsOutput {
   /** Copyrights array */
-  copyrights: Array<string>;
+  readonly copyrights: Array<string>;
   /** Country property */
-  country: RegionCopyrightsCountryOutput;
+  readonly country: RegionCopyrightsCountryOutput;
 }
 
 /** Country property */
 export interface RegionCopyrightsCountryOutput {
   /** ISO3 property */
-  ISO3: string;
+  readonly ISO3: string;
   /** Label property */
-  label: string;
+  readonly label: string;
 }

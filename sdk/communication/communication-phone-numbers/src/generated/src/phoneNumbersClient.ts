@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { PhoneNumbersImpl } from "./operations";
-import { PhoneNumbers } from "./operationsInterfaces";
-import { PhoneNumbersClientOptionalParams } from "./models";
+import { PhoneNumbersImpl } from "./operations/index.js";
+import { PhoneNumbers } from "./operationsInterfaces/index.js";
+import { PhoneNumbersClientOptionalParams } from "./models/index.js";
 
 export class PhoneNumbersClient extends coreClient.ServiceClient {
   endpoint: string;

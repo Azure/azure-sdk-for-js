@@ -242,7 +242,7 @@ export interface RecommendationsGenerateHeaders {
 /** Known values of {@link Scenario} that the service accepts. */
 export enum KnownScenario {
   /** Alerts */
-  Alerts = "Alerts"
+  Alerts = "Alerts",
 }
 
 /**
@@ -263,7 +263,7 @@ export enum KnownCpuThreshold {
   /** Fifteen */
   Fifteen = "15",
   /** Twenty */
-  Twenty = "20"
+  Twenty = "20",
 }
 
 /**
@@ -289,7 +289,7 @@ export enum KnownCategory {
   /** Cost */
   Cost = "Cost",
   /** OperationalExcellence */
-  OperationalExcellence = "OperationalExcellence"
+  OperationalExcellence = "OperationalExcellence",
 }
 
 /**
@@ -310,7 +310,7 @@ export enum KnownDigestConfigState {
   /** Active */
   Active = "Active",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -326,7 +326,7 @@ export type DigestConfigState = string;
 /** Known values of {@link ConfigurationName} that the service accepts. */
 export enum KnownConfigurationName {
   /** Default */
-  Default = "default"
+  Default = "default",
 }
 
 /**
@@ -345,7 +345,7 @@ export enum KnownImpact {
   /** Medium */
   Medium = "Medium",
   /** Low */
-  Low = "Low"
+  Low = "Low",
 }
 
 /**
@@ -366,7 +366,7 @@ export enum KnownRisk {
   /** Warning */
   Warning = "Warning",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -381,22 +381,19 @@ export enum KnownRisk {
 export type Risk = string;
 
 /** Optional parameters. */
-export interface RecommendationMetadataGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationMetadataGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RecommendationMetadataGetResponse = MetadataEntity;
 
 /** Optional parameters. */
-export interface RecommendationMetadataListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationMetadataListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type RecommendationMetadataListResponse = MetadataEntityListResult;
 
 /** Optional parameters. */
-export interface RecommendationMetadataListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationMetadataListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecommendationMetadataListNextResponse = MetadataEntityListResult;
@@ -437,8 +434,7 @@ export interface ConfigurationsListBySubscriptionNextOptionalParams
 export type ConfigurationsListBySubscriptionNextResponse = ConfigurationListResult;
 
 /** Optional parameters. */
-export interface RecommendationsGenerateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationsGenerateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the generate operation. */
 export type RecommendationsGenerateResponse = RecommendationsGenerateHeaders;
@@ -448,8 +444,7 @@ export interface RecommendationsGetGenerateStatusOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface RecommendationsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface RecommendationsListOptionalParams extends coreClient.OperationOptions {
   /** The filter to apply to the recommendations.<br>Filter can be applied to properties ['ResourceId', 'ResourceGroup', 'RecommendationTypeGuid', '[Category](#category)'] with operators ['eq', 'and', 'or'].<br>Example:<br>- $filter=Category eq 'Cost' and ResourceGroup eq 'MyResourceGroup' */
   filter?: string;
   /** The number of recommendations per page if a paged version of this API is being used. */
@@ -462,54 +457,46 @@ export interface RecommendationsListOptionalParams
 export type RecommendationsListResponse = ResourceRecommendationBaseListResult;
 
 /** Optional parameters. */
-export interface RecommendationsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type RecommendationsGetResponse = ResourceRecommendationBase;
 
 /** Optional parameters. */
-export interface RecommendationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface RecommendationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type RecommendationsListNextResponse = ResourceRecommendationBaseListResult;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationEntityListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationEntityListResult;
 
 /** Optional parameters. */
-export interface SuppressionsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SuppressionsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type SuppressionsGetResponse = SuppressionContract;
 
 /** Optional parameters. */
-export interface SuppressionsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SuppressionsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type SuppressionsCreateResponse = SuppressionContract;
 
 /** Optional parameters. */
-export interface SuppressionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SuppressionsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface SuppressionsListOptionalParams
-  extends coreClient.OperationOptions {
+export interface SuppressionsListOptionalParams extends coreClient.OperationOptions {
   /** The number of suppressions per page if a paged version of this API is being used. */
   top?: number;
   /** The page-continuation token to use with a paged version of this API. */
@@ -520,15 +507,13 @@ export interface SuppressionsListOptionalParams
 export type SuppressionsListResponse = SuppressionContractListResult;
 
 /** Optional parameters. */
-export interface SuppressionsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+export interface SuppressionsListNextOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type SuppressionsListNextResponse = SuppressionContractListResult;
 
 /** Optional parameters. */
-export interface AdvisorManagementClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+export interface AdvisorManagementClientOptionalParams extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
   /** Api Version */

@@ -43,7 +43,7 @@ const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-empty-object-type": "off",
   "@typescript-eslint/no-namespace": "error",
   "@typescript-eslint/no-non-null-assertion": "off",
-  "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+  "@typescript-eslint/no-unused-vars": "off", // typescript compiler already checks this
   "@typescript-eslint/no-unused-expressions": "off",
   "@typescript-eslint/no-useless-constructor": "error",
   "@typescript-eslint/no-var-requires": "off",
@@ -74,7 +74,6 @@ const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
   "@azure/azure-sdk/github-source-headers": "error",
   "@azure/azure-sdk/ts-apiextractor-json-types": "error",
   "@azure/azure-sdk/ts-apisurface-standardized-verbs": "error",
-  "@azure/azure-sdk/ts-config-include": "error",
   "@azure/azure-sdk/ts-doc-internal-private-member": "warn",
   "@azure/azure-sdk/ts-error-handling": "off",
   "@azure/azure-sdk/ts-modules-only-named": "error",
@@ -170,7 +169,7 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
     languageOptions: {
       parser,
       parserOptions: {
-        project: ["./tsconfig.json"],
+        projectService: true,
       },
     },
     rules,

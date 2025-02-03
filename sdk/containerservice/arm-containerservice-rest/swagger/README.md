@@ -5,6 +5,8 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: arm
 package-name: "@azure-rest/arm-containerservice"
 title: ContainerServiceClient
 description: Container Service Client
@@ -20,5 +22,5 @@ rest-level-client: true
 security: AADToken
 security-scopes: "https://management.azure.com/.default"
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.1"
+  "@autorest/typescript": "latest"
 ```
