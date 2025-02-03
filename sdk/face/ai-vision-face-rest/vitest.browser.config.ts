@@ -11,18 +11,14 @@ export default defineConfig({
     "process.env": process.env,
   },
   test: {
-    reporters: ["verbose", "junit"],
+    reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },
     browser: {
-      instances: [
-        {
-          browser: "chromium",
-        },
-      ],
       enabled: true,
       headless: true,
+      name: "chromium",
       provider: "playwright",
     },
     fakeTimers: {
@@ -37,5 +33,6 @@ export default defineConfig({
       reportsDirectory: "coverage-browser",
     },
     testTimeout: 1200000,
+    hookTimeout: 1200000,
   },
 });

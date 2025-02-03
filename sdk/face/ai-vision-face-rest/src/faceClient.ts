@@ -24,7 +24,7 @@ export interface FaceClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
-  { apiVersion = "v1.2-preview.1", ...options }: FaceClientOptions = {},
+  { apiVersion = "v1.2", ...options }: FaceClientOptions = {},
 ): FaceClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/face/${apiVersion}`;
   const userAgentInfo = `azsdk-js-ai-vision-face-rest/1.0.0-beta.3`;

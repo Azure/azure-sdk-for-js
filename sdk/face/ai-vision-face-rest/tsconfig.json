@@ -1,7 +1,11 @@
 {
-  "references": [
-    { "path": "./tsconfig.src.json" },
-    { "path": "./tsconfig.samples.json" },
-    { "path": "./tsconfig.test.json" }
-  ]
+  "extends": "../../../tsconfig",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "skipLibCheck": true,
+    "paths": { "@azure-rest/ai-vision-face": ["./src/index"] }
+  },
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

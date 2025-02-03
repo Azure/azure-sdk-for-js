@@ -31,7 +31,7 @@ const waitForLivenessRequest = async () => {
   // Wait for request from client device.
 };
 
-const sendTokenToClientDevices = async (token) => {
+const sendTokenToClientDevices = async (_token) => {
   // Send the token to client devices.
 };
 
@@ -59,22 +59,26 @@ async function main() {
 
   // 2.Send a request to Face API to create a liveness detection session.
   const createLivenessSessionResponse = await client
-    .path("/detectLivenessWithVerify/singleModal/sessions")
+    .path("/detectLivenessWithVerify-sessions")
     .post({
       contentType: "multipart/form-data",
       body: [
         {
-          name: "VerifyImage",
-          body: readFileSync("samples-dev/data/detection1.jpg"),
+          name: "livenessOperationMode",
+          body: "Passive",
         },
         {
-          name: "Parameters",
-          body: {
-            livenessOperationMode: "Passive",
-            sendResultsToClient: false,
-            authTokenTimeToLiveInSeconds: 60,
-            deviceCorrelationId: randomUUID(),
-          },
+          name: "deviceCorrelationId",
+          body: randomUUID(),
+        },
+        {
+          name: "enableSessionImage",
+          body: true,
+        },
+        {
+          name: "verifyImage",
+          body: readFileSync("samples-dev/data/detection1.jpg"),
+          filename: "verifyImage.jpg",
         },
       ],
     });
@@ -96,7 +100,7 @@ async function main() {
   // 8. After client devices perform the action, we can get the result from the following APIs.
   // Get session results.
   const getLivenessSessionResultResponse = await client
-    .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId)
+    .path("/detectLivenessWithVerify-sessions/{sessionId}", sessionId)
     .get();
   if (isUnexpected(getLivenessSessionResultResponse)) {
     throw new Error(getLivenessSessionResultResponse.body.error.message);
@@ -104,29 +108,9 @@ async function main() {
   console.log("Get liveness detection results:");
   console.log(JSON.stringify(getLivenessSessionResultResponse.body, null, 2));
 
-  // Get audit entries.
-  const getAuditEntryResponse = await client
-    .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}/audit", sessionId)
-    .get();
-  if (isUnexpected(getAuditEntryResponse)) {
-    throw new Error(getAuditEntryResponse.body.error.message);
-  }
-  console.log("Get audit entries:");
-  console.log(JSON.stringify(getAuditEntryResponse.body, null, 2));
-
-  // We can also list all liveness sessions of this face account.
-  const getLivenessSessionsResponse = await client
-    .path("/detectLivenessWithVerify/singleModal/sessions")
-    .get();
-  if (isUnexpected(getLivenessSessionsResponse)) {
-    throw new Error(getLivenessSessionsResponse.body.error.message);
-  }
-  console.log("Get liveness sessions:");
-  console.log(JSON.stringify(getLivenessSessionsResponse.body, null, 2));
-
   // Delete session.
   const deleteLivenessSessionResponse = await client
-    .path("/detectLivenessWithVerify/singleModal/sessions/{sessionId}", sessionId)
+    .path("/detectLivenessWithVerify-sessions/{sessionId}", sessionId)
     .delete();
   if (isUnexpected(deleteLivenessSessionResponse)) {
     throw new Error(deleteLivenessSessionResponse.body.error.message);
