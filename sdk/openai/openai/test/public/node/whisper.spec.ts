@@ -4,7 +4,7 @@
 import { createReadStream } from "fs";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, beforeAll } from "vitest";
-import { createClient } from "../utils/createClient.js";
+import { createClient } from "../../utils/createClient.js";
 import type { OpenAI, AzureOpenAI } from "openai";
 import {
   APIMatrix,
@@ -13,10 +13,10 @@ import {
   getDeployments,
   maxRetriesOption,
   withDeployments,
-} from "../utils/utils.js";
-import { assertAudioResult } from "../utils/asserts.js";
-import type { AudioResultFormat } from "../utils/audioTypes.js";
-import { o1ModelsToSkip } from "../utils/models.js";
+} from "../../utils/utils.js";
+import { assertAudioResult } from "../../utils/asserts.js";
+import type { AudioResultFormat } from "../../utils/audioTypes.js";
+import { o1ModelsToSkip } from "../../utils/models.js";
 
 describe("OpenAI", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
