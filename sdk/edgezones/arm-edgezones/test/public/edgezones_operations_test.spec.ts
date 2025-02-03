@@ -33,8 +33,8 @@ describe("extendedZones test", () => {
   });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("extendedZones register test", async function () {
     const res = await client.extendedZones.register(resourcename);
