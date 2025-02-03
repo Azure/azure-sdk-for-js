@@ -34,9 +34,9 @@ import {
   HoldFailed as RestHoldFailed,
   AnswerFailed as RestAnswerFailed,
   CreateCallFailed as RestCreateCallFailed,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 
-import { CallParticipant } from "./models";
+import { CallParticipant } from "./models.js";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =
