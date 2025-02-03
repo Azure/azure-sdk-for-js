@@ -462,7 +462,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { readFileSync } from "node:fs";
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 
-const endpoint = "<your_model_endpoint>";
+const endpoint = "https://myaccount.openai.azure.com/";
 const credential = new DefaultAzureCredential();
 
 function getImageDataUrl(imageFile, imageFormat) {
@@ -557,7 +557,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import ModelClient from "@azure-rest/ai-inference";
 import { context } from "@opentelemetry/api";
 
-const endpoint = "<your_model_endpoint>";
+const endpoint = "https://myaccount.openai.azure.com/";
 const credential = new DefaultAzureCredential();
 const client = ModelClient(endpoint, credential);
 

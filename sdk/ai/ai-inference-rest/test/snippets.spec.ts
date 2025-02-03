@@ -325,7 +325,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSample_ImageEmbeddings", async () => {
-    const endpoint = "<your_model_endpoint>";
+    const endpoint = "https://myaccount.openai.azure.com/";
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     function getImageDataUrl(imageFile, imageFormat) {
@@ -386,7 +386,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSample_InstrumentationRequest", async () => {
-    const endpoint = "<your_model_endpoint>";
+    const endpoint = "https://myaccount.openai.azure.com/";
     const credential = new DefaultAzureCredential();
     const client = ModelClient(endpoint, credential);
     // @ts-preserve-whitespace
