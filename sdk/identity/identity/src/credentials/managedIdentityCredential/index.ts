@@ -15,7 +15,7 @@ import { formatSuccess, formatError, credentialLogger } from "../../util/logging
 import { tracingClient } from "../../util/tracing.js";
 import { imdsMsi } from "./imdsMsi.js";
 import { tokenExchangeMsi } from "./tokenExchangeMsi.js";
-import { mapScopesToResource } from "./utils.js";
+import { mapScopesToResource, serviceFabricErrorString } from "./utils.js";
 import type { MsalToken, ValidMsalToken } from "../../msal/types.js";
 import type {
   ManagedIdentityCredentialClientIdOptions,
@@ -197,6 +197,10 @@ export class ManagedIdentityCredential implements TokenCredential {
         const isImdsMsi = identitySource === "DefaultToImds" || identitySource === "Imds"; // Neither actually checks that IMDS endpoint is available, just that it's the source the MSAL _would_ try to use.
 
         logger.getToken.info(`MSAL Identity source: ${identitySource}`);
+
+        if (identitySource == "ServiceFabric" && (this.clientId || this.resourceId)) {
+          throw new CredentialUnavailableError(serviceFabricErrorString);
+        }
 
         if (isTokenExchangeMsi) {
           // In the AKS scenario we will use the existing tokenExchangeMsi indefinitely.

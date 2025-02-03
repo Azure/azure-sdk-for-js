@@ -10,6 +10,7 @@ import { AuthenticationRequiredError, CredentialUnavailableError } from "../../.
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 import type { IdentityClient } from "../../../../src/client/identityClient.js";
+import { serviceFabricErrorString } from "../../../../src/credentials/managedIdentityCredential/utils.js";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: MockInstance<
@@ -146,6 +147,27 @@ describe("ManagedIdentityCredential (MSAL)", function () {
     it("validates multiple scopes are not supported", async function () {
       const credential = new ManagedIdentityCredential();
       await expect(credential.getToken(["scope1", "scope2"])).rejects.toThrow(/Multiple scopes/);
+    });
+
+    it.only("validates Service Fabric error for specifying clientID", async function () {
+      vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+        "ServiceFabric",
+      );
+      acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
+
+      const credential = new ManagedIdentityCredential("testClientID");
+      await expect(credential.getToken("scope")).rejects.toThrow(serviceFabricErrorString);
+    });
+
+    it.only("validates Service Fabric error for specifying resourceID", async function () {
+      vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+        "ServiceFabric",
+      );
+      acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
+
+      const credential = new ManagedIdentityCredential({ resourceId: "testResourceID" });
+      await credential.getToken("scope");
+      await expect(credential.getToken("scope")).rejects.toThrow(serviceFabricErrorString);
     });
 
     describe("error handling", function () {
