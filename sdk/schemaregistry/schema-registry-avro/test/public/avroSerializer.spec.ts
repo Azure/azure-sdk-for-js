@@ -27,21 +27,21 @@ describe("AvroSerializer", async function () {
   let pipeline: Pipeline;
 
   beforeEach(async (ctx) => {
-      client = createDefaultHttpClient();
-      pipeline = createPipelineWithCredential();
-      recorder = new Recorder(ctx);
-      registry = createTestRegistry({ recorder });
-      noAutoRegisterOptions = {
-        serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
-        recorder,
-      };
+    client = createDefaultHttpClient();
+    pipeline = createPipelineWithCredential();
+    recorder = new Recorder(ctx);
+    registry = createTestRegistry({ recorder });
+    noAutoRegisterOptions = {
+      serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
+      recorder,
+    };
 
-      schemaNamesList.push(testSchemaName);
-    });
+    schemaNamesList.push(testSchemaName);
+  });
 
   afterEach(async () => {
-      await removeSchemas(schemaNamesList, pipeline, client);
-    });
+    await removeSchemas(schemaNamesList, pipeline, client);
+  });
 
   it("serializes to the expected format", async () => {
     const schemaId = await registerTestSchema(registry);

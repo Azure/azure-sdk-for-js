@@ -166,23 +166,23 @@ describe("With messaging clients", function () {
       }
 
       beforeEach(async (ctx) => {
-              httpClient = createDefaultHttpClient();
-              pipeline = createPipelineWithCredential();
-              recorder = new Recorder(ctx);
-              serializer = await createTestSerializer({
-                serializerOptions: {
-                  autoRegisterSchemas: true,
-                  groupName: testGroup,
-                  messageAdapter,
-                },
-                recorder,
-              });
-            });
+        httpClient = createDefaultHttpClient();
+        pipeline = createPipelineWithCredential();
+        recorder = new Recorder(ctx);
+        serializer = await createTestSerializer({
+          serializerOptions: {
+            autoRegisterSchemas: true,
+            groupName: testGroup,
+            messageAdapter,
+          },
+          recorder,
+        });
+      });
 
       afterEach(async () => {
-              schemaList.push(schemaName);
-              await removeSchemas(schemaList, pipeline, httpClient);
-            });
+        schemaList.push(schemaName);
+        await removeSchemas(schemaList, pipeline, httpClient);
+      });
 
       it("Test schema with fields of type int/string/boolean/float/bytes", async () => {
         schemaName = "interop.avro.RecordWithFieldTypes";
