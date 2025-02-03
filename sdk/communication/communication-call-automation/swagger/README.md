@@ -200,6 +200,9 @@ directive:
   - rename-model:
       from: HoldAudioCompleted
       to: RestHoldAudioCompleted
+  - rename-model:
+      from: IncomingCall
+      to: RestIncomingCall
 ```
 
 ```yaml
