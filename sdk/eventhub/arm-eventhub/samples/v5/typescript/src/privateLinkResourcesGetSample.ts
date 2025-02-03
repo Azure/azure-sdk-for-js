@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets lists of resources that supports Privatelinks.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets lists of resources that supports Privatelinks.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/NameSpaces/PrivateLinkResourcesGet.json
  */
-async function nameSpacePrivateLinkResourcesGet() {
+async function nameSpacePrivateLinkResourcesGet(): Promise<void> {
   const subscriptionId = process.env["EVENTHUB_SUBSCRIPTION_ID"] || "subID";
   const resourceGroupName =
     process.env["EVENTHUB_RESOURCE_GROUP"] || "ArunMonocle";
@@ -34,7 +32,7 @@ async function nameSpacePrivateLinkResourcesGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   nameSpacePrivateLinkResourcesGet();
 }
 

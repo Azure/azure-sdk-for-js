@@ -13,10 +13,8 @@ import { createSseStream } from "@azure/core-sse";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-import { IncomingMessage } from "http";
-dotenv.config();
-
+import "dotenv/config";
+import type { IncomingMessage } from "node:http";
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
@@ -56,13 +54,13 @@ const getCurrentWeather = {
 };
 
 const getWeatherFunc = (location: string, unit: string): string => {
-  if (unit != "celsius") {
+  if (unit !== "celsius") {
     unit = "fahrenheit";
   }
   return `The temperature in ${location} is 72 degrees ${unit}`;
 };
 
-const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
+const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>): void => {
   const dummyFunction = { name: "", arguments: "", id: "" };
   while (functionArray.length < toolCallArray.length) {
     functionArray.push(dummyFunction);
@@ -83,7 +81,14 @@ const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) =
   }
 };
 
-const handleToolCalls = (functionArray: Array<any>) => {
+const handleToolCalls = (
+  functionArray: Array<any>,
+): {
+  role: string;
+  content: string;
+  tool_call_id: any;
+  name: any;
+}[] => {
   const messageArray = [];
   for (const func of functionArray) {
     const funcArgs = JSON.parse(func.arguments);
@@ -108,7 +113,7 @@ const handleToolCalls = (functionArray: Array<any>) => {
   return messageArray;
 };
 
-const streamToString = async (stream: NodeJS.ReadableStream) => {
+const streamToString = async (stream: NodeJS.ReadableStream): Promise<string> => {
   // lets have a ReadableStream as a stream variable
   const chunks = [];
 
@@ -119,7 +124,7 @@ const streamToString = async (stream: NodeJS.ReadableStream) => {
   return Buffer.concat(chunks).toString("utf-8");
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   const client = createModelClient();
 
   const messages = [{ role: "user", content: "What's the weather like in Boston?" }];
@@ -173,11 +178,11 @@ export async function main() {
           }
           updateToolCalls(toolCallArray, functionArray);
         }
-        if (choice.finish_reason == "tool_calls") {
+        if (choice.finish_reason === "tool_calls") {
           const messageArray = handleToolCalls(functionArray);
           messages.push(...messageArray);
         } else {
-          if (choice.delta?.content && choice.delta.content != "") {
+          if (choice.delta?.content && choice.delta.content !== "") {
             toolCallAnswer += choice.delta?.content;
             awaitingToolCallAnswer = false;
           }
@@ -193,7 +198,7 @@ export async function main() {
 /*
  * This function creates a model client.
  */
-function createModelClient() {
+function createModelClient(): ModelClient {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)

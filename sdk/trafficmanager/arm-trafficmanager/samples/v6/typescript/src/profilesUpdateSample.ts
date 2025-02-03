@@ -13,9 +13,7 @@ import {
   TrafficManagerManagementClient
 } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a Traffic Manager profile.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update a Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Profile-PATCH-MonitorConfig.json
  */
-async function profilePatchMonitorConfig() {
+async function profilePatchMonitorConfig(): Promise<void> {
   const subscriptionId =
     process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -54,7 +52,7 @@ async function profilePatchMonitorConfig() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   profilePatchMonitorConfig();
 }
 

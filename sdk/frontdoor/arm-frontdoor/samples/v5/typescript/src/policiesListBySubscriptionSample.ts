@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { FrontDoorManagementClient } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the protection policies within a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all of the protection policies within a subscription.
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafListPoliciesUnderSubscription.json
  */
-async function getAllPoliciesInAResourceGroup() {
+async function getAllPoliciesInAResourceGroup(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new FrontDoorManagementClient(credential, subscriptionId);
@@ -31,7 +29,7 @@ async function getAllPoliciesInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAllPoliciesInAResourceGroup();
 }
 

@@ -8,8 +8,14 @@
  * @summary detects change points.
  */
 
-import type { CreateJobParameters, TrialMatcherResultOutput } from "@azure-rest/health-insights-clinicalmatching";
-import ClinicalMatchingRestClient, { getLongRunningPoller, isUnexpected } from "@azure-rest/health-insights-clinicalmatching";
+import type {
+  CreateJobParameters,
+  TrialMatcherResultOutput,
+} from "@azure-rest/health-insights-clinicalmatching";
+import ClinicalMatchingRestClient, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/health-insights-clinicalmatching";
 import { AzureKeyCredential } from "@azure/core-auth";
 import "dotenv/config";
 

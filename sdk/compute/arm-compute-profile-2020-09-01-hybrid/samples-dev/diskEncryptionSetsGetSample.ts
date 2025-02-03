@@ -27,7 +27,7 @@ async function getInformationAboutADiskEncryptionSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await getInformationAboutADiskEncryptionSet()
+  await getInformationAboutADiskEncryptionSet();
 }
 
 main().catch(console.error);

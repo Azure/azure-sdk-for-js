@@ -6,5 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./features";
-export * from "./subscriptionFeatureRegistrations";
+export * from "./features.js";
+export * from "./subscriptionFeatureRegistrations.js";

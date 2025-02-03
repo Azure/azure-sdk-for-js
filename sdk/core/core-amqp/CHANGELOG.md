@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Throws `AggregateError` when collecting multiple errors across retries.
+
 ### Other Changes
 
 ## 4.3.4 (2025-01-10)
