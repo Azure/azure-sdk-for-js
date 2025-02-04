@@ -22,5 +22,6 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```

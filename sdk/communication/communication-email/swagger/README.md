@@ -21,7 +21,8 @@ azure-arm: false
 add-credentials: false
 v3: true
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.1"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```
 
 ## Customizations for Email Client Generator
