@@ -7,7 +7,7 @@ import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
 import type { FeedOptions, Response } from "../request";
-import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
+import { ErrorResponse, type PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
 import type { CosmosHeaders } from "./CosmosHeaders";
@@ -217,7 +217,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     );
 
     if (replacementPartitionKeyRanges.length === 0) {
-      throw new Error("Received empty partition key ranges for a split or merge");
+      const errorResponse = new ErrorResponse(
+        "Received empty partition key ranges for a split or merge",
+      );
+      errorResponse.code = StatusCodes.Gone;
+      throw errorResponse;
     } else if (replacementPartitionKeyRanges.length === 1) {
       // Partition is gone due to Merge
       // Create the replacement documentProducer with populateEpkRangeHeaders Flag set to true to set startEpk and endEpk headers
