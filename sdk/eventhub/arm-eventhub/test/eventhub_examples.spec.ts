@@ -72,7 +72,7 @@ describe("Eventhub test", () => {
 
   // virtualNetworks.beginCreateOrUpdateAndWait
   // subnets.beginCreateOrUpdateAndWait
-  async function createVirtualNetwork() {
+  async function createVirtualNetwork(): Promise<void> {
     const parameter: VirtualNetwork = {
       location: location,
       addressSpace: {
@@ -84,7 +84,7 @@ describe("Eventhub test", () => {
   }
 
   //storageAccounts.beginCreateAndWait
-  async function storageAccounts_beginCreateAndWait() {
+  async function storageAccounts_beginCreateAndWait(): Promise<void> {
     const parameter: StorageAccountCreateParameters = {
       sku: {
         name: "Standard_GRS",
