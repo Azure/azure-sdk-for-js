@@ -174,37 +174,17 @@ export class Items {
    * ```typescript
    * const queryBuilder = new EncryptionQueryBuilder("SELECT firstname FROM Families f WHERE f.lastName = @lastName");
    * queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
-   * const queryIterator = await items.getEncryptionQueryIterator(queryBuilder);
+   * const queryIterator = await items.getEncryptionQueryIterator<{firstName: string}>(queryBuilder);
    * const {result: items} = await queryIterator.fetchAll();
    * ```
    */
   public async getEncryptionQueryIterator(
     queryBuilder: EncryptionQueryBuilder,
-    options?: FeedOptions,
-  ): Promise<QueryIterator<any>>;
-  /**
-   * Queries all items in an encrypted container.
-   * @param queryBuilder - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to build a query on encrypted properties.
-   * @param options - Used for modifying the request (for instance, specifying the partition key).
-   * @example Read all items to array.
-   * ```typescript
-   * const queryBuilder = new EncryptionQueryBuilder("SELECT firstname FROM Families f WHERE f.lastName = @lastName");
-   * queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
-   * const queryIterator = await items.getEncryptionQueryIterator<{firstName: string}>(queryBuilder);
-   * const {result: items} = await queryIterator.fetchAll();
-   * ```
-   */
-  public async getEncryptionQueryIterator<T>(
-    queryBuilder: EncryptionQueryBuilder,
-    options?: FeedOptions,
-  ): Promise<QueryIterator<T>>;
-  public async getEncryptionQueryIterator<T>(
-    queryBuilder: EncryptionQueryBuilder,
     options: FeedOptions = {},
-  ): Promise<QueryIterator<T>> {
+  ): Promise<QueryIterator<ItemDefinition>> {
     const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
     const sqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
-    const iterator = this.query<T>(sqlQuerySpec, options);
+    const iterator = this.query<ItemDefinition>(sqlQuerySpec, options);
     return iterator;
   }
 
