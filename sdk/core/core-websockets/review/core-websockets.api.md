@@ -110,9 +110,7 @@ export interface WebSocketClientOptions {
     allowInsecureConnection?: boolean;
     highWaterMark?: number;
     identifier?: string;
-    isRetryable?: (err: unknown) => boolean;
     protocols?: string | string[];
-    resolveOnUnsuccessful?: boolean;
     retryOptions?: RetryOptions;
     wsOptions?: WS.ClientOptions | ClientRequestArgs;
 }
