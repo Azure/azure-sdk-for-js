@@ -46,9 +46,9 @@ import type {
   HoldAudioStarted,
   HoldAudioPaused,
   HoldAudioResumed,
-  HoldAudioCompleted,
-  IncomingCallEvent,
+  HoldAudioCompleted
 } from "./models/events.js";
+import { IncomingCallEvent as IncomingCall } from "./models/events.js"
 
 import { CloudEventMapper } from "./models/mapper.js";
 import type { CallParticipantInternal } from "./generated/src/index.js";
@@ -92,7 +92,7 @@ export function parseCallAutomationEvent(
       callbackEvent = { kind: "CallConnected" } as CallConnected;
       break;
     case "Microsoft.Communication.IncomingCall":
-      callbackEvent = { kind: "IncomingCall" } as IncomingCallEvent;
+      callbackEvent = { kind: "IncomingCall" } as IncomingCall;
       break;
     case "Microsoft.Communication.CallDisconnected":
       callbackEvent = { kind: "CallDisconnected" } as CallDisconnected;
