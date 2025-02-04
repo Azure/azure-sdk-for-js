@@ -7,8 +7,9 @@ import {
   earliestEventPosition,
 } from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
+// @ts-ignore
 import { ContainerClient } from "@azure/storage-blob";
-// @ts-expect-error unreferenced import
+// @ts-ignore
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
