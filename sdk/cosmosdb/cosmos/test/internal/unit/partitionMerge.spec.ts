@@ -21,6 +21,7 @@ import { expect, assert } from "chai";
 import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext";
 import sinon from "sinon";
 import { SubStatusCodes } from "../../../src/common";
+import { stat } from "fs";
 
 const createMockPartitionKeyRange = (id: string, minInclusive: string, maxExclusive: string) => ({
   id, // Range ID
@@ -213,7 +214,7 @@ describe("Partition-Merge", function () {
       await context.fetchMore(context["diagnosticNodeWrapper"]["diagnosticNode"]);
     } catch (err) {
       assert(err);
-      assert.equal(err.message, "Received empty partition key ranges for a split or merge");
+      assert.equal(err.code, StatusCodes.Gone);
     }
 
     // Assert that the _enqueueReplacementDocumentProducers function was called once
