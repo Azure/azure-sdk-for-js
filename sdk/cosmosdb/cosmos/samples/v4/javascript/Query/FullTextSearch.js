@@ -79,6 +79,37 @@ async function run() {
   response = await container.items.query(query, { forceQueryPlan: true }).fetchAll();
   console.log("Response: ", response.resources);
 
+  // Suppose we want to run a RRF ranking query like below
+  query =
+    "SELECT TOP 3 c.text1 FROM c ORDER BY RANK RRF(FullTextScore(c.text1, ['music']), VectorDistance(c.vector, [1, 2, 3]))";
+
+  // We can use the enableQueryControl to enable the control for the query
+  // We can also set the maxDegreeOfParallelism and maxItemCount to control the query execution
+  const queryIterator = container.items.query(query, {
+    forceQueryPlan: true,
+    enableQueryControl: true,
+    maxDegreeOfParallelism: 2,
+    maxItemCount: 10,
+  });
+
+  // Suppose we want to fetch the data until the request charge is less than 20000
+  const requestChargeThreshold = 20000;
+
+  while (queryIterator.hasMoreResults()) {
+    const { resources, requestCharge } = await queryIterator.fetchNext();
+
+    // Log the response resources
+    console.log("Response: ", resources); // Can be [] if data is not ready to be served (since it's partially fetched from backend)
+
+    // Break the loop if the request charge is more than the threshold
+    if (requestCharge > requestChargeThreshold) {
+      console.log(
+        `Request charge ${requestCharge} exceeded the threshold of ${requestChargeThreshold}. Stopping the query.`,
+      );
+      break;
+    }
+  }
+
   await finish();
 }
 

@@ -84,7 +84,7 @@ async function run(): Promise<void> {
   query =
     "SELECT TOP 3 c.text1 FROM c ORDER BY RANK RRF(FullTextScore(c.text1, ['music']), VectorDistance(c.vector, [1, 2, 3]))";
 
-  // We can use the enableQueryPlan flag to enable the control for the query
+  // We can use the enableQueryControl to enable the control for the query
   // We can also set the maxDegreeOfParallelism and maxItemCount to control the query execution
   const queryIterator = container.items.query(query, {
     forceQueryPlan: true,
