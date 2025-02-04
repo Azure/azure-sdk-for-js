@@ -4,7 +4,7 @@ import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOpti
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { Container, Resource } from "../../client";
 import { ClientContext } from "../../ClientContext";
-import { Constants, copyObject, ResourceType, StatusCodes, addContainerRid } from "../../common";
+import { Constants, copyObject, ResourceType, StatusCodes } from "../../common";
 import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";

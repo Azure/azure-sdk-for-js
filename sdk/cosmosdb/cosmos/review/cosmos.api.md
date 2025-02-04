@@ -698,7 +698,6 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
-    throwIfRequestNeedsARetryPostPolicyRefresh(errorResponse: ErrorResponse): Promise<void>;
     get url(): string;
 }
 
@@ -788,10 +787,8 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    enableEncryption?: boolean;
-    encryptionKeyResolverName?: string;
-    endpoint?: string;
     encryptionPolicy?: EncryptionPolicy;
+    endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
     permissionFeed?: PermissionDefinition[];

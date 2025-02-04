@@ -39,7 +39,6 @@ import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
 import { getUserAgent } from "./common/platform";
-import { EncryptionKeyStoreProvider } from "./encryption/EncryptionKeyStoreProvider";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -227,9 +226,9 @@ export class ClientContext {
     this.applySessionToken(request);
     logger.info(
       "query " +
-      requestId +
-      " started" +
-      (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
+        requestId +
+        " started" +
+        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
     );
     logger.verbose(request);
     const start = Date.now();

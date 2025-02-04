@@ -468,6 +468,7 @@ export class Container {
     }
   }
   /**
+   * @internal
    * This function handles the scenario where a container is deleted(say from different Client) and recreated with same Id but with different client encryption policy.
    * The idea is to have the container Rid cached and sent out as part of RequestOptions with Container Rid set in "x-ms-cosmos-intended-collection-rid" header.
    * So, when the container being referenced here gets recreated we would end up with a stale encryption settings and container Rid and this would result in BadRequest (and a substatus 1024).
