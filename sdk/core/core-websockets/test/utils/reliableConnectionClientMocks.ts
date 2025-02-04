@@ -26,7 +26,7 @@ export function createMockClient(
     close?: () => void;
     onClose?: (fn: (info: CloseInfo) => void) => void;
     canReconnect?: () => boolean;
-    send?: (data: testSendT) => Promise<void>;
+    send?: (data: testSendT) => Promise<number>;
     onError?: (fn: (error: unknown) => void) => void;
     onMessage?: (fn: (data: testReceiveT) => void) => void;
   } = {},
@@ -74,6 +74,7 @@ export function createMockClient(
       send ??
       (async (item) => {
         onMessageHandler?.(item);
+        return 0;
       }),
     onClose:
       onClose ??

@@ -2,194 +2,20 @@
 // Licensed under the MIT License.
 
 import { createAbortablePromise } from "@azure/core-util";
-import {
-  createFullRetryOptions,
-  retry,
-  type AbortableOperationOptions,
-  type RetryOptions,
-} from "./retry.js";
+import { createFullRetryOptions, retry, type AbortableOperationOptions } from "./retry.js";
 import { createError, getRandomName, type Writable } from "./utils.js";
 import { logger } from "./logger.js";
-
-/**
- * Client requirements:
- * - Isomorphic
- * - Retrying
- * - Logging
- * - Abortable
- * - Auto reconnect
- * - Tracing?
- * - Keep alive background task?
- * - Backpressure?
- */
-
-/**
- * The close information.
- */
-export interface CloseInfo {
-  /**
-   * The close code.
-   */
-  code?: string;
-  /**
-   * The close reason.
-   */
-  reason?: string;
-}
-
-/**
- * Options to close the connection.
- */
-export interface CloseOptions {
-  /**
-   * The close info.
-   */
-  info?: CloseInfo;
-  /**
-   * The abort signal.
-   */
-  abortSignal?: AbortSignal;
-}
-
-/**
- * Options to open the connection.
- */
-export interface OpenOptions {
-  /**
-   * The abort signal.
-   */
-  abortSignal?: AbortSignal;
-}
-
-/**
- * Options to send data.
- */
-export interface SendOptions {
-  /**
-   * The abort signal.
-   */
-  abortSignal?: AbortSignal;
-}
-
-/**
- * Options to check if the connection is open.
- */
-export interface IsOpenOptions {
-  /**
-   * The abort signal.
-   */
-  abortSignal?: AbortSignal;
-}
-
-/**
- * The group of methods needed to implement a client over a reliable connection.
- */
-export interface ConnectionManager<SendDataT, ReceiveDataT> {
-  /**
-   * Opens the connection. The client must be able to listen to events.
-   * after this method is called.
-   */
-  open(opts?: OpenOptions): void;
-  /**
-   * Closes the connection.
-   */
-  close(opts?: CloseOptions): void;
-  /**
-   * Sends data over the connection.
-   */
-  send(data: SendDataT, opts?: SendOptions): Promise<void>;
-  /**
-   * Checks if the connection can reconnect when is disconnected.
-   */
-  canReconnect(info: CloseInfo): boolean;
-  /**
-   * Sets the callback function to be called when a message is received.
-   */
-  onMessage: (fn: (data: ReceiveDataT) => void) => void;
-  /**
-   * Sets the callback function to be called when the connection is opened.
-   */
-  onOpen: (fn: () => void) => void;
-  /**
-   * Sets the callback function to be called when the connection is closed.
-   */
-  onClose: (fn: (info: CloseInfo) => void) => void;
-  /**
-   * Sets the callback function to be called when an error is received.
-   */
-  onError: (fn: (error: unknown) => void) => void;
-}
-
-/**
- * The status of the connection.
- */
-export type Status = "connecting" | "connected" | "disconnecting" | "disconnected";
-
-/**
- * The reliable connection client.
- */
-export interface ReliableConnectionClient<SendDataT, ReceiveDataT> {
-  /**
-   * The status of the connection.
-   */
-  readonly status: Status;
-  /**
-   * Opens the connection.
-   */
-  open(opts?: OpenOptions): Promise<void>;
-  /**
-   * Closes the connection.
-   */
-  close(opts?: CloseOptions): Promise<void>;
-  /**
-   * Sends data over the connection.
-   */
-  send(data: SendDataT, opts?: SendOptions): Promise<void>;
-  /**
-   * Sets the callback function to be called when a message is received.
-   */
-  onMessage: (fn: (data: ReceiveDataT) => void) => void;
-  /**
-   * Sets the callback function to be called when the connection is opened.
-   */
-  onOpen: (fn: () => void) => void;
-  /**
-   * Sets the callback function to be called when the connection is closed.
-   */
-  onClose: (fn: (info: CloseInfo) => void) => void;
-  /**
-   * Sets the callback function to be called when an error is received.
-   */
-  onError: (fn: (error: unknown) => void) => void;
-}
-
-/**
- * Options to create a reliable connection client factory.
- */
-export interface CreateReliableConnectionOptions {
-  /**
-   * A function to check if an error is retryable.
-   */
-  isRetryable?: (err: unknown) => boolean;
-  /**
-   * Whether to swallow errors or not.
-   */
-  resolveOnUnsuccessful?: boolean;
-}
-
-/**
- * Options to create a reliable connection client.
- */
-export interface ReliableConnectionOptions {
-  /**
-   * The options to retry an operation.
-   */
-  retryOptions?: RetryOptions;
-  /**
-   * The identifier of the connection.
-   */
-  identifier?: string;
-}
+import {
+  ConnectionManager,
+  CreateReliableConnectionOptions,
+  ReliableConnectionOptions,
+  ReliableConnectionClient,
+  OpenOptions,
+  CloseOptions,
+  SendOptions,
+  CloseInfo,
+} from "./models.js";
+import { HIGH_WATER_MARK } from "./constants.js";
 
 /**
  * Creates a reliable connection client factory.
@@ -203,6 +29,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
   return ({
     retryOptions: inputRetryOptions,
     identifier,
+    highWaterMark = HIGH_WATER_MARK,
   }: ReliableConnectionOptions = {}): ReliableConnectionClient<SendDataT, ReceiveDataT> => {
     const connectionId = identifier || getRandomName();
     const retryOptions = createFullRetryOptions(inputRetryOptions);
@@ -258,7 +85,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           opOptions: AbortableOperationOptions = {},
         ): Promise<void> {
           logger.verbose(`[${connectionId}] Opening connection`);
-          client.open({ ...openOpts, ...opOptions });
+          client.open();
           /**
            * Installs dummy handlers to start listening for events from the server.
            * Resolves the promise when the connection is open, or rejects it when
@@ -313,7 +140,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           opOptions: AbortableOperationOptions = {},
         ): Promise<void> {
           logger.verbose(`[${connectionId}] Closing connection`);
-          client.close({ ...closeOpts, ...opOptions });
+          client.close(closeOpts);
           reliableConnectionClient.status = "disconnecting";
           logger.verbose(`[${connectionId}] Disconnecting...`);
           await createAbortablePromise<void>((resolve, reject) => {
@@ -342,12 +169,17 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           logger.info(`[${connectionId}] Connection is not open, opening now to send data...`);
           await reliableConnectionClient.open({ abortSignal });
         }
-        async function retryableSend(opOptions: AbortableOperationOptions = {}): Promise<void> {
+        async function retryableSend(opOptions: AbortableOperationOptions = {}): Promise<boolean> {
           logger.verbose(`[${connectionId}] Sending data...`);
-          await client.send(data, { ...sendOpts, ...opOptions });
+          const bufferedAmount = await client.send(data, { ...sendOpts, ...opOptions });
+          const isAboveHighWaterMark = bufferedAmount >= highWaterMark;
+          if (isAboveHighWaterMark) {
+            logger.warning(`[${connectionId}] The send buffer is full`);
+          }
           logger.info(`[${connectionId}] Data has been sent`);
+          return !isAboveHighWaterMark;
         }
-        await retry(retryableSend, `send data on connection (${connectionId})`, retryOptions, {
+        return retry(retryableSend, `send data on connection (${connectionId})`, retryOptions, {
           isRetryable,
           abortSignal,
         });

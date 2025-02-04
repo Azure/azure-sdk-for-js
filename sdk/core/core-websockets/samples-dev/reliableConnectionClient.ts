@@ -5,7 +5,6 @@
  * @summary demonstrates how to create a WebSocket client using ReliableConnectionClient.
  */
 import {
-  type BufferLike,
   createReliableConnectionClient,
   type ReliableConnectionOptions,
 } from "@azure/core-websockets";
@@ -13,7 +12,7 @@ import WebSocket from "ws";
 
 function createClient(url: string, opts?: ReliableConnectionOptions) {
   let ws: WebSocket | undefined = undefined;
-  const clientFactory = createReliableConnectionClient<BufferLike, WebSocket.Data>({
+  const clientFactory = createReliableConnectionClient<WebSocket.Data, WebSocket.Data>({
     open: async () => {
       ws = new WebSocket(url);
     },
@@ -21,11 +20,16 @@ function createClient(url: string, opts?: ReliableConnectionOptions) {
       const { code, reason } = info || {};
       ws?.close(code ? +code : undefined, reason);
     },
-    send: async (data) => {
-      ws?.send(data);
-    },
-    isOpen: async () => {
-      return ws?.readyState === WebSocket.OPEN;
+    send: (data) => {
+      return new Promise<void>((resolve, reject) => {
+        ws?.send(data, (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+      });
     },
     onClose(fn) {
       if (!ws) {

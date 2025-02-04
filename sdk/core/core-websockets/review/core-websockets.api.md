@@ -4,20 +4,8 @@
 
 ```ts
 
-// @public
-export type BufferLike = string | Buffer | DataView | number | ArrayBufferView | Uint8Array | ArrayBuffer | SharedArrayBuffer | readonly any[] | readonly number[] | {
-    valueOf(): ArrayBuffer;
-} | {
-    valueOf(): SharedArrayBuffer;
-} | {
-    valueOf(): Uint8Array;
-} | {
-    valueOf(): readonly number[];
-} | {
-    valueOf(): string;
-} | {
-    [Symbol.toPrimitive](hint: string): string;
-};
+import { ClientRequestArgs } from 'node:http';
+import type * as WS from 'ws';
 
 // @public
 export interface CloseInfo {
@@ -34,13 +22,13 @@ export interface CloseOptions {
 // @public
 export interface ConnectionManager<SendDataT, ReceiveDataT> {
     canReconnect(info: CloseInfo): boolean;
-    close(opts?: CloseOptions): void;
+    close(opts?: Omit<CloseOptions, "abortSignal">): void;
     onClose: (fn: (info: CloseInfo) => void) => void;
     onError: (fn: (error: unknown) => void) => void;
     onMessage: (fn: (data: ReceiveDataT) => void) => void;
     onOpen: (fn: () => void) => void;
-    open(opts?: OpenOptions): void;
-    send(data: SendDataT, opts?: SendOptions): Promise<void>;
+    open(): void;
+    send(data: SendDataT, opts?: SendOptions): Promise<number>;
 }
 
 // @public
@@ -51,6 +39,12 @@ export interface CreateReliableConnectionOptions {
     isRetryable?: (err: unknown) => boolean;
     resolveOnUnsuccessful?: boolean;
 }
+
+// @public
+export function createWebSocketClient(url: string, options?: WebSocketClientOptions): Promise<WebSocketClient>;
+
+// @public
+export type Data = string | ArrayBuffer | ArrayBufferView;
 
 // @public
 export interface IsOpenOptions {
@@ -70,12 +64,13 @@ export interface ReliableConnectionClient<SendDataT, ReceiveDataT> {
     onMessage: (fn: (data: ReceiveDataT) => void) => void;
     onOpen: (fn: () => void) => void;
     open(opts?: OpenOptions): Promise<void>;
-    send(data: SendDataT, opts?: SendOptions): Promise<void>;
+    send(data: SendDataT, opts?: SendOptions): Promise<boolean>;
     readonly status: Status;
 }
 
 // @public
 export interface ReliableConnectionOptions {
+    highWaterMark?: number;
     identifier?: string;
     retryOptions?: RetryOptions;
 }
@@ -99,6 +94,34 @@ export interface SendOptions {
 
 // @public
 export type Status = "connecting" | "connected" | "disconnecting" | "disconnected";
+
+// @public
+export interface WebSocketClient {
+    close(opts?: CloseOptions): Promise<void>;
+    on(event: "message", listener: (data: Data) => void): void;
+    on(event: "reconnect", listener: () => void): void;
+    on(event: "close", listener: () => void): void;
+    on(event: "error", listener: (error: Error) => void): void;
+    send(data: Data, opts?: SendOptions): Promise<boolean>;
+}
+
+// @public
+export interface WebSocketClientOptions {
+    allowInsecureConnection?: boolean;
+    highWaterMark?: number;
+    identifier?: string;
+    isRetryable?: (err: unknown) => boolean;
+    protocols?: string | string[];
+    resolveOnUnsuccessful?: boolean;
+    retryOptions?: RetryOptions;
+    wsOptions?: WS.ClientOptions | ClientRequestArgs;
+}
+
+// @public
+export interface WebSocketImplOptions {
+    protocols?: string | string[];
+    wsOptions?: WS.ClientOptions | ClientRequestArgs;
+}
 
 // (No @packageDocumentation comment for this package)
 
