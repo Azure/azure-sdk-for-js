@@ -4392,7 +4392,8 @@ export class BlockBlobClient extends BlobClient {
       async (updatedOptions) => {
         let blockNum = 0;
         const blockIDPrefix = randomUUID();
-        let transferProgress: number = 0;
+        // Stores the amount of bytes progressed in each block (using the BlockID as the index)
+        const transferProgressPerBlock: Record<string, number> = {};
         const blockList: string[] = [];
 
         const scheduler = new BufferScheduler(
@@ -4403,18 +4404,36 @@ export class BlockBlobClient extends BlobClient {
             const blockID = generateBlockID(blockIDPrefix, blockNum);
             blockList.push(blockID);
             blockNum++;
+            // Initialize at 0
+            transferProgressPerBlock[blockID] = 0;
 
             await this.stageBlock(blockID, body, length, {
               customerProvidedKey: options.customerProvidedKey,
               conditions: options.conditions,
               encryptionScope: options.encryptionScope,
               tracingOptions: updatedOptions.tracingOptions,
+              onProgress(progress) {
+                // Record the progress in this block by index. Will overwrite if block is retried.
+                transferProgressPerBlock[blockID] = progress.loadedBytes;
+                // Report progress externally
+                if (options.onProgress) {
+                  options.onProgress({
+                    // Report the sum of the transfer progress of all blocks
+                    loadedBytes: Object.values(transferProgressPerBlock).reduce((sum, a) => sum + a, 0),
+                  });
+                }
+              },
             });
 
-            // Update progress after block is successfully uploaded to server, in case of block trying
-            transferProgress += length;
+            // In case of inconsistencies in `onProgress` report, write the final value ourselves
+            transferProgressPerBlock[blockID] = length;
+
+            // Report progress externally
             if (options.onProgress) {
-              options.onProgress({ loadedBytes: transferProgress });
+              options.onProgress({
+                // Report the sum of the transfer progress of all blocks
+                loadedBytes: Object.values(transferProgressPerBlock).reduce((sum, a) => sum + a, 0),
+              });
             }
           },
           // concurrency should set a smaller value than maxConcurrency, which is helpful to
