@@ -198,6 +198,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
         logger.getToken.info(`MSAL Identity source: ${identitySource}`);
 
+        // ServiceFabric does not support specifying user-assigned managed identity by client ID or resource ID. The managed identity selected is based on the resource configuration.
         if (identitySource === "ServiceFabric" && (this.clientId || this.resourceId)) {
           throw new CredentialUnavailableError(serviceFabricErrorString);
         }
