@@ -21,7 +21,6 @@ import { expect, assert } from "chai";
 import { TestParallelQueryExecutionContext } from "./common/TestParallelQueryExecutionContext";
 import sinon from "sinon";
 import { SubStatusCodes } from "../../../src/common";
-import { stat } from "fs";
 
 const createMockPartitionKeyRange = (id: string, minInclusive: string, maxExclusive: string) => ({
   id, // Range ID
