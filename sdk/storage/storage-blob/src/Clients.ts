@@ -4419,7 +4419,10 @@ export class BlockBlobClient extends BlobClient {
                 if (options.onProgress) {
                   options.onProgress({
                     // Report the sum of the transfer progress of all blocks
-                    loadedBytes: Object.values(transferProgressPerBlock).reduce((sum, a) => sum + a, 0),
+                    loadedBytes: Object.values(transferProgressPerBlock).reduce(
+                      (sum, a) => sum + a,
+                      0,
+                    ),
                   });
                 }
               },
