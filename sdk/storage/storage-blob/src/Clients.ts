@@ -4271,7 +4271,7 @@ export class BlockBlobClient extends BlobClient {
         const blockList: string[] = [];
         const blockIDPrefix = randomUUID();
         // Stores the amount of bytes progressed in each block
-        let transferProgressPerBlock: number[] = [];
+        const transferProgressPerBlock: number[] = [];
 
         const batch = new Batch(options.concurrency);
         for (let i = 0; i < numBlocks; i++) {
