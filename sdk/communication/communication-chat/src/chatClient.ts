@@ -18,6 +18,8 @@ import type {
   ParticipantsAddedEvent,
   ParticipantsRemovedEvent,
   ReadReceiptReceivedEvent,
+  StreamingChatMessageChunkReceivedEvent,
+  StreamingChatMessageStartEvent,
   TypingIndicatorReceivedEvent,
 } from "./models/events.js";
 import type { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models.js";
@@ -339,6 +341,26 @@ export class ChatClient {
   public on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
 
   /**
+   * Subscribe function for streamingChatMessageStarted
+   * @param event - The StreamingChatMessageStartedEvent
+   * @param listener - The listener to handle the event
+   */
+  public on(
+    event: "streamingChatMessageStarted",
+    listener: (e: StreamingChatMessageStartEvent) => void,
+  ): void;
+
+  /**
+   * Subscribe function for streamingChatMessageStarted
+   * @param event - The StreamingChatMessageStartedEvent
+   * @param listener - The listener to handle the event
+   */
+  public on(
+    event: "streamingChatMessageChunkReceived",
+    listener: (e: StreamingChatMessageChunkReceivedEvent) => void,
+  ): void;
+
+  /**
    * Subscribe function for realTimeNotificationConnected.
    * @param event - The realTimeNotificationConnected Event
    * @param listener - The listener to handle the event.
@@ -445,6 +467,26 @@ export class ChatClient {
    */
   public off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
 
+  /**
+   * Unsubscribe function for streamingChatMessageStarted
+   * @param event - The StreamingChatMessageStartedEvent
+   * @param listener - The listener to handle the event
+   */
+  public off(
+    event: "streamingChatMessageStarted",
+    listener: (e: StreamingChatMessageStartEvent) => void,
+  ): void;
+
+  /**
+   * Unsubscribe function for streamingChatMessageStarted
+   * @param event - The StreamingChatMessageStartedEvent
+   * @param listener - The listener to handle the event
+   */
+  public off(
+    event: "streamingChatMessageChunkReceived",
+    listener: (e: StreamingChatMessageChunkReceivedEvent) => void,
+  ): void;
+
   public off(event: ChatEventId, listener: (e: any) => void): void {
     if (this.signalingClient === undefined) {
       throw new Error("Realtime notifications are only supported in the browser.");
@@ -504,6 +546,14 @@ export class ChatClient {
 
     this.signalingClient.on("participantsRemoved", (payload) => {
       this.emitter.emit("participantsRemoved", payload);
+    });
+
+    this.signalingClient.on("streamingChatMessageStarted", (payload) => {
+      this.emitter.emit("streamingChatMessageStarted", payload);
+    });
+
+    this.signalingClient.on("streamingChatMessageChunkReceived", (payload) => {
+      this.emitter.emit("streamingChatMessageChunkReceived", payload);
     });
   }
 }
