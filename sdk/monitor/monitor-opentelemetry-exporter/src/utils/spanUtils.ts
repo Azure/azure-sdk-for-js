@@ -3,8 +3,8 @@
 
 import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import type { Link, Attributes, SpanContext } from "@opentelemetry/api";
-import { diag, SpanKind, SpanStatusCode, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
+import type { Link, Attributes } from "@opentelemetry/api";
+import { diag, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
   DBSYSTEMVALUES_MONGODB,
   DBSYSTEMVALUES_MYSQL,
@@ -431,56 +431,39 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
 
       // Only generate exception telemetry for incoming requests
       if (event.name === "exception") {
-        let isValidParent = false;
-        const parentSpanContext: SpanContext | undefined = span.parentSpanId
-          ? span.spanContext()
-          : undefined;
-        if (parentSpanContext) {
-          isValidParent =
-            isValidTraceId(parentSpanContext.traceId) && isValidSpanId(parentSpanContext.spanId);
-        }
-        /*
-         * Only generate exception telemetry for children of a remote span,
-         * internal spans, and top level spans. This is to avoid unresolvable exceptions from outgoing calls.
-         */
-        if (!isValidParent || parentSpanContext?.isRemote || span.kind === SpanKind.INTERNAL) {
-          name = "Microsoft.ApplicationInsights.Exception";
-          baseType = "ExceptionData";
-          let typeName = "";
-          let message = "Exception";
-          let stack = "";
-          let hasFullStack = false;
-          if (event.attributes) {
-            typeName = String(event.attributes[SEMATTRS_EXCEPTION_TYPE]);
-            stack = String(event.attributes[SEMATTRS_EXCEPTION_STACKTRACE]);
-            if (stack) {
-              hasFullStack = true;
-            }
-            const exceptionMsg = event.attributes[SEMATTRS_EXCEPTION_MESSAGE];
-            if (exceptionMsg) {
-              message = String(exceptionMsg);
-            }
-            const escaped = event.attributes[SEMATTRS_EXCEPTION_ESCAPED];
-            if (escaped !== undefined) {
-              properties[SEMATTRS_EXCEPTION_ESCAPED] = String(escaped);
-            }
+        name = "Microsoft.ApplicationInsights.Exception";
+        baseType = "ExceptionData";
+        let typeName = "";
+        let message = "Exception";
+        let stack = "";
+        let hasFullStack = false;
+        if (event.attributes) {
+          typeName = String(event.attributes[SEMATTRS_EXCEPTION_TYPE]);
+          stack = String(event.attributes[SEMATTRS_EXCEPTION_STACKTRACE]);
+          if (stack) {
+            hasFullStack = true;
           }
-          const exceptionDetails: TelemetryExceptionDetails = {
-            typeName: typeName,
-            message: message,
-            stack: stack,
-            hasFullStack: hasFullStack,
-          };
-          const exceptionData: TelemetryExceptionData = {
-            exceptions: [exceptionDetails],
-            version: 2,
-            properties: properties,
-          };
-          baseData = exceptionData;
-        } else {
-          // Drop non-server exception span events
-          return;
+          const exceptionMsg = event.attributes[SEMATTRS_EXCEPTION_MESSAGE];
+          if (exceptionMsg) {
+            message = String(exceptionMsg);
+          }
+          const escaped = event.attributes[SEMATTRS_EXCEPTION_ESCAPED];
+          if (escaped !== undefined) {
+            properties[SEMATTRS_EXCEPTION_ESCAPED] = String(escaped);
+          }
         }
+        const exceptionDetails: TelemetryExceptionDetails = {
+          typeName: typeName,
+          message: message,
+          stack: stack,
+          hasFullStack: hasFullStack,
+        };
+        const exceptionData: TelemetryExceptionData = {
+          exceptions: [exceptionDetails],
+          version: 2,
+          properties: properties,
+        };
+        baseData = exceptionData;
       } else {
         name = "Microsoft.ApplicationInsights.Message";
         baseType = "MessageData";

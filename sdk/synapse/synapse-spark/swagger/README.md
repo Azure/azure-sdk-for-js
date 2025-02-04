@@ -18,13 +18,12 @@ tracing-info:
   packagePrefix: "Microsoft.Synapse"
 require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b9d36b704e582a2bd5677fedc813607e73963469/specification/synapse/data-plane/readme.md
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 tag: package-spark-2020-12-01
-
 typescript:
   generate-metadata: false
   azure-arm: true
-
 modelerfour:
   lenient-model-deduplication: true
+module-kind: esm
 ```

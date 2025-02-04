@@ -22,7 +22,7 @@ generate-metadata: false
 generate-test: false
 generate-sample: false
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 modelerfour:
   lenient-model-deduplication: true
 directive:
@@ -59,4 +59,5 @@ directive:
       from: "ShareResources_List",
       to: "ShareResources_GetAllShareResources"
     ]
+module-kind: esm
 ```

@@ -17,14 +17,14 @@ source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/aa19725fe79aea2a9dc580f3c66f77f89cc34563/specification/mixedreality/data-plane/Microsoft.MixedReality/preview/2019-02-28-preview/mr-sts.json
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 hide-clients: true
 package-version: 1.0.0-beta.2
 v3: true
-
 tracing-info:
   namespace: "Microsoft.MixedReality"
   packagePrefix: "Azure.MixedReality"
+module-kind: esm
 ```
 
 ## Customizations for Track 2 Generator
