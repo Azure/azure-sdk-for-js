@@ -15,7 +15,9 @@ import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_ConnectionString", async () => {
+    // @ts-ignore
     const producerClient = new EventHubProducerClient("my-connection-string", "my-event-hub");
+    // @ts-ignore
     const consumerClient = new EventHubConsumerClient(
       "my-consumer-group",
       "my-connection-string",
@@ -24,7 +26,9 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleCreateClient_ConnectionStringWithEntityPath", async () => {
+    // @ts-ignore
     const producerClient = new EventHubProducerClient("my-connection-string-with-entity-path");
+    // @ts-ignore
     const consumerClient = new EventHubConsumerClient(
       "my-consumer-group",
       "my-connection-string-with-entity-path",
@@ -33,7 +37,9 @@ describe("snippets", () => {
 
   it("ReadmeSampleCreateClient_TokenCredential", async () => {
     const credential = new DefaultAzureCredential();
+    // @ts-ignore
     const producerClient = new EventHubProducerClient("my-host-name", "my-event-hub", credential);
+    // @ts-ignore
     const consumerClient = new EventHubConsumerClient(
       "my-consumer-group",
       "my-host-name",
@@ -45,6 +51,7 @@ describe("snippets", () => {
   it("ReadmeSampleInspectEventHub", async () => {
     const client = new EventHubProducerClient("connectionString", "eventHubName");
     // @ts-preserve-whitespace
+    // @ts-ignore
     const partitionIds = await client.getPartitionIds();
     // @ts-preserve-whitespace
     await client.close();
@@ -83,9 +90,11 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const subscription = client.subscribe(
       {
+        // @ts-ignore
         processEvents: async (events, context) => {
           // event processing code goes here
         },
+        // @ts-ignore
         processError: async (err, context) => {
           // error reporting/handling code here
         },
@@ -170,9 +179,11 @@ describe("snippets", () => {
     const subscription = client.subscribe(
       partitionIds[0],
       {
+        // @ts-ignore
         processEvents: async (events, context) => {
           // event processing code goes here
         },
+        // @ts-ignore
         processError: async (err, context) => {
           // error reporting/handling code here
         },
@@ -210,11 +221,14 @@ describe("snippets", () => {
       "eventHubName",
     );
     // @ts-preserve-whitespace
+    // @ts-ignore
     const subscription = client.subscribe(
       {
+        // @ts-ignore
         processEvents: async (events, context) => {
           console.log("Received event count: ", events.length);
         },
+        // @ts-ignore
         processError: async (err, context) => {
           console.log("Error: ", err);
         },
@@ -232,12 +246,15 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const partitionIds = await client.getPartitionIds();
     // @ts-preserve-whitespace
+    // @ts-ignore
     const subscription = client.subscribe(
       partitionIds[0],
       {
+        // @ts-ignore
         processEvents: async (events, context) => {
           console.log("Received event count: ", events.length);
         },
+        // @ts-ignore
         processError: async (err, context) => {
           console.log("Error: ", err);
         },
