@@ -31,6 +31,12 @@ export interface Agent {
 }
 
 // @public
+export function agentPolicy(agent?: Agent): PipelinePolicy;
+
+// @public
+export const agentPolicyName = "agentPolicy";
+
+// @public
 export interface AuthorizeRequestOnChallengeOptions {
     getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
     logger?: AzureLogger;
@@ -239,6 +245,7 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
+    agent?: Agent;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;

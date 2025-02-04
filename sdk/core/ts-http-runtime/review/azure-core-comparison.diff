@@ -849,27 +849,23 @@ index 4ee4778..dc3b0f5 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index 61ee1c1..e81a30d 100644
+index fdbfe9f..e81a30d 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.18.3";
+-export const SDK_VERSION: string = "1.19.0";
 +export const SDK_VERSION: string = "0.1.0";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
-index 2a2bd41..6066e07 100644
+index fefe550..fb56a78 100644
 --- a/src/createPipelineFromOptions.ts
 +++ b/src/createPipelineFromOptions.ts
-@@ -3,18 +3,16 @@
- 
- import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
- import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
--import type { PipelineRetryOptions, TlsSettings, ProxySettings } from "./interfaces.js";
-+import type { PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
+@@ -6,16 +6,14 @@ import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
+ import type { Agent, PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
  import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
  import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
 -import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
@@ -880,13 +876,14 @@ index 2a2bd41..6066e07 100644
 +import { isNodeLike } from "./util/checkEnvironment.js";
  import { proxyPolicy } from "./policies/proxyPolicy.js";
 -import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
+ import { agentPolicy } from "./policies/agentPolicy.js";
  import { tlsPolicy } from "./policies/tlsPolicy.js";
 -import { tracingPolicy } from "./policies/tracingPolicy.js";
 +import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
  
  /**
   * Defines options that are used to configure the HTTP pipeline for
-@@ -88,15 +86,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
+@@ -95,15 +93,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
  
    pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
    pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
@@ -916,10 +913,10 @@ index e9751e2..e4f8769 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index aa95065..65e7734 100644
+index 92a7ee9..65e7734 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,115 +9,71 @@ declare global {
+@@ -9,116 +9,71 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
  
@@ -1062,6 +1059,7 @@ index aa95065..65e7734 100644
 -  type AuxiliaryAuthenticationHeaderPolicyOptions,
 -  auxiliaryAuthenticationHeaderPolicyName,
 -} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
+-export { agentPolicy, agentPolicyName } from "./policies/agentPolicy.js";
 -export {
 -  createFile,
 -  createFileFromStream,
