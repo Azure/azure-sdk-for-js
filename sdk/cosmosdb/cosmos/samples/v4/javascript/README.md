@@ -17,9 +17,9 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [Bulk.js][bulk]                                                                                                             | Shows a simple bulk call with each BulkOperation type.                                                                |
 | [BulkUpdateWithSproc.js][bulkupdatewithsproc]                                                                               | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.                   |
 | [ChangeFeed.js][changefeed]                                                                                                 | Demonstrates using a ChangeFeed.                                                                                      |
-| [ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.js][changefeediterator_changefeedhierarchicalpartitionkey]           | Demonstrates using a ChangeFeed for a partition key                                                                   |
-| [ChangeFeedIterator\ChangeFeedIteratorAllVersionsAndDeletes.js][changefeediterator_changefeediteratorallversionsanddeletes] | Demonstrates using a ChangeFeed in AllVersionsAndDeletes mode for entire container, a partition key, and an epk range |
-| [ChangeFeedIterator\ChangeFeedIteratorLatestVersion.js][changefeediterator_changefeediteratorlatestversion]                 | Demonstrates using a ChangeFeed in LatestVersion mode for entire container, a partition key, and an epk range         |
+| [ChangeFeedIterator/ChangeFeedHierarchicalPartitionKey.js][changefeediterator_changefeedhierarchicalpartitionkey]           | Demonstrates using a ChangeFeed for a partition key                                                                   |
+| [ChangeFeedIterator/ChangeFeedIteratorAllVersionsAndDeletes.js][changefeediterator_changefeediteratorallversionsanddeletes] | Demonstrates using a ChangeFeed in AllVersionsAndDeletes mode for entire container, a partition key, and an epk range |
+| [ChangeFeedIterator/ChangeFeedIteratorLatestVersion.js][changefeediterator_changefeediteratorlatestversion]                 | Demonstrates using a ChangeFeed in LatestVersion mode for entire container, a partition key, and an epk range         |
 | [ContainerManagement.js][containermanagement]                                                                               | Demonstrates container create, read, delete and reading all containers belonging to a database.                       |
 | [DatabaseManagement.js][databasemanagement]                                                                                 | Demonstrates database create, read, delete and reading all databases.                                                 |
 | [Diagnostics.js][diagnostics]                                                                                               | Demonstrates usage of CosmosDiagnostic Object.                                                                        |
@@ -28,6 +28,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [IndexManagement.js][indexmanagement]                                                                                       | Shows various ways to manage indexing items or changing container index policies.                                     |
 | [ItemManagement.js][itemmanagement]                                                                                         | Demonstrates item creation, read, delete and reading all items belonging to a container.                              |
 | [QueryThroughput.js][querythroughput]                                                                                       | Demonstrates query throughput scenarios.                                                                              |
+| [Query/FullTextSearch.js][query_fulltextsearch]                                                                             | Demonstrates full text search queries.                                                                                |
 | [SasTokenAuth.js][sastokenauth]                                                                                             | Demonstrates using SasTokens for granting scoped access to Cosmos resources. _Private feature_                        |
 | [ServerSideScripts.js][serversidescripts]                                                                                   | Demonstrates using stored procedures for server side run functions                                                    |
 
@@ -86,6 +87,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [indexmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/IndexManagement.js
 [itemmanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ItemManagement.js
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/QueryThroughput.js
+[query_fulltextsearch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/Query/FullTextSearch.js
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/SasTokenAuth.js
 [serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ServerSideScripts.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/cosmos

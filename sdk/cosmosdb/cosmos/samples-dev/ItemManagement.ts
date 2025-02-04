@@ -128,6 +128,31 @@ async function run(): Promise<void> {
     );
   }
 
+  logStep("Querying items with enableQueryControl set to true");
+  const queryIterator = container.items.query(querySpec, {
+    enableQueryControl: true,
+    maxItemCount: 10,
+    maxDegreeOfParallelism: 2,
+  });
+  // Suppose we want to fetch the data until the request charge is less than 20000
+  const requestChargeThreshold = 20000;
+
+  while (queryIterator.hasMoreResults()) {
+    // Fetch the next batch of items, resources could be an empty array([]) if data is not ready to be served
+    const { resources, requestCharge } = await queryIterator.fetchNext();
+
+    // Log the response resources
+    console.log("Response: ", resources);
+
+    // Break the loop if the request charge is more than the threshold
+    if (requestCharge > requestChargeThreshold) {
+      console.log(
+        `Request charge ${requestCharge} exceeded the threshold of ${requestChargeThreshold}. Stopping the query.`,
+      );
+      break;
+    }
+  }
+
   logStep("Trying to replace item when item has changed in the database");
   // The replace item above will work even if there's a new version of item on the server from what you originally read
   // If you want to prevent this from happening you can opt-in to a conditional update
