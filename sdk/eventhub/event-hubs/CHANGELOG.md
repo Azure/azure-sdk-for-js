@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
 ## 6.0.0-beta.1 (2025-02-11)
