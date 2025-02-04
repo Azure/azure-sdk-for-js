@@ -6,12 +6,6 @@
 
 - Beta support for StreamingChatMessageStartEvent and StreamingChatMessageChunkReceivedEvent events
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.6.0-beta.3 (2024-06-24)
 
 ### Bugs Fixed
