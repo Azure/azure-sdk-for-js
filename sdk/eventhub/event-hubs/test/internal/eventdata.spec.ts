@@ -43,14 +43,14 @@ const testSourceEventData: EventData = {
 
 const messageFromED = toRheaMessage(testSourceEventData);
 
-describe("EventData", function () {
-  describe("fromRheaMessage", function () {
-    it("populates body with the message body", async function () {
+describe("EventData", () => {
+  describe("fromRheaMessage", () => {
+    it("populates body with the message body", async () => {
       const testEventData = fromRheaMessage(testMessage, false);
       testEventData.body.should.equal(testBody);
     });
 
-    it("populates top-level fields", async function () {
+    it("populates top-level fields", async () => {
       const testEventData = fromRheaMessage(
         {
           ...testMessage,
@@ -63,30 +63,30 @@ describe("EventData", function () {
       should.equal(testEventData.correlationId, "cid", "Unexpected correlationId found.");
     });
 
-    describe("properties", function () {
-      it("enqueuedTimeUtc gets the enqueued time from system properties", async function () {
+    describe("properties", () => {
+      it("enqueuedTimeUtc gets the enqueued time from system properties", async () => {
         const testEventData = fromRheaMessage(testMessage, false);
         testEventData
           .enqueuedTimeUtc!.getTime()
           .should.equal(testAnnotations["x-opt-enqueued-time"]);
       });
 
-      it("offset gets the offset from system properties", async function () {
+      it("offset gets the offset from system properties", async () => {
         const testEventData = fromRheaMessage(testMessage, false);
         testEventData.offset!.should.equal(testAnnotations["x-opt-offset"]);
       });
 
-      it("sequenceNumber gets the sequence number from system properties", async function () {
+      it("sequenceNumber gets the sequence number from system properties", async () => {
         const testEventData = fromRheaMessage(testMessage, false);
         testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
       });
 
-      it("partitionKey gets the sequence number from system properties", async function () {
+      it("partitionKey gets the sequence number from system properties", async () => {
         const testEventData = fromRheaMessage(testMessage, false);
         testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
       });
 
-      it("returns systemProperties for unknown message annotations", async function () {
+      it("returns systemProperties for unknown message annotations", async () => {
         const extraAnnotations = {
           "x-iot-foo-prop": "just-a-foo",
           "x-iot-bar-prop": "bar-above-the-rest",
@@ -116,7 +116,7 @@ describe("EventData", function () {
         );
       });
 
-      it("returns systemProperties for special known properties", async function () {
+      it("returns systemProperties for special known properties", async () => {
         const testEventData = fromRheaMessage(
           {
             body: testBody,
@@ -161,7 +161,7 @@ describe("EventData", function () {
       });
     });
 
-    it("deserializes Dates to numbers in properties and annotations", async function () {
+    it("deserializes Dates to numbers in properties and annotations", async () => {
       const timestamp = new Date();
       const extraAnnotations = {
         "x-date": timestamp,
@@ -199,8 +199,8 @@ describe("EventData", function () {
       });
     });
   });
-  describe("toAmqpMessage", function () {
-    it("populates body with the message body encoded", async function () {
+  describe("toAmqpMessage", () => {
+    it("populates body with the message body encoded", async () => {
       const expectedTestBodyContents = Buffer.from(JSON.stringify(testBody));
       should.equal(
         expectedTestBodyContents.equals(messageFromED.body.content),
@@ -214,7 +214,7 @@ describe("EventData", function () {
       );
     });
 
-    it("populates top-level fields", async function () {
+    it("populates top-level fields", async () => {
       const message = toRheaMessage({
         ...testSourceEventData,
         ...{ contentType: "application/json", correlationId: "cid", messageId: 1 },
@@ -224,11 +224,11 @@ describe("EventData", function () {
       should.equal(message.correlation_id, "cid", "Unexpected correlation_id found.");
     });
 
-    it("populates application_properties of the message", async function () {
+    it("populates application_properties of the message", async () => {
       messageFromED.application_properties!.should.equal(properties);
     });
 
-    it("AmqpAnnotatedMessage (explicit type)", async function () {
+    it("AmqpAnnotatedMessage (explicit type)", async () => {
       const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
         body: "hello",
         bodyType: "value",
@@ -239,7 +239,7 @@ describe("EventData", function () {
       assert.equal(rheaMessage.body.typecode, valueSectionTypeCode);
     });
 
-    it("AmqpAnnotatedMessage (implicit type)", async function () {
+    it("AmqpAnnotatedMessage (implicit type)", async () => {
       const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
         body: "hello",
         bodyType: undefined,
@@ -250,7 +250,7 @@ describe("EventData", function () {
       assert.equal(rheaMessage.body.typecode, dataSectionTypeCode);
     });
 
-    it("EventData", async function () {
+    it("EventData", async () => {
       const event: EventData = {
         body: "hello",
       };
@@ -260,7 +260,7 @@ describe("EventData", function () {
       assert.equal(rheaMessage.body.typecode, dataSectionTypeCode);
     });
 
-    it("ReceivedEventData (sequence)", async function () {
+    it("ReceivedEventData (sequence)", async () => {
       const event: ReceivedEventData = {
         enqueuedTimeUtc: new Date(),
         offset: "100",
@@ -280,7 +280,7 @@ describe("EventData", function () {
       assert.equal(rheaMessage.body.typecode, sequenceSectionTypeCode);
     });
 
-    it("ReceivedEventData (data)", async function () {
+    it("ReceivedEventData (data)", async () => {
       const event: ReceivedEventData = {
         enqueuedTimeUtc: new Date(),
         offset: "100",
@@ -300,7 +300,7 @@ describe("EventData", function () {
       assert.equal(rheaMessage.body.typecode, dataSectionTypeCode);
     });
 
-    it("ReceivedEventData (value)", async function () {
+    it("ReceivedEventData (value)", async () => {
       const event: ReceivedEventData = {
         enqueuedTimeUtc: new Date(),
         offset: "100",

@@ -70,7 +70,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 Use the below code snippet to create a `CheckpointStore`. You will need to provide the connection string to your storage account.
 
-```javascript
+```ts snippet:CreateCheckpointStore
 const { TableClient } = require("@azure/data-tables");
 const { TableCheckpointStore } = require("@azure/eventhubs-checkpointstore-table");
 
@@ -91,7 +91,7 @@ interface along with code to call the `updateCheckpoint()` method.
 
 In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://learn.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers) and also handles checkpointing.
 
-```javascript
+```ts snippet:CheckpointEvents
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { TableClient } = require("@azure/data-tables");
 const { TableCheckpointStore } = require("@azure/eventhubs-checkpointstore-table");
@@ -165,6 +165,12 @@ You can set the `AZURE_LOG_LEVEL` environment variable to one of the following v
 You can also set the log level programatically by importing the
 [@azure/logger](https://www.npmjs.com/package/@azure/logger) package and calling the
 `setLogLevel` function with one of the log level values.
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+```
 
 When setting a log level either programatically or via the `AZURE_LOG_LEVEL` environment variable,
 any logs that are written using a log level equal to or less than the one you choose will be emitted.
