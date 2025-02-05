@@ -37,27 +37,29 @@ describe("hdinsights test", () => {
   let subscriptionId: string;
   let client: HDInsightManagementClient;
   let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new HDInsightManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest";
-
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new HDInsightManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("locations checkNameAvailability test", async function () {
+    const res = await client.locations.checkNameAvailability(
+      location,
+      {
+        name: "test123",
+        type: "clusters"
+      });
+    assert.ok(res);
   });
 
   it("operation list test", async function () {
