@@ -15,71 +15,59 @@ export interface TrafficControllerInterfaceListByResourceGroupOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface TrafficControllerInterfaceDeleteOptionalParams
-  extends OperationOptions {
+export interface TrafficControllerInterfaceDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface TrafficControllerInterfaceUpdateOptionalParams
-  extends OperationOptions {}
+export interface TrafficControllerInterfaceUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface TrafficControllerInterfaceCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface TrafficControllerInterfaceCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface TrafficControllerInterfaceGetOptionalParams
-  extends OperationOptions {}
+export interface TrafficControllerInterfaceGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface SecurityPoliciesInterfaceListByTrafficControllerOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SecurityPoliciesInterfaceDeleteOptionalParams
-  extends OperationOptions {
+export interface SecurityPoliciesInterfaceDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SecurityPoliciesInterfaceUpdateOptionalParams
-  extends OperationOptions {}
+export interface SecurityPoliciesInterfaceUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SecurityPoliciesInterfaceCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface SecurityPoliciesInterfaceCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SecurityPoliciesInterfaceGetOptionalParams
-  extends OperationOptions {}
+export interface SecurityPoliciesInterfaceGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FrontendsInterfaceListByTrafficControllerOptionalParams
-  extends OperationOptions {}
+export interface FrontendsInterfaceListByTrafficControllerOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FrontendsInterfaceDeleteOptionalParams
-  extends OperationOptions {
+export interface FrontendsInterfaceDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface FrontendsInterfaceUpdateOptionalParams
-  extends OperationOptions {}
+export interface FrontendsInterfaceUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FrontendsInterfaceCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface FrontendsInterfaceCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -92,23 +80,19 @@ export interface AssociationsInterfaceListByTrafficControllerOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AssociationsInterfaceDeleteOptionalParams
-  extends OperationOptions {
+export interface AssociationsInterfaceDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AssociationsInterfaceUpdateOptionalParams
-  extends OperationOptions {}
+export interface AssociationsInterfaceUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AssociationsInterfaceCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface AssociationsInterfaceCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface AssociationsInterfaceGetOptionalParams
-  extends OperationOptions {}
+export interface AssociationsInterfaceGetOptionalParams extends OperationOptions {}

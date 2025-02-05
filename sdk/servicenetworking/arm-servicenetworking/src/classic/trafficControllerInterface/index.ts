@@ -18,10 +18,7 @@ import {
   trafficControllerInterfaceCreateOrUpdate,
   trafficControllerInterfaceGet,
 } from "../../api/trafficControllerInterface/index.js";
-import {
-  TrafficController,
-  TrafficControllerUpdate,
-} from "../../models/models.js";
+import { TrafficController, TrafficControllerUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -64,33 +61,20 @@ export interface TrafficControllerInterfaceOperations {
   ) => Promise<TrafficController>;
 }
 
-function _getTrafficControllerInterface(
-  context: ServiceNetworkingManagementContext,
-) {
+function _getTrafficControllerInterface(context: ServiceNetworkingManagementContext) {
   return {
-    listBySubscription: (
-      options?: TrafficControllerInterfaceListBySubscriptionOptionalParams,
-    ) => trafficControllerInterfaceListBySubscription(context, options),
+    listBySubscription: (options?: TrafficControllerInterfaceListBySubscriptionOptionalParams) =>
+      trafficControllerInterfaceListBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: TrafficControllerInterfaceListByResourceGroupOptionalParams,
-    ) =>
-      trafficControllerInterfaceListByResourceGroup(
-        context,
-        resourceGroupName,
-        options,
-      ),
+    ) => trafficControllerInterfaceListByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       trafficControllerName: string,
       options?: TrafficControllerInterfaceDeleteOptionalParams,
     ) =>
-      trafficControllerInterfaceDelete(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        options,
-      ),
+      trafficControllerInterfaceDelete(context, resourceGroupName, trafficControllerName, options),
     update: (
       resourceGroupName: string,
       trafficControllerName: string,
@@ -121,13 +105,7 @@ function _getTrafficControllerInterface(
       resourceGroupName: string,
       trafficControllerName: string,
       options?: TrafficControllerInterfaceGetOptionalParams,
-    ) =>
-      trafficControllerInterfaceGet(
-        context,
-        resourceGroupName,
-        trafficControllerName,
-        options,
-      ),
+    ) => trafficControllerInterfaceGet(context, resourceGroupName, trafficControllerName, options),
   };
 }
 

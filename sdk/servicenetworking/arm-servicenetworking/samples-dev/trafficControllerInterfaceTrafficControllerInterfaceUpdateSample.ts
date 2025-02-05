@@ -13,16 +13,12 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function patchTrafficController(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId,
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
+  const result = await client.trafficControllerInterface.TrafficControllerInterface_update(
+    "rg1",
+    "tc1",
+    { tags: { key1: "value1" } },
   );
-  const result =
-    await client.trafficControllerInterface.TrafficControllerInterface_update(
-      "rg1",
-      "tc1",
-      { tags: { key1: "value1" } },
-    );
   console.log(result);
 }
 

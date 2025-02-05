@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  _getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   _getTrafficControllerInterfaceOperations,
   TrafficControllerInterfaceOperations,
@@ -46,23 +43,16 @@ export class ServiceNetworkingManagementClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createServiceNetworkingManagement(
-      credential,
-      subscriptionId,
-      { ...options, userAgentOptions: { userAgentPrefix } },
-    );
+    this._client = createServiceNetworkingManagement(credential, subscriptionId, {
+      ...options,
+      userAgentOptions: { userAgentPrefix },
+    });
     this.pipeline = this._client.pipeline;
     this.operations = _getOperationsOperations(this._client);
-    this.trafficControllerInterface = _getTrafficControllerInterfaceOperations(
-      this._client,
-    );
-    this.securityPoliciesInterface = _getSecurityPoliciesInterfaceOperations(
-      this._client,
-    );
+    this.trafficControllerInterface = _getTrafficControllerInterfaceOperations(this._client);
+    this.securityPoliciesInterface = _getSecurityPoliciesInterfaceOperations(this._client);
     this.frontendsInterface = _getFrontendsInterfaceOperations(this._client);
-    this.associationsInterface = _getAssociationsInterfaceOperations(
-      this._client,
-    );
+    this.associationsInterface = _getAssociationsInterfaceOperations(this._client);
   }
 
   /** The operation groups for operations */

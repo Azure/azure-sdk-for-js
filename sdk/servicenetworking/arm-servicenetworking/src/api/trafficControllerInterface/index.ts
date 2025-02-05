@@ -129,12 +129,7 @@ export function trafficControllerInterfaceListByResourceGroup(
 ): PagedAsyncIterableIterator<TrafficController> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _trafficControllerInterfaceListByResourceGroupSend(
-        context,
-        resourceGroupName,
-        options,
-      ),
+    () => _trafficControllerInterfaceListByResourceGroupSend(context, resourceGroupName, options),
     _trafficControllerInterfaceListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

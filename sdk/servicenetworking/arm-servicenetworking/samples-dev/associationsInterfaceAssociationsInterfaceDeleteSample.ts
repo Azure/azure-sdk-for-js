@@ -13,15 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function deleteAssociation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId,
-  );
-  await client.associationsInterface.AssociationsInterface_delete(
-    "rg1",
-    "tc1",
-    "as1",
-  );
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
+  await client.associationsInterface.AssociationsInterface_delete("rg1", "tc1", "as1");
 }
 
 async function main(): Promise<void> {

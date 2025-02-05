@@ -9,9 +9,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -42,9 +40,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -115,9 +111,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -140,26 +134,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -173,23 +161,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -241,21 +223,15 @@ export interface TrafficControllerProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function trafficControllerPropertiesSerializer(
-  item: TrafficControllerProperties,
-): any {
+export function trafficControllerPropertiesSerializer(item: TrafficControllerProperties): any {
   return {
     securityPolicyConfigurations: !item["securityPolicyConfigurations"]
       ? item["securityPolicyConfigurations"]
-      : securityPolicyConfigurationsSerializer(
-          item["securityPolicyConfigurations"],
-        ),
+      : securityPolicyConfigurationsSerializer(item["securityPolicyConfigurations"]),
   };
 }
 
-export function trafficControllerPropertiesDeserializer(
-  item: any,
-): TrafficControllerProperties {
+export function trafficControllerPropertiesDeserializer(item: any): TrafficControllerProperties {
   return {
     configurationEndpoints: !item["configurationEndpoints"]
       ? item["configurationEndpoints"]
@@ -273,9 +249,7 @@ export function trafficControllerPropertiesDeserializer(
       : resourceIdArrayDeserializer(item["securityPolicies"]),
     securityPolicyConfigurations: !item["securityPolicyConfigurations"]
       ? item["securityPolicyConfigurations"]
-      : securityPolicyConfigurationsDeserializer(
-          item["securityPolicyConfigurations"],
-        ),
+      : securityPolicyConfigurationsDeserializer(item["securityPolicyConfigurations"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -304,9 +278,7 @@ export interface SecurityPolicyConfigurations {
   wafSecurityPolicy?: WafSecurityPolicy;
 }
 
-export function securityPolicyConfigurationsSerializer(
-  item: SecurityPolicyConfigurations,
-): any {
+export function securityPolicyConfigurationsSerializer(item: SecurityPolicyConfigurations): any {
   return {
     wafSecurityPolicy: !item["wafSecurityPolicy"]
       ? item["wafSecurityPolicy"]
@@ -314,9 +286,7 @@ export function securityPolicyConfigurationsSerializer(
   };
 }
 
-export function securityPolicyConfigurationsDeserializer(
-  item: any,
-): SecurityPolicyConfigurations {
+export function securityPolicyConfigurationsDeserializer(item: any): SecurityPolicyConfigurations {
   return {
     wafSecurityPolicy: !item["wafSecurityPolicy"]
       ? item["wafSecurityPolicy"]
@@ -445,9 +415,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -488,9 +456,7 @@ export interface TrafficControllerUpdate {
   properties?: TrafficControllerUpdateProperties;
 }
 
-export function trafficControllerUpdateSerializer(
-  item: TrafficControllerUpdate,
-): any {
+export function trafficControllerUpdateSerializer(item: TrafficControllerUpdate): any {
   return {
     tags: item["tags"],
     properties: !item["properties"]
@@ -511,9 +477,7 @@ export function trafficControllerUpdatePropertiesSerializer(
   return {
     securityPolicyConfigurations: !item["securityPolicyConfigurations"]
       ? item["securityPolicyConfigurations"]
-      : securityPolicyConfigurationsSerializer(
-          item["securityPolicyConfigurations"],
-        ),
+      : securityPolicyConfigurationsSerializer(item["securityPolicyConfigurations"]),
   };
 }
 
@@ -525,26 +489,20 @@ export interface _TrafficControllerListResult {
   nextLink?: string;
 }
 
-export function _trafficControllerListResultDeserializer(
-  item: any,
-): _TrafficControllerListResult {
+export function _trafficControllerListResultDeserializer(item: any): _TrafficControllerListResult {
   return {
     value: trafficControllerArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function trafficControllerArraySerializer(
-  result: Array<TrafficController>,
-): any[] {
+export function trafficControllerArraySerializer(result: Array<TrafficController>): any[] {
   return result.map((item) => {
     return trafficControllerSerializer(item);
   });
 }
 
-export function trafficControllerArrayDeserializer(
-  result: Array<TrafficController>,
-): any[] {
+export function trafficControllerArrayDeserializer(result: Array<TrafficController>): any[] {
   return result.map((item) => {
     return trafficControllerDeserializer(item);
   });
@@ -592,24 +550,16 @@ export interface SecurityPolicyProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function securityPolicyPropertiesSerializer(
-  item: SecurityPolicyProperties,
-): any {
+export function securityPolicyPropertiesSerializer(item: SecurityPolicyProperties): any {
   return {
-    wafPolicy: !item["wafPolicy"]
-      ? item["wafPolicy"]
-      : wafPolicySerializer(item["wafPolicy"]),
+    wafPolicy: !item["wafPolicy"] ? item["wafPolicy"] : wafPolicySerializer(item["wafPolicy"]),
   };
 }
 
-export function securityPolicyPropertiesDeserializer(
-  item: any,
-): SecurityPolicyProperties {
+export function securityPolicyPropertiesDeserializer(item: any): SecurityPolicyProperties {
   return {
     policyType: item["policyType"],
-    wafPolicy: !item["wafPolicy"]
-      ? item["wafPolicy"]
-      : wafPolicyDeserializer(item["wafPolicy"]),
+    wafPolicy: !item["wafPolicy"] ? item["wafPolicy"] : wafPolicyDeserializer(item["wafPolicy"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -653,9 +603,7 @@ export interface SecurityPolicyUpdate {
   properties?: SecurityPolicyUpdateProperties;
 }
 
-export function securityPolicyUpdateSerializer(
-  item: SecurityPolicyUpdate,
-): any {
+export function securityPolicyUpdateSerializer(item: SecurityPolicyUpdate): any {
   return {
     tags: item["tags"],
     properties: !item["properties"]
@@ -674,9 +622,7 @@ export function securityPolicyUpdatePropertiesSerializer(
   item: SecurityPolicyUpdateProperties,
 ): any {
   return {
-    wafPolicy: !item["wafPolicy"]
-      ? item["wafPolicy"]
-      : wafPolicySerializer(item["wafPolicy"]),
+    wafPolicy: !item["wafPolicy"] ? item["wafPolicy"] : wafPolicySerializer(item["wafPolicy"]),
   };
 }
 
@@ -688,26 +634,20 @@ export interface _SecurityPolicyListResult {
   nextLink?: string;
 }
 
-export function _securityPolicyListResultDeserializer(
-  item: any,
-): _SecurityPolicyListResult {
+export function _securityPolicyListResultDeserializer(item: any): _SecurityPolicyListResult {
   return {
     value: securityPolicyArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function securityPolicyArraySerializer(
-  result: Array<SecurityPolicy>,
-): any[] {
+export function securityPolicyArraySerializer(result: Array<SecurityPolicy>): any[] {
   return result.map((item) => {
     return securityPolicySerializer(item);
   });
 }
 
-export function securityPolicyArrayDeserializer(
-  result: Array<SecurityPolicy>,
-): any[] {
+export function securityPolicyArrayDeserializer(result: Array<SecurityPolicy>): any[] {
   return result.map((item) => {
     return securityPolicyDeserializer(item);
   });
@@ -782,9 +722,7 @@ export interface _FrontendListResult {
   nextLink?: string;
 }
 
-export function _frontendListResultDeserializer(
-  item: any,
-): _FrontendListResult {
+export function _frontendListResultDeserializer(item: any): _FrontendListResult {
   return {
     value: frontendArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -845,25 +783,17 @@ export interface AssociationProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function associationPropertiesSerializer(
-  item: AssociationProperties,
-): any {
+export function associationPropertiesSerializer(item: AssociationProperties): any {
   return {
     associationType: item["associationType"],
-    subnet: !item["subnet"]
-      ? item["subnet"]
-      : associationSubnetSerializer(item["subnet"]),
+    subnet: !item["subnet"] ? item["subnet"] : associationSubnetSerializer(item["subnet"]),
   };
 }
 
-export function associationPropertiesDeserializer(
-  item: any,
-): AssociationProperties {
+export function associationPropertiesDeserializer(item: any): AssociationProperties {
   return {
     associationType: item["associationType"],
-    subnet: !item["subnet"]
-      ? item["subnet"]
-      : associationSubnetDeserializer(item["subnet"]),
+    subnet: !item["subnet"] ? item["subnet"] : associationSubnetDeserializer(item["subnet"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -924,14 +854,10 @@ export interface AssociationUpdateProperties {
   subnet?: AssociationSubnetUpdate;
 }
 
-export function associationUpdatePropertiesSerializer(
-  item: AssociationUpdateProperties,
-): any {
+export function associationUpdatePropertiesSerializer(item: AssociationUpdateProperties): any {
   return {
     associationType: item["associationType"],
-    subnet: !item["subnet"]
-      ? item["subnet"]
-      : associationSubnetUpdateSerializer(item["subnet"]),
+    subnet: !item["subnet"] ? item["subnet"] : associationSubnetUpdateSerializer(item["subnet"]),
   };
 }
 
@@ -941,9 +867,7 @@ export interface AssociationSubnetUpdate {
   id: string;
 }
 
-export function associationSubnetUpdateSerializer(
-  item: AssociationSubnetUpdate,
-): any {
+export function associationSubnetUpdateSerializer(item: AssociationSubnetUpdate): any {
   return { id: item["id"] };
 }
 
@@ -955,9 +879,7 @@ export interface _AssociationListResult {
   nextLink?: string;
 }
 
-export function _associationListResultDeserializer(
-  item: any,
-): _AssociationListResult {
+export function _associationListResultDeserializer(item: any): _AssociationListResult {
   return {
     value: associationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -970,9 +892,7 @@ export function associationArraySerializer(result: Array<Association>): any[] {
   });
 }
 
-export function associationArrayDeserializer(
-  result: Array<Association>,
-): any[] {
+export function associationArrayDeserializer(result: Array<Association>): any[] {
   return result.map((item) => {
     return associationDeserializer(item);
   });
