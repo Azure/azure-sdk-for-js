@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { AzureHSMResourceProvider } from "../src/azureHSMResourceProvider";
+import { AzureHSMResourceProvider } from "../src/azureHSMResourceProvider.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,22 +43,22 @@ describe("hardwaresecuritymodules test", () => {
   let resourceGroup: string;
   let resourcename: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new AzureHSMResourceProvider(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "ukwest";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new AzureHSMResourceProvider(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "ukwest";
+      resourceGroup = "myjstest";
+      resourcename = "resourcetest";
 
-  });
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operation list test", async function () {
     const resArray = new Array();
