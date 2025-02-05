@@ -32,7 +32,7 @@ resource eventHubNamespace 'Microsoft.EventHub/namespaces@2024-01-01' = {
     zoneRedundant: false
     isAutoInflateEnabled: false
     maximumThroughputUnits: 0
-    disableLocalAuth: !supportsSafeSecretStandard
+    disableLocalAuth: supportsSafeSecretStandard
   }
 }
 
@@ -111,7 +111,7 @@ resource iotHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
     type: 'SystemAssigned'
   }
   properties: {
-    disableLocalAuth: !supportsSafeSecretStandard
+    disableLocalAuth: supportsSafeSecretStandard
     ipFilterRules: []
     eventHubEndpoints: {
       events: {
