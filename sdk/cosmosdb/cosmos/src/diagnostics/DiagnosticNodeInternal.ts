@@ -269,6 +269,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
 
   /**
    * @internal
+   * record startTime for encryption in an operation
    */
   public beginEncryptionDiagnostics(operation: string): void {
     const startTime = getCurrentTimestampInMs();
@@ -287,6 +288,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   }
   /**
    * @internal
+   * record duration from startTime and properties count for encryption in an operation
    */
   public endEncryptionDiagnostics(operation: string, propertiesCount?: number): void {
     const endTime = getCurrentTimestampInMs();
