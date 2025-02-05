@@ -41,7 +41,7 @@ export interface CreateReliableConnectionOptions {
 }
 
 // @public
-export function createWebSocketClient(url: string, options?: WebSocketClientOptions): Promise<WebSocketClient>;
+export function createWebSocketClient(url: string, options?: WebSocketClientOptions): WebsocketClientWrapper;
 
 // @public
 export type Data = string | ArrayBuffer | ArrayBufferView;
@@ -103,10 +103,12 @@ export interface WebSocketClient {
     on(event: "close", listener: () => void): void;
     on(event: "error", listener: (error: Error) => void): void;
     send(data: Data, opts?: SendOptions): Promise<boolean>;
+    readonly status: Status;
 }
 
 // @public
 export interface WebSocketClientOptions {
+    abortSignal?: AbortSignal;
     allowInsecureConnection?: boolean;
     highWaterMark?: number;
     identifier?: string;
@@ -116,9 +118,13 @@ export interface WebSocketClientOptions {
 }
 
 // @public
-export interface WebSocketImplOptions {
-    protocols?: string | string[];
-    wsOptions?: WS.ClientOptions | ClientRequestArgs;
+export interface WebsocketClientWrapper extends Promise<WebSocketClient> {
+    asWebSocket: () => Promise<WebSocketClient & {
+        websocket: WebSocket;
+    }>;
+    asWs: () => Promise<WebSocketClient & {
+        websocket: WS.WebSocket;
+    }>;
 }
 
 // (No @packageDocumentation comment for this package)

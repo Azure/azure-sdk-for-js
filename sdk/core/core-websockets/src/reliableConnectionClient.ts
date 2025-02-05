@@ -5,7 +5,7 @@ import { createAbortablePromise } from "@azure/core-util";
 import { createFullRetryOptions, retry, type AbortableOperationOptions } from "./retry.js";
 import { createError, getRandomName, type Writable } from "./utils.js";
 import { logger } from "./logger.js";
-import {
+import type {
   ConnectionManager,
   CreateReliableConnectionOptions,
   ReliableConnectionOptions,
@@ -14,7 +14,7 @@ import {
   CloseOptions,
   SendOptions,
   CloseInfo,
-} from "./models.js";
+} from "./models/public.js";
 import { HIGH_WATER_MARK } from "./constants.js";
 
 /**

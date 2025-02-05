@@ -8,7 +8,8 @@ import { delay } from "@azure/core-util";
 import { createWebSocketClient } from "@azure/core-websockets";
 
 async function main(): Promise<void> {
-  const client = await createWebSocketClient("wss://echo.websocket.org");
+  const client = await createWebSocketClient("wss://echo.websocket.org").asWebSocket();
+  console.log("Connected to:", client.websocket.url);
   client.on("message", (data) => {
     console.log("received:", data);
   });

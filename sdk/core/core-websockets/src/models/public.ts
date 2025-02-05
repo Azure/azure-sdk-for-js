@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type * as WS from "ws";
-import { RetryOptions } from "./retry.js";
-import { ClientRequestArgs } from "node:http";
+import type { RetryOptions } from "../retry.js";
+import type { ClientRequestArgs } from "node:http";
 
 /**
  * The close information.
@@ -211,24 +211,11 @@ export interface WebSocketClient {
    * Close the WebSocket connection.
    */
   close(opts?: CloseOptions): Promise<void>;
-}
-
-/**
- * The options to create a WebSocket implementation.
- */
-export interface WebSocketImplOptions {
-  /**
-   * The WebSocket protocol version(s) to use.
-   * This can be a single protocol string or an array of protocol strings.
-   */
-  protocols?: string | string[];
 
   /**
-   * NODEJS ONLY and WS ONLY
-   *
-   * The options to create the WS client.
+   * The status of the connection.
    */
-  wsOptions?: WS.ClientOptions | ClientRequestArgs;
+  readonly status: Status;
 }
 
 /**
@@ -264,7 +251,28 @@ export interface WebSocketClientOptions {
   retryOptions?: RetryOptions;
 
   /**
+   * The abort signal to abort opening the connection.
+   */
+  abortSignal?: AbortSignal;
+
+  /**
    * A unique identifier for the WebSocket client.
    */
   identifier?: string;
+}
+
+/**
+ * The WebSocket client wrapper.
+ */
+export interface WebsocketClientWrapper extends Promise<WebSocketClient> {
+  /**
+   * Returns the WebSocket client as a ws websocket client.
+   * @returns The ws websocket client.
+   */
+  asWs: () => Promise<WebSocketClient & { websocket: WS.WebSocket }>;
+  /**
+   * Returns the WebSocket client as a Web API WebSocket client.
+   * @returns The Web API WebSocket client.
+   */
+  asWebSocket: () => Promise<WebSocketClient & { websocket: WebSocket }>;
 }

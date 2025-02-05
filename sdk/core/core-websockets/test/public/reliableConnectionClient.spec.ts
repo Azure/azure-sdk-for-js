@@ -14,7 +14,6 @@ describe("ReliableConnectionClient", () => {
     assert.equal(client.status, "disconnected");
     await assert.isFulfilled(client.open());
     assert.equal(client.status, "connected");
-    assert.equal(client.status, "connected");
     let receivedCount = 0;
     const messages = ["Hello", "World"];
     const received: string[] = [];

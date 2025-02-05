@@ -1,42 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectionManager, Data, WebSocketImplOptions } from "./models.js";
+import type { Data } from "./models/public.js";
+import type { WebSocketImplOptions, WithSocket } from "./models/internal.js";
+import { logger } from "./logger.js";
 
 export function createWebSocket(
   url: URL,
   options: WebSocketImplOptions = {},
-): ConnectionManager<Data, Data> {
+): WithSocket<WebSocket, Data, Data> {
+  logger.verbose("Using native WebSocket");
   const { protocols } = options;
-  let ws: WebSocket | undefined;
-  const connManager: ConnectionManager<Data, Data> = {
-    open: () => {
-      ws = new WebSocket(url, protocols);
-      ws.binaryType = "arraybuffer";
-    },
-    send: async (data) => {
-      ws!.send(data);
-      return ws!.bufferedAmount;
-    },
-    close: ({ info } = {}) => {
-      const { code, reason } = info || {};
-      ws!.close(code ? +code : undefined, reason);
-    },
-    onMessage: (fn) => {
-      ws!.onmessage = (event) => fn(event.data);
-    },
-    onOpen: (fn) => {
-      ws!.onopen = fn;
-    },
-    onClose: (fn) => {
-      ws!.onclose = ({ code, reason }) => fn({ code: `${code}`, reason });
-    },
-    onError(fn) {
-      ws!.onerror = (event) => fn(event);
-    },
-    canReconnect(info) {
-      return info.code !== "1008";
+  const obj: WithSocket<WebSocket, Data, Data> = {
+    // the socket will be initialized in the open method
+    socket: undefined as any,
+    connectionManager: {
+      open: () => {
+        obj.socket = new WebSocket(url, protocols);
+        obj.socket.binaryType = "arraybuffer";
+      },
+      send: async (data) => {
+        obj.socket.send(data);
+        return obj.socket.bufferedAmount;
+      },
+      close: ({ info } = {}) => {
+        const { code, reason } = info || {};
+        obj.socket.close(code ? +code : undefined, reason);
+      },
+      onMessage: (fn) => {
+        obj.socket.onmessage = (event) => fn(event.data);
+      },
+      onOpen: (fn) => {
+        obj.socket.onopen = fn;
+      },
+      onClose: (fn) => {
+        obj.socket.onclose = ({ code, reason }) => fn({ code: `${code}`, reason });
+      },
+      onError(fn) {
+        obj.socket.onerror = (event) => fn(event);
+      },
+      canReconnect(info) {
+        return info.code !== "1008";
+      },
     },
   };
-  return connManager;
+  return obj;
 }
