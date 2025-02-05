@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update a backup instance in a backup vault
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/PutBackupInstance.json
  */
-async function createBackupInstance() {
+async function createBackupInstance(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -92,7 +92,7 @@ async function createBackupInstance() {
  * @summary Create or update a backup instance in a backup vault
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/PutBackupInstance_ResourceGuardEnabled.json
  */
-async function createBackupInstanceToPerformCriticalOperationWithMua() {
+async function createBackupInstanceToPerformCriticalOperationWithMua(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -163,7 +163,7 @@ async function createBackupInstanceToPerformCriticalOperationWithMua() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createBackupInstance();
   createBackupInstanceToPerformCriticalOperationWithMua();
 }

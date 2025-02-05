@@ -404,7 +404,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
     });
 
     describe("Disable Non-Essential Statsbeat", () => {
-      it("should disable statsbeat when the environement variable is set", () => {
+      it("should disable statsbeat when the environment variable is set", () => {
         process.env[ENV_DISABLE_STATSBEAT] = "true";
         const exporter = new AzureMonitorTraceExporter(exportOptions);
         assert.ok(exporter["sender"]["networkStatsbeatMetrics"]);
@@ -413,7 +413,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         delete process.env[ENV_DISABLE_STATSBEAT];
       });
 
-      it("should disable all statsbeat when the legacy environement variable is set", () => {
+      it("should disable all statsbeat when the legacy environment variable is set", () => {
         process.env[LEGACY_ENV_DISABLE_STATSBEAT] = "true";
         const exporter = new AzureMonitorTraceExporter(exportOptions);
         assert.ok(!exporter["sender"]["networkStatsbeatMetrics"]);

@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets a backup policy belonging to a backup vault
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/PolicyCRUD/GetBackupPolicy.json
  */
-async function getBackupPolicy() {
+async function getBackupPolicy(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -33,7 +33,7 @@ async function getBackupPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getBackupPolicy();
 }
 

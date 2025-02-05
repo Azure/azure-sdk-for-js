@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get the metadata of the provisioning service without SAS keys.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSGet.json
  */
-async function dpsGet() {
+async function dpsGet(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -32,7 +32,7 @@ async function dpsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsGet();
 }
 

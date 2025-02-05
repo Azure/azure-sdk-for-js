@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { RecordSet, DnsManagementClient } from "@azure/arm-dns";
+import type { RecordSet } from "@azure/arm-dns";
+import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -434,8 +433,7 @@ async function createTlsaRecordset(): Promise<void> {
   const parameters: RecordSet = {
     tlsaRecords: [
       {
-        certAssociationData:
-          "6EC8A4B7F511454D84DCC055213B8D195E8ADA751FE14300AFE32D54B162438B",
+        certAssociationData: "6EC8A4B7F511454D84DCC055213B8D195E8ADA751FE14300AFE32D54B162438B",
         matchingType: 1,
         selector: 1,
         usage: 3,

@@ -42,7 +42,7 @@ A poller is an object that can poll the long running operation on the server for
 
 A type for the operation state. It contains a `status` field with the following possible values: `notStarted`, `running`, `succeeded`, `failed`, and `canceled`. It can be accessed as follows:
 
-```typescript snippet:operation_state
+```typescript snippet:OperationStateExample
 switch (poller.operationState.status) {
   case "succeeded": // return poller.getResult();
   case "failed": // throw poller.getOperationState().error;

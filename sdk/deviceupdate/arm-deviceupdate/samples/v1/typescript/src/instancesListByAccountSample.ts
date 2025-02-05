@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns instances for the given account name.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Instances/Instances_ListByAccount.json
  */
-async function getsListOfInstancesByAccount() {
+async function getsListOfInstancesByAccount(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +34,7 @@ async function getsListOfInstancesByAccount() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsListOfInstancesByAccount();
 }
 

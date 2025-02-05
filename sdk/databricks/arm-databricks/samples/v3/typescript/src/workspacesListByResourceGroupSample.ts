@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets all the workspaces within a resource group.
  * x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspacesListByResourceGroup.json
  */
-async function listsWorkspaces() {
+async function listsWorkspaces(): Promise<void> {
   const subscriptionId = process.env["DATABRICKS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DATABRICKS_RESOURCE_GROUP"] || "rg";
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function listsWorkspaces() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsWorkspaces();
 }
 

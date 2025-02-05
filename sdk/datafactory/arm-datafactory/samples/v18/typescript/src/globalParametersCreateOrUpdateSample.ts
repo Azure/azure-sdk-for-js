@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates a Global parameter
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/GlobalParameters_Create.json
  */
-async function globalParametersCreate() {
+async function globalParametersCreate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -46,7 +46,7 @@ async function globalParametersCreate() {
  * @summary Creates or updates a Global parameter
  * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/GlobalParameters_Update.json
  */
-async function globalParametersUpdate() {
+async function globalParametersUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DATAFACTORY_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-12345678abc";
@@ -68,7 +68,7 @@ async function globalParametersUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   globalParametersCreate();
   globalParametersUpdate();
 }

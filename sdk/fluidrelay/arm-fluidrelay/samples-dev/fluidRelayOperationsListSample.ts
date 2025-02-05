@@ -7,9 +7,7 @@
  */
 import { FluidRelayManagementClient } from "@azure/arm-fluidrelay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all operations provided by Microsoft.FluidRelay.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all operations provided by Microsoft.FluidRelay.
  * x-ms-original-file: specification/fluidrelay/resource-manager/Microsoft.FluidRelay/stable/2022-06-01/examples/FluidRelayServerOperations.json
  */
-async function listFluidRelayServerOperations() {
+async function listFluidRelayServerOperations(): Promise<void> {
   const subscriptionId =
     process.env["FLUIDRELAY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listFluidRelayServerOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listFluidRelayServerOperations();
 }
 

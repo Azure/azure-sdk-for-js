@@ -445,23 +445,22 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         getEmptyCosmosDiagnostics(),
       );
     } catch (err) {
-      if (err.code >= StatusCodes.BadRequest && err.code !== StatusCodes.Gone) {
-        const errorResponse = new ErrorResponse(err.message);
-        errorResponse.code = err.code;
-        errorResponse.headers = err.headers;
-
-        throw errorResponse;
+      // If partition split/merge is encountered, handle it gracefully and continue fetching results.
+      if (err.code === StatusCodes.Gone) {
+        return new ChangeFeedIteratorResponse(
+          [],
+          0,
+          err.code,
+          err.headers,
+          getEmptyCosmosDiagnostics(),
+          err.substatus,
+        );
       }
-
-      // If any other errors are encountered, eg. partition split or gone, handle it based on error code and not break the flow.
-      return new ChangeFeedIteratorResponse(
-        [],
-        0,
-        err.code,
-        err.headers,
-        getEmptyCosmosDiagnostics(),
-        err.substatus,
-      );
+      // If any other errors are encountered, throw the error.
+      const errorResponse = new ErrorResponse(err.message);
+      errorResponse.code = err.code;
+      errorResponse.headers = err.headers;
+      throw errorResponse;
     }
   }
 }

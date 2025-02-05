@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Returns a resource belonging to a resource group.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/GetBackupVault.json
  */
-async function getBackupVault() {
+async function getBackupVault(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -34,7 +34,7 @@ async function getBackupVault() {
  * @summary Returns a resource belonging to a resource group.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/GetBackupVaultWithCMK.json
  */
-async function getBackupVaultWithCmk() {
+async function getBackupVaultWithCmk(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -53,7 +53,7 @@ async function getBackupVaultWithCmk() {
  * @summary Returns a resource belonging to a resource group.
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/VaultCRUD/GetBackupVaultWithMSI.json
  */
-async function getBackupVaultWithMsi() {
+async function getBackupVaultWithMsi(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -66,7 +66,7 @@ async function getBackupVaultWithMsi() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getBackupVault();
   getBackupVaultWithCmk();
   getBackupVaultWithMsi();

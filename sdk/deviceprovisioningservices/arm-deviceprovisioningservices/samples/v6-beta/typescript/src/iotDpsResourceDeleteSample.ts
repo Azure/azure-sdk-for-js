@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes the Provisioning Service.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSDelete.json
  */
-async function dpsDelete() {
+async function dpsDelete(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -32,7 +32,7 @@ async function dpsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsDelete();
 }
 

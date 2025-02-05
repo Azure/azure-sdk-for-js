@@ -8,9 +8,7 @@
 import type { CustomLocation } from "@azure/arm-extendedlocation";
 import { CustomLocationsManagementClient } from "@azure/arm-extendedlocation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Custom Location in the specified Subscription and Resource Group
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a Custom Location in the specified Subscription and Resource Group
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsCreate_Update.json
  */
-async function createOrUpdateCustomLocation() {
+async function createOrUpdateCustomLocation(): Promise<void> {
   const subscriptionId =
     process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
   const resourceGroupName = process.env["EXTENDEDLOCATION_RESOURCE_GROUP"] || "testresourcegroup";
@@ -45,7 +43,7 @@ async function createOrUpdateCustomLocation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateCustomLocation();
 }
 
