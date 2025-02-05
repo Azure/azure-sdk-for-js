@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a SecurityPolicy
  * x-ms-original-file: 2025-01-01/SecurityPolicyPatch.json
  */
-async function updateSecurityPolicy() {
+async function updateSecurityPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(
@@ -33,7 +33,7 @@ async function updateSecurityPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateSecurityPolicy();
 }
 

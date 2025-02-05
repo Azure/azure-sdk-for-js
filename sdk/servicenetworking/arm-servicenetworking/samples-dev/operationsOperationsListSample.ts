@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2025-01-01/OperationsList.json
  */
-async function getOperationsList() {
+async function getOperationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ServiceNetworkingManagementClient(
@@ -25,7 +25,7 @@ async function getOperationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getOperationsList();
 }
 
