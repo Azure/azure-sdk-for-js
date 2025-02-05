@@ -29,6 +29,9 @@ import {
 const logger = createClientLogger("openai");
 
 export const maxRetriesOption = { maxRetries: 0 };
+export interface Metadata {
+  foo: string;
+}
 export type DeploymentType = "vision" | "audio" | "completions";
 export interface DeploymentInfo {
   deploymentName: string;
