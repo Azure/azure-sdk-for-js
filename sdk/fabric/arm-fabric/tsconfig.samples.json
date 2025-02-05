@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-fabric": [
-        "./dist/esm"
-      ]
+      "@azure/arm-fabric": ["./dist/esm"]
     }
   }
 }
