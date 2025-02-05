@@ -41,21 +41,21 @@ describe("HDInsightOnAks test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new HDInsightContainersManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus2euap";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest";
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new HDInsightContainersManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus2euap";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest";
 
-    });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("clusterPools create test", async function () {
     const res = await client.clusterPools.beginCreateOrUpdateAndWait(
@@ -95,6 +95,7 @@ describe("HDInsightOnAks test", () => {
 
   it("clusterPools delete test", async function () {
     const resArray = new Array();
+    await client.clusterPools.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions);
     for await (let item of client.clusterPools.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
