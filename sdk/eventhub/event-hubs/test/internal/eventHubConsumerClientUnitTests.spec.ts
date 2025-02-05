@@ -27,9 +27,9 @@ function mockCreateEventProcessor(
   ).mockImplementation(mockImpl as any);
 }
 
-describe("EventHubConsumerClient", function () {
-  describe("unit tests", function () {
-    it("isCheckpointStore", async function () {
+describe("EventHubConsumerClient", () => {
+  describe("unit tests", () => {
+    it("isCheckpointStore", async () => {
       isCheckpointStore({
         processEvents: async () => {
           /* no-op */
@@ -44,7 +44,7 @@ describe("EventHubConsumerClient", function () {
       isCheckpointStore(new InMemoryCheckpointStore()).should.equal(true);
     });
 
-    describe("subscribe() overloads route properly", function () {
+    describe("subscribe() overloads route properly", () => {
       let client: EventHubConsumerClient;
       let clientWithCheckpointStore: EventHubConsumerClient;
       let subscriptionHandlers: SubscriptionEventHandlers;
@@ -64,7 +64,7 @@ describe("EventHubConsumerClient", function () {
         return stubEventProcessor;
       };
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         client = createConsumer().consumer;
         stubEventProcessor =
           client["createEventProcessorForAllPartitions"](subscriptionHandlers).eventProcessor;
@@ -86,13 +86,13 @@ describe("EventHubConsumerClient", function () {
         mockCreateEventProcessor(clientWithCheckpointStore, fakeEventProcessorConstructor);
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         await client.close();
         await clientWithCheckpointStore.close();
         vi.restoreAllMocks();
       });
 
-      it("conflicting subscribes", async function () {
+      it("conflicting subscribes", async () => {
         validateOptions = () => {
           /* no-op */
         };
@@ -112,7 +112,7 @@ describe("EventHubConsumerClient", function () {
         );
       });
 
-      it("subscribe to single partition, no checkpoint store, no loadBalancingOptions", async function () {
+      it("subscribe to single partition, no checkpoint store, no loadBalancingOptions", async () => {
         validateOptions = (options) => {
           // when the user doesn't pass a checkpoint store we give them a really simple set of
           // defaults:
@@ -140,7 +140,7 @@ describe("EventHubConsumerClient", function () {
         expect(stopSpy).toHaveBeenCalledOnce();
       });
 
-      it("subscribe to single partition, no checkpoint store, WITH loadBalancingOptions", async function () {
+      it("subscribe to single partition, no checkpoint store, WITH loadBalancingOptions", async () => {
         validateOptions = (options) => {
           // When the user subscribes to a single partition, we always use the UnbalancedLoadBalancingStrategy.
           // The loadBalancingOptions `strategy` and `partitionOwnershipExpirationIntervalInMs` fields are ignored.
@@ -179,7 +179,7 @@ describe("EventHubConsumerClient", function () {
         expect(stopSpy).toHaveBeenCalledOnce();
       });
 
-      it("subscribe to single partition, WITH checkpoint store, no loadBalancingOptions", async function () {
+      it("subscribe to single partition, WITH checkpoint store, no loadBalancingOptions", async () => {
         validateOptions = (options) => {
           // when the user gives us a checkpoint store but subscribes to a single partition,
           // - they use their checkpoint store and the following defaults:
@@ -200,7 +200,7 @@ describe("EventHubConsumerClient", function () {
         clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
       });
 
-      it("subscribe to single partition, WITH checkpoint store, WITH loadBalancingOptions", async function () {
+      it("subscribe to single partition, WITH checkpoint store, WITH loadBalancingOptions", async () => {
         validateOptions = (options) => {
           // When the user subscribes to a single partition, we always use the UnbalancedLoadBalancingStrategy.
           // The loadBalancingOptions `strategy` and `partitionOwnershipExpirationIntervalInMs` fields are ignored.
@@ -233,7 +233,7 @@ describe("EventHubConsumerClient", function () {
         clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
       });
 
-      it("subscribe to all partitions, no checkpoint store, no loadBalancingOptions", async function () {
+      it("subscribe to all partitions, no checkpoint store, no loadBalancingOptions", async () => {
         validateOptions = (options) => {
           // when the user doesn't pass a checkpoint store we give them a really simple set of
           // defaults:
@@ -250,7 +250,7 @@ describe("EventHubConsumerClient", function () {
         client.subscribe(subscriptionHandlers);
       });
 
-      it("subscribe to all partitions, no checkpoint store, WITH loadBalancingOptions", async function () {
+      it("subscribe to all partitions, no checkpoint store, WITH loadBalancingOptions", async () => {
         validateOptions = (options) => {
           // When the user doesn't provide a checkpoint store, we always use the UnbalancedLoadBalancingStrategy.
           // The loadBalancingOptions `strategy` and `partitionOwnershipExpirationIntervalInMs` fields are ignored.
@@ -277,7 +277,7 @@ describe("EventHubConsumerClient", function () {
         client.subscribe(subscriptionHandlers);
       });
 
-      it("subscribe to all partitions, WITH checkpoint store, no loadBalancingOptions", async function () {
+      it("subscribe to all partitions, WITH checkpoint store, no loadBalancingOptions", async () => {
         validateOptions = (options) => {
           // when the user gives us a checkpoint store we treat their consumer client as
           // a "production" ready client - they use their checkpoint store and the following
@@ -299,7 +299,7 @@ describe("EventHubConsumerClient", function () {
         clientWithCheckpointStore.subscribe(subscriptionHandlers);
       });
 
-      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (greedy, updateInterval, expirationInterval)", async function () {
+      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (greedy, updateInterval, expirationInterval)", async () => {
         validateOptions = (options) => {
           // when the user gives us a checkpoint store and subscribes to all partitions,
           // we use their loadBalancingOptions when provided.
@@ -329,7 +329,7 @@ describe("EventHubConsumerClient", function () {
         clientWithCheckpointStore.subscribe(subscriptionHandlers);
       });
 
-      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (balanced, updateInterval, expirationInterval)", async function () {
+      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (balanced, updateInterval, expirationInterval)", async () => {
         validateOptions = (options) => {
           // when the user gives us a checkpoint store and subscribes to all partitions,
           // we use their loadBalancingOptions when provided.
@@ -359,7 +359,7 @@ describe("EventHubConsumerClient", function () {
         clientWithCheckpointStore.subscribe(subscriptionHandlers);
       });
 
-      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (updateInterval, expirationInterval)", async function () {
+      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (updateInterval, expirationInterval)", async () => {
         validateOptions = (options) => {
           // when the user gives us a checkpoint store and subscribes to all partitions,
           // we use their loadBalancingOptions when provided.
@@ -389,7 +389,7 @@ describe("EventHubConsumerClient", function () {
         clientWithCheckpointStore.subscribe(subscriptionHandlers);
       });
 
-      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (strategy)", async function () {
+      it("subscribe to all partitions, WITH checkpoint store, WITH loadBalancingOptions (strategy)", async () => {
         validateOptions = (options) => {
           // when the user gives us a checkpoint store and subscribes to all partitions,
           // we use their loadBalancingOptions when provided.
@@ -418,7 +418,7 @@ describe("EventHubConsumerClient", function () {
         clientWithCheckpointStore.subscribe(subscriptionHandlers);
       });
 
-      it("multiple subscribe calls from the same eventhubconsumerclient use the same owner ID", async function () {
+      it("multiple subscribe calls from the same eventhubconsumerclient use the same owner ID", async () => {
         let ownerId: string | undefined = undefined;
 
         validateOptions = (options) => {

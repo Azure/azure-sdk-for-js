@@ -23,7 +23,7 @@ const consumerGroup =
 const storageEndpoint =
   process.env["STORAGE_ENDPOINT"] || "https://<storageaccount>.blob.core.windows.net";
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   // This client will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage
