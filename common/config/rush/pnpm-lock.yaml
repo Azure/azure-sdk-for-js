@@ -939,7 +939,7 @@ importers:
         version: file:projects/eslint-plugin-azure-sdk.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/event-hubs':
         specifier: file:./projects/event-hubs.tgz
-        version: file:projects/event-hubs.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
+        version: file:projects/event-hubs.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/eventgrid':
         specifier: file:./projects/eventgrid.tgz
         version: file:projects/eventgrid.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -951,7 +951,7 @@ importers:
         version: file:projects/eventgrid-system-events.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/eventhubs-checkpointstore-blob':
         specifier: file:./projects/eventhubs-checkpointstore-blob.tgz
-        version: file:projects/eventhubs-checkpointstore-blob.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
+        version: file:projects/eventhubs-checkpointstore-blob.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/eventhubs-checkpointstore-table':
         specifier: file:./projects/eventhubs-checkpointstore-table.tgz
         version: file:projects/eventhubs-checkpointstore-table.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -2652,7 +2652,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-document-translator@file:projects/ai-document-translator.tgz':
-    resolution: {integrity: sha512-1U3jcGllnkhOoCoriUgDUaZFCaIV3B9eX5XaVmQRkWGKDezQtydp4Zmqe4Nef4VsReUu1GTjs92ZyQavbQrmSw==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-muVvozfs5WYW9Sq5We2j3qNXiqje3h30LVyXSskzbSELZOht2klaQnjklwRkrFrITKyKdm8BWD++v/NwmfEvQA==, tarball: file:projects/ai-document-translator.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-form-recognizer@file:projects/ai-form-recognizer.tgz':
@@ -3052,39 +3052,39 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-domainservices@file:projects/arm-domainservices.tgz':
-    resolution: {integrity: sha512-S8EgwKzCGb1lLVke/bex8KvrDjBoGuZtMpFXJHTKrN4UhBZXhsqHrrmG4lbtpeIkexLSTKmS2GMZ7robuBqDyA==, tarball: file:projects/arm-domainservices.tgz}
+    resolution: {integrity: sha512-uUK61Wp1+m0bDCO49iDqlHGvNWmm+x+IaxctJ7C8CgeonDY9Xb/2XPe+IgUdP5MLZM+USins4IUvkm1TVSOU/w==, tarball: file:projects/arm-domainservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-dynatrace@file:projects/arm-dynatrace.tgz':
-    resolution: {integrity: sha512-hlq/6uFA5Ta/xzn563NcNOkhpjdqHnrgsEZOzN7Oe6lkYUUwPGiBHb0wCPMECp6Zh3dLdPWywF94aJVgnAkCsw==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-vsFjiZPiUzVtJspD9FO1oB+6jDwdvI4YHcjiYeXITtwWEgmDeH8m5taa1xHhHGfT/KeS/NJK7HUaGclWqmYerA==, tarball: file:projects/arm-dynatrace.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-edgezones@file:projects/arm-edgezones.tgz':
-    resolution: {integrity: sha512-9lNpaiSA3M1mbs9ugDH7Nsq0iefI6jid6VnLqZ89C3Y7UtrJHxSVKyaPnam8L8HrrmTM04uHjjVko3TzBsLCMQ==, tarball: file:projects/arm-edgezones.tgz}
+    resolution: {integrity: sha512-A9km34rPVx1SbRWkk7dYuEBjjVDZtNPuwFOVkhjg1SjqwHPGuGechXdoviGtfxmH2Zpr0xu66yB9hG/ya1lVbQ==, tarball: file:projects/arm-edgezones.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-education@file:projects/arm-education.tgz':
-    resolution: {integrity: sha512-I3DZXzBJMLcFFQvtVecjmKau6N573OaNc5J+b/pux9arJ6Hvq1DONnVOYeaupR2+87Glx9mshBxlRA+WR5qcrQ==, tarball: file:projects/arm-education.tgz}
+    resolution: {integrity: sha512-AstHx0wSoTjumdaJz8+bM+xhQgdyY0+KbywX8Z0TjYZyQ68xSnLv0FaX3rBgSTbgyZ9lg5sINeJN3Qxa8XOhIg==, tarball: file:projects/arm-education.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-elastic@file:projects/arm-elastic.tgz':
-    resolution: {integrity: sha512-BnkLMfCrUzQPKmKJi4UJv3TlBp2RFjxhfOT1IvA/3sTShFVemy3UqknVGIuZ/Mn+xI835Noi14raP3rJsaiJMQ==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-IZHqsfdIVS4amF+/v7JUKqtb8dMjlZE4pMqWl2QUzdRBXl/u0DxPY+oMPtlCnfs4s0FL1GS/mQPq3q2crJCT9Q==, tarball: file:projects/arm-elastic.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-elasticsan@file:projects/arm-elasticsan.tgz':
-    resolution: {integrity: sha512-MdbgnJfVOcUm+c4UXdZRNr1Z4cdetUE/s83EVuuIojC4XQ4jWlWO7Y7FhvVzvyqoE9yD73UuX3uLro3gBQzsKw==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-IVAiyftN+higXHNlvvPpYgvbq5TtwEpg1Wpe32Eokdq6ysmsowxiEe7jXhnOl0QEGeCRsEbaq2fPc8ax3VMPJQ==, tarball: file:projects/arm-elasticsan.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventgrid@file:projects/arm-eventgrid.tgz':
-    resolution: {integrity: sha512-Pmsz5UhqauxaJUQniBA35pXkixXM2LHscF/MPVn2quPkn13LzqwraOleHUOv49uXHSgfIdDWlg1FqbVGcA87UQ==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-70LuLNNK6MxKzIs4O0uXpqeJQt8T9aTQ8H2bXY8D6mZkY7DI5+H7RbkAK73HmZJxEB4Glep9AU/9DDE8W/g5DA==, tarball: file:projects/arm-eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid@file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-AXcjr49CsykCxrMEjolOYE06J0xToUwWJGkGIAbM8xS9FWNTygSMso1BRgNyFsMkmogYIAT6JhHqVBTSUjQePg==, tarball: file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-9joYwcqzHFy31KqhEMHELQvlGD8ojvBW7LKFegEBFNMiyYgmqD4wtaDOK+08yx8f7aQJpH4n1rPdTypeEBkXIA==, tarball: file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-eventhub@file:projects/arm-eventhub.tgz':
-    resolution: {integrity: sha512-a//9+XhCPGAgPZ1g3n4M9RrHaV0//vy5l/3q1mPxuBokyuHEvCfinCJyxeBYoSROC5P7lcQyQ91zjCpSgQ2l5g==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-zNXuz9572mj6hFeMf877oLEiHXVR6uzXMVsw1Uax88WhUqkij/pNW8v9Y/9N/HyuHywN+HHOTIp38+RbQMsCTQ==, tarball: file:projects/arm-eventhub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
@@ -3804,7 +3804,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-http-compat@file:projects/core-http-compat.tgz':
-    resolution: {integrity: sha512-ypcwYe3wOTAXtcIKTxGc6qph9stRPSO10JQP9nk/iIyXlff7oPPXH/ojWwlKkJhIfVCsfDD/SLQSRHODHlKaGw==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-5vAIXNKLSNXGxvDuAKsAgkfnX+MFdevJZtjRiNHAaZ0Y/u3qY8wLwe/bBiDnVUu5EgqdjbwJeKi6NV/0PKV7Ig==, tarball: file:projects/core-http-compat.tgz}
     version: 0.0.0
 
   '@rush-temp/core-lro@file:projects/core-lro.tgz':
@@ -3848,7 +3848,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
-    resolution: {integrity: sha512-undVy7cGgk/vzx5acgN0ryzAxRbyCQcj0PtoJ7mY8NWjuGkQcICmkSpGh4sSz8WaG8nfNuIr1hUHxhG6vsKX3g==, tarball: file:projects/defender-easm.tgz}
+    resolution: {integrity: sha512-12oujwcJZYF2mealed/mFD41GgSez6UE1ICuPTnzoDyW2yaasQKrp5z8RowLVQFmIZz6Y6xcPKPhRUSQ3Optug==, tarball: file:projects/defender-easm.tgz}
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
@@ -3868,31 +3868,31 @@ packages:
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
-    resolution: {integrity: sha512-Kfjtc6roIso0eMnQoSX/CHILqwrM5mE1UiW7pK5ZueBzJtORlhbyH8d27bSSPbUq8Mf5HyXAH3znv+rxx4xaNA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-Qqjh579SjbiLr+arZ7XLqXg4DFleLRkAgJFqfh+R4Iu2ULGi/vqAsNpMFmfOCKW7sq5TKQlQQY5UCud/71ZTIA==, tarball: file:projects/event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid-namespaces@file:projects/eventgrid-namespaces.tgz':
-    resolution: {integrity: sha512-jxYRPdbumpaAAoPkA4635QXk5CD1ups0ilrolSZ7iBJPBQbK2OlTva29QAtSw0BcHBdGRUK2eAulHYeiE+mOpw==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-Tl1NVK2ObKuFhsPd36jNqx/LtvNnXHWTtSQDhLZaLX3oEUJ75vkQMmTK3SiqvGG/KI8cHngjQoaqVu3z3LGlLw==, tarball: file:projects/eventgrid-namespaces.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid-system-events@file:projects/eventgrid-system-events.tgz':
-    resolution: {integrity: sha512-6HTQ1AqLGr7IUosvRwzgJwvnR/EwzbqlGdMSjAgBPtRZ9ab+6OQeFCSWgkRPY17TofTebEg+siGTpi11Sngegw==, tarball: file:projects/eventgrid-system-events.tgz}
+    resolution: {integrity: sha512-Fxa1UptTZC6tMLhtYFyDU7icQ6wZhStHLqr2jhjlpNqcDc27gB4ZT24aqB/ZPASnyqOd/v/22+KzpgTzQ+8RGQ==, tarball: file:projects/eventgrid-system-events.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz':
-    resolution: {integrity: sha512-SOq9o2LTkGxncGVzs7ft4Sp2SiKoo9ZrngtVHAYvmNgDRGX5PAQDBIVj0E0d93QZcWcPTWKvm0hpV3xOZhdcvw==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-SMm5uyQfCdwA2E3xdKT9OpBln+Vrg0fzeQMio57J8amgAD1yBKvMqYaFvcV5t6zOkZbR1/k6LVBqT9L6T0RQUw==, tarball: file:projects/eventgrid.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz':
-    resolution: {integrity: sha512-4bWI8Y2wx29aieLXJSW8yuVSlKIDqMCjQxjCtQbYmwOo/vQ0Ynp4r9Ub721S4I09VoLG0psx3GhYPlz67x6LGg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-gndB4028SFzVQ0QQeUZc9n0ut8FDc6JoyDGnf4Zuz4KMSrz8YYhGOUOp6S/E45InPsjwKnZBvzxXDqjRhryJ6Q==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     version: 0.0.0
 
   '@rush-temp/eventhubs-checkpointstore-table@file:projects/eventhubs-checkpointstore-table.tgz':
-    resolution: {integrity: sha512-km+Bp77eWlqjmK39ngutzVuXBafw2kzvBQKkdMIwMhlN4Q7QkDHYScGW/bA//KtZjgaVbNPTG9jxHbMSYX49tw==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-Bb+dj0DzuFwO0fViULiVMeflHyg+p0m4ym/wFHf3iBFyP0rACkED1ftJA3/OeNRVUmfKpnapzkPS1+rFexyqNg==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     version: 0.0.0
 
   '@rush-temp/functions-authentication-events@file:projects/functions-authentication-events.tgz':
-    resolution: {integrity: sha512-j58PBftxNbA2lGSLSQ80c2/BcO9XKTlEAM6bsZBcbgLfqnOrRQAsI4WmCXd5N2gnH8/I2wpgeS4XtyzvBm9WZg==, tarball: file:projects/functions-authentication-events.tgz}
+    resolution: {integrity: sha512-3z+Wn2tFhy1O3WnYtoshPxE8VZmpkx/LCJCQsP1kqYPotgzBWU92XQ1vVex4akjvDMaDiqL5sbs5kfmmDT7LBQ==, tarball: file:projects/functions-authentication-events.tgz}
     version: 0.0.0
 
   '@rush-temp/health-deidentification@file:projects/health-deidentification.tgz':
@@ -4156,7 +4156,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/schema-registry-avro@file:projects/schema-registry-avro.tgz':
-    resolution: {integrity: sha512-gDtFjHRTpg080DOLALhNomtt2FufRwILNg6aDM0EKL6I+cDizUpAnzZ1/H5y9mGD63hohGlDCjQezo6TIerKbw==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-pXsOSqgPhJlk4sQdIe5htRBCNPm4HnaZFgtcoEq1wFBJ2rQ/2sVV9YssxvsHBZwjcl+68iRpRMzfHq0xXN7pyg==, tarball: file:projects/schema-registry-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-json@file:projects/schema-registry-json.tgz':
@@ -4559,9 +4559,6 @@ packages:
 
   '@types/unzipper@0.10.10':
     resolution: {integrity: sha512-jKJdNxhmCHTZsaKW5x0qjn6rB+gHk0w5VFbEKsw84i+RJqXZyfTmGnpjDcKqzMpjz7VVLsUBMtO5T3mVidpt0g==}
-
-  '@types/uuid@8.3.4':
-    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
 
   '@types/ws@7.4.7':
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
@@ -13816,7 +13813,6 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.19.0
       playwright: 1.50.1
-      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
@@ -18975,10 +18971,10 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/event-hubs@file:projects/event-hubs.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+  '@rush-temp/event-hubs@file:projects/event-hubs.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@4.34.1)
-      '@types/chai-as-promised': 7.1.8
+      '@types/chai-as-promised': 8.0.1
       '@types/debug': 4.1.12
       '@types/node': 18.19.74
       '@types/ws': 7.4.7
@@ -18998,7 +18994,6 @@ snapshots:
       process: 0.11.10
       rhea-promise: 3.0.3
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
       ws: 8.18.0
@@ -19020,6 +19015,7 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
@@ -19130,10 +19126,10 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+  '@rush-temp/eventhubs-checkpointstore-blob@file:projects/eventhubs-checkpointstore-blob.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@4.34.1)
-      '@types/chai-as-promised': 7.1.8
+      '@types/chai-as-promised': 8.0.1
       '@types/debug': 4.1.12
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
@@ -19148,7 +19144,6 @@ snapshots:
       process: 0.11.10
       stream: 0.0.3
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.7.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
@@ -19169,6 +19164,7 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
@@ -19177,7 +19173,7 @@ snapshots:
   '@rush-temp/eventhubs-checkpointstore-table@file:projects/eventhubs-checkpointstore-table.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@4.34.1)
-      '@types/chai-as-promised': 7.1.8
+      '@types/chai-as-promised': 8.0.1
       '@types/debug': 4.1.12
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
@@ -21040,7 +21036,6 @@ snapshots:
       '@azure/schema-registry': 1.3.0
       '@rollup/plugin-inject': 5.0.5(rollup@4.34.1)
       '@types/node': 18.19.74
-      '@types/uuid': 8.3.4
       '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       avsc: 5.7.7
@@ -21053,7 +21048,6 @@ snapshots:
       stream: 0.0.3
       tslib: 2.8.1
       typescript: 5.7.3
-      uuid: 8.3.2
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -22448,8 +22442,6 @@ snapshots:
   '@types/unzipper@0.10.10':
     dependencies:
       '@types/node': 18.19.74
-
-  '@types/uuid@8.3.4': {}
 
   '@types/ws@7.4.7':
     dependencies:
