@@ -369,10 +369,10 @@ importers:
         version: file:projects/arm-frontdoor.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-graphservices':
         specifier: file:./projects/arm-graphservices.tgz
-        version: file:projects/arm-graphservices.tgz
+        version: file:projects/arm-graphservices.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-guestconfiguration':
         specifier: file:./projects/arm-guestconfiguration.tgz
-        version: file:projects/arm-guestconfiguration.tgz
+        version: file:projects/arm-guestconfiguration.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-hanaonazure':
         specifier: file:./projects/arm-hanaonazure.tgz
         version: file:projects/arm-hanaonazure.tgz
@@ -3088,7 +3088,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
-    resolution: {integrity: sha512-j2XY+SuSD2mFdpJeHSDpX3rP39/uansqBWn4zeYllMO+BtzMeAczXukLb3tuSfhpYKa50osJGDIm8DhoEfclWA==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-mhaJ6Omd/viOSXvzaWdju3lxQJzXJ8DDQ4sdWdkcoNu5fyv24s7VEvHN3QrVP6Nxjv9dE6d9EAQYfBRI8pX0Aw==, tarball: file:projects/arm-extendedlocation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fabric@file:projects/arm-fabric.tgz':
@@ -3108,11 +3108,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-graphservices@file:projects/arm-graphservices.tgz':
-    resolution: {integrity: sha512-2M+eN+lfRPYn6HN0BHfUXy7kQoH8DvQ2qEvUPduoWKrcmGI776p9buBXpX1bX4X2SxARMPuND/fzaUVsG5m1Fw==, tarball: file:projects/arm-graphservices.tgz}
+    resolution: {integrity: sha512-QbFzr+qpc+V+UrczS8DnmQ419VgCEMOl75jTicXAEk8yA+31VsQC4VO+su8TldePms2bfMSDphZDdI5gCR7QDg==, tarball: file:projects/arm-graphservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-guestconfiguration@file:projects/arm-guestconfiguration.tgz':
-    resolution: {integrity: sha512-F1wj/nPt/Mjwn8jcyea47ScQSjhLZDfXQmwE8pOUAXDoGYNY1n08/1uGB2mQfkTzV7V+2Uwkax5Y62uuWpJEvw==, tarball: file:projects/arm-guestconfiguration.tgz}
+    resolution: {integrity: sha512-ZmicS/g7UV11lzMgmbFFXuNDCe4NhHxXA3sqc+IhBHeybefCCzWzsGL4X8iddqc1hNyAX+zjimfxpVEilV6Sbw==, tarball: file:projects/arm-guestconfiguration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hanaonazure@file:projects/arm-hanaonazure.tgz':
@@ -4024,7 +4024,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-jayeVd5uwRMKpPlpcpfe18IH7vq9LLcRBIcumGtKOe9IoCu4/WHkFslqF7QIr7II0wFC3fqLzhDMp9CV5eGcLA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-mPX1Aau04IC1JPC68Y9/c4IlQfRSDotxS4i5iHYeKYyG/iBQWiBP4rHNJAFJA/ubzp4fLxXLG3YTzpK/t+7sAA==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -14223,43 +14223,74 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-graphservices@file:projects/arm-graphservices.tgz':
+  '@rush-temp/arm-graphservices@file:projects/arm-graphservices.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.74
-      chai: 4.5.0
+      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.74)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
-  '@rush-temp/arm-guestconfiguration@file:projects/arm-guestconfiguration.tgz':
+  '@rush-temp/arm-guestconfiguration@file:projects/arm-guestconfiguration.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.74
-      chai: 4.5.0
+      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.74)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/arm-hanaonazure@file:projects/arm-hanaonazure.tgz':
     dependencies:
