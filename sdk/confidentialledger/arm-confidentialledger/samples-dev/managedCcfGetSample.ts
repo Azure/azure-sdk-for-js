@@ -29,7 +29,7 @@ async function managedCcfGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedCcfGet();
+  await managedCcfGet();
 }
 
 main().catch(console.error);

@@ -12,17 +12,18 @@
  * @azsdk-weight 60
  */
 
-import DocumentIntelligence, {
+import type {
   DocumentModelBuildOperationDetailsOutput,
   DocumentModelComposeOperationDetailsOutput,
+} from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
     { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },

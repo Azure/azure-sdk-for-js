@@ -21,5 +21,6 @@ rest-level-client: true
 security: AADToken
 security-scopes: "https://management.azure.com/.default"
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```

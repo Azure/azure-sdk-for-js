@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-digitaltwins": [
-        "./dist/esm"
-      ]
+      "@azure/arm-digitaltwins": ["./dist/esm"]
     }
   }
 }

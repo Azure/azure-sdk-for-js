@@ -83,7 +83,7 @@ export async function main(): Promise<void> {
     throw new Error("Failed to send message");
   }
 
-  result.body.receipts.forEach((receipt) => {
+  await result.body.receipts.forEach((receipt) => {
     console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
   });
 }

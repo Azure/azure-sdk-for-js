@@ -13,9 +13,7 @@ import {
   CustomLocationsManagementClient
 } from "@azure/arm-extendedlocation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a Custom Location with the specified Resource Name in the specified Resource Group and Subscription.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates a Custom Location with the specified Resource Name in the specified Resource Group and Subscription.
  * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsPatch.json
  */
-async function updateCustomLocation() {
+async function updateCustomLocation(): Promise<void> {
   const subscriptionId =
     process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] ||
     "11111111-2222-3333-4444-555555555555";
@@ -46,7 +44,7 @@ async function updateCustomLocation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateCustomLocation();
 }
 

@@ -41,7 +41,7 @@ export async function main(): Promise<void> {
     throw enclaveQuotes.body.error;
   }
 
-  Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((property) => {
+  await Object.keys(enclaveQuotes.body.enclaveQuotes).forEach((property) => {
     console.log(enclaveQuotes.body.enclaveQuotes[property].nodeId);
   });
 }

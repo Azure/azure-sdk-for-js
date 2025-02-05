@@ -29,7 +29,7 @@ async function managedCcfListBySub(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedCcfListBySub();
+  await managedCcfListBySub();
 }
 
 main().catch(console.error);

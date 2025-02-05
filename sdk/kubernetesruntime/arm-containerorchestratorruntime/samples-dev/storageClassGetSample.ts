@@ -21,7 +21,7 @@ async function storageClassGet0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageClassGet0();
+  await storageClassGet0();
 }
 
 main().catch(console.error);

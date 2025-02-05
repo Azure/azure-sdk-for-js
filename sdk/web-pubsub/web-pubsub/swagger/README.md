@@ -18,6 +18,9 @@ package-version: 1.1.4
 v3: true
 hide-clients: true
 use-core-v2: true
+module-kind: esm
+use-extension:
+  "@autorest/typescript": "6.0.34"
 ```
 
 ## Customizations for Track 2 Generator

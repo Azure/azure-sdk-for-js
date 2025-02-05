@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the Event Hubs in a Namespace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all the Event Hubs in a Namespace.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubListByNameSpace.json
  */
-async function eventHubsListAll() {
+async function eventHubsListAll(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "e2f361f0-3b27-4503-a9cc-21cfba380093";
@@ -40,7 +38,7 @@ async function eventHubsListAll() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   eventHubsListAll();
 }
 

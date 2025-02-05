@@ -4,8 +4,8 @@
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
 import { type OpenAI, type AzureOpenAI, toFile } from "openai";
-import { createClient } from "../utils/createClient.js";
-import { APIVersion } from "../utils/utils.js";
+import { createClient } from "../../utils/createClient.js";
+import { APIVersion } from "../../utils/utils.js";
 
 describe("OpenAIAssistants", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {

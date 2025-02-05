@@ -113,7 +113,7 @@ export async function main(): Promise<void> {
   );
 
   // Wait for a bit before cleaning up the sample
-  setTimeout(async () => {
+  await setTimeout(async () => {
     await subscription.close();
     await eventHubConsumerClient.close();
     console.log(`Exiting sample`);

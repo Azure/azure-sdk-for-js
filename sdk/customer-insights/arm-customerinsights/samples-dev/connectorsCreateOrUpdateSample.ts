@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ConnectorResourceFormat,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { ConnectorResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -30,22 +26,19 @@ async function connectorsCreateOrUpdate(): Promise<void> {
     connectorProperties: {
       connectionKeyVaultUrl: {
         organizationId: "XXX",
-        organizationUrl: "https://XXX.crmlivetie.com/"
-      }
+        organizationUrl: "https://XXX.crmlivetie.com/",
+      },
     },
     connectorType: "AzureBlob",
-    displayName: "testConnector"
+    displayName: "testConnector",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.connectors.beginCreateOrUpdateAndWait(
     resourceGroupName,
     hubName,
     connectorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

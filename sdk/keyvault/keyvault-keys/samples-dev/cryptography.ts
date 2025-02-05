@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
   const signatureValue = "MySignature";
   let hash = createHash("sha256");
 
-  hash.update(signatureValue);
+  await hash.update(signatureValue);
   let digest = hash.digest();
   console.log("digest: ", digest);
 
@@ -56,14 +56,17 @@ export async function main(): Promise<void> {
   });
   console.log("encrypt result: ", encrypt);
 
-  const decrypt = await cryptoClient.decrypt({ algorithm: "RSA1_5", ciphertext: encrypt.result });
+  const decrypt = await cryptoClient.decrypt({
+    algorithm: "RSA-OAEP-256",
+    ciphertext: encrypt.result,
+  });
   console.log("decrypt: ", decrypt.result.toString());
 
   // Wrap and unwrap
-  const wrapped = await cryptoClient.wrapKey("RSA-OAEP", Buffer.from("My Message"));
+  const wrapped = await cryptoClient.wrapKey("RSA-OAEP-256", Buffer.from("My Message"));
   console.log("wrap result: ", wrapped);
 
-  const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
+  const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP-256", wrapped.result);
   console.log("unwrap result: ", unwrapped);
 }
 

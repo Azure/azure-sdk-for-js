@@ -1,14 +1,10 @@
 # Release History
 
-## 1.1.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 2.0.0-beta.1 (2025-02-11)
 
 ### Other Changes
+
+- The `offset` property of a checkpoint is no longer re-interpreted as a number.
 
 ## 1.1.0-beta.1 (2024-06-06)
 

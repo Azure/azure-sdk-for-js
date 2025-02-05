@@ -13,10 +13,8 @@ import { createSseStream } from "@azure/core-sse";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-import { IncomingMessage } from "http";
-dotenv.config();
-
+import "dotenv/config";
+import { IncomingMessage } from "node:http";
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
@@ -119,7 +117,7 @@ const streamToString = async (stream: NodeJS.ReadableStream) => {
   return Buffer.concat(chunks).toString("utf-8");
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   const client = createModelClient();
 
   const messages = [{ role: "user", content: "What's the weather like in Boston?" }];

@@ -96,9 +96,9 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
 }
 
 async function main(): Promise<void> {
-  await createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription()
-  await createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription()
-  await createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription()
+  await createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription();
+  await createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription();
+  await createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription();
 }
 
 main().catch(console.error);

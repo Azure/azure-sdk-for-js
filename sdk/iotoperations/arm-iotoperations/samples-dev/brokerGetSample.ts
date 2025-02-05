@@ -19,7 +19,7 @@ async function brokerGet() {
 }
 
 async function main() {
-  brokerGet();
+  await brokerGet();
 }
 
 main().catch(console.error);

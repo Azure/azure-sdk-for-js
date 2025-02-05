@@ -10,12 +10,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list Schema resources by SchemaRegistry
  * x-ms-original-file: 2024-09-01-preview/List_Schemas_SchemaRegistry.json
  */
-async function listSchemasSchemaRegistry() {
+async function listSchemasSchemaRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.schemas.listBySchemaRegistry(
+  for await (const item of client.schemas.listBySchemaRegistry(
     "myResourceGroup",
     "my-schema-registry",
   )) {
@@ -25,8 +25,8 @@ async function listSchemasSchemaRegistry() {
   console.log(resArray);
 }
 
-async function main() {
-  listSchemasSchemaRegistry();
+async function main(): Promise<void> {
+  await listSchemasSchemaRegistry();
 }
 
 main().catch(console.error);

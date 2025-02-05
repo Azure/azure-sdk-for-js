@@ -23,7 +23,7 @@ async function privateEndpointConnectionsGetGeneratedByMaximumSetRuleStable() {
 }
 
 async function main() {
-  privateEndpointConnectionsGetGeneratedByMaximumSetRuleStable();
+  await privateEndpointConnectionsGetGeneratedByMaximumSetRuleStable();
 }
 
 main().catch(console.error);

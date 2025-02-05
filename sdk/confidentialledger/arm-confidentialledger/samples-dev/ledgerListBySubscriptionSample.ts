@@ -29,7 +29,7 @@ async function confidentialLedgerListBySub(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialLedgerListBySub();
+  await confidentialLedgerListBySub();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function brokerListenerDelete() {
 }
 
 async function main() {
-  brokerListenerDelete();
+  await brokerListenerDelete();
 }
 
 main().catch(console.error);

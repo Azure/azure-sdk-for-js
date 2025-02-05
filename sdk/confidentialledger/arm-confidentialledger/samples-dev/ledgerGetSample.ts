@@ -29,7 +29,7 @@ async function confidentialLedgerGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialLedgerGet();
+  await confidentialLedgerGet();
 }
 
 main().catch(console.error);

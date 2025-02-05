@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  MaintenanceConfiguration,
-  ContainerServiceClient,
-} from "@azure/arm-containerservice";
+import type { MaintenanceConfiguration } from "@azure/arm-containerservice";
+import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +19,8 @@ import "dotenv/config";
  */
 async function createOrUpdateMaintenanceConfiguration(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const configName = "default";
   const parameters: MaintenanceConfiguration = {
@@ -57,10 +51,8 @@ async function createOrUpdateMaintenanceConfiguration(): Promise<void> {
  */
 async function createOrUpdateMaintenanceConfigurationWithMaintenanceWindow(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const configName = "aksManagedAutoUpgradeSchedule";
   const parameters: MaintenanceConfiguration = {
@@ -94,8 +86,8 @@ async function createOrUpdateMaintenanceConfigurationWithMaintenanceWindow(): Pr
 }
 
 async function main(): Promise<void> {
-  createOrUpdateMaintenanceConfiguration();
-  createOrUpdateMaintenanceConfigurationWithMaintenanceWindow();
+  await createOrUpdateMaintenanceConfiguration();
+  await createOrUpdateMaintenanceConfigurationWithMaintenanceWindow();
 }
 
 main().catch(console.error);

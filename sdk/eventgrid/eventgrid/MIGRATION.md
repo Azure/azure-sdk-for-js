@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Guide for migrating to `@azure/eventgrid@4` from `@azure/eventgrid@2`
 
 This guide is intended to assist in the migration to `@azure/eventgrid@4` from `@azure/eventgrid@2`. It will focus on side-by-side comparisons for similar operations between the two packages.
@@ -56,9 +58,9 @@ client.publishEvents("<your-topic-host-name-here>", [
     eventTime: new Date(),
     data: {
       field1: "value1",
-      filed2: "value2"
-    }
-  }
+      filed2: "value2",
+    },
+  },
 ]);
 ```
 
@@ -70,7 +72,7 @@ const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgr
 const client = new EventGridPublisherClient(
   "<your-topic-host-name-here>",
   "EventGrid",
-  new AzureKeyCredential("<your-topic-key>")
+  new AzureKeyCredential("<your-topic-key>"),
 );
 
 client.send([
@@ -80,9 +82,9 @@ client.send([
     eventType: "Microsoft.MockPublisher.TestEvent",
     data: {
       field1: "value1",
-      filed2: "value2"
-    }
-  }
+      filed2: "value2",
+    },
+  },
 ]);
 ```
 
