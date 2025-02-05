@@ -8,9 +8,9 @@ import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData.
 import { assert } from "../utils/chai.js";
 import { describe, it, vi } from "vitest";
 
-describe("telemetry", function () {
-  describe("#getProcessingSpanOptions", function () {
-    it("returns basic span properties", async function () {
+describe("telemetry", () => {
+  describe("#getProcessingSpanOptions", () => {
+    it("returns basic span properties", async () => {
       const processingSpanOptions = toProcessingSpanOptions([], {
         entityPath: "testPath",
         host: "testHost",
@@ -24,7 +24,7 @@ describe("telemetry", function () {
       });
     });
 
-    it("creates spanLinks correctly", async function () {
+    it("creates spanLinks correctly", async () => {
       const enqueuedTimeUtc = new Date();
       const requiredEventProperties = {
         body: "",

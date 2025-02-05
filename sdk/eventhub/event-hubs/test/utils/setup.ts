@@ -81,7 +81,7 @@ export default async function ({ provide }: GlobalSetupContext) {
     for (const key of Object.values(EnvVarKeys)) {
       provide(key, assertEnvironmentVariable(key));
     }
-    return function () {};
+    return () => {};
   }
   provide(EnvVarKeys.TEST_MODE, "mock");
   provide(EnvVarKeys.EVENTHUB_NAME, MOCKS.EVENTHUB_NAME);
