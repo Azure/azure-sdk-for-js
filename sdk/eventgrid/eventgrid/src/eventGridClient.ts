@@ -109,13 +109,13 @@ export class EventGridPublisherClient<T extends InputSchema> {
    * Creates an instance of EventGridPublisherClient which sends events using the Event Grid Schema.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:ReadmeSampleCreateClient_KeyCredential
    * import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
    *
    * const client = new EventGridPublisherClient(
-   *    "<service endpoint>",
-   *    "EventGrid",
-   *    new AzureKeyCredential("<api key>")
+   *   "<endpoint>",
+   *   "EventGrid",
+   *   new AzureKeyCredential("<Access Key>"),
    * );
    * ```
    *

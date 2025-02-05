@@ -3,19 +3,19 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it, beforeAll } from "vitest";
-import { createClient } from "./utils/createClient.js";
-import { assertChatCompletions } from "./utils/asserts.js";
+import { createClient } from "../utils/createClient.js";
+import { assertChatCompletions } from "../utils/asserts.js";
 import {
   APIMatrix,
   type APIVersion,
   type DeploymentInfo,
   getDeployments,
   withDeployments,
-} from "./utils/utils.js";
+} from "../utils/utils.js";
 import type { OpenAI, AzureOpenAI } from "openai";
 import { logger } from "@azure/identity";
 import { RestError } from "@azure/core-rest-pipeline";
-import { incompatibleAudioModels, o1ModelsToSkip, visionModelsToSkip } from "./utils/models.js";
+import { incompatibleAudioModels, o1ModelsToSkip, visionModelsToSkip } from "../utils/models.js";
 
 describe("OpenAI", function () {
   let deployments: DeploymentInfo[] = [];

@@ -1,16 +1,10 @@
 # Release History
 
-## 4.3.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.3.5 (2025-02-06)
 
 ### Bugs Fixed
 
 - Throws `AggregateError` when collecting multiple errors across retries.
-
-### Other Changes
 
 ## 4.3.4 (2025-01-10)
 

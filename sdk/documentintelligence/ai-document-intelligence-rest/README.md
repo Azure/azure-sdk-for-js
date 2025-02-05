@@ -68,8 +68,9 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 ### Using a Token Credential
 
-```ts
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
 import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const client = DocumentIntelligence(
   process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
@@ -79,7 +80,7 @@ const client = DocumentIntelligence(
 
 ### Using an API KEY
 
-```ts
+```ts snippet:ReadmeSampleCreateClient_APIKey
 import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
 
 const client = DocumentIntelligence(process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"], {
@@ -91,7 +92,15 @@ const client = DocumentIntelligence(process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"
 
 ### Analyze prebuilt-layout (urlSource)
 
-```ts
+```ts snippet:ReadmeSampleAnalyzePrebuiltLayoutUrlSource
+import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+);
+
 const initialResponse = await client
   .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
   .post({
@@ -106,12 +115,23 @@ const initialResponse = await client
 
 ### Analyze prebuilt-layout (base64Source)
 
-```ts
-import fs from "fs";
-import path from "path";
+```ts snippet:ReadmeSampleAnalyzePrebuiltLayoutBase64Source
+import DocumentIntelligence, {
+  isUnexpected,
+  getLongRunningPoller,
+  AnalyzeOperationOutput,
+} from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+import { join } from "node:path";
+import { readFile } from "node:fs/promises";
 
-const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
-const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+);
+
+const filePath = join("./assets", "forms", "Invoice_1.pdf");
+const base64Source = await readFile(filePath, { encoding: "base64" });
 const initialResponse = await client
   .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
   .post({
@@ -121,41 +141,29 @@ const initialResponse = await client
     },
     queryParameters: { locale: "en-IN" },
   });
-```
-
-Continue creating the poller from initial response
-
-```ts
-import {
-  getLongRunningPoller,
-  AnalyzeOperationOutput,
-  isUnexpected,
-} from "@azure-rest/ai-document-intelligence";
 
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
+
 const poller = getLongRunningPoller(client, initialResponse);
 const result = (await poller.pollUntilDone()).body as AnalyzeOperationOutput;
 console.log(result);
-// {
-//   status: 'succeeded',
-//   createdDateTime: '2023-11-10T13:31:31Z',
-//   lastUpdatedDateTime: '2023-11-10T13:31:34Z',
-//   analyzeResult: {
-//     apiVersion: '2023-10-31-preview',
-//     .
-//     .
-//     .
-//     contentFormat: 'text'
-//   }
-// }
 ```
 
 ## Batch analysis
 
-```ts
-import { parseResultIdFromResponse, isUnexpected } from "@azure-rest/ai-document-intelligence";
+```ts snippet:ReadmeSampleAnalyzeBatch
+import DocumentIntelligence, {
+  isUnexpected,
+  parseResultIdFromResponse,
+} from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+);
 
 // 1. Analyze a batch of documents
 const initialResponse = await client
@@ -164,9 +172,10 @@ const initialResponse = await client
     contentType: "application/json",
     body: {
       azureBlobSource: {
-        containerUrl: batchTrainingFilesContainerUrl(),
+        containerUrl: process.env["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_CONTAINER_SAS_URL"],
       },
-      resultContainerUrl: batchTrainingFilesResultContainerUrl(),
+      resultContainerUrl:
+        process.env["DOCUMENT_INTELLIGENCE_BATCH_TRAINING_DATA_RESULT_CONTAINER_SAS_URL"],
       resultPrefix: "result",
     },
   });
@@ -174,6 +183,7 @@ const initialResponse = await client
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
+
 const resultId = parseResultIdFromResponse(initialResponse);
 console.log("resultId: ", resultId);
 
@@ -194,11 +204,14 @@ Supports output with Markdown content format along with the default plain _text_
 
 Service follows the GFM spec ([GitHub Flavored Markdown](https://github.github.com/gfm/)) for the Markdown format. Also introduces a new _contentFormat_ property with value "text" or "markdown" to indicate the result content format.
 
-```ts
+```ts snippet:ReadmeSampleAnalyzeMarkdownContentFormat
 import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
-const client = DocumentIntelligence(process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"], {
-  key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"],
-});
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+);
 
 const initialResponse = await client
   .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
@@ -216,7 +229,15 @@ const initialResponse = await client
 
 When this feature flag is specified, the service will further extract the values of the fields specified via the queryFields query parameter to supplement any existing fields defined by the model as fallback.
 
-```ts
+```ts snippet:ReadmeSampleAnalyzeQueryFields
+import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+);
+
 await client.path("/documentModels/{modelId}:analyze", "prebuilt-layout").post({
   contentType: "application/json",
   body: { urlSource: "..." },
@@ -247,18 +268,24 @@ To enable a wider set of scenarios, service introduces a "split" query parameter
 
 ## Document Classifiers #Build
 
-```ts
-import {
-  DocumentClassifierBuildOperationDetailsOutput,
-  getLongRunningPoller,
+```ts snippet:ReadmeSampleDocumentClassifierBuild
+import DocumentIntelligence, {
   isUnexpected,
+  getLongRunningPoller,
+  DocumentClassifierBuildOperationDetailsOutput,
 } from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+);
 
 const containerSasUrl = (): string =>
   process.env["DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL"];
 const initialResponse = await client.path("/documentClassifiers:build").post({
   body: {
-    classifierId: `customClassifier${getRandomNumber()}`,
+    classifierId: `customClassifier-12345`,
     description: "Custom classifier description",
     docTypes: {
       foo: {
@@ -278,33 +305,34 @@ const initialResponse = await client.path("/documentClassifiers:build").post({
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
+
 const poller = getLongRunningPoller(client, initialResponse);
 const response = (await poller.pollUntilDone())
   .body as DocumentClassifierBuildOperationDetailsOutput;
 console.log(response);
-//  {
-//    operationId: '31466834048_f3ee629e-73fb-48ab-993b-1d55d73ca460',
-//    kind: 'documentClassifierBuild',
-//    status: 'succeeded',
-//    .
-//    .
-//    result: {
-//      classifierId: 'customClassifier10978',
-//      createdDateTime: '2023-11-09T12:45:56Z',
-//      .
-//      .
-//      description: 'Custom classifier description'
-//    },
-//    apiVersion: '2023-10-31-preview'
-//  }
 ```
 
 ## Get the generated PDF output from document analysis
 
-```ts
-const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+```ts snippet:ReadmeSampleGetPdfOutput
+import DocumentIntelligence, {
+  isUnexpected,
+  getLongRunningPoller,
+  parseResultIdFromResponse,
+  streamToUint8Array,
+} from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+import { join } from "node:path";
+import { readFile, writeFile } from "node:fs/promises";
 
-const base64Source = await fs.readFile(filePath, { encoding: "base64" });
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+);
+
+const filePath = join("./assets", "layout-pageobject.pdf");
+
+const base64Source = await readFile(filePath, { encoding: "base64" });
 
 const initialResponse = await client
   .path("/documentModels/{modelId}:analyze", "prebuilt-read")
@@ -338,16 +366,31 @@ if (output.status !== "200" || !output.body) {
 }
 
 const pdfData = await streamToUint8Array(output.body);
-fs.promises.writeFile(`./output.pdf`, pdfData);
-// Or you can consume the NodeJS.ReadableStream directly
+await writeFile(`./output.pdf`, pdfData);
 ```
 
 ## Get the generated cropped image of specified figure from document analysis
 
-```ts
-const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+```ts snippet:ReadmeSampleGetFigureImage
+import DocumentIntelligence, {
+  isUnexpected,
+  getLongRunningPoller,
+  AnalyzeOperationOutput,
+  parseResultIdFromResponse,
+  streamToUint8Array,
+} from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+import { join } from "node:path";
+import { readFile, writeFile } from "node:fs/promises";
 
-const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+);
+
+const filePath = join("./assets", "layout-pageobject.pdf");
+
+const base64Source = await readFile(filePath, { encoding: "base64" });
 
 const initialResponse = await client
   .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
@@ -363,14 +406,11 @@ if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
 
-const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+const poller = getLongRunningPoller(client, initialResponse);
 
 const result = (await poller.pollUntilDone()).body as AnalyzeOperationOutput;
 const figures = result.analyzeResult?.figures;
-assert.isArray(figures);
-assert.isNotEmpty(figures?.[0]);
 const figureId = figures?.[0].id || "";
-assert.isDefined(figureId);
 
 const output = await client
   .path(
@@ -387,31 +427,44 @@ if (output.status !== "200" || !output.body) {
 }
 
 const imageData = await streamToUint8Array(output.body);
-fs.promises.writeFile(`./figures/${figureId}.png`, imageData);
-// Or you can consume the NodeJS.ReadableStream directly
+await writeFile(`./figures/${figureId}.png`, imageData);
 ```
 
 ## Get Info
 
-```ts
+```ts snippet:ReadmeSampleGetInfo
+import DocumentIntelligence, { isUnexpected } from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+);
+
 const response = await client.path("/info").get();
 if (isUnexpected(response)) {
   throw response.body.error;
 }
+
 console.log(response.body.customDocumentModels.limit);
-// 20000
 ```
 
 ## List Document Models
 
-```ts
-import { paginate } from "@azure-rest/ai-document-intelligence";
+```ts snippet:ReadmeSampleListDocumentModels
+import DocumentIntelligence, { isUnexpected, paginate } from "@azure-rest/ai-document-intelligence";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = DocumentIntelligence(
+  process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
+  new DefaultAzureCredential(),
+);
+
 const response = await client.path("/documentModels").get();
 if (isUnexpected(response)) {
   throw response.body.error;
 }
 
-const modelsInAccount: string[] = [];
 for await (const model of paginate(client, response)) {
   console.log(model.modelId);
 }
@@ -423,8 +476,8 @@ for await (const model of paginate(client, response)) {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

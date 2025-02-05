@@ -849,27 +849,23 @@ index 4ee4778..dc3b0f5 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index 61ee1c1..e81a30d 100644
+index fdbfe9f..e81a30d 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.18.3";
+-export const SDK_VERSION: string = "1.19.0";
 +export const SDK_VERSION: string = "0.1.0";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
-index 2a2bd41..6066e07 100644
+index fefe550..fb56a78 100644
 --- a/src/createPipelineFromOptions.ts
 +++ b/src/createPipelineFromOptions.ts
-@@ -3,18 +3,16 @@
- 
- import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
- import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
--import type { PipelineRetryOptions, TlsSettings, ProxySettings } from "./interfaces.js";
-+import type { PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
+@@ -6,16 +6,14 @@ import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
+ import type { Agent, PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
  import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
  import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
 -import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
@@ -880,13 +876,14 @@ index 2a2bd41..6066e07 100644
 +import { isNodeLike } from "./util/checkEnvironment.js";
  import { proxyPolicy } from "./policies/proxyPolicy.js";
 -import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
+ import { agentPolicy } from "./policies/agentPolicy.js";
  import { tlsPolicy } from "./policies/tlsPolicy.js";
 -import { tracingPolicy } from "./policies/tracingPolicy.js";
 +import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
  
  /**
   * Defines options that are used to configure the HTTP pipeline for
-@@ -88,15 +86,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
+@@ -95,15 +93,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
  
    pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
    pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
@@ -916,10 +913,10 @@ index e9751e2..e4f8769 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index aa95065..65e7734 100644
+index 92a7ee9..65e7734 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,115 +9,71 @@ declare global {
+@@ -9,116 +9,71 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
  
@@ -1062,6 +1059,7 @@ index aa95065..65e7734 100644
 -  type AuxiliaryAuthenticationHeaderPolicyOptions,
 -  auxiliaryAuthenticationHeaderPolicyName,
 -} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
+-export { agentPolicy, agentPolicyName } from "./policies/agentPolicy.js";
 -export {
 -  createFile,
 -  createFileFromStream,
@@ -1350,18 +1348,22 @@ index 1ac007a..66abe50 100644
    HttpClient,
    HttpHeaders,
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 8d1648d..5f67f7d 100644
+index 5947165..5f67f7d 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
-@@ -4,6 +4,7 @@
+@@ -2,21 +2,18 @@
+ // Licensed under the MIT License.
+ 
  import type {
+-  Agent,
    FormDataMap,
    HttpHeaders,
 +  HttpMethods,
    MultipartRequestBody,
    PipelineRequest,
    ProxySettings,
-@@ -11,10 +12,8 @@ import type {
+   RequestBodyType,
+-  TlsSettings,
    TransferProgressEvent,
  } from "./interfaces.js";
  import { createHttpHeaders } from "./httpHeaders.js";
@@ -1374,7 +1376,34 @@ index 8d1648d..5f67f7d 100644
  
  /**
   * Settings to initialize a request.
-@@ -100,11 +99,6 @@ export interface PipelineRequestOptions {
+@@ -76,16 +73,6 @@ export interface PipelineRequestOptions {
+    */
+   streamResponseStatusCodes?: Set<number>;
+ 
+-  /**
+-   * NODEJS ONLY
+-   *
+-   * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
+-   * NOTE: usually this should be one instance shared by multiple requests so that the underlying
+-   *       connection to the service can be reused.
+-   * Does nothing when running in the browser.
+-   */
+-  agent?: Agent;
+-
+   /**
+    * BROWSER ONLY
+    *
+@@ -97,9 +84,6 @@ export interface PipelineRequestOptions {
+    */
+   enableBrowserStreams?: boolean;
+ 
+-  /** Settings for configuring TLS authentication */
+-  tlsSettings?: TlsSettings;
+-
+   /**
+    * Proxy configuration.
+    */
+@@ -115,11 +99,6 @@ export interface PipelineRequestOptions {
     */
    abortSignal?: AbortSignalLike;
  
@@ -1386,7 +1415,12 @@ index 8d1648d..5f67f7d 100644
    /**
     * Callback which fires upon upload progress.
     */
-@@ -133,7 +127,6 @@ class PipelineRequestImpl implements PipelineRequest {
+@@ -143,16 +122,14 @@ class PipelineRequestImpl implements PipelineRequest {
+   public formData?: FormDataMap;
+   public streamResponseStatusCodes?: Set<number>;
+   public enableBrowserStreams: boolean;
++
+   public proxySettings?: ProxySettings;
    public disableKeepAlive: boolean;
    public abortSignal?: AbortSignalLike;
    public requestId: string;
@@ -1394,7 +1428,12 @@ index 8d1648d..5f67f7d 100644
    public allowInsecureConnection?: boolean;
    public onUploadProgress?: (progress: TransferProgressEvent) => void;
    public onDownloadProgress?: (progress: TransferProgressEvent) => void;
-@@ -151,7 +144,6 @@ class PipelineRequestImpl implements PipelineRequest {
+-  public agent?: Agent;
+-  public tlsSettings?: TlsSettings;
+ 
+   constructor(options: PipelineRequestOptions) {
+     this.url = options.url;
+@@ -167,14 +144,11 @@ class PipelineRequestImpl implements PipelineRequest {
      this.streamResponseStatusCodes = options.streamResponseStatusCodes;
      this.withCredentials = options.withCredentials ?? false;
      this.abortSignal = options.abortSignal;
@@ -1402,6 +1441,13 @@ index 8d1648d..5f67f7d 100644
      this.onUploadProgress = options.onUploadProgress;
      this.onDownloadProgress = options.onDownloadProgress;
      this.requestId = options.requestId || randomUUID();
+     this.allowInsecureConnection = options.allowInsecureConnection ?? false;
+     this.enableBrowserStreams = options.enableBrowserStreams ?? false;
+-    this.agent = options.agent;
+-    this.tlsSettings = options.tlsSettings;
+   }
+ }
+ 
 diff --git a/src/policies/auxiliaryAuthenticationHeaderPolicy.ts b/src/policies/auxiliaryAuthenticationHeaderPolicy.ts
 deleted file mode 100644
 index 55110a0..0000000
