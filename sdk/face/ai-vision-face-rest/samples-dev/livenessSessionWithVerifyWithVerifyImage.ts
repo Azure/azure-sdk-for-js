@@ -13,6 +13,20 @@ import "dotenv/config";
  * @summary Liveness detection with face verification with verification image.
  */
 
+function pressAnyKeyToContinue(): Promise<void> {
+  return new Promise<void>((resolve) => {
+    const { stdin } = process;
+    const { isRaw } = stdin;
+    stdin.setRawMode(true);
+    stdin.resume();
+    stdin.once("data", () => {
+      stdin.pause();
+      stdin.setRawMode(isRaw);
+      resolve();
+    });
+  });
+}
+
 async function waitForLivenessRequest(): Promise<void> {
   // Wait for request from client device.
 }
