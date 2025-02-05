@@ -4,7 +4,7 @@
 
 ```ts
 
-import { ClientRequestArgs } from 'node:http';
+import type { ClientRequestArgs } from 'node:http';
 import type * as WS from 'ws';
 
 // @public
