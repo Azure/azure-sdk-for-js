@@ -98,21 +98,13 @@ export function createWebSocketClient(
         ? WS
         : never;
     },
-    then<TResult1 = WebSocketClient, TResult2 = never>(
-      onfulfilled?:
-        | ((value: WebSocketClient) => TResult1 | PromiseLike<TResult1>)
-        | undefined
-        | null,
-      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
-    ): Promise<TResult1 | TResult2> {
+    then(onfulfilled, onrejected) {
       return buildPromise().then(onfulfilled, onrejected);
     },
-    catch<TResult2 = never>(
-      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
-    ): Promise<WebSocketClient | TResult2> {
+    catch(onrejected) {
       return buildPromise().catch(onrejected);
     },
-    finally(onfinally?: (() => void) | undefined | null): Promise<WebSocketClient> {
+    finally(onfinally) {
       return buildPromise().finally(onfinally);
     },
     [Symbol.toStringTag]: "WebSocketClient",

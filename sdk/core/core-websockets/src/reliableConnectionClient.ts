@@ -15,7 +15,7 @@ import type {
   SendOptions,
   CloseInfo,
 } from "./models/public.js";
-import { HIGH_WATER_MARK } from "./constants.js";
+import { DEFAULT_HIGH_WATER_MARK } from "./constants.js";
 
 /**
  * Creates a reliable connection client factory.
@@ -29,7 +29,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
   return ({
     retryOptions: inputRetryOptions,
     identifier,
-    highWaterMark = HIGH_WATER_MARK,
+    highWaterMark = DEFAULT_HIGH_WATER_MARK,
   }: ReliableConnectionOptions = {}): ReliableConnectionClient<SendDataT, ReceiveDataT> => {
     const connectionId = identifier || getRandomName();
     const retryOptions = createFullRetryOptions(inputRetryOptions);

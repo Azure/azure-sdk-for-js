@@ -11,7 +11,7 @@ import {
 import WebSocket from "ws";
 
 function createClient(url: string, opts?: ReliableConnectionOptions) {
-  let ws: WebSocket | undefined = undefined;
+  let ws: WebSocket | undefined;
   const clientFactory = createReliableConnectionClient<WebSocket.Data, WebSocket.Data>({
     open: async () => {
       ws = new WebSocket(url);
@@ -21,12 +21,12 @@ function createClient(url: string, opts?: ReliableConnectionOptions) {
       ws?.close(code ? +code : undefined, reason);
     },
     send: (data) => {
-      return new Promise<void>((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         ws?.send(data, (error) => {
           if (error) {
             reject(error);
           } else {
-            resolve();
+            resolve(ws!.bufferedAmount);
           }
         });
       });

@@ -262,12 +262,14 @@ export interface WebSocketClientOptions {
 }
 
 /**
- * The WebSocket client wrapper.
+ * The WebSocket client wrapper. It is a promise that resolves to a WebSocket client.
+ * It also has methods to get the WebSocket client as a ws WebSocket client or as a Web API WebSocket client.
+ * This is useful when the client needs to access the underlying WebSocket.
  */
 export interface WebsocketClientWrapper extends Promise<WebSocketClient> {
   /**
-   * Returns the WebSocket client as a ws websocket client.
-   * @returns The ws websocket client.
+   * Returns the WebSocket client as a ws WebSocket client.
+   * @returns The ws WebSocket client.
    */
   asWs: () => Promise<WebSocketClient & { websocket: WS.WebSocket }>;
   /**
