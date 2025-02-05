@@ -30,9 +30,9 @@ describe("Fabric test", () => {
     client = new FabricClient(credential, subscriptionId, recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operations list test", async function () {
     const resArray = new Array();
