@@ -95,6 +95,27 @@ describe("ManagedIdentityCredential (MSAL)", function () {
         );
       });
     });
+
+    describe("when using ServiceFabric Managed Identity", function () {
+      it("throws when user-assigned IDs are provided", function () {
+        vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+          "ServiceFabric",
+        );
+
+        assert.throws(
+          () => new ManagedIdentityCredential({ clientId: "id" }),
+          `ManagedIdentityCredential: ${serviceFabricErrorString}`,
+        );
+        assert.throws(
+          () => new ManagedIdentityCredential({ resourceId: "id" }),
+          `ManagedIdentityCredential: ${serviceFabricErrorString}`,
+        );
+        assert.throws(
+          () => new ManagedIdentityCredential({ objectId: "id" }),
+          `ManagedIdentityCredential: ${serviceFabricErrorString}`,
+        );
+      });
+    });
   });
 
   describe("#getToken", function () {
@@ -147,26 +168,6 @@ describe("ManagedIdentityCredential (MSAL)", function () {
     it("validates multiple scopes are not supported", async function () {
       const credential = new ManagedIdentityCredential();
       await expect(credential.getToken(["scope1", "scope2"])).rejects.toThrow(/Multiple scopes/);
-    });
-
-    it("validates Service Fabric error for specifying clientID", async function () {
-      vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
-        "ServiceFabric",
-      );
-      acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
-
-      const credential = new ManagedIdentityCredential("testClientID");
-      await expect(credential.getToken("scope")).rejects.toThrow(serviceFabricErrorString);
-    });
-
-    it("validates Service Fabric error for specifying resourceID", async function () {
-      vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
-        "ServiceFabric",
-      );
-      acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
-
-      const credential = new ManagedIdentityCredential({ resourceId: "testResourceID" });
-      await expect(credential.getToken("scope")).rejects.toThrow(serviceFabricErrorString);
     });
 
     describe("error handling", function () {
