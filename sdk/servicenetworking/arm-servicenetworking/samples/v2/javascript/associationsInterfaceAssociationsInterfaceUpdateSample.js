@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ServiceNetworkingManagementClient } = require("@azure/arm-servicenetworking");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to create a Association
+ * This sample demonstrates how to update a Association
  *
- * @summary create a Association
- * x-ms-original-file: 2025-01-01/AssociationPut.json
+ * @summary update a Association
+ * x-ms-original-file: 2025-01-01/AssociationPatch.json
  */
-async function putAssociation(): Promise<void> {
+async function updateAssociation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
-  const result = await client.associationsInterface.createOrUpdate("rg1", "tc1", "as1", {
-    location: "NorthCentralUS",
+  const result = await client.associationsInterface.update("rg1", "tc1", "as1", {
     properties: {
       associationType: "subnets",
       subnet: {
@@ -26,8 +25,8 @@ async function putAssociation(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await putAssociation();
+async function main() {
+  await updateAssociation();
 }
 
 main().catch(console.error);

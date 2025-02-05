@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ServiceNetworkingManagementClient } = require("@azure/arm-servicenetworking");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a TrafficController
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a TrafficController
  * x-ms-original-file: 2025-01-01/TrafficControllerPut.json
  */
-async function putTrafficController(): Promise<void> {
+async function putTrafficController() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function putTrafficController(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await putTrafficController();
 }
 

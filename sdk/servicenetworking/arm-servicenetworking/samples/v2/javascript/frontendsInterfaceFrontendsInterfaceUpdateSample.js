@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ServiceNetworkingManagementClient } = require("@azure/arm-servicenetworking");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to update a Frontend
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a Frontend
  * x-ms-original-file: 2025-01-01/FrontendPatch.json
  */
-async function updateFrontend(): Promise<void> {
+async function updateFrontend() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function updateFrontend(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await updateFrontend();
 }
 

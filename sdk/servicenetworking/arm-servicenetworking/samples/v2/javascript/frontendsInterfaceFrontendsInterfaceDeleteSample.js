@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ServiceNetworkingManagementClient } = require("@azure/arm-servicenetworking");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to delete a Frontend
@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a Frontend
  * x-ms-original-file: 2025-01-01/FrontendDelete.json
  */
-async function deleteFrontend(): Promise<void> {
+async function deleteFrontend() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
   await client.frontendsInterface.delete("rg1", "tc1", "fe1");
 }
 
-async function main(): Promise<void> {
+async function main() {
   await deleteFrontend();
 }
 

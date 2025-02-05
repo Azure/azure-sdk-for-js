@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceNetworkingManagementClient } from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ServiceNetworkingManagementClient } = require("@azure/arm-servicenetworking");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to delete a TrafficController
@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a TrafficController
  * x-ms-original-file: 2025-01-01/TrafficControllerDelete.json
  */
-async function deleteTrafficController(): Promise<void> {
+async function deleteTrafficController() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "subid";
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
   await client.trafficControllerInterface.delete("rg1", "tc1");
 }
 
-async function main(): Promise<void> {
+async function main() {
   await deleteTrafficController();
 }
 
