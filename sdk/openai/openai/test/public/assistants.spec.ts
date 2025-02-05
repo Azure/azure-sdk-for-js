@@ -6,7 +6,7 @@ import { assert, describe, beforeEach, it } from "vitest";
 import { assertAssistantEquality } from "../utils/asserts.js";
 import { createClient } from "../utils/createClient.js";
 import type { OpenAI, AzureOpenAI } from "openai";
-import { APIVersion, isRateLimitRun, type Metadata } from "../utils/utils.js";
+import { APIVersion, isRateLimitRun } from "../utils/utils.js";
 
 describe("OpenAIAssistants", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
@@ -60,17 +60,17 @@ describe("OpenAIAssistants", () => {
 
           const threadResponse = await client.beta.threads.create(thread);
           assert.isNotNull(threadResponse.id);
-          assert.equal((threadResponse.metadata as Metadata).foo, metadataValue);
+          assert.equal(threadResponse.metadata!.foo, metadataValue);
           const getThreadResponse = await client.beta.threads.retrieve(threadResponse.id);
           assert.equal(threadResponse.id, getThreadResponse.id);
-          assert.equal((getThreadResponse.metadata as Metadata).foo, metadataValue);
+          assert.equal(getThreadResponse.metadata!.foo, metadataValue);
 
           const newMetadataValue = "other value";
           thread.metadata.foo = newMetadataValue;
 
           const updateThreadResponse = await client.beta.threads.update(threadResponse.id, thread);
           assert.equal(threadResponse.id, updateThreadResponse.id);
-          assert.equal((updateThreadResponse.metadata as Metadata).foo, newMetadataValue);
+          assert.equal(updateThreadResponse.metadata!.foo, newMetadataValue);
           const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
           assert.equal(deleteThreadResponse.deleted, true);
         });
@@ -100,7 +100,7 @@ describe("OpenAIAssistants", () => {
           if (messageContent.type === "text") {
             assert.equal(messageContent.text.value, content);
           }
-          assert.equal((messageResponse.metadata as Metadata).foo, metadataValue);
+          assert.equal(messageResponse.metadata!.foo, metadataValue);
           const getMessageResponse = await client.beta.threads.messages.retrieve(
             threadResponse.id,
             messageResponse.id || "",
@@ -111,7 +111,7 @@ describe("OpenAIAssistants", () => {
           if (messageContent.type === "text") {
             assert.equal(messageContent.text.value, content);
           }
-          assert.equal((getMessageResponse.metadata as Metadata).foo, metadataValue);
+          assert.equal(getMessageResponse.metadata!.foo, metadataValue);
 
           const newMetadataValue = "other value";
           messageOptions.metadata.foo = newMetadataValue;
@@ -122,7 +122,7 @@ describe("OpenAIAssistants", () => {
             messageOptions,
           );
           assert.equal(messageResponse.id, updateMessageResponse.id);
-          assert.equal((updateMessageResponse.metadata as Metadata).foo, newMetadataValue);
+          assert.equal(updateMessageResponse.metadata!.foo, newMetadataValue);
 
           const listLength = 1;
           const oneMessageList = await client.beta.threads.messages.list(threadResponse.id, {
@@ -160,7 +160,7 @@ describe("OpenAIAssistants", () => {
           assert.equal(run.thread_id, thread.id);
           assert.equal(run.assistant_id, assistant.id);
           assert.equal(run.instructions, instructions);
-          assert.equal((run.metadata as Metadata).foo, metadataValue);
+          assert.equal(run.metadata!.foo, metadataValue);
 
           const runSteps = await client.beta.threads.runs.steps.list(thread.id, run.id);
           // with no messages, there should be no steps
@@ -188,7 +188,7 @@ describe("OpenAIAssistants", () => {
           assert.equal(getRun.thread_id, thread.id);
           assert.equal(getRun.assistant_id, assistant.id);
           assert.equal(getRun.instructions, instructions);
-          assert.equal((getRun.metadata as Metadata).foo, metadataValue);
+          assert.equal(getRun.metadata!.foo, metadataValue);
           const deleteThreadResponse = await client.beta.threads.del(thread.id);
           assert.equal(deleteThreadResponse.deleted, true);
 
