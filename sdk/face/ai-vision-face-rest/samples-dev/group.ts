@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { readFileSync } from "node:fs";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";

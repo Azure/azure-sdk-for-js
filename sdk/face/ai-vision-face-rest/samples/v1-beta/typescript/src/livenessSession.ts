@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from 'node:crypto';
 
 import { AzureKeyCredential } from '@azure/core-auth';
 
@@ -30,7 +30,7 @@ const waitForLivenessRequest = async () => {
     // Wait for request from client device.
 };
 
-const sendTokenToClientDevices = async (token: string) => {
+const sendTokenToClientDevices = async () => {
     // Send the token to client devices.
 };
 
@@ -40,7 +40,7 @@ const waitForLivenessSessionComplete = async () => {
     await pressAnyKeyToContinue();
 };
 
-async function main() {
+async function main(): Promise<void> {
     // This sample follows the documentation: https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness
     // We will follow the steps in https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness#orchestrate-the-liveness-solution to demo the sample code in app server.
 
