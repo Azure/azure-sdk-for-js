@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/eventgrid-system-events": ["./dist/esm"]
+      "@azure/eventgrid-systemevents": ["./dist/esm"]
     }
   }
 }

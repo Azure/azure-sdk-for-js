@@ -4,8 +4,8 @@ Azure Event Grid system events are published by Azure services to system topics.
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-system-events/)
-- [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-system-events)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-systemevents/)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-systemevents)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
 - [Product documentation](https://learn.microsoft.com/azure/event-grid/)
 
@@ -37,12 +37,12 @@ az eventgrid topic create --location <location> --resource-group <your-resource-
 az eventgrid domain create --location <location> --resource-group <your-resource-group-name> --name <your-resource-name>
 ```
 
-### Install the `@azure/eventgrid-system-events` package
+### Install the `@azure/eventgrid-systemevents` package
 
 Install the Azure Event Grid System Events client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/eventgrid-system-events
+npm install @azure/eventgrid-systemevents
 ```
 
 ## Key concepts

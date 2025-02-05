@@ -946,9 +946,9 @@ importers:
       '@rush-temp/eventgrid-namespaces':
         specifier: file:./projects/eventgrid-namespaces.tgz
         version: file:projects/eventgrid-namespaces.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
-      '@rush-temp/eventgrid-system-events':
-        specifier: file:./projects/eventgrid-system-events.tgz
-        version: file:projects/eventgrid-system-events.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
+      '@rush-temp/eventgrid-systemevents':
+        specifier: file:./projects/eventgrid-systemevents.tgz
+        version: file:projects/eventgrid-systemevents.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/eventhubs-checkpointstore-blob':
         specifier: file:./projects/eventhubs-checkpointstore-blob.tgz
         version: file:projects/eventhubs-checkpointstore-blob.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -2696,7 +2696,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-vision-face@file:projects/ai-vision-face.tgz':
-    resolution: {integrity: sha512-N3EavlzO0cK3jmcOHIIanQJ8ff3dHEzLEOD9YSmw5lLkqhE2MBTZ8wZzmx3yPNku7n0gyxIu871CcQPrk/C1XA==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-35MLspEjo3srhk6oFk7t9K+NTSb2H/VYXLKgHPmAJ1JmakroQlu8TCiLM6l5qQCKKZNS5FzgsoQGsWZal7Y6aQ==, tarball: file:projects/ai-vision-face.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-vision-image-analysis@file:projects/ai-vision-image-analysis.tgz':
@@ -3092,19 +3092,19 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-fabric@file:projects/arm-fabric.tgz':
-    resolution: {integrity: sha512-o6WRdWb4e75b/Z6dlGiUz83ERFWmiLj/TrDXgieN+u9EiE+5m7yJI/GqUehcWmHH76QzEM878SMSktTNLGEI/w==, tarball: file:projects/arm-fabric.tgz}
+    resolution: {integrity: sha512-Ui6w9WJQr2ZwxrzLUea5E7vwRrNBzhgzz3op3yiVKlG3QWK9cwxvRHqXjquCLfL5ovZgJptfCq/s921v6rT0gw==, tarball: file:projects/arm-fabric.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-features@file:projects/arm-features.tgz':
-    resolution: {integrity: sha512-JB9mIUQCRRthC4OAqnOakaomm7kyjWa63Z+qLTsnxLOmx9C51e+3L/XOhiz1Wkb9lXBup3u8sRO7EafJ7AZCEQ==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-pE7eAt/UvSYEVzapZNtFeXNxDaOhdyVfuTLkAPMhwdAUG5IIl7r8R82ihB9vTF3sCP9cgznf1TU0jOj2rLsmpA==, tarball: file:projects/arm-features.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fluidrelay@file:projects/arm-fluidrelay.tgz':
-    resolution: {integrity: sha512-+3LWAZXR19QHGAJJTNnBLwXmxepD/P4C5TPucly8Of11DOXdNNgK9ghsI30qpoRPEe4Ez/ErFFmev/n9bfUAKA==, tarball: file:projects/arm-fluidrelay.tgz}
+    resolution: {integrity: sha512-sJ+cJ2RkRQnS7IorubYXuQ5GAXixekxK9Br/N6ivGxn14L9Ln4ggsFvtcbOvMjnWwxVzxsuJRDV9T8p4TtRcYQ==, tarball: file:projects/arm-fluidrelay.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-frontdoor@file:projects/arm-frontdoor.tgz':
-    resolution: {integrity: sha512-3P5oCAtem5LfzguU1jrL5AgsOYJJvsUuJPQ7mNNbAa7KWQgL8wIj70P192wWJfVccjIGj3KxJIH/We1UDvLcDg==, tarball: file:projects/arm-frontdoor.tgz}
+    resolution: {integrity: sha512-MZNDS4ngndcDzI/kewkyDWB9S2/xMRXoAz1ByKeJHVqbUoUl3LPF6KdE67+0KLOfpnVX34tHNvZroCJ6EaLqkw==, tarball: file:projects/arm-frontdoor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-graphservices@file:projects/arm-graphservices.tgz':
@@ -3875,8 +3875,8 @@ packages:
     resolution: {integrity: sha512-Tl1NVK2ObKuFhsPd36jNqx/LtvNnXHWTtSQDhLZaLX3oEUJ75vkQMmTK3SiqvGG/KI8cHngjQoaqVu3z3LGlLw==, tarball: file:projects/eventgrid-namespaces.tgz}
     version: 0.0.0
 
-  '@rush-temp/eventgrid-system-events@file:projects/eventgrid-system-events.tgz':
-    resolution: {integrity: sha512-Fxa1UptTZC6tMLhtYFyDU7icQ6wZhStHLqr2jhjlpNqcDc27gB4ZT24aqB/ZPASnyqOd/v/22+KzpgTzQ+8RGQ==, tarball: file:projects/eventgrid-system-events.tgz}
+  '@rush-temp/eventgrid-systemevents@file:projects/eventgrid-systemevents.tgz':
+    resolution: {integrity: sha512-Sq6LAm8xHa7qG+q8Hqt0CdTdeKgVhxRLOIrwSoQ2hHsJHmxat929PBUhBc9LW3JM9iXtVu9tycqfRW74egYIxQ==, tarball: file:projects/eventgrid-systemevents.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz':
@@ -19034,7 +19034,7 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/eventgrid-system-events@file:projects/eventgrid-system-events.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
+  '@rush-temp/eventgrid-systemevents@file:projects/eventgrid-systemevents.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
