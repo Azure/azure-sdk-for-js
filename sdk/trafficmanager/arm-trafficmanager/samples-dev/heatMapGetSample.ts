@@ -8,9 +8,7 @@
 import type { HeatMapGetOptionalParams } from "@azure/arm-trafficmanager";
 import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets latest heatmap for Traffic Manager profile.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Gets latest heatmap for Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/HeatMap-GET.json
  */
-async function heatMapGet() {
+async function heatMapGet(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1323";
@@ -35,7 +33,7 @@ async function heatMapGet() {
  * @summary Gets latest heatmap for Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/HeatMap-GET-With-Null-Values.json
  */
-async function heatMapGetWithNullValues() {
+async function heatMapGetWithNullValues(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1323";
@@ -52,7 +50,7 @@ async function heatMapGetWithNullValues() {
  * @summary Gets latest heatmap for Traffic Manager profile.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/HeatMap-GET-With-TopLeft-BotRight.json
  */
-async function heatMapGetWithTopLeftBotRight() {
+async function heatMapGetWithTopLeftBotRight(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1323";
@@ -66,7 +64,7 @@ async function heatMapGetWithTopLeftBotRight() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await heatMapGet();
   await heatMapGetWithNullValues();
   await heatMapGetWithTopLeftBotRight();

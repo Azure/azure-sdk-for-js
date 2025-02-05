@@ -7,9 +7,7 @@
  */
 import { TrafficManagerManagementClient } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a Traffic Manager endpoint.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes a Traffic Manager endpoint.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/Endpoint-DELETE-External.json
  */
-async function endpointDeleteExternal() {
+async function endpointDeleteExternal(): Promise<void> {
   const subscriptionId = process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
     process.env["TRAFFICMANAGER_RESOURCE_GROUP"] || "azuresdkfornetautoresttrafficmanager1421";
@@ -35,7 +33,7 @@ async function endpointDeleteExternal() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await endpointDeleteExternal();
 }
 

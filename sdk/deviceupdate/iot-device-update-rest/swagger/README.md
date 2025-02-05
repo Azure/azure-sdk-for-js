@@ -21,7 +21,8 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: https://api.adu.microsoft.com/.default
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```
 
 ### Fix 304s

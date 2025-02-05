@@ -9,13 +9,12 @@ import {
     getLongRunningPoller,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 /**
  * @summary Demonstrates creating, fetching outputs from, and deleting an Environment
  */
-async function createEnvironment() {
+async function createEnvironment(): Promise<void> {
     // Build client and fetch required parameters
     const endpoint = process.env.DEVCENTER_ENDPOINT || "<devcenter name>";
     const client = createClient(endpoint, new DefaultAzureCredential());

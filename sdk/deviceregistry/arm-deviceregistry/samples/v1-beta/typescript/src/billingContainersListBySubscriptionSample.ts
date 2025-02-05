@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list BillingContainer resources by subscription ID
  * x-ms-original-file: 2024-09-01-preview/List_BillingContainers_Subscription.json
  */
-async function listBillingContainersSubscription() {
+async function listBillingContainersSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listBillingContainersSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listBillingContainersSubscription();
 }
 

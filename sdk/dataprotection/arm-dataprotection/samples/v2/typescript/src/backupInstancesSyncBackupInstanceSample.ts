@@ -20,7 +20,7 @@ This action will retry last failed operation and will bring backup instance to v
 This action will retry last failed operation and will bring backup instance to valid state
  * x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/SyncBackupInstance.json
  */
-async function syncBackupInstance() {
+async function syncBackupInstance(): Promise<void> {
   const subscriptionId =
     process.env["DATAPROTECTION_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -40,7 +40,7 @@ async function syncBackupInstance() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   syncBackupInstance();
 }
 

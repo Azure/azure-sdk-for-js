@@ -18,11 +18,12 @@ require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/speci
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.34"
 add-credentials: false
 azure-arm: false
 title: Sip Routing Client
 v3: true
+module-kind: esm
 ```
 
 ### Directive renaming "Trunk" model to "SipTrunk"

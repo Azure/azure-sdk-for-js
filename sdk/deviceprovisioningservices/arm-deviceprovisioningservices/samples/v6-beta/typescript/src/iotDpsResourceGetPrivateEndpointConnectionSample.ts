@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get private endpoint connection properties
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSGetPrivateEndpointConnection.json
  */
-async function privateEndpointConnectionGet() {
+async function privateEndpointConnectionGet(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -34,7 +34,7 @@ async function privateEndpointConnectionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionGet();
 }
 

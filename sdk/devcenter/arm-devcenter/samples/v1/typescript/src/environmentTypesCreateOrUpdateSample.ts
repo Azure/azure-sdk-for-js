@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Creates or updates an environment type.
  * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/EnvironmentTypes_Put.json
  */
-async function environmentTypesCreateOrUpdate() {
+async function environmentTypesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DEVCENTER_SUBSCRIPTION_ID"] ||
     "0ac520ee-14c0-480f-b6c9-0a90c58ffff";
@@ -37,7 +37,7 @@ async function environmentTypesCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   environmentTypesCreateOrUpdate();
 }
 

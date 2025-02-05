@@ -138,7 +138,9 @@ async function applyCodemods(projectFolder: string): Promise<void> {
       mod(sourceFile);
 
       // Clean up source file after applying the codemod
-      sourceFile.fixUnusedIdentifiers();
+      if (!sourceFile.getBaseName().includes("snippets.spec.ts")) {
+        sourceFile.fixUnusedIdentifiers();
+      }
 
       await sourceFile.save();
     }

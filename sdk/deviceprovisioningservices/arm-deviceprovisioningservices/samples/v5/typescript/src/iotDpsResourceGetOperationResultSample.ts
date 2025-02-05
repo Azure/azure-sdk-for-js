@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets the status of a long running operation, such as create, update or delete a provisioning service.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/stable/2022-02-05/examples/DPSGetOperationResult.json
  */
-async function dpsGetOperationResult() {
+async function dpsGetOperationResult(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -36,7 +36,7 @@ async function dpsGetOperationResult() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsGetOperationResult();
 }
 
