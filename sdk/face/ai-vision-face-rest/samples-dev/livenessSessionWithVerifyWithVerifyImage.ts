@@ -1,10 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { randomUUID } from "node:crypto";
-
 import { AzureKeyCredential } from "@azure/core-auth";
-
 import createFaceClient, { isUnexpected } from "@azure-rest/ai-vision-face";
 import { readFileSync } from "node:fs";
-
 import "dotenv/config";
 
 /**
@@ -13,28 +13,15 @@ import "dotenv/config";
  * @summary Liveness detection with face verification with verification image.
  */
 
-const pressAnyKeyToContinue = () =>
-  new Promise<void>((resolve) => {
-    const { stdin } = process;
-    const { isRaw } = stdin;
-    stdin.setRawMode(true);
-    stdin.resume();
-    stdin.once("data", () => {
-      stdin.pause();
-      stdin.setRawMode(isRaw);
-      resolve();
-    });
-  });
-
-const waitForLivenessRequest = async () => {
+async function waitForLivenessRequest(): Promise<void> {
   // Wait for request from client device.
-};
+}
 
-const sendTokenToClientDevices = async (_token: string) => {
+async function sendTokenToClientDevices(_token: string): Promise<void> {
   // Send the token to client devices.
-};
+}
 
-const waitForLivenessSessionComplete = async () => {
+async function waitForLivenessSessionComplete(): Promise<void> {
   console.log(
     "Please refer to https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness and use the mobile client SDK to perform liveness detection on your mobile application.",
   );
@@ -42,7 +29,7 @@ const waitForLivenessSessionComplete = async () => {
     "Press any key to continue when you complete these steps to run sample to get session results...",
   );
   await pressAnyKeyToContinue();
-};
+}
 
 async function main(): Promise<void> {
   // This sample follows the documentation: https://learn.microsoft.com/en-us/azure/ai-services/computer-vision/tutorials/liveness
