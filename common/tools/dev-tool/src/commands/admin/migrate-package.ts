@@ -88,8 +88,8 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await applyCodemods(projectFolder);
 
   log.info("Formatting files");
-  await run(["rushx", "format"], { cwd: projectFolder, shell: isWindows() });
-  await commitChanges(projectFolder, "rushx format");
+  await run(["npm", "run", "format"], { cwd: projectFolder, shell: isWindows() });
+  await commitChanges(projectFolder, "npm run format");
 
   log.info(
     "Done. Please run `rush update`, `rush build -t <project-name>`, and run tests to verify the changes.",
