@@ -221,6 +221,8 @@ export interface IncomingCall
     | "correlationId"
     | "resultInformation"
   > {
+  /** Call connection ID. */
+  callConnectionId: string;
   /** The communication identifier of the target user.*/
   to?: CommunicationIdentifierModel;
   /** The communication identifier of the user who initiated the call.*/
