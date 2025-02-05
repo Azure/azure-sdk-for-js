@@ -324,8 +324,7 @@ export interface ClientEncryptionKeyDefinition {
 }
 
 // @public
-export class ClientEncryptionKeyProperties {
-    constructor(id: string, encryptionAlgorithm: string, etag: string, wrappedDataEncryptionKey: Buffer, encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata);
+export interface ClientEncryptionKeyProperties {
     encryptionAlgorithm: string;
     encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata;
     id: string;
@@ -666,8 +665,8 @@ export const Constants: {
     };
     AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
     ChangeFeedIfNoneMatchStartFromNowHeader: string;
-    DefaultEncryptionCacheTimeToLive: number;
-    EncryptionCacheRefreshInterval: number;
+    DefaultEncryptionCacheTimeToLiveInHours: number;
+    EncryptionCacheRefreshIntervalInMs: number;
 };
 
 // @public

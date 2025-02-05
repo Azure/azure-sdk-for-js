@@ -70,6 +70,6 @@ export class EncryptionKeyStoreProvider {
           delete this.unwrappedEncryptionKeyCache[key];
         }
       }
-    }, Constants.EncryptionCacheRefreshInterval);
+    }, Constants.EncryptionCacheRefreshIntervalInMs);
   }
 }

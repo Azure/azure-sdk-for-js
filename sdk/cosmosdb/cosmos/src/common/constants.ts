@@ -292,9 +292,9 @@ export const Constants = {
   AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
   ChangeFeedIfNoneMatchStartFromNowHeader: "*",
   // Default TTL for encryption caches in hours
-  DefaultEncryptionCacheTimeToLive: 2,
+  DefaultEncryptionCacheTimeToLiveInHours: 2,
   // Timeout to clear encryption related cache
-  EncryptionCacheRefreshInterval: 60000, // 1 minute
+  EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
 };
 
 /**

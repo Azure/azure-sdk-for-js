@@ -29,7 +29,10 @@ export class EncryptionSettingsCache {
     for (const includedPath of clientEncryptionPolicy.includedPaths) {
       const encryptionSettingForProperty = new EncryptionSettingForProperty(includedPath);
       encryptionSettings.pathsToEncrypt.push(includedPath.path);
-      encryptionSettings.setEncryptionProperty(includedPath.path, encryptionSettingForProperty);
+      encryptionSettings.setEncryptionSettingForProperty(
+        includedPath.path,
+        encryptionSettingForProperty,
+      );
     }
     this.set(id, encryptionSettings);
     return encryptionSettings;

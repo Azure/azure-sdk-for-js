@@ -9,7 +9,7 @@ import type { ProtectedDataEncryptionKey } from "./EncryptionKey";
 import type { EncryptionManager } from "./EncryptionManager";
 
 /**
- * Represents the encryption setting for a property.
+ * Represents the encryption setting for a specific property in an item.
  * @hidden
  */
 export class EncryptionSettingForProperty {

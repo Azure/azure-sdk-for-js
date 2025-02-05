@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EncryptionKeyWrapMetadata } from "../EncryptionKeyWrapMetadata";
+import type { EncryptionKeyWrapMetadata } from "../EncryptionKeyWrapMetadata";
 
 /**
  * Details of a client encryption key for use with the Azure Cosmos DB service.
  */
-export class ClientEncryptionKeyProperties {
+export interface ClientEncryptionKeyProperties {
   /**
    * unique identifier for the client encryption key
    */
@@ -24,21 +24,8 @@ export class ClientEncryptionKeyProperties {
    */
   encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata;
   /**
+   * etag associated with the client encryption key.
    * @internal
    */
   etag: string;
-
-  constructor(
-    id: string,
-    encryptionAlgorithm: string,
-    etag: string,
-    wrappedDataEncryptionKey: Buffer,
-    encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata,
-  ) {
-    this.id = id;
-    this.encryptionAlgorithm = encryptionAlgorithm;
-    this.etag = etag;
-    this.wrappedDataEncryptionKey = wrappedDataEncryptionKey;
-    this.encryptionKeyWrapMetadata = encryptionKeyWrapMetadata;
-  }
 }

@@ -3,6 +3,11 @@
 
 import { ErrorResponse } from "../request/ErrorResponse";
 
+const secondsPerMinute = 60;
+const millisecondsPerSecond = 1000;
+const millisecondsPerMinute = secondsPerMinute * millisecondsPerSecond;
+const minutesPerHour = 60;
+const millisecondsPerHour = minutesPerHour * millisecondsPerMinute;
 /**
  * Time to live for encryption keys and settings caches in milliseconds.
  * This can be set through cosmos client options.
@@ -14,14 +19,14 @@ export class EncryptionTimeToLive {
     if (minutes < 0 || !Number.isInteger(minutes)) {
       throw new ErrorResponse("Encryption Time To Live must be a positive integer.");
     }
-    return minutes * 60 * 1000;
+    return minutes * millisecondsPerMinute;
   }
   /** method to set ttl in hours. returns ttl in milliseconds */
   static FromHours(hours: number): number {
     if (hours < 0 || !Number.isInteger(hours)) {
       throw new ErrorResponse("Encryption Time To Live must be a positive integer");
     }
-    return hours * 60 * 60 * 1000;
+    return hours * millisecondsPerHour;
   }
   /** method to set zero ttl */
   static NoTTL(): number {

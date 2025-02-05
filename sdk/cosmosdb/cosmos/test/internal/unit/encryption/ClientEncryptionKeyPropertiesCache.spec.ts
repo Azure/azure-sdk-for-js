@@ -27,13 +27,13 @@ describe("ClientEncryptionKeyPropertiesCache", () => {
       "testValue",
       KeyEncryptionAlgorithm.RSA_OAEP,
     );
-    const clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
-      id,
+    const clientEncryptionKeyProperties: ClientEncryptionKeyProperties = {
+      id: id,
       encryptionAlgorithm,
-      etag,
       wrappedDataEncryptionKey,
       encryptionKeyWrapMetadata,
-    );
+      etag,
+    };
     const cache = new ClientEncryptionKeyPropertiesCache();
     const key = "databaseId/clientEncryptionKeyId";
 

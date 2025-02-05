@@ -29,7 +29,7 @@ export class EncryptionManager {
     this.cacheTimeToLive =
       cacheTimeToLive !== undefined
         ? cacheTimeToLive
-        : EncryptionTimeToLive.FromHours(Constants.DefaultEncryptionCacheTimeToLive);
+        : EncryptionTimeToLive.FromHours(Constants.DefaultEncryptionCacheTimeToLiveInHours);
     const cacheTtlInMs = this.getCacheTTlInMs();
     this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
       encryptionKeyResolver,

@@ -44,7 +44,7 @@ export class ProtectedDataEncryptionKeyCache {
           this.cache.delete(key);
         }
       }
-    }, Constants.EncryptionCacheRefreshInterval);
+    }, Constants.EncryptionCacheRefreshIntervalInMs);
   }
 
   private async createProtectedDataEncryptionKey(

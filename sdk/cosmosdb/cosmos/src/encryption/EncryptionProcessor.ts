@@ -419,13 +419,13 @@ export class EncryptionProcessor {
           `The Client Encryption Key with key id: ${cekId} on database: ${this.database.id} needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey. The Key Encryption Key used to wrap the Client Encryption Key has been revoked`,
         );
       }
-      const clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
-        response.result.id,
-        response.result.encryptionAlgorithm,
-        response.result._etag,
-        Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
-        response.result.keyWrapMetadata,
-      );
+      const clientEncryptionKeyProperties: ClientEncryptionKeyProperties = {
+        id: response.result.id,
+        encryptionAlgorithm: response.result.encryptionAlgorithm,
+        wrappedDataEncryptionKey: Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
+        etag: response.result._etag,
+      };
       const key = this.database._rid + "/" + cekId;
       this.encryptionManager.clientEncryptionKeyPropertiesCache.set(
         key,

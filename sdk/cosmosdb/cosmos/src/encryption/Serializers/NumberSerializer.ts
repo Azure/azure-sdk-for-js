@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Serializer } from "./Serializer";
+import type { Serializer } from "./Serializer";
 
 export class NumberSerializer implements Serializer {
   deserialize(bytes: Buffer): number {
@@ -19,6 +19,3 @@ export class NumberSerializer implements Serializer {
     return buffer;
   }
 }
-
-// const instance = new NumberSerializer();
-// export { instance }

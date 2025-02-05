@@ -263,13 +263,13 @@ export class Database {
         resourceId: databaseId,
         diagnosticNode,
       });
-      const ref = new ClientEncryptionKeyProperties(
-        response.result.id,
-        response.result.encryptionAlgorithm,
-        response.result._etag,
-        Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
-        response.result.keyWrapMetadata,
-      );
+      const ref: ClientEncryptionKeyProperties = {
+        id: response.result.id,
+        encryptionAlgorithm: response.result.encryptionAlgorithm,
+        etag: response.result._etag,
+        wrappedDataEncryptionKey: Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
+      };
       return new ClientEncryptionKeyResponse(
         response.result,
         response.headers,
@@ -297,13 +297,13 @@ export class Database {
         options: { databaseRid: this._rid },
         diagnosticNode,
       });
-      const ref = new ClientEncryptionKeyProperties(
-        response.result.id,
-        response.result.encryptionAlgorithm,
-        response.result._etag,
-        Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
-        response.result.keyWrapMetadata,
-      );
+      const ref: ClientEncryptionKeyProperties = {
+        id: response.result.id,
+        encryptionAlgorithm: response.result.encryptionAlgorithm,
+        etag: response.result._etag,
+        wrappedDataEncryptionKey: Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
+      };
       return new ClientEncryptionKeyResponse(
         response.result,
         response.headers,
@@ -363,13 +363,13 @@ export class Database {
       this.encryptionManager.encryptionKeyStoreProvider,
     );
     const rewrappedKey = await keyEncryptionKey.wrapEncryptionKey(unwrappedKey);
-    clientEncryptionKeyProperties = new ClientEncryptionKeyProperties(
-      id,
-      clientEncryptionKeyProperties.encryptionAlgorithm,
-      clientEncryptionKeyProperties.etag,
-      rewrappedKey,
-      newKeyWrapMetadata,
-    );
+    clientEncryptionKeyProperties = {
+      id: id,
+      encryptionAlgorithm: clientEncryptionKeyProperties.encryptionAlgorithm,
+      etag: clientEncryptionKeyProperties.etag,
+      wrappedDataEncryptionKey: rewrappedKey,
+      encryptionKeyWrapMetadata: newKeyWrapMetadata,
+    };
     const body: ClientEncryptionKeyRequest = {
       id: id,
       encryptionAlgorithm: clientEncryptionKeyProperties.encryptionAlgorithm,
@@ -391,13 +391,13 @@ export class Database {
         diagnosticNode,
       });
 
-      const ref = new ClientEncryptionKeyProperties(
-        response.result.id,
-        response.result.encryptionAlgorithm,
-        response.result._etag,
-        Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
-        response.result.keyWrapMetadata,
-      );
+      const ref: ClientEncryptionKeyProperties = {
+        id: response.result.id,
+        encryptionAlgorithm: response.result.encryptionAlgorithm,
+        etag: response.result._etag,
+        wrappedDataEncryptionKey: Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        encryptionKeyWrapMetadata: response.result.keyWrapMetadata,
+      };
       return new ClientEncryptionKeyResponse(
         response.result,
         response.headers,

@@ -27,7 +27,7 @@ export class EncryptionSettings {
     this.partitionKeyPaths = partitionKeyPaths;
   }
 
-  public setEncryptionProperty(
+  public setEncryptionSettingForProperty(
     key: string,
     encryptionSettingForProperty: EncryptionSettingForProperty,
   ): void {
