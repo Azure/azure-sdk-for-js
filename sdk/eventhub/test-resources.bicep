@@ -1,7 +1,7 @@
 param baseName string = resourceGroup().name
 param location string = resourceGroup().location
 param testApplicationOid string
-param tenantIsTME bool = false
+param supportsSafeSecretStandard bool = false
 
 var eventHubApiVersion = '2024-01-01'
 var iotHubApiVersion = '2023-06-30'
@@ -32,7 +32,7 @@ resource eventHubNamespace 'Microsoft.EventHub/namespaces@2024-01-01' = {
     zoneRedundant: false
     isAutoInflateEnabled: false
     maximumThroughputUnits: 0
-    disableLocalAuth: !tenantIsTME
+    disableLocalAuth: !supportsSafeSecretStandard
   }
 }
 
@@ -111,7 +111,7 @@ resource iotHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
     type: 'SystemAssigned'
   }
   properties: {
-    disableLocalAuth: !tenantIsTME
+    disableLocalAuth: !supportsSafeSecretStandard
     ipFilterRules: []
     eventHubEndpoints: {
       events: {
