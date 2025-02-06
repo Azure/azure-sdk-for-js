@@ -41,21 +41,21 @@ describe("HealthcareApis test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new HealthcareApisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest1";
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new HealthcareApisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest1";
 
-    });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("workspaces create test", async function () {
     const res = await client.workspaces.beginCreateOrUpdateAndWait(
@@ -86,6 +86,7 @@ describe("HealthcareApis test", () => {
 
   it("workspaces delete test", async function () {
     const resArray = new Array();
+    await client.workspaces.beginDeleteAndWait(resourceGroup, resourcename);
     for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
