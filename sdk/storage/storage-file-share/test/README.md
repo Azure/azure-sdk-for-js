@@ -18,5 +18,3 @@ To run the live tests, you will also need to set the below environment variables
 - `STORAGE_CONNECTION_STRING`: The Azure Storage account connection string.
 
 The live tests in this project will create files and directories in the provided Azure Storage account.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Ftest%2FREADME.png)
