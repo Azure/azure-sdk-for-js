@@ -47,32 +47,32 @@ describe("Batch", () => {
   let client: DeidentificationClient;
   const environment = getTestEnvironment();
 
-  beforeEach(async function (context) {
-    recorder = await createRecorder(context);
-    await recorder.start({
-      envSetupForPlayback: replaceableVariables,
-      sanitizerOptions: {
-        bodyKeySanitizers: [
-          {
-            value: replaceableVariables.STORAGE_ACCOUNT_LOCATION,
-            jsonPath: "$..location",
-            regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
-          },
-        ],
-      },
-      removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
+  beforeEach(async (context) => {
+      recorder = await createRecorder(context);
+      await recorder.start({
+        envSetupForPlayback: replaceableVariables,
+        sanitizerOptions: {
+          bodyKeySanitizers: [
+            {
+              value: replaceableVariables.STORAGE_ACCOUNT_LOCATION,
+              jsonPath: "$..location",
+              regex: "^(?!.*FAKE_STORAGE_ACCOUNT).*",
+            },
+          ],
+        },
+        removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
+      });
+      const credential = createTestCredential();
+      if (process.env.DEID_SERVICE_ENDPOINT) {
+        client = await createRecordedDeidentificationClient(recorder, credential);
+      } else {
+        throw new Error("DEID_SERVICE_ENDPOINT is not set");
+      }
     });
-    const credential = createTestCredential();
-    if (process.env.DEID_SERVICE_ENDPOINT) {
-      client = await createRecordedDeidentificationClient(recorder, credential);
-    } else {
-      throw new Error("DEID_SERVICE_ENDPOINT is not set");
-    }
-  });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   // Note: When your re-run recording you need to update jobName to avoid conflict with existing job "environment" is either node or browser depending on the test mode
   it(
