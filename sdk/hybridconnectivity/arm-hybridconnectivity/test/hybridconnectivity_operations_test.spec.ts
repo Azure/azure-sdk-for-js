@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { HybridConnectivityManagementAPI } from "../src/hybridConnectivityManagementAPI";
+import { HybridConnectivityManagementAPI } from "../src/hybridConnectivityManagementAPI.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -46,22 +44,22 @@ describe("HybridConnectivity test", () => {
   let resourcename: string;
   let resourceUri: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new HybridConnectivityManagementAPI(credential, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "default";
-    resourceUri = "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.HybridCompute/machines/AWP-AzRael-01"
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new HybridConnectivityManagementAPI(credential, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      resourcename = "default";
+      resourceUri = "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.HybridCompute/machines/AWP-AzRael-01"
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("endpoints create test", async function () {
 
