@@ -95,15 +95,13 @@ export interface AnswerFailed {
 
 // @public
 interface AudioData_2 {
+interface AudioData_2 {
     data: string;
     isSilent?: boolean;
     participant?: CommunicationIdentifier | undefined;
     timestamp?: Date;
 }
 export { AudioData_2 as AudioData }
-
-// @public
-export type AudioFormat = string;
 
 // @public
 export interface AudioMetadata {
@@ -317,6 +315,7 @@ export class CallRecording {
     downloadStreaming(sourceLocationUrl: string, options?: DownloadRecordingOptions): Promise<NodeJS.ReadableStream>;
     downloadToPath(sourceLocationUrl: string, destinationPath: string, options?: DownloadRecordingOptions): Promise<void>;
     downloadToStream(sourceLocationUrl: string, destinationStream: NodeJS.WritableStream, options?: DownloadRecordingOptions): Promise<void>;
+    getRecordingResult(recordingId: string, options?: GetRecordingResultOptions): Promise<RecordingResult>;
     getState(recordingId: string, options?: GetRecordingPropertiesOptions): Promise<RecordingStateResult>;
     pause(recordingId: string, options?: PauseRecordingOptions): Promise<void>;
     resume(recordingId: string, options?: ResumeRecordingOptions): Promise<void>;
@@ -594,6 +593,9 @@ export type GetParticipantOptions = OperationOptions;
 
 // @public
 export type GetRecordingPropertiesOptions = OperationOptions;
+
+// @public
+export type GetRecordingResultOptions = OperationOptions;
 
 // @public
 export type HangUpOptions = OperationOptions;
@@ -961,6 +963,7 @@ export interface MuteParticipantResult {
 export class OutStreamingData {
     constructor(kind: MediaKind);
     audioData?: AudioData_2;
+    audioData?: AudioData_2;
     static getStopAudioForOutbound(): string;
     static getStreamingDataForOutbound(data: string): string;
     kind: MediaKind;
@@ -1139,7 +1142,31 @@ export type RecordingContent = "audio" | "audioVideo";
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
-export type RecordingKind = string;
+export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+
+// @public
+export interface RecordingResult {
+    // Warning: (ae-forgotten-export) The symbol "ErrorModel" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    readonly errors?: ErrorModel[];
+    // (undocumented)
+    readonly recordingDurationMs?: number;
+    // (undocumented)
+    readonly recordingExpirationTime?: Date;
+    // (undocumented)
+    recordingId: string;
+    // (undocumented)
+    readonly recordingStartTime?: Date;
+    // Warning: (ae-forgotten-export) The symbol "RecordingStorageInfo" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    readonly recordingStorageInfo?: RecordingStorageInfo;
+    // Warning: (ae-forgotten-export) The symbol "CallSessionEndReason" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    readonly sessionEndReason?: CallSessionEndReason;
+}
 
 // @public
 type RecordingState_2 = string;
@@ -1402,44 +1429,6 @@ export enum StreamingDataKind {
 
 // @public (undocumented)
 export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData_2 | AudioMetadata;
-
-// @public
-export interface TeamsPhoneCallDetails {
-    callContext?: string;
-    callSentiment?: string;
-    callTopic?: string;
-    intent?: string;
-    // (undocumented)
-    kind: "teamsPhoneCallDetails";
-    sessionId?: string;
-    suggestedActions?: string;
-    teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
-    teamsPhoneSourceDetails?: TeamsPhoneSourceDetails;
-    transcriptUrl?: string;
-}
-
-// @public
-export interface TeamsPhoneCallerDetails {
-    additionalCallerInformation?: {
-        [propertyName: string]: string;
-    };
-    caller: CommunicationIdentifier;
-    isAuthenticated?: boolean;
-    name: string;
-    phoneNumber: string;
-    recordId?: string;
-    screenPopUrl?: string;
-}
-
-// @public
-export interface TeamsPhoneSourceDetails {
-    intendedTargets?: {
-        [propertyName: string]: CommunicationIdentifier;
-    };
-    language: string;
-    source: CommunicationIdentifier;
-    status: string;
-}
 
 // @public
 export enum TextFormat {

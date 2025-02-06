@@ -387,6 +387,8 @@ describe("CallRecording Live Tests", () => {
       .getState(recordingStateResult.recordingId);
     assert.equal(recStatus.recordingState, "active");
     await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
+    // Delay for 6 seconds, this is to let the recording state change to in-active
+    await new Promise((resolve) => setTimeout(resolve, 6000));
 
     const recordingResult = await callerCallAutomationClient.getCallRecording().getRecordingResult(recordingStateResult.recordingId);
     assert.isDefined(recordingResult);
