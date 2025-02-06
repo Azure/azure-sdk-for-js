@@ -46,7 +46,7 @@ async function componentCurrentBillingFeaturesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentCurrentBillingFeaturesUpdate();
+  await componentCurrentBillingFeaturesUpdate();
 }
 
 main().catch(console.error);

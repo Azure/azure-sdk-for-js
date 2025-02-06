@@ -37,7 +37,7 @@ async function exportConfigurationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportConfigurationsList();
+  await exportConfigurationsList();
 }
 
 main().catch(console.error);

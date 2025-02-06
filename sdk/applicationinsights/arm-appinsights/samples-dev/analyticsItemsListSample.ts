@@ -39,7 +39,7 @@ async function analyticsItemList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  analyticsItemList();
+  await analyticsItemList();
 }
 
 main().catch(console.error);

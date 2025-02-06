@@ -28,7 +28,7 @@ async function getLiveTokenForResource(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getLiveTokenForResource();
+  await getLiveTokenForResource();
 }
 
 main().catch(console.error);

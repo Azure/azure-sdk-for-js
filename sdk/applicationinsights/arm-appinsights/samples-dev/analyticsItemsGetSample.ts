@@ -45,7 +45,7 @@ async function analyticsItemGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  analyticsItemGet();
+  await analyticsItemGet();
 }
 
 main().catch(console.error);

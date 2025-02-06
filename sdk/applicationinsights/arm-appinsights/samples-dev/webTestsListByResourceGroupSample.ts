@@ -38,7 +38,7 @@ async function webTestListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webTestListByResourceGroup();
+  await webTestListByResourceGroup();
 }
 
 main().catch(console.error);

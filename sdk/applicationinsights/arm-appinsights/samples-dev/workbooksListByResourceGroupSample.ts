@@ -80,8 +80,8 @@ async function workbooksManagedList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbooksList();
-  workbooksManagedList();
+  await workbooksList();
+  await workbooksManagedList();
 }
 
 main().catch(console.error);

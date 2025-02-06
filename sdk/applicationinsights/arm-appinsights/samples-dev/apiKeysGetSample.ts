@@ -39,7 +39,7 @@ async function apiKeysGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiKeysGet();
+  await apiKeysGet();
 }
 
 main().catch(console.error);

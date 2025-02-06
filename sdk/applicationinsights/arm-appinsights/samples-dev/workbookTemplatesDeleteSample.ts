@@ -37,7 +37,7 @@ async function workbookTemplateDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbookTemplateDelete();
+  await workbookTemplateDelete();
 }
 
 main().catch(console.error);

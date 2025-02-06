@@ -19,10 +19,7 @@ async function workbookGet(): Promise<void> {
   const resourceGroupName = "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
   const credential = new DefaultAzureCredential();
-  const client = new ApplicationInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const result = await client.myWorkbooks.get(resourceGroupName, resourceName);
   console.log(result);
 }

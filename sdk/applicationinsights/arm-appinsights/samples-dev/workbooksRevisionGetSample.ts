@@ -40,7 +40,7 @@ async function workbookRevisionGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbookRevisionGet();
+  await workbookRevisionGet();
 }
 
 main().catch(console.error);

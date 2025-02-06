@@ -37,7 +37,7 @@ async function proactiveDetectionConfigurationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  proactiveDetectionConfigurationsList();
+  await proactiveDetectionConfigurationsList();
 }
 
 main().catch(console.error);

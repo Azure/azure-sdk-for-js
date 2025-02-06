@@ -39,7 +39,7 @@ async function workItemConfigurationDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workItemConfigurationDelete();
+  await workItemConfigurationDelete();
 }
 
 main().catch(console.error);

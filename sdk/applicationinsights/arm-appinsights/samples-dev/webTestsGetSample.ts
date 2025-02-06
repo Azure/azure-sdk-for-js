@@ -34,7 +34,7 @@ async function webTestGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webTestGet();
+  await webTestGet();
 }
 
 main().catch(console.error);

@@ -50,7 +50,7 @@ async function analyticsItemPut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  analyticsItemPut();
+  await analyticsItemPut();
 }
 
 main().catch(console.error);

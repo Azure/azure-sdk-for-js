@@ -34,7 +34,7 @@ async function componentGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentGet();
+  await componentGet();
 }
 
 main().catch(console.error);

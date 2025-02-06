@@ -59,8 +59,8 @@ async function workbooksListSub(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbooksList2();
-  workbooksListSub();
+  await workbooksList2();
+  await workbooksListSub();
 }
 
 main().catch(console.error);

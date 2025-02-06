@@ -39,7 +39,7 @@ async function annotationsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  annotationsGet();
+  await annotationsGet();
 }
 
 main().catch(console.error);

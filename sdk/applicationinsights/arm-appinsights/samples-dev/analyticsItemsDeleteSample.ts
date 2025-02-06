@@ -45,7 +45,7 @@ async function analyticsItemDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  analyticsItemDelete();
+  await analyticsItemDelete();
 }
 
 main().catch(console.error);

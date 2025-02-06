@@ -40,7 +40,7 @@ async function webTestLocationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webTestLocationsList();
+  await webTestLocationsList();
 }
 
 main().catch(console.error);

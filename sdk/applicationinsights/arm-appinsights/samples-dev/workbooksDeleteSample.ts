@@ -35,7 +35,7 @@ async function workbookDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbookDelete();
+  await workbookDelete();
 }
 
 main().catch(console.error);

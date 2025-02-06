@@ -37,7 +37,7 @@ async function workItemConfigurationsGetDefault(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workItemConfigurationsGetDefault();
+  await workItemConfigurationsGetDefault();
 }
 
 main().catch(console.error);

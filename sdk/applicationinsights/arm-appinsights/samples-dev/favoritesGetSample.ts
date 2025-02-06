@@ -39,7 +39,7 @@ async function favoriteGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  favoriteGet();
+  await favoriteGet();
 }
 
 main().catch(console.error);

@@ -41,7 +41,7 @@ async function componentLinkedStorageAccountsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentLinkedStorageAccountsDelete();
+  await componentLinkedStorageAccountsDelete();
 }
 
 main().catch(console.error);

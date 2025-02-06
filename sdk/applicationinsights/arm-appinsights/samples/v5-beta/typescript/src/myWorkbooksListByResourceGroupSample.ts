@@ -19,15 +19,9 @@ async function workbooksList(): Promise<void> {
   const resourceGroupName = "my-resource-group";
   const category = "workbook";
   const credential = new DefaultAzureCredential();
-  const client = new ApplicationInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.myWorkbooks.listByResourceGroup(
-    resourceGroupName,
-    category
-  )) {
+  for await (const item of client.myWorkbooks.listByResourceGroup(resourceGroupName, category)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -46,15 +40,9 @@ async function workbooksList2(): Promise<void> {
   const resourceGroupName = "my-resource-group";
   const category = "workbook";
   const credential = new DefaultAzureCredential();
-  const client = new ApplicationInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.myWorkbooks.listByResourceGroup(
-    resourceGroupName,
-    category
-  )) {
+  for await (const item of client.myWorkbooks.listByResourceGroup(resourceGroupName, category)) {
     resArray.push(item);
   }
   console.log(resArray);

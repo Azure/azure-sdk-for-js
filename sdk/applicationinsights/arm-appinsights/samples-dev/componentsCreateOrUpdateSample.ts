@@ -80,8 +80,8 @@ async function componentUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentCreate();
-  componentUpdate();
+  await componentCreate();
+  await componentUpdate();
 }
 
 main().catch(console.error);

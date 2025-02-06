@@ -34,7 +34,7 @@ async function webTestDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webTestDelete();
+  await webTestDelete();
 }
 
 main().catch(console.error);

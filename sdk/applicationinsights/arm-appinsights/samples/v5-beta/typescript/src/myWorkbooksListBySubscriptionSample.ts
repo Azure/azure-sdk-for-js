@@ -18,12 +18,9 @@ async function workbooksList(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const category = "workbook";
   const credential = new DefaultAzureCredential();
-  const client = new ApplicationInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.myWorkbooks.listBySubscription(category)) {
+  for await (const item of client.myWorkbooks.listBySubscription(category)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -41,12 +38,9 @@ async function workbooksList2(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const category = "workbook";
   const credential = new DefaultAzureCredential();
-  const client = new ApplicationInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.myWorkbooks.listBySubscription(category)) {
+  for await (const item of client.myWorkbooks.listBySubscription(category)) {
     resArray.push(item);
   }
   console.log(resArray);

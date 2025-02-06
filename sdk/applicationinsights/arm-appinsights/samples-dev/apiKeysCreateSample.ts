@@ -51,7 +51,7 @@ async function apiKeyCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiKeyCreate();
+  await apiKeyCreate();
 }
 
 main().catch(console.error);

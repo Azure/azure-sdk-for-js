@@ -50,7 +50,7 @@ async function componentLinkedStorageAccountsCreateAndUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentLinkedStorageAccountsCreateAndUpdate();
+  await componentLinkedStorageAccountsCreateAndUpdate();
 }
 
 main().catch(console.error);

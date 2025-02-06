@@ -41,7 +41,7 @@ async function componentLinkedStorageAccountsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentLinkedStorageAccountsGet();
+  await componentLinkedStorageAccountsGet();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function annotationsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  annotationsDelete();
+  await annotationsDelete();
 }
 
 main().catch(console.error);

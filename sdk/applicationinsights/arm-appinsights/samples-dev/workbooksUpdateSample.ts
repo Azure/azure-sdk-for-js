@@ -74,8 +74,8 @@ async function workbookUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbookManagedUpdate();
-  workbookUpdate();
+  await workbookManagedUpdate();
+  await workbookUpdate();
 }
 
 main().catch(console.error);

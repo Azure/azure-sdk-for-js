@@ -79,9 +79,9 @@ async function workbookManagedGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbookGet();
-  workbookGet1();
-  workbookManagedGet();
+  await workbookGet();
+  await workbookGet1();
+  await workbookManagedGet();
 }
 
 main().catch(console.error);

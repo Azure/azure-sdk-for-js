@@ -84,7 +84,7 @@ async function workbookTemplateAdd(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbookTemplateAdd();
+  await workbookTemplateAdd();
 }
 
 main().catch(console.error);

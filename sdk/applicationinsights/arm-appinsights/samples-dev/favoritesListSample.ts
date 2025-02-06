@@ -34,7 +34,7 @@ async function favoritesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  favoritesList();
+  await favoritesList();
 }
 
 main().catch(console.error);

@@ -106,8 +106,8 @@ async function workbookManagedAdd(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbookAdd();
-  workbookManagedAdd();
+  await workbookAdd();
+  await workbookManagedAdd();
 }
 
 main().catch(console.error);

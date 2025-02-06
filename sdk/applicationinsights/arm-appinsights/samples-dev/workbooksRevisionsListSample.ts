@@ -41,7 +41,7 @@ async function workbookRevisionsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbookRevisionsList();
+  await workbookRevisionsList();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function componentListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentListByResourceGroup();
+  await componentListByResourceGroup();
 }
 
 main().catch(console.error);

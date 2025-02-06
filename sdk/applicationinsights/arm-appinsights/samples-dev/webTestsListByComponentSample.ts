@@ -40,7 +40,7 @@ async function webTestListByComponent(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webTestListByComponent();
+  await webTestListByComponent();
 }
 
 main().catch(console.error);

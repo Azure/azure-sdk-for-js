@@ -55,7 +55,7 @@ async function exportConfigurationPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportConfigurationPost();
+  await exportConfigurationPost();
 }
 
 main().catch(console.error);

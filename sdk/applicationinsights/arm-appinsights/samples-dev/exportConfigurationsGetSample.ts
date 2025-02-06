@@ -39,7 +39,7 @@ async function exportConfigurationGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportConfigurationGet();
+  await exportConfigurationGet();
 }
 
 main().catch(console.error);

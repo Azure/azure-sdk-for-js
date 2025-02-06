@@ -38,7 +38,7 @@ async function workbookTemplateGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbookTemplateGet();
+  await workbookTemplateGet();
 }
 
 main().catch(console.error);

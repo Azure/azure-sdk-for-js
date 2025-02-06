@@ -40,7 +40,7 @@ async function workItemConfigurationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workItemConfigurationsList();
+  await workItemConfigurationsList();
 }
 
 main().catch(console.error);

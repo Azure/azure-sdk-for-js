@@ -147,9 +147,9 @@ async function webTestUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webTestCreate();
-  webTestCreateStandard();
-  webTestUpdate();
+  await webTestCreate();
+  await webTestCreateStandard();
+  await webTestUpdate();
 }
 
 main().catch(console.error);

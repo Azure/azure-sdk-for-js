@@ -44,7 +44,7 @@ async function annotationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  annotationsList();
+  await annotationsList();
 }
 
 main().catch(console.error);

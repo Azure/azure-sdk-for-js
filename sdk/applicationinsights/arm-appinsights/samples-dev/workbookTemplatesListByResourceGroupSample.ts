@@ -39,7 +39,7 @@ async function workbookTemplatesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workbookTemplatesList();
+  await workbookTemplatesList();
 }
 
 main().catch(console.error);

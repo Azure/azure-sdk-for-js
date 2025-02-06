@@ -39,7 +39,7 @@ async function proactiveDetectionConfigurationGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  proactiveDetectionConfigurationGet();
+  await proactiveDetectionConfigurationGet();
 }
 
 main().catch(console.error);

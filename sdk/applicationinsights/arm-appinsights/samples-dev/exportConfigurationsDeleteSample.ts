@@ -39,7 +39,7 @@ async function exportConfigurationDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportConfigurationDelete();
+  await exportConfigurationDelete();
 }
 
 main().catch(console.error);

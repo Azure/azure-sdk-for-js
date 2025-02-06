@@ -50,7 +50,7 @@ async function webTestUpdateTags(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  webTestUpdateTags();
+  await webTestUpdateTags();
 }
 
 main().catch(console.error);

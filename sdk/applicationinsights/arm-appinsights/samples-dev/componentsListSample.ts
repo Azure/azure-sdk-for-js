@@ -34,7 +34,7 @@ async function componentsListJson(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentsListJson();
+  await componentsListJson();
 }
 
 main().catch(console.error);

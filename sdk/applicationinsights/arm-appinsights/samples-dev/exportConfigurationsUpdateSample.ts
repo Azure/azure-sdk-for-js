@@ -57,7 +57,7 @@ async function exportConfigurationUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportConfigurationUpdate();
+  await exportConfigurationUpdate();
 }
 
 main().catch(console.error);

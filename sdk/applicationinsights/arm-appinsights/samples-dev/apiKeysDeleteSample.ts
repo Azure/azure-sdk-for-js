@@ -39,7 +39,7 @@ async function apiKeyDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  apiKeyDelete();
+  await apiKeyDelete();
 }
 
 main().catch(console.error);

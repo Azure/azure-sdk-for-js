@@ -37,7 +37,7 @@ async function componentsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentsDelete();
+  await componentsDelete();
 }
 
 main().catch(console.error);

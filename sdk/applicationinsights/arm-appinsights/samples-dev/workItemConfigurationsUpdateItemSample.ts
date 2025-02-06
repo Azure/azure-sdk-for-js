@@ -50,7 +50,7 @@ async function workItemConfigurationsCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  workItemConfigurationsCreate();
+  await workItemConfigurationsCreate();
 }
 
 main().catch(console.error);

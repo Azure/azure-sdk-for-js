@@ -50,7 +50,7 @@ async function componentUpdateTagsOnly(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentUpdateTagsOnly();
+  await componentUpdateTagsOnly();
 }
 
 main().catch(console.error);

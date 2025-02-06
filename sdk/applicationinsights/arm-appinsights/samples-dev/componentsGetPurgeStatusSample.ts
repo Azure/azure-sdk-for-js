@@ -40,7 +40,7 @@ async function componentPurge(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  componentPurge();
+  await componentPurge();
 }
 
 main().catch(console.error);
