@@ -10,7 +10,7 @@ import { AuthenticationRequiredError, CredentialUnavailableError } from "../../.
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 import type { IdentityClient } from "../../../../src/client/identityClient.js";
-import { serviceFabricErrorString } from "../../../../src/credentials/managedIdentityCredential/utils.js";
+import { serviceFabricErrorMessage } from "../../../../src/credentials/managedIdentityCredential/utils.js";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: MockInstance<
@@ -104,15 +104,15 @@ describe("ManagedIdentityCredential (MSAL)", function () {
 
         assert.throws(
           () => new ManagedIdentityCredential({ clientId: "id" }),
-          `ManagedIdentityCredential: ${serviceFabricErrorString}`,
+          `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
         );
         assert.throws(
           () => new ManagedIdentityCredential({ resourceId: "id" }),
-          `ManagedIdentityCredential: ${serviceFabricErrorString}`,
+          `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
         );
         assert.throws(
           () => new ManagedIdentityCredential({ objectId: "id" }),
-          `ManagedIdentityCredential: ${serviceFabricErrorString}`,
+          `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
         );
       });
     });

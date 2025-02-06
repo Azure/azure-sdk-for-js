@@ -4,9 +4,9 @@
 const DefaultScopeSuffix = "/.default";
 
 /**
- * Error string for Service Fabric Managed Identity environment.
+ * Error message for Service Fabric Managed Identity environment.
  */
-export const serviceFabricErrorString =
+export const serviceFabricErrorMessage =
   "Specifying a `clientId` or `resourceId` is not supported by the Service Fabric managed identity environment. The managed identity configuration is determined by the Service Fabric cluster resource configuration. See https://aka.ms/servicefabricmi for more information";
 
 /**

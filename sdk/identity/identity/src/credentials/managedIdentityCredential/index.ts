@@ -15,7 +15,7 @@ import { formatSuccess, formatError, credentialLogger } from "../../util/logging
 import { tracingClient } from "../../util/tracing.js";
 import { imdsMsi } from "./imdsMsi.js";
 import { tokenExchangeMsi } from "./tokenExchangeMsi.js";
-import { mapScopesToResource, serviceFabricErrorString } from "./utils.js";
+import { mapScopesToResource, serviceFabricErrorMessage } from "./utils.js";
 import type { MsalToken, ValidMsalToken } from "../../msal/types.js";
 import type {
   ManagedIdentityCredentialClientIdOptions,
@@ -173,7 +173,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           )}.`,
         );
         throw new CredentialUnavailableError(
-          `ManagedIdentityCredential: ${serviceFabricErrorString}`,
+          `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
         );
       }
     }
