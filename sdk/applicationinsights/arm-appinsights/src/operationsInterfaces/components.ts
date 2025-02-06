@@ -104,7 +104,7 @@ export interface Components {
    * should run the query prior to using for a purge request to verify that the results are expected.
    * Note: this operation is intended for Classic resources, for  workspace-based Application Insights
    * resource please run purge operation (directly on the
-   * workspace)(https://docs.microsoft.com/en-us/rest/api/loganalytics/workspace-purge/purge) , scoped to
+   * workspace)(  https://learn.microsoft.com/rest/api/loganalytics/workspace-purge/purge) , scoped to
    * specific resource id.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.

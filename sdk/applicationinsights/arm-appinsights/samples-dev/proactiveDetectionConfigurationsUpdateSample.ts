@@ -29,25 +29,25 @@ async function proactiveDetectionConfigurationUpdate(): Promise<void> {
   const resourceName = "my-component";
   const configurationId = "slowpageloadtime";
   const proactiveDetectionProperties: ApplicationInsightsComponentProactiveDetectionConfiguration =
-    {
-      customEmails: ["foo@microsoft.com", "foo2@microsoft.com"],
-      enabled: true,
-      lastUpdatedTime: undefined,
+  {
+    customEmails: ["foo@microsoft.com", "foo2@microsoft.com"],
+    enabled: true,
+    lastUpdatedTime: undefined,
+    name: "slowpageloadtime",
+    ruleDefinitions: {
+      description:
+        "Smart Detection rules notify you of performance anomaly issues.",
+      displayName: "Slow page load time",
+      helpUrl:
+        " https://learn.microsoft.com/en-us/azure/application-insights/app-insights-proactive-performance-diagnostics",
+      isEnabledByDefault: true,
+      isHidden: false,
+      isInPreview: false,
       name: "slowpageloadtime",
-      ruleDefinitions: {
-        description:
-          "Smart Detection rules notify you of performance anomaly issues.",
-        displayName: "Slow page load time",
-        helpUrl:
-          "https://docs.microsoft.com/en-us/azure/application-insights/app-insights-proactive-performance-diagnostics",
-        isEnabledByDefault: true,
-        isHidden: false,
-        isInPreview: false,
-        name: "slowpageloadtime",
-        supportsEmailNotifications: true,
-      },
-      sendEmailsToSubscriptionOwners: true,
-    };
+      supportsEmailNotifications: true,
+    },
+    sendEmailsToSubscriptionOwners: true,
+  };
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(
     credential,
