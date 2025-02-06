@@ -21,7 +21,7 @@ async function ispCustomerUpdateDetailsGeneratedByMaximumSetRule(): Promise<void
 }
 
 async function main(): Promise<void> {
-  ispCustomerUpdateDetailsGeneratedByMaximumSetRule();
+  await ispCustomerUpdateDetailsGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

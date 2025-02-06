@@ -88,8 +88,8 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await applyCodemods(projectFolder);
 
   log.info("Formatting files");
-  await run(["rushx", "format"], { cwd: projectFolder, shell: isWindows() });
-  await commitChanges(projectFolder, "rushx format");
+  await run(["npm", "run", "format"], { cwd: projectFolder, shell: isWindows() });
+  await commitChanges(projectFolder, "npm run format");
 
   log.info(
     "Done. Please run `rush update`, `rush build -t <project-name>`, and run tests to verify the changes.",
@@ -138,7 +138,9 @@ async function applyCodemods(projectFolder: string): Promise<void> {
       mod(sourceFile);
 
       // Clean up source file after applying the codemod
-      sourceFile.fixUnusedIdentifiers();
+      if (!sourceFile.getBaseName().includes("snippets.spec.ts")) {
+        sourceFile.fixUnusedIdentifiers();
+      }
 
       await sourceFile.save();
     }
@@ -331,8 +333,7 @@ function setScriptsSection(
   scripts: PackageJson["scripts"],
   options: { browser: boolean; isArm: boolean },
 ): void {
-  scripts["build"] =
-    "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api";
+  scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
   if (options.browser) {
     scripts["unit-test:browser"] =
@@ -448,10 +449,10 @@ async function addNewPackages(packageJson: any, options: { browser: boolean }): 
   }
 
   // Freeze these packages until we have a chance to update them
-  packageJson.devDependencies["vitest"] = "^2.1.8";
-  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^2.1.8";
+  packageJson.devDependencies["vitest"] = "^3.0.3";
+  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.3";
   if (options.browser) {
-    packageJson.devDependencies["@vitest/browser"] = "^2.1.8";
+    packageJson.devDependencies["@vitest/browser"] = "^3.0.3";
   }
   const packagesToUpdate = [
     { package: "@azure-tools/test-credential", version: "2.0.0" },

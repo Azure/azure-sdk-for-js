@@ -1,48 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortError } from "@azure/abort-controller";
+import { AbortError } from "../src/index.js";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
-  it("basic_usage", () => {
+  it("ReadmeSampleBasicUsage", () => {
     async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
       if (options.abortSignal.aborted) {
         return;
       }
-
+      // @ts-preserve-whitespace
       // do async work
     }
-
+    // @ts-preserve-whitespace
     const controller = new AbortController();
     doAsyncWork({ abortSignal: controller.signal });
-
+    // @ts-preserve-whitespace
     // at some point later
     controller.abort();
   });
 
-  it("basic_timeout", () => {
+  it("ReadmeSampleBasicTimeout", () => {
     async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
       if (options.abortSignal.aborted) {
         return;
       }
-
+      // @ts-preserve-whitespace
       // do async work
     }
-
+    // @ts-preserve-whitespace
     const signal = AbortSignal.timeout(1000);
     doAsyncWork({ abortSignal: signal });
   });
 
-  it("abort_error", () => {
+  it("AbortErrorSample", () => {
     async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
       if (options.abortSignal.aborted) {
         throw new AbortError();
       }
-
+      // @ts-preserve-whitespace
       // do async work
     }
-
+    // @ts-preserve-whitespace
     const controller = new AbortController();
     controller.abort();
     try {

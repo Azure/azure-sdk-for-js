@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { ValidateAddress, DataBoxManagementClient } from "@azure/arm-databox";
+import type { ValidateAddress } from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -19,8 +18,7 @@ import "dotenv/config";
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateAddressPost.json
  */
 async function validateAddressPost(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const location = "westus";
   const validateAddress: ValidateAddress = {
     deviceType: "DataBox",
@@ -32,21 +30,18 @@ async function validateAddressPost(): Promise<void> {
       postalCode: "00000",
       stateOrProvince: "XX",
       streetAddress1: "XXXX XXXX",
-      streetAddress2: "XXXX XXXX"
+      streetAddress2: "XXXX XXXX",
     },
-    validationType: "ValidateAddress"
+    validationType: "ValidateAddress",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.service.validateAddress(
-    location,
-    validateAddress
-  );
+  const result = await client.service.validateAddress(location, validateAddress);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  validateAddressPost();
+  await validateAddressPost();
 }
 
 main().catch(console.error);

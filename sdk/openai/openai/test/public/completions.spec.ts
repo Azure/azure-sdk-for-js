@@ -3,29 +3,30 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it, beforeAll } from "vitest";
-import { createClient } from "./utils/createClient.js";
-import { APIMatrix, type APIVersion, type DeploymentInfo } from "./utils/utils.js";
+import { createClient } from "../utils/createClient.js";
+import type { APIVersion, DeploymentInfo } from "../utils/utils.js";
 import type { OpenAI, AzureOpenAI } from "openai";
 import {
   assertChatCompletions,
   assertChatCompletionsList,
   assertCompletions,
   assertCompletionsStream,
-} from "./utils/asserts.js";
+} from "../utils/asserts.js";
 import {
+  APIMatrix,
   bufferAsyncIterable,
   createAzureSearchExtension,
   getDeployments,
   getSucceeded,
   updateWithSucceeded,
   withDeployments,
-} from "./utils/utils.js";
+} from "../utils/utils.js";
 import { type ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
 import {
   completionsModelsToSkip,
   functionCallModelsToSkip,
   jsonResponseModelsToSkip,
-} from "./utils/models.js";
+} from "../utils/models.js";
 import "../../src/types/index.js";
 
 describe("Completions", function () {

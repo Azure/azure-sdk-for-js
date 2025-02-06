@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  MitigateJobRequest,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
+import type { MitigateJobRequest } from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,29 +18,23 @@ import "dotenv/config";
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobMitigate.json
  */
 async function mitigate(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const jobName = "TestJobName1";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const mitigateJobRequest: MitigateJobRequest = {
     serialNumberCustomerResolutionMap: {
       testDISK1: "MoveToCleanUpDevice",
-      testDISK2: "Resume"
-    }
+      testDISK2: "Resume",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
-  const result = await client.mitigate(
-    jobName,
-    resourceGroupName,
-    mitigateJobRequest
-  );
+  const result = await client.mitigate(jobName, resourceGroupName, mitigateJobRequest);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  mitigate();
+  await mitigate();
 }
 
 main().catch(console.error);

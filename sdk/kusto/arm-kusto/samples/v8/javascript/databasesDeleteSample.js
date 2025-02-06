@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the database with the given name.
  *
  * @summary Deletes the database with the given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasesDelete.json
  */
 async function kustoDatabasesDelete() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function kustoDatabasesDelete() {
 }
 
 async function main() {
-  kustoDatabasesDelete();
+  await kustoDatabasesDelete();
 }
 
 main().catch(console.error);

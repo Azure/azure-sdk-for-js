@@ -21,7 +21,7 @@ import { getLongRunningPoller, isUnexpected, paginate } from "../../../src/index
 describe("model management", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     recorder = await createRecorder(context);
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
@@ -30,7 +30,7 @@ describe("model management", () => {
     );
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

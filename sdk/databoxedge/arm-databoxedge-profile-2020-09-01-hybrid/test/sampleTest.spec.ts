@@ -29,14 +29,14 @@ const recorderOptions: RecorderStartOptions = {
 describe("My test", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("sample test", async function () {
     console.log("Hi, I'm a test!");

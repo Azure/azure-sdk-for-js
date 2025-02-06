@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  BandwidthSchedule,
-  DataBoxEdgeManagementClient
-} from "@azure/arm-databoxedge";
+import type { BandwidthSchedule } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -29,7 +25,7 @@ async function bandwidthSchedulePut(): Promise<void> {
     days: ["Sunday", "Monday"],
     rateInMbps: 100,
     start: "0:0:0",
-    stop: "13:59:0"
+    stop: "13:59:0",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
@@ -37,7 +33,7 @@ async function bandwidthSchedulePut(): Promise<void> {
     deviceName,
     name,
     resourceGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

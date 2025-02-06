@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  Hub,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { Hub } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -26,18 +22,11 @@ async function hubsUpdate(): Promise<void> {
   const hubName = "sdkTestHub";
   const parameters: Hub = {
     hubBillingInfo: { maxUnits: 5, minUnits: 1, skuName: "B0" },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.hubs.update(
-    resourceGroupName,
-    hubName,
-    parameters
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
+  const result = await client.hubs.update(resourceGroupName, hubName, parameters);
   console.log(result);
 }
 

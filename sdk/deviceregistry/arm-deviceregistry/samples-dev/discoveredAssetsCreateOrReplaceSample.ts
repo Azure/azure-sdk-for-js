@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a DiscoveredAsset
  * x-ms-original-file: 2024-09-01-preview/Create_DiscoveredAsset.json
  */
-async function createDiscoveredAsset() {
+async function createDiscoveredAsset(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -81,8 +81,8 @@ async function createDiscoveredAsset() {
   console.log(result);
 }
 
-async function main() {
-  createDiscoveredAsset();
+async function main(): Promise<void> {
+  await createDiscoveredAsset();
 }
 
 main().catch(console.error);

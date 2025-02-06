@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a AssetEndpointProfile
  * x-ms-original-file: 2024-09-01-preview/Get_AssetEndpointProfile.json
  */
-async function getAssetEndpointProfile() {
+async function getAssetEndpointProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -27,7 +27,7 @@ async function getAssetEndpointProfile() {
  * @summary get a AssetEndpointProfile
  * x-ms-original-file: 2024-09-01-preview/Get_AssetEndpointProfile_With_SyncStatus.json
  */
-async function getAssetEndpointProfileWithSyncStatus() {
+async function getAssetEndpointProfileWithSyncStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -38,9 +38,9 @@ async function getAssetEndpointProfileWithSyncStatus() {
   console.log(result);
 }
 
-async function main() {
-  getAssetEndpointProfile();
-  getAssetEndpointProfileWithSyncStatus();
+async function main(): Promise<void> {
+  await getAssetEndpointProfile();
+  await getAssetEndpointProfileWithSyncStatus();
 }
 
 main().catch(console.error);

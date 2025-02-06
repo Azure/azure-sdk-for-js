@@ -9,7 +9,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       testTimeout: 100000,
-      include: ["test/internal/**/*.spec.ts", "test/public/**/*.spec.ts"],
+      hookTimeout: 50000,
     },
-  }),
+  })
 );

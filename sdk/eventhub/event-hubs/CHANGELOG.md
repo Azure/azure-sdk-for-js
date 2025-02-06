@@ -1,14 +1,16 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
-## 5.13.0 (Unreleased)
+## 6.0.0-beta.1 (2025-02-11)
 
 ### Features Added
 
+- Support Geographic replication to enable recovery in case of geographic disasters.
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- `offset` type is updated from `number` to `string`.
 
 ## 5.12.2 (2024-10-11)
 

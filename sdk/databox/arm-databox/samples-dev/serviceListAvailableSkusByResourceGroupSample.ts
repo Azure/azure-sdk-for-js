@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  AvailableSkuRequest,
-  DataBoxManagementClient
-} from "@azure/arm-databox";
+import type { AvailableSkuRequest } from "@azure/arm-databox";
+import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -22,23 +18,21 @@ import "dotenv/config";
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/AvailableSkusPost.json
  */
 async function availableSkusPost(): Promise<void> {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
-  const resourceGroupName =
-    process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+  const resourceGroupName = process.env["DATABOX_RESOURCE_GROUP"] || "YourResourceGroupName";
   const location = "westus";
   const availableSkuRequest: AvailableSkuRequest = {
     country: "XX",
     location: "westus",
-    transferType: "ImportToAzure"
+    transferType: "ImportToAzure",
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.service.listAvailableSkusByResourceGroup(
+  for await (const item of client.service.listAvailableSkusByResourceGroup(
     resourceGroupName,
     location,
-    availableSkuRequest
+    availableSkuRequest,
   )) {
     resArray.push(item);
   }
@@ -46,7 +40,7 @@ async function availableSkusPost(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  availableSkusPost();
+  await availableSkusPost();
 }
 
 main().catch(console.error);

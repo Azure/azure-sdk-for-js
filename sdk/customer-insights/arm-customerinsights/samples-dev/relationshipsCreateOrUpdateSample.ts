@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  RelationshipResourceFormat,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { RelationshipResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -31,18 +27,15 @@ async function relationshipsCreateOrUpdate(): Promise<void> {
     displayName: { enUs: "Relationship DisplayName" },
     fields: [],
     profileType: "testProfile2326994",
-    relatedProfileType: "testProfile2326994"
+    relatedProfileType: "testProfile2326994",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.relationships.beginCreateOrUpdateAndWait(
     resourceGroupName,
     hubName,
     relationshipName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

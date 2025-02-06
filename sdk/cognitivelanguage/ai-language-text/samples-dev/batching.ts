@@ -49,7 +49,7 @@ export async function main(): Promise<void> {
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
 
-  poller.onProgress(() => {
+  await poller.onProgress(() => {
     console.log(
       `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
     );

@@ -61,7 +61,7 @@ async function organizationsCreateOrUpdate() {
 }
 
 async function main() {
-  organizationsCreateOrUpdate();
+  await organizationsCreateOrUpdate();
 }
 
 main().catch(console.error);

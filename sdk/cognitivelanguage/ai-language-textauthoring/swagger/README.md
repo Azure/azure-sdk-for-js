@@ -21,6 +21,9 @@ hide-clients: false
 rest-level-client: true
 generate-sample: true
 typescript: true
+module-kind: esm
+use-extension:
+  "@autorest/typescript": "6.0.34"
 ```
 
 ## Customizations for Track 2 Generator

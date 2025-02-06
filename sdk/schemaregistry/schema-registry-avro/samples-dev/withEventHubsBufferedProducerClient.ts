@@ -6,14 +6,13 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
+import type { SchemaDescription } from "@azure/schema-registry";
+import { SchemaRegistryClient } from "@azure/schema-registry";
 import { AvroSerializer } from "@azure/schema-registry-avro";
 import { EventHubBufferedProducerClient, createEventDataAdapter } from "@azure/event-hubs";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"] || "<endpoint>";
@@ -64,7 +63,7 @@ async function handleError(): Promise<void> {
   console.log("An error occured when sending a message");
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   // Create a new client
   const schemaRegistryClient = new SchemaRegistryClient(
@@ -102,7 +101,7 @@ export async function main() {
   console.log(`Message was added to the queue and is about to be sent`);
 
   // Wait for a bit before cleaning up the sample
-  setTimeout(async () => {
+  await setTimeout(async () => {
     await eventHubsBufferedProducerClient.close({ flush: true });
     console.log(`Exiting sample`);
   }, 30 * 1000);
