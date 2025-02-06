@@ -38,7 +38,7 @@ async function eventHubGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  eventHubGet();
+  await eventHubGet();
 }
 
 main().catch(console.error);

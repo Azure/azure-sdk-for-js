@@ -29,7 +29,7 @@ async function nameSpaceNetworkRuleSetList() {
 }
 
 async function main() {
-  nameSpaceNetworkRuleSetList();
+  await nameSpaceNetworkRuleSetList();
 }
 
 main().catch(console.error);

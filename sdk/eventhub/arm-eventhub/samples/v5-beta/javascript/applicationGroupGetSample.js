@@ -35,7 +35,7 @@ async function applicationGroupGet() {
 }
 
 async function main() {
-  applicationGroupGet();
+  await applicationGroupGet();
 }
 
 main().catch(console.error);

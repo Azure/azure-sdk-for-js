@@ -33,7 +33,7 @@ async function schemaRegistryListAll() {
 }
 
 async function main() {
-  schemaRegistryListAll();
+  await schemaRegistryListAll();
 }
 
 main().catch(console.error);

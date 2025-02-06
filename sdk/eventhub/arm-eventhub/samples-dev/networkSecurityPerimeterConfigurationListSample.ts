@@ -36,7 +36,7 @@ async function namspaceNetworkSecurityPerimeterConfigurationList(): Promise<void
 }
 
 async function main(): Promise<void> {
-  namspaceNetworkSecurityPerimeterConfigurationList();
+  await namspaceNetworkSecurityPerimeterConfigurationList();
 }
 
 main().catch(console.error);

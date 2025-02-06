@@ -32,7 +32,7 @@ async function clustersQuotasConfigurationGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  clustersQuotasConfigurationGet();
+  await clustersQuotasConfigurationGet();
 }
 
 main().catch(console.error);

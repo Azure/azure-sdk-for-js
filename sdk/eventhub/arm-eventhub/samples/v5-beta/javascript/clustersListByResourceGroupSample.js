@@ -32,7 +32,7 @@ async function clustersListByResourceGroup() {
 }
 
 async function main() {
-  clustersListByResourceGroup();
+  await clustersListByResourceGroup();
 }
 
 main().catch(console.error);

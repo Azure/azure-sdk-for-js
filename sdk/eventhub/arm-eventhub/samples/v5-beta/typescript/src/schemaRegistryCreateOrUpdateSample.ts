@@ -42,7 +42,7 @@ async function schemaRegistryCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  schemaRegistryCreate();
+  await schemaRegistryCreate();
 }
 
 main().catch(console.error);

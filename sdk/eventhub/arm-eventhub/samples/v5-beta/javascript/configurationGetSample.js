@@ -30,7 +30,7 @@ async function clustersQuotasConfigurationGet() {
 }
 
 async function main() {
-  clustersQuotasConfigurationGet();
+  await clustersQuotasConfigurationGet();
 }
 
 main().catch(console.error);

@@ -49,7 +49,7 @@ async function nameSpacePrivateEndPointConnectionCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpacePrivateEndPointConnectionCreate();
+  await nameSpacePrivateEndPointConnectionCreate();
 }
 
 main().catch(console.error);

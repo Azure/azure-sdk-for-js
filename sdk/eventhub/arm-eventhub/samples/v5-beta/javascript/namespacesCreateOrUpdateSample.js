@@ -98,8 +98,8 @@ async function namespaceWithGeoDrCreate() {
 }
 
 async function main() {
-  namespaceCreate();
-  namespaceWithGeoDrCreate();
+  await namespaceCreate();
+  await namespaceWithGeoDrCreate();
 }
 
 main().catch(console.error);

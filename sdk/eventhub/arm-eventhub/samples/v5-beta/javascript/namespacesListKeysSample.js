@@ -35,7 +35,7 @@ async function nameSpaceAuthorizationRuleListKey() {
 }
 
 async function main() {
-  nameSpaceAuthorizationRuleListKey();
+  await nameSpaceAuthorizationRuleListKey();
 }
 
 main().catch(console.error);

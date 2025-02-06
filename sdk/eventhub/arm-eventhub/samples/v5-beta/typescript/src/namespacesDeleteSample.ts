@@ -34,7 +34,7 @@ async function nameSpaceDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpaceDelete();
+  await nameSpaceDelete();
 }
 
 main().catch(console.error);

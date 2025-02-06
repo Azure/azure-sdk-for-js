@@ -43,7 +43,7 @@ async function ehAliasCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ehAliasCreate();
+  await ehAliasCreate();
 }
 
 main().catch(console.error);

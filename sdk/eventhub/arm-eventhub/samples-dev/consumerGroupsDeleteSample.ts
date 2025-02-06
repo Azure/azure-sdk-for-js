@@ -39,7 +39,7 @@ async function consumerGroupDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  consumerGroupDelete();
+  await consumerGroupDelete();
 }
 
 main().catch(console.error);

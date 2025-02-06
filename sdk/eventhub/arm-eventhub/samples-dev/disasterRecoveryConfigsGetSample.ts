@@ -36,7 +36,7 @@ async function ehAliasGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ehAliasGet();
+  await ehAliasGet();
 }
 
 main().catch(console.error);

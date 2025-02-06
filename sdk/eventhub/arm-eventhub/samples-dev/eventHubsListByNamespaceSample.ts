@@ -39,7 +39,7 @@ async function eventHubsListAll(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  eventHubsListAll();
+  await eventHubsListAll();
 }
 
 main().catch(console.error);

@@ -38,7 +38,7 @@ async function ehAliasCreate() {
 }
 
 async function main() {
-  ehAliasCreate();
+  await ehAliasCreate();
 }
 
 main().catch(console.error);

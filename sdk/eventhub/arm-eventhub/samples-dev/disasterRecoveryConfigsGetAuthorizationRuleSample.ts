@@ -38,7 +38,7 @@ async function nameSpaceAuthorizationRuleGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpaceAuthorizationRuleGet();
+  await nameSpaceAuthorizationRuleGet();
 }
 
 main().catch(console.error);

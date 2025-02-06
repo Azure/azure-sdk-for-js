@@ -35,7 +35,7 @@ async function applicationGroupDelete() {
 }
 
 async function main() {
-  applicationGroupDelete();
+  await applicationGroupDelete();
 }
 
 main().catch(console.error);

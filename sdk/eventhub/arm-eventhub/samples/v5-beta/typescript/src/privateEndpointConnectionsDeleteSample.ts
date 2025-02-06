@@ -37,7 +37,7 @@ async function nameSpacePrivateEndPointConnectionDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpacePrivateEndPointConnectionDelete();
+  await nameSpacePrivateEndPointConnectionDelete();
 }
 
 main().catch(console.error);

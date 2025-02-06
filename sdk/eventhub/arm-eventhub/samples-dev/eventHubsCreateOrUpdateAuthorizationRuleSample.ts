@@ -44,7 +44,7 @@ async function eventHubAuthorizationRuleCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  eventHubAuthorizationRuleCreate();
+  await eventHubAuthorizationRuleCreate();
 }
 
 main().catch(console.error);

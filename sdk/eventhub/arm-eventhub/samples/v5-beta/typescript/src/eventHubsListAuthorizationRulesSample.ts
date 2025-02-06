@@ -40,7 +40,7 @@ async function eventHubAuthorizationRuleListAll(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  eventHubAuthorizationRuleListAll();
+  await eventHubAuthorizationRuleListAll();
 }
 
 main().catch(console.error);

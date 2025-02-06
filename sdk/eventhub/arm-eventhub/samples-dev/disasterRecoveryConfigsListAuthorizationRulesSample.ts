@@ -39,7 +39,7 @@ async function listAuthorizationRules(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAuthorizationRules();
+  await listAuthorizationRules();
 }
 
 main().catch(console.error);

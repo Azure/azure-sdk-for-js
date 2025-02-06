@@ -35,7 +35,7 @@ async function listNamespacesInCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listNamespacesInCluster();
+  await listNamespacesInCluster();
 }
 
 main().catch(console.error);

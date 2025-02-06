@@ -66,7 +66,7 @@ async function applicationGroupCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  applicationGroupCreate();
+  await applicationGroupCreate();
 }
 
 main().catch(console.error);

@@ -39,7 +39,7 @@ async function consumerGroupCreate() {
 }
 
 async function main() {
-  consumerGroupCreate();
+  await consumerGroupCreate();
 }
 
 main().catch(console.error);

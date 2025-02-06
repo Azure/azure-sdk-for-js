@@ -31,7 +31,7 @@ async function namespacesListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  namespacesListBySubscription();
+  await namespacesListBySubscription();
 }
 
 main().catch(console.error);

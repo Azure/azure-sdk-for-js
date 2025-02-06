@@ -32,7 +32,7 @@ async function ehAliasList() {
 }
 
 async function main() {
-  ehAliasList();
+  await ehAliasList();
 }
 
 main().catch(console.error);

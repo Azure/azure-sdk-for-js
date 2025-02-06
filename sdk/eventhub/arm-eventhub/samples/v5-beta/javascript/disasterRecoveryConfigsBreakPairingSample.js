@@ -34,7 +34,7 @@ async function ehAliasBreakPairing() {
 }
 
 async function main() {
-  ehAliasBreakPairing();
+  await ehAliasBreakPairing();
 }
 
 main().catch(console.error);

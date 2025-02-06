@@ -37,7 +37,7 @@ async function schemaRegistryListAll(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  schemaRegistryListAll();
+  await schemaRegistryListAll();
 }
 
 main().catch(console.error);

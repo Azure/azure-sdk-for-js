@@ -36,7 +36,7 @@ async function nameSpaceCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpaceCreate();
+  await nameSpaceCreate();
 }
 
 main().catch(console.error);

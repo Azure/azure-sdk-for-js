@@ -29,7 +29,7 @@ async function listAvailableClusters(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listAvailableClusters();
+  await listAvailableClusters();
 }
 
 main().catch(console.error);

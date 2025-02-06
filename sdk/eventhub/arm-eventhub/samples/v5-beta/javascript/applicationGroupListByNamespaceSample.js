@@ -36,7 +36,7 @@ async function listApplicationGroups() {
 }
 
 async function main() {
-  listApplicationGroups();
+  await listApplicationGroups();
 }
 
 main().catch(console.error);

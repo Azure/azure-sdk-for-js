@@ -34,7 +34,7 @@ async function nameSpacePrivateEndPointConnectionGet() {
 }
 
 async function main() {
-  nameSpacePrivateEndPointConnectionGet();
+  await nameSpacePrivateEndPointConnectionGet();
 }
 
 main().catch(console.error);

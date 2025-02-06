@@ -102,8 +102,8 @@ async function namespaceWithGeoDrCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  namespaceCreate();
-  namespaceWithGeoDrCreate();
+  await namespaceCreate();
+  await namespaceWithGeoDrCreate();
 }
 
 main().catch(console.error);

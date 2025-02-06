@@ -37,7 +37,7 @@ async function nameSpaceAuthorizationRuleDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpaceAuthorizationRuleDelete();
+  await nameSpaceAuthorizationRuleDelete();
 }
 
 main().catch(console.error);

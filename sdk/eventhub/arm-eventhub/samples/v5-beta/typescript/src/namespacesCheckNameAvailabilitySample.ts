@@ -35,7 +35,7 @@ async function namespacesCheckNameAvailability(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  namespacesCheckNameAvailability();
+  await namespacesCheckNameAvailability();
 }
 
 main().catch(console.error);

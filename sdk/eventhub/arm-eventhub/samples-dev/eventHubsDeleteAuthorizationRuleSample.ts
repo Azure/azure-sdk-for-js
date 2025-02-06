@@ -39,7 +39,7 @@ async function eventHubAuthorizationRuleDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  eventHubAuthorizationRuleDelete();
+  await eventHubAuthorizationRuleDelete();
 }
 
 main().catch(console.error);

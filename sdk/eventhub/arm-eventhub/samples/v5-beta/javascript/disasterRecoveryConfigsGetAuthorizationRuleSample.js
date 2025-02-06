@@ -36,7 +36,7 @@ async function nameSpaceAuthorizationRuleGet() {
 }
 
 async function main() {
-  nameSpaceAuthorizationRuleGet();
+  await nameSpaceAuthorizationRuleGet();
 }
 
 main().catch(console.error);

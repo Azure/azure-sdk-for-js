@@ -229,10 +229,10 @@ async function ehEventHubWithDeletePolicyCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ehEventHubCreate();
-  ehEventHubWithCompactPolicyCreate();
-  ehEventHubWithDeleteOrCompactPolicyCreate();
-  ehEventHubWithDeletePolicyCreate();
+  await ehEventHubCreate();
+  await ehEventHubWithCompactPolicyCreate();
+  await ehEventHubWithDeleteOrCompactPolicyCreate();
+  await ehEventHubWithDeletePolicyCreate();
 }
 
 main().catch(console.error);

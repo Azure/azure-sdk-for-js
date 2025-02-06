@@ -30,7 +30,7 @@ async function clusterGet() {
 }
 
 async function main() {
-  clusterGet();
+  await clusterGet();
 }
 
 main().catch(console.error);

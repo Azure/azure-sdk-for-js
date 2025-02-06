@@ -36,7 +36,7 @@ async function ehAliasFailOver(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ehAliasFailOver();
+  await ehAliasFailOver();
 }
 
 main().catch(console.error);

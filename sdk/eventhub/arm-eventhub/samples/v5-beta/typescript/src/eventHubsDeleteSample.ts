@@ -37,7 +37,7 @@ async function eventHubDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  eventHubDelete();
+  await eventHubDelete();
 }
 
 main().catch(console.error);

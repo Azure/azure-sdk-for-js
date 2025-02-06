@@ -44,7 +44,7 @@ async function eventHubAuthorizationRuleRegenerateKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  eventHubAuthorizationRuleRegenerateKey();
+  await eventHubAuthorizationRuleRegenerateKey();
 }
 
 main().catch(console.error);

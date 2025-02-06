@@ -36,7 +36,7 @@ async function ehAliasBreakPairing(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ehAliasBreakPairing();
+  await ehAliasBreakPairing();
 }
 
 main().catch(console.error);

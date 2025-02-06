@@ -39,7 +39,7 @@ async function eventHubAuthorizationRuleGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  eventHubAuthorizationRuleGet();
+  await eventHubAuthorizationRuleGet();
 }
 
 main().catch(console.error);

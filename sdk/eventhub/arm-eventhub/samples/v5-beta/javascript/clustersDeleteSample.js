@@ -30,7 +30,7 @@ async function clusterDelete() {
 }
 
 async function main() {
-  clusterDelete();
+  await clusterDelete();
 }
 
 main().catch(console.error);

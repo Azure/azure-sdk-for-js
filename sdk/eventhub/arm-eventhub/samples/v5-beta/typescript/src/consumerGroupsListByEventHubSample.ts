@@ -40,7 +40,7 @@ async function consumerGroupsListAll(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  consumerGroupsListAll();
+  await consumerGroupsListAll();
 }
 
 main().catch(console.error);

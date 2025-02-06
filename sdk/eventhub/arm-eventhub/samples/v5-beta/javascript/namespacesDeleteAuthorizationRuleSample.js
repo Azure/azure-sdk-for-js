@@ -35,7 +35,7 @@ async function nameSpaceAuthorizationRuleDelete() {
 }
 
 async function main() {
-  nameSpaceAuthorizationRuleDelete();
+  await nameSpaceAuthorizationRuleDelete();
 }
 
 main().catch(console.error);

@@ -37,7 +37,7 @@ async function consumerGroupGet() {
 }
 
 async function main() {
-  consumerGroupGet();
+  await consumerGroupGet();
 }
 
 main().catch(console.error);

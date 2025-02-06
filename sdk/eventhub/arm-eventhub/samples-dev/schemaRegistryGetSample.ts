@@ -36,7 +36,7 @@ async function schemaRegistryGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  schemaRegistryGet();
+  await schemaRegistryGet();
 }
 
 main().catch(console.error);

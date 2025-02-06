@@ -36,7 +36,7 @@ async function schemaRegistryDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  schemaRegistryDelete();
+  await schemaRegistryDelete();
 }
 
 main().catch(console.error);

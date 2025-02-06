@@ -45,7 +45,7 @@ async function namespacesUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  namespacesUpdate();
+  await namespacesUpdate();
 }
 
 main().catch(console.error);

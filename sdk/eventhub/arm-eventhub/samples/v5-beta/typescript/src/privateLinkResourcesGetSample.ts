@@ -33,7 +33,7 @@ async function nameSpacePrivateLinkResourcesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpacePrivateLinkResourcesGet();
+  await nameSpacePrivateLinkResourcesGet();
 }
 
 main().catch(console.error);

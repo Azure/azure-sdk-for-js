@@ -31,7 +31,7 @@ async function nameSpaceGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpaceGet();
+  await nameSpaceGet();
 }
 
 main().catch(console.error);

@@ -42,7 +42,7 @@ async function nameSpaceAuthorizationRuleCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpaceAuthorizationRuleCreate();
+  await nameSpaceAuthorizationRuleCreate();
 }
 
 main().catch(console.error);

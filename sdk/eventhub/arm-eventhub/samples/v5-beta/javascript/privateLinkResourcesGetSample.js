@@ -29,7 +29,7 @@ async function nameSpacePrivateLinkResourcesGet() {
 }
 
 async function main() {
-  nameSpacePrivateLinkResourcesGet();
+  await nameSpacePrivateLinkResourcesGet();
 }
 
 main().catch(console.error);

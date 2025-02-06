@@ -35,7 +35,7 @@ async function nameSpacePrivateEndPointConnectionDelete() {
 }
 
 async function main() {
-  nameSpacePrivateEndPointConnectionDelete();
+  await nameSpacePrivateEndPointConnectionDelete();
 }
 
 main().catch(console.error);

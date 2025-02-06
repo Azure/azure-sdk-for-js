@@ -41,7 +41,7 @@ async function consumerGroupCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  consumerGroupCreate();
+  await consumerGroupCreate();
 }
 
 main().catch(console.error);

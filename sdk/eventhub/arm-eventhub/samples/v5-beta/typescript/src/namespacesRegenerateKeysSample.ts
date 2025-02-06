@@ -42,7 +42,7 @@ async function nameSpaceAuthorizationRuleRegenerateKey(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpaceAuthorizationRuleRegenerateKey();
+  await nameSpaceAuthorizationRuleRegenerateKey();
 }
 
 main().catch(console.error);

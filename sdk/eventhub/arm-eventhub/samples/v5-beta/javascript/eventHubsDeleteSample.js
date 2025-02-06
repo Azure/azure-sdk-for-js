@@ -31,7 +31,7 @@ async function eventHubDelete() {
 }
 
 async function main() {
-  eventHubDelete();
+  await eventHubDelete();
 }
 
 main().catch(console.error);

@@ -45,7 +45,7 @@ async function clustersQuotasConfigurationPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  clustersQuotasConfigurationPatch();
+  await clustersQuotasConfigurationPatch();
 }
 
 main().catch(console.error);

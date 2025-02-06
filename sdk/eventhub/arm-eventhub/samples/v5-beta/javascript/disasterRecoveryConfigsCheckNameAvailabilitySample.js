@@ -36,7 +36,7 @@ async function namespacesCheckNameAvailability() {
 }
 
 async function main() {
-  namespacesCheckNameAvailability();
+  await namespacesCheckNameAvailability();
 }
 
 main().catch(console.error);

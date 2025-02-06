@@ -39,7 +39,7 @@ async function consumerGroupGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  consumerGroupGet();
+  await consumerGroupGet();
 }
 
 main().catch(console.error);

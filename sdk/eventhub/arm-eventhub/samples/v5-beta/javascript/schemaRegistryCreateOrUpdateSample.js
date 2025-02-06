@@ -41,7 +41,7 @@ async function schemaRegistryCreate() {
 }
 
 async function main() {
-  schemaRegistryCreate();
+  await schemaRegistryCreate();
 }
 
 main().catch(console.error);

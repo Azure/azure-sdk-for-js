@@ -37,7 +37,7 @@ async function nameSpaceAuthorizationRuleRegenerateKey() {
 }
 
 async function main() {
-  nameSpaceAuthorizationRuleRegenerateKey();
+  await nameSpaceAuthorizationRuleRegenerateKey();
 }
 
 main().catch(console.error);

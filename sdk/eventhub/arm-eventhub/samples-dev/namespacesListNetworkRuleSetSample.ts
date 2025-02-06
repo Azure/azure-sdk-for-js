@@ -34,7 +34,7 @@ async function nameSpaceNetworkRuleSetList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpaceNetworkRuleSetList();
+  await nameSpaceNetworkRuleSetList();
 }
 
 main().catch(console.error);

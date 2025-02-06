@@ -65,7 +65,7 @@ async function nameSpaceNetworkRuleSetCreate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  nameSpaceNetworkRuleSetCreate();
+  await nameSpaceNetworkRuleSetCreate();
 }
 
 main().catch(console.error);

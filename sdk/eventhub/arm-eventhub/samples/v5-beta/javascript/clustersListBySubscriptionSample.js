@@ -31,7 +31,7 @@ async function clustersListBySubscription() {
 }
 
 async function main() {
-  clustersListBySubscription();
+  await clustersListBySubscription();
 }
 
 main().catch(console.error);

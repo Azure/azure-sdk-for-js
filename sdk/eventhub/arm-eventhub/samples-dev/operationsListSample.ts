@@ -32,7 +32,7 @@ async function ehOperationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ehOperationsList();
+  await ehOperationsList();
 }
 
 main().catch(console.error);

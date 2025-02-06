@@ -40,7 +40,7 @@ async function clusterPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  clusterPatch();
+  await clusterPatch();
 }
 
 main().catch(console.error);

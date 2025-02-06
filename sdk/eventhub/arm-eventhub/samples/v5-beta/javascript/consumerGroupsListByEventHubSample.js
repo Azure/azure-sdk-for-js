@@ -38,7 +38,7 @@ async function consumerGroupsListAll() {
 }
 
 async function main() {
-  consumerGroupsListAll();
+  await consumerGroupsListAll();
 }
 
 main().catch(console.error);

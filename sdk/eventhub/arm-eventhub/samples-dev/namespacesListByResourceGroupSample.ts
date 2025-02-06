@@ -35,7 +35,7 @@ async function namespaceListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  namespaceListByResourceGroup();
+  await namespaceListByResourceGroup();
 }
 
 main().catch(console.error);

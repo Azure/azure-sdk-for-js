@@ -36,7 +36,7 @@ async function ehAliasDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  ehAliasDelete();
+  await ehAliasDelete();
 }
 
 main().catch(console.error);

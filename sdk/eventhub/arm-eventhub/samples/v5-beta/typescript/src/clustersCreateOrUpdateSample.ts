@@ -41,7 +41,7 @@ async function clusterPut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  clusterPut();
+  await clusterPut();
 }
 
 main().catch(console.error);
