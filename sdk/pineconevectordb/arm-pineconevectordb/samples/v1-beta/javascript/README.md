@@ -50,13 +50,13 @@ npx dev-tool run vendored cross-env  node operationsListSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrpinecone/arm-pineconevectordb/samples/v1-beta/javascript/operationsListSample.js
-[organizationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrpinecone/arm-pineconevectordb/samples/v1-beta/javascript/organizationsCreateOrUpdateSample.js
-[organizationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrpinecone/arm-pineconevectordb/samples/v1-beta/javascript/organizationsDeleteSample.js
-[organizationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrpinecone/arm-pineconevectordb/samples/v1-beta/javascript/organizationsGetSample.js
-[organizationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrpinecone/arm-pineconevectordb/samples/v1-beta/javascript/organizationsListByResourceGroupSample.js
-[organizationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrpinecone/arm-pineconevectordb/samples/v1-beta/javascript/organizationsListBySubscriptionSample.js
-[organizationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/liftrpinecone/arm-pineconevectordb/samples/v1-beta/javascript/organizationsUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/pineconevectordb/arm-pineconevectordb/samples/v1-beta/javascript/operationsListSample.js
+[organizationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/pineconevectordb/arm-pineconevectordb/samples/v1-beta/javascript/organizationsCreateOrUpdateSample.js
+[organizationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/pineconevectordb/arm-pineconevectordb/samples/v1-beta/javascript/organizationsDeleteSample.js
+[organizationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/pineconevectordb/arm-pineconevectordb/samples/v1-beta/javascript/organizationsGetSample.js
+[organizationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/pineconevectordb/arm-pineconevectordb/samples/v1-beta/javascript/organizationsListByResourceGroupSample.js
+[organizationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/pineconevectordb/arm-pineconevectordb/samples/v1-beta/javascript/organizationsListBySubscriptionSample.js
+[organizationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/pineconevectordb/arm-pineconevectordb/samples/v1-beta/javascript/organizationsUpdateSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-pineconevectordb?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/liftrpinecone/arm-pineconevectordb/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/pineconevectordb/arm-pineconevectordb/README.md

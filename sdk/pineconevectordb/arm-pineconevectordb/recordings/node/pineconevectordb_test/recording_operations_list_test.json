@@ -1,0 +1,183 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://Sanitized.azure.com/providers/Pinecone.VectorDb/operations?api-version=2024-10-22-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-client azsdk-js-api azsdk-js-arm-pineconevectordb/1.0.0-beta.1 core-rest-pipeline/1.19.0 Node/18.19.0 OS/(x64-Windows_NT-10.0.26100)",
+        "x-ms-client-request-id": "Sanitized"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "2928",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 06 Feb 2025 06:19:44 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "142d1c19-3161-48a0-af02-4a638cc412a7",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-tenant-reads": "2199",
+        "x-ms-request-id": "Sanitized",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20250206T061944Z:142d1c19-3161-48a0-af02-4a638cc412a7",
+        "X-MSEdge-Ref": "Ref A: 3DE0E48B0DE74C5C8BFC04A6C9B52F0C Ref B: MAA201060515037 Ref C: 2025-02-06T06:19:44Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "operations",
+              "operation": "read_operations",
+              "description": "read operations"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "locations/operationStatuses",
+              "operation": "read_operationStatuses",
+              "description": "read operationStatuses"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "locations/operationStatuses",
+              "operation": "write_operationStatuses",
+              "description": "write operationStatuses"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "registeredSubscriptions",
+              "operation": "read_registeredSubscriptions",
+              "description": "read registeredSubscriptions"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "organizations",
+              "operation": "Organizations_ListBySubscription",
+              "description": "List OrganizationResource resources by subscription ID"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "organizations",
+              "operation": "Organizations_ListByResourceGroup",
+              "description": "List OrganizationResource resources by resource group"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "organizations",
+              "operation": "Organizations_Get",
+              "description": "Get a OrganizationResource"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "organizations",
+              "operation": "Organizations_CreateOrUpdate",
+              "description": "Create a OrganizationResource"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "organizations",
+              "operation": "Organizations_Delete",
+              "description": "Delete a OrganizationResource"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "organizations",
+              "operation": "Organizations_Update",
+              "description": "Update a OrganizationResource"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "checkNameAvailability",
+              "operation": "action_checkNameAvailability",
+              "description": "action checkNameAvailability"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "Pinecone.VectorDb",
+              "operation": "Register the Pinecone.VectorDb",
+              "description": "Register the subscription for Pinecone.VectorDb"
+            },
+            "properties": null
+          },
+          {
+            "name": "Sanitized",
+            "isDataAction": false,
+            "display": {
+              "provider": "Pinecone.VectorDb",
+              "resource": "Pinecone.VectorDb",
+              "operation": "Unregister the Pinecone.VectorDb",
+              "description": "Unregister the subscription for Pinecone.VectorDb"
+            },
+            "properties": null
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
