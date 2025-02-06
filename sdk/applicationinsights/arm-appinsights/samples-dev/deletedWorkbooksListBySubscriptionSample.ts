@@ -15,38 +15,29 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the list of annotations for a component for given time range
+ * This sample demonstrates how to Get all recently deleted Workbooks in a specified subscription.
  *
- * @summary Gets the list of annotations for a component for given time range
- * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/AnnotationsList.json
+ * @summary Get all recently deleted Workbooks in a specified subscription.
+ * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/preview/2024-02-01-preview/examples/DeletedWorkbooksList.json
  */
-async function annotationsList() {
+async function workbooksListSub() {
   const subscriptionId =
-    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
-  const resourceName = "my-component";
-  const start = "2018-02-05T00%253A30%253A00.000Z";
-  const end = "2018-02-06T00%253A33A00.000Z";
+    process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(
     credential,
     subscriptionId,
   );
   const resArray = new Array();
-  for await (let item of client.annotations.list(
-    resourceGroupName,
-    resourceName,
-    start,
-    end,
-  )) {
+  for await (let item of client.deletedWorkbooks.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  annotationsList();
+  workbooksListSub();
 }
 
 main().catch(console.error);
