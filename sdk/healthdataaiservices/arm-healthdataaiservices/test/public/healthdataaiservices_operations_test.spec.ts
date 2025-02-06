@@ -34,9 +34,9 @@ describe("HealthDataAIServices test", () => {
     );
   });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operation list test", async function () {
     const resArray = new Array();
