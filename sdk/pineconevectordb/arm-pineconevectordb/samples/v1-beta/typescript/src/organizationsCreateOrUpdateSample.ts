@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a OrganizationResource
  * x-ms-original-file: 2024-10-22-preview/Organizations_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function organizationsCreateOrUpdateMaximumSet() {
+async function organizationsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "76a38ef6-c8c1-4f0d-bfe0-00ec782c8077";
   const client = new VectorDbClient(credential, subscriptionId);
@@ -58,7 +58,7 @@ async function organizationsCreateOrUpdateMaximumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationsCreateOrUpdateMaximumSet();
 }
 

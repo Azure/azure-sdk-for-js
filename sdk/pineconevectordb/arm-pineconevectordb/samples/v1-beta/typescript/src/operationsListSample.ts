@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-10-22-preview/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListMaximumSet() {
+async function operationsListMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new VectorDbClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function operationsListMaximumSet() {
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-10-22-preview/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumSet() {
+async function operationsListMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new VectorDbClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function operationsListMinimumSet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operationsListMaximumSet();
   operationsListMinimumSet();
 }

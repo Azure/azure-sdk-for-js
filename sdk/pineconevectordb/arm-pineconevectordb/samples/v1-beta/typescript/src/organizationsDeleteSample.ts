@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a OrganizationResource
  * x-ms-original-file: 2024-10-22-preview/Organizations_Delete_MaximumSet_Gen.json
  */
-async function organizationsDeleteMaximumSet() {
+async function organizationsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "76a38ef6-c8c1-4f0d-bfe0-00ec782c8077";
   const client = new VectorDbClient(credential, subscriptionId);
   await client.organizations.delete("rgopenapi", "example-organization-name");
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationsDeleteMaximumSet();
 }
 
