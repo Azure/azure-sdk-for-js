@@ -39,27 +39,25 @@ describe("HybridConnectivity test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HybridConnectivityManagementAPI;
-  let location: string;
   let resourceGroup: string;
   let resourcename: string;
   let resourceUri: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new HybridConnectivityManagementAPI(credential, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "default";
-      resourceUri = "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.HybridCompute/machines/AWP-AzRael-01"
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new HybridConnectivityManagementAPI(credential, recorder.configureClientOptions({}));
+    resourceGroup = "myjstest";
+    resourcename = "default";
+    resourceUri = "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.HybridCompute/machines/AWP-AzRael-01"
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("endpoints create test", async function () {
 
