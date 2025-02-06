@@ -8,35 +8,37 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { EventHubManagementClient } from "@azure/arm-eventhub";
+import { FailOver, EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes an existing namespace. This operation also removes all associated resources under the namespace.
+ * This sample demonstrates how to GeoDR Failover
  *
- * @summary Deletes an existing namespace. This operation also removes all associated resources under the namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceDelete.json
+ * @summary GeoDR Failover
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNamespaceFailover.json
  */
-async function nameSpaceDelete() {
+async function nameSpaceCreate() {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
   const resourceGroupName =
     process.env["EVENTHUB_RESOURCE_GROUP"] || "ResurceGroupSample";
-  const namespaceName = "NamespaceSample";
+  const namespaceName = "NamespaceGeoDRFailoverSample";
+  const parameters: FailOver = { force: true, primaryLocation: "centralus" };
   const credential = new DefaultAzureCredential();
   const client = new EventHubManagementClient(credential, subscriptionId);
-  const result = await client.namespaces.beginDeleteAndWait(
+  const result = await client.namespaces.beginFailoverAndWait(
     resourceGroupName,
     namespaceName,
+    parameters,
   );
   console.log(result);
 }
 
 async function main() {
-  nameSpaceDelete();
+  nameSpaceCreate();
 }
 
 main().catch(console.error);

@@ -12,7 +12,7 @@ import {
   ConfigurationPatchResponse,
   ConfigurationGetOptionalParams,
   ConfigurationGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Configuration. */
 export interface Configuration {
