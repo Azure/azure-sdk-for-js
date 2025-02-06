@@ -585,7 +585,7 @@ importers:
         version: file:projects/arm-peering.tgz
       '@rush-temp/arm-pineconevectordb':
         specifier: file:./projects/arm-pineconevectordb.tgz
-        version: file:projects/arm-pineconevectordb.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))
+        version: file:projects/arm-pineconevectordb.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-playwrighttesting':
         specifier: file:./projects/arm-playwrighttesting.tgz
         version: file:projects/arm-playwrighttesting.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -3399,7 +3399,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz':
-    resolution: {integrity: sha512-o7yaTxB3m0l+/ed61NcjBByzEWonXwzyHh3pMWfqDUk4RZ8VUdcgxZGxNGaqDc7hCB5p2fOr2FsONquRJNCrJA==, tarball: file:projects/arm-pineconevectordb.tgz}
+    resolution: {integrity: sha512-h4htkOBXb/SsaNfmBHi3B7j8LJGsPAVjXZQJR9dLkg8fhCHT3EWVckIfhLpDNu/+FHPG4yf8EefdcUxdBWrX1g==, tarball: file:projects/arm-pineconevectordb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz':
@@ -15716,20 +15716,21 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
-  '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@5.4.14(@types/node@22.7.9))':
+  '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
       '@microsoft/api-extractor': 7.49.2(@types/node@18.19.74)
       '@types/node': 18.19.74
-      '@vitest/browser': 2.1.9(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@2.1.9)
-      '@vitest/coverage-istanbul': 2.1.9(vitest@2.1.9)
+      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.6.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
       eslint: 9.19.0
       playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.9(@types/node@18.19.74)(@vitest/browser@2.1.9)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
+      - '@types/debug'
       - '@vitest/ui'
       - bufferutil
       - happy-dom
@@ -15745,9 +15746,11 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
+      - yaml
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
