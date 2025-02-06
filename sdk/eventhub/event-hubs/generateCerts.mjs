@@ -23,7 +23,7 @@ execFileSync("openssl", [
   "genrsa",
   "-out",
   `${resolvePath(certsDirectory, "my-private-root-ca.key.pem")}`,
-  "2048"
+  "2048",
 ]);
 
 // Self-sign Root Certificate Authority
@@ -39,7 +39,7 @@ execFileSync("openssl", [
   "-out",
   `${resolvePath(certsDirectory, "my-private-root-ca.crt.pem")}`,
   "-subj",
-  "/C=US/ST=Washington/L=Seattle/O=Fake Signing Authority/CN=fake.foo"
+  "/C=US/ST=Washington/L=Seattle/O=Fake Signing Authority/CN=fake.foo",
 ]);
 
 // Create a certificate for localhost
@@ -47,7 +47,7 @@ execFileSync("openssl", [
   "genrsa",
   "-out",
   `${resolvePath(certsDirectory, "my-server.key.pem")}`,
-  "2048"
+  "2048",
 ]);
 
 // Create a request which the Root Certificate Authority will sign
@@ -59,7 +59,7 @@ execFileSync("openssl", [
   "-out",
   `${resolvePath(certsDirectory, "my-server.csr.pem")}`,
   "-subj",
-  "/C=US/ST=Washington/L=Seattle/O=Fake Hubs/CN=localhost"
+  "/C=US/ST=Washington/L=Seattle/O=Fake Hubs/CN=localhost",
 ]);
 
 // Sign the request with the Root Certificate Authority
@@ -76,7 +76,7 @@ execFileSync("openssl", [
   "-out",
   `${resolvePath(certsDirectory, "my-server.crt.pem")}`,
   "-days",
-  "5"
+  "5",
 ]);
 
 console.log(`Certs created.`);

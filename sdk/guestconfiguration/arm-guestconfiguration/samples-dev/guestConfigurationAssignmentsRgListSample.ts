@@ -7,9 +7,7 @@
  */
 import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all guest configuration assignments for a resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all guest configuration assignments for a resource group.
  * x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listRGGuestConfigurationAssignments.json
  */
-async function listAllGuestConfigurationAssignmentsForAResourceGroup() {
+async function listAllGuestConfigurationAssignmentsForAResourceGroup(): Promise<void> {
   const subscriptionId = process.env["GUESTCONFIGURATION_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
     process.env["GUESTCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroupName";
@@ -30,7 +28,7 @@ async function listAllGuestConfigurationAssignmentsForAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAllGuestConfigurationAssignmentsForAResourceGroup();
 }
 

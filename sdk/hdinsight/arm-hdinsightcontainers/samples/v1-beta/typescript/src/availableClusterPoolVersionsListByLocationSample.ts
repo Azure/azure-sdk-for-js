@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a list of available cluster pool versions.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a list of available cluster pool versions.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListAvailableClusterPoolVersions.json
  */
-async function clusterPoolVersionListResult() {
+async function clusterPoolVersionListResult(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "10e32bab-26da-4cc4-a441-52b318f824e6";
@@ -39,7 +37,7 @@ async function clusterPoolVersionListResult() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   clusterPoolVersionListResult();
 }
 
