@@ -20,22 +20,22 @@ describe("Realtime", () => {
   let client: DeidentificationClient;
 
   beforeEach(async (context) => {
-      recorder = await createRecorder(context);
-      await recorder.start({
-        envSetupForPlayback: replaceableVariables,
-        removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
-      });
-      const credential = createTestCredential();
-      if (process.env.DEID_SERVICE_ENDPOINT) {
-        client = await createRecordedDeidentificationClient(recorder, credential);
-      } else {
-        throw new Error("DEID_SERVICE_ENDPOINT is not set");
-      }
+    recorder = await createRecorder(context);
+    await recorder.start({
+      envSetupForPlayback: replaceableVariables,
+      removeCentralSanitizers: ["AZSDK4001", "AZSDK2030", "AZSDK3430", "AZSDK3493"],
     });
+    const credential = createTestCredential();
+    if (process.env.DEID_SERVICE_ENDPOINT) {
+      client = await createRecordedDeidentificationClient(recorder, credential);
+    } else {
+      throw new Error("DEID_SERVICE_ENDPOINT is not set");
+    }
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("surrogate returns expected", async function () {
     const content: DeidentificationContent = {
