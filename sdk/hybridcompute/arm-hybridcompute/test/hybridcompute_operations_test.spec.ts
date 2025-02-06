@@ -41,21 +41,21 @@ describe("HybridCompute test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new HybridComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus2euap";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest";
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new HybridComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus2euap";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest";
 
-    });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("operation list test", async function () {
     const resArray = new Array();
@@ -102,6 +102,7 @@ describe("HybridCompute test", () => {
 
   it("licenses delete test", async function () {
     const resArray = new Array();
+    await client.licenses.beginDeleteAndWait(resourceGroup, resourcename);
     for await (let item of client.licenses.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
