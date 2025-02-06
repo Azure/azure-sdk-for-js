@@ -24,7 +24,7 @@ import {
   GuestConfigurationConnectedVMwarevSphereAssignmentsImpl,
   GuestConfigurationConnectedVMwarevSphereAssignmentsReportsImpl,
   OperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   GuestConfigurationAssignments,
   GuestConfigurationAssignmentReports,
@@ -35,8 +35,8 @@ import {
   GuestConfigurationConnectedVMwarevSphereAssignments,
   GuestConfigurationConnectedVMwarevSphereAssignmentsReports,
   Operations,
-} from "./operationsInterfaces";
-import { GuestConfigurationClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { GuestConfigurationClientOptionalParams } from "./models/index.js";
 
 export class GuestConfigurationClient extends coreClient.ServiceClient {
   $host: string;
