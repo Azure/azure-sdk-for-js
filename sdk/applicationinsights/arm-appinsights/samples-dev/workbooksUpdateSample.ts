@@ -13,9 +13,7 @@ import {
   ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a workbook that has already been added.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates a workbook that has already been added.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookManagedUpdate.json
  */
-async function workbookManagedUpdate() {
+async function workbookManagedUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -52,7 +50,7 @@ async function workbookManagedUpdate() {
  * @summary Updates a workbook that has already been added.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookUpdate.json
  */
-async function workbookUpdate() {
+async function workbookUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -75,7 +73,7 @@ async function workbookUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workbookManagedUpdate();
   workbookUpdate();
 }

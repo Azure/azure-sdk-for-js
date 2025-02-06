@@ -14,9 +14,7 @@ import {
   ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new workbook.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Create a new workbook.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookAdd.json
  */
-async function workbookAdd() {
+async function workbookAdd(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -64,7 +62,7 @@ async function workbookAdd() {
  * @summary Create a new workbook.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookManagedAdd.json
  */
-async function workbookManagedAdd() {
+async function workbookManagedAdd(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -107,7 +105,7 @@ async function workbookManagedAdd() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workbookAdd();
   workbookManagedAdd();
 }

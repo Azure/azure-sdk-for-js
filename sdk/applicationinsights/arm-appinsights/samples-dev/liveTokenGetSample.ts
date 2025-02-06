@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to **Gets an access token for live metrics stream data.**
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary **Gets an access token for live metrics stream data.**
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2021-10-14/examples/LiveTokenGet.json
  */
-async function getLiveTokenForResource() {
+async function getLiveTokenForResource(): Promise<void> {
   const resourceUri =
     "subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/FabrikamFiberApp/providers/microsoft.insights/components/CustomAvailabilityTest/providers/microsoft.insights/generatelivetoken";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getLiveTokenForResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getLiveTokenForResource();
 }
 

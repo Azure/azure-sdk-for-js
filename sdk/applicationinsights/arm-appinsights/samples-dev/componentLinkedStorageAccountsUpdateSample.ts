@@ -13,9 +13,7 @@ import {
   ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update linked storage accounts for an Application Insights component.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update linked storage accounts for an Application Insights component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/preview/2020-03-01-preview/examples/ComponentLinkedStorageAccountsUpdate.json
  */
-async function componentLinkedStorageAccountsUpdate() {
+async function componentLinkedStorageAccountsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "86dc51d3-92ed-4d7e-947a-775ea79b4918";
@@ -50,7 +48,7 @@ async function componentLinkedStorageAccountsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   componentLinkedStorageAccountsUpdate();
 }
 

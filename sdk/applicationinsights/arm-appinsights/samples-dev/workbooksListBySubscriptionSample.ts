@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all Workbooks defined within a specified subscription and category.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get all Workbooks defined within a specified subscription and category.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbooksList2.json
  */
-async function workbooksList2() {
+async function workbooksList2(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -43,7 +41,7 @@ async function workbooksList2() {
  * @summary Get all Workbooks defined within a specified subscription and category.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbooksListSub.json
  */
-async function workbooksListSub() {
+async function workbooksListSub(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -60,7 +58,7 @@ async function workbooksListSub() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workbooksList2();
   workbooksListSub();
 }

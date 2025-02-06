@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates or updates an Application Insights web test definition.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WebTestCreate.json
  */
-async function webTestCreate() {
+async function webTestCreate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "my-resource-group";
   const webTestName = "my-webtest-my-component";
@@ -59,7 +59,7 @@ webTestCreate().catch(console.error);
  * @summary Creates or updates an Application Insights web test definition.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WebTestUpdate.json
  */
-async function webTestUpdate() {
+async function webTestUpdate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "my-resource-group";
   const webTestName = "my-webtest-my-component";

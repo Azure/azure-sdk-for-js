@@ -13,9 +13,7 @@ import {
   ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing component's tags. To update other fields use the CreateOrUpdate method.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates an existing component's tags. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/examples/ComponentsUpdateTagsOnly.json
  */
-async function componentUpdateTagsOnly() {
+async function componentUpdateTagsOnly(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -51,7 +49,7 @@ async function componentUpdateTagsOnly() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   componentUpdateTagsOnly();
 }
 

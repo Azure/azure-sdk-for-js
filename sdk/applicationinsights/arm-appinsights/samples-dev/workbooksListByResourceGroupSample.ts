@@ -13,9 +13,7 @@ import {
   ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all Workbooks defined within a specified resource group and category.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get all Workbooks defined within a specified resource group and category.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbooksList.json
  */
-async function workbooksList() {
+async function workbooksList(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -55,7 +53,7 @@ async function workbooksList() {
  * @summary Get all Workbooks defined within a specified resource group and category.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbooksManagedList.json
  */
-async function workbooksManagedList() {
+async function workbooksManagedList(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac119r124af";
@@ -81,7 +79,7 @@ async function workbooksManagedList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workbooksList();
   workbooksManagedList();
 }

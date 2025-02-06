@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all recently deleted Workbooks in a specified subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get all recently deleted Workbooks in a specified subscription.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/preview/2024-02-01-preview/examples/DeletedWorkbooksList.json
  */
-async function workbooksListSub() {
+async function workbooksListSub(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -36,7 +34,7 @@ async function workbooksListSub() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workbooksListSub();
 }
 

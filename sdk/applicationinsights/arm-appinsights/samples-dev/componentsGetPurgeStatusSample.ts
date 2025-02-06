@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get status for an ongoing purge operation.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get status for an ongoing purge operation.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/examples/ComponentsPurgeStatus.json
  */
-async function componentPurge() {
+async function componentPurge(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-00000000000";
@@ -41,7 +39,7 @@ async function componentPurge() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   componentPurge();
 }
 

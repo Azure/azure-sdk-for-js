@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a single workbook by its resourceName.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a single workbook by its resourceName.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookGet.json
  */
-async function workbookGet() {
+async function workbookGet(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -42,7 +40,7 @@ async function workbookGet() {
  * @summary Get a single workbook by its resourceName.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookGet1.json
  */
-async function workbookGet1() {
+async function workbookGet1(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -64,7 +62,7 @@ async function workbookGet1() {
  * @summary Get a single workbook by its resourceName.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2023-06-01/examples/WorkbookManagedGet.json
  */
-async function workbookManagedGet() {
+async function workbookManagedGet(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -80,7 +78,7 @@ async function workbookManagedGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workbookGet();
   workbookGet1();
   workbookManagedGet();

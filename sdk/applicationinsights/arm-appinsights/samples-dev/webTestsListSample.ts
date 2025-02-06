@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all Application Insights web test definitions for the specified subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get all Application Insights web test definitions for the specified subscription.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestList.json
  */
-async function webTestList() {
+async function webTestList(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function webTestList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   webTestList();
 }
 

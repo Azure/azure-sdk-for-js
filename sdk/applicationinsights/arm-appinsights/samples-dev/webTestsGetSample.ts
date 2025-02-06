@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a specific Application Insights web test definition.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a specific Application Insights web test definition.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestGet.json
  */
-async function webTestGet() {
+async function webTestGet(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function webTestGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   webTestGet();
 }
 

@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create a new workbook.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookAdd.json
  */
-async function workbookAdd() {
+async function workbookAdd(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const resourceGroupName = "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";
@@ -57,7 +57,7 @@ workbookAdd().catch(console.error);
  * @summary Create a new workbook.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbookManagedAdd.json
  */
-async function workbookManagedAdd() {
+async function workbookManagedAdd(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const resourceGroupName = "my-resource-group";
   const resourceName = "deadb33f-5e0d-4064-8ebb-1a4ed0313eb2";

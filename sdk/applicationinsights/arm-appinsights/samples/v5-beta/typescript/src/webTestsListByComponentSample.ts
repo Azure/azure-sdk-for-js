@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get all Application Insights web tests defined for the specified component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WebTestListByComponent.json
  */
-async function webTestListByComponent() {
+async function webTestListByComponent(): Promise<void> {
   const subscriptionId = "subid";
   const componentName = "my-component";
   const resourceGroupName = "my-resource-group";

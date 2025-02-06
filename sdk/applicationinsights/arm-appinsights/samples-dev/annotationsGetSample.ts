@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the annotation for given id.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the annotation for given id.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/AnnotationsGet.json
  */
-async function annotationsGet() {
+async function annotationsGet(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -40,7 +38,7 @@ async function annotationsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   annotationsGet();
 }
 

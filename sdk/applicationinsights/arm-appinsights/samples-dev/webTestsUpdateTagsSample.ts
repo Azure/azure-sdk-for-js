@@ -13,9 +13,7 @@ import {
   ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the tags associated with an Application Insights web test.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates the tags associated with an Application Insights web test.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestUpdateTagsOnly.json
  */
-async function webTestUpdateTags() {
+async function webTestUpdateTags(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -51,7 +49,7 @@ async function webTestUpdateTags() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   webTestUpdateTags();
 }
 

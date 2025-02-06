@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get all Workbooks defined within a specified resource group and category.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbooksList.json
  */
-async function workbooksList() {
+async function workbooksList(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac145d124af";
   const resourceGroupName = "my-resource-group";
   const category = "workbook";
@@ -48,7 +48,7 @@ workbooksList().catch(console.error);
  * @summary Get all Workbooks defined within a specified resource group and category.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-04-01/examples/WorkbooksManagedList.json
  */
-async function workbooksManagedList() {
+async function workbooksManagedList(): Promise<void> {
   const subscriptionId = "6b643656-33eb-422f-aee8-3ac119r124af";
   const resourceGroupName = "my-resource-group";
   const category = "workbook";

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns feature capabilities of the application insights component.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns feature capabilities of the application insights component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/FeatureCapabilitiesGet.json
  */
-async function componentCurrentBillingFeaturesGet() {
+async function componentCurrentBillingFeaturesGet(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function componentCurrentBillingFeaturesGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   componentCurrentBillingFeaturesGet();
 }
 

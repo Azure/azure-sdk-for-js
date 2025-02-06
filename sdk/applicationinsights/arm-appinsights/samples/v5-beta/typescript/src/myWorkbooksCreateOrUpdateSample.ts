@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create a new private workbook.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2021-03-08/examples/MyWorkbookAdd.json
  */
-async function workbookAdd() {
+async function workbookAdd(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-00000000";
   const resourceGroupName = "my-resource-group";
   const resourceName = "deadb33f-8bee-4d3b-a059-9be8dac93960";

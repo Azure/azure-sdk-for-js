@@ -13,9 +13,7 @@ import {
   ApplicationInsightsManagementClient,
 } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an Application Insights web test definition.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates an Application Insights web test definition.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestCreate.json
  */
-async function webTestCreate() {
+async function webTestCreate(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -65,7 +63,7 @@ async function webTestCreate() {
  * @summary Creates or updates an Application Insights web test definition.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestCreateStandard.json
  */
-async function webTestCreateStandard() {
+async function webTestCreateStandard(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -112,7 +110,7 @@ async function webTestCreateStandard() {
  * @summary Creates or updates an Application Insights web test definition.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2022-06-15/examples/WebTestUpdate.json
  */
-async function webTestUpdate() {
+async function webTestUpdate(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -148,7 +146,7 @@ async function webTestUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   webTestCreate();
   webTestCreateStandard();
   webTestUpdate();

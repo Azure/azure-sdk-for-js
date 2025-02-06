@@ -30,7 +30,7 @@ import {
   WorkbookUpdateParameters as WorkbookUpdateParametersMapper,
   ComponentLinkedStorageAccounts as ComponentLinkedStorageAccountsMapper,
   ComponentLinkedStorageAccountsPatch as ComponentLinkedStorageAccountsPatchMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

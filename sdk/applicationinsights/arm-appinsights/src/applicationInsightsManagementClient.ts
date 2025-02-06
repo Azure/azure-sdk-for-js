@@ -30,7 +30,7 @@ import {
   LiveTokenImpl,
   ComponentLinkedStorageAccountsOperationsImpl,
   DeletedWorkbooksImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Components,
   Annotations,
@@ -52,8 +52,8 @@ import {
   LiveToken,
   ComponentLinkedStorageAccountsOperations,
   DeletedWorkbooks,
-} from "./operationsInterfaces";
-import { ApplicationInsightsManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ApplicationInsightsManagementClientOptionalParams } from "./models/index.js";
 
 export class ApplicationInsightsManagementClient extends coreClient.ServiceClient {
   $host: string;

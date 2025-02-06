@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all Workbook templates defined within a specified resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get all Workbook templates defined within a specified resource group.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2020-11-20/examples/WorkbookTemplatesList.json
  */
-async function workbookTemplatesList() {
+async function workbookTemplatesList(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] ||
     "6b643656-33eb-422f-aee8-3ac145d124af";
@@ -40,7 +38,7 @@ async function workbookTemplatesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   workbookTemplatesList();
 }
 

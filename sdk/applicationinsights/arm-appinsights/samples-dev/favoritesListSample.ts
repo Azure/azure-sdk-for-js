@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationInsightsManagementClient } from "@azure/arm-appinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of favorites defined within an Application Insights component.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of favorites defined within an Application Insights component.
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/FavoritesList.json
  */
-async function favoritesList() {
+async function favoritesList(): Promise<void> {
   const subscriptionId =
     process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function favoritesList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   favoritesList();
 }
 
