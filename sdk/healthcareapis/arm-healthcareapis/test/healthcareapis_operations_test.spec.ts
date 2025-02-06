@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { HealthcareApisManagementClient } from "../src/healthcareApisManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -41,54 +37,56 @@ describe("HealthcareApis test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new HealthcareApisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest1";
-
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new HealthcareApisManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "eastus";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest1";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("workspaces create test", async function () {
+  it("workspaces create test", async () => {
     const res = await client.workspaces.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
       {
         location,
-        properties: {}
+        properties: {},
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, resourcename);
   });
 
-  it("workspaces get test", async function () {
-    const res = await client.workspaces.get(
-      resourceGroup,
-      resourcename);
+  it("workspaces get test", async () => {
+    const res = await client.workspaces.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("workspaces list test", async function () {
+  it("workspaces list test", async () => {
     const resArray = new Array();
-    for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("workspaces delete test", async function () {
+  it("workspaces delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});
