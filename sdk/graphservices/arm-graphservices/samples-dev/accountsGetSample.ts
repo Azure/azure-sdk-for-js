@@ -7,9 +7,7 @@
  */
 import { GraphServices } from "@azure/arm-graphservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns account resource for a given name.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns account resource for a given name.
  * x-ms-original-file: specification/graphservicesprod/resource-manager/Microsoft.GraphServices/stable/2023-04-13/examples/Accounts_Get.json
  */
-async function getAccounts() {
+async function getAccounts(): Promise<void> {
   const subscriptionId =
     process.env["GRAPHSERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["GRAPHSERVICES_RESOURCE_GROUP"] || "testResourceGroupGRAM";
@@ -28,7 +26,7 @@ async function getAccounts() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAccounts();
 }
 

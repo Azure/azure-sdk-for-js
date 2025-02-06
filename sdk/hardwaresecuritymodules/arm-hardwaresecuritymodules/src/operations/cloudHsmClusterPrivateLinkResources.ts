@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { CloudHsmClusterPrivateLinkResources } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { CloudHsmClusterPrivateLinkResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureHSMResourceProvider } from "../azureHSMResourceProvider";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureHSMResourceProvider } from "../azureHSMResourceProvider.js";
 import {
   PrivateLinkResource,
   CloudHsmClusterPrivateLinkResourcesListByCloudHsmClusterNextOptionalParams,
   CloudHsmClusterPrivateLinkResourcesListByCloudHsmClusterOptionalParams,
   CloudHsmClusterPrivateLinkResourcesListByCloudHsmClusterResponse,
   CloudHsmClusterPrivateLinkResourcesListByCloudHsmClusterNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CloudHsmClusterPrivateLinkResources operations. */
