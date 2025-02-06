@@ -946,9 +946,9 @@ importers:
       '@rush-temp/eventgrid-namespaces':
         specifier: file:./projects/eventgrid-namespaces.tgz
         version: file:projects/eventgrid-namespaces.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
-      '@rush-temp/eventgrid-system-events':
-        specifier: file:./projects/eventgrid-system-events.tgz
-        version: file:projects/eventgrid-system-events.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/eventgrid-systemevents':
+        specifier: file:./projects/eventgrid-systemevents.tgz
+        version: file:projects/eventgrid-systemevents.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/eventhubs-checkpointstore-blob':
         specifier: file:./projects/eventhubs-checkpointstore-blob.tgz
         version: file:projects/eventhubs-checkpointstore-blob.tgz(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.1)(tsx@4.19.2)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
@@ -3737,8 +3737,8 @@ packages:
     resolution: {integrity: sha512-Tl1NVK2ObKuFhsPd36jNqx/LtvNnXHWTtSQDhLZaLX3oEUJ75vkQMmTK3SiqvGG/KI8cHngjQoaqVu3z3LGlLw==, tarball: file:projects/eventgrid-namespaces.tgz}
     version: 0.0.0
 
-  '@rush-temp/eventgrid-system-events@file:projects/eventgrid-system-events.tgz':
-    resolution: {integrity: sha512-Fxa1UptTZC6tMLhtYFyDU7icQ6wZhStHLqr2jhjlpNqcDc27gB4ZT24aqB/ZPASnyqOd/v/22+KzpgTzQ+8RGQ==, tarball: file:projects/eventgrid-system-events.tgz}
+  '@rush-temp/eventgrid-systemevents@file:projects/eventgrid-systemevents.tgz':
+    resolution: {integrity: sha512-Sq6LAm8xHa7qG+q8Hqt0CdTdeKgVhxRLOIrwSoQ2hHsJHmxat929PBUhBc9LW3JM9iXtVu9tycqfRW74egYIxQ==, tarball: file:projects/eventgrid-systemevents.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid@file:projects/eventgrid.tgz':
@@ -18827,7 +18827,7 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/eventgrid-system-events@file:projects/eventgrid-system-events.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
+  '@rush-temp/eventgrid-systemevents@file:projects/eventgrid-systemevents.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)

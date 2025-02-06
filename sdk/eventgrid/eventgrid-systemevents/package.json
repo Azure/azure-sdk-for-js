@@ -1,9 +1,9 @@
 {
-  "name": "@azure/eventgrid-system-events",
+  "name": "@azure/eventgrid-systemevents",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Event Grid service.",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "keywords": [
     "node",
     "azure",
@@ -16,7 +16,7 @@
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-system-events/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-systemevents/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
