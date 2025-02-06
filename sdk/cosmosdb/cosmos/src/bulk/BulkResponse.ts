@@ -5,7 +5,8 @@ import { Constants, StatusCodes, SubStatusCodes } from "../common";
 import type { CosmosDiagnostics } from "../CosmosDiagnostics";
 import type { CosmosHeaders } from "../queryExecutionContext";
 import type { StatusCode, SubStatusCode, Response } from "../request";
-import { BulkOperationResult, isSuccessStatusCode } from "../utils/batch";
+import type { BulkOperationResult } from "../utils/batch";
+import { isSuccessStatusCode } from "../utils/batch";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 
 /**

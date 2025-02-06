@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Constants } from "../common";
-import type { BulkOperationResult, ExecuteCallback, RetryCallback } from "../utils/batch";
+import type { ExecuteCallback, RetryCallback } from "../utils/batch";
 import { BulkBatcher } from "./BulkBatcher";
 import semaphore from "semaphore";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
@@ -28,14 +28,13 @@ export class BulkStreamerPerPartition {
   private currentBatcher: BulkBatcher;
   private readonly lock: semaphore.Semaphore;
   private dispatchTimer: NodeJS.Timeout;
-  private readonly orderedResponse: BulkOperationResult[] = [];
   private limiterSemaphore: Limiter;
 
   private readonly oldPartitionMetric: BulkPartitionMetric;
   private readonly partitionMetric: BulkPartitionMetric;
-  private congestionDegreeOfConcurrency = 1;
   private congestionControlAlgorithm: BulkCongestionAlgorithm;
-  private concurrencySemaphore: semaphore.Semaphore;
+  private congestionControlTimer: NodeJS.Timeout;
+  private congestionControlDelayInMs: number = 100;
 
   constructor(
     executor: ExecuteCallback,
@@ -43,14 +42,12 @@ export class BulkStreamerPerPartition {
     limiter: Limiter,
     options: RequestOptions,
     diagnosticNode: DiagnosticNodeInternal,
-    orderedResponse: BulkOperationResult[],
   ) {
     this.executor = executor;
     this.retrier = retrier;
     this.limiterSemaphore = limiter;
     this.options = options;
     this.diagnosticNode = diagnosticNode;
-    this.orderedResponse = orderedResponse;
     this.oldPartitionMetric = new BulkPartitionMetric();
     this.partitionMetric = new BulkPartitionMetric();
     this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
@@ -61,8 +58,8 @@ export class BulkStreamerPerPartition {
     this.currentBatcher = this.createBulkBatcher();
 
     this.lock = semaphore(1);
-    this.concurrencySemaphore = semaphore(1);
     this.runDispatchTimer();
+    this.runCongestionControlTimer();
   }
 
   /**
@@ -105,36 +102,7 @@ export class BulkStreamerPerPartition {
       this.retrier,
       this.options,
       this.diagnosticNode,
-      this.orderedResponse,
-      this.getDegreeOfConcurrency.bind(this),
-      this.setDegreeOfConcurrency.bind(this),
-      this.congestionControlAlgorithm.run.bind(this.congestionControlAlgorithm),
     );
-  }
-
-  private async getDegreeOfConcurrency(): Promise<number> {
-    return new Promise((resolve) => {
-      this.concurrencySemaphore.take(() => {
-        try {
-          resolve(this.congestionDegreeOfConcurrency);
-        } finally {
-          this.concurrencySemaphore.leave();
-        }
-      });
-    });
-  }
-
-  private async setDegreeOfConcurrency(updatedConcurrency: number): Promise<void> {
-    return new Promise((resolve) => {
-      this.concurrencySemaphore.take(() => {
-        try {
-          this.congestionDegreeOfConcurrency = updatedConcurrency;
-          resolve();
-        } finally {
-          this.concurrencySemaphore.leave();
-        }
-      });
-    });
   }
 
   /**
@@ -156,12 +124,22 @@ export class BulkStreamerPerPartition {
     }, Constants.BulkTimeoutInMs);
   }
 
+  private runCongestionControlTimer(): void {
+    this.congestionControlTimer = setInterval(() => {
+      this.congestionControlAlgorithm.run();
+    }, this.congestionControlDelayInMs);
+  }
+
+
   /**
    * Dispose the active timers after bulk is complete.
    */
   disposeTimers(): void {
     if (this.dispatchTimer) {
       clearInterval(this.dispatchTimer);
+    }
+    if (this.congestionControlTimer) {
+      clearInterval(this.congestionControlTimer);
     }
   }
 }

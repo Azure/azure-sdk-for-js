@@ -10,7 +10,6 @@ import type { ItemBulkOperationContext } from "./ItemBulkOperationContext";
  */
 
 export interface ItemBulkOperation {
-  operationIndex: number;
   operationInput: OperationInput;
   operationContext: ItemBulkOperationContext;
 }

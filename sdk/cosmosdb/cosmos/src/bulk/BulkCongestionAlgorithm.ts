@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { Constants } from "../common";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric";
-import { Limiter } from "./Limiter";
+import type { Limiter } from "./Limiter";
 /**
  * This class implements a congestion control algorithm which dynamically adjusts the degree
  * of concurrency based on the throttling and number of processed items.
@@ -21,6 +21,7 @@ export class BulkCongestionAlgorithm {
   private congestionWaitTimeInMs: number = 1000;
   private congestionIncreaseFactor: number = 1;
   private congestionDecreaseFactor: number = 5;
+  private currentDegreeOfConcurrency: number;
 
   constructor(
     limiter: Limiter,
@@ -30,10 +31,10 @@ export class BulkCongestionAlgorithm {
     this.limiter = limiter;
     this.oldPartitionMetric = oldPartitionMetric;
     this.partitionMetric = partitionMetric;
+    this.currentDegreeOfConcurrency = 1;
   }
 
-  run(currentDegreeOfConcurrency: number): number {
-    let updatedDegreeOfConcurrency = currentDegreeOfConcurrency;
+  run(): void {
     const elapsedTimeInMs =
       this.partitionMetric.timeTakenInMs - this.oldPartitionMetric.timeTakenInMs;
     if (elapsedTimeInMs >= this.congestionWaitTimeInMs) {
@@ -45,46 +46,45 @@ export class BulkCongestionAlgorithm {
 
       this.oldPartitionMetric.add(changeItemsCount, elapsedTimeInMs, diffThrottle);
       // if the number of throttles increased, decrease the degree of concurrency.
+      // console.log(`diffThrottle: ${diffThrottle}, changeItemsCount: ${changeItemsCount}, currentDegreeOfConcurrency: ${this.currentDegreeOfConcurrency}, limiter.current(): ${this.limiter.current()}`);
       if (diffThrottle > 0) {
-        updatedDegreeOfConcurrency = this.decreaseConcurrency(currentDegreeOfConcurrency);
+        // console.log(`decreaseConcurrency`);
+        this.decreaseConcurrency();
       }
       // if there's no throttling and the number of items processed increased, increase the degree of concurrency.
       if (changeItemsCount > 0 && diffThrottle === 0) {
-        updatedDegreeOfConcurrency = this.increaseConcurrency(currentDegreeOfConcurrency);
+        // console.log(`increaseConcurrency`);
+        this.increaseConcurrency();
       }
+      // console.log(`currentDegreeOfConcurrency: ${this.currentDegreeOfConcurrency}, limiter.current(): ${this.limiter.current()}`);
     }
-    return updatedDegreeOfConcurrency;
   }
 
-  private decreaseConcurrency(currentDegreeOfConcurrency: number): number {
+  private decreaseConcurrency(): void {
     // decrease should not lead the degree of concurrency as 0.
     const decreaseCount = Math.min(
       this.congestionDecreaseFactor,
-      Math.floor(currentDegreeOfConcurrency / 2),
+      Math.floor(this.currentDegreeOfConcurrency / 2),
     );
     // block permits
     for (let i = 0; i < decreaseCount; i++) {
-      this.limiter.take(() => {});
+      this.limiter.take(() => { });
     }
 
-    currentDegreeOfConcurrency -= decreaseCount;
+    this.currentDegreeOfConcurrency -= decreaseCount;
     // In case of throttling increase the wait time to adjust the degree of concurrency.
     this.congestionWaitTimeInMs += 1000;
-    return currentDegreeOfConcurrency;
   }
 
-  private increaseConcurrency(currentDegreeOfConcurrency: number): number {
+  private increaseConcurrency(): void {
     if (
-      currentDegreeOfConcurrency + this.congestionIncreaseFactor <=
+      this.currentDegreeOfConcurrency + this.congestionIncreaseFactor <=
       Constants.BulkMaxDegreeOfConcurrency
     ) {
       if (this.limiter.current() > 0) {
         this.limiter.leave(this.congestionIncreaseFactor);
       }
-      currentDegreeOfConcurrency += this.congestionIncreaseFactor;
+      this.currentDegreeOfConcurrency += this.congestionIncreaseFactor;
     }
-    // reset the wait time as there is no throttling.
-    this.congestionWaitTimeInMs = 1000;
-    return currentDegreeOfConcurrency;
   }
 }

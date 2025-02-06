@@ -24,7 +24,7 @@ export {
   DeleteOperationInput,
   PatchOperationInput,
   BulkPatchOperation,
-  BulkStreamerResponse,
+  BulkOperationResult
 } from "./utils/batch";
 export {
   PatchOperation,

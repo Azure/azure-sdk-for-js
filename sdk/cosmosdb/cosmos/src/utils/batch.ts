@@ -34,10 +34,6 @@ export interface Batch {
 }
 
 export type BulkOperationResponse = OperationResponse[] & { diagnostics: CosmosDiagnostics };
-/**
- * response for streamed bulk operation
- */
-export type BulkStreamerResponse = BulkOperationResult[] & { diagnostics: CosmosDiagnostics };
 
 /**
  * response for a specific batch in streamed bulk operation
@@ -333,7 +329,6 @@ export type RetryCallback = (
   operation: ItemBulkOperation,
   diagnosticNode: DiagnosticNodeInternal,
   options: RequestOptions,
-  orderedResponse: BulkOperationResult[],
 ) => Promise<void>;
 
 export class TaskCompletionSource<T> {

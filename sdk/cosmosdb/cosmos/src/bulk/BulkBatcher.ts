@@ -5,7 +5,7 @@ import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeIntern
 import type { RequestOptions } from "../request";
 import { ErrorResponse } from "../request";
 import { Constants, StatusCodes } from "../common";
-import type { BulkOperationResult, ExecuteCallback, RetryCallback } from "../utils/batch";
+import type { ExecuteCallback, RetryCallback } from "../utils/batch";
 import { calculateObjectSizeInBytes, isSuccessStatusCode } from "../utils/batch";
 import type { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
@@ -27,10 +27,6 @@ export class BulkBatcher {
   private readonly retrier: RetryCallback;
   private readonly options: RequestOptions;
   private readonly diagnosticNode: DiagnosticNodeInternal;
-  private readonly orderedResponse: BulkOperationResult[];
-  private runCongestionAlgo: (currentDegreeOfConcurrency: number) => number;
-  private getDegreeOfConcurrency: () => Promise<number>;
-  private setDegreeOfConcurrency: (degreeOfConcurrency: number) => Promise<void>;
 
   constructor(
     private limiter: Limiter,
@@ -38,22 +34,14 @@ export class BulkBatcher {
     retrier: RetryCallback,
     options: RequestOptions,
     diagnosticNode: DiagnosticNodeInternal,
-    orderedResponse: BulkOperationResult[],
-    getDegreeOfConcurrency: () => Promise<number>,
-    setDegreeOfConcurrency: (degreeOfConcurrency: number) => Promise<void>,
-    runCongestionAlgo: (currentDegreeOfConcurrency: number) => number,
   ) {
     this.batchOperationsList = [];
     this.executor = executor;
     this.retrier = retrier;
     this.options = options;
     this.diagnosticNode = diagnosticNode;
-    this.orderedResponse = orderedResponse;
     this.currentSize = 0;
     this.toBeDispatched = false;
-    this.runCongestionAlgo = runCongestionAlgo;
-    this.getDegreeOfConcurrency = getDegreeOfConcurrency;
-    this.setDegreeOfConcurrency = setDegreeOfConcurrency;
   }
 
   /**
@@ -126,8 +114,6 @@ export class BulkBatcher {
         getCurrentTimestampInMs() - startTime,
         numThrottle,
       );
-      const currentDegreeOfConcurrency = await this.getDegreeOfConcurrency();
-      await this.setDegreeOfConcurrency(this.runCongestionAlgo(currentDegreeOfConcurrency));
 
       for (let i = 0; i < response.operations.length; i++) {
         const operation = response.operations[i];
@@ -144,16 +130,10 @@ export class BulkBatcher {
             this.diagnosticNode,
           );
           if (shouldRetry) {
-            await this.retrier(operation, this.diagnosticNode, this.options, this.orderedResponse);
+            await this.retrier(operation, this.diagnosticNode, this.options);
             continue;
           }
         }
-        // ensure the length of the ordered response is sufficient to store the result
-        if (this.orderedResponse.length <= operation.operationIndex) {
-          this.orderedResponse.length = operation.operationIndex + 1;
-        }
-        // Update ordered response and mark operation as complete
-        this.orderedResponse[operation.operationIndex] = bulkOperationResult;
         operation.operationContext.complete(bulkOperationResult);
       }
     } catch (error) {

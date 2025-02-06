@@ -34,6 +34,18 @@ export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
 
+// @public
+export interface BulkOperationResult extends OperationResponse {
+    // (undocumented)
+    activityId?: string;
+    // (undocumented)
+    retryAfter?: number;
+    // (undocumented)
+    sessionToken?: string;
+    // (undocumented)
+    subStatusCode?: number;
+}
+
 // @public (undocumented)
 export const BulkOperationType: {
     readonly Create: "Create";
@@ -58,16 +70,9 @@ export type BulkPatchOperation = OperationBase & {
 
 // @public
 export class BulkStreamer {
-    addOperations(operationInput: OperationInput | OperationInput[]): void;
-    endStream(): Promise<BulkStreamerResponse>;
+    dispose(): void;
+    execute(operationInput: OperationInput[]): Promise<BulkOperationResult>[];
 }
-
-// Warning: (ae-forgotten-export) The symbol "BulkOperationResult" needs to be exported by the entry point index.d.ts
-//
-// @public
-export type BulkStreamerResponse = BulkOperationResult[] & {
-    diagnostics: CosmosDiagnostics;
-};
 
 // @public
 export class ChangeFeedIterator<T> {

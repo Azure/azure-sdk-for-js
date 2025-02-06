@@ -4,12 +4,12 @@
 import { readPartitionKeyDefinition } from "../client/ClientUtils";
 import type { Container } from "../client/Container";
 import type { ClientContext } from "../ClientContext";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
 import type {
   BulkOperationResult,
-  BulkStreamerResponse,
   Operation,
   OperationInput,
 } from "../utils/batch";
@@ -20,12 +20,12 @@ import { BulkStreamerPerPartition } from "./BulkStreamerPerPartition";
 import { ItemBulkOperationContext } from "./ItemBulkOperationContext";
 import { Constants, getPathFromLink, ResourceType } from "../common";
 import { BulkResponse } from "./BulkResponse";
-import { ItemBulkOperation } from "./ItemBulkOperation";
+import type { ItemBulkOperation } from "./ItemBulkOperation";
 import { addDignosticChild } from "../utils/diagnostics";
 import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
 import type { RetryPolicy } from "../retry/RetryPolicy";
 import { Limiter } from "./Limiter";
-import semaphore from "semaphore";
+import type { PartitionKeyDefinition } from "../documents";
 
 /**
  * BulkStreamer for bulk operations in a container.
@@ -43,12 +43,9 @@ export class BulkStreamer {
   private readonly streamersByPartitionKeyRangeId: Map<string, BulkStreamerPerPartition>;
   private readonly limitersByPartitionKeyRangeId: Map<string, Limiter>;
   private options: RequestOptions;
-  private orderedResponse: BulkOperationResult[] = [];
   private diagnosticNode: DiagnosticNodeInternal;
-  private operationPromises: Promise<BulkOperationResult>[] = [];
-  private streamEnded: boolean;
-  private operationIndex: number;
-  private operationIndexLock: semaphore.Semaphore;
+  private partitionKeyDefinition: PartitionKeyDefinition;
+  private partitionKeyDefinitionPromise: Promise<PartitionKeyDefinition>;
 
   /**
    * @internal
@@ -57,119 +54,77 @@ export class BulkStreamer {
     container: Container,
     clientContext: ClientContext,
     partitionKeyRangeCache: PartitionKeyRangeCache,
+    options: RequestOptions,
+    diagnosticNode: DiagnosticNodeInternal,
+
   ) {
     this.container = container;
     this.clientContext = clientContext;
     this.partitionKeyRangeCache = partitionKeyRangeCache;
     this.streamersByPartitionKeyRangeId = new Map();
     this.limitersByPartitionKeyRangeId = new Map();
-
+    this.options = options;
+    this.diagnosticNode = diagnosticNode;
     this.executeRequest = this.executeRequest.bind(this);
     this.reBatchOperation = this.reBatchOperation.bind(this);
-  }
-  /**
-   *
-   * @internal
-   */
-  // TODO: Add a public reset() method which will utilize this to reset the state of the streamer to use it again.
-  initializeBulk(options: RequestOptions): void {
-    this.orderedResponse = [];
-    this.options = options;
-    this.operationPromises = [];
-    this.diagnosticNode = new DiagnosticNodeInternal(
-      this.clientContext.diagnosticLevel,
-      DiagnosticNodeType.CLIENT_REQUEST_NODE,
-      null,
-    );
-    this.streamEnded = false;
-    this.operationIndex = 0;
-    this.operationIndexLock = semaphore(1);
   }
 
   /**
    * adds operation(s) to the streamer
    * @param operationInput - bulk operation or list of bulk operations
    */
-  addOperations(operationInput: OperationInput | OperationInput[]): void {
-    if (this.streamEnded) {
-      throw new ErrorResponse("Cannot add operations after the stream has ended.");
+  execute(
+    operationInput: OperationInput[]
+  ): Promise<BulkOperationResult>[] {
+    return operationInput.map(operation => this.addOperation(operation));
+  }
+
+
+  /**
+   * dispose all the timers, streamers, and limiters
+   * @returns bulk response
+   */
+  dispose(): void {
+    for (const streamer of this.streamersByPartitionKeyRangeId.values()) {
+      streamer.disposeTimers();
     }
-    if (Array.isArray(operationInput)) {
-      operationInput.forEach((operation) => {
-        const operationPromise = this.addOperation(operation);
-        this.operationPromises.push(operationPromise);
-      });
-    } else {
-      const operationPromise = this.addOperation(operationInput);
-      this.operationPromises.push(operationPromise);
-    }
+    this.streamersByPartitionKeyRangeId.clear();
+    this.limitersByPartitionKeyRangeId.clear();
   }
 
   private async addOperation(operation: OperationInput): Promise<BulkOperationResult> {
     if (!operation) {
       throw new ErrorResponse("Operation is required.");
     }
+    if (!this.partitionKeyDefinition) {
+      if (!this.partitionKeyDefinitionPromise) {
+        this.partitionKeyDefinitionPromise = (async () => {
+          try {
+            const partitionKeyDefinition = await readPartitionKeyDefinition(this.diagnosticNode, this.container);
+            this.partitionKeyDefinition = partitionKeyDefinition;
+            return partitionKeyDefinition;
+          } finally {
+            this.partitionKeyDefinitionPromise = null;
+          }
+        })();
+      }
+      await this.partitionKeyDefinitionPromise;
+    }
     const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation);
     const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
     // TODO: change implementation to add just retry context instead of retry policy in operation context
     const retryPolicy = this.getRetryPolicy();
     const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy);
-    let itemOperation: ItemBulkOperation;
-    this.operationIndexLock.take(() => {
-      try {
-        itemOperation = {
-          operationIndex: this.operationIndex,
-          operationInput: operation,
-          operationContext: context,
-        };
-        this.operationIndex++;
-      } finally {
-        this.operationIndexLock.leave();
-      }
-    });
+    const itemOperation: ItemBulkOperation = {
+      operationInput: operation,
+      operationContext: context,
+    };
     streamerForPartition.add(itemOperation);
     return context.operationPromise;
-  }
-  /**
-   * ends the stream and returns response
-   * @returns bulk response
-   */
-  async endStream(): Promise<BulkStreamerResponse> {
-    if (this.streamEnded) {
-      throw new ErrorResponse("Bulk streamer has already ended.");
-    }
-    this.streamEnded = true;
-    let orderedOperationsResult: BulkOperationResult[];
-
-    try {
-      const settledResults = await Promise.allSettled(this.operationPromises);
-      orderedOperationsResult = settledResults.map((result) => {
-        if (result.status === "fulfilled") {
-          return result.value;
-        } else {
-          throw result.reason;
-        }
-      });
-    } finally {
-      for (const streamer of this.streamersByPartitionKeyRangeId.values()) {
-        streamer.disposeTimers();
-      }
-      this.streamersByPartitionKeyRangeId.clear();
-      this.limitersByPartitionKeyRangeId.clear();
-    }
-
-    const response: BulkStreamerResponse = Object.assign([...orderedOperationsResult], {
-      diagnostics: this.diagnosticNode.toDiagnostic(this.clientContext.getClientConfig()),
-    });
-    return response;
   }
 
   private async resolvePartitionKeyRangeId(operation: OperationInput): Promise<string> {
     try {
-      const partitionKeyDefinition = await readPartitionKeyDefinition(
-        this.diagnosticNode,
-        this.container,
-      );
       const partitionKeyRanges = (
         await this.partitionKeyRangeCache.onCollectionRoutingMap(
           this.container.url,
@@ -177,9 +132,9 @@ export class BulkStreamer {
         )
       ).getOrderedParitionKeyRanges();
 
-      const { partitionKey } = prepareOperations(operation, partitionKeyDefinition, this.options);
+      const { partitionKey } = prepareOperations(operation, this.partitionKeyDefinition, this.options);
 
-      const hashedKey = hashPartitionKey(partitionKey, partitionKeyDefinition);
+      const hashedKey = hashPartitionKey(partitionKey, this.partitionKeyDefinition);
 
       const matchingRange = partitionKeyRanges.find((range) =>
         isKeyInRange(range.minInclusive, range.maxExclusive, hashedKey),
@@ -269,7 +224,7 @@ export class BulkStreamer {
       limiter = new Limiter(Constants.BulkMaxDegreeOfConcurrency);
       // starting with degree of concurrency as 1
       for (let i = 1; i < Constants.BulkMaxDegreeOfConcurrency; ++i) {
-        limiter.take(() => {});
+        limiter.take(() => { });
       }
       this.limitersByPartitionKeyRangeId.set(pkRangeId, limiter);
     }
@@ -287,7 +242,6 @@ export class BulkStreamer {
       limiter,
       this.options,
       this.diagnosticNode,
-      this.orderedResponse,
     );
     this.streamersByPartitionKeyRangeId.set(pkRangeId, newStreamer);
     return newStreamer;

@@ -43,7 +43,7 @@ import type {
   ChangeFeedIteratorOptions,
 } from "../../client/ChangeFeed";
 import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   getEmptyCosmosDiagnostics,
@@ -465,12 +465,18 @@ export class Items {
    * ```
    */
   public getBulkStreamer(options: RequestOptions = {}): BulkStreamer {
+    const diagnosticNode = new DiagnosticNodeInternal(
+      this.clientContext.diagnosticLevel,
+      DiagnosticNodeType.CLIENT_REQUEST_NODE,
+      null,
+    );
     const bulkStreamer = new BulkStreamer(
       this.container,
       this.clientContext,
       this.partitionKeyRangeCache,
+      options,
+      diagnosticNode,
     );
-    bulkStreamer.initializeBulk(options);
     return bulkStreamer;
   }
 
@@ -628,7 +634,7 @@ export class Items {
           } else {
             throw new Error(
               "Partition key error. An operation has an unsupported partitionKey type" +
-                err.message,
+              err.message,
             );
           }
         } else {

@@ -6,7 +6,8 @@ import type { Container } from "../../../src/client/Container/Container";
 import { BulkExecutionRetryPolicy } from "../../../src/retry/bulkExecutionRetryPolicy";
 import { ResourceThrottleRetryPolicy } from "../../../src/retry/resourceThrottleRetryPolicy";
 import type { PartitionKeyRangeCache } from "../../../src/routing";
-import { ErrorResponse, RetryOptions, StatusCodes } from "../../../src";
+import type { RetryOptions } from "../../../src";
+import { ErrorResponse, StatusCodes } from "../../../src";
 import { SubStatusCodes } from "../../../src/common";
 
 describe("BulkExecutionRetryPolicy", () => {
@@ -65,7 +66,7 @@ describe("BulkExecutionRetryPolicy", () => {
     // default maxTries is 9
     while (throttlingRetryPolicy.currentRetryAttemptCount < 9) {
       const shouldRetryResult = await throttlingRetryPolicy.shouldRetry(err, {
-        addData: () => {},
+        addData: () => { },
       } as any);
       assert.strictEqual(throttlingRetryPolicy.retryAfterInMs, 5);
       assert.strictEqual(shouldRetryResult, true);
@@ -86,7 +87,7 @@ describe("BulkExecutionRetryPolicy", () => {
 
     while (throttlingRetryPolicy.currentRetryAttemptCount < 5) {
       const shouldRetryResult = await throttlingRetryPolicy.shouldRetry(err, {
-        addData: () => {},
+        addData: () => { },
       } as any);
       assert.strictEqual(throttlingRetryPolicy.retryAfterInMs, 10);
       assert.strictEqual(shouldRetryResult, true);
