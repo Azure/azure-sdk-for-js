@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { FailOver, EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to GeoDR Failover
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary GeoDR Failover
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNamespaceFailover.json
  */
-async function nameSpaceCreate() {
+async function nameSpaceCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function nameSpaceCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   nameSpaceCreate();
 }
 

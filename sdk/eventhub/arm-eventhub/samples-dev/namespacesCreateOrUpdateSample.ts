@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EHNamespace, EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/EHNameSpaceCreate.json
  */
-async function namespaceCreate() {
+async function namespaceCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
   const resourceGroupName =
@@ -76,7 +74,7 @@ async function namespaceCreate() {
  * @summary Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/NameSpaces/NamespaceWithGeoDRCreate.json
  */
-async function namespaceWithGeoDrCreate() {
+async function namespaceWithGeoDrCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "SampleSubscription";
   const resourceGroupName =
@@ -103,7 +101,7 @@ async function namespaceWithGeoDrCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   namespaceCreate();
   namespaceWithGeoDrCreate();
 }
