@@ -90,7 +90,7 @@ describe("HybridConnectivity test", () => {
 
   it("endpoints delete test", async function () {
     const resArray = new Array();
-    const res = await client.endpoints.delete(resourceUri,
+    await client.endpoints.delete(resourceUri,
       resourcename
     )
     for await (let item of client.endpoints.list(resourceUri)) {
