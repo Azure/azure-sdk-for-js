@@ -24,6 +24,7 @@ export enum EnvironmentVariableNamesForAzureSearch {
 export enum EnvironmentVariableNamesAzureCommon {
   RESOURCE_GROUP = "RESOURCE_GROUP",
   SUBSCRIPTION_ID = "SUBSCRIPTION_ID",
+  AZURE_LOG_LEVEL = "AZURE_LOG_LEVEL",
 }
 
 export const EnvironmentVariableNames = {

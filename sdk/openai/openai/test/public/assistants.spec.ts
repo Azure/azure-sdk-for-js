@@ -70,7 +70,10 @@ describe("OpenAIAssistants", () => {
 
           const updateThreadResponse = await client.beta.threads.update(threadResponse.id, thread);
           assert.equal(threadResponse.id, updateThreadResponse.id);
-          assert.equal((updateThreadResponse.metadata as unknown as Metadata).foo, newMetadataValue);
+          assert.equal(
+            (updateThreadResponse.metadata as unknown as Metadata).foo,
+            newMetadataValue,
+          );
           const deleteThreadResponse = await client.beta.threads.del(threadResponse.id);
           assert.equal(deleteThreadResponse.deleted, true);
         });
@@ -122,7 +125,10 @@ describe("OpenAIAssistants", () => {
             messageOptions,
           );
           assert.equal(messageResponse.id, updateMessageResponse.id);
-          assert.equal((updateMessageResponse.metadata as unknown as Metadata).foo, newMetadataValue);
+          assert.equal(
+            (updateMessageResponse.metadata as unknown as Metadata).foo,
+            newMetadataValue,
+          );
 
           const listLength = 1;
           const oneMessageList = await client.beta.threads.messages.list(threadResponse.id, {
