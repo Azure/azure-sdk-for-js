@@ -3,10 +3,9 @@
 import { CallRecordingImpl } from "./generated/src/operations/index.js";
 import type {
   CallAutomationApiClientOptionalParams,
-  RecordingResultResponse,
   StartCallRecordingRequest,
 } from "./generated/src/models/index.js";
-import type { RecordingStateResult } from "./models/responses.js";
+import type { RecordingResult, RecordingStateResult } from "./models/responses.js";
 import type {
   StartRecordingOptions,
   StopRecordingOptions,
@@ -179,10 +178,18 @@ export class CallRecording {
    public async getRecordingResult(
     recordingId: string,
     options: GetRecordingResultOptions = {},
-  ): Promise<RecordingResultResponse> {
+  ): Promise<RecordingResult> {
     const response = await this.callRecordingImpl.getRecordingResult(recordingId, options);
-
-    return response;
+    const result : RecordingResult = {
+      recordingId : response.recordingId!,
+      errors : response.errors,
+      recordingDurationMs : response.recordingDurationMs,
+      recordingExpirationTime : response.recordingExpirationTime,
+      recordingStartTime : response.recordingStartTime,
+      recordingStorageInfo : response.recordingStorageInfo,
+      sessionEndReason : response.sessionEndReason
+    }
+    return result;
   }
 
   /**

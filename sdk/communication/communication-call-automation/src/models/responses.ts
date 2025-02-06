@@ -3,7 +3,7 @@
 
 import type { CallConnection } from "../callConnection.js";
 import type { CallConnectionProperties, CallParticipant } from "./models.js";
-import type { RecordingState } from "../generated/src/index.js";
+import type { CallSessionEndReason, ErrorModel, RecordingState, RecordingStorageInfo } from "../generated/src/index.js";
 import type {
   AddParticipantEventResult,
   AnswerCallEventResult,
@@ -126,6 +126,17 @@ export interface RecordingStateResult {
   recordingId: string;
   recordingKind: string;
   recordingState: RecordingState;
+}
+
+/** The response payload for starting a call recording or getting call recording result. */
+export interface RecordingResult {
+  recordingId: string;
+    readonly recordingStorageInfo?: RecordingStorageInfo;
+    readonly errors?: ErrorModel[];
+    readonly recordingStartTime?: Date;
+    readonly recordingDurationMs?: number;
+    readonly sessionEndReason?: CallSessionEndReason;
+    readonly recordingExpirationTime?: Date;
 }
 
 /** The response payload for starting a call recording or getting call recording state. */
