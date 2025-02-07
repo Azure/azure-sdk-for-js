@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationType, ResourceType } from "./common";
-import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
-import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
-import { ConsistencyLevel } from "./documents";
+import type { OperationType, ResourceType } from "./common";
+import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
+import type { ConsistencyLevel } from "./documents";
 
 /**
  *  * This is a Cosmos Diagnostic type that holds collected diagnostic information during a client operations. ie. Item.read(), Container.create().

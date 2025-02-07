@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the status of the latest application upgrade. It will query the cluster to find the status of the latest application upgrade.
  *
  * @summary Get the status of the latest application upgrade. It will query the cluster to find the status of the latest application upgrade.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ApplicationActionGetUpgrade_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationActionGetUpgrade_example.json
  */
 async function getAnApplicationUpgrade() {
   const subscriptionId =

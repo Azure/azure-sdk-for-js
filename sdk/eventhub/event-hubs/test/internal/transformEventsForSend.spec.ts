@@ -2,31 +2,32 @@
 // Licensed under the MIT License.
 
 import { Buffer } from "buffer";
-import { EventData, EventDataBatch } from "../../src/index.js";
-import { PartitionPublishingProperties } from "../../src/models/private.js";
+import type { EventData, EventDataBatch } from "../../src/index.js";
+import type { PartitionPublishingProperties } from "../../src/models/private.js";
 
 import { transformEventsForSend } from "../../src/eventHubSender.js";
-import { EventDataInternal } from "../../src/eventData.js";
+import type { EventDataInternal } from "../../src/eventData.js";
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
 } from "../../src/util/constants.js";
-import { message, Message } from "rhea-promise";
+import type { Message } from "rhea-promise";
+import { message } from "rhea-promise";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData.js";
 import { describe, it, beforeEach } from "vitest";
 import { should } from "../utils/chai.js";
 import { createProducer } from "../utils/clients.js";
 
-describe("transformEventsForSend", function () {
+describe("transformEventsForSend", () => {
   function decodeEncodedMessage(encodedMessage: Buffer): Message[] {
     const batchMessage = message.decode(encodedMessage);
     return batchMessage.body.content.map(message.decode);
   }
 
-  describe("with (not idempotent) EventDataBatch", function () {
+  describe("with (not idempotent) EventDataBatch", () => {
     let batch: EventDataBatch;
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       const producerClient = createProducer().producer;
       batch = await producerClient.createBatch();
 
@@ -38,7 +39,7 @@ describe("transformEventsForSend", function () {
       await producerClient.close();
     });
 
-    it("doesn't annotate events in batch when isIdempotentPublishingEnabled is false", async function () {
+    it("doesn't annotate events in batch when isIdempotentPublishingEnabled is false", async () => {
       const publishingProps: PartitionPublishingProperties = {
         isIdempotentPublishingEnabled: false,
         partitionId: "",
@@ -71,10 +72,10 @@ describe("transformEventsForSend", function () {
     });
   });
 
-  describe("with idempotent EventDataBatch", function () {
+  describe("with idempotent EventDataBatch", () => {
     let batch: EventDataBatch;
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       const producerClient = createProducer({ enableIdempotentRetries: true }).producer;
       batch = await producerClient.createBatch({ partitionId: "0" });
 
@@ -86,7 +87,7 @@ describe("transformEventsForSend", function () {
       await producerClient.close();
     });
 
-    it("annotates events in batch when isIdempotentPublishingEnabled is true", async function () {
+    it("annotates events in batch when isIdempotentPublishingEnabled is true", async () => {
       const publishingProps: PartitionPublishingProperties = {
         isIdempotentPublishingEnabled: true,
         partitionId: "0",
@@ -128,10 +129,10 @@ describe("transformEventsForSend", function () {
     });
   });
 
-  describe("with EventData[]", function () {
+  describe("with EventData[]", () => {
     let events: EventData[];
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       events = [];
       for (let i = 1; i <= 10; i++) {
         const event: EventData = { body: `bootstrapping event #${1}` };
@@ -139,7 +140,7 @@ describe("transformEventsForSend", function () {
       }
     });
 
-    it("doesn't annotate events when isIdempotentPublishingEnabled is false", async function () {
+    it("doesn't annotate events when isIdempotentPublishingEnabled is false", async () => {
       const publishingProps: PartitionPublishingProperties = {
         isIdempotentPublishingEnabled: false,
         partitionId: "",
@@ -183,7 +184,7 @@ describe("transformEventsForSend", function () {
       }
     });
 
-    it("annotates events when isIdempotentPublishingEnabled is true", async function () {
+    it("annotates events when isIdempotentPublishingEnabled is true", async () => {
       const publishingProps: PartitionPublishingProperties = {
         isIdempotentPublishingEnabled: true,
         partitionId: "0",
@@ -238,7 +239,7 @@ describe("transformEventsForSend", function () {
       }
     });
 
-    it("adds trace property if tracingProperties are provided", async function () {
+    it("adds trace property if tracingProperties are provided", async () => {
       const publishingProps: PartitionPublishingProperties = {
         isIdempotentPublishingEnabled: false,
         partitionId: "",

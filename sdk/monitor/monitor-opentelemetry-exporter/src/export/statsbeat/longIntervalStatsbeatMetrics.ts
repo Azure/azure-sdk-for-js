@@ -1,31 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  diag,
+import type {
   BatchObservableResult,
   ObservableGauge,
   ObservableResult,
   Meter,
 } from "@opentelemetry/api";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import {
-  MeterProvider,
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics";
-import { AzureMonitorExporterOptions } from "../../index";
-import * as ai from "../../utils/constants/applicationinsights";
-import { StatsbeatMetrics } from "./statsbeatMetrics";
-import {
-  StatsbeatCounter,
-  STATSBEAT_LANGUAGE,
+import { diag } from "@opentelemetry/api";
+import type { ExportResult } from "@opentelemetry/core";
+import { ExportResultCode } from "@opentelemetry/core";
+import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { AzureMonitorExporterOptions } from "../../index.js";
+import * as ai from "../../utils/constants/applicationinsights.js";
+import { StatsbeatMetrics } from "./statsbeatMetrics.js";
+import type {
   CommonStatsbeatProperties,
   AttachStatsbeatProperties,
-  StatsbeatFeatureType,
   StatsbeatOptions,
-} from "./types";
-import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
+} from "./types.js";
+import { StatsbeatCounter, STATSBEAT_LANGUAGE, StatsbeatFeatureType } from "./types.js";
+import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 
 let instance: LongIntervalStatsbeatMetrics | null = null;
 
@@ -102,6 +98,8 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     this.attachStatsbeatGauge = this.longIntervalStatsbeatMeter.createObservableGauge(
       StatsbeatCounter.ATTACH,
     );
+    this.isInitialized = true;
+    this.initialize();
 
     this.commonProperties = {
       os: this.os,
@@ -116,12 +114,9 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     this.attachProperties = {
       rpId: this.resourceIdentifier,
     };
-
-    this.isInitialized = true;
-    this.initialize();
   }
 
-  private async initialize() {
+  private async initialize(): Promise<void> {
     try {
       await this.getResourceProvider();
 
@@ -132,21 +127,23 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
         [this.featureStatsbeatGauge],
       );
 
-      // Export Feature/Attach Statsbeat once upon app initialization
-      this.longIntervalAzureExporter.export(
-        (await this.longIntervalMetricReader.collect()).resourceMetrics,
-        (result: ExportResult) => {
-          if (result.code !== ExportResultCode.SUCCESS) {
-            diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
-          }
-        },
-      );
+      // Export Feature/Attach Statsbeat once upon app initialization after 15 second delay
+      setTimeout(async () => {
+        this.longIntervalAzureExporter.export(
+          (await this.longIntervalMetricReader.collect()).resourceMetrics,
+          (result: ExportResult) => {
+            if (result.code !== ExportResultCode.SUCCESS) {
+              diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
+            }
+          },
+        );
+      }, 15000); // 15 seconds
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
     }
   }
 
-  private getEnvironmentStatus(observableResult: BatchObservableResult) {
+  private getEnvironmentStatus(observableResult: BatchObservableResult): void {
     this.setFeatures();
     let attributes;
     if (this.instrumentation) {
@@ -168,7 +165,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     }
   }
 
-  private setFeatures() {
+  private setFeatures(): void {
     const statsbeatFeatures = process.env.AZURE_MONITOR_STATSBEAT_FEATURES;
     if (statsbeatFeatures) {
       try {
@@ -182,7 +179,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     }
   }
 
-  private attachCallback(observableResult: ObservableResult) {
+  private attachCallback(observableResult: ObservableResult): void {
     const attributes = { ...this.commonProperties, ...this.attachProperties };
     observableResult.observe(1, attributes);
   }

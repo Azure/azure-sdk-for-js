@@ -1,13 +1,7 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
-    "lib": ["dom"],
-    "resolveJsonModule": true,
-    "paths": {
-      "@azure/keyvault-keys": ["./src/index"]
-    }
-  },
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

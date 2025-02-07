@@ -78,7 +78,7 @@ node ClassificationPolicy_Create.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node ClassificationPolicy_Create.js
+npx dev-tool run vendored cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node ClassificationPolicy_Create.js
 ```
 
 ## Next Steps
@@ -117,6 +117,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [routerworker_get]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-job-router-rest/samples/v1-beta/javascript/RouterWorker_Get.js
 [routerworker_list]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-job-router-rest/samples/v1-beta/javascript/RouterWorker_List.js
 [routerworker_update]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-job-router-rest/samples/v1-beta/javascript/RouterWorker_Update.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-job-router
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-job-router
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest/README.md

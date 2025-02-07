@@ -6,23 +6,22 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
+import type { SchemaDescription } from "@azure/schema-registry";
+import { SchemaRegistryClient } from "@azure/schema-registry";
 import { AvroSerializer } from "@azure/schema-registry-avro";
 import { EventHubBufferedProducerClient, createEventDataAdapter } from "@azure/event-hubs";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
-  process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
+  process.env["SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"] || "<endpoint>";
 
 // The schema group to use for schema registeration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // The connection string for Event Hubs
-const eventHubsConnectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
+const eventHubAvroHostName = process.env["EVENTHUB_AVRO_HOST_NAME"] || "";
 
 // The name of Event Hub the client will connect to
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
@@ -64,11 +63,12 @@ async function handleError(): Promise<void> {
   console.log("An error occured when sending a message");
 }
 
-export async function main() {
+export async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
   // Create a new client
   const schemaRegistryClient = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,
-    new DefaultAzureCredential(),
+    credential,
   );
 
   // Register the schema. This would generally have been done somewhere else.
@@ -83,8 +83,9 @@ export async function main() {
   });
 
   const eventHubsBufferedProducerClient = new EventHubBufferedProducerClient(
-    eventHubsConnectionString,
+    eventHubAvroHostName,
     eventHubName,
+    credential,
     {
       onSendEventsErrorHandler: handleError,
     },
@@ -100,7 +101,7 @@ export async function main() {
   console.log(`Message was added to the queue and is about to be sent`);
 
   // Wait for a bit before cleaning up the sample
-  setTimeout(async () => {
+  await setTimeout(async () => {
     await eventHubsBufferedProducerClient.close({ flush: true });
     console.log(`Exiting sample`);
   }, 30 * 1000);

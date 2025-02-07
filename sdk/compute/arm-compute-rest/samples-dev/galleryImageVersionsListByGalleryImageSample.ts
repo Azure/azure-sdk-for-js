@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  GalleryImageVersionsListByGalleryImageParameters,
-  paginate,
-} from "@azure-rest/arm-compute";
+import type { GalleryImageVersionsListByGalleryImageParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List gallery image versions in a gallery image definition.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary List gallery image versions in a gallery image definition.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_ListByGalleryImage.json
  */
-async function listGalleryImageVersionsInAGalleryImageDefinition() {
+async function listGalleryImageVersionsInAGalleryImageDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

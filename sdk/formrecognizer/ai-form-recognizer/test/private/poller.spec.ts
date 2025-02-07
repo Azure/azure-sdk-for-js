@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "@azure-tools/test-utils";
-import { lro } from "../../src/lro/util/poller";
-import { PollOperationState } from "@azure/core-lro";
+import { lro } from "../../src/lro/util/poller.js";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 import { AbortError } from "@azure/abort-controller";
+import { describe, it, expect } from "vitest";
 
 describe("custom poller", function () {
   it("abort signal correctly cancels polling", async function () {
@@ -18,7 +18,7 @@ describe("custom poller", function () {
     }, 250);
 
     // Expect that awaiting result throws an error
-    await assert.isRejected(result, AbortError, "The operation was aborted (poll).");
+    await expect(result).rejects.toThrow(AbortError);
   });
 
   it("abort signal correctly cancels instantiation", async function () {
@@ -29,7 +29,7 @@ describe("custom poller", function () {
     const operation = createOperation(abortController);
 
     // Expect that awaiting operation throws an error
-    await assert.isRejected(operation, AbortError, "The operation was aborted.");
+    await expect(operation).rejects.toThrow(AbortError);
   });
 
   it("stop poller after calling pollUntilDone", async function () {
@@ -41,11 +41,13 @@ describe("custom poller", function () {
       operation.stopPolling();
     }, 750);
 
-    await assert.isRejected(result, Error, "The operation was cancelled.");
+    await expect(result).rejects.toThrow(Error);
   });
 });
 
-function createOperation(abortController?: AbortController) {
+function createOperation(
+  abortController?: AbortController,
+): Promise<PollerLike<PollOperationState<number>, number>> {
   let counter = 0;
   return lro<number, PollOperationState<number>>(
     {

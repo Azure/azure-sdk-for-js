@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { Readable } from "stream";
-import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { BlobChangeFeedClient } from "../../src/BlobChangeFeedClient";
+import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Readable } from "stream";
+import type { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { BlobChangeFeedClient } from "../../src/BlobChangeFeedClient";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,

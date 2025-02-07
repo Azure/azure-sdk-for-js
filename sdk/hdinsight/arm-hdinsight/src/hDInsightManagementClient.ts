@@ -26,7 +26,7 @@ import {
   ScriptActionsImpl,
   ScriptExecutionHistoryImpl,
   VirtualMachinesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Applications,
   Clusters,
@@ -39,8 +39,8 @@ import {
   ScriptActions,
   ScriptExecutionHistory,
   VirtualMachines,
-} from "./operationsInterfaces";
-import { HDInsightManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { HDInsightManagementClientOptionalParams } from "./models/index.js";
 
 export class HDInsightManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -75,7 +75,7 @@ export class HDInsightManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-hdinsight/1.3.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-hdinsight/1.3.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

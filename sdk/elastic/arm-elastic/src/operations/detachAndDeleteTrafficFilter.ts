@@ -6,16 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DetachAndDeleteTrafficFilter } from "../operationsInterfaces";
+import { DetachAndDeleteTrafficFilter } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftElastic } from "../microsoftElastic";
-import { DetachAndDeleteTrafficFilterDeleteOptionalParams } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftElastic } from "../microsoftElastic.js";
+import { DetachAndDeleteTrafficFilterDeleteOptionalParams } from "../models/index.js";
 
 /** Class containing DetachAndDeleteTrafficFilter operations. */
 export class DetachAndDeleteTrafficFilterImpl
-  implements DetachAndDeleteTrafficFilter {
+  implements DetachAndDeleteTrafficFilter
+{
   private readonly client: MicrosoftElastic;
 
   /**
@@ -28,18 +29,18 @@ export class DetachAndDeleteTrafficFilterImpl
 
   /**
    * Detach and Delete traffic filter from the given deployment.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     monitorName: string,
-    options?: DetachAndDeleteTrafficFilterDeleteOptionalParams
+    options?: DetachAndDeleteTrafficFilterDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 }
@@ -47,22 +48,21 @@ export class DetachAndDeleteTrafficFilterImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/detachAndDeleteTrafficFilter",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/detachAndDeleteTrafficFilter",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.rulesetId],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

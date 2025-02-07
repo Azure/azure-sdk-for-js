@@ -6,7 +6,7 @@ The Microsoft Azure management API provides create, read, update, and delete fun
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/arm-postgresql-flexible) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-postgresql-flexible) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-postgresql-flexible?view=azure-node-preview) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-postgresql-flexible) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -44,9 +44,8 @@ npm install @azure/identity
 ```
 
 You will also need to **register a new AAD application and grant access to Azure PostgreSQLManagementFlexibleServer** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
-For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
 const { PostgreSQLManagementFlexibleServerClient } = require("@azure/arm-postgresql-flexible");
@@ -99,9 +98,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fpostgresql%2Farm-postgresql-flexible%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com

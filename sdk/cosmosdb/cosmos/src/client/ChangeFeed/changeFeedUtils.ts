@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
+import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 import { ErrorResponse } from "../../request";
-import { PartitionKeyRange } from "../Container";
-import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
+import type { PartitionKeyRange } from "../Container";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
-import { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
+import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
 import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
 import { Constants } from "../../common";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
 import { QueryRange } from "../../routing";
 import { FeedRangeInternal } from "./FeedRange";
+import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import { PartitionKeyInternal } from "../../documents/PartitionKeyInternal";
 
 /**
  * @hidden
@@ -128,4 +130,26 @@ export function fetchStartTime(changeFeedStartFrom: ChangeFeedStartFrom): Date |
  */
 export function isNullOrEmpty(text: string | null | undefined): boolean {
   return text === null || text === undefined || text.trim() === "";
+}
+
+/**
+ * @hidden
+ */
+export async function getEPKRangeForPrefixPartitionKey(
+  internalPartitionKey: PartitionKeyInternal,
+): Promise<QueryRange> {
+  const minEPK = getEffectivePartitionKeyForMultiHashPartitioning(internalPartitionKey);
+  const maxEPK =
+    minEPK + Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey;
+  return new QueryRange(minEPK, maxEPK, true, false);
+}
+
+/**
+ * @hidden
+ */
+export function getEffectivePartitionKeyForMultiHashPartitioning(
+  partitionKeyInternal: PartitionKeyInternal,
+): string {
+  const hashArray = partitionKeyInternal.map((item) => hashV2PartitionKey([item]));
+  return hashArray.join("");
 }

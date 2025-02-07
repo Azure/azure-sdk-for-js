@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultScopeSuffix } from "./constants";
+const DefaultScopeSuffix = "/.default";
 
 /**
  * Most MSIs send requests to the IMDS endpoint, or a similar endpoint.

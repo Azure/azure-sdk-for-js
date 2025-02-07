@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClientContext } from "../ClientContext";
+import type { ClientContext } from "../ClientContext";
 import { Constants } from "../common/constants";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { PartitionKeyRangeCache } from "./partitionKeyRangeCache";
 import { QueryRange } from "./QueryRange";
 

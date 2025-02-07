@@ -4,22 +4,26 @@
 /**
  * Demonstrates how to use tool calls with chat completions with telemetry.
  *
- * @summary Get chat completions with function call.
+ * @summary Get chat completions with function call with instrumentation.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { context, trace } from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { ConsoleSpanExporter, NodeTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import {
+  ConsoleSpanExporter,
+  NodeTracerProvider,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // You will need to set these environment variables or edit the following values
-const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<endpoint>";
+const key = process.env["KEY"];
+const modelName = process.env["MODEL_NAME"];
 const connectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"];
 
 const provider = new NodeTracerProvider();
@@ -33,7 +37,6 @@ provider.register();
 registerInstrumentations({
   instrumentations: [createAzureSdkInstrumentation()],
 });
-
 
 const getCurrentWeather = {
   name: "get_current_weather",
@@ -55,11 +58,11 @@ const getCurrentWeather = {
 };
 
 const getWeatherFunc = (location: string, unit: string): string => {
-  if (unit != "celsius") {
+  if (unit !== "celsius") {
     unit = "fahrenheit";
   }
   return `The temperature in ${location} is 72 degrees ${unit}`;
-}
+};
 
 const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
   const dummyFunction = { name: "", arguments: "", id: "" };
@@ -80,7 +83,7 @@ const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) =
     }
     index++;
   }
-}
+};
 
 const handleToolCalls = (functionArray: Array<any>) => {
   const messageArray = [];
@@ -89,14 +92,13 @@ const handleToolCalls = (functionArray: Array<any>) => {
     let content = "";
 
     switch (func.name) {
-
       case "get_current_weather":
         content = getWeatherFunc(funcArgs.location, funcArgs.unit ?? "fahrenheit");
         messageArray.push({
           role: "tool",
           content,
           tool_call_id: func.id,
-          name: func.name
+          name: func.name,
         });
         break;
 
@@ -106,30 +108,26 @@ const handleToolCalls = (functionArray: Array<any>) => {
     }
   }
   return messageArray;
-}
-
+};
 
 // any import such as ai-inference has core-tracing as dependency must be imported after the instrumentation is registered
 import ModelClient, { ChatRequestMessage, isUnexpected } from "@azure-rest/ai-inference";
+import { AzureKeyCredential } from "@azure/core-auth";
 
-export async function main() {
-  const credential = new DefaultAzureCredential();
-  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
-  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
-  const scopes = ["https://cognitiveservices.azure.com/.default"];
-  const clientOptions = { credentials: { scopes } };
-  const client = ModelClient(modelEndpoint, credential, clientOptions);
+export async function main(): Promise<void> {
+  const client = createModelClient();
 
-  const messages: ChatRequestMessage[] = [{ role: "user", content: "What's the weather like in Boston?" }];
+  const messages: ChatRequestMessage[] = [
+    { role: "user", content: "What's the weather like in Boston?" },
+  ];
 
   let toolCallAnswer = "";
   let awaitingToolCallAnswer = true;
 
-  const tracer = trace.getTracer('sample', '0.1.0');
+  const tracer = trace.getTracer("sample", "0.1.0");
 
-  await tracer.startActiveSpan('main', async (span) => {
+  await tracer.startActiveSpan("main", async (span) => {
     while (awaitingToolCallAnswer) {
-
       const response = await client.path("/chat/completions").post({
         body: {
           messages,
@@ -138,9 +136,10 @@ export async function main() {
               type: "function",
               function: getCurrentWeather,
             },
-          ]
+          ],
+          model: modelName,
         },
-        tracingOptions: { tracingContext: context.active() }
+        tracingOptions: { tracingContext: context.active() },
       });
 
       if (isUnexpected(response)) {
@@ -158,7 +157,6 @@ export async function main() {
 
       const functionArray: Array<any> = [];
 
-
       for (const choice of response.body.choices) {
         const toolCallArray = choice.message?.tool_calls;
 
@@ -174,7 +172,7 @@ export async function main() {
           const messageArray = handleToolCalls(functionArray);
           messages.push(...messageArray);
         } else {
-          if (choice.message?.content && choice.message.content != '') {
+          if (choice.message?.content && choice.message.content != "") {
             toolCallAnswer += choice.message?.content;
             awaitingToolCallAnswer = false;
           }
@@ -187,7 +185,28 @@ export async function main() {
 
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);
+}
 
+/*
+ * This function creates a model client.
+ */
+function createModelClient() {
+  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
+  // auth scope for MaaS and MaaP is currently https://ml.azure.com
+  // (Do not use for Serverless API or Managed Computer Endpoints)
+  if (key) {
+    return ModelClient(endpoint, new AzureKeyCredential(key));
+  } else {
+    const scopes: string[] = [];
+    if (endpoint.includes(".models.ai.azure.com")) {
+      scopes.push("https://ml.azure.com");
+    } else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+      scopes.push("https://cognitiveservices.azure.com");
+    }
+
+    const clientOptions = { credentials: { scopes } };
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
+  }
 }
 
 main().catch((err) => {

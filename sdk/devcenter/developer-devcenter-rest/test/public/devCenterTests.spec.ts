@@ -1,22 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
-import {
-  AzureDeveloperDevCenterClient,
-  ProjectOutput,
-  isUnexpected,
-  paginate,
-} from "../../src/index.js";
+import type { AzureDeveloperDevCenterClient, ProjectOutput } from "../../src/index.js";
+import { isUnexpected, paginate } from "../../src/index.js";
 
-describe("DevCenter Project Operations Tests", function () {
+describe("DevCenter Project Operations Tests", () => {
   let recorder: Recorder;
   let client: AzureDeveloperDevCenterClient;
   let endpoint: string;
 
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     recorder = await createRecorder(context);
     endpoint = env["ENDPOINT"] || "";
 
@@ -25,11 +22,11 @@ describe("DevCenter Project Operations Tests", function () {
     });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("Get project in a DevCenter", async function () {
+  it("Get project in a DevCenter", async () => {
     const projectName = env["DEFAULT_PROJECT_NAME"] || "";
     const project = await client.path("/projects/{projectName}", projectName).get();
 
@@ -40,7 +37,7 @@ describe("DevCenter Project Operations Tests", function () {
     expect(project.body.name).to.equal(env["DEFAULT_PROJECT_NAME"]);
   });
 
-  it("List all projects in a DevCenter", async function () {
+  it("List all projects in a DevCenter", async () => {
     const projectList = await client.path("/projects").get();
     const projects: ProjectOutput[] = [];
 

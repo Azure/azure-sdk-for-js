@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccountSasPermissions, accountSasPermissionsFromString } from "./accountSasPermissions";
-import {
-  AccountSasServices,
-  accountSasServicesFromString,
-  accountSasServicesToString,
-} from "./accountSasServices";
-import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
-import { SasIPRange } from "./sasIPRange";
-import { SasProtocol } from "./sasQueryParameters";
-import { generateAccountSasQueryParameters } from "./accountSasSignatureValues";
+import type { AccountSasPermissions } from "./accountSasPermissions.js";
+import { accountSasPermissionsFromString } from "./accountSasPermissions.js";
+import type { AccountSasServices } from "./accountSasServices.js";
+import { accountSasServicesFromString, accountSasServicesToString } from "./accountSasServices.js";
+import type { NamedKeyCredential } from "@azure/core-auth";
+import { isNamedKeyCredential } from "@azure/core-auth";
+import type { SasIPRange } from "./sasIPRange.js";
+import type { SasProtocol } from "./sasQueryParameters.js";
+import { generateAccountSasQueryParameters } from "./accountSasSignatureValues.js";
 
 /**
  * Generates a Table Account Shared Access Signature (SAS) URI based on the client properties
  * and parameters passed in. The SAS is signed by the shared key credential of the client.
  *
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
  *
  * @param options - Optional parameters.
  * @returns An account SAS token

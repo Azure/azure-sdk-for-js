@@ -4,12 +4,12 @@
 
 ```ts
 
-import { KeyCredential } from '@azure/core-auth';
-import { LroResponse } from '@azure/core-lro';
+import type { KeyCredential } from '@azure/core-auth';
+import type { LroResponse } from '@azure/core-lro';
 import { OperationOptions } from '@azure/core-client';
 import { OperationSpec } from '@azure/core-client';
-import { PipelinePolicy } from '@azure/core-rest-pipeline';
-import { ServiceClient } from '@azure/core-client';
+import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import type { ServiceClient } from '@azure/core-client';
 
 // @public
 export type BBox = BBox2D | BBox3D;

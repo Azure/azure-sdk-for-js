@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Notification } from "../models/notification.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { Notification } from "../models/notification.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { scheduleNotificationInternal } from "./internal/_scheduleNotification.js";
 
 /**

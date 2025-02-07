@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ContainerAppsAuthConfigs } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ContainerAppsAuthConfigs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
 import {
   AuthConfig,
   ContainerAppsAuthConfigsListByContainerAppNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   ContainerAppsAuthConfigsCreateOrUpdateResponse,
   ContainerAppsAuthConfigsDeleteOptionalParams,
   ContainerAppsAuthConfigsListByContainerAppNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ContainerAppsAuthConfigs operations. */
@@ -290,7 +290,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.containerAppName,
     Parameters.authConfigName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };
@@ -330,8 +330,8 @@ const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
     Parameters.nextLink,
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

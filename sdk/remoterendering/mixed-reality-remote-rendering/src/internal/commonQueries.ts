@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AssetConversion, assetConversionFromConversion } from "./assetConversion";
-import { RenderingSession, renderingSessionFromSessionProperties } from "./renderingSession";
-import { OperationOptions } from "@azure/core-client";
-import { RemoteRendering } from "../generated/operationsInterfaces";
-import { tracingClient } from "../generated/tracing";
+import type { AssetConversion } from "./assetConversion.js";
+import { assetConversionFromConversion } from "./assetConversion.js";
+import type { RenderingSession } from "./renderingSession.js";
+import { renderingSessionFromSessionProperties } from "./renderingSession.js";
+import type { OperationOptions } from "@azure/core-client";
+import type { RemoteRendering } from "../generated/operationsInterfaces/index.js";
+import { tracingClient } from "../generated/tracing.js";
 
 /**
  * Call getConversion on the service, wrapped in a tracing span with a provided name.

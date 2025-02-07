@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 import { Recorder } from "@azure-tools/test-recorder";
 
@@ -17,14 +17,8 @@ import {
   SimpleTokenCredential,
   getTokenBSUWithDefaultCredential,
 } from "../utils";
-import {
-  getFileServiceAccountAudience,
-  newPipeline,
-  ShareClient,
-  ShareServiceClient,
-  SignedIdentifier,
-  StorageSharedKeyCredential,
-} from "../../src";
+import type { ShareServiceClient, SignedIdentifier, StorageSharedKeyCredential } from "../../src";
+import { getFileServiceAccountAudience, newPipeline, ShareClient } from "../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("ShareClient Node.js only", () => {

@@ -21,24 +21,19 @@ export type AddonAutoscaling = string;
 
 // @public
 export interface AdvancedNetworking {
+    enabled?: boolean;
     observability?: AdvancedNetworkingObservability;
     security?: AdvancedNetworkingSecurity;
 }
 
 // @public
-export interface AdvancedNetworkingFqdnPolicy {
-    enabled?: boolean;
-}
-
-// @public
 export interface AdvancedNetworkingObservability {
     enabled?: boolean;
-    tlsManagement?: TLSManagement;
 }
 
 // @public
 export interface AdvancedNetworkingSecurity {
-    fqdnPolicy?: AdvancedNetworkingFqdnPolicy;
+    enabled?: boolean;
 }
 
 // @public
@@ -311,6 +306,7 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
 export interface AgentPoolUpgradeSettings {
     drainTimeoutInMinutes?: number;
     maxSurge?: string;
+    maxUnavailable?: string;
     nodeSoakDurationInMinutes?: number;
     undrainableNodeBehavior?: UndrainableNodeBehavior;
 }
@@ -1008,6 +1004,12 @@ export enum KnownScaleSetPriority {
 }
 
 // @public
+export enum KnownSeccompDefault {
+    RuntimeDefault = "RuntimeDefault",
+    Unconfined = "Unconfined"
+}
+
+// @public
 export enum KnownServiceMeshMode {
     Disabled = "Disabled",
     Istio = "Istio"
@@ -1017,12 +1019,6 @@ export enum KnownServiceMeshMode {
 export enum KnownSnapshotType {
     ManagedCluster = "ManagedCluster",
     NodePool = "NodePool"
-}
-
-// @public
-export enum KnownTLSManagement {
-    Managed = "Managed",
-    None = "None"
 }
 
 // @public
@@ -1088,6 +1084,7 @@ export interface KubeletConfig {
     imageGcHighThreshold?: number;
     imageGcLowThreshold?: number;
     podMaxPids?: number;
+    seccompDefault?: SeccompDefault;
     topologyManagerPolicy?: string;
 }
 
@@ -2824,6 +2821,9 @@ export interface Schedule {
 }
 
 // @public
+export type SeccompDefault = string;
+
+// @public
 export type ServiceMeshMode = string;
 
 // @public
@@ -2983,9 +2983,6 @@ export interface TimeSpan {
     end?: Date;
     start?: Date;
 }
-
-// @public
-export type TLSManagement = string;
 
 // @public
 export interface TrackedResource extends Resource {

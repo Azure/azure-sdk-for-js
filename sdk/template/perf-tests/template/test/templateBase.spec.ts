@@ -5,10 +5,7 @@ import { AppConfigurationClient } from "@azure/app-configuration";
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { ConfigurationClient } from "@azure/template";
 import { DefaultAzureCredential } from "@azure/identity";
-
-// Expects the .env file at the same level
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export abstract class TemplateTest<TOptions> extends PerfTest<TOptions> {
   // Since the template project's client is limited in scope (and only supports getConfigurationSetting),

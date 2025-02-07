@@ -9,7 +9,7 @@ import { ContainerClient, BlobClient } from "@azure/storage-blob";
 import { Shard } from "../src/Shard";
 import { SegmentFactory } from "../src/SegmentFactory";
 import { ShardFactory } from "../src/ShardFactory";
-import { BlobChangeFeedEvent } from "../src";
+import type { BlobChangeFeedEvent } from "../src";
 
 describe("Segment", async () => {
   const manifestPath = "idx/segments/2020/03/25/0200/meta.json";

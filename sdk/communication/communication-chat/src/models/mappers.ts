@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { SerializedCommunicationIdentifier } from "@azure/communication-common";
 import {
-  SerializedCommunicationIdentifier,
   deserializeCommunicationIdentifier,
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
-import * as RestModel from "../generated/src/models";
-import { AddParticipantsRequest } from "./requests";
-import { CreateChatThreadOptions } from "./options";
-import {
+import type * as RestModel from "../generated/src/models/index.js";
+import type { AddParticipantsRequest } from "./requests.js";
+import type { CreateChatThreadOptions } from "./options.js";
+import type {
   ChatMessage,
   ChatMessageContent,
   ChatMessageReadReceipt,
   ChatParticipant,
   ChatThreadProperties,
   CreateChatThreadResult,
-} from "./models";
+} from "./models.js";
 
 export const mapToCreateChatThreadOptionsRestModel = (
   options: CreateChatThreadOptions,

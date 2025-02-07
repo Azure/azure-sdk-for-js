@@ -17,7 +17,7 @@ import {
   ApisDeleteOptionalParams,
   ApisHeadOptionalParams,
   ApisHeadResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Apis. */

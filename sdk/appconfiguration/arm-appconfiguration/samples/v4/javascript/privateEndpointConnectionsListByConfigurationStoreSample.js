@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all private endpoint connections for a configuration store.
  *
  * @summary Lists all private endpoint connections for a configuration store.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresListPrivateEndpointConnections.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresListPrivateEndpointConnections.json
  */
 async function privateEndpointConnectionList() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function privateEndpointConnectionList() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.listByConfigurationStore(
     resourceGroupName,
-    configStoreName
+    configStoreName,
   )) {
     resArray.push(item);
   }

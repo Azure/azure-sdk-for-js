@@ -9,6 +9,7 @@ import type { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
 import type { Debugger } from '@azure/logger';
 import type { GetTokenOptions } from '@azure/core-auth';
+import { HttpMethods } from '@azure/core-util';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -28,6 +29,12 @@ export interface Agent {
     requests: unknown;
     sockets: unknown;
 }
+
+// @public
+export function agentPolicy(agent?: Agent): PipelinePolicy;
+
+// @public
+export const agentPolicyName = "agentPolicy";
 
 // @public
 export interface AuthorizeRequestOnChallengeOptions {
@@ -177,8 +184,7 @@ export interface HttpHeaders extends Iterable<[string, string]> {
     }): RawHttpHeaders;
 }
 
-// @public
-export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
+export { HttpMethods }
 
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {
@@ -239,6 +245,7 @@ export interface Pipeline {
 
 // @public
 export interface PipelineOptions {
+    agent?: Agent;
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
@@ -283,6 +290,7 @@ export interface PipelineRequest {
 // @public
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
+    agent?: Agent;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
@@ -297,6 +305,7 @@ export interface PipelineRequestOptions {
     requestId?: string;
     streamResponseStatusCodes?: Set<number>;
     timeout?: number;
+    tlsSettings?: TlsSettings;
     tracingOptions?: OperationTracingOptions;
     url: string;
     withCredentials?: boolean;
@@ -367,6 +376,8 @@ export type RequestBodyType = NodeJS.ReadableStream | (() => NodeJS.ReadableStre
 // @public
 export class RestError extends Error {
     constructor(message: string, options?: RestErrorOptions);
+    // (undocumented)
+    [x: symbol]: () => string;
     code?: string;
     details?: unknown;
     static readonly PARSE_ERROR: string;

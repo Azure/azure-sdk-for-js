@@ -383,7 +383,7 @@ node appServiceCertificateOrdersCreateOrUpdateCertificateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPSERVICE_SUBSCRIPTION_ID="<appservice subscription id>" APPSERVICE_RESOURCE_GROUP="<appservice resource group>" node appServiceCertificateOrdersCreateOrUpdateCertificateSample.js
+npx dev-tool run vendored cross-env APPSERVICE_SUBSCRIPTION_ID="<appservice subscription id>" APPSERVICE_RESOURCE_GROUP="<appservice resource group>" node appServiceCertificateOrdersCreateOrUpdateCertificateSample.js
 ```
 
 ## Next Steps
@@ -737,6 +737,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workflowversionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice/samples/v15/javascript/workflowVersionsListSample.js
 [workflowsregenerateaccesskeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice/samples/v15/javascript/workflowsRegenerateAccessKeySample.js
 [workflowsvalidatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice/samples/v15/javascript/workflowsValidateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appservice?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appservice?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice/README.md

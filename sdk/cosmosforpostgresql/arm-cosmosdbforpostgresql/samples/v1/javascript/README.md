@@ -71,7 +71,7 @@ node clustersCheckNameAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID="<cosmosforpostgresql subscription id>" node clustersCheckNameAvailabilitySample.js
+npx dev-tool run vendored cross-env COSMOSFORPOSTGRESQL_SUBSCRIPTION_ID="<cosmosforpostgresql subscription id>" node clustersCheckNameAvailabilitySample.js
 ```
 
 ## Next Steps
@@ -113,6 +113,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [roleslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/rolesListByClusterSample.js
 [serversgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/serversGetSample.js
 [serverslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/javascript/serversListByClusterSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdbforpostgresql?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-cosmosdbforpostgresql?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/README.md

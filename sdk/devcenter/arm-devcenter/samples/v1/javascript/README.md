@@ -131,7 +131,7 @@ node attachedNetworksCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env DEVCENTER_SUBSCRIPTION_ID="<devcenter subscription id>" DEVCENTER_RESOURCE_GROUP="<devcenter resource group>" node attachedNetworksCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env DEVCENTER_SUBSCRIPTION_ID="<devcenter subscription id>" DEVCENTER_RESOURCE_GROUP="<devcenter resource group>" node attachedNetworksCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -233,6 +233,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [schedulesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/arm-devcenter/samples/v1/javascript/schedulesUpdateSample.js
 [skuslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/arm-devcenter/samples/v1/javascript/skusListBySubscriptionSample.js
 [usageslistbylocationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devcenter/arm-devcenter/samples/v1/javascript/usagesListByLocationSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-devcenter?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-devcenter?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/arm-devcenter/README.md

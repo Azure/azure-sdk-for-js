@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Locations } from "../operationsInterfaces";
+import { Locations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient.js";
 import {
   LocationGetResult,
   LocationsListOptionalParams,
   LocationsListResponse,
   LocationsGetOptionalParams,
   LocationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Locations operations. */
@@ -110,7 +110,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LocationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -126,7 +126,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LocationGetResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],

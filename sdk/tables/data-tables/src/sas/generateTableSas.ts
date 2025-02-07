@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NamedKeyCredential, isNamedKeyCredential } from "@azure/core-auth";
-import {
-  TableSasSignatureValues,
-  generateTableSasQueryParameters,
-} from "./tableSasSignatureValues";
-import { tableSasPermissionsFromString } from "./tableSasPermisions";
+import type { NamedKeyCredential } from "@azure/core-auth";
+import { isNamedKeyCredential } from "@azure/core-auth";
+import type { TableSasSignatureValues } from "./tableSasSignatureValues.js";
+import { generateTableSasQueryParameters } from "./tableSasSignatureValues.js";
+import { tableSasPermissionsFromString } from "./tableSasPermisions.js";
 
 /**
  * Generates a Table Service Shared Access Signature (SAS) URI based on the client properties
  * and parameters passed in. The SAS is signed by the shared key credential of the client.
  *
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
  *
  * @param options - Optional parameters.
  * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.

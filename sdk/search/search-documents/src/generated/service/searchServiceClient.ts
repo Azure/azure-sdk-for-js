@@ -20,7 +20,7 @@ import {
   SynonymMapsImpl,
   IndexesImpl,
   AliasesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   DataSources,
   Indexers,
@@ -28,20 +28,20 @@ import {
   SynonymMaps,
   Indexes,
   Aliases,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
-  ApiVersion20240901Preview,
+  ApiVersion20241101Preview,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetServiceStatisticsResponse,
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20240901Preview;
+  apiVersion: ApiVersion20241101Preview;
 
   /**
    * Initializes a new instance of the SearchServiceClient class.
@@ -51,7 +51,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20240901Preview,
+    apiVersion: ApiVersion20241101Preview,
     options?: SearchServiceClientOptionalParams,
   ) {
     if (endpoint === undefined) {
@@ -69,7 +69,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.2.0-beta.1`;
+    const packageDetails = `azsdk-js-search-documents/12.2.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

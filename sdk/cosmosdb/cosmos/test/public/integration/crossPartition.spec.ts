@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
 import * as util from "util";
-import { Container, ContainerDefinition } from "../../../src";
+import type { Container, ContainerDefinition } from "../../../src";
 import { DataType, IndexKind } from "../../../src";
-import { SqlQuerySpec } from "../../../src";
-import { QueryIterator } from "../../../src";
+import type { SqlQuerySpec } from "../../../src";
+import type { QueryIterator } from "../../../src";
 import {
   bulkInsertItems,
   getTestContainer,
   removeAllDatabases,
   generateDocuments,
 } from "../common/TestHelpers";
-import { FeedResponse, FeedOptions } from "../../../src";
+import type { FeedResponse, FeedOptions } from "../../../src";
 
 function compare(key: string) {
   return function (a: any, b: any): number {
@@ -27,10 +27,10 @@ function compare(key: string) {
   };
 }
 
-describe("Cross Partition", function (this: Suite) {
+describe("Cross-Partition", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
-  describe("Validate Query", function () {
+  describe("Validate-Query", function () {
     const documentDefinitions = generateDocuments(20);
 
     const containerDefinition: ContainerDefinition = {
@@ -137,7 +137,6 @@ describe("Cross Partition", function (this: Suite) {
         expectedCount ||
         (expectedOrderIds && expectedOrderIds.length) ||
         documentDefinitions.length;
-
       while (queryIterator.hasMoreResults()) {
         const { resources: results, queryMetrics, requestCharge } = await queryIterator.fetchNext();
         totalIteratorCalls++;
@@ -170,7 +169,6 @@ describe("Cross Partition", function (this: Suite) {
       if (expectedIteratorCalls) {
         assert.equal(totalIteratorCalls, expectedIteratorCalls);
       }
-
       // no more results
       validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
       assert.equal(
@@ -189,6 +187,52 @@ describe("Cross Partition", function (this: Suite) {
         }. \n fetchAllResponse.requestCharge: ${
           fetchAllResponse.requestCharge
         }, totalExecuteNextRequestCharge: ${totalExecuteNextRequestCharge}`,
+      );
+    };
+
+    const validateFetchNextAndHasMoreResultsWithEnableQueryControl = async function (
+      queryIterator: QueryIterator<any>,
+      expectedOrderIds: string[],
+      expectedCount: number,
+    ): Promise<void> {
+      let totalExecuteNextRequestCharge = 0;
+      let totalIteratorCalls = 0;
+      let totalFetchedResults: any[] = [];
+      const expectedLength =
+        expectedCount ||
+        (expectedOrderIds && expectedOrderIds.length) ||
+        documentDefinitions.length;
+      while (queryIterator.hasMoreResults()) {
+        const { resources: results, queryMetrics, requestCharge } = await queryIterator.fetchNext();
+        totalIteratorCalls++;
+        assert(queryMetrics, "expected response have query metrics");
+
+        if (totalFetchedResults.length > expectedLength) {
+          break;
+        }
+        if (results) {
+          totalFetchedResults = totalFetchedResults.concat(results);
+        }
+        totalExecuteNextRequestCharge += requestCharge;
+        assert(requestCharge >= 0);
+
+        if (totalFetchedResults.length < expectedLength) {
+          assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
+        } else {
+          // no more results
+          assert.equal(
+            expectedLength,
+            totalFetchedResults.length,
+            "executeNext: didn't fetch all the results",
+          );
+        }
+      }
+      // no more results
+      validateResults(totalFetchedResults, expectedOrderIds, expectedCount);
+      assert.equal(
+        queryIterator.hasMoreResults(),
+        false,
+        "hasMoreResults: no more results is left",
       );
     };
 
@@ -258,6 +302,22 @@ describe("Cross Partition", function (this: Suite) {
       );
       queryIterator.reset();
       await validateAsyncIterator(queryIterator, expectedOrderIds, expectedCount);
+
+      // Adding these to test the new flag enableQueryControl in FeedOptions
+      options.enableQueryControl = true;
+      const queryIteratorWithEnableQueryControl = container.items.query(query, options);
+      await validateFetchAll(
+        queryIteratorWithEnableQueryControl,
+        options,
+        expectedOrderIds,
+        expectedCount,
+      );
+      queryIteratorWithEnableQueryControl.reset();
+      await validateFetchNextAndHasMoreResultsWithEnableQueryControl(
+        queryIteratorWithEnableQueryControl,
+        expectedOrderIds,
+        expectedCount,
+      );
     };
 
     it("Validate Parallel Query As String With maxDegreeOfParallelism = 0", async function () {
@@ -275,7 +335,7 @@ describe("Cross Partition", function (this: Suite) {
       });
     });
 
-    it("Validate Parallel Query As String With maxDegreeOfParallelism: -1", async function () {
+    it("Validate-Parallel-Query As String With maxDegreeOfParallelism: -1", async function () {
       // simple order by query in string format
       const query = "SELECT * FROM root r";
       const options: FeedOptions = {

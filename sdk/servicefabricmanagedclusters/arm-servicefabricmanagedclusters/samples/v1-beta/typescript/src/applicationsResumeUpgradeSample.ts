@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Send a request to resume the current application upgrade. This will resume the application upgrade from where it was paused.
  *
  * @summary Send a request to resume the current application upgrade. This will resume the application upgrade from where it was paused.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ApplicationActionResumeUpgrade_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationActionResumeUpgrade_example.json
  */
 async function resumeUpgrade() {
   const subscriptionId =

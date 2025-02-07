@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
-import { Container, CosmosClient } from "../../../../src";
+import type { Suite } from "mocha";
+import type { Container, CosmosClient } from "../../../../src";
 import {
   getTestContainer,
   removeAllDatabases,
-  defaultClient,
-  defaultComputeGatewayClient,
+  getDefaultClient,
+  getDefaultComputeGatewayClient,
 } from "../../common/TestHelpers";
 
 interface ItemPayload {
@@ -36,7 +36,9 @@ const executeTestCase = async function (
   scenario: TestScenario,
   useComputeGateway: boolean = false,
 ) {
-  const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient : defaultClient;
+  const client: CosmosClient = useComputeGateway
+    ? getDefaultComputeGatewayClient()
+    : getDefaultClient();
   const container: Container = await getTestContainer(scenario.name, client, {
     partitionKey: {
       paths: ["/pk"],

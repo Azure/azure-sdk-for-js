@@ -5,14 +5,14 @@ import { parseEndpoint } from "../../src/util/parseEndpoint.js";
 import { describe, it } from "vitest";
 import { should } from "../utils/chai.js";
 
-describe("parseEndpoint", function () {
-  it("throws an error for invalid inputs", async function () {
+describe("parseEndpoint", () => {
+  it("throws an error for invalid inputs", async () => {
     should.throw(() => parseEndpoint(""), /Invalid endpoint/);
     should.throw(() => parseEndpoint("missing-protocol"), /Invalid endpoint/);
     should.throw(() => parseEndpoint("//missing-protocol"), /Invalid endpoint/);
   });
 
-  it("extracts host, hostname, and port", async function () {
+  it("extracts host, hostname, and port", async () => {
     parseEndpoint("sb://test.servicebus.windows.net:5671").should.eql({
       host: "test.servicebus.windows.net:5671",
       hostname: "test.servicebus.windows.net",

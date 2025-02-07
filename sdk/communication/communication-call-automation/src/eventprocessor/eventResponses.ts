@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AddParticipantSucceeded,
   AddParticipantFailed,
   CallConnected,
@@ -21,7 +21,8 @@ import {
   CancelAddParticipantFailed,
   CreateCallFailed,
   AnswerFailed,
-} from "../models/events";
+  ConnectFailed,
+} from "../models/events.js";
 
 /**
  * AddParticipant event result
@@ -71,6 +72,18 @@ export interface CreateCallEventResult {
   successResult?: CallConnected;
   /** contains failure event if the result was failure */
   failureResult?: CreateCallFailed;
+}
+
+/**
+ * ConnectCall event result
+ */
+export interface ConnectCallEventResult {
+  /** returns true if create call was successful */
+  isSuccess: boolean;
+  /** contains success event if the result was successful */
+  successResult?: CallConnected;
+  /** contains failure event if the result was failure */
+  failureResult?: ConnectFailed;
 }
 
 /**

@@ -6,18 +6,27 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { logger } from "./utils";
-import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
-import { SipConfigurationUpdate, SipRoutingError } from "./generated/src/siprouting/models";
-import { ListSipRoutesOptions, ListSipTrunksOptions, SipTrunk, SipTrunkRoute } from "./models";
-import { transformFromRestModel, transformIntoRestModel } from "./mappers";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { tracingClient } from "./generated/src/tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { logger } from "./utils/index.js";
+import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient.js";
+import type {
+  SipConfigurationUpdate,
+  SipRoutingError,
+} from "./generated/src/siprouting/models/index.js";
+import type {
+  ListSipRoutesOptions,
+  ListSipTrunksOptions,
+  SipTrunk,
+  SipTrunkRoute,
+} from "./models.js";
+import { transformFromRestModel, transformIntoRestModel } from "./mappers.js";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { tracingClient } from "./generated/src/tracing.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-export * from "./models";
+export * from "./models.js";
 
 /**
  * Client options used to configure the SipRoutingClient API requests.
@@ -103,6 +112,7 @@ export class SipRoutingClient {
    * Lists the SIP trunks.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listTrunks(options: ListSipTrunksOptions = {}): PagedAsyncIterableIterator<SipTrunk> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "SipRoutingClient-listTrunks",
@@ -153,6 +163,7 @@ export class SipRoutingClient {
    * Lists the SIP trunk routes.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public listRoutes(options: ListSipRoutesOptions = {}): PagedAsyncIterableIterator<SipTrunkRoute> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "SipRoutingClient-listRoutes",

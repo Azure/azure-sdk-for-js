@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CollectionConfigurationError } from "../../../generated";
+import type { CollectionConfigurationError } from "../../../generated";
 
 export class CollectionConfigurationErrorTracker {
   /**

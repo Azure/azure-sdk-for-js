@@ -7,15 +7,17 @@
  * @summary Get chat completions with function call.
  */
 
-import ModelClient, { ChatRequestMessage, isUnexpected } from "@azure-rest/ai-inference";
+import type { ChatRequestMessage } from "@azure-rest/ai-inference";
+import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // You will need to set these environment variables or edit the following values
-const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<endpoint>";
+const key = process.env["KEY"];
+const modelName = process.env["MODEL_NAME"];
 
 const getCurrentWeather = {
   name: "get_current_weather",
@@ -37,13 +39,13 @@ const getCurrentWeather = {
 };
 
 const getWeatherFunc = (location: string, unit: string): string => {
-  if (unit != "celsius") {
+  if (unit !== "celsius") {
     unit = "fahrenheit";
   }
   return `The temperature in ${location} is 72 degrees ${unit}`;
 };
 
-const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
+const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>): void => {
   const dummyFunction = { name: "", arguments: "", id: "" };
   while (functionArray.length < toolCallArray.length) {
     functionArray.push(dummyFunction);
@@ -64,7 +66,14 @@ const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) =
   }
 };
 
-const handleToolCalls = (functionArray: Array<any>) => {
+const handleToolCalls = (
+  functionArray: Array<any>,
+): {
+  role: string;
+  content: string;
+  tool_call_id: any;
+  name: any;
+}[] => {
   const messageArray = [];
   for (const func of functionArray) {
     const funcArgs = JSON.parse(func.arguments);
@@ -89,13 +98,8 @@ const handleToolCalls = (functionArray: Array<any>) => {
   return messageArray;
 };
 
-export async function main() {
-  const credential = new DefaultAzureCredential();
-  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
-  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
-  const scopes = ["https://cognitiveservices.azure.com/.default"];
-  const clientOptions = { credentials: { scopes } };
-  const client = ModelClient(modelEndpoint, credential, clientOptions);
+export async function main(): Promise<void> {
+  const client = createModelClient();
 
   const messages: ChatRequestMessage[] = [
     { role: "user", content: "What's the weather like in Boston?" },
@@ -113,6 +117,7 @@ export async function main() {
             function: getCurrentWeather,
           },
         ],
+        model: modelName,
       },
     });
 
@@ -142,11 +147,11 @@ export async function main() {
         }
         updateToolCalls(toolCallArray, functionArray);
       }
-      if (choice.finish_reason == "tool_calls") {
+      if (choice.finish_reason === "tool_calls") {
         const messageArray = handleToolCalls(functionArray);
         messages.push(...messageArray);
       } else {
-        if (choice.message?.content && choice.message.content != "") {
+        if (choice.message?.content && choice.message.content !== "") {
           toolCallAnswer += choice.message?.content;
           awaitingToolCallAnswer = false;
         }
@@ -156,6 +161,28 @@ export async function main() {
 
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);
+}
+
+/*
+ * This function creates a model client.
+ */
+function createModelClient(): ModelClient {
+  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
+  // auth scope for MaaS and MaaP is currently https://ml.azure.com
+  // (Do not use for Serverless API or Managed Computer Endpoints)
+  if (key) {
+    return ModelClient(endpoint, new AzureKeyCredential(key));
+  } else {
+    const scopes: string[] = [];
+    if (endpoint.includes(".models.ai.azure.com")) {
+      scopes.push("https://ml.azure.com");
+    } else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+      scopes.push("https://cognitiveservices.azure.com");
+    }
+
+    const clientOptions = { credentials: { scopes } };
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
+  }
 }
 
 main().catch((err) => {

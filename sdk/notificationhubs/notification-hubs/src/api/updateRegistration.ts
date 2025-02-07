@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure-rest/core-client";
-import { RegistrationDescription } from "../models/registration.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { RegistrationDescription } from "../models/registration.js";
 import { RestError } from "@azure/core-rest-pipeline";
 import { createOrUpdateRegistrationDescription } from "./internal/_createOrUpdateRegistrationDescription.js";
 import { tracingClient } from "../utils/tracing.js";

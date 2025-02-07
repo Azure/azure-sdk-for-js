@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PrivateLinkResource,
-  WebPubSubPrivateLinkResourcesListOptionalParams
-} from "../models";
+  WebPubSubPrivateLinkResourcesListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WebPubSubPrivateLinkResources. */
@@ -24,6 +24,6 @@ export interface WebPubSubPrivateLinkResources {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateLinkResourcesListOptionalParams
+    options?: WebPubSubPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource>;
 }

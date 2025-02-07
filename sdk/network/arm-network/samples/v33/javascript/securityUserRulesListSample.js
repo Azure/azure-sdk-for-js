@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all Security User Rules in a rule collection.
  *
  * @summary Lists all Security User Rules in a rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerSecurityUserRuleList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityUserRuleList.json
  */
 async function listSecurityUserRules() {
   const subscriptionId =

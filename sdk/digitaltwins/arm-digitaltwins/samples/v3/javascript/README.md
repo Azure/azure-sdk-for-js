@@ -58,7 +58,7 @@ node digitalTwinsCheckNameAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env DIGITALTWINS_SUBSCRIPTION_ID="<digitaltwins subscription id>" node digitalTwinsCheckNameAvailabilitySample.js
+npx dev-tool run vendored cross-env DIGITALTWINS_SUBSCRIPTION_ID="<digitaltwins subscription id>" node digitalTwinsCheckNameAvailabilitySample.js
 ```
 
 ## Next Steps
@@ -87,6 +87,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [timeseriesdatabaseconnectionsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/arm-digitaltwins/samples/v3/javascript/timeSeriesDatabaseConnectionsDeleteSample.js
 [timeseriesdatabaseconnectionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/arm-digitaltwins/samples/v3/javascript/timeSeriesDatabaseConnectionsGetSample.js
 [timeseriesdatabaseconnectionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/arm-digitaltwins/samples/v3/javascript/timeSeriesDatabaseConnectionsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-digitaltwins?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-digitaltwins?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/arm-digitaltwins/README.md

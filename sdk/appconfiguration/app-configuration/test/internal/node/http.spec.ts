@@ -1,26 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SyncTokens, parseSyncToken } from "../../../src/internal/synctokenpolicy";
+import { SyncTokens, parseSyncToken } from "../../../src/internal/synctokenpolicy.js";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
   startRecorder,
-} from "../../public/utils/testHelpers";
-import { AppConfigurationClient } from "../../../src";
-import { Context } from "mocha";
-import { InternalAppConfigurationClientOptions } from "../../../src/appConfigurationClient";
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+} from "../../public/utils/testHelpers.js";
+import { AppConfigurationClient } from "../../../src/index.js";
+import type { InternalAppConfigurationClientOptions } from "../../../src/appConfigurationClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import {
-  createHttpHeaders,
-  HttpClient,
-  PipelineRequest,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { HttpClient, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 
-describe("http request related tests", function () {
+describe("http request related tests", () => {
   describe("unit tests", () => {
     describe("parseSyncToken", () => {
       it("can parse various sync tokens", () => {
@@ -84,12 +79,12 @@ describe("http request related tests", function () {
     let client: AppConfigurationClient;
     let recorder: Recorder;
 
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this);
+    beforeEach(async (ctx) => {
+      recorder = await startRecorder(ctx);
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
@@ -119,11 +114,11 @@ describe("http request related tests", function () {
     let client: AppConfigurationClient;
     let syncTokens: SyncTokens;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async () => {
       syncTokens = new SyncTokens();
     });
 
-    it("policy is setup properly to send sync tokens", async function () {
+    it("policy is setup properly to send sync tokens", async () => {
       client = createMockSyncTokenClient(syncTokens, async (request: PipelineRequest) => {
         return { headers: createHttpHeaders(), status: 418, request };
       });

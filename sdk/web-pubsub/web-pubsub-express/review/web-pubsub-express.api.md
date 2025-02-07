@@ -4,7 +4,7 @@
 
 ```ts
 
-import express from 'express-serve-static-core';
+import type express from 'express-serve-static-core';
 
 // @public
 export interface Certificate {
@@ -17,11 +17,20 @@ export interface ConnectedRequest {
 }
 
 // @public
+export interface ConnectErrorResponse {
+    code: 400 | 401 | 500;
+    detail?: string;
+}
+
+// @public
 export interface ConnectionContext {
+    clientProtocol: WebPubSubClientProtocol;
     connectionId: string;
     eventName: string;
     hub: string;
+    mqtt?: MqttConnectionContextProperties;
     origin: string;
+    signature: string;
     states: Record<string, any>;
     subprotocol?: string;
     userId?: string;
@@ -50,14 +59,146 @@ export interface ConnectResponse {
 // @public
 export interface ConnectResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
+    failWith(response: ConnectErrorResponse | MqttConnectErrorResponse): void;
     setState(name: string, value: unknown): void;
-    success(response?: ConnectResponse): void;
+    success(response?: ConnectResponse | MqttConnectResponse): void;
 }
 
 // @public
 export interface DisconnectedRequest {
     context: ConnectionContext;
     reason?: string;
+}
+
+// @public
+export interface MqttConnectErrorResponse {
+    mqtt: MqttConnectErrorResponseProperties;
+}
+
+// @public
+export interface MqttConnectErrorResponseProperties {
+    code: MqttV311ConnectReturnCode | MqttV500ConnectReasonCode;
+    reason?: string;
+    userProperties?: MqttUserProperty[];
+}
+
+// @public
+export interface MqttConnectionContextProperties {
+    physicalConnectionId: string;
+    sessionId?: string;
+}
+
+// @public
+export interface MqttConnectProperties {
+    password?: string;
+    protocolVersion: number;
+    username?: string;
+    userProperties?: MqttUserProperty[];
+}
+
+// @public
+export interface MqttConnectRequest extends ConnectRequest {
+    mqtt: MqttConnectProperties;
+}
+
+// @public
+export interface MqttConnectResponse extends ConnectResponse {
+    mqtt?: MqttConnectResponseProperties;
+}
+
+// @public
+export interface MqttConnectResponseProperties {
+    userProperties?: MqttUserProperty[];
+}
+
+// @public
+export interface MqttDisconnectedProperties {
+    disconnectPacket: MqttDisconnectPacket;
+    initiatedByClient: boolean;
+}
+
+// @public
+export interface MqttDisconnectedRequest extends DisconnectedRequest {
+    mqtt: MqttDisconnectedProperties;
+}
+
+// @public
+export interface MqttDisconnectPacket {
+    code: MqttDisconnectReasonCode;
+    userProperties?: MqttUserProperty[];
+}
+
+// @public
+export enum MqttDisconnectReasonCode {
+    AdministrativeAction = 152,
+    ConnectionRateExceeded = 159,
+    DisconnectWithWillMessage = 4,
+    ImplementationSpecificError = 131,
+    KeepAliveTimeout = 141,
+    MalformedPacket = 129,
+    MaximumConnectTime = 160,
+    MessageRateTooHigh = 150,
+    NormalDisconnection = 0,
+    NotAuthorized = 135,
+    PacketTooLarge = 149,
+    PayloadFormatInvalid = 153,
+    ProtocolError = 130,
+    QosNotSupported = 155,
+    QuotaExceeded = 151,
+    ReceiveMaximumExceeded = 147,
+    RetainNotSupported = 154,
+    ServerBusy = 137,
+    ServerMoved = 157,
+    ServerShuttingDown = 139,
+    SessionTakenOver = 142,
+    SharedSubscriptionsNotSupported = 158,
+    SubscriptionIdentifiersNotSupported = 161,
+    TopicAliasInvalid = 148,
+    TopicFilterInvalid = 143,
+    TopicNameInvalid = 144,
+    UnspecifiedError = 128,
+    UseAnotherServer = 156,
+    WildcardSubscriptionsNotSupported = 162
+}
+
+// @public
+export interface MqttUserProperty {
+    name: string;
+    value: string;
+}
+
+// @public
+export enum MqttV311ConnectReturnCode {
+    BadUsernameOrPassword = 4,
+    IdentifierRejected = 2,
+    NotAuthorized = 5,
+    ServerUnavailable = 3,
+    UnacceptableProtocolVersion = 1
+}
+
+// @public
+export enum MqttV500ConnectReasonCode {
+    BadAuthenticationMethod = 140,
+    BadUserNameOrPassword = 134,
+    Banned = 138,
+    ClientIdentifierNotValid = 133,
+    ConnectionRateExceeded = 159,
+    ImplementationSpecificError = 131,
+    MalformedPacket = 129,
+    NotAuthorized = 135,
+    PacketTooLarge = 149,
+    PayloadFormatInvalid = 153,
+    ProtocolError = 130,
+    QosNotSupported = 155,
+    QuotaExceeded = 151,
+    RetainNotSupported = 154,
+    ServerBusy = 137,
+    ServerMoved = 157,
+    ServerUnavailable = 136,
+    TopicNameInvalid = 144,
+    UnspecifiedError = 128,
+    UnsupportedProtocolVersion = 132,
+    UseAnotherServer = 156
 }
 
 // @public
@@ -81,6 +222,9 @@ export interface UserEventResponseHandler {
     setState(name: string, value: unknown): void;
     success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void;
 }
+
+// @public
+export type WebPubSubClientProtocol = "default" | "mqtt";
 
 // @public
 export class WebPubSubEventHandler {

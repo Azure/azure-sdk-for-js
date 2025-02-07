@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeleteKeyPollOperation, DeleteKeyPollOperationState } from "./operation";
-import { DeletedKey } from "../../keysModels";
-import { KeyVaultKeyPoller, KeyVaultKeyPollerOptions } from "../keyVaultKeyPoller";
+import type { DeleteKeyPollOperationState } from "./operation.js";
+import { DeleteKeyPollOperation } from "./operation.js";
+import type { DeletedKey } from "../../keysModels.js";
+import type { KeyVaultKeyPollerOptions } from "../keyVaultKeyPoller.js";
+import { KeyVaultKeyPoller } from "../keyVaultKeyPoller.js";
 
 /**
  * Class that creates a poller that waits until a key finishes being deleted.
  */
 export class DeleteKeyPoller extends KeyVaultKeyPoller<DeleteKeyPollOperationState, DeletedKey> {
   constructor(options: KeyVaultKeyPollerOptions) {
-    const { vaultUrl, client, name, operationOptions, intervalInMs = 2000, resumeFrom } = options;
+    const { client, name, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: DeleteKeyPollOperationState | undefined;
 
@@ -23,7 +25,6 @@ export class DeleteKeyPoller extends KeyVaultKeyPoller<DeleteKeyPollOperationSta
         ...state,
         name,
       },
-      vaultUrl,
       client,
       operationOptions,
     );

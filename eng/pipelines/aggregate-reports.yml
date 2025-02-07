@@ -47,10 +47,6 @@ stages:
             workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
             displayName: 'Validate dependencies'
 
-          - pwsh: |
-              copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
-            displayName: 'Copy static file'
-
           - task: AzureFileCopy@6
             displayName: 'Upload Dependency Report'
             inputs:

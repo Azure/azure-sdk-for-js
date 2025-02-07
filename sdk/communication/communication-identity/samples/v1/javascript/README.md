@@ -52,7 +52,7 @@ node createUserAndToken.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node createUserAndToken.js
+npx dev-tool run vendored cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node createUserAndToken.js
 ```
 
 ## Next Steps
@@ -63,7 +63,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [gettokenforteamsuser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/getTokenForTeamsUser.js
 [issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/issueToken.js
 [revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/javascript/revokeTokens.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-identity
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/communication-identity
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
+[createinstance_azurecommunicationservicesaccount]: https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-identity/README.md

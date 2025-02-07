@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { diag, SpanKind, SpanStatusCode, Link, Attributes } from "@opentelemetry/api";
+import type { Link, Attributes } from "@opentelemetry/api";
+import { diag, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
   DBSYSTEMVALUES_MONGODB,
   DBSYSTEMVALUES_MYSQL,
@@ -39,21 +40,26 @@ import {
   hrTimeToDate,
   isSqlDB,
   serializeAttribute,
-} from "./common";
-import { Tags, Properties, MSLink, Measurements, MaxPropertyLengths } from "../types";
-import { parseEventHubSpan } from "./eventhub";
-import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
-import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
+} from "./common.js";
+import type { Tags, Properties, MSLink, Measurements } from "../types.js";
+import { MaxPropertyLengths } from "../types.js";
+import { parseEventHubSpan } from "./eventhub.js";
 import {
+  AzureMonitorSampleRate,
+  DependencyTypes,
+  MS_LINKS,
+} from "./constants/applicationinsights.js";
+import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes.js";
+import type {
   TelemetryExceptionData,
   MessageData,
   RemoteDependencyData,
   RequestData,
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
   TelemetryExceptionDetails,
-} from "../generated";
-import { msToTimeSpan } from "./breezeUtils";
+} from "../generated/index.js";
+import { KnownContextTagKeys } from "../generated/index.js";
+import { msToTimeSpan } from "./breezeUtils.js";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const tags: Tags = createTagsFromResource(span.resource);
@@ -79,13 +85,17 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       const httpUrl = span.attributes[SEMATTRS_HTTP_URL];
       tags[KnownContextTagKeys.AiOperationName] = span.name; // Default
       if (httpRoute) {
-        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${
-          httpRoute as string
-        }`;
+        // AiOperationName max lenght is 1024
+        // https://github.com/MohanGsk/ApplicationInsights-Home/blob/master/EndpointSpecs/Schemas/Bond/ContextTagKeys.bond
+        tags[KnownContextTagKeys.AiOperationName] = String(
+          `${httpMethod as string} ${httpRoute as string}`,
+        ).substring(0, MaxPropertyLengths.TEN_BIT);
       } else if (httpUrl) {
         try {
           const url = new URL(String(httpUrl));
-          tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
+          tags[KnownContextTagKeys.AiOperationName] = String(
+            `${httpMethod} ${url.pathname}`,
+          ).substring(0, MaxPropertyLengths.TEN_BIT);
         } catch {
           /* no-op */
         }
@@ -101,8 +111,14 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
         tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
       }
     }
+  } else {
+    if (span.attributes[KnownContextTagKeys.AiOperationName]) {
+      tags[KnownContextTagKeys.AiOperationName] = span.attributes[
+        KnownContextTagKeys.AiOperationName
+      ] as string;
+    }
   }
-  // TODO: Operation Name and Location IP TBD for non server spans
+  // TODO: Location IP TBD for non server spans
 
   return tags;
 }
@@ -135,7 +151,8 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
           key === SEMATTRS_RPC_GRPC_STATUS_CODE ||
           key === SEMATTRS_EXCEPTION_TYPE ||
           key === SEMATTRS_EXCEPTION_MESSAGE ||
-          key === SEMATTRS_EXCEPTION_STACKTRACE
+          key === SEMATTRS_EXCEPTION_STACKTRACE ||
+          key === (KnownContextTagKeys.AiOperationName as string)
         )
       ) {
         properties[key] = serializeAttribute(attributes[key]);
@@ -414,44 +431,39 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
 
       // Only generate exception telemetry for incoming requests
       if (event.name === "exception") {
-        if (span.kind === SpanKind.SERVER) {
-          name = "Microsoft.ApplicationInsights.Exception";
-          baseType = "ExceptionData";
-          let typeName = "";
-          let message = "Exception";
-          let stack = "";
-          let hasFullStack = false;
-          if (event.attributes) {
-            typeName = String(event.attributes[SEMATTRS_EXCEPTION_TYPE]);
-            stack = String(event.attributes[SEMATTRS_EXCEPTION_STACKTRACE]);
-            if (stack) {
-              hasFullStack = true;
-            }
-            const exceptionMsg = event.attributes[SEMATTRS_EXCEPTION_MESSAGE];
-            if (exceptionMsg) {
-              message = String(exceptionMsg);
-            }
-            const escaped = event.attributes[SEMATTRS_EXCEPTION_ESCAPED];
-            if (escaped !== undefined) {
-              properties[SEMATTRS_EXCEPTION_ESCAPED] = String(escaped);
-            }
+        name = "Microsoft.ApplicationInsights.Exception";
+        baseType = "ExceptionData";
+        let typeName = "";
+        let message = "Exception";
+        let stack = "";
+        let hasFullStack = false;
+        if (event.attributes) {
+          typeName = String(event.attributes[SEMATTRS_EXCEPTION_TYPE]);
+          stack = String(event.attributes[SEMATTRS_EXCEPTION_STACKTRACE]);
+          if (stack) {
+            hasFullStack = true;
           }
-          const exceptionDetails: TelemetryExceptionDetails = {
-            typeName: typeName,
-            message: message,
-            stack: stack,
-            hasFullStack: hasFullStack,
-          };
-          const exceptionData: TelemetryExceptionData = {
-            exceptions: [exceptionDetails],
-            version: 2,
-            properties: properties,
-          };
-          baseData = exceptionData;
-        } else {
-          // Drop non-server exception span events
-          return;
+          const exceptionMsg = event.attributes[SEMATTRS_EXCEPTION_MESSAGE];
+          if (exceptionMsg) {
+            message = String(exceptionMsg);
+          }
+          const escaped = event.attributes[SEMATTRS_EXCEPTION_ESCAPED];
+          if (escaped !== undefined) {
+            properties[SEMATTRS_EXCEPTION_ESCAPED] = String(escaped);
+          }
         }
+        const exceptionDetails: TelemetryExceptionDetails = {
+          typeName: typeName,
+          message: message,
+          stack: stack,
+          hasFullStack: hasFullStack,
+        };
+        const exceptionData: TelemetryExceptionData = {
+          exceptions: [exceptionDetails],
+          version: 2,
+          properties: properties,
+        };
+        baseData = exceptionData;
       } else {
         name = "Microsoft.ApplicationInsights.Message";
         baseType = "MessageData";

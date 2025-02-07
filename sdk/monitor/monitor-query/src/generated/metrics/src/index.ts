@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { MonitorManagementClient } from "./monitorManagementClient";
-export { MonitorManagementClientContext } from "./monitorManagementClientContext";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { MonitorManagementClient } from "./monitorManagementClient.js";
+export { MonitorManagementClientContext } from "./monitorManagementClientContext.js";
+export * from "./operationsInterfaces/index.js";

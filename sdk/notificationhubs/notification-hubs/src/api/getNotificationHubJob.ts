@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { createRequest, sendRequest } from "./internal/_client.js";
-import { NotificationHubJob } from "../models/notificationHubJob.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { NotificationHubJob } from "../models/notificationHubJob.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { parseNotificationHubJobEntry } from "../serializers/notificationHubJobSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
 

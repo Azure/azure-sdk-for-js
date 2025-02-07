@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { MachineExtensions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { MachineExtensions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HybridComputeManagementClient } from "../hybridComputeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HybridComputeManagementClient } from "../hybridComputeManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   MachineExtension,
   MachineExtensionsListNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   MachineExtensionsGetOptionalParams,
   MachineExtensionsGetResponse,
   MachineExtensionsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MachineExtensions operations. */
@@ -230,7 +230,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
   }
 
   /**
-   * The operation to update the extension.
+   * The operation to create or update the extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param machineName The name of the machine where the extension should be created or updated.
    * @param extensionName The name of the machine extension.
@@ -310,7 +310,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
   }
 
   /**
-   * The operation to update the extension.
+   * The operation to create or update the extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param machineName The name of the machine where the extension should be created or updated.
    * @param extensionName The name of the machine extension.
@@ -600,7 +600,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

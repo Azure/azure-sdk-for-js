@@ -4,18 +4,16 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorResponse } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { Paged } from '@azure/core-paging';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { ErrorResponse } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { KeyCredential } from '@azure/core-auth';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface AddOrUpdateBlocklistItems {
@@ -98,17 +96,13 @@ export interface AnalyzeImageDefaultResponse extends HttpResponse {
 
 // @public
 export interface AnalyzeImageOptions {
-    categories?: string[];
+    categories?: ImageCategory[];
     image: ImageData_2;
-    outputType?: string;
+    outputType?: AnalyzeImageOutputType;
 }
 
 // @public
-export interface AnalyzeImageOptionsOutput {
-    categories?: string[];
-    image: ImageDataOutput;
-    outputType?: string;
-}
+export type AnalyzeImageOutputType = string;
 
 // @public (undocumented)
 export type AnalyzeImageParameters = AnalyzeImageBodyParam & RequestParameters;
@@ -154,20 +148,14 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
 // @public
 export interface AnalyzeTextOptions {
     blocklistNames?: string[];
-    categories?: string[];
+    categories?: TextCategory[];
     haltOnBlocklistHit?: boolean;
-    outputType?: string;
+    outputType?: AnalyzeTextOutputType;
     text: string;
 }
 
 // @public
-export interface AnalyzeTextOptionsOutput {
-    blocklistNames?: string[];
-    categories?: string[];
-    haltOnBlocklistHit?: boolean;
-    outputType?: string;
-    text: string;
-}
+export type AnalyzeTextOutputType = string;
 
 // @public (undocumented)
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
@@ -184,7 +172,12 @@ export type ContentSafetyClient = Client & {
 };
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): ContentSafetyClient;
+export interface ContentSafetyClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
+function createClient(endpointParam: string, credentials: TokenCredential | KeyCredential, { apiVersion, ...options }?: ContentSafetyClientOptions): ContentSafetyClient;
 export default createClient;
 
 // @public
@@ -259,7 +252,7 @@ export type DeleteTextBlocklistParameters = RequestParameters;
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -330,9 +323,15 @@ export type GetTextBlocklistParameters = RequestParameters;
 
 // @public
 export interface ImageCategoriesAnalysisOutput {
-    category: string;
+    category: ImageCategoryOutput;
     severity?: number;
 }
+
+// @public
+export type ImageCategory = string;
+
+// @public
+export type ImageCategoryOutput = string;
 
 // @public
 interface ImageData_2 {
@@ -341,17 +340,11 @@ interface ImageData_2 {
 }
 export { ImageData_2 as ImageData }
 
-// @public
-export interface ImageDataOutput {
-    blobUrl?: string;
-    content?: string;
-}
+// @public (undocumented)
+export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: AnalyzeText200Response | AnalyzeTextDefaultResponse): response is AnalyzeTextDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: AnalyzeImage200Response | AnalyzeImageDefaultResponse): response is AnalyzeImageDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse): response is GetTextBlocklistDefaultResponse;
@@ -453,10 +446,28 @@ export interface ListTextBlocklistsDefaultResponse extends HttpResponse {
 export type ListTextBlocklistsParameters = RequestParameters;
 
 // @public
-export type PagedTextBlocklistItemOutput = Paged<TextBlocklistItemOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export type PagedTextBlocklistOutput = Paged<TextBlocklistOutput>;
+export interface PagedTextBlocklistItemOutput {
+    nextLink?: string;
+    value: Array<TextBlocklistItemOutput>;
+}
+
+// @public
+export interface PagedTextBlocklistOutput {
+    nextLink?: string;
+    value: Array<TextBlocklistOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -514,8 +525,8 @@ export interface RemoveTextBlocklistItemsOptions {
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/text:analyze"): AnalyzeText;
     (path: "/image:analyze"): AnalyzeImage;
+    (path: "/text:analyze"): AnalyzeText;
     (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
     (path: "/text/blocklists"): ListTextBlocklists;
     (path: "/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName: string): AddOrUpdateBlocklistItems;
@@ -561,9 +572,15 @@ export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;
 
 // @public
 export interface TextCategoriesAnalysisOutput {
-    category: string;
+    category: TextCategoryOutput;
     severity?: number;
 }
+
+// @public
+export type TextCategory = string;
+
+// @public
+export type TextCategoryOutput = string;
 
 // (No @packageDocumentation comment for this package)
 

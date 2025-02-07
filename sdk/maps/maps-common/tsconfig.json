@@ -1,9 +1,9 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "declarationDir": "./types/latest",
-    "outDir": "./dist-esm"
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "exclude": ["node_modules"],
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts"]
 }

@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  PeerExpressRouteCircuitConnectionsGetParameters
+  PeerExpressRouteCircuitConnectionsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified Peer Express Route Circuit Connection from the specified express route circuit.
@@ -26,7 +21,7 @@ async function peerExpressRouteCircuitConnectionGet() {
   const peeringName = "AzurePrivatePeering";
   const connectionName = "60aee347-e889-4a42-8c1b-0aae8b1e4013";
   const options: PeerExpressRouteCircuitConnectionsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -35,7 +30,7 @@ async function peerExpressRouteCircuitConnectionGet() {
       resourceGroupName,
       circuitName,
       peeringName,
-      connectionName
+      connectionName,
     )
     .get(options);
   console.log(result);

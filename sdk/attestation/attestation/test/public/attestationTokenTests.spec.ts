@@ -4,33 +4,27 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../../src/jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-
-import { assert, use as chaiUse, expect } from "chai";
-import { Context } from "mocha";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
-
 import { Recorder } from "@azure-tools/test-recorder";
-import { bytesToString, stringToBytes } from "../../src/utils/utf8";
+import { bytesToString, stringToBytes } from "../../src/utils/utf8.js";
+import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils.js";
+import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";
+import { AttestationTokenImpl } from "../../src/models/attestationToken.js";
+import { recorderOptions } from "../utils/recordedClient.js";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
-import { createECDSKey, createRSAKey, createX509Certificate } from "../utils/cryptoUtils";
-import { verifyAttestationSigningKey } from "../../src/utils/helpers";
-import { AttestationTokenImpl } from "../../src/models/attestationToken";
-import { recorderOptions } from "../utils/recordedClient";
-
-describe("AttestationTokenTests", function () {
+describe("AttestationTokenTests", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("#testUtf8ConversionFunctions", async function () {
+  it("#testUtf8ConversionFunctions", async () => {
     const buffer = stringToBytes("ABCDEF");
     assert.equal(65, buffer[0]);
     assert.equal(66, buffer[1]);
@@ -42,7 +36,7 @@ describe("AttestationTokenTests", function () {
     assert.equal("ABCDEF", str);
   });
 
-  it("#createRsaSigningKey", async function () {
+  it("#createRsaSigningKey", async () => {
     const [privKey, pubKey] = createRSAKey();
     const cert = createX509Certificate(privKey, pubKey, "testCert");
     assert.isTrue(privKey.length !== 0);
@@ -52,7 +46,7 @@ describe("AttestationTokenTests", function () {
     assert.isTrue(signingKey.certificate.length !== 0);
   });
 
-  it("#createEcdsSigningKey", async function () {
+  it("#createEcdsSigningKey", async () => {
     const [privKey, pubKey] = createECDSKey();
     const cert = createX509Certificate(privKey, pubKey, "testCert");
     assert.isTrue(privKey.length !== 0);
@@ -64,7 +58,7 @@ describe("AttestationTokenTests", function () {
 
   // Create a signing key, but use the wrong key - this should throw an
   // exception, because the key doesn't match the certificate.
-  it("#createSigningKeyWrongKey", async function () {
+  it("#createSigningKeyWrongKey", async () => {
     const [privKey, pubKey] = createECDSKey();
     const cert = createX509Certificate(privKey, pubKey, "testCert");
 
@@ -79,7 +73,7 @@ describe("AttestationTokenTests", function () {
   /**
    * Creates an unsecured attestation token.
    */
-  it("#createUnsecuredAttestationToken", async function () {
+  it("#createUnsecuredAttestationToken", async () => {
     const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
     const token = AttestationTokenImpl.create({ body: sourceObject });
 
@@ -91,7 +85,7 @@ describe("AttestationTokenTests", function () {
   /**
    * Creates an unsecured empty attestation token.
    */
-  it("#createUnsecuredEmptyAttestationToken", async function () {
+  it("#createUnsecuredEmptyAttestationToken", async () => {
     const token = AttestationTokenImpl.create({});
 
     // An empty unsecured attestation token has a well known value, check it.
@@ -104,7 +98,7 @@ describe("AttestationTokenTests", function () {
   /**
    * Creates a secured empty attestation token with the specified key.
    */
-  it("#createEmptySecuredAttestationToken", async function () {
+  it("#createEmptySecuredAttestationToken", async () => {
     const [privKey, pubKey] = createRSAKey();
     const cert = createX509Certificate(privKey, pubKey, "certificate");
 
@@ -131,7 +125,7 @@ describe("AttestationTokenTests", function () {
   /**
    * Creates a secured attestation token with the specified key.
    */
-  it("#createSecuredAttestationToken", async function () {
+  it("#createSecuredAttestationToken", async () => {
     const [privKey, pubKey] = createRSAKey();
     const cert = createX509Certificate(privKey, pubKey, "certificate");
 
@@ -167,7 +161,7 @@ describe("AttestationTokenTests", function () {
     expect(token.issuer).to.equal("this is an issuer");
   });
 
-  it("#verifyAttestationTokenCallback", async function () {
+  it("#verifyAttestationTokenCallback", async () => {
     const sourceObject = JSON.stringify({ foo: "foo", bar: 10 });
 
     const token = AttestationTokenImpl.create({ body: sourceObject });
@@ -196,7 +190,7 @@ describe("AttestationTokenTests", function () {
     );
   });
 
-  it("#verifyAttestationTokenIssuer", async function () {
+  it("#verifyAttestationTokenIssuer", async () => {
     const currentTime = Math.floor(new Date().getTime() / 1000);
     {
       // Source expires in 30 seconds.
@@ -231,7 +225,7 @@ describe("AttestationTokenTests", function () {
       );
     }
   });
-  it("#verifyAttestationTimeouts", async function () {
+  it("#verifyAttestationTimeouts", async () => {
     const currentTime = Math.floor(new Date().getTime() / 1000);
 
     {

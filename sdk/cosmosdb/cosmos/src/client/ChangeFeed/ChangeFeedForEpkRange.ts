@@ -2,17 +2,19 @@
 // Licensed under the MIT License.
 import { ChangeFeedRange } from "./ChangeFeedRange";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-import { PartitionKeyRangeCache, QueryRange } from "../../routing";
+import type { PartitionKeyRangeCache } from "../../routing";
+import { QueryRange } from "../../routing";
 import { FeedRangeQueue } from "./FeedRangeQueue";
-import { ClientContext } from "../../ClientContext";
-import { Container, Resource } from "../../client";
+import type { ClientContext } from "../../ClientContext";
+import type { Container, Resource } from "../../client";
 import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../common";
-import { Response, FeedOptions, ErrorResponse } from "../../request";
+import type { Response, FeedOptions } from "../../request";
+import { ErrorResponse } from "../../request";
 import { CompositeContinuationToken } from "./CompositeContinuationToken";
-import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
+import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { extractOverlappingRanges } from "./changeFeedUtils";
-import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 import { ChangeFeedMode } from "./ChangeFeedMode";
 /**
@@ -443,23 +445,22 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         getEmptyCosmosDiagnostics(),
       );
     } catch (err) {
-      if (err.code >= StatusCodes.BadRequest && err.code !== StatusCodes.Gone) {
-        const errorResponse = new ErrorResponse(err.message);
-        errorResponse.code = err.code;
-        errorResponse.headers = err.headers;
-
-        throw errorResponse;
+      // If partition split/merge is encountered, handle it gracefully and continue fetching results.
+      if (err.code === StatusCodes.Gone) {
+        return new ChangeFeedIteratorResponse(
+          [],
+          0,
+          err.code,
+          err.headers,
+          getEmptyCosmosDiagnostics(),
+          err.substatus,
+        );
       }
-
-      // If any other errors are encountered, eg. partition split or gone, handle it based on error code and not break the flow.
-      return new ChangeFeedIteratorResponse(
-        [],
-        0,
-        err.code,
-        err.headers,
-        getEmptyCosmosDiagnostics(),
-        err.substatus,
-      );
+      // If any other errors are encountered, throw the error.
+      const errorResponse = new ErrorResponse(err.message);
+      errorResponse.code = err.code;
+      errorResponse.headers = err.headers;
+      throw errorResponse;
     }
   }
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ApplicationDataListParameters,
   ApplicationDataCreateCascadeDeleteJobParameters,
   ApplicationDataGetCascadeDeleteJobDetailsParameters,
@@ -199,8 +199,8 @@ import {
   ZonesListParameters,
   ZonesGetCascadeDeleteJobDetailsParameters,
   ZonesCreateCascadeDeleteJobParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   ApplicationDataList200Response,
   ApplicationDataListDefaultResponse,
   ApplicationDataCreateCascadeDeleteJob202Response,
@@ -623,8 +623,8 @@ import {
   ZonesGetCascadeDeleteJobDetailsDefaultResponse,
   ZonesCreateCascadeDeleteJob202Response,
   ZonesCreateCascadeDeleteJobDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ApplicationDataList {
   /** Returns a paginated list of application data resources across all parties. */

@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { createRecorder, createModelClient } from "./utils/recordedClient.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import {
+import type {
   ModelClient,
   GetEmbeddingsBodyParam,
-  isUnexpected,
   EmbeddingsResultOutput,
 } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
 
 describe("embeddings test suite", () => {
   let recorder: Recorder;
@@ -24,7 +24,7 @@ describe("embeddings test suite", () => {
     await recorder.stop();
   });
 
-  it("embeddings regression test", async function () {
+  it("embeddings regression test", async () => {
     const headers = { "extra-parameters": "allow" };
     const embeddingParams = {
       body: {
@@ -67,7 +67,7 @@ describe("embeddings test suite", () => {
     assert.isTrue(json["input_type"] === embeddingParams.body?.input_type);
   });
 
-  it("simple embeddings test", async function () {
+  it("simple embeddings test", async () => {
     const response = await client.path("/embeddings").post({
       body: {
         input: ["first phrase", "second phrase", "third phrase"],

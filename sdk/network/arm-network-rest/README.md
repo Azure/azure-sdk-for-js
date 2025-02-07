@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/network/arm-network-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/arm-network)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/arm-network?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/arm-network?view=azure-node-preview)
 - [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -35,7 +35,7 @@ To use an [Azure Active Directory (AAD) token credential](https://github.com/Azu
 provide an instance of the desired credential type obtained from the
 [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
 
 After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
@@ -56,12 +56,13 @@ const client = NetworkManagementClient(credential);
 ## Examples
 
 The following section shows you how to initialize and authenticate your client, then list all of your Virtual Networks within a resource group.
+
 ### List virtual networks within a resource group
 
 ```typescript
 import createNetworkManagementClient, {
   VirtualNetworksListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -72,13 +73,13 @@ async function listVirtualNetworksInResourceGroup() {
   const subscriptionId = "";
   const resourceGroupName = "rg1";
   const options: VirtualNetworksListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks",
       subscriptionId,
-      resourceGroupName
+      resourceGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

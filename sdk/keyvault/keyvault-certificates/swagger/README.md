@@ -10,7 +10,7 @@ api-version-parameter: choice
 use-core-v2: true
 v3: true
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.19"
+  "@autorest/typescript": "6.0.34"
 azure-arm: false
 generate-metadata: false
 add-credentials: false
@@ -20,8 +20,9 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/7452e1c
 output-folder: ../
 source-code-folder-path: ./src/generated
 hide-clients: true
-package-version: 4.8.1
+package-version: 4.9.1
 openapi-type: data-plane
+module-kind: esm
 ```
 
 ## Rename certain models back to what they were before 7.4

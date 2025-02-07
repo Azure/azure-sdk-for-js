@@ -1,40 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
-import {
+import type {
   BatchQueryRequest,
   BatchRequest as GeneratedBatchRequest,
-} from "../../../src/generated/logquery/src";
-import {
+} from "../../../src/generated/logquery/src/index.js";
+import type {
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse as GeneratedMetricsListResponse,
-} from "../../../src/generated/metrics/src";
-import { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
+} from "../../../src/generated/metrics/src/index.js";
+import type { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src/index.js";
 import {
   convertRequestForMetrics,
   convertRequestForQueryBatch,
   convertRequestOptionsForMetricsDefinitions,
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
-} from "../../../src/internal/modelConverters";
-import {
+} from "../../../src/internal/modelConverters.js";
+import type {
   OperationRequestOptions,
   RawResponseCallback,
   SerializerOptions,
 } from "@azure/core-client";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import {
-  Durations,
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import type {
   ListMetricDefinitionsOptions,
   MetricsQueryOptions,
   MetricsQueryResult,
-} from "../../../src";
-import { AbortSignalLike } from "@azure/abort-controller";
+} from "../../../src/index.js";
+import { Durations } from "../../../src/index.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval,
-} from "../../../src/timespanConversion";
+} from "../../../src/timespanConversion.js";
+import { describe, it, assert } from "vitest";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {
@@ -244,7 +244,6 @@ describe("Model unit tests", () => {
         // NOTE: _response is not returned as part of our track 2 response.
       };
 
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { getMetricByName, ...rest } = actualConvertedResponse;
       assert.deepEqual(
         { ...rest } as Omit<MetricsQueryResult, "getMetricByName">,

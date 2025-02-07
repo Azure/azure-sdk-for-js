@@ -6,7 +6,7 @@ import { MaxAggregator } from "./MaxAggregator";
 import { MinAggregator } from "./MinAggregator";
 import { SumAggregator } from "./SumAggregator";
 import { StaticValueAggregator } from "./StaticValueAggregator";
-import { AggregateType } from "../../request/ErrorResponse";
+import type { AggregateType } from "../../request/ErrorResponse";
 import { MakeListAggregator } from "./MakeListAggregator";
 import { MakeSetAggregator } from "./MakeSetAggregator";
 

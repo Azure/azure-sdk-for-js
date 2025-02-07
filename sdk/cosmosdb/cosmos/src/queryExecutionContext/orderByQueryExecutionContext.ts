@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClientContext } from "../ClientContext";
-import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
-import { FeedOptions } from "../request/FeedOptions";
-import { DocumentProducer } from "./documentProducer";
-import { ExecutionContext } from "./ExecutionContext";
+import type { ClientContext } from "../ClientContext";
+import type { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
+import type { FeedOptions } from "../request/FeedOptions";
+import type { DocumentProducer } from "./documentProducer";
+import type { ExecutionContext } from "./ExecutionContext";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
-import { SqlQuerySpec } from "./SqlQuerySpec";
+import type { SqlQuerySpec } from "./SqlQuerySpec";
 
 /** @hidden */
 export class OrderByQueryExecutionContext
@@ -57,5 +58,22 @@ export class OrderByQueryExecutionContext
    */
   public documentProducerComparator(docProd1: DocumentProducer, docProd2: DocumentProducer): any {
     return this.orderByComparator.compare(docProd1, docProd2);
+  }
+
+  /**
+   * Fetches more results from the query execution context.
+   * @param diagnosticNode - Optional diagnostic node for tracing.
+   * @returns A promise that resolves to the fetched results.
+   * @hidden
+   */
+  public async fetchMore(diagnosticNode?: DiagnosticNodeInternal): Promise<any> {
+    try {
+      await this.bufferDocumentProducers(diagnosticNode);
+      await this.fillBufferFromBufferQueue(true);
+      return this.drainBufferedItems();
+    } catch (error) {
+      console.error("Error fetching more results:", error);
+      throw error;
+    }
   }
 }

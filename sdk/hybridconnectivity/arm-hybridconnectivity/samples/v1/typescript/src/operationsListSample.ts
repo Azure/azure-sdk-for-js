@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the available Hybrid Connectivity REST API operations.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the available Hybrid Connectivity REST API operations.
  * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/OperationsList.json
  */
-async function hybridConnectivityOperationsList() {
+async function hybridConnectivityOperationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new HybridConnectivityManagementAPI(credential);
   const resArray = new Array();
@@ -30,7 +28,7 @@ async function hybridConnectivityOperationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   hybridConnectivityOperationsList();
 }
 

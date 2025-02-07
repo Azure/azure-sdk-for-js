@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectionContext, createConnectionContext } from "./connectionContext.js";
-import {
+import type { ConnectionContext } from "./connectionContext.js";
+import { createConnectionContext } from "./connectionContext.js";
+import type {
   CreateBatchOptions,
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
@@ -10,11 +11,15 @@ import {
   GetPartitionPropertiesOptions,
   SendBatchOptions,
 } from "./models/public.js";
-import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private.js";
-import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch.js";
-import { EventHubProperties, PartitionProperties } from "./managementClient.js";
-import { TracingContext, TracingSpanLink } from "@azure/core-tracing";
-import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+import type {
+  PartitionPublishingOptions,
+  PartitionPublishingProperties,
+} from "./models/private.js";
+import type { EventDataBatch } from "./eventDataBatch.js";
+import { EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch.js";
+import type { EventHubProperties, PartitionProperties } from "./managementClient.js";
+import type { TracingContext, TracingSpanLink } from "@azure/core-tracing";
+import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isDefined } from "@azure/core-util";
 import { isCredential } from "./util/typeGuards.js";
 import { logErrorStackTrace, logger } from "./logger.js";
@@ -25,10 +30,11 @@ import {
   throwTypeErrorIfParameterMissing,
   validateProducerPartitionSettings,
 } from "./util/error.js";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { EventData, EventDataInternal } from "./eventData.js";
+import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import type { EventData, EventDataInternal } from "./eventData.js";
+import { assertIsEventData } from "./eventData.js";
 import { EventHubSender } from "./eventHubSender.js";
-import { OperationOptions } from "./util/operationOptions.js";
+import type { OperationOptions } from "./util/operationOptions.js";
 import { toSpanOptions, tracingClient } from "./diagnostics/tracing.js";
 import { instrumentEventData } from "./diagnostics/instrumentEventData.js";
 import { getRandomName } from "./util/utils.js";
@@ -189,19 +195,30 @@ export class EventHubProducerClient {
    * for effecient management of batches.
    *
    * Example usage:
-   * ```ts
-   * const client = new EventHubProducerClient(connectionString);
+   * ```ts snippet:EventHubProducerClient_CreateBatch
+   * import { EventHubProducerClient } from "@azure/event-hubs";
+   *
+   * const client = new EventHubProducerClient("my-connection-string", "my-event-hub");
+   *
+   * const messages = [
+   *   { body: "my-event-body1" },
+   *   { body: "my-event-body2" },
+   *   { body: "my-event-body3" },
+   *   { body: "my-event-body4" },
+   *   { body: "my-event-body5" },
+   * ];
+   *
    * let batch = await client.createBatch();
    * for (let i = 0; i < messages.length; i++) {
-   *  if (!batch.tryAdd(messages[i])) {
-   *    await client.sendBatch(batch);
-   *    batch = await client.createBatch();
-   *    if (!batch.tryAdd(messages[i])) {
-   *      throw new Error("Message too big to fit")
-   *    }
-   *    if (i === messages.length - 1) {
-   *      await client.sendBatch(batch);
-   *    }
+   *   if (!batch.tryAdd(messages[i])) {
+   *     await client.sendBatch(batch);
+   *     batch = await client.createBatch();
+   *     if (!batch.tryAdd(messages[i])) {
+   *       throw new Error("Message too big to fit");
+   *     }
+   *     if (i === messages.length - 1) {
+   *       await client.sendBatch(batch);
+   *     }
    *   }
    * }
    * ```
@@ -315,8 +332,19 @@ export class EventHubProducerClient {
    * `EventHubBufferedProducerClient` instead.
    *
    * Example usage:
-   * ```ts
-   * const client = new EventHubProducerClient(connectionString);
+   * ```ts snippet:EventHubProducerClient_SendBatch
+   * import { EventHubProducerClient } from "@azure/event-hubs";
+   *
+   * const client = new EventHubProducerClient("my-connection-string", "my-event-hub");
+   *
+   * const messages = [
+   *   { body: "my-event-body1" },
+   *   { body: "my-event-body2" },
+   *   { body: "my-event-body3" },
+   *   { body: "my-event-body4" },
+   *   { body: "my-event-body5" },
+   * ];
+   *
    * await client.sendBatch(messages);
    * ```
    *
@@ -349,19 +377,30 @@ export class EventHubProducerClient {
    * for effecient management of batches.
    *
    * Example usage:
-   * ```ts
-   * const client = new EventHubProducerClient(connectionString);
+   * ```ts snippet:EventHubProducerClient_SendBatchPartitioned
+   * import { EventHubProducerClient } from "@azure/event-hubs";
+   *
+   * const client = new EventHubProducerClient("my-connection-string", "my-event-hub");
+   *
+   * const messages = [
+   *   { body: "my-event-body1" },
+   *   { body: "my-event-body2" },
+   *   { body: "my-event-body3" },
+   *   { body: "my-event-body4" },
+   *   { body: "my-event-body5" },
+   * ];
+   *
    * let batch = await client.createBatch();
    * for (let i = 0; i < messages.length; i++) {
-   *  if (!batch.tryAdd(messages[i])) {
-   *    await client.sendBatch(batch);
-   *    batch = await client.createBatch();
-   *    if (!batch.tryAdd(messages[i])) {
-   *      throw new Error("Message too big to fit")
-   *    }
-   *    if (i === messages.length - 1) {
-   *      await client.sendBatch(batch);
-   *    }
+   *   if (!batch.tryAdd(messages[i])) {
+   *     await client.sendBatch(batch);
+   *     batch = await client.createBatch();
+   *     if (!batch.tryAdd(messages[i])) {
+   *       throw new Error("Message too big to fit");
+   *     }
+   *     if (i === messages.length - 1) {
+   *       await client.sendBatch(batch);
+   *     }
    *   }
    * }
    * ```
@@ -375,7 +414,7 @@ export class EventHubProducerClient {
    * @throws MessagingError if an error is encountered while sending a message.
    * @throws Error if the underlying connection or sender has been closed.
    */
-  async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>; // eslint-disable-line @azure/azure-sdk/ts-naming-options
+  async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
   async sendBatch(
     batch: EventDataBatch | EventData[],
     options: SendBatchOptions | OperationOptions = {},
@@ -410,6 +449,7 @@ export class EventHubProducerClient {
       if (!Array.isArray(batch)) {
         batch = [batch];
       }
+      batch.forEach(assertIsEventData);
       if (batch.some((event) => isDefined((event as EventDataInternal)._publishedSequenceNumber))) {
         throw new Error(idempotentSomeAlreadyPublished);
       }

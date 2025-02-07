@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DeviceUpdateClient, isUnexpected } from "../../src";
-import { Context } from "mocha";
-import { assert } from "chai";
+import type { DeviceUpdateClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient, startRecorder } from "./utils/recordedClient";
+import { createRecordedClient, startRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("update test", () => {
   let recorder: Recorder;
   let client: DeviceUpdateClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await startRecorder(recorder);
     client = createRecordedClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -24,7 +24,7 @@ describe("update test", () => {
   const name = "vacuum";
   const version = "2022.401.504.6";
 
-  it("list providers", async function () {
+  it("list providers", async () => {
     const response = await client
       .path("/deviceUpdate/{instanceId}/updates/providers", "sdkinstance")
       .get();
@@ -38,7 +38,7 @@ describe("update test", () => {
     assert.equal("200", response.status);
   });
 
-  it("list names", async function () {
+  it("list names", async () => {
     const response = await client
       .path(
         "/deviceUpdate/{instanceId}/updates/providers/{provider}/names",
@@ -56,7 +56,7 @@ describe("update test", () => {
     assert.equal("200", response.status);
   });
 
-  it("get name not found", async function () {
+  it("get name not found", async () => {
     const response = await client
       .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", "sdkinstance", "foo")
       .get();
@@ -64,7 +64,7 @@ describe("update test", () => {
     assert.equal(response.status, "404");
   });
 
-  it("list versions", async function () {
+  it("list versions", async () => {
     const response = await client
       .path(
         "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
@@ -83,7 +83,7 @@ describe("update test", () => {
     assert.equal("200", response.status);
   });
 
-  it("get version not found", async function () {
+  it("get version not found", async () => {
     const response = await client
       .path(
         "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
@@ -96,7 +96,7 @@ describe("update test", () => {
     assert.equal(response.status, "404");
   });
 
-  it("get update", async function () {
+  it("get update", async () => {
     const response = await client
       .path(
         "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
@@ -116,7 +116,7 @@ describe("update test", () => {
     assert.equal("200", response.status);
   });
 
-  it("get update not found", async function () {
+  it("get update not found", async () => {
     const response = await client
       .path(
         "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
@@ -130,7 +130,7 @@ describe("update test", () => {
     assert.equal(response.status, "404");
   });
 
-  it("list files", async function () {
+  it("list files", async () => {
     const response = await client
       .path(
         "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files",
@@ -150,7 +150,7 @@ describe("update test", () => {
     assert.equal("200", response.status);
   });
 
-  it("list files not found", async function () {
+  it("list files not found", { timeout: 600000 }, async () => {
     const response = await client
       .path(
         "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files",
@@ -163,4 +163,4 @@ describe("update test", () => {
 
     assert.equal(response.status, "404");
   });
-}).timeout(600000);
+});

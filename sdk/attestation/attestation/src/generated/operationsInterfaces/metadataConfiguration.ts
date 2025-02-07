@@ -9,7 +9,7 @@
 import {
   MetadataConfigurationGetOptionalParams,
   MetadataConfigurationGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MetadataConfiguration. */
 export interface MetadataConfiguration {

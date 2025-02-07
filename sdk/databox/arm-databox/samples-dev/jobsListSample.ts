@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DataBoxManagementClient } from "@azure/arm-databox";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the jobs available under the subscription.
@@ -20,20 +16,19 @@ dotenv.config();
  * @summary Lists all the jobs available under the subscription.
  * x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsList.json
  */
-async function jobsList() {
-  const subscriptionId =
-    process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
+async function jobsList(): Promise<void> {
+  const subscriptionId = process.env["DATABOX_SUBSCRIPTION_ID"] || "YourSubscriptionId";
   const credential = new DefaultAzureCredential();
   const client = new DataBoxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.jobs.list()) {
+  for await (const item of client.jobs.list()) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  jobsList();
+async function main(): Promise<void> {
+  await jobsList();
 }
 
 main().catch(console.error);

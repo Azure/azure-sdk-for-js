@@ -48,6 +48,125 @@ describe("getServiceConfig", () => {
       .be.true;
   });
 
+  it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.49.0";
+    const { getServiceConfig } = require("../../src/core/playwrightService");
+
+    const mockVersion = "1.0.0";
+    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
+    const config = getServiceConfig();
+    const playwrightServiceConfig = new PlaywrightServiceConfig();
+    expect(config).to.deep.equal({
+      use: {
+        connectOptions: {
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
+          headers: {
+            Authorization: "Bearer token",
+            "x-ms-package-version": `@azure/microsoft-playwright-testing/${encodeURIComponent(mockVersion)}`,
+          },
+          timeout: playwrightServiceConfig.timeout,
+          exposeNetwork: playwrightServiceConfig.exposeNetwork,
+          slowMo: playwrightServiceConfig.slowMo,
+        },
+      },
+      globalSetup: [require.resolve("../../src/core/global/playwright-service-global-setup")],
+      globalTeardown: [require.resolve("../../src/core/global/playwright-service-global-teardown")],
+    });
+  });
+
+  it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0 and input global files are string", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.49.0";
+    const { getServiceConfig } = require("../../src/core/playwrightService");
+
+    const mockVersion = "1.0.0";
+    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
+    const config = getServiceConfig(samplePlaywrightConfigInput);
+    const playwrightServiceConfig = new PlaywrightServiceConfig();
+    const customerConfig = require("../../src/common/customerConfig");
+    expect(customerConfig.default.globalSetup).to.deep.equal(["sample-setup.ts"]);
+    expect(customerConfig.default.globalTeardown).to.deep.equal(["sample-teardown.ts"]);
+    expect(config).to.deep.equal({
+      use: {
+        connectOptions: {
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
+          headers: {
+            Authorization: "Bearer token",
+            "x-ms-package-version": `@azure/microsoft-playwright-testing/${encodeURIComponent(mockVersion)}`,
+          },
+          timeout: playwrightServiceConfig.timeout,
+          exposeNetwork: playwrightServiceConfig.exposeNetwork,
+          slowMo: playwrightServiceConfig.slowMo,
+        },
+      },
+      globalSetup: [
+        "sample-setup.ts",
+        require.resolve("../../src/core/global/playwright-service-global-setup"),
+      ],
+      globalTeardown: [
+        "sample-teardown.ts",
+        require.resolve("../../src/core/global/playwright-service-global-teardown"),
+      ],
+    });
+  });
+
+  it("should return service config with service connect options and global setup and teardown as list when playwright version is 1.49.0 and input global files are list", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.49.0";
+    const { getServiceConfig } = require("../../src/core/playwrightService");
+
+    const mockVersion = "1.0.0";
+    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
+    const sampleConfig = {
+      globalSetup: ["sample-setup.ts"],
+      globalTeardown: ["sample-teardown.ts"],
+    };
+    const config = getServiceConfig(sampleConfig);
+    const playwrightServiceConfig = new PlaywrightServiceConfig();
+    const customerConfig = require("../../src/common/customerConfig");
+    expect(customerConfig.default.globalSetup).to.deep.equal(["sample-setup.ts"]);
+    expect(customerConfig.default.globalTeardown).to.deep.equal(["sample-teardown.ts"]);
+    expect(config).to.deep.equal({
+      use: {
+        connectOptions: {
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
+          headers: {
+            Authorization: "Bearer token",
+            "x-ms-package-version": `@azure/microsoft-playwright-testing/${encodeURIComponent(mockVersion)}`,
+          },
+          timeout: playwrightServiceConfig.timeout,
+          exposeNetwork: playwrightServiceConfig.exposeNetwork,
+          slowMo: playwrightServiceConfig.slowMo,
+        },
+      },
+      globalSetup: [
+        "sample-setup.ts",
+        require.resolve("../../src/core/global/playwright-service-global-setup"),
+      ],
+      globalTeardown: [
+        "sample-teardown.ts",
+        require.resolve("../../src/core/global/playwright-service-global-teardown"),
+      ],
+    });
+  });
+
+  it("should throw error when playwright version is 1.48.0 and input global files are list", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.48.0";
+    const { getServiceConfig } = require("../../src/core/playwrightService");
+
+    const mockVersion = "1.0.0";
+    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
+    const sampleConfig = {
+      globalSetup: ["sample-setup.ts"],
+      globalTeardown: ["sample-teardown.ts"],
+    };
+    expect(() => getServiceConfig(sampleConfig)).to.throw(
+      ServiceErrorMessageConstants.MULTIPLE_SETUP_FILE_PLAYWRIGHT_VERSION_ERROR.message,
+    );
+  });
+
   it("should set customer config global setup and teardown scripts in the config if passed", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     getServiceConfig(samplePlaywrightConfigInput);
@@ -66,6 +185,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should set service config options as passed", () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     const { getServiceConfig } = require("../../src/core/playwrightService");
     getServiceConfig(samplePlaywrightConfigInput, {
       os: ServiceOS.WINDOWS,
@@ -90,6 +210,7 @@ describe("getServiceConfig", () => {
   it("should not set service global setup and teardown for mpt PAT authentication even if pat is not set", () => {
     const { getServiceConfig } = require("../../src/core/playwrightService");
     sandbox.stub(utils, "validateMptPAT").returns();
+    sandbox.stub(utils, "warnIfAccessTokenCloseToExpiry").returns();
     const config = getServiceConfig(samplePlaywrightConfigInput, {
       serviceAuthType: ServiceAuth.ACCESS_TOKEN,
     });
@@ -99,6 +220,47 @@ describe("getServiceConfig", () => {
     expect(config.globalTeardown).not.to.equal(
       require.resolve("../../src/core/global/playwright-service-global-teardown"),
     );
+  });
+
+  it("should not call warnIfAccessTokenCloseToExpiry if ONE_TIME_OPERATION_FLAG is true", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+    process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG] = "true";
+
+    const warnIfAccessTokenCloseToExpiryStub = sandbox.stub(
+      utils,
+      "warnIfAccessTokenCloseToExpiry",
+    );
+
+    sandbox.stub(utils, "validateMptPAT").returns();
+
+    const { getServiceConfig } = require("../../src/core/playwrightService");
+    getServiceConfig(samplePlaywrightConfigInput, {
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+    });
+
+    sinon.assert.notCalled(warnIfAccessTokenCloseToExpiryStub);
+
+    delete process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG];
+  });
+
+  it("should call warnIfAccessTokenCloseToExpiry if ONE_TIME_OPERATION_FLAG is not set", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
+
+    const warnIfAccessTokenCloseToExpiryStub = sandbox.stub(
+      utils,
+      "warnIfAccessTokenCloseToExpiry",
+    );
+
+    sandbox.stub(utils, "validateMptPAT").returns();
+
+    const { getServiceConfig } = require("../../src/core/playwrightService");
+    getServiceConfig(samplePlaywrightConfigInput, {
+      serviceAuthType: ServiceAuth.ACCESS_TOKEN,
+    });
+
+    sinon.assert.called(warnIfAccessTokenCloseToExpiryStub);
+    expect(process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG]).to.equal("true");
+    delete process.env[InternalEnvironmentVariables.ONE_TIME_OPERATION_FLAG];
   });
 
   it("should set service global setup and teardown for entra id authentication even if pat is set", () => {
@@ -129,14 +291,17 @@ describe("getServiceConfig", () => {
   it("should return service config with service connect options", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const { getServiceConfig } = require("../../src/core/playwrightService");
-    const config = getServiceConfig(samplePlaywrightConfigInput);
     const playwrightServiceConfig = new PlaywrightServiceConfig();
+    const mockVersion = "1.0.0";
+    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
+    const config = getServiceConfig(samplePlaywrightConfigInput);
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
           wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
           headers: {
             Authorization: "Bearer token",
+            "x-ms-package-version": `@azure/microsoft-playwright-testing/${encodeURIComponent(mockVersion)}`,
           },
           timeout: playwrightServiceConfig.timeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
@@ -185,6 +350,7 @@ describe("getConnectOptions", () => {
   });
 
   it("should set service connect options with passed values", async () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await getConnectOptions({
       runId: "1234",
@@ -196,7 +362,10 @@ describe("getConnectOptions", () => {
   });
 
   it("should set service connect options with fetched token", async () => {
+    const sandbox = sinon.createSandbox();
     const { getConnectOptions } = require("../../src/core/playwrightService");
+    const mockVersion = "1.0.0";
+    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
     const connectOptions = await getConnectOptions({});
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(connectOptions).to.deep.equal({
@@ -204,12 +373,14 @@ describe("getConnectOptions", () => {
       options: {
         headers: {
           Authorization: "Bearer token",
+          "x-ms-package-version": `@azure/microsoft-playwright-testing/${encodeURIComponent(mockVersion)}`,
         },
         timeout: new PlaywrightServiceConfig().timeout,
         exposeNetwork: new PlaywrightServiceConfig().exposeNetwork,
         slowMo: new PlaywrightServiceConfig().slowMo,
       },
     });
+    sandbox.restore();
   });
 
   it("should throw error if token is not set", async () => {

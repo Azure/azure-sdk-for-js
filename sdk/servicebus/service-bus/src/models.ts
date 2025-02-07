@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-import Long from "long";
-import { ServiceBusReceivedMessage } from "./serviceBusMessage";
-import { ServiceBusError } from "./serviceBusError";
+import type { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs.js";
+import type Long from "long";
+import type { ServiceBusReceivedMessage } from "./serviceBusMessage.js";
+import type { ServiceBusError } from "./serviceBusError.js";
 
 /**
  * Arguments to the `processError` callback.
@@ -77,7 +77,7 @@ export interface MessageHandlers {
    * Note that when receiving messages in a stream using `subscribe()`, the receiver will automatically retry receiving messages on all errors unless
    * `close()` is called on the subscription. It is completely up to users to decide what errors are considered non-recoverable and to handle them
    * accordingly in this callback.
-   * For a list of errors occurs within Service Bus, please refer to https://docs.microsoft.com/javascript/api/\@azure/service-bus/servicebuserror?view=azure-node-latest
+   * For a list of errors occurs within Service Bus, please refer to https://learn.microsoft.com/javascript/api/\@azure/service-bus/servicebuserror?view=azure-node-latest
    * @param args - The error and additional context to indicate where
    * the error originated.
    */
@@ -133,14 +133,14 @@ export interface ServiceBusReceiverOptions {
    * the message.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
   receiveMode?: "peekLock" | "receiveAndDelete";
   /**
    * Represents the sub queue that is applicable for any queue or subscription.
    * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
-   * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+   * see https://learn.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    */
   subQueueType?: "deadLetter" | "transferDeadLetter";
 
@@ -247,7 +247,7 @@ export interface SubscribeOptions extends OperationOptionsBase {
   /**
    * The maximum number of concurrent calls that the library
    * can make to the user's message handler. Once this limit has been reached, more messages will
-   * not be received until atleast one of the calls to the user's message handler has completed.
+   * not be received until at least one of the calls to the user's message handler has completed.
    * - **Default**: `1`.
    */
   maxConcurrentCalls?: number;
@@ -274,7 +274,7 @@ export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
    * the message.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://learn.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
   receiveMode?: "peekLock" | "receiveAndDelete";
@@ -320,11 +320,6 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
    * The sequence number to start peeking messages from (inclusive).
    */
   fromSequenceNumber?: Long;
-  /**
-   * @beta
-   * (Experimental for diagnostic purpose) Specifies whether to omit the body when peeking messages. Default  value `false`.
-   */
-  omitMessageBody?: boolean;
 }
 
 /**

@@ -5,10 +5,10 @@
 ```ts
 
 import { AccessToken } from '@azure/core-auth';
-import { AzureLogger } from '@azure/logger';
-import { CommonClientOptions } from '@azure/core-client';
+import type { AzureLogger } from '@azure/logger';
+import type { CommonClientOptions } from '@azure/core-client';
 import { GetTokenOptions } from '@azure/core-auth';
-import { LogPolicyOptions } from '@azure/core-rest-pipeline';
+import type { LogPolicyOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import type { TracingContext } from '@azure/core-auth';
 
@@ -79,6 +79,7 @@ export interface AuthorizationCodeCredentialOptions extends MultiTenantTokenCred
 // @public
 export enum AzureAuthorityHosts {
     AzureChina = "https://login.chinacloudapi.cn",
+    // @deprecated
     AzureGermany = "https://login.microsoftonline.de",
     AzureGovernment = "https://login.microsoftonline.us",
     AzurePublicCloud = "https://login.microsoftonline.com"
@@ -93,6 +94,7 @@ export class AzureCliCredential implements TokenCredential {
 // @public
 export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
     processTimeoutInMs?: number;
+    subscription?: string;
     tenantId?: string;
 }
 

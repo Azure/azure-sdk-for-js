@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import chai from "chai";
-const assert: typeof chai.assert = chai.assert;
-import { ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src";
+import type { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src/index.js";
+import { delay } from "../../../src/index.js";
+import { assert, assertAggregateError } from "./chai.js";
 
 export class TestMessage {
   static sessionId: string = "my-session";
@@ -69,13 +69,13 @@ export class TestMessage {
   ): void {
     if (sent.applicationProperties) {
       if (!received.applicationProperties) {
-        chai.assert.fail("Received message doesnt have any user properties");
+        assert.fail("Received message doesn't have any user properties");
         return;
       }
       const expectedUserProperties = sent.applicationProperties;
       const receivedUserProperties = received.applicationProperties;
       Object.keys(expectedUserProperties).forEach((key) => {
-        chai.assert.equal(
+        assert.equal(
           receivedUserProperties[key],
           expectedUserProperties[key],
           `Unexpected value for user property for ${key}`,
@@ -83,43 +83,35 @@ export class TestMessage {
       });
     }
 
-    chai.assert.equal(received.body, sent.body, `Unexpected body in received msg`);
-    chai.assert.equal(received.messageId, sent.messageId, `Unexpected messageId in received msg`);
+    assert.equal(received.body, sent.body, `Unexpected body in received msg`);
+    assert.equal(received.messageId, sent.messageId, `Unexpected messageId in received msg`);
 
-    chai.assert.equal(
-      received.contentType,
-      sent.contentType,
-      `Unexpected contentType in received msg`,
-    );
-    chai.assert.equal(
+    assert.equal(received.contentType, sent.contentType, `Unexpected contentType in received msg`);
+    assert.equal(
       received.correlationId,
       sent.correlationId,
       `Unexpected correlationId in received msg`,
     );
-    chai.assert.equal(
-      received.timeToLive,
-      sent.timeToLive,
-      `Unexpected timeToLive in received msg`,
-    );
-    chai.assert.equal(received.to, sent.to, `Unexpected to in received msg`);
-    chai.assert.equal(received.replyTo, sent.replyTo, `Unexpected replyTo in received msg`);
+    assert.equal(received.timeToLive, sent.timeToLive, `Unexpected timeToLive in received msg`);
+    assert.equal(received.to, sent.to, `Unexpected to in received msg`);
+    assert.equal(received.replyTo, sent.replyTo, `Unexpected replyTo in received msg`);
 
     if (useSessions) {
-      chai.assert.equal(received.sessionId, sent.sessionId, `Unexpected sessionId in received msg`);
-      chai.assert.equal(
+      assert.equal(received.sessionId, sent.sessionId, `Unexpected sessionId in received msg`);
+      assert.equal(
         received.replyToSessionId,
         sent.replyToSessionId,
         `Unexpected replyToSessionId in received msg`,
       );
       if (usePartitions) {
-        chai.assert.equal(
+        assert.equal(
           received.partitionKey,
           sent.sessionId,
           `Unexpected partitionKey in received msg`,
         );
       }
     } else {
-      chai.assert.equal(
+      assert.equal(
         received.partitionKey,
         sent.partitionKey,
         `Unexpected partitionKey in received msg`,
@@ -198,6 +190,13 @@ export enum EntityNames {
   MANAGEMENT_NEW_ENTITY_2 = "management-new-entity-2",
 }
 
+interface ErrorShape {
+  message: string;
+  code?: string;
+  name: string;
+  retryable?: boolean;
+}
+
 /**
  * Asserts that `fn` throws an error and assert.deepEqual compares all fields common
  * between `expectedErr` and `err`.
@@ -208,7 +207,7 @@ export enum EntityNames {
  */
 export function assertThrows<T>(
   fn: () => Promise<T>,
-  expectedErr: Record<string, any>,
+  expectedErr: ErrorShape | Array<ErrorShape>,
   assertMessage?: string,
 ): Promise<Error> {
   const testShouldHaveThrownError = new Error(
@@ -226,6 +225,17 @@ export function assertThrows<T>(
       }
 
       const comparableObj: Record<string, any> = {};
+      if (Array.isArray(expectedErr)) {
+        assertAggregateError(err);
+        assert.equal(err.errors.length, expectedErr.length, "Unexpected number of errors thrown");
+        expectedErr.forEach((expectedErrItem, index) => {
+          for (const k in expectedErrItem) {
+            comparableObj[k] = err.errors[index][k];
+          }
+          assert.deepEqual(comparableObj, expectedErrItem);
+        });
+        return err;
+      }
 
       for (const k in expectedErr) {
         comparableObj[k] = err[k];

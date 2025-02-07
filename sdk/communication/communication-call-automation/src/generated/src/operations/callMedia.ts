@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CallMedia } from "../operationsInterfaces";
+import { CallMedia } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CallAutomationApiClient } from "../callAutomationApiClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CallAutomationApiClient } from "../callAutomationApiClient.js";
 import {
   PlayRequest,
   CallMediaPlayOptionalParams,
@@ -33,15 +33,13 @@ import {
   CallMediaHoldOptionalParams,
   UnholdRequest,
   CallMediaUnholdOptionalParams,
-  StartHoldMusicRequest,
-  CallMediaStartHoldMusicOptionalParams,
-  StopHoldMusicRequest,
-  CallMediaStopHoldMusicOptionalParams,
   StartMediaStreamingRequest,
   CallMediaStartMediaStreamingOptionalParams,
   StopMediaStreamingRequest,
   CallMediaStopMediaStreamingOptionalParams,
-} from "../models";
+  InterruptAudioAndAnnounceRequest,
+  CallMediaInterruptAudioAndAnnounceOptionalParams,
+} from "../models/index.js";
 
 /** Class containing CallMedia operations. */
 export class CallMediaImpl implements CallMedia {
@@ -241,40 +239,6 @@ export class CallMediaImpl implements CallMedia {
   }
 
   /**
-   * Hold participant from the call using identifier.
-   * @param callConnectionId The call connection id.
-   * @param startHoldMusicRequest The participants to be hold from the call.
-   * @param options The options parameters.
-   */
-  startHoldMusic(
-    callConnectionId: string,
-    startHoldMusicRequest: StartHoldMusicRequest,
-    options?: CallMediaStartHoldMusicOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { callConnectionId, startHoldMusicRequest, options },
-      startHoldMusicOperationSpec,
-    );
-  }
-
-  /**
-   * Unhold participants from the call using identifier.
-   * @param callConnectionId The call connection id.
-   * @param stopHoldMusicRequest The participants to be hold from the call.
-   * @param options The options parameters.
-   */
-  stopHoldMusic(
-    callConnectionId: string,
-    stopHoldMusicRequest: StopHoldMusicRequest,
-    options?: CallMediaStopHoldMusicOptionalParams,
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { callConnectionId, stopHoldMusicRequest, options },
-      stopHoldMusicOperationSpec,
-    );
-  }
-
-  /**
    * Starts media streaming in the call.
    * @param callConnectionId The call connection id.
    * @param startMediaStreamingRequest
@@ -305,6 +269,23 @@ export class CallMediaImpl implements CallMedia {
     return this.client.sendOperationRequest(
       { callConnectionId, stopMediaStreamingRequest, options },
       stopMediaStreamingOperationSpec,
+    );
+  }
+
+  /**
+   * Plays audio to participants in the call.
+   * @param callConnectionId The call connection id.
+   * @param interruptRequest play request payload.
+   * @param options The options parameters.
+   */
+  interruptAudioAndAnnounce(
+    callConnectionId: string,
+    interruptRequest: InterruptAudioAndAnnounceRequest,
+    options?: CallMediaInterruptAudioAndAnnounceOptionalParams,
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, interruptRequest, options },
+      interruptAudioAndAnnounceOperationSpec,
     );
   }
 }
@@ -492,38 +473,6 @@ const unholdOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const startHoldMusicOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:startHoldMusic",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
-  },
-  requestBody: Parameters.startHoldMusicRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const stopHoldMusicOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:stopHoldMusic",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-    },
-  },
-  requestBody: Parameters.stopHoldMusicRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
 const startMediaStreamingOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:startMediaStreaming",
   httpMethod: "POST",
@@ -550,6 +499,22 @@ const stopMediaStreamingOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.stopMediaStreamingRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const interruptAudioAndAnnounceOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:interruptAudioAndAnnounce",
+  httpMethod: "POST",
+  responses: {
+    202: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.interruptRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],

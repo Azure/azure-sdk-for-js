@@ -10,7 +10,7 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   TriggerSupportPackageRequest,
   SupportPackagesTriggerSupportPackageOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SupportPackages. */
 export interface SupportPackages {

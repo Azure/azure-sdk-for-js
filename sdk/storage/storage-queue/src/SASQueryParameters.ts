@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SasIPRange, ipRangeToString } from "./SasIPRange";
+import type { SasIPRange } from "./SasIPRange";
+import { ipRangeToString } from "./SasIPRange";
 import { truncatedISO8061Date } from "./utils/utils.common";
 
 /**
@@ -70,7 +71,7 @@ export class SASQueryParameters {
   /**
    * Optional. The signed identifier (only for {@link QueueSASSignatureValues}).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   public readonly identifier?: string;
 

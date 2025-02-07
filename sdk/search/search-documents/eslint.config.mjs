@@ -1,15 +1,12 @@
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
+export default azsdkEslint.config([
   {
-    ignores: ["src/shims.d.ts"],
-  },
-  ...azsdkEslint.configs.recommended,
-  {
-    files: ["samples-dev/**/*.ts"],
-    rules: {
-      // Suppresses errors for the custom TSDoc syntax we use for docs
-      "tsdoc/syntax": "off",
+    files: ["**/*.ts", "**/*.cts", "**/*.mts"],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.test.json", "./tsconfig.samples.json"],
+      },
     },
   },
-];
+]);

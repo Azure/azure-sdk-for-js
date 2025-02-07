@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   PublicIPPrefixesDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified public IP prefix.
@@ -25,14 +20,14 @@ async function deletePublicIPPrefix() {
   const resourceGroupName = "rg1";
   const publicIpPrefixName = "test-ipprefix";
   const options: PublicIPPrefixesDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
       subscriptionId,
       resourceGroupName,
-      publicIpPrefixName
+      publicIpPrefixName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

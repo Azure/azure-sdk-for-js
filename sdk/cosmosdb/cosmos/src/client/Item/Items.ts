@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
-import { ChangeFeedOptions } from "../../ChangeFeedOptions";
-import { ClientContext } from "../../ClientContext";
+import type { ChangeFeedOptions } from "../../ChangeFeedOptions";
+import type { ClientContext } from "../../ClientContext";
 import {
   getIdFromLink,
   getPathFromLink,
@@ -13,38 +13,38 @@ import {
   SubStatusCodes,
 } from "../../common";
 import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
-import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
+import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, Response } from "../../request";
-import { Container, PartitionKeyRange } from "../Container";
+import type { FeedOptions, RequestOptions, Response } from "../../request";
+import type { Container, PartitionKeyRange } from "../Container";
 import { Item } from "./Item";
-import { ItemDefinition } from "./ItemDefinition";
+import type { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
-import {
+import type {
   Batch,
-  isKeyInRange,
-  prepareOperations,
   OperationResponse,
   OperationInput,
   BulkOptions,
+  BulkOperationResponse,
+  Operation,
+} from "../../utils/batch";
+import {
+  isKeyInRange,
+  prepareOperations,
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
-  BulkOperationResponse,
 } from "../../utils/batch";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
-import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing";
-import {
+import type {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
-  changeFeedIteratorBuilder,
 } from "../../client/ChangeFeed";
 import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
-import {
-  DiagnosticNodeInternal,
-  DiagnosticNodeType,
-} from "../../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
@@ -52,6 +52,7 @@ import {
 } from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
+import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder";
 
 /**
  * @hidden
@@ -147,7 +148,7 @@ export class Items {
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    *
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    *
    * @example Read from the beginning of the change feed.
    * ```javascript
@@ -163,13 +164,13 @@ export class Items {
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    *
    */
   public readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public readChangeFeed<T>(
     partitionKey: PartitionKey,
@@ -177,7 +178,7 @@ export class Items {
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public readChangeFeed<T>(
@@ -193,7 +194,7 @@ export class Items {
 
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   *
+   * @deprecated Use `getChangeFeedIterator` instead.
    * @example Read from the beginning of the change feed.
    * ```javascript
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
@@ -208,10 +209,12 @@ export class Items {
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed<T>(
     partitionKey: PartitionKey,
@@ -219,6 +222,7 @@ export class Items {
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public changeFeed<T>(
@@ -253,7 +257,7 @@ export class Items {
   ): ChangeFeedPullModelIterator<T> {
     const cfOptions = changeFeedIteratorOptions !== undefined ? changeFeedIteratorOptions : {};
     validateChangeFeedIteratorOptions(cfOptions);
-    const iterator = changeFeedIteratorBuilder(
+    const iterator = new ChangeFeedIteratorBuilder<T>(
       cfOptions,
       this.clientContext,
       this.container,
@@ -341,8 +345,8 @@ export class Items {
 
       const ref = new Item(
         this.container,
-        (response.result as any).id,
         this.clientContext,
+        response.result ? (response.result as any).id : undefined,
         partitionKey,
       );
       return new ItemResponse(
@@ -420,8 +424,8 @@ export class Items {
 
       const ref = new Item(
         this.container,
-        (response.result as any).id,
         this.clientContext,
+        response.result ? (response.result as any).id : undefined,
         partitionKey,
       );
       return new ItemResponse(
@@ -482,8 +486,8 @@ export class Items {
           min: keyRange.minInclusive,
           max: keyRange.maxExclusive,
           rangeId: keyRange.id,
-          indexes: [],
-          operations: [],
+          indexes: [] as number[],
+          operations: [] as Operation[],
         };
       });
 
@@ -617,8 +621,8 @@ export class Items {
         min: keyRange.minInclusive,
         max: keyRange.maxExclusive,
         rangeId: keyRange.id,
-        indexes: [],
-        operations: [],
+        indexes: [] as number[],
+        operations: [] as Operation[],
       };
     });
     let indexValue = 0;

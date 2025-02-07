@@ -39,7 +39,7 @@ node getConfigurationSetting.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MY_VARIABLE="<my variable>" node getConfigurationSetting.js
+npx dev-tool run vendored cross-env MY_VARIABLE="<my variable>" node getConfigurationSetting.js
 ```
 
 ## Next Steps
@@ -47,7 +47,7 @@ npx cross-env MY_VARIABLE="<my variable>" node getConfigurationSetting.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/test/samples/files/expectations/special-characters/javascript/getConfigurationSetting.js
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureappconfiguration]: https://docs.microsoft.com/azure/azure-app-configuration/
+[createinstance_azureappconfiguration]: https://learn.microsoft.com/azure/azure-app-configuration/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/README.md

@@ -1,21 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  KnownRenderingSessionStatus,
-  RenderingServerSize,
-  SessionProperties,
-} from "../generated/index";
-import {
-  RemoteRenderingServiceError,
-  createRemoteRenderingServiceError,
-} from "../remoteRenderingServiceError";
+import type { RenderingServerSize, SessionProperties } from "../generated/index.js";
+import { KnownRenderingSessionStatus } from "../generated/index.js";
+import type { RemoteRenderingServiceError } from "../remoteRenderingServiceError.js";
+import { createRemoteRenderingServiceError } from "../remoteRenderingServiceError.js";
 
 /** Properties available for a rendering session in any state */
 export interface RenderingSessionBase {
   /** The ID of the session supplied when the session was created. */
   sessionId: string;
-  /** The size of the server used for the rendering session. The size impacts the number of polygons the server can render. Refer to https://docs.microsoft.com/azure/remote-rendering/reference/vm-sizes for details. */
+  /** The size of the server used for the rendering session. The size impacts the number of polygons the server can render. Refer to https://learn.microsoft.com/azure/remote-rendering/reference/vm-sizes for details. */
   size: RenderingServerSize;
   /** The time in minutes the session will run after reaching the 'Ready' state. */
   maxLeaseTimeInMinutes: number;

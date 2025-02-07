@@ -4,40 +4,40 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { LroEngineOptions } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export interface AccessProfile {
     kubeConfig?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AccessProfileOutput {
     kubeConfig?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AgentPool extends SubResource {
     properties?: ManagedClusterAgentPoolProfileProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface AgentPoolAvailableVersionsOutput {
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
     properties: AgentPoolAvailableVersionsPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public (undocumented)
@@ -47,18 +47,18 @@ export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItemOutput
     kubernetesVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AgentPoolAvailableVersionsPropertiesOutput {
     agentPoolVersions?: Array<AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItemOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AgentPoolListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<AgentPoolOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface AgentPoolOutput extends SubResourceOutput {
     properties?: ManagedClusterAgentPoolProfilePropertiesOutput;
 }
@@ -85,7 +85,7 @@ export interface AgentPoolsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface AgentPoolsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface AgentPoolsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -103,21 +103,17 @@ export type AgentPoolsCreateOrUpdateParameters = AgentPoolsCreateOrUpdateMediaTy
 // @public
 export interface AgentPoolsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface AgentPoolsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface AgentPoolsDeletedefaultResponse extends HttpResponse {
+export interface AgentPoolsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -140,9 +136,9 @@ export interface AgentPoolsDeleteQueryParamProperties {
 
 // @public (undocumented)
 export interface AgentPoolsGet {
-    delete(options?: AgentPoolsDeleteParameters): StreamableMethod<AgentPoolsDelete202Response | AgentPoolsDelete204Response | AgentPoolsDeletedefaultResponse>;
-    get(options?: AgentPoolsGetParameters): StreamableMethod<AgentPoolsGet200Response | AgentPoolsGetdefaultResponse>;
-    put(options: AgentPoolsCreateOrUpdateParameters): StreamableMethod<AgentPoolsCreateOrUpdate200Response | AgentPoolsCreateOrUpdate201Response | AgentPoolsCreateOrUpdatedefaultResponse>;
+    delete(options?: AgentPoolsDeleteParameters): StreamableMethod<AgentPoolsDelete202Response | AgentPoolsDelete204Response | AgentPoolsDeleteDefaultResponse>;
+    get(options?: AgentPoolsGetParameters): StreamableMethod<AgentPoolsGet200Response | AgentPoolsGetDefaultResponse>;
+    put(options: AgentPoolsCreateOrUpdateParameters): StreamableMethod<AgentPoolsCreateOrUpdate200Response | AgentPoolsCreateOrUpdate201Response | AgentPoolsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -170,7 +166,7 @@ export interface AgentPoolsGetAvailableAgentPoolVersions200Response extends Http
 export type AgentPoolsGetAvailableAgentPoolVersionsParameters = RequestParameters;
 
 // @public
-export interface AgentPoolsGetdefaultResponse extends HttpResponse {
+export interface AgentPoolsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -182,7 +178,7 @@ export type AgentPoolsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface AgentPoolsGetUpgradeProfile {
-    get(options?: AgentPoolsGetUpgradeProfileParameters): StreamableMethod<AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfiledefaultResponse>;
+    get(options?: AgentPoolsGetUpgradeProfileParameters): StreamableMethod<AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfileDefaultResponse>;
 }
 
 // @public
@@ -194,7 +190,7 @@ export interface AgentPoolsGetUpgradeProfile200Response extends HttpResponse {
 }
 
 // @public
-export interface AgentPoolsGetUpgradeProfiledefaultResponse extends HttpResponse {
+export interface AgentPoolsGetUpgradeProfileDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -206,7 +202,7 @@ export type AgentPoolsGetUpgradeProfileParameters = RequestParameters;
 
 // @public (undocumented)
 export interface AgentPoolsList {
-    get(options?: AgentPoolsListParameters): StreamableMethod<AgentPoolsList200Response | AgentPoolsListdefaultResponse>;
+    get(options?: AgentPoolsListParameters): StreamableMethod<AgentPoolsList200Response | AgentPoolsListDefaultResponse>;
 }
 
 // @public
@@ -218,7 +214,7 @@ export interface AgentPoolsList200Response extends HttpResponse {
 }
 
 // @public
-export interface AgentPoolsListdefaultResponse extends HttpResponse {
+export interface AgentPoolsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -230,13 +226,11 @@ export type AgentPoolsListParameters = RequestParameters;
 
 // @public (undocumented)
 export interface AgentPoolsUpgradeNodeImageVersion {
-    post(options?: AgentPoolsUpgradeNodeImageVersionParameters): StreamableMethod<AgentPoolsUpgradeNodeImageVersion200Response | AgentPoolsUpgradeNodeImageVersion202Response | AgentPoolsUpgradeNodeImageVersiondefaultResponse>;
+    post(options?: AgentPoolsUpgradeNodeImageVersionParameters): StreamableMethod<AgentPoolsUpgradeNodeImageVersion200Response | AgentPoolsUpgradeNodeImageVersion202Response | AgentPoolsUpgradeNodeImageVersionDefaultResponse>;
 }
 
 // @public
 export interface AgentPoolsUpgradeNodeImageVersion200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
@@ -257,7 +251,7 @@ export interface AgentPoolsUpgradeNodeImageVersion202Response extends HttpRespon
 }
 
 // @public
-export interface AgentPoolsUpgradeNodeImageVersiondefaultResponse extends HttpResponse {
+export interface AgentPoolsUpgradeNodeImageVersionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -267,15 +261,15 @@ export interface AgentPoolsUpgradeNodeImageVersiondefaultResponse extends HttpRe
 // @public (undocumented)
 export type AgentPoolsUpgradeNodeImageVersionParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface AgentPoolUpgradeProfileOutput {
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
     properties: AgentPoolUpgradeProfilePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AgentPoolUpgradeProfilePropertiesOutput {
     kubernetesVersion: string;
     latestNodeImageVersion?: string;
@@ -289,17 +283,17 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItemOutput {
     kubernetesVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AgentPoolUpgradeSettings {
     maxSurge?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AgentPoolUpgradeSettingsOutput {
     maxSurge?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AzureKeyVaultKms {
     enabled?: boolean;
     keyId?: string;
@@ -307,7 +301,7 @@ export interface AzureKeyVaultKms {
     keyVaultResourceId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AzureKeyVaultKmsOutput {
     enabled?: boolean;
     keyId?: string;
@@ -315,7 +309,7 @@ export interface AzureKeyVaultKmsOutput {
     keyVaultResourceId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudErrorBodyOutput {
     code?: string;
     details?: Array<CloudErrorBodyOutput>;
@@ -323,19 +317,19 @@ export interface CloudErrorBodyOutput {
     target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CloudErrorOutput {
     error?: CloudErrorBodyOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface CommandResultPropertiesOutput {
-    exitCode?: number;
-    finishedAt?: string;
-    logs?: string;
-    provisioningState?: string;
-    reason?: string;
-    startedAt?: string;
+    readonly exitCode?: number;
+    readonly finishedAt?: string;
+    readonly logs?: string;
+    readonly provisioningState?: string;
+    readonly reason?: string;
+    readonly startedAt?: string;
 }
 
 // @public (undocumented)
@@ -343,19 +337,24 @@ export type ContainerServiceClient = Client & {
     path: Routes;
 };
 
-// @public (undocumented)
+// @public
+export interface ContainerServiceClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface ContainerServiceLinuxProfile {
     adminUsername: string;
     ssh: ContainerServiceSshConfiguration;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerServiceLinuxProfileOutput {
     adminUsername: string;
     ssh: ContainerServiceSshConfigurationOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerServiceNetworkProfile {
     dnsServiceIP?: string;
     dockerBridgeCidr?: string;
@@ -374,7 +373,7 @@ export interface ContainerServiceNetworkProfile {
     serviceCidrs?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerServiceNetworkProfileOutput {
     dnsServiceIP?: string;
     dockerBridgeCidr?: string;
@@ -393,58 +392,58 @@ export interface ContainerServiceNetworkProfileOutput {
     serviceCidrs?: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerServiceSshConfiguration {
     publicKeys: Array<ContainerServiceSshPublicKey>;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerServiceSshConfigurationOutput {
     publicKeys: Array<ContainerServiceSshPublicKeyOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerServiceSshPublicKey {
     keyData: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ContainerServiceSshPublicKeyOutput {
     keyData: string;
 }
 
-// @public (undocumented)
-function createClient(credentials: TokenCredential, options?: ClientOptions): ContainerServiceClient;
+// @public
+function createClient(credentials: TokenCredential, { apiVersion, ...options }?: ContainerServiceClientOptions): ContainerServiceClient;
 export default createClient;
 
-// @public (undocumented)
+// @public
 export interface CreationData {
     sourceResourceId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CreationDataOutput {
     sourceResourceId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CredentialResultOutput {
-    name?: string;
-    value?: string;
+    readonly name?: string;
+    readonly value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CredentialResultsOutput {
-    kubeconfigs?: Array<CredentialResultOutput>;
+    readonly kubeconfigs?: Array<CredentialResultOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface EndpointDependencyOutput {
     domainName?: string;
     endpointDetails?: Array<EndpointDetailOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface EndpointDetailOutput {
     description?: string;
     ipAddress?: string;
@@ -452,13 +451,13 @@ export interface EndpointDetailOutput {
     protocol?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ExtendedLocation {
     name?: string;
     type?: "EdgeZone";
 }
 
-// @public (undocumented)
+// @public
 export interface ExtendedLocationOutput {
     name?: string;
     type?: "EdgeZone";
@@ -468,180 +467,180 @@ export interface ExtendedLocationOutput {
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
-export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: LroEngineOptions<TResult, PollOperationState<TResult>>): PollerLike<PollOperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
 
 // @public (undocumented)
-export function isUnexpected(response: OperationsList200Response | OperationsListdefaultResponse): response is OperationsListdefaultResponse;
+export function isUnexpected(response: OperationsList200Response | OperationsListDefaultResponse): response is OperationsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsdefaultResponse): response is ManagedClustersGetOSOptionsdefaultResponse;
+export function isUnexpected(response: ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsDefaultResponse): response is ManagedClustersGetOSOptionsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersList200Response | ManagedClustersListdefaultResponse): response is ManagedClustersListdefaultResponse;
+export function isUnexpected(response: ManagedClustersList200Response | ManagedClustersListDefaultResponse): response is ManagedClustersListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersListByResourceGroup200Response | ManagedClustersListByResourceGroupdefaultResponse): response is ManagedClustersListByResourceGroupdefaultResponse;
+export function isUnexpected(response: ManagedClustersListByResourceGroup200Response | ManagedClustersListByResourceGroupDefaultResponse): response is ManagedClustersListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersGetUpgradeProfile200Response | ManagedClustersGetUpgradeProfiledefaultResponse): response is ManagedClustersGetUpgradeProfiledefaultResponse;
+export function isUnexpected(response: ManagedClustersGetUpgradeProfile200Response | ManagedClustersGetUpgradeProfileDefaultResponse): response is ManagedClustersGetUpgradeProfileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersGetAccessProfile200Response | ManagedClustersGetAccessProfiledefaultResponse): response is ManagedClustersGetAccessProfiledefaultResponse;
+export function isUnexpected(response: ManagedClustersGetAccessProfile200Response | ManagedClustersGetAccessProfileDefaultResponse): response is ManagedClustersGetAccessProfileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersListClusterAdminCredentials200Response | ManagedClustersListClusterAdminCredentialsdefaultResponse): response is ManagedClustersListClusterAdminCredentialsdefaultResponse;
+export function isUnexpected(response: ManagedClustersListClusterAdminCredentials200Response | ManagedClustersListClusterAdminCredentialsDefaultResponse): response is ManagedClustersListClusterAdminCredentialsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersListClusterUserCredentials200Response | ManagedClustersListClusterUserCredentialsdefaultResponse): response is ManagedClustersListClusterUserCredentialsdefaultResponse;
+export function isUnexpected(response: ManagedClustersListClusterUserCredentials200Response | ManagedClustersListClusterUserCredentialsDefaultResponse): response is ManagedClustersListClusterUserCredentialsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersListClusterMonitoringUserCredentials200Response | ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse): response is ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse;
+export function isUnexpected(response: ManagedClustersListClusterMonitoringUserCredentials200Response | ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse): response is ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersGet200Response | ManagedClustersGetdefaultResponse): response is ManagedClustersGetdefaultResponse;
+export function isUnexpected(response: ManagedClustersGet200Response | ManagedClustersGetDefaultResponse): response is ManagedClustersGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersCreateOrUpdate200Response | ManagedClustersCreateOrUpdate201Response | ManagedClustersCreateOrUpdatedefaultResponse): response is ManagedClustersCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ManagedClustersCreateOrUpdate200Response | ManagedClustersCreateOrUpdate201Response | ManagedClustersCreateOrUpdateDefaultResponse): response is ManagedClustersCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsdefaultResponse): response is ManagedClustersUpdateTagsdefaultResponse;
+export function isUnexpected(response: ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsDefaultResponse): response is ManagedClustersUpdateTagsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersDelete202Response | ManagedClustersDelete204Response | ManagedClustersDeletedefaultResponse): response is ManagedClustersDeletedefaultResponse;
+export function isUnexpected(response: ManagedClustersDelete202Response | ManagedClustersDelete204Response | ManagedClustersDeleteDefaultResponse): response is ManagedClustersDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersResetServicePrincipalProfile200Response | ManagedClustersResetServicePrincipalProfile202Response | ManagedClustersResetServicePrincipalProfiledefaultResponse): response is ManagedClustersResetServicePrincipalProfiledefaultResponse;
+export function isUnexpected(response: ManagedClustersResetServicePrincipalProfile200Response | ManagedClustersResetServicePrincipalProfile202Response | ManagedClustersResetServicePrincipalProfileDefaultResponse): response is ManagedClustersResetServicePrincipalProfileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersResetAADProfile200Response | ManagedClustersResetAADProfile202Response | ManagedClustersResetAADProfiledefaultResponse): response is ManagedClustersResetAADProfiledefaultResponse;
+export function isUnexpected(response: ManagedClustersResetAADProfile200Response | ManagedClustersResetAADProfile202Response | ManagedClustersResetAADProfileDefaultResponse): response is ManagedClustersResetAADProfileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersRotateClusterCertificates202Response | ManagedClustersRotateClusterCertificates204Response | ManagedClustersRotateClusterCertificatesdefaultResponse): response is ManagedClustersRotateClusterCertificatesdefaultResponse;
+export function isUnexpected(response: ManagedClustersRotateClusterCertificates202Response | ManagedClustersRotateClusterCertificates204Response | ManagedClustersRotateClusterCertificatesDefaultResponse): response is ManagedClustersRotateClusterCertificatesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersRotateServiceAccountSigningKeys202Response | ManagedClustersRotateServiceAccountSigningKeys204Response | ManagedClustersRotateServiceAccountSigningKeysdefaultResponse): response is ManagedClustersRotateServiceAccountSigningKeysdefaultResponse;
+export function isUnexpected(response: ManagedClustersRotateServiceAccountSigningKeys202Response | ManagedClustersRotateServiceAccountSigningKeys204Response | ManagedClustersRotateServiceAccountSigningKeysDefaultResponse): response is ManagedClustersRotateServiceAccountSigningKeysDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersStop202Response | ManagedClustersStop204Response | ManagedClustersStopdefaultResponse): response is ManagedClustersStopdefaultResponse;
+export function isUnexpected(response: ManagedClustersStop202Response | ManagedClustersStop204Response | ManagedClustersStopDefaultResponse): response is ManagedClustersStopDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersStart202Response | ManagedClustersStart204Response | ManagedClustersStartdefaultResponse): response is ManagedClustersStartdefaultResponse;
+export function isUnexpected(response: ManagedClustersStart202Response | ManagedClustersStart204Response | ManagedClustersStartDefaultResponse): response is ManagedClustersStartDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersRunCommand200Response | ManagedClustersRunCommand202Response | ManagedClustersRunCommanddefaultResponse): response is ManagedClustersRunCommanddefaultResponse;
+export function isUnexpected(response: ManagedClustersRunCommand200Response | ManagedClustersRunCommand202Response | ManagedClustersRunCommandDefaultResponse): response is ManagedClustersRunCommandDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersGetCommandResult200Response | ManagedClustersGetCommandResult202Response | ManagedClustersGetCommandResultdefaultResponse): response is ManagedClustersGetCommandResultdefaultResponse;
+export function isUnexpected(response: ManagedClustersGetCommandResult200Response | ManagedClustersGetCommandResult202Response | ManagedClustersGetCommandResultDefaultResponse): response is ManagedClustersGetCommandResultDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClustersListOutboundNetworkDependenciesEndpoints200Response | ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse): response is ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse;
+export function isUnexpected(response: ManagedClustersListOutboundNetworkDependenciesEndpoints200Response | ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse): response is ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: MaintenanceConfigurationsListByManagedCluster200Response | MaintenanceConfigurationsListByManagedClusterdefaultResponse): response is MaintenanceConfigurationsListByManagedClusterdefaultResponse;
+export function isUnexpected(response: MaintenanceConfigurationsListByManagedCluster200Response | MaintenanceConfigurationsListByManagedClusterDefaultResponse): response is MaintenanceConfigurationsListByManagedClusterDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetdefaultResponse): response is MaintenanceConfigurationsGetdefaultResponse;
+export function isUnexpected(response: MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetDefaultResponse): response is MaintenanceConfigurationsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: MaintenanceConfigurationsCreateOrUpdate200Response | MaintenanceConfigurationsCreateOrUpdatedefaultResponse): response is MaintenanceConfigurationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: MaintenanceConfigurationsCreateOrUpdate200Response | MaintenanceConfigurationsCreateOrUpdateDefaultResponse): response is MaintenanceConfigurationsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: MaintenanceConfigurationsDelete200Response | MaintenanceConfigurationsDelete204Response | MaintenanceConfigurationsDeletedefaultResponse): response is MaintenanceConfigurationsDeletedefaultResponse;
+export function isUnexpected(response: MaintenanceConfigurationsDelete200Response | MaintenanceConfigurationsDelete204Response | MaintenanceConfigurationsDeleteDefaultResponse): response is MaintenanceConfigurationsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AgentPoolsList200Response | AgentPoolsListdefaultResponse): response is AgentPoolsListdefaultResponse;
+export function isUnexpected(response: AgentPoolsList200Response | AgentPoolsListDefaultResponse): response is AgentPoolsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AgentPoolsGet200Response | AgentPoolsGetdefaultResponse): response is AgentPoolsGetdefaultResponse;
+export function isUnexpected(response: AgentPoolsGet200Response | AgentPoolsGetDefaultResponse): response is AgentPoolsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AgentPoolsCreateOrUpdate200Response | AgentPoolsCreateOrUpdate201Response | AgentPoolsCreateOrUpdatedefaultResponse): response is AgentPoolsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: AgentPoolsCreateOrUpdate200Response | AgentPoolsCreateOrUpdate201Response | AgentPoolsCreateOrUpdateDefaultResponse): response is AgentPoolsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AgentPoolsDelete202Response | AgentPoolsDelete204Response | AgentPoolsDeletedefaultResponse): response is AgentPoolsDeletedefaultResponse;
+export function isUnexpected(response: AgentPoolsDelete202Response | AgentPoolsDelete204Response | AgentPoolsDeleteDefaultResponse): response is AgentPoolsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfiledefaultResponse): response is AgentPoolsGetUpgradeProfiledefaultResponse;
+export function isUnexpected(response: AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfileDefaultResponse): response is AgentPoolsGetUpgradeProfileDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AgentPoolsUpgradeNodeImageVersion200Response | AgentPoolsUpgradeNodeImageVersion202Response | AgentPoolsUpgradeNodeImageVersiondefaultResponse): response is AgentPoolsUpgradeNodeImageVersiondefaultResponse;
+export function isUnexpected(response: AgentPoolsUpgradeNodeImageVersion200Response | AgentPoolsUpgradeNodeImageVersion202Response | AgentPoolsUpgradeNodeImageVersionDefaultResponse): response is AgentPoolsUpgradeNodeImageVersionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrivateEndpointConnectionsList200Response | PrivateEndpointConnectionsListdefaultResponse): response is PrivateEndpointConnectionsListdefaultResponse;
+export function isUnexpected(response: PrivateEndpointConnectionsList200Response | PrivateEndpointConnectionsListDefaultResponse): response is PrivateEndpointConnectionsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetdefaultResponse): response is PrivateEndpointConnectionsGetdefaultResponse;
+export function isUnexpected(response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse): response is PrivateEndpointConnectionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrivateEndpointConnectionsUpdate200Response | PrivateEndpointConnectionsUpdatedefaultResponse): response is PrivateEndpointConnectionsUpdatedefaultResponse;
+export function isUnexpected(response: PrivateEndpointConnectionsUpdate200Response | PrivateEndpointConnectionsUpdateDefaultResponse): response is PrivateEndpointConnectionsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrivateEndpointConnectionsDelete200Response | PrivateEndpointConnectionsDelete204Response | PrivateEndpointConnectionsDeletedefaultResponse): response is PrivateEndpointConnectionsDeletedefaultResponse;
+export function isUnexpected(response: PrivateEndpointConnectionsDelete200Response | PrivateEndpointConnectionsDelete204Response | PrivateEndpointConnectionsDeleteDefaultResponse): response is PrivateEndpointConnectionsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: PrivateLinkResourcesList200Response | PrivateLinkResourcesListdefaultResponse): response is PrivateLinkResourcesListdefaultResponse;
+export function isUnexpected(response: PrivateLinkResourcesList200Response | PrivateLinkResourcesListDefaultResponse): response is PrivateLinkResourcesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ResolvePrivateLinkServiceIdPost200Response | ResolvePrivateLinkServiceIdPostdefaultResponse): response is ResolvePrivateLinkServiceIdPostdefaultResponse;
+export function isUnexpected(response: ResolvePrivateLinkServiceIdPost200Response | ResolvePrivateLinkServiceIdPostDefaultResponse): response is ResolvePrivateLinkServiceIdPostDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SnapshotsList200Response | SnapshotsListdefaultResponse): response is SnapshotsListdefaultResponse;
+export function isUnexpected(response: SnapshotsList200Response | SnapshotsListDefaultResponse): response is SnapshotsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupdefaultResponse): response is SnapshotsListByResourceGroupdefaultResponse;
+export function isUnexpected(response: SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupDefaultResponse): response is SnapshotsListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SnapshotsGet200Response | SnapshotsGetdefaultResponse): response is SnapshotsGetdefaultResponse;
+export function isUnexpected(response: SnapshotsGet200Response | SnapshotsGetDefaultResponse): response is SnapshotsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SnapshotsCreateOrUpdate200Response | SnapshotsCreateOrUpdate201Response | SnapshotsCreateOrUpdatedefaultResponse): response is SnapshotsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: SnapshotsCreateOrUpdate200Response | SnapshotsCreateOrUpdate201Response | SnapshotsCreateOrUpdateDefaultResponse): response is SnapshotsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SnapshotsUpdateTags200Response | SnapshotsUpdateTagsdefaultResponse): response is SnapshotsUpdateTagsdefaultResponse;
+export function isUnexpected(response: SnapshotsUpdateTags200Response | SnapshotsUpdateTagsDefaultResponse): response is SnapshotsUpdateTagsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeletedefaultResponse): response is SnapshotsDeletedefaultResponse;
+export function isUnexpected(response: SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeleteDefaultResponse): response is SnapshotsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListdefaultResponse): response is ManagedClusterSnapshotsListdefaultResponse;
+export function isUnexpected(response: ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListDefaultResponse): response is ManagedClusterSnapshotsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClusterSnapshotsListByResourceGroup200Response | ManagedClusterSnapshotsListByResourceGroupdefaultResponse): response is ManagedClusterSnapshotsListByResourceGroupdefaultResponse;
+export function isUnexpected(response: ManagedClusterSnapshotsListByResourceGroup200Response | ManagedClusterSnapshotsListByResourceGroupDefaultResponse): response is ManagedClusterSnapshotsListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetdefaultResponse): response is ManagedClusterSnapshotsGetdefaultResponse;
+export function isUnexpected(response: ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetDefaultResponse): response is ManagedClusterSnapshotsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClusterSnapshotsCreateOrUpdate200Response | ManagedClusterSnapshotsCreateOrUpdate201Response | ManagedClusterSnapshotsCreateOrUpdatedefaultResponse): response is ManagedClusterSnapshotsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ManagedClusterSnapshotsCreateOrUpdate200Response | ManagedClusterSnapshotsCreateOrUpdate201Response | ManagedClusterSnapshotsCreateOrUpdateDefaultResponse): response is ManagedClusterSnapshotsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClusterSnapshotsUpdateTags200Response | ManagedClusterSnapshotsUpdateTagsdefaultResponse): response is ManagedClusterSnapshotsUpdateTagsdefaultResponse;
+export function isUnexpected(response: ManagedClusterSnapshotsUpdateTags200Response | ManagedClusterSnapshotsUpdateTagsDefaultResponse): response is ManagedClusterSnapshotsUpdateTagsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ManagedClusterSnapshotsDelete200Response | ManagedClusterSnapshotsDelete204Response | ManagedClusterSnapshotsDeletedefaultResponse): response is ManagedClusterSnapshotsDeletedefaultResponse;
+export function isUnexpected(response: ManagedClusterSnapshotsDelete200Response | ManagedClusterSnapshotsDelete204Response | ManagedClusterSnapshotsDeleteDefaultResponse): response is ManagedClusterSnapshotsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TrustedAccessRolesList200Response | TrustedAccessRolesListdefaultResponse): response is TrustedAccessRolesListdefaultResponse;
+export function isUnexpected(response: TrustedAccessRolesList200Response | TrustedAccessRolesListDefaultResponse): response is TrustedAccessRolesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListdefaultResponse): response is TrustedAccessRoleBindingsListdefaultResponse;
+export function isUnexpected(response: TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListDefaultResponse): response is TrustedAccessRoleBindingsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetdefaultResponse): response is TrustedAccessRoleBindingsGetdefaultResponse;
+export function isUnexpected(response: TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetDefaultResponse): response is TrustedAccessRoleBindingsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TrustedAccessRoleBindingsCreateOrUpdate200Response | TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse): response is TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: TrustedAccessRoleBindingsCreateOrUpdate200Response | TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse): response is TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TrustedAccessRoleBindingsDelete200Response | TrustedAccessRoleBindingsDelete204Response | TrustedAccessRoleBindingsDeletedefaultResponse): response is TrustedAccessRoleBindingsDeletedefaultResponse;
+export function isUnexpected(response: TrustedAccessRoleBindingsDelete200Response | TrustedAccessRoleBindingsDelete204Response | TrustedAccessRoleBindingsDeleteDefaultResponse): response is TrustedAccessRoleBindingsDeleteDefaultResponse;
 
-// @public (undocumented)
+// @public
 export interface KubeletConfig {
     allowedUnsafeSysctls?: Array<string>;
     containerLogMaxFiles?: number;
@@ -656,7 +655,7 @@ export interface KubeletConfig {
     topologyManagerPolicy?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface KubeletConfigOutput {
     allowedUnsafeSysctls?: Array<string>;
     containerLogMaxFiles?: number;
@@ -671,7 +670,7 @@ export interface KubeletConfigOutput {
     topologyManagerPolicy?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface LinuxOSConfig {
     swapFileSizeMB?: number;
     sysctls?: SysctlConfig;
@@ -679,7 +678,7 @@ export interface LinuxOSConfig {
     transparentHugePageEnabled?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface LinuxOSConfigOutput {
     swapFileSizeMB?: number;
     sysctls?: SysctlConfigOutput;
@@ -687,31 +686,30 @@ export interface LinuxOSConfigOutput {
     transparentHugePageEnabled?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MaintenanceConfiguration extends SubResource {
     properties?: MaintenanceConfigurationProperties;
-    systemData?: SystemData;
 }
 
-// @public (undocumented)
+// @public
 export interface MaintenanceConfigurationListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<MaintenanceConfigurationOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface MaintenanceConfigurationOutput extends SubResourceOutput {
     properties?: MaintenanceConfigurationPropertiesOutput;
-    systemData?: SystemDataOutput;
+    readonly systemData?: SystemDataOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface MaintenanceConfigurationProperties {
     notAllowedTime?: Array<TimeSpan>;
     timeInWeek?: Array<TimeInWeek>;
 }
 
-// @public (undocumented)
+// @public
 export interface MaintenanceConfigurationPropertiesOutput {
     notAllowedTime?: Array<TimeSpanOutput>;
     timeInWeek?: Array<TimeInWeekOutput>;
@@ -731,7 +729,7 @@ export interface MaintenanceConfigurationsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface MaintenanceConfigurationsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface MaintenanceConfigurationsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -749,21 +747,17 @@ export type MaintenanceConfigurationsCreateOrUpdateParameters = MaintenanceConfi
 // @public
 export interface MaintenanceConfigurationsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface MaintenanceConfigurationsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface MaintenanceConfigurationsDeletedefaultResponse extends HttpResponse {
+export interface MaintenanceConfigurationsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -775,9 +769,9 @@ export type MaintenanceConfigurationsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface MaintenanceConfigurationsGet {
-    delete(options?: MaintenanceConfigurationsDeleteParameters): StreamableMethod<MaintenanceConfigurationsDelete200Response | MaintenanceConfigurationsDelete204Response | MaintenanceConfigurationsDeletedefaultResponse>;
-    get(options?: MaintenanceConfigurationsGetParameters): StreamableMethod<MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetdefaultResponse>;
-    put(options: MaintenanceConfigurationsCreateOrUpdateParameters): StreamableMethod<MaintenanceConfigurationsCreateOrUpdate200Response | MaintenanceConfigurationsCreateOrUpdatedefaultResponse>;
+    delete(options?: MaintenanceConfigurationsDeleteParameters): StreamableMethod<MaintenanceConfigurationsDelete200Response | MaintenanceConfigurationsDelete204Response | MaintenanceConfigurationsDeleteDefaultResponse>;
+    get(options?: MaintenanceConfigurationsGetParameters): StreamableMethod<MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetDefaultResponse>;
+    put(options: MaintenanceConfigurationsCreateOrUpdateParameters): StreamableMethod<MaintenanceConfigurationsCreateOrUpdate200Response | MaintenanceConfigurationsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -789,7 +783,7 @@ export interface MaintenanceConfigurationsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface MaintenanceConfigurationsGetdefaultResponse extends HttpResponse {
+export interface MaintenanceConfigurationsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -801,7 +795,7 @@ export type MaintenanceConfigurationsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface MaintenanceConfigurationsListByManagedCluster {
-    get(options?: MaintenanceConfigurationsListByManagedClusterParameters): StreamableMethod<MaintenanceConfigurationsListByManagedCluster200Response | MaintenanceConfigurationsListByManagedClusterdefaultResponse>;
+    get(options?: MaintenanceConfigurationsListByManagedClusterParameters): StreamableMethod<MaintenanceConfigurationsListByManagedCluster200Response | MaintenanceConfigurationsListByManagedClusterDefaultResponse>;
 }
 
 // @public
@@ -813,7 +807,7 @@ export interface MaintenanceConfigurationsListByManagedCluster200Response extend
 }
 
 // @public
-export interface MaintenanceConfigurationsListByManagedClusterdefaultResponse extends HttpResponse {
+export interface MaintenanceConfigurationsListByManagedClusterDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -823,7 +817,7 @@ export interface MaintenanceConfigurationsListByManagedClusterdefaultResponse ex
 // @public (undocumented)
 export type MaintenanceConfigurationsListByManagedClusterParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ManagedCluster extends TrackedResource {
     extendedLocation?: ExtendedLocation;
     identity?: ManagedClusterIdentity;
@@ -831,7 +825,7 @@ export interface ManagedCluster extends TrackedResource {
     sku?: ManagedClusterSKU;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAADProfile {
     adminGroupObjectIDs?: Array<string>;
     clientAppID?: string;
@@ -842,7 +836,7 @@ export interface ManagedClusterAADProfile {
     tenantID?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAADProfileOutput {
     adminGroupObjectIDs?: Array<string>;
     clientAppID?: string;
@@ -853,55 +847,53 @@ export interface ManagedClusterAADProfileOutput {
     tenantID?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAccessProfile extends TrackedResource {
     properties?: AccessProfile;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAccessProfileOutput extends TrackedResourceOutput {
     properties?: AccessProfileOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAddonProfile {
     config?: Record<string, string>;
     enabled: boolean;
-    identity?: ManagedClusterAddonProfileIdentity;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAddonProfileIdentity extends UserAssignedIdentity {
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAddonProfileIdentityOutput extends UserAssignedIdentityOutput {
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAddonProfileOutput {
     config?: Record<string, string>;
     enabled: boolean;
-    identity?: ManagedClusterAddonProfileIdentityOutput;
+    readonly identity?: ManagedClusterAddonProfileIdentityOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolProfileProperties {
     name: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAgentPoolProfileOutput extends ManagedClusterAgentPoolProfilePropertiesOutput {
     name: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAgentPoolProfileProperties {
     availabilityZones?: Array<string>;
     capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
-    currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
     enableCustomCATrust?: boolean;
     enableEncryptionAtHost?: boolean;
@@ -918,7 +910,6 @@ export interface ManagedClusterAgentPoolProfileProperties {
     messageOfTheDay?: string;
     minCount?: number;
     mode?: "System" | "User";
-    nodeImageVersion?: string;
     nodeLabels?: Record<string, string>;
     nodePublicIPPrefixID?: string;
     nodeTaints?: Array<string>;
@@ -929,7 +920,6 @@ export interface ManagedClusterAgentPoolProfileProperties {
     osType?: "Linux" | "Windows";
     podSubnetID?: string;
     powerState?: PowerState;
-    provisioningState?: string;
     proximityPlacementGroupID?: string;
     scaleDownMode?: "Delete" | "Deallocate";
     scaleSetEvictionPolicy?: "Delete" | "Deallocate";
@@ -943,13 +933,13 @@ export interface ManagedClusterAgentPoolProfileProperties {
     workloadRuntime?: "OCIContainer" | "WasmWasi";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAgentPoolProfilePropertiesOutput {
     availabilityZones?: Array<string>;
     capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationDataOutput;
-    currentOrchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
     enableCustomCATrust?: boolean;
     enableEncryptionAtHost?: boolean;
@@ -966,7 +956,7 @@ export interface ManagedClusterAgentPoolProfilePropertiesOutput {
     messageOfTheDay?: string;
     minCount?: number;
     mode?: "System" | "User";
-    nodeImageVersion?: string;
+    readonly nodeImageVersion?: string;
     nodeLabels?: Record<string, string>;
     nodePublicIPPrefixID?: string;
     nodeTaints?: Array<string>;
@@ -977,7 +967,7 @@ export interface ManagedClusterAgentPoolProfilePropertiesOutput {
     osType?: "Linux" | "Windows";
     podSubnetID?: string;
     powerState?: PowerStateOutput;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     proximityPlacementGroupID?: string;
     scaleDownMode?: "Delete" | "Deallocate";
     scaleSetEvictionPolicy?: "Delete" | "Deallocate";
@@ -991,7 +981,7 @@ export interface ManagedClusterAgentPoolProfilePropertiesOutput {
     workloadRuntime?: "OCIContainer" | "WasmWasi";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAPIServerAccessProfile {
     authorizedIPRanges?: Array<string>;
     disableRunCommand?: boolean;
@@ -1002,7 +992,7 @@ export interface ManagedClusterAPIServerAccessProfile {
     subnetId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAPIServerAccessProfileOutput {
     authorizedIPRanges?: Array<string>;
     disableRunCommand?: boolean;
@@ -1013,79 +1003,76 @@ export interface ManagedClusterAPIServerAccessProfileOutput {
     subnetId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAutoUpgradeProfile {
     upgradeChannel?: "rapid" | "stable" | "patch" | "node-image" | "none";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterAutoUpgradeProfileOutput {
     upgradeChannel?: "rapid" | "stable" | "patch" | "node-image" | "none";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterHttpProxyConfig {
-    effectiveNoProxy?: Array<string>;
     httpProxy?: string;
     httpsProxy?: string;
     noProxy?: Array<string>;
     trustedCa?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterHttpProxyConfigOutput {
-    effectiveNoProxy?: Array<string>;
+    readonly effectiveNoProxy?: Array<string>;
     httpProxy?: string;
     httpsProxy?: string;
     noProxy?: Array<string>;
     trustedCa?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterIdentity {
-    principalId?: string;
-    tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "None";
     userAssignedIdentities?: Record<string, ManagedServiceIdentityUserAssignedIdentitiesValue>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterIdentityOutput {
-    principalId?: string;
-    tenantId?: string;
+    readonly principalId?: string;
+    readonly tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "None";
     userAssignedIdentities?: Record<string, ManagedServiceIdentityUserAssignedIdentitiesValueOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterIngressProfile {
     webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterIngressProfileOutput {
     webAppRouting?: ManagedClusterIngressProfileWebAppRoutingOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterIngressProfileWebAppRouting {
     dnsZoneResourceId?: string;
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterIngressProfileWebAppRoutingOutput {
     dnsZoneResourceId?: string;
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ManagedClusterOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterLoadBalancerProfile {
     allocatedOutboundPorts?: number;
     effectiveOutboundIPs?: Array<ResourceReference>;
@@ -1096,39 +1083,39 @@ export interface ManagedClusterLoadBalancerProfile {
     outboundIPs?: ManagedClusterLoadBalancerProfileOutboundIPs;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterLoadBalancerProfileManagedOutboundIPs {
     count?: number;
     countIPv6?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterLoadBalancerProfileManagedOutboundIPsOutput {
     count?: number;
     countIPv6?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterLoadBalancerProfileOutboundIPPrefixes {
     publicIPPrefixes?: Array<ResourceReference>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterLoadBalancerProfileOutboundIPPrefixesOutput {
     publicIPPrefixes?: Array<ResourceReferenceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterLoadBalancerProfileOutboundIPs {
     publicIPs?: Array<ResourceReference>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterLoadBalancerProfileOutboundIPsOutput {
     publicIPs?: Array<ResourceReferenceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterLoadBalancerProfileOutput {
     allocatedOutboundPorts?: number;
     effectiveOutboundIPs?: Array<ResourceReferenceOutput>;
@@ -1139,43 +1126,42 @@ export interface ManagedClusterLoadBalancerProfileOutput {
     outboundIPs?: ManagedClusterLoadBalancerProfileOutboundIPsOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterManagedOutboundIPProfile {
     count?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterManagedOutboundIPProfileOutput {
     count?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterNATGatewayProfile {
     effectiveOutboundIPs?: Array<ResourceReference>;
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterNATGatewayProfileOutput {
     effectiveOutboundIPs?: Array<ResourceReferenceOutput>;
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfileOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterOidcIssuerProfile {
     enabled?: boolean;
-    issuerURL?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterOidcIssuerProfileOutput {
     enabled?: boolean;
-    issuerURL?: string;
+    readonly issuerURL?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterOutput extends TrackedResourceOutput {
     extendedLocation?: ExtendedLocationOutput;
     identity?: ManagedClusterIdentityOutput;
@@ -1183,43 +1169,40 @@ export interface ManagedClusterOutput extends TrackedResourceOutput {
     sku?: ManagedClusterSKUOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPodIdentity {
     bindingSelector?: string;
     identity: UserAssignedIdentity;
     name: string;
     namespace: string;
-    // (undocumented)
-    provisioningInfo?: ManagedClusterPodIdentityProvisioningInfo;
-    provisioningState?: "Assigned" | "Updating" | "Deleting" | "Failed";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPodIdentityException {
     name: string;
     namespace: string;
     podLabels: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPodIdentityExceptionOutput {
     name: string;
     namespace: string;
     podLabels: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPodIdentityOutput {
     bindingSelector?: string;
     identity: UserAssignedIdentityOutput;
     name: string;
     namespace: string;
     // (undocumented)
-    provisioningInfo?: ManagedClusterPodIdentityProvisioningInfoOutput;
-    provisioningState?: "Assigned" | "Updating" | "Deleting" | "Failed";
+    readonly provisioningInfo?: ManagedClusterPodIdentityProvisioningInfoOutput;
+    readonly provisioningState?: "Assigned" | "Updating" | "Deleting" | "Failed";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPodIdentityProfile {
     allowNetworkPluginKubenet?: boolean;
     enabled?: boolean;
@@ -1227,7 +1210,7 @@ export interface ManagedClusterPodIdentityProfile {
     userAssignedIdentityExceptions?: Array<ManagedClusterPodIdentityException>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPodIdentityProfileOutput {
     allowNetworkPluginKubenet?: boolean;
     enabled?: boolean;
@@ -1235,12 +1218,12 @@ export interface ManagedClusterPodIdentityProfileOutput {
     userAssignedIdentityExceptions?: Array<ManagedClusterPodIdentityExceptionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPodIdentityProvisioningError {
     error?: ManagedClusterPodIdentityProvisioningErrorBody;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPodIdentityProvisioningErrorBody {
     code?: string;
     details?: Array<ManagedClusterPodIdentityProvisioningErrorBody>;
@@ -1248,7 +1231,7 @@ export interface ManagedClusterPodIdentityProvisioningErrorBody {
     target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPodIdentityProvisioningErrorBodyOutput {
     code?: string;
     details?: Array<ManagedClusterPodIdentityProvisioningErrorBodyOutput>;
@@ -1256,7 +1239,7 @@ export interface ManagedClusterPodIdentityProvisioningErrorBodyOutput {
     target?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPodIdentityProvisioningErrorOutput {
     error?: ManagedClusterPodIdentityProvisioningErrorBodyOutput;
 }
@@ -1271,7 +1254,7 @@ export interface ManagedClusterPodIdentityProvisioningInfoOutput {
     error?: ManagedClusterPodIdentityProvisioningErrorOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPoolUpgradeProfileOutput {
     kubernetesVersion: string;
     name?: string;
@@ -1285,7 +1268,7 @@ export interface ManagedClusterPoolUpgradeProfileUpgradesItemOutput {
     kubernetesVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterProperties {
     aadProfile?: ManagedClusterAADProfile;
     addonProfiles?: Record<string, ManagedClusterAddonProfile>;
@@ -1293,31 +1276,24 @@ export interface ManagedClusterProperties {
     apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
     autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile;
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
-    azurePortalFQDN?: string;
     creationData?: CreationData;
-    currentKubernetesVersion?: string;
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
     enableNamespaceResources?: boolean;
     enablePodSecurityPolicy?: boolean;
     enableRBAC?: boolean;
-    fqdn?: string;
     fqdnSubdomain?: string;
     httpProxyConfig?: ManagedClusterHttpProxyConfig;
     identityProfile?: Record<string, UserAssignedIdentity>;
     ingressProfile?: ManagedClusterIngressProfile;
     kubernetesVersion?: string;
     linuxProfile?: ContainerServiceLinuxProfile;
-    maxAgentPools?: number;
     networkProfile?: ContainerServiceNetworkProfile;
     nodeResourceGroup?: string;
     oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
     podIdentityProfile?: ManagedClusterPodIdentityProfile;
-    powerState?: PowerState;
-    privateFQDN?: string;
     privateLinkResources?: Array<PrivateLinkResource>;
-    provisioningState?: string;
     publicNetworkAccess?: "Enabled" | "Disabled";
     securityProfile?: ManagedClusterSecurityProfile;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
@@ -1326,7 +1302,7 @@ export interface ManagedClusterProperties {
     workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPropertiesAutoScalerProfile {
     "balance-similar-node-groups"?: string;
     "max-empty-bulk-delete"?: string;
@@ -1347,7 +1323,7 @@ export interface ManagedClusterPropertiesAutoScalerProfile {
     expander?: "least-waste" | "most-pods" | "priority" | "random";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPropertiesAutoScalerProfileOutput {
     "balance-similar-node-groups"?: string;
     "max-empty-bulk-delete"?: string;
@@ -1368,23 +1344,22 @@ export interface ManagedClusterPropertiesAutoScalerProfileOutput {
     expander?: "least-waste" | "most-pods" | "priority" | "random";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPropertiesForSnapshot {
     enableRbac?: boolean;
     kubernetesVersion?: string;
-    networkProfile?: NetworkProfileForSnapshot;
     sku?: ManagedClusterSKU;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPropertiesForSnapshotOutput {
     enableRbac?: boolean;
     kubernetesVersion?: string;
-    networkProfile?: NetworkProfileForSnapshotOutput;
+    readonly networkProfile?: NetworkProfileForSnapshotOutput;
     sku?: ManagedClusterSKUOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterPropertiesOutput {
     aadProfile?: ManagedClusterAADProfileOutput;
     addonProfiles?: Record<string, ManagedClusterAddonProfileOutput>;
@@ -1392,31 +1367,31 @@ export interface ManagedClusterPropertiesOutput {
     apiServerAccessProfile?: ManagedClusterAPIServerAccessProfileOutput;
     autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfileOutput;
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfileOutput;
-    azurePortalFQDN?: string;
+    readonly azurePortalFQDN?: string;
     creationData?: CreationDataOutput;
-    currentKubernetesVersion?: string;
+    readonly currentKubernetesVersion?: string;
     disableLocalAccounts?: boolean;
     diskEncryptionSetID?: string;
     dnsPrefix?: string;
     enableNamespaceResources?: boolean;
     enablePodSecurityPolicy?: boolean;
     enableRBAC?: boolean;
-    fqdn?: string;
+    readonly fqdn?: string;
     fqdnSubdomain?: string;
     httpProxyConfig?: ManagedClusterHttpProxyConfigOutput;
     identityProfile?: Record<string, UserAssignedIdentityOutput>;
     ingressProfile?: ManagedClusterIngressProfileOutput;
     kubernetesVersion?: string;
     linuxProfile?: ContainerServiceLinuxProfileOutput;
-    maxAgentPools?: number;
+    readonly maxAgentPools?: number;
     networkProfile?: ContainerServiceNetworkProfileOutput;
     nodeResourceGroup?: string;
     oidcIssuerProfile?: ManagedClusterOidcIssuerProfileOutput;
     podIdentityProfile?: ManagedClusterPodIdentityProfileOutput;
-    powerState?: PowerStateOutput;
-    privateFQDN?: string;
+    readonly powerState?: PowerStateOutput;
+    readonly privateFQDN?: string;
     privateLinkResources?: Array<PrivateLinkResourceOutput>;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     publicNetworkAccess?: "Enabled" | "Disabled";
     securityProfile?: ManagedClusterSecurityProfileOutput;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfileOutput;
@@ -1447,7 +1422,7 @@ export interface ManagedClustersCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface ManagedClustersCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ManagedClustersCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1465,21 +1440,17 @@ export type ManagedClustersCreateOrUpdateParameters = ManagedClustersCreateOrUpd
 // @public
 export interface ManagedClustersDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ManagedClustersDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ManagedClustersDeletedefaultResponse extends HttpResponse {
+export interface ManagedClustersDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1500,59 +1471,59 @@ export interface ManagedClustersDeleteQueryParamProperties {
     "ignore-pod-disruption-budget"?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSecurityProfile {
     azureKeyVaultKms?: AzureKeyVaultKms;
     defender?: ManagedClusterSecurityProfileDefender;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSecurityProfileDefender {
     logAnalyticsWorkspaceResourceId?: string;
     securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoring;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSecurityProfileDefenderOutput {
     logAnalyticsWorkspaceResourceId?: string;
     securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoringOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSecurityProfileDefenderSecurityMonitoring {
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSecurityProfileDefenderSecurityMonitoringOutput {
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSecurityProfileOutput {
     azureKeyVaultKms?: AzureKeyVaultKmsOutput;
     defender?: ManagedClusterSecurityProfileDefenderOutput;
     workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentityOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSecurityProfileWorkloadIdentity {
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSecurityProfileWorkloadIdentityOutput {
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterServicePrincipalProfile {
     clientId: string;
     secret?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterServicePrincipalProfileOutput {
     clientId: string;
     secret?: string;
@@ -1560,10 +1531,10 @@ export interface ManagedClusterServicePrincipalProfileOutput {
 
 // @public (undocumented)
 export interface ManagedClustersGet {
-    delete(options?: ManagedClustersDeleteParameters): StreamableMethod<ManagedClustersDelete202Response | ManagedClustersDelete204Response | ManagedClustersDeletedefaultResponse>;
-    get(options?: ManagedClustersGetParameters): StreamableMethod<ManagedClustersGet200Response | ManagedClustersGetdefaultResponse>;
-    patch(options: ManagedClustersUpdateTagsParameters): StreamableMethod<ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsdefaultResponse>;
-    put(options: ManagedClustersCreateOrUpdateParameters): StreamableMethod<ManagedClustersCreateOrUpdate200Response | ManagedClustersCreateOrUpdate201Response | ManagedClustersCreateOrUpdatedefaultResponse>;
+    delete(options?: ManagedClustersDeleteParameters): StreamableMethod<ManagedClustersDelete202Response | ManagedClustersDelete204Response | ManagedClustersDeleteDefaultResponse>;
+    get(options?: ManagedClustersGetParameters): StreamableMethod<ManagedClustersGet200Response | ManagedClustersGetDefaultResponse>;
+    patch(options: ManagedClustersUpdateTagsParameters): StreamableMethod<ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsDefaultResponse>;
+    put(options: ManagedClustersCreateOrUpdateParameters): StreamableMethod<ManagedClustersCreateOrUpdate200Response | ManagedClustersCreateOrUpdate201Response | ManagedClustersCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -1576,7 +1547,7 @@ export interface ManagedClustersGet200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ManagedClustersGetAccessProfile {
-    post(options?: ManagedClustersGetAccessProfileParameters): StreamableMethod<ManagedClustersGetAccessProfile200Response | ManagedClustersGetAccessProfiledefaultResponse>;
+    post(options?: ManagedClustersGetAccessProfileParameters): StreamableMethod<ManagedClustersGetAccessProfile200Response | ManagedClustersGetAccessProfileDefaultResponse>;
 }
 
 // @public
@@ -1588,7 +1559,7 @@ export interface ManagedClustersGetAccessProfile200Response extends HttpResponse
 }
 
 // @public
-export interface ManagedClustersGetAccessProfiledefaultResponse extends HttpResponse {
+export interface ManagedClustersGetAccessProfileDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1600,7 +1571,7 @@ export type ManagedClustersGetAccessProfileParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ManagedClustersGetCommandResult {
-    get(options?: ManagedClustersGetCommandResultParameters): StreamableMethod<ManagedClustersGetCommandResult200Response | ManagedClustersGetCommandResult202Response | ManagedClustersGetCommandResultdefaultResponse>;
+    get(options?: ManagedClustersGetCommandResultParameters): StreamableMethod<ManagedClustersGetCommandResult200Response | ManagedClustersGetCommandResult202Response | ManagedClustersGetCommandResultDefaultResponse>;
 }
 
 // @public
@@ -1614,13 +1585,11 @@ export interface ManagedClustersGetCommandResult200Response extends HttpResponse
 // @public
 export interface ManagedClustersGetCommandResult202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
-export interface ManagedClustersGetCommandResultdefaultResponse extends HttpResponse {
+export interface ManagedClustersGetCommandResultDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1631,7 +1600,7 @@ export interface ManagedClustersGetCommandResultdefaultResponse extends HttpResp
 export type ManagedClustersGetCommandResultParameters = RequestParameters;
 
 // @public
-export interface ManagedClustersGetdefaultResponse extends HttpResponse {
+export interface ManagedClustersGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1640,7 +1609,7 @@ export interface ManagedClustersGetdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export interface ManagedClustersGetOSOptions {
-    get(options?: ManagedClustersGetOSOptionsParameters): StreamableMethod<ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsdefaultResponse>;
+    get(options?: ManagedClustersGetOSOptionsParameters): StreamableMethod<ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsDefaultResponse>;
 }
 
 // @public
@@ -1652,7 +1621,7 @@ export interface ManagedClustersGetOSOptions200Response extends HttpResponse {
 }
 
 // @public
-export interface ManagedClustersGetOSOptionsdefaultResponse extends HttpResponse {
+export interface ManagedClustersGetOSOptionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1678,7 +1647,7 @@ export type ManagedClustersGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ManagedClustersGetUpgradeProfile {
-    get(options?: ManagedClustersGetUpgradeProfileParameters): StreamableMethod<ManagedClustersGetUpgradeProfile200Response | ManagedClustersGetUpgradeProfiledefaultResponse>;
+    get(options?: ManagedClustersGetUpgradeProfileParameters): StreamableMethod<ManagedClustersGetUpgradeProfile200Response | ManagedClustersGetUpgradeProfileDefaultResponse>;
 }
 
 // @public
@@ -1690,7 +1659,7 @@ export interface ManagedClustersGetUpgradeProfile200Response extends HttpRespons
 }
 
 // @public
-export interface ManagedClustersGetUpgradeProfiledefaultResponse extends HttpResponse {
+export interface ManagedClustersGetUpgradeProfileDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1700,13 +1669,13 @@ export interface ManagedClustersGetUpgradeProfiledefaultResponse extends HttpRes
 // @public (undocumented)
 export type ManagedClustersGetUpgradeProfileParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSKU {
     name?: "Basic";
     tier?: "Paid" | "Free";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSKUOutput {
     name?: "Basic";
     tier?: "Paid" | "Free";
@@ -1714,7 +1683,7 @@ export interface ManagedClusterSKUOutput {
 
 // @public (undocumented)
 export interface ManagedClustersList {
-    get(options?: ManagedClustersListParameters): StreamableMethod<ManagedClustersList200Response | ManagedClustersListdefaultResponse>;
+    get(options?: ManagedClustersListParameters): StreamableMethod<ManagedClustersList200Response | ManagedClustersListDefaultResponse>;
 }
 
 // @public
@@ -1727,7 +1696,7 @@ export interface ManagedClustersList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ManagedClustersListByResourceGroup {
-    get(options?: ManagedClustersListByResourceGroupParameters): StreamableMethod<ManagedClustersListByResourceGroup200Response | ManagedClustersListByResourceGroupdefaultResponse>;
+    get(options?: ManagedClustersListByResourceGroupParameters): StreamableMethod<ManagedClustersListByResourceGroup200Response | ManagedClustersListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -1739,7 +1708,7 @@ export interface ManagedClustersListByResourceGroup200Response extends HttpRespo
 }
 
 // @public
-export interface ManagedClustersListByResourceGroupdefaultResponse extends HttpResponse {
+export interface ManagedClustersListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1751,7 +1720,7 @@ export type ManagedClustersListByResourceGroupParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ManagedClustersListClusterAdminCredentials {
-    post(options?: ManagedClustersListClusterAdminCredentialsParameters): StreamableMethod<ManagedClustersListClusterAdminCredentials200Response | ManagedClustersListClusterAdminCredentialsdefaultResponse>;
+    post(options?: ManagedClustersListClusterAdminCredentialsParameters): StreamableMethod<ManagedClustersListClusterAdminCredentials200Response | ManagedClustersListClusterAdminCredentialsDefaultResponse>;
 }
 
 // @public
@@ -1763,7 +1732,7 @@ export interface ManagedClustersListClusterAdminCredentials200Response extends H
 }
 
 // @public
-export interface ManagedClustersListClusterAdminCredentialsdefaultResponse extends HttpResponse {
+export interface ManagedClustersListClusterAdminCredentialsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1786,7 +1755,7 @@ export interface ManagedClustersListClusterAdminCredentialsQueryParamProperties 
 
 // @public (undocumented)
 export interface ManagedClustersListClusterMonitoringUserCredentials {
-    post(options?: ManagedClustersListClusterMonitoringUserCredentialsParameters): StreamableMethod<ManagedClustersListClusterMonitoringUserCredentials200Response | ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse>;
+    post(options?: ManagedClustersListClusterMonitoringUserCredentialsParameters): StreamableMethod<ManagedClustersListClusterMonitoringUserCredentials200Response | ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse>;
 }
 
 // @public
@@ -1798,7 +1767,7 @@ export interface ManagedClustersListClusterMonitoringUserCredentials200Response 
 }
 
 // @public
-export interface ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse extends HttpResponse {
+export interface ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1821,7 +1790,7 @@ export interface ManagedClustersListClusterMonitoringUserCredentialsQueryParamPr
 
 // @public (undocumented)
 export interface ManagedClustersListClusterUserCredentials {
-    post(options?: ManagedClustersListClusterUserCredentialsParameters): StreamableMethod<ManagedClustersListClusterUserCredentials200Response | ManagedClustersListClusterUserCredentialsdefaultResponse>;
+    post(options?: ManagedClustersListClusterUserCredentialsParameters): StreamableMethod<ManagedClustersListClusterUserCredentials200Response | ManagedClustersListClusterUserCredentialsDefaultResponse>;
 }
 
 // @public
@@ -1833,7 +1802,7 @@ export interface ManagedClustersListClusterUserCredentials200Response extends Ht
 }
 
 // @public
-export interface ManagedClustersListClusterUserCredentialsdefaultResponse extends HttpResponse {
+export interface ManagedClustersListClusterUserCredentialsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1856,7 +1825,7 @@ export interface ManagedClustersListClusterUserCredentialsQueryParamProperties {
 }
 
 // @public
-export interface ManagedClustersListdefaultResponse extends HttpResponse {
+export interface ManagedClustersListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1865,7 +1834,7 @@ export interface ManagedClustersListdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export interface ManagedClustersListOutboundNetworkDependenciesEndpoints {
-    get(options?: ManagedClustersListOutboundNetworkDependenciesEndpointsParameters): StreamableMethod<ManagedClustersListOutboundNetworkDependenciesEndpoints200Response | ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse>;
+    get(options?: ManagedClustersListOutboundNetworkDependenciesEndpointsParameters): StreamableMethod<ManagedClustersListOutboundNetworkDependenciesEndpoints200Response | ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse>;
 }
 
 // @public
@@ -1877,7 +1846,7 @@ export interface ManagedClustersListOutboundNetworkDependenciesEndpoints200Respo
 }
 
 // @public
-export interface ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse extends HttpResponse {
+export interface ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1890,33 +1859,32 @@ export type ManagedClustersListOutboundNetworkDependenciesEndpointsParameters = 
 // @public (undocumented)
 export type ManagedClustersListParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSnapshot extends TrackedResource {
     properties?: ManagedClusterSnapshotProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSnapshotListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<ManagedClusterSnapshotOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSnapshotOutput extends TrackedResourceOutput {
     properties?: ManagedClusterSnapshotPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSnapshotProperties {
     creationData?: CreationData;
-    managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
     snapshotType?: "NodePool" | "ManagedCluster";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterSnapshotPropertiesOutput {
     creationData?: CreationDataOutput;
-    managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshotOutput;
+    readonly managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshotOutput;
     snapshotType?: "NodePool" | "ManagedCluster";
 }
 
@@ -1942,7 +1910,7 @@ export interface ManagedClusterSnapshotsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface ManagedClusterSnapshotsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ManagedClusterSnapshotsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1960,21 +1928,17 @@ export type ManagedClusterSnapshotsCreateOrUpdateParameters = ManagedClusterSnap
 // @public
 export interface ManagedClusterSnapshotsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ManagedClusterSnapshotsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ManagedClusterSnapshotsDeletedefaultResponse extends HttpResponse {
+export interface ManagedClusterSnapshotsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -1986,10 +1950,10 @@ export type ManagedClusterSnapshotsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ManagedClusterSnapshotsGet {
-    delete(options?: ManagedClusterSnapshotsDeleteParameters): StreamableMethod<ManagedClusterSnapshotsDelete200Response | ManagedClusterSnapshotsDelete204Response | ManagedClusterSnapshotsDeletedefaultResponse>;
-    get(options?: ManagedClusterSnapshotsGetParameters): StreamableMethod<ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetdefaultResponse>;
-    patch(options: ManagedClusterSnapshotsUpdateTagsParameters): StreamableMethod<ManagedClusterSnapshotsUpdateTags200Response | ManagedClusterSnapshotsUpdateTagsdefaultResponse>;
-    put(options: ManagedClusterSnapshotsCreateOrUpdateParameters): StreamableMethod<ManagedClusterSnapshotsCreateOrUpdate200Response | ManagedClusterSnapshotsCreateOrUpdate201Response | ManagedClusterSnapshotsCreateOrUpdatedefaultResponse>;
+    delete(options?: ManagedClusterSnapshotsDeleteParameters): StreamableMethod<ManagedClusterSnapshotsDelete200Response | ManagedClusterSnapshotsDelete204Response | ManagedClusterSnapshotsDeleteDefaultResponse>;
+    get(options?: ManagedClusterSnapshotsGetParameters): StreamableMethod<ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetDefaultResponse>;
+    patch(options: ManagedClusterSnapshotsUpdateTagsParameters): StreamableMethod<ManagedClusterSnapshotsUpdateTags200Response | ManagedClusterSnapshotsUpdateTagsDefaultResponse>;
+    put(options: ManagedClusterSnapshotsCreateOrUpdateParameters): StreamableMethod<ManagedClusterSnapshotsCreateOrUpdate200Response | ManagedClusterSnapshotsCreateOrUpdate201Response | ManagedClusterSnapshotsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -2001,7 +1965,7 @@ export interface ManagedClusterSnapshotsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface ManagedClusterSnapshotsGetdefaultResponse extends HttpResponse {
+export interface ManagedClusterSnapshotsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2013,7 +1977,7 @@ export type ManagedClusterSnapshotsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ManagedClusterSnapshotsList {
-    get(options?: ManagedClusterSnapshotsListParameters): StreamableMethod<ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListdefaultResponse>;
+    get(options?: ManagedClusterSnapshotsListParameters): StreamableMethod<ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListDefaultResponse>;
 }
 
 // @public
@@ -2026,7 +1990,7 @@ export interface ManagedClusterSnapshotsList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ManagedClusterSnapshotsListByResourceGroup {
-    get(options?: ManagedClusterSnapshotsListByResourceGroupParameters): StreamableMethod<ManagedClusterSnapshotsListByResourceGroup200Response | ManagedClusterSnapshotsListByResourceGroupdefaultResponse>;
+    get(options?: ManagedClusterSnapshotsListByResourceGroupParameters): StreamableMethod<ManagedClusterSnapshotsListByResourceGroup200Response | ManagedClusterSnapshotsListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -2038,7 +2002,7 @@ export interface ManagedClusterSnapshotsListByResourceGroup200Response extends H
 }
 
 // @public
-export interface ManagedClusterSnapshotsListByResourceGroupdefaultResponse extends HttpResponse {
+export interface ManagedClusterSnapshotsListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2049,7 +2013,7 @@ export interface ManagedClusterSnapshotsListByResourceGroupdefaultResponse exten
 export type ManagedClusterSnapshotsListByResourceGroupParameters = RequestParameters;
 
 // @public
-export interface ManagedClusterSnapshotsListdefaultResponse extends HttpResponse {
+export interface ManagedClusterSnapshotsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2073,7 +2037,7 @@ export interface ManagedClusterSnapshotsUpdateTagsBodyParam {
 }
 
 // @public
-export interface ManagedClusterSnapshotsUpdateTagsdefaultResponse extends HttpResponse {
+export interface ManagedClusterSnapshotsUpdateTagsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2090,21 +2054,17 @@ export type ManagedClusterSnapshotsUpdateTagsParameters = ManagedClusterSnapshot
 
 // @public (undocumented)
 export interface ManagedClustersResetAADProfile {
-    post(options: ManagedClustersResetAADProfileParameters): StreamableMethod<ManagedClustersResetAADProfile200Response | ManagedClustersResetAADProfile202Response | ManagedClustersResetAADProfiledefaultResponse>;
+    post(options: ManagedClustersResetAADProfileParameters): StreamableMethod<ManagedClustersResetAADProfile200Response | ManagedClustersResetAADProfile202Response | ManagedClustersResetAADProfileDefaultResponse>;
 }
 
 // @public
 export interface ManagedClustersResetAADProfile200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ManagedClustersResetAADProfile202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2115,7 +2075,7 @@ export interface ManagedClustersResetAADProfileBodyParam {
 }
 
 // @public
-export interface ManagedClustersResetAADProfiledefaultResponse extends HttpResponse {
+export interface ManagedClustersResetAADProfileDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2132,21 +2092,17 @@ export type ManagedClustersResetAADProfileParameters = ManagedClustersResetAADPr
 
 // @public (undocumented)
 export interface ManagedClustersResetServicePrincipalProfile {
-    post(options: ManagedClustersResetServicePrincipalProfileParameters): StreamableMethod<ManagedClustersResetServicePrincipalProfile200Response | ManagedClustersResetServicePrincipalProfile202Response | ManagedClustersResetServicePrincipalProfiledefaultResponse>;
+    post(options: ManagedClustersResetServicePrincipalProfileParameters): StreamableMethod<ManagedClustersResetServicePrincipalProfile200Response | ManagedClustersResetServicePrincipalProfile202Response | ManagedClustersResetServicePrincipalProfileDefaultResponse>;
 }
 
 // @public
 export interface ManagedClustersResetServicePrincipalProfile200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ManagedClustersResetServicePrincipalProfile202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2157,7 +2113,7 @@ export interface ManagedClustersResetServicePrincipalProfileBodyParam {
 }
 
 // @public
-export interface ManagedClustersResetServicePrincipalProfiledefaultResponse extends HttpResponse {
+export interface ManagedClustersResetServicePrincipalProfileDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2174,13 +2130,11 @@ export type ManagedClustersResetServicePrincipalProfileParameters = ManagedClust
 
 // @public (undocumented)
 export interface ManagedClustersRotateClusterCertificates {
-    post(options?: ManagedClustersRotateClusterCertificatesParameters): StreamableMethod<ManagedClustersRotateClusterCertificates202Response | ManagedClustersRotateClusterCertificates204Response | ManagedClustersRotateClusterCertificatesdefaultResponse>;
+    post(options?: ManagedClustersRotateClusterCertificatesParameters): StreamableMethod<ManagedClustersRotateClusterCertificates202Response | ManagedClustersRotateClusterCertificates204Response | ManagedClustersRotateClusterCertificatesDefaultResponse>;
 }
 
 // @public
 export interface ManagedClustersRotateClusterCertificates202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2188,13 +2142,11 @@ export interface ManagedClustersRotateClusterCertificates202Response extends Htt
 // @public
 export interface ManagedClustersRotateClusterCertificates204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ManagedClustersRotateClusterCertificatesdefaultResponse extends HttpResponse {
+export interface ManagedClustersRotateClusterCertificatesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2206,13 +2158,11 @@ export type ManagedClustersRotateClusterCertificatesParameters = RequestParamete
 
 // @public (undocumented)
 export interface ManagedClustersRotateServiceAccountSigningKeys {
-    post(options?: ManagedClustersRotateServiceAccountSigningKeysParameters): StreamableMethod<ManagedClustersRotateServiceAccountSigningKeys202Response | ManagedClustersRotateServiceAccountSigningKeys204Response | ManagedClustersRotateServiceAccountSigningKeysdefaultResponse>;
+    post(options?: ManagedClustersRotateServiceAccountSigningKeysParameters): StreamableMethod<ManagedClustersRotateServiceAccountSigningKeys202Response | ManagedClustersRotateServiceAccountSigningKeys204Response | ManagedClustersRotateServiceAccountSigningKeysDefaultResponse>;
 }
 
 // @public
 export interface ManagedClustersRotateServiceAccountSigningKeys202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2220,13 +2170,11 @@ export interface ManagedClustersRotateServiceAccountSigningKeys202Response exten
 // @public
 export interface ManagedClustersRotateServiceAccountSigningKeys204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ManagedClustersRotateServiceAccountSigningKeysdefaultResponse extends HttpResponse {
+export interface ManagedClustersRotateServiceAccountSigningKeysDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2238,7 +2186,7 @@ export type ManagedClustersRotateServiceAccountSigningKeysParameters = RequestPa
 
 // @public (undocumented)
 export interface ManagedClustersRunCommand {
-    post(options: ManagedClustersRunCommandParameters): StreamableMethod<ManagedClustersRunCommand200Response | ManagedClustersRunCommand202Response | ManagedClustersRunCommanddefaultResponse>;
+    post(options: ManagedClustersRunCommandParameters): StreamableMethod<ManagedClustersRunCommand200Response | ManagedClustersRunCommand202Response | ManagedClustersRunCommandDefaultResponse>;
 }
 
 // @public
@@ -2252,8 +2200,6 @@ export interface ManagedClustersRunCommand200Response extends HttpResponse {
 // @public
 export interface ManagedClustersRunCommand202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -2263,7 +2209,7 @@ export interface ManagedClustersRunCommandBodyParam {
 }
 
 // @public
-export interface ManagedClustersRunCommanddefaultResponse extends HttpResponse {
+export interface ManagedClustersRunCommandDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2280,13 +2226,11 @@ export type ManagedClustersRunCommandParameters = ManagedClustersRunCommandMedia
 
 // @public (undocumented)
 export interface ManagedClustersStart {
-    post(options?: ManagedClustersStartParameters): StreamableMethod<ManagedClustersStart202Response | ManagedClustersStart204Response | ManagedClustersStartdefaultResponse>;
+    post(options?: ManagedClustersStartParameters): StreamableMethod<ManagedClustersStart202Response | ManagedClustersStart204Response | ManagedClustersStartDefaultResponse>;
 }
 
 // @public
 export interface ManagedClustersStart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2294,13 +2238,11 @@ export interface ManagedClustersStart202Response extends HttpResponse {
 // @public
 export interface ManagedClustersStart204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ManagedClustersStartdefaultResponse extends HttpResponse {
+export interface ManagedClustersStartDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2312,13 +2254,11 @@ export type ManagedClustersStartParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ManagedClustersStop {
-    post(options?: ManagedClustersStopParameters): StreamableMethod<ManagedClustersStop202Response | ManagedClustersStop204Response | ManagedClustersStopdefaultResponse>;
+    post(options?: ManagedClustersStopParameters): StreamableMethod<ManagedClustersStop202Response | ManagedClustersStop204Response | ManagedClustersStopDefaultResponse>;
 }
 
 // @public
 export interface ManagedClustersStop202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2326,13 +2266,11 @@ export interface ManagedClustersStop202Response extends HttpResponse {
 // @public
 export interface ManagedClustersStop204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ManagedClustersStopdefaultResponse extends HttpResponse {
+export interface ManagedClustersStopDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2342,7 +2280,7 @@ export interface ManagedClustersStopdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type ManagedClustersStopParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterStorageProfile {
     blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
     diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
@@ -2350,39 +2288,39 @@ export interface ManagedClusterStorageProfile {
     snapshotController?: ManagedClusterStorageProfileSnapshotController;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterStorageProfileBlobCSIDriver {
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterStorageProfileBlobCSIDriverOutput {
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterStorageProfileDiskCSIDriver {
     enabled?: boolean;
     version?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterStorageProfileDiskCSIDriverOutput {
     enabled?: boolean;
     version?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterStorageProfileFileCSIDriver {
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterStorageProfileFileCSIDriverOutput {
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterStorageProfileOutput {
     blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriverOutput;
     diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriverOutput;
@@ -2390,12 +2328,12 @@ export interface ManagedClusterStorageProfileOutput {
     snapshotController?: ManagedClusterStorageProfileSnapshotControllerOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterStorageProfileSnapshotController {
     enabled?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterStorageProfileSnapshotControllerOutput {
     enabled?: boolean;
 }
@@ -2414,7 +2352,7 @@ export interface ManagedClustersUpdateTagsBodyParam {
 }
 
 // @public
-export interface ManagedClustersUpdateTagsdefaultResponse extends HttpResponse {
+export interface ManagedClustersUpdateTagsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2429,21 +2367,21 @@ export interface ManagedClustersUpdateTagsMediaTypesParam {
 // @public (undocumented)
 export type ManagedClustersUpdateTagsParameters = ManagedClustersUpdateTagsMediaTypesParam & ManagedClustersUpdateTagsBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterUpgradeProfileOutput {
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
     properties: ManagedClusterUpgradeProfilePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterUpgradeProfilePropertiesOutput {
     agentPoolProfiles: Array<ManagedClusterPoolUpgradeProfileOutput>;
     controlPlaneProfile: ManagedClusterPoolUpgradeProfileOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterWindowsProfile {
     adminPassword?: string;
     adminUsername: string;
@@ -2452,7 +2390,7 @@ export interface ManagedClusterWindowsProfile {
     licenseType?: "None" | "Windows_Server";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterWindowsProfileOutput {
     adminPassword?: string;
     adminUsername: string;
@@ -2461,39 +2399,37 @@ export interface ManagedClusterWindowsProfileOutput {
     licenseType?: "None" | "Windows_Server";
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterWorkloadAutoScalerProfile {
     keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterWorkloadAutoScalerProfileKeda {
     enabled: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterWorkloadAutoScalerProfileKedaOutput {
     enabled: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedClusterWorkloadAutoScalerProfileOutput {
     keda?: ManagedClusterWorkloadAutoScalerProfileKedaOutput;
 }
 
 // @public (undocumented)
 export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
-    clientId?: string;
-    principalId?: string;
 }
 
 // @public (undocumented)
 export interface ManagedServiceIdentityUserAssignedIdentitiesValueOutput {
-    clientId?: string;
-    principalId?: string;
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface NetworkProfileForSnapshot {
     loadBalancerSku?: "standard" | "basic";
     networkMode?: "transparent" | "bridge";
@@ -2502,7 +2438,7 @@ export interface NetworkProfileForSnapshot {
     networkPolicy?: "calico" | "azure";
 }
 
-// @public (undocumented)
+// @public
 export interface NetworkProfileForSnapshotOutput {
     loadBalancerSku?: "standard" | "basic";
     networkMode?: "transparent" | "bridge";
@@ -2511,14 +2447,14 @@ export interface NetworkProfileForSnapshotOutput {
     networkPolicy?: "calico" | "azure";
 }
 
-// @public (undocumented)
+// @public
 export interface OperationListResultOutput {
-    value?: Array<OperationValueOutput>;
+    readonly value?: Array<OperationValueOutput>;
 }
 
 // @public (undocumented)
 export interface OperationsList {
-    get(options?: OperationsListParameters): StreamableMethod<OperationsList200Response | OperationsListdefaultResponse>;
+    get(options?: OperationsListParameters): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
 // @public
@@ -2530,7 +2466,7 @@ export interface OperationsList200Response extends HttpResponse {
 }
 
 // @public
-export interface OperationsListdefaultResponse extends HttpResponse {
+export interface OperationsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2540,50 +2476,62 @@ export interface OperationsListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type OperationsListParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface OperationValueDisplayOutput {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationValueOutput {
     display?: OperationValueDisplayOutput;
-    name?: string;
-    origin?: string;
+    readonly name?: string;
+    readonly origin?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSOptionProfileOutput {
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
     properties: OSOptionPropertyListOutput;
-    type?: string;
+    readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface OSOptionPropertyListOutput {
     osOptionPropertyList: Array<OSOptionPropertyOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface OSOptionPropertyOutput {
     "enable-fips-image": boolean;
     "os-type": string;
 }
 
-// @public (undocumented)
+// @public
 export interface OutboundEnvironmentEndpointCollectionOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Array<OutboundEnvironmentEndpointOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface OutboundEnvironmentEndpointOutput {
     category?: string;
     endpoints?: Array<EndpointDependencyOutput>;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -2601,60 +2549,54 @@ export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
 
-// @public (undocumented)
+// @public
 export interface PowerState {
     code?: "Running" | "Stopped";
 }
 
-// @public (undocumented)
+// @public
 export interface PowerStateOutput {
     code?: "Running" | "Stopped";
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpoint {
     id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointConnection {
-    id?: string;
-    name?: string;
     properties?: PrivateEndpointConnectionProperties;
-    type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointConnectionListResultOutput {
     value?: Array<PrivateEndpointConnectionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointConnectionOutput {
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
     properties?: PrivateEndpointConnectionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointConnectionProperties {
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-    provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointConnectionPropertiesOutput {
     privateEndpoint?: PrivateEndpointOutput;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateOutput;
-    provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface PrivateEndpointConnectionsDelete200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
@@ -2662,13 +2604,11 @@ export interface PrivateEndpointConnectionsDelete200Response extends HttpRespons
 // @public
 export interface PrivateEndpointConnectionsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface PrivateEndpointConnectionsDeletedefaultResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2680,9 +2620,9 @@ export type PrivateEndpointConnectionsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PrivateEndpointConnectionsGet {
-    delete(options?: PrivateEndpointConnectionsDeleteParameters): StreamableMethod<PrivateEndpointConnectionsDelete200Response | PrivateEndpointConnectionsDelete204Response | PrivateEndpointConnectionsDeletedefaultResponse>;
-    get(options?: PrivateEndpointConnectionsGetParameters): StreamableMethod<PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetdefaultResponse>;
-    put(options: PrivateEndpointConnectionsUpdateParameters): StreamableMethod<PrivateEndpointConnectionsUpdate200Response | PrivateEndpointConnectionsUpdatedefaultResponse>;
+    delete(options?: PrivateEndpointConnectionsDeleteParameters): StreamableMethod<PrivateEndpointConnectionsDelete200Response | PrivateEndpointConnectionsDelete204Response | PrivateEndpointConnectionsDeleteDefaultResponse>;
+    get(options?: PrivateEndpointConnectionsGetParameters): StreamableMethod<PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse>;
+    put(options: PrivateEndpointConnectionsUpdateParameters): StreamableMethod<PrivateEndpointConnectionsUpdate200Response | PrivateEndpointConnectionsUpdateDefaultResponse>;
 }
 
 // @public
@@ -2694,7 +2634,7 @@ export interface PrivateEndpointConnectionsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface PrivateEndpointConnectionsGetdefaultResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2706,7 +2646,7 @@ export type PrivateEndpointConnectionsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface PrivateEndpointConnectionsList {
-    get(options?: PrivateEndpointConnectionsListParameters): StreamableMethod<PrivateEndpointConnectionsList200Response | PrivateEndpointConnectionsListdefaultResponse>;
+    get(options?: PrivateEndpointConnectionsListParameters): StreamableMethod<PrivateEndpointConnectionsList200Response | PrivateEndpointConnectionsListDefaultResponse>;
 }
 
 // @public
@@ -2718,7 +2658,7 @@ export interface PrivateEndpointConnectionsList200Response extends HttpResponse 
 }
 
 // @public
-export interface PrivateEndpointConnectionsListdefaultResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2742,7 +2682,7 @@ export interface PrivateEndpointConnectionsUpdateBodyParam {
 }
 
 // @public
-export interface PrivateEndpointConnectionsUpdatedefaultResponse extends HttpResponse {
+export interface PrivateEndpointConnectionsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2757,34 +2697,33 @@ export interface PrivateEndpointConnectionsUpdateMediaTypesParam {
 // @public (undocumented)
 export type PrivateEndpointConnectionsUpdateParameters = PrivateEndpointConnectionsUpdateMediaTypesParam & PrivateEndpointConnectionsUpdateBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface PrivateEndpointOutput {
     id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateLinkResource {
     groupId?: string;
     id?: string;
     name?: string;
-    privateLinkServiceID?: string;
     requiredMembers?: Array<string>;
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateLinkResourceOutput {
     groupId?: string;
     id?: string;
     name?: string;
-    privateLinkServiceID?: string;
+    readonly privateLinkServiceID?: string;
     requiredMembers?: Array<string>;
     type?: string;
 }
 
 // @public (undocumented)
 export interface PrivateLinkResourcesList {
-    get(options?: PrivateLinkResourcesListParameters): StreamableMethod<PrivateLinkResourcesList200Response | PrivateLinkResourcesListdefaultResponse>;
+    get(options?: PrivateLinkResourcesListParameters): StreamableMethod<PrivateLinkResourcesList200Response | PrivateLinkResourcesListDefaultResponse>;
 }
 
 // @public
@@ -2796,7 +2735,7 @@ export interface PrivateLinkResourcesList200Response extends HttpResponse {
 }
 
 // @public
-export interface PrivateLinkResourcesListdefaultResponse extends HttpResponse {
+export interface PrivateLinkResourcesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2806,18 +2745,18 @@ export interface PrivateLinkResourcesListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type PrivateLinkResourcesListParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface PrivateLinkResourcesListResultOutput {
     value?: Array<PrivateLinkResourceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateLinkServiceConnectionState {
     description?: string;
     status?: "Pending" | "Approved" | "Rejected" | "Disconnected";
 }
 
-// @public (undocumented)
+// @public
 export interface PrivateLinkServiceConnectionStateOutput {
     description?: string;
     status?: "Pending" | "Approved" | "Rejected" | "Disconnected";
@@ -2825,7 +2764,7 @@ export interface PrivateLinkServiceConnectionStateOutput {
 
 // @public (undocumented)
 export interface ResolvePrivateLinkServiceIdPost {
-    post(options: ResolvePrivateLinkServiceIdPostParameters): StreamableMethod<ResolvePrivateLinkServiceIdPost200Response | ResolvePrivateLinkServiceIdPostdefaultResponse>;
+    post(options: ResolvePrivateLinkServiceIdPostParameters): StreamableMethod<ResolvePrivateLinkServiceIdPost200Response | ResolvePrivateLinkServiceIdPostDefaultResponse>;
 }
 
 // @public
@@ -2842,7 +2781,7 @@ export interface ResolvePrivateLinkServiceIdPostBodyParam {
 }
 
 // @public
-export interface ResolvePrivateLinkServiceIdPostdefaultResponse extends HttpResponse {
+export interface ResolvePrivateLinkServiceIdPostDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -2857,28 +2796,24 @@ export interface ResolvePrivateLinkServiceIdPostMediaTypesParam {
 // @public (undocumented)
 export type ResolvePrivateLinkServiceIdPostParameters = ResolvePrivateLinkServiceIdPostMediaTypesParam & ResolvePrivateLinkServiceIdPostBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface Resource {
-    id?: string;
-    name?: string;
-    systemData?: SystemData;
-    type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceOutput {
-    id?: string;
-    name?: string;
-    systemData?: SystemDataOutput;
-    type?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemDataOutput;
+    readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceReference {
     id?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceReferenceOutput {
     id?: string;
 }
@@ -2926,57 +2861,73 @@ export interface Routes {
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}", subscriptionId: string, resourceGroupName: string, resourceName: string, trustedAccessRoleBindingName: string): TrustedAccessRoleBindingsGet;
 }
 
-// @public (undocumented)
+// @public
 export interface RunCommandRequest {
     clusterToken?: string;
     command: string;
     context?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface RunCommandResultOutput {
-    id?: string;
+    readonly id?: string;
     properties?: CommandResultPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface Snapshot extends TrackedResource {
     properties?: SnapshotProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<SnapshotOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotOutput extends TrackedResourceOutput {
     properties?: SnapshotPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotProperties {
     creationData?: CreationData;
-    enableFIPS?: boolean;
-    kubernetesVersion?: string;
-    nodeImageVersion?: string;
-    osSku?: "Ubuntu" | "CBLMariner" | "Windows2019" | "Windows2022";
-    osType?: "Linux" | "Windows";
     snapshotType?: "NodePool" | "ManagedCluster";
-    vmSize?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SnapshotPropertiesOutput {
     creationData?: CreationDataOutput;
-    enableFIPS?: boolean;
-    kubernetesVersion?: string;
-    nodeImageVersion?: string;
-    osSku?: "Ubuntu" | "CBLMariner" | "Windows2019" | "Windows2022";
-    osType?: "Linux" | "Windows";
+    readonly enableFIPS?: boolean;
+    readonly kubernetesVersion?: string;
+    readonly nodeImageVersion?: string;
+    readonly osSku?: "Ubuntu" | "CBLMariner" | "Windows2019" | "Windows2022";
+    readonly osType?: "Linux" | "Windows";
     snapshotType?: "NodePool" | "ManagedCluster";
-    vmSize?: string;
+    readonly vmSize?: string;
 }
 
 // @public
@@ -3001,7 +2952,7 @@ export interface SnapshotsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface SnapshotsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface SnapshotsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3019,21 +2970,17 @@ export type SnapshotsCreateOrUpdateParameters = SnapshotsCreateOrUpdateMediaType
 // @public
 export interface SnapshotsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface SnapshotsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface SnapshotsDeletedefaultResponse extends HttpResponse {
+export interface SnapshotsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3045,10 +2992,10 @@ export type SnapshotsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SnapshotsGet {
-    delete(options?: SnapshotsDeleteParameters): StreamableMethod<SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeletedefaultResponse>;
-    get(options?: SnapshotsGetParameters): StreamableMethod<SnapshotsGet200Response | SnapshotsGetdefaultResponse>;
-    patch(options: SnapshotsUpdateTagsParameters): StreamableMethod<SnapshotsUpdateTags200Response | SnapshotsUpdateTagsdefaultResponse>;
-    put(options: SnapshotsCreateOrUpdateParameters): StreamableMethod<SnapshotsCreateOrUpdate200Response | SnapshotsCreateOrUpdate201Response | SnapshotsCreateOrUpdatedefaultResponse>;
+    delete(options?: SnapshotsDeleteParameters): StreamableMethod<SnapshotsDelete200Response | SnapshotsDelete204Response | SnapshotsDeleteDefaultResponse>;
+    get(options?: SnapshotsGetParameters): StreamableMethod<SnapshotsGet200Response | SnapshotsGetDefaultResponse>;
+    patch(options: SnapshotsUpdateTagsParameters): StreamableMethod<SnapshotsUpdateTags200Response | SnapshotsUpdateTagsDefaultResponse>;
+    put(options: SnapshotsCreateOrUpdateParameters): StreamableMethod<SnapshotsCreateOrUpdate200Response | SnapshotsCreateOrUpdate201Response | SnapshotsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -3060,7 +3007,7 @@ export interface SnapshotsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface SnapshotsGetdefaultResponse extends HttpResponse {
+export interface SnapshotsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3072,7 +3019,7 @@ export type SnapshotsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface SnapshotsList {
-    get(options?: SnapshotsListParameters): StreamableMethod<SnapshotsList200Response | SnapshotsListdefaultResponse>;
+    get(options?: SnapshotsListParameters): StreamableMethod<SnapshotsList200Response | SnapshotsListDefaultResponse>;
 }
 
 // @public
@@ -3085,7 +3032,7 @@ export interface SnapshotsList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface SnapshotsListByResourceGroup {
-    get(options?: SnapshotsListByResourceGroupParameters): StreamableMethod<SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupdefaultResponse>;
+    get(options?: SnapshotsListByResourceGroupParameters): StreamableMethod<SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -3097,7 +3044,7 @@ export interface SnapshotsListByResourceGroup200Response extends HttpResponse {
 }
 
 // @public
-export interface SnapshotsListByResourceGroupdefaultResponse extends HttpResponse {
+export interface SnapshotsListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3108,7 +3055,7 @@ export interface SnapshotsListByResourceGroupdefaultResponse extends HttpRespons
 export type SnapshotsListByResourceGroupParameters = RequestParameters;
 
 // @public
-export interface SnapshotsListdefaultResponse extends HttpResponse {
+export interface SnapshotsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3132,7 +3079,7 @@ export interface SnapshotsUpdateTagsBodyParam {
 }
 
 // @public
-export interface SnapshotsUpdateTagsdefaultResponse extends HttpResponse {
+export interface SnapshotsUpdateTagsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3147,21 +3094,18 @@ export interface SnapshotsUpdateTagsMediaTypesParam {
 // @public (undocumented)
 export type SnapshotsUpdateTagsParameters = SnapshotsUpdateTagsMediaTypesParam & SnapshotsUpdateTagsBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface SubResource {
-    id?: string;
-    name?: string;
-    type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SubResourceOutput {
-    id?: string;
-    name?: string;
-    type?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SysctlConfig {
     fsAioMaxNr?: number;
     fsFileMax?: number;
@@ -3193,7 +3137,7 @@ export interface SysctlConfig {
     vmVfsCachePressure?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface SysctlConfigOutput {
     fsAioMaxNr?: number;
     fsFileMax?: number;
@@ -3225,7 +3169,7 @@ export interface SysctlConfigOutput {
     vmVfsCachePressure?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface SystemData {
     createdAt?: Date | string;
     createdBy?: string;
@@ -3235,7 +3179,7 @@ export interface SystemData {
     lastModifiedByType?: "User" | "Application" | "ManagedIdentity" | "Key";
 }
 
-// @public (undocumented)
+// @public
 export interface SystemDataOutput {
     createdAt?: string;
     createdBy?: string;
@@ -3245,73 +3189,72 @@ export interface SystemDataOutput {
     lastModifiedByType?: "User" | "Application" | "ManagedIdentity" | "Key";
 }
 
-// @public (undocumented)
+// @public
 export interface TagsObject {
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface TimeInWeek {
     day?: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
     hourSlots?: Array<number>;
 }
 
-// @public (undocumented)
+// @public
 export interface TimeInWeekOutput {
     day?: "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
     hourSlots?: Array<number>;
 }
 
-// @public (undocumented)
+// @public
 export interface TimeSpan {
     end?: Date | string;
     start?: Date | string;
 }
 
-// @public (undocumented)
+// @public
 export interface TimeSpanOutput {
     end?: string;
     start?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface TrackedResourceOutput extends ResourceOutput {
     location: string;
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface TrustedAccessRoleBinding extends Resource {
     properties: TrustedAccessRoleBindingProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface TrustedAccessRoleBindingListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<TrustedAccessRoleBindingOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface TrustedAccessRoleBindingOutput extends ResourceOutput {
     properties: TrustedAccessRoleBindingPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface TrustedAccessRoleBindingProperties {
-    provisioningState?: "Succeeded" | "Failed" | "Updating" | "Deleting";
     roles: Array<string>;
     sourceResourceId: string;
 }
 
-// @public (undocumented)
+// @public
 export interface TrustedAccessRoleBindingPropertiesOutput {
-    provisioningState?: "Succeeded" | "Failed" | "Updating" | "Deleting";
+    readonly provisioningState?: "Succeeded" | "Failed" | "Updating" | "Deleting";
     roles: Array<string>;
     sourceResourceId: string;
 }
@@ -3330,7 +3273,7 @@ export interface TrustedAccessRoleBindingsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3348,21 +3291,17 @@ export type TrustedAccessRoleBindingsCreateOrUpdateParameters = TrustedAccessRol
 // @public
 export interface TrustedAccessRoleBindingsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface TrustedAccessRoleBindingsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface TrustedAccessRoleBindingsDeletedefaultResponse extends HttpResponse {
+export interface TrustedAccessRoleBindingsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3374,9 +3313,9 @@ export type TrustedAccessRoleBindingsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TrustedAccessRoleBindingsGet {
-    delete(options?: TrustedAccessRoleBindingsDeleteParameters): StreamableMethod<TrustedAccessRoleBindingsDelete200Response | TrustedAccessRoleBindingsDelete204Response | TrustedAccessRoleBindingsDeletedefaultResponse>;
-    get(options?: TrustedAccessRoleBindingsGetParameters): StreamableMethod<TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetdefaultResponse>;
-    put(options: TrustedAccessRoleBindingsCreateOrUpdateParameters): StreamableMethod<TrustedAccessRoleBindingsCreateOrUpdate200Response | TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse>;
+    delete(options?: TrustedAccessRoleBindingsDeleteParameters): StreamableMethod<TrustedAccessRoleBindingsDelete200Response | TrustedAccessRoleBindingsDelete204Response | TrustedAccessRoleBindingsDeleteDefaultResponse>;
+    get(options?: TrustedAccessRoleBindingsGetParameters): StreamableMethod<TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetDefaultResponse>;
+    put(options: TrustedAccessRoleBindingsCreateOrUpdateParameters): StreamableMethod<TrustedAccessRoleBindingsCreateOrUpdate200Response | TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -3388,7 +3327,7 @@ export interface TrustedAccessRoleBindingsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface TrustedAccessRoleBindingsGetdefaultResponse extends HttpResponse {
+export interface TrustedAccessRoleBindingsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3400,7 +3339,7 @@ export type TrustedAccessRoleBindingsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TrustedAccessRoleBindingsList {
-    get(options?: TrustedAccessRoleBindingsListParameters): StreamableMethod<TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListdefaultResponse>;
+    get(options?: TrustedAccessRoleBindingsListParameters): StreamableMethod<TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListDefaultResponse>;
 }
 
 // @public
@@ -3412,7 +3351,7 @@ export interface TrustedAccessRoleBindingsList200Response extends HttpResponse {
 }
 
 // @public
-export interface TrustedAccessRoleBindingsListdefaultResponse extends HttpResponse {
+export interface TrustedAccessRoleBindingsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3422,31 +3361,31 @@ export interface TrustedAccessRoleBindingsListdefaultResponse extends HttpRespon
 // @public (undocumented)
 export type TrustedAccessRoleBindingsListParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface TrustedAccessRoleListResultOutput {
-    nextLink?: string;
-    value?: Array<TrustedAccessRoleOutput>;
+    readonly nextLink?: string;
+    readonly value?: Array<TrustedAccessRoleOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface TrustedAccessRoleOutput {
-    name?: string;
-    rules?: Array<TrustedAccessRoleRuleOutput>;
-    sourceResourceType?: string;
+    readonly name?: string;
+    readonly rules?: Array<TrustedAccessRoleRuleOutput>;
+    readonly sourceResourceType?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface TrustedAccessRoleRuleOutput {
-    apiGroups?: Array<string>;
-    nonResourceURLs?: Array<string>;
-    resourceNames?: Array<string>;
-    resources?: Array<string>;
-    verbs?: Array<string>;
+    readonly apiGroups?: Array<string>;
+    readonly nonResourceURLs?: Array<string>;
+    readonly resourceNames?: Array<string>;
+    readonly resources?: Array<string>;
+    readonly verbs?: Array<string>;
 }
 
 // @public (undocumented)
 export interface TrustedAccessRolesList {
-    get(options?: TrustedAccessRolesListParameters): StreamableMethod<TrustedAccessRolesList200Response | TrustedAccessRolesListdefaultResponse>;
+    get(options?: TrustedAccessRolesListParameters): StreamableMethod<TrustedAccessRolesList200Response | TrustedAccessRolesListDefaultResponse>;
 }
 
 // @public
@@ -3458,7 +3397,7 @@ export interface TrustedAccessRolesList200Response extends HttpResponse {
 }
 
 // @public
-export interface TrustedAccessRolesListdefaultResponse extends HttpResponse {
+export interface TrustedAccessRolesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: CloudErrorOutput;
     // (undocumented)
@@ -3468,28 +3407,28 @@ export interface TrustedAccessRolesListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type TrustedAccessRolesListParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface UserAssignedIdentity {
     clientId?: string;
     objectId?: string;
     resourceId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserAssignedIdentityOutput {
     clientId?: string;
     objectId?: string;
     resourceId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface WindowsGmsaProfile {
     dnsServer?: string;
     enabled?: boolean;
     rootDomainName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface WindowsGmsaProfileOutput {
     dnsServer?: string;
     enabled?: boolean;

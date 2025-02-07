@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewayConnectionsStartPacketCaptureParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts packet capture on virtual network gateway connection in the specified resource group.
@@ -27,16 +22,16 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter() {
   const options: VirtualNetworkGatewayConnectionsStartPacketCaptureParameters = {
     body: {
       filterData:
-        "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}"
+        "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}",
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -44,9 +39,7 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter() {
   console.log(result);
 }
 
-startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter().catch(
-  console.error
-);
+startPacketCaptureOnVirtualNetworkGatewayConnectionWithFilter().catch(console.error);
 /**
  * This sample demonstrates how to Starts packet capture on virtual network gateway connection in the specified resource group.
  *
@@ -60,14 +53,14 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter(
   const resourceGroupName = "rg1";
   const virtualNetworkGatewayConnectionName = "vpngwcn1";
   const options: VirtualNetworkGatewayConnectionsStartPacketCaptureParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/startPacketCapture",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -75,6 +68,4 @@ async function startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter(
   console.log(result);
 }
 
-startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter().catch(
-  console.error
-);
+startPacketCaptureOnVirtualNetworkGatewayConnectionWithoutFilter().catch(console.error);

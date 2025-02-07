@@ -314,8 +314,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
 
 /** Settings for upgrading an agentpool */
 export interface AgentPoolUpgradeSettings {
-  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade */
+  /** This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 1. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
   maxSurge?: string;
+  /** This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
+  maxUnavailable?: string;
   /** The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
   drainTimeoutInMinutes?: number;
   /** The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes. */
@@ -348,6 +350,8 @@ export interface KubeletConfig {
   containerLogMaxFiles?: number;
   /** The maximum number of processes per pod. */
   podMaxPids?: number;
+  /** Specifies the default seccomp profile applied to all workloads. If not specified, 'Unconfined' will be used by default. */
+  seccompDefault?: SeccompDefault;
 }
 
 /** See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
@@ -718,7 +722,7 @@ export interface ContainerServiceNetworkProfile {
   podLinkLocalAccess?: PodLinkLocalAccess;
   /** Holds configuration customizations for kube-proxy. Any values not defined will use the kube-proxy defaulting behavior. See https://v<version>.docs.kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/ where <version> is represented by a <major version>-<minor version> string. Kubernetes version 1.23 would be '1-23'. */
   kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
-  /** Advanced Networking profile for enabling observability on a cluster. Note that enabling advanced networking features may incur additional costs. For more information see aka.ms/aksadvancednetworking. */
+  /** Advanced Networking profile for enabling observability and security feature suite on a cluster. For more information see aka.ms/aksadvancednetworking. */
   advancedNetworking?: AdvancedNetworking;
 }
 
@@ -814,8 +818,10 @@ export interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig {
   udpTimeoutSeconds?: number;
 }
 
-/** Advanced Networking profile for enabling observability on a cluster. Note that enabling advanced networking features may incur additional costs. For more information see aka.ms/aksadvancednetworking. */
+/** Advanced Networking profile for enabling observability and security feature suite on a cluster. For more information see aka.ms/aksadvancednetworking. */
 export interface AdvancedNetworking {
+  /** Indicates the enablement of Advanced Networking functionalities of observability and security on AKS clusters. When this is set to true, all observability and security features will be set to enabled unless explicitly disabled. If not specified, the default is false. */
+  enabled?: boolean;
   /** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
   observability?: AdvancedNetworkingObservability;
   /** Security profile to enable security features on cilium based cluster. */
@@ -826,18 +832,10 @@ export interface AdvancedNetworking {
 export interface AdvancedNetworkingObservability {
   /** Indicates the enablement of Advanced Networking observability functionalities on clusters. */
   enabled?: boolean;
-  /** Management of TLS certificates for querying network flow logs via the flow log endpoint for Advanced Networking observability clusters. If not specified, the default is Managed. For more information see aka.ms/acnstls. */
-  tlsManagement?: TLSManagement;
 }
 
 /** Security profile to enable security features on cilium based cluster. */
 export interface AdvancedNetworkingSecurity {
-  /** FQDNFiltering profile to enable FQDN Policy filtering on cilium based cluster. */
-  fqdnPolicy?: AdvancedNetworkingFqdnPolicy;
-}
-
-/** FQDNFiltering profile to enable FQDN Policy filtering on cilium based cluster. */
-export interface AdvancedNetworkingFqdnPolicy {
   /** This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false. */
   enabled?: boolean;
 }
@@ -2463,7 +2461,7 @@ export interface ManagedCluster extends TrackedResource {
   apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
   /** This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}' */
   diskEncryptionSetID?: string;
-  /** Identities associated with the cluster. */
+  /** The user identity associated with the managed cluster. This identity will be used by the kubelet. Only one user assigned identity is allowed. The only accepted key is "kubeletidentity", with value of "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}". */
   identityProfile?: { [propertyName: string]: UserAssignedIdentity };
   /** Private link resources associated with the cluster. */
   privateLinkResources?: PrivateLinkResource[];
@@ -3028,6 +3026,24 @@ export enum KnownScaleSetEvictionPolicy {
  */
 export type ScaleSetEvictionPolicy = string;
 
+/** Known values of {@link SeccompDefault} that the service accepts. */
+export enum KnownSeccompDefault {
+  /** No seccomp profile is applied, allowing all system calls. */
+  Unconfined = "Unconfined",
+  /** The default seccomp profile for container runtime is applied, which restricts certain system calls for enhanced security. */
+  RuntimeDefault = "RuntimeDefault",
+}
+
+/**
+ * Defines values for SeccompDefault. \
+ * {@link KnownSeccompDefault} can be used interchangeably with SeccompDefault,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unconfined**: No seccomp profile is applied, allowing all system calls. \
+ * **RuntimeDefault**: The default seccomp profile for container runtime is applied, which restricts certain system calls for enhanced security.
+ */
+export type SeccompDefault = string;
+
 /** Known values of {@link GPUInstanceProfile} that the service accepts. */
 export enum KnownGPUInstanceProfile {
   /** MIG1G */
@@ -3423,24 +3439,6 @@ export enum KnownIpvsScheduler {
  * **LeastConnection**: Least Connection
  */
 export type IpvsScheduler = string;
-
-/** Known values of {@link TLSManagement} that the service accepts. */
-export enum KnownTLSManagement {
-  /** Disable TLS management of certificates. This leaves the flow log endpoint unencrypted. It is strongly recommended when using this option that you configure your own encryption on top, for example by putting the flow logs endpoint behind an ingress controller. */
-  None = "None",
-  /** Enable TLS and cert rotation is managed by Azure. */
-  Managed = "Managed",
-}
-
-/**
- * Defines values for TLSManagement. \
- * {@link KnownTLSManagement} can be used interchangeably with TLSManagement,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None**: Disable TLS management of certificates. This leaves the flow log endpoint unencrypted. It is strongly recommended when using this option that you configure your own encryption on top, for example by putting the flow logs endpoint behind an ingress controller. \
- * **Managed**: Enable TLS and cert rotation is managed by Azure.
- */
-export type TLSManagement = string;
 
 /** Known values of {@link UpgradeChannel} that the service accepts. */
 export enum KnownUpgradeChannel {

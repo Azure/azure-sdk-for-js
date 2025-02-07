@@ -3,9 +3,9 @@
 
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
-import { DataLakeFileClient, DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src";
+import type { DataLakeFileClient, DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src";
 import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 
 describe("LeaseClient from FileSystem", () => {

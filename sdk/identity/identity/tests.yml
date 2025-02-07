@@ -3,6 +3,7 @@ trigger: none
 extends:
     template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
+      Location: westus2
       PreSteps:
       - task: AzureCLI@2
         displayName: Set OIDC variables
@@ -22,12 +23,9 @@ extends:
       PackageName: "@azure/identity"
       ServiceDirectory: identity
       TimeoutInMinutes: 120
-      SupportedClouds: 'Public,UsGov,China,Canary'
       CloudConfig:
         Public:
-          ServiceConnection: azure-sdk-tests
           SubscriptionConfigurations:
-            - $(sub-config-azure-cloud-test-resources)
             # Contains alternate tenant, AAD app and cert info for testing
             - $(sub-config-identity-test-resources)
             - $(sub-config-identity-test-resources-js)

@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
-import {
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
+import { SDK_VERSION } from "./constants.js";
+import type {
   CopyAuthorization,
   GeneratedClient,
   ResourceDetails,
@@ -14,20 +15,21 @@ import {
   OperationSummary,
   OperationDetails,
   DocumentClassifierDetails,
-} from "./generated";
-import { accept1 } from "./generated/models/parameters";
-import {
+} from "./generated/index.js";
+import { accept1 } from "./generated/models/parameters.js";
+import type {
   TrainingOperationDefinition,
   DocumentModelOperationState,
   DocumentModelPoller,
-  toTrainingPollOperationState,
   DocumentModelBuildResponse,
   AdministrationOperationState,
   DocumentClassifierPoller,
   DocumentClassifierOperationState,
-} from "./lro/administration";
-import { OperationContext, lro } from "./lro/util/poller";
-import {
+} from "./lro/administration.js";
+import { toTrainingPollOperationState } from "./lro/administration.js";
+import type { OperationContext } from "./lro/util/poller.js";
+import { lro } from "./lro/util/poller.js";
+import type {
   BeginCopyModelOptions,
   DeleteDocumentModelOptions,
   DocumentModelAdministrationClientOptions,
@@ -38,20 +40,20 @@ import {
   ListModelsOptions,
   ListOperationsOptions,
   PollerOptions,
-} from "./options";
-import { BeginBuildDocumentClassifierOptions } from "./options/BuildDocumentClassifierOptions";
-import {
+} from "./options/index.js";
+import type { BeginBuildDocumentClassifierOptions } from "./options/BuildDocumentClassifierOptions.js";
+import type {
   BeginBuildDocumentModelOptions,
   BeginComposeDocumentModelOptions,
   DocumentModelBuildMode,
-} from "./options/BuildModelOptions";
-import { Mappers, SERIALIZER, makeServiceClient } from "./util";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import {
+} from "./options/BuildModelOptions.js";
+import { Mappers, SERIALIZER, makeServiceClient } from "./util.js";
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type {
   DocumentModelSource,
   DocumentClassifierDocumentTypeSources,
   AzureBlobSource,
-} from "./models";
+} from "./models/index.js";
 
 /**
  * A client for interacting with the Form Recognizer service's model management features, such as creating, reading,
@@ -438,6 +440,7 @@ export class DocumentModelAdministrationClient {
   public async beginCopyModelTo(
     sourceModelId: string,
     authorization: CopyAuthorization,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: BeginCopyModelOptions = {},
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
@@ -671,7 +674,7 @@ export class DocumentModelAdministrationClient {
       ctx: OperationContext,
       options: PollerOptions<State> & OperationOptions,
       args: [flatResponse: unknown, error?: unknown],
-    ) {
+    ): void | undefined {
       const retryAfterHeader = rawResponse.headers.get("retry-after");
       // Convert the header value to milliseconds. If the header is not a valid number, then it is an HTTP
       // date.
@@ -765,6 +768,7 @@ export class DocumentModelAdministrationClient {
    */
   public getDocumentModel(
     modelId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: GetModelOptions = {},
   ): Promise<DocumentModelDetails> {
     return this._tracing.withSpan(
@@ -830,6 +834,7 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of model summaries that supports paging
    */
   public listDocumentModels(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DocumentModelSummary> {
     return this._restClient.documentModels.listModels(options);
@@ -940,6 +945,7 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of classifier details that supports paging
    */
   public listDocumentClassifiers(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DocumentClassifierDetails> {
     return this._restClient.documentClassifiers.listClassifiers(options);

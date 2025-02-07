@@ -18,7 +18,7 @@ require("dotenv").config();
  * This sample demonstrates how to Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and activate the nodes back again.
  *
  * @summary Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and activate the nodes back again.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ReimageNodes_UD_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ReimageNodes_UD_example.json
  */
 async function reimageAllNodesByUpgradeDomain() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function reimageAllNodesByUpgradeDomain() {
  * This sample demonstrates how to Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and activate the nodes back again.
  *
  * @summary Reimages one or more nodes on the node type. It will disable the fabric nodes, trigger a reimage on the VMs and activate the nodes back again.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ReimageNodes_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ReimageNodes_example.json
  */
 async function reimageNodes() {
   const subscriptionId =

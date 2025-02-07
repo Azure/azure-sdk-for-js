@@ -56,7 +56,7 @@ node availableGroundStationsListByCapabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ORBITAL_SUBSCRIPTION_ID="<orbital subscription id>" node availableGroundStationsListByCapabilitySample.js
+npx dev-tool run vendored cross-env ORBITAL_SUBSCRIPTION_ID="<orbital subscription id>" node availableGroundStationsListByCapabilitySample.js
 ```
 
 ## Next Steps
@@ -83,6 +83,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [spacecraftslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/orbital/arm-orbital/samples/v2/javascript/spacecraftsListBySubscriptionSample.js
 [spacecraftslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/orbital/arm-orbital/samples/v2/javascript/spacecraftsListSample.js
 [spacecraftsupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/orbital/arm-orbital/samples/v2/javascript/spacecraftsUpdateTagsSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-orbital?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-orbital?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/orbital/arm-orbital/README.md

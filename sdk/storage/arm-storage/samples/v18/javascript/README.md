@@ -138,7 +138,7 @@ node blobContainersClearLegalHoldSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env STORAGE_SUBSCRIPTION_ID="<storage subscription id>" STORAGE_RESOURCE_GROUP="<storage resource group>" node blobContainersClearLegalHoldSample.js
+npx dev-tool run vendored cross-env STORAGE_SUBSCRIPTION_ID="<storage subscription id>" STORAGE_RESOURCE_GROUP="<storage resource group>" node blobContainersClearLegalHoldSample.js
 ```
 
 ## Next Steps
@@ -247,6 +247,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tableservicessetservicepropertiessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/arm-storage/samples/v18/javascript/tableServicesSetServicePropertiesSample.js
 [tableupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/arm-storage/samples/v18/javascript/tableUpdateSample.js
 [usageslistbylocationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/arm-storage/samples/v18/javascript/usagesListByLocationSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-storage?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-storage?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/arm-storage/README.md

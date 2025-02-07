@@ -15,7 +15,7 @@ async function listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.privateEndpointConnections.listByMongoCluster(
+  for await (const item of client.privateEndpointConnections.listByMongoCluster(
     "TestGroup",
     "myMongoCluster",
   )) {
@@ -26,7 +26,7 @@ async function listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource
 }
 
 async function main() {
-  listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource();
+  await listsThePrivateEndpointConnectionResourcesOnAMongoClusterResource();
 }
 
 main().catch(console.error);

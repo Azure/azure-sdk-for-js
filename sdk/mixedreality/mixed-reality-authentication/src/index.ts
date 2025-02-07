@@ -12,5 +12,5 @@
  */
 
 export { AccessToken, AzureKeyCredential } from "@azure/core-auth";
-export { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options";
-export { MixedRealityStsClient } from "./mixedRealityStsClient";
+export { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options.js";
+export { MixedRealityStsClient } from "./mixedRealityStsClient.js";

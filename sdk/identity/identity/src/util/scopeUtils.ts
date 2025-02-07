@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CredentialLogger, formatError } from "./logging";
+import type { CredentialLogger } from "./logging.js";
+import { formatError } from "./logging.js";
 
 /**
  * Ensures the scopes value is an array.

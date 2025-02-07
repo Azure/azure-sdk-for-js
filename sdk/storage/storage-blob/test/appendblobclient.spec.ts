@@ -3,9 +3,10 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
-import { AppendBlobClient, ContainerClient } from "../src";
+import type { ContainerClient } from "../src";
+import { AppendBlobClient } from "../src";
 import {
   bodyToString,
   configureBlobStorageClient,

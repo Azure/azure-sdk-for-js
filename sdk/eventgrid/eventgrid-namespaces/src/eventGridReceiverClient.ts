@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
-import {
+import type { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
+import type {
   AcknowledgeResult,
   ReleaseResult,
   RejectResult,
   RenewLocksResult,
-} from "./cadl-generated/models";
-import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
-import {
+} from "./cadl-generated/models/index.js";
+import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient.js";
+import type {
   CloudEvent,
   ReceiveResult,
   AcknowledgeEventsOptions,
@@ -18,8 +18,8 @@ import {
   RenewEventLocksOptions,
   EventGridReceiverClientOptions,
   ReceiveEventsOptions,
-} from "./models";
-import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
+} from "./models.js";
+import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy.js";
 import { tracingPolicyName } from "@azure/core-rest-pipeline";
 import { uint8ArrayToString } from "@azure/core-util";
 

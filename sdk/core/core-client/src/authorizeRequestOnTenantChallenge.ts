@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AuthorizeRequestOnChallengeOptions,
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
 
-import { GetTokenOptions } from "@azure/core-auth";
+import type { GetTokenOptions } from "@azure/core-auth";
 
 /**
  * A set of constants used internally when processing requests.
@@ -33,7 +33,7 @@ function isUuid(text: string): boolean {
 
 /**
  * Defines a callback to handle auth challenge for Storage APIs.
- * This implements the bearer challenge process described here: https://docs.microsoft.com/rest/api/storageservices/authorize-with-azure-active-directory#bearer-challenge
+ * This implements the bearer challenge process described here: https://learn.microsoft.com/rest/api/storageservices/authorize-with-azure-active-directory#bearer-challenge
  * Handling has specific features for storage that departs to the general AAD challenge docs.
  **/
 export const authorizeRequestOnTenantChallenge: (
@@ -59,7 +59,7 @@ export const authorizeRequestOnTenantChallenge: (
 
     challengeOptions.request.headers.set(
       Constants.HeaderConstants.AUTHORIZATION,
-      `Bearer ${accessToken.token}`,
+      `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
     );
     return true;
   }

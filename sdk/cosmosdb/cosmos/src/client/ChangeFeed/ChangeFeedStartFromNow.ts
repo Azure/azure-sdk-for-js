@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PartitionKey } from "../../documents";
-import { FeedRange } from "./FeedRange";
+import type { PartitionKey } from "../../documents";
+import type { FeedRange } from "./FeedRange";
 /**
  * @hidden
  * Class which specifies the ChangeFeedIterator to start reading changes from this moment in time.

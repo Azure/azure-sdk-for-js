@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetJobParameters,
   CreateJobParameters,
   DeleteJobParameters,
@@ -10,7 +10,7 @@ import {
   CancelJobParameters,
   DeidentifyParameters,
 } from "./parameters.js";
-import {
+import type {
   GetJob200Response,
   GetJobDefaultResponse,
   CreateJob200Response,
@@ -27,7 +27,7 @@ import {
   Deidentify200Response,
   DeidentifyDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Resource read operation template. */

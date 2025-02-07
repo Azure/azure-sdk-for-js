@@ -25,7 +25,7 @@ import {
   PrivateEndpointConnectionOperationsImpl,
   PoolOperationsImpl,
   NetworkSecurityPerimeterOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   BatchAccountOperations,
   ApplicationPackageOperations,
@@ -37,8 +37,8 @@ import {
   PrivateEndpointConnectionOperations,
   PoolOperations,
   NetworkSecurityPerimeterOperations,
-} from "./operationsInterfaces";
-import { BatchManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { BatchManagementClientOptionalParams } from "./models/index.js";
 
 export class BatchManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -73,7 +73,7 @@ export class BatchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-batch/10.0.0`;
+    const packageDetails = `azsdk-js-arm-batch/10.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

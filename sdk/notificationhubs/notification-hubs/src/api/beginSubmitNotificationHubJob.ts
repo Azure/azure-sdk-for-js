@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { CancelOnProgress, OperationState, PollerLike } from "@azure/core-lro";
-import { NotificationHubJob, NotificationHubJobPoller } from "../models/notificationHubJob.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { PolledOperationOptions } from "../models/options.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { CancelOnProgress, OperationState, PollerLike } from "@azure/core-lro";
+import type { NotificationHubJob, NotificationHubJobPoller } from "../models/notificationHubJob.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { PolledOperationOptions } from "../models/options.js";
 import { delay } from "@azure/core-util";
 import { getNotificationHubJob } from "./getNotificationHubJob.js";
 import { submitNotificationHubJob } from "./submitNotificationHubJob.js";

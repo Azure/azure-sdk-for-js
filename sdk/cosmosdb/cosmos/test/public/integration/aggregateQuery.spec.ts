@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
-import { Container, ContainerDefinition, IndexingMode } from "../../../src";
+import type { Suite } from "mocha";
+import type { Container, ContainerDefinition } from "../../../src";
+import { IndexingMode } from "../../../src";
 import { DataType, IndexKind } from "../../../src";
-import { QueryIterator } from "../../../src";
-import { SqlQuerySpec } from "../../../src";
-import { FeedOptions } from "../../../src";
+import type { QueryIterator } from "../../../src";
+import type { SqlQuerySpec } from "../../../src";
+import type { FeedOptions } from "../../../src";
 import { TestData } from "../common/TestData";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 import { expect } from "chai";
@@ -131,6 +132,51 @@ describe("Aggregate Query", function (this: Suite) {
     );
   };
 
+  const validateExecuteNextAndHasMoreResultsWithEnableQueryControl = async function (
+    queryIterator: QueryIterator<any>,
+    options: any,
+    expectedResults: any[],
+  ): Promise<void> {
+    const pageSize = options["maxItemCount"];
+    let totalFetchedResults: any[] = [];
+    let totalExecuteNextRequestCharge = 0;
+
+    while (totalFetchedResults.length <= expectedResults.length) {
+      const { resources: results, requestCharge } = await queryIterator.fetchNext();
+
+      if (results && results.length > 0) {
+        totalFetchedResults = totalFetchedResults.concat(results);
+      }
+      totalExecuteNextRequestCharge += requestCharge;
+
+      if (
+        !queryIterator.hasMoreResults() ||
+        totalFetchedResults.length === expectedResults.length
+      ) {
+        break;
+      }
+
+      if (totalFetchedResults.length < expectedResults.length) {
+        // there are more results
+        assert(queryIterator.hasMoreResults(), "hasMoreResults expects to return true");
+      } else {
+        // no more results
+        assert.equal(
+          expectedResults.length,
+          totalFetchedResults.length,
+          "executeNext: didn't fetch all the results",
+        );
+        assert(
+          results.length <= pageSize,
+          "executeNext: actual fetch size is more than the requested page size",
+        );
+      }
+    }
+    // no more results
+    assert.deepStrictEqual(totalFetchedResults, expectedResults);
+    assert.equal(queryIterator.hasMoreResults(), false, "hasMoreResults: no more results is left");
+  };
+
   const ValidateAsyncIterator = async function (
     queryIterator: QueryIterator<any>,
     expectedResults: any[],
@@ -170,6 +216,18 @@ describe("Aggregate Query", function (this: Suite) {
     );
     queryIterator.reset();
     await ValidateAsyncIterator(queryIterator, expectedResults);
+
+    // Adding these to test the new flag enableQueryControl in FeedOptions
+    options.enableQueryControl = true;
+    const queryIteratorWithEnableQueryControl = container.items.query(query, options);
+    await validateFetchAll(queryIteratorWithEnableQueryControl, expectedResults);
+
+    queryIteratorWithEnableQueryControl.reset();
+    await validateExecuteNextAndHasMoreResultsWithEnableQueryControl(
+      queryIteratorWithEnableQueryControl,
+      options,
+      expectedResults,
+    );
   };
 
   it("SELECT VALUE AVG", async function () {

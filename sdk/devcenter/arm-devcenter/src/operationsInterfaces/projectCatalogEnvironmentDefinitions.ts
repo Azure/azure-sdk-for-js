@@ -9,7 +9,7 @@
 import {
   ProjectCatalogEnvironmentDefinitionsGetErrorDetailsOptionalParams,
   ProjectCatalogEnvironmentDefinitionsGetErrorDetailsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProjectCatalogEnvironmentDefinitions. */
 export interface ProjectCatalogEnvironmentDefinitions {

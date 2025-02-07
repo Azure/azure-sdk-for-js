@@ -59,7 +59,7 @@ node workingWithBigInt.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env TABLES_URL="<tables url>" ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node workingWithBigInt.js
+npx dev-tool run vendored cross-env TABLES_URL="<tables url>" ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node workingWithBigInt.js
 ```
 
 ## Next Steps
@@ -77,7 +77,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [queryentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/queryEntities.js
 [querytables]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/queryTables.js
 [updateandupsertentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/samples/v12/javascript/updateAndUpsertEntities.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/data-tables
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/data-tables
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurestorageinstance]: https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal
+[createinstance_azurestorageinstance]: https://learn.microsoft.com/azure/storage/tables/table-storage-quickstart-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/README.md

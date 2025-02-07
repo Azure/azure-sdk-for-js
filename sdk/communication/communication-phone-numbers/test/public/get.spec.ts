@@ -1,39 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { matrix } from "@azure-tools/test-utils";
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { PhoneNumbersClient } from "../../src";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
-import { getPhoneNumber } from "./utils/testPhoneNumber";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { PhoneNumbersClient } from "../../src/index.js";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
+import { getPhoneNumber } from "./utils/testPhoneNumber.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-matrix([[true, false]], async function (useAad) {
-  describe(`PhoneNumbersClient - get phone number${useAad ? " [AAD]" : ""}`, function () {
+matrix([[true, false]], async (useAad) => {
+  describe(`PhoneNumbersClient - get phone number${useAad ? " [AAD]" : ""}`, () => {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async (ctx) => {
       ({ client, recorder } = useAad
-        ? await createRecordedClientWithToken(this)!
-        : await createRecordedClient(this));
+        ? await createRecordedClientWithToken(ctx)!
+        : await createRecordedClient(ctx));
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
-        await recorder.stop();
-      }
+    afterEach(async () => {
+      await recorder.stop();
     });
 
-    it("can get a purchased phone number", async function (this: Context) {
+    it("can get a purchased phone number", { timeout: 60000 }, async () => {
       const purchasedPhoneNumber = getPhoneNumber();
       const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
 
       assert.strictEqual(purchasedPhoneNumber, phoneNumber);
-    }).timeout(60000);
+    });
 
-    it("errors if phone number not found", async function () {
+    it("errors if phone number not found", async () => {
       const fake = "+14155550100";
       try {
         await client.getPurchasedPhoneNumber(fake);

@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import {
-  BlobServiceClient,
+import type {
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse,
 } from "@azure/storage-blob";
-import { Pipeline, StoragePipelineOptions, isPipelineLike, newPipeline } from "./Pipeline";
+import { BlobServiceClient } from "@azure/storage-blob";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { isPipelineLike, newPipeline } from "./Pipeline";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
-import {
+import type {
   FileSystemItem,
   FileSystemRenameResponse,
   ServiceGenerateAccountSasUrlOptions,
@@ -33,7 +34,10 @@ import {
   extractConnectionStringParts,
 } from "./utils/utils.common";
 import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms";
-import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
+import type {
+  ServiceGetUserDelegationKeyOptions,
+  ServiceGetUserDelegationKeyResponse,
+} from "./models";
 import { tracingClient } from "./utils/tracing";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
 import {
@@ -41,7 +45,7 @@ import {
   generateAccountSASQueryParametersInternal,
 } from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
-import { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
+import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -69,7 +73,7 @@ export class DataLakeServiceClient extends StorageClient {
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+
   public static fromConnectionString(
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
@@ -199,7 +203,7 @@ export class DataLakeServiceClient extends StorageClient {
    *   accountName
    * ).toString();
    * ```
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
    *
    * @param startsOn - The start time for the user delegation SAS. Must be within 7 days of the current time.
    * @param expiresOn - The end time for the user delegation SAS. Must be within 7 days of the current time.
@@ -290,7 +294,7 @@ export class DataLakeServiceClient extends StorageClient {
    * }
    * ```
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
    * @param options -
    */
@@ -314,7 +318,7 @@ export class DataLakeServiceClient extends StorageClient {
    * Generates an account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -359,7 +363,7 @@ export class DataLakeServiceClient extends StorageClient {
    * Generates string to sign for an account Shared Access Signature (SAS) based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -476,7 +480,7 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Gets the properties of a storage account’s Blob service endpoint, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
    *
    * @param options - Options to the Service Get Properties operation.
    * @returns Response data for the Service Get Properties operation.
@@ -499,7 +503,7 @@ export class DataLakeServiceClient extends StorageClient {
   /**
    * Sets properties for a storage account’s Blob service endpoint, including properties
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties
    *
    * @param properties -
    * @param options - Options to the Service Set Properties operation.

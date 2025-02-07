@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete a license.
  *
  * @summary The operation to delete a license.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/license/License_Delete.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/license/License_Delete.json
  */
-async function deleteALicense() {
+async function deleteALicense(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function deleteALicense() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteALicense();
 }
 

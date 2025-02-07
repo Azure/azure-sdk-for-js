@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { WebPubSub } from "../operationsInterfaces";
+import { WebPubSub } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { GeneratedClient } from "../generatedClient.js";
 import {
   AddToGroupsRequest,
   WebPubSubAddConnectionsToGroupsOptionalParams,
@@ -45,7 +45,7 @@ import {
   WebPubSubRemoveUserFromAllGroupsOptionalParams,
   WebPubSubRemoveUserFromGroupOptionalParams,
   WebPubSubAddUserToGroupOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing WebPubSub operations. */
 export class WebPubSubImpl implements WebPubSub {

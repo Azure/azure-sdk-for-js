@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.nonlib",
+  "compilerOptions": {
+    "skipLibCheck": true
+  },
+  "include": ["${configDir}/test", "${configDir}/src"],
+  "exclude": ["${configDir}/test/stress", "${configDir}/test/snippets.spec.ts"]
+}

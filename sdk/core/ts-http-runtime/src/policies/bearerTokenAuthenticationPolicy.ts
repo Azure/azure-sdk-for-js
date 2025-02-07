@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
-import { TypeSpecRuntimeLogger } from "../logger/logger.js";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
+import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
 
@@ -62,7 +62,7 @@ export interface AuthorizeRequestOnChallengeOptions {
 }
 
 /**
- * Options to override the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
+ * Options to override the processing of [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
  */
 export interface ChallengeCallbacks {
   /**
@@ -91,7 +91,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
    */
   scopes: string | string[];
   /**
-   * Allows for the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
+   * Allows for the processing of [Continuous Access Evaluation](https://learn.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
    * If provided, it must contain at least the `authorizeRequestOnChallenge` method.
    * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
    */
@@ -109,7 +109,6 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
   const { scopes, getAccessToken, request } = options;
   const getTokenOptions: GetTokenOptions = {
     abortSignal: request.abortSignal,
-    tracingOptions: request.tracingOptions,
   };
   const accessToken = await getAccessToken(scopes, getTokenOptions);
 

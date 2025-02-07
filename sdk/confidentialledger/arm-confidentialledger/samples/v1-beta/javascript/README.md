@@ -54,7 +54,7 @@ node checkNameAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONFIDENTIALLEDGER_SUBSCRIPTION_ID="<confidentialledger subscription id>" node checkNameAvailabilitySample.js
+npx dev-tool run vendored cross-env CONFIDENTIALLEDGER_SUBSCRIPTION_ID="<confidentialledger subscription id>" node checkNameAvailabilitySample.js
 ```
 
 ## Next Steps
@@ -79,6 +79,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [managedccfrestoresample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/confidentialledger/arm-confidentialledger/samples/v1-beta/javascript/managedCcfRestoreSample.js
 [managedccfupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/confidentialledger/arm-confidentialledger/samples/v1-beta/javascript/managedCcfUpdateSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/confidentialledger/arm-confidentialledger/samples/v1-beta/javascript/operationsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-confidentialledger?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-confidentialledger?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confidentialledger/arm-confidentialledger/README.md

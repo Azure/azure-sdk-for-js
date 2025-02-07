@@ -14,23 +14,25 @@ import {
   configureBlobStorageClient,
   SimpleTokenCredential,
 } from "../utils";
-import {
-  newPipeline,
-  PageBlobClient,
+import type {
   StorageSharedKeyCredential,
   ContainerClient,
   BlobClient,
+  BlobServiceClient,
+} from "../../src";
+import {
+  newPipeline,
+  PageBlobClient,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
-  BlobServiceClient,
   StorageBlobAudience,
   getBlobServiceAccountAudience,
 } from "../../src";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("PageBlobClient Node.js only", () => {

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { AzureFleetContext } from "../../api/azureFleetContext.js";
-import { Fleet, FleetUpdate, VirtualMachineScaleSet } from "../../models/models.js";
 import {
   fleetsGet,
   fleetsCreateOrUpdate,
@@ -12,8 +11,6 @@ import {
   fleetsListBySubscription,
   fleetsListVirtualMachineScaleSets,
 } from "../../api/fleets/index.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   FleetsGetOptionalParams,
   FleetsCreateOrUpdateOptionalParams,
@@ -22,7 +19,10 @@ import {
   FleetsListByResourceGroupOptionalParams,
   FleetsListBySubscriptionOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
+import { Fleet, FleetUpdate, VirtualMachineScaleSet } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Fleets operations. */
 export interface FleetsOperations {

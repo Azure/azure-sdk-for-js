@@ -6,20 +6,14 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  SchemaRegistryClient,
-  SchemaDescription,
-  KnownSchemaFormats,
-} from "@azure/schema-registry";
+import type { SchemaDescription } from "@azure/schema-registry";
+import { SchemaRegistryClient, KnownSchemaFormats } from "@azure/schema-registry";
 import { JsonSchemaSerializer } from "@azure/schema-registry-json";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
-  process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
+  process.env["SCHEMAREGISTRY_JSON_FULLY_QUALIFIED_NAMESPACE"] || "<namespace>";
 
 // The schema group to use for schema registration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
@@ -59,12 +53,12 @@ const schemaDescription: SchemaDescription = {
   definition: schema,
 };
 
-export async function main() {
+export async function main(): Promise<void> {
+  // Create a credential
+  const credential = new DefaultAzureCredential();
+
   // Create a new client
-  const client = new SchemaRegistryClient(
-    schemaRegistryFullyQualifiedNamespace,
-    new DefaultAzureCredential(),
-  );
+  const client = new SchemaRegistryClient(schemaRegistryFullyQualifiedNamespace, credential);
 
   // Register the schema. This would generally have been done somewhere else.
   await client.registerSchema(schemaDescription);

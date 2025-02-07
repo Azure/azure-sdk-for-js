@@ -12,17 +12,13 @@
  * Names are provided in the English language when a target language is not specified
  * or when localization is not available.
  */
-import TextTranslationClient, {
-  GetSupportedLanguagesParameters,
-  isUnexpected,
-} from "@azure-rest/ai-translation-text";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { GetSupportedLanguagesParameters } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
+import "dotenv/config";
 
 const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== List supported localized languages sample ==");
 
   const parameters: GetSupportedLanguagesParameters = {

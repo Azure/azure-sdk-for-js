@@ -1,8 +1,10 @@
 {
-  "extends": "../../../tsconfig",
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types/latest"
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+    "esModuleInterop": true
+  }
 }

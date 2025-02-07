@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LogsQueryClientOptions } from "../logsQueryClient";
+import type { LogsQueryClientOptions } from "../logsQueryClient.js";
 
 export function getLogQueryEndpoint(options: LogsQueryClientOptions): string {
   if (!options.endpoint) {

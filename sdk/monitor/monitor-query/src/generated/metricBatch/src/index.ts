@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { AzureMonitorMetricBatch } from "./azureMonitorMetricBatch";
-export { AzureMonitorMetricBatchContext } from "./azureMonitorMetricBatchContext";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { AzureMonitorMetricBatch } from "./azureMonitorMetricBatch.js";
+export { AzureMonitorMetricBatchContext } from "./azureMonitorMetricBatchContext.js";
+export * from "./operationsInterfaces/index.js";

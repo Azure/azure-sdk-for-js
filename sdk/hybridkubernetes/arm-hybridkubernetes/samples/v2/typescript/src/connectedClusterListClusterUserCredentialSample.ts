@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets cluster user credentials of the connected cluster with a specified resource group and name.
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/ConnectedClustersListClusterCredentialResultHPAAD.json
  */
-async function listClusterUserCredentialCspExample() {
+async function listClusterUserCredentialCspExample(): Promise<void> {
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const resourceGroupName = "k8sc-rg";
   const clusterName = "testCluster";
@@ -46,7 +46,7 @@ listClusterUserCredentialCspExample().catch(console.error);
  * @summary Gets cluster user credentials of the connected cluster with a specified resource group and name.
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/ConnectedClustersListClusterCredentialResultCSPAAD.json
  */
-async function listClusterUserCredentialExample() {
+async function listClusterUserCredentialExample(): Promise<void> {
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const resourceGroupName = "k8sc-rg";
   const clusterName = "testCluster";
@@ -72,7 +72,7 @@ listClusterUserCredentialExample().catch(console.error);
  * @summary Gets cluster user credentials of the connected cluster with a specified resource group and name.
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/ConnectedClustersListClusterCredentialResultHPToken.json
  */
-async function listClusterUserCredentialNonAadCspExample() {
+async function listClusterUserCredentialNonAadCspExample(): Promise<void> {
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const resourceGroupName = "k8sc-rg";
   const clusterName = "testCluster";
@@ -98,7 +98,7 @@ listClusterUserCredentialNonAadCspExample().catch(console.error);
  * @summary Gets cluster user credentials of the connected cluster with a specified resource group and name.
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/ConnectedClustersListClusterCredentialResultCSPToken.json
  */
-async function listClusterUserCredentialNonAadExample() {
+async function listClusterUserCredentialNonAadExample(): Promise<void> {
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const resourceGroupName = "k8sc-rg";
   const clusterName = "testCluster";

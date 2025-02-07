@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 import { createSseStream } from "../../../src/index.js";
-import { Client, getClient } from "@azure-rest/core-client";
+import { type Client, getClient } from "@azure-rest/core-client";
 import { assert, beforeAll, beforeEach, afterEach, describe, it } from "vitest";
-import { port } from "../../server/config.mts";
-import { IncomingMessage } from "http";
-import { matrix } from "@azure-tools/test-utils";
+import { port } from "../../server/config.mjs";
+import type { IncomingMessage } from "http";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import { isRestError } from "@azure/core-rest-pipeline";
 
 const contentType = "text/event-stream";
 function getEndpoint(): string {
@@ -30,7 +31,7 @@ async function sendRequest(
   }
   const receivedContentType = res.headers["content-type"];
   if (!receivedContentType.includes(contentType)) {
-    throw new Error(`Expected a text/event-stream content but received\"${receivedContentType}\"`);
+    throw new Error(`Expected a text/event-stream content but received"${receivedContentType}"`);
   }
   return res.body as IncomingMessage;
 }
@@ -74,6 +75,9 @@ describe("[Node] Connections", () => {
           try {
             stream = await sendRequest(client, path);
           } catch (e) {
+            if (!isRestError(e)) {
+              throw e;
+            }
             assert.equal(path, "/events/no-fin/1");
             assert.equal(e.code, "ECONNRESET");
             return;
@@ -91,7 +95,7 @@ describe("[Node] Connections", () => {
             }
           } catch (e) {
             assert.equal(path, "/events/no-fin/3");
-            assert.equal(e.code, "ECONNRESET");
+            assert.equal((e as any).code, "ECONNRESET");
           }
         });
 
@@ -101,6 +105,9 @@ describe("[Node] Connections", () => {
             // sometimes the server gets into a bad state and doesn't respond so we need to timeout
             stream = await sendRequest(client, path, AbortSignal.timeout(25000));
           } catch (e) {
+            if (!isRestError(e)) {
+              throw e;
+            }
             assert.equal(path, "/events/no-fin/1");
             if (e.code) {
               assert.equal(e.code, "ECONNRESET");

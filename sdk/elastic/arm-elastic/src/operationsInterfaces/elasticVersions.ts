@@ -9,8 +9,8 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ElasticVersionListFormat,
-  ElasticVersionsListOptionalParams
-} from "../models";
+  ElasticVersionsListOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ElasticVersions. */
@@ -22,6 +22,6 @@ export interface ElasticVersions {
    */
   list(
     region: string,
-    options?: ElasticVersionsListOptionalParams
+    options?: ElasticVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<ElasticVersionListFormat>;
 }

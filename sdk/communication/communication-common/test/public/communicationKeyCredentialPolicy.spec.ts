@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
-  HttpClient,
-  PipelineResponse,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { KeyCredential } from "@azure/core-auth";
-import { assert } from "chai";
-import { createCommunicationAccessKeyCredentialPolicy } from "../../src";
-import { isNode } from "@azure/core-util";
+import type { KeyCredential } from "@azure/core-auth";
+import { createCommunicationAccessKeyCredentialPolicy } from "../../src/index.js";
+import { isNodeLike } from "@azure/core-util";
 import { set } from "mockdate";
+import { describe, it, assert } from "vitest";
 
 const date = "2022-04-13T18:09:12.451Z";
 set(date); // Any request to Date will return this date
@@ -84,7 +83,7 @@ async function verifyHeadersForUrlReturnAuthHeader(urlToTest: string): Promise<s
 
   assert.equal(dateHeader, "Wed, 13 Apr 2022 18:09:12 GMT");
   assert.equal(hashHeader, "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=");
-  if (isNode) {
+  if (isNodeLike) {
     assert.isNotEmpty(hostHeader);
   }
   return authHeader;

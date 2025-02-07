@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
@@ -20,10 +21,7 @@ describe("extendedZones test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: EdgeZonesClient;
-  let location: string;
-  let resourceGroup: string;
   let resourcename: string;
-  let resourcename1: string;
 
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
@@ -32,41 +30,38 @@ describe("extendedZones test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new EdgeZonesClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
     resourcename = "losangeles";
-    resourcename1 = "losangeless";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("extendedZones register test", async function () {
+  it("extendedZones register test", async () => {
     const res = await client.extendedZones.register(resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("extendedZones get test", async function () {
+  it("extendedZones get test", async () => {
     const res = await client.extendedZones.get(resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("extendedZones list test", async function () {
+  it("extendedZones list test", async () => {
     const resArray = new Array();
-    for await (let item of client.extendedZones.listBySubscription().byPage()) {
+    for await (const item of client.extendedZones.listBySubscription().byPage()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("extendedZones unregister test", async function () {
-    const res = await client.extendedZones.unregister(resourcename);
+  it("extendedZones unregister test", async () => {
+    await client.extendedZones.unregister(resourcename);
   });
 
-  it("operations list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);

@@ -1,28 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import { Context } from "mocha";
-
-import {
+import type {
   EmailNotificationHook,
   EmailNotificationHookPatch,
   MetricsAdvisorAdministrationClient,
   WebNotificationHook,
   WebNotificationHookPatch,
-} from "../../src";
+} from "../../src/index.js";
 import {
   createRecordedAdminClient,
   getRecorderUniqueVariable,
   makeCredential,
-} from "./util/recordedClients";
-import { Recorder } from "@azure-tools/test-recorder";
+} from "./util/recordedClients.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 import {
   fakeTestPassPlaceholder,
   fakeTestSecretPlaceholder,
   getYieldedValue,
   matrix,
-} from "@azure-tools/test-utils";
+} from "@azure-tools/test-utils-vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -34,8 +31,8 @@ matrix([[true, false]] as const, async (useAad) => {
       let emailHookName: string;
       let webHookName: string;
 
-      beforeEach(async function (this: Context) {
-        ({ recorder, client } = await createRecordedAdminClient(this, makeCredential(useAad)));
+      beforeEach(async (ctx) => {
+        ({ recorder, client } = await createRecordedAdminClient(ctx, makeCredential(useAad)));
         if (recorder && !emailHookName) {
           emailHookName = getRecorderUniqueVariable(recorder, "js-test-emailHook-");
         }
@@ -44,7 +41,7 @@ matrix([[true, false]] as const, async (useAad) => {
         }
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         if (recorder) {
           await recorder.stop();
         }
@@ -113,7 +110,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(webHook.hookParameter?.password, "SecretPlaceholder");
       });
 
-      it("lists hooks", async function () {
+      it("lists hooks", async () => {
         const iterator = client.listHooks({
           hookName: "js-test",
         });
@@ -123,7 +120,7 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(result.name, "Expecting second definition");
       });
 
-      it("lists hooks by page", async function () {
+      it("lists hooks by page", async () => {
         const iterator = client
           .listHooks({
             hookName: "js-test",
@@ -156,6 +153,6 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal((error as any).message, "hookId is invalid.");
         }
       });
-    }).timeout(60000);
+    });
   });
 });

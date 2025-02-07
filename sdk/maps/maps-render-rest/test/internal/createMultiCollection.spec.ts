@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "chai";
-import { createMultiCollection } from "../../src/createMultiCollection";
+import { createMultiCollection } from "../../src/createMultiCollection.js";
+import { describe, it, assert } from "vitest";
 
 describe("createMultiCollection", () => {
   it("should create a multi collection query string", () => {

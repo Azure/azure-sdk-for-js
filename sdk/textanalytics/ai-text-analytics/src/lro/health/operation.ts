@@ -1,41 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationOptions } from "@azure/core-client";
 
-import {
+import type {
   HealthResponse as BeginAnalyzeHealthcareResponse,
   HealthcareJobState,
   HealthStatusOptionalParams as HealthcareJobStatusOptions,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "../../generated/models";
-import {
+} from "../../generated/models/index.js";
+import type {
   AnalyzeHealthcareEntitiesResult,
   AnalyzeHealthcareEntitiesResultArray,
   PagedAnalyzeHealthcareEntitiesResult,
   PagedAsyncIterableAnalyzeHealthcareEntitiesResult,
+} from "../../analyzeHealthcareEntitiesResult.js";
+import {
   makeHealthcareEntitiesErrorResult,
   makeHealthcareEntitiesResult,
-} from "../../analyzeHealthcareEntitiesResult";
-import { PageSettings } from "@azure/core-paging";
+} from "../../analyzeHealthcareEntitiesResult.js";
+import type { PageSettings } from "@azure/core-paging";
+import type { StringIndexType } from "../../util.js";
 import {
-  StringIndexType,
   addStrEncodingParam,
   getOperationId,
   nextLinkToTopAndSkip,
   throwError,
-} from "../../util";
-import {
-  AnalysisPollOperation,
+} from "../../util.js";
+import type {
   AnalysisPollOperationState,
   OperationMetadata as AnalyzeHealthcareEntitiesOperationMetadata,
-} from "../poller";
-import { GeneratedClient as Client } from "../../generated";
-import { processAndCombineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult";
-import { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions";
-import { TracingClient } from "@azure/core-tracing";
+} from "../poller.js";
+import { AnalysisPollOperation } from "../poller.js";
+import type { GeneratedClient as Client } from "../../generated/index.js";
+import { processAndCombineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult.js";
+import type { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions.js";
+import type { TracingClient } from "@azure/core-tracing";
 
 /**
  * @internal
@@ -73,7 +75,7 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
    * This value indicates which model will be used for scoring. If a model-version is
    * not specified, the API should default to the latest, non-preview version.
    * For supported model versions, see operation-specific documentation, for example:
-   * https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
+   * https://learn.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
    */
   modelVersion?: string;
   /**

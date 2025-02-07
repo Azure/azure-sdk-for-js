@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   KeyPhraseResult,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "./generated/models";
+} from "./generated/models/index.js";
+import type { ExtractKeyPhrasesResult } from "./extractKeyPhrasesResult.js";
 import {
-  ExtractKeyPhrasesResult,
   makeExtractKeyPhrasesErrorResult,
   makeExtractKeyPhrasesResult,
-} from "./extractKeyPhrasesResult";
-import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
+} from "./extractKeyPhrasesResult.js";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult.js";
 
 /**
  * Array of `ExtractKeyPhrasesResult` objects corresponding to a batch of input documents, and

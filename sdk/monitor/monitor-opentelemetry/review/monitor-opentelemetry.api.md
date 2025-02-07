@@ -4,11 +4,11 @@
 
 ```ts
 
-import { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
-import { InstrumentationConfig } from '@opentelemetry/instrumentation';
-import { LogRecordProcessor } from '@opentelemetry/sdk-logs';
-import { Resource } from '@opentelemetry/resources';
-import { SpanProcessor } from '@opentelemetry/sdk-trace-base';
+import type { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
+import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
+import type { LogRecordProcessor } from '@opentelemetry/sdk-logs';
+import type { Resource } from '@opentelemetry/resources';
+import type { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 
 // @public
 export interface AzureMonitorOpenTelemetryOptions {

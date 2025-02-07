@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert, use as chaiUse } from "chai";
-import { AvroSerializer } from "../../src";
-import { Context } from "mocha";
-import { SchemaRegistry } from "@azure/schema-registry";
-import { assertError } from "./utils/assertError";
-import chaiPromises from "chai-as-promised";
+import type { AvroSerializer } from "../../src/index.js";
+import type { SchemaRegistry } from "@azure/schema-registry";
+import { assertError } from "./utils/assertError.js";
 import {
   createPipelineWithCredential,
   createTestRegistry,
   removeSchemas,
-} from "./utils/mockedRegistryClient";
-import { createTestSerializer } from "./utils/mockedSerializer";
-import { testGroup, testSchemaName } from "./utils/dummies";
-import { v4 as uuid } from "uuid";
+} from "./utils/mockedRegistryClient.js";
+import { createTestSerializer } from "./utils/mockedSerializer.js";
+import { testGroup, testSchemaName } from "./utils/dummies.js";
+import { randomUUID } from "@azure/core-util";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
-
-chaiUse(chaiPromises);
+import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
+import { describe, it, assert, beforeEach, afterEach, afterAll, expect } from "vitest";
 
 describe("Error scenarios", function () {
   let serializer: AvroSerializer;
@@ -29,12 +25,10 @@ describe("Error scenarios", function () {
   let client: HttpClient;
   let pipeline: Pipeline;
 
-  before(async function (this: Context) {
+  beforeEach(async (ctx) => {
     client = createDefaultHttpClient();
     pipeline = createPipelineWithCredential();
-  });
-  beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     serializer = await createTestSerializer({
       registry,
@@ -48,7 +42,7 @@ describe("Error scenarios", function () {
 
   describe("Schema validation", function () {
     describe("Without auto register schema", function () {
-      before(async function () {
+      beforeEach(async () => {
         serializerNoAutoReg = await createTestSerializer({
           serializerOptions: {
             autoRegisterSchemas: false,
@@ -58,36 +52,37 @@ describe("Error scenarios", function () {
         });
       });
 
-      after(async function () {
+      afterAll(async function () {
         schemaList.push(testSchemaName);
         await removeSchemas(schemaList, pipeline, client);
       });
 
-      it("schema to serialize with is not found", async function () {
+      it("schema to serialize with is not found", async () => {
         const schema = JSON.stringify({
           type: "record",
           name: "NeverRegistered",
           namespace: "my.example",
           fields: [{ name: "count", type: "int" }],
         });
-        await assert.isRejected(serializerNoAutoReg.serialize({ count: 42 }, schema), /not found/);
+        await expect(serializerNoAutoReg.serialize({ count: 42 }, schema)).rejects.toThrow(
+          /not found/,
+        );
       });
-      it("schema to deserialize with is not found", async function () {
-        await assert.isRejected(
+      it("schema to deserialize with is not found", async () => {
+        await expect(
           serializerNoAutoReg.deserialize({
             data: Uint8Array.from([0]),
-            contentType: `avro/binary+${uuid()}`,
+            contentType: `avro/binary+${randomUUID()}`,
           }),
-          /does not exist/,
-        );
+        ).rejects.toThrow(/does not exist/);
       });
     });
 
     describe("With auto register schema", function () {
-      afterEach(async function () {
+      afterEach(async () => {
         await removeSchemas(schemaList, pipeline, client);
       });
-      it("invalid reader schema", async function () {
+      it("invalid reader schema", async () => {
         const writerSchema = {
           type: "record",
           name: "AvroUser",
@@ -134,7 +129,7 @@ describe("Error scenarios", function () {
         );
         schemaList.push(`${writerSchema.namespace}.${writerSchema.name}`);
       });
-      it("incompatible reader schema", async function () {
+      it("incompatible reader schema", async () => {
         const writerSchema = {
           type: "record",
           name: "AvroUser",
@@ -182,12 +177,12 @@ describe("Error scenarios", function () {
         );
         schemaList.push(`${writerSchema.namespace}.${writerSchema.name}`);
       });
-      it("invalid writer schema at time of deserializing", async function (this: Context) {
+      it("invalid writer schema at time of deserializing", async function ({ skip }) {
         /**
          * This test can not run in live mode because the service will validate the schema.
          */
         if (isLiveMode()) {
-          this.skip();
+          skip();
         }
         const { id } = await registry.registerSchema({
           definition: "",
@@ -227,7 +222,7 @@ describe("Error scenarios", function () {
           },
         );
       });
-      it("incompatible writer schema", async function () {
+      it("incompatible writer schema", async () => {
         const writerSchema1 = {
           type: "record",
           name: "AvroUser",
@@ -285,32 +280,30 @@ describe("Error scenarios", function () {
     });
 
     describe("Malformed schemas", function () {
-      it("unrecognized content type", async function () {
-        await assert.isRejected(
+      it("unrecognized content type", async () => {
+        await expect(
           serializer.deserialize({
             data: Buffer.alloc(1),
             contentType: "application/json+1234",
           }),
-          /application\/json.*avro\/binary/,
-        );
+        ).rejects.toThrow(/application\/json.*avro\/binary/);
       });
-      it("a schema with non-avro format", async function (this: Context) {
-        await assert.isRejected(
+      it("a schema with non-avro format", async () => {
+        await expect(
           registry.registerSchema({
             name: "_",
             definition: "_",
             format: "notavro",
             groupName: testGroup,
           }),
-          /Invalid schema type for PUT request.*notavro/,
-        );
+        ).rejects.toThrow(/Invalid schema type for PUT request.*notavro/);
       });
-      it("not JSON schema", async function () {
+      it("not JSON schema", async () => {
         await assertError(serializer.serialize(null, ""), {
           causeMessage: /Unexpected end of JSON input/,
         });
       });
-      it("null schema", async function () {
+      it("null schema", async () => {
         await assertError(
           /**
            * The type checking will prevent this from happening but I am including
@@ -322,7 +315,7 @@ describe("Error scenarios", function () {
           },
         );
       });
-      it("schema without a name", async function () {
+      it("schema without a name", async () => {
         /**
          * The serializer expects a record schema as the top-level schema
          */
@@ -339,7 +332,7 @@ describe("Error scenarios", function () {
           },
         );
       });
-      it("enum schema without symbols", async function () {
+      it("enum schema without symbols", async () => {
         await assertError(
           serializer.serialize(
             null,
@@ -361,7 +354,7 @@ describe("Error scenarios", function () {
           },
         );
       });
-      it("fixed schema without size", async function () {
+      it("fixed schema without size", async () => {
         await assertError(
           serializer.serialize(
             null,
@@ -383,7 +376,7 @@ describe("Error scenarios", function () {
           },
         );
       });
-      it("array schema without items", async function () {
+      it("array schema without items", async () => {
         await assertError(
           serializer.serialize(
             null,
@@ -405,7 +398,7 @@ describe("Error scenarios", function () {
           },
         );
       });
-      it("map schema without values", async function () {
+      it("map schema without values", async () => {
         await assertError(
           serializer.serialize(
             null,
@@ -427,7 +420,7 @@ describe("Error scenarios", function () {
           },
         );
       });
-      it("record schema without fields", async function () {
+      it("record schema without fields", async () => {
         await assertError(
           serializer.serialize(
             null,
@@ -444,19 +437,19 @@ describe("Error scenarios", function () {
     });
   });
   describe("Unserialized value validation", function () {
-    afterEach(async function () {
+    afterEach(async () => {
       schemaList.push("validation.User");
       await removeSchemas(schemaList, pipeline, client);
     });
 
-    it("schema is still registered if serialization fails", async function (this: Context) {
+    it("schema is still registered if serialization fails", async function ({ skip }) {
       /**
        * This test checks for service calls using the onResponse callback but
        * onResponse is not implemented in the mocked registry because it will
        * add very little value so the test is skipped in playback mode.
        */
       if (!isLiveMode()) {
-        this.skip();
+        skip();
       }
       let ran = false;
       const unusedRegistry = createTestRegistry({
@@ -498,7 +491,7 @@ describe("Error scenarios", function () {
       );
       assert.isTrue(ran, `Expected a service call to register the schema but non was sent!`);
     });
-    it("null", async function () {
+    it("null", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -521,7 +514,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("boolean", async function () {
+    it("boolean", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -544,7 +537,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("int", async function () {
+    it("int", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -567,7 +560,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("long", async function () {
+    it("long", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -590,7 +583,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("long with logical DateTime type", async function () {
+    it("long with logical DateTime type", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -608,7 +601,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("float", async function () {
+    it("float", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -631,7 +624,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("double", async function () {
+    it("double", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -654,7 +647,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("string", async function () {
+    it("string", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -677,7 +670,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("bytes", async function () {
+    it("bytes", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -700,7 +693,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("union", async function () {
+    it("union", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -723,7 +716,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("enum", async function () {
+    it("enum", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -751,7 +744,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("fixed", async function () {
+    it("fixed", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -778,7 +771,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("map", async function () {
+    it("map", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -808,7 +801,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("array", async function () {
+    it("array", async () => {
       await assertError(
         serializer.serialize(
           {
@@ -838,7 +831,7 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("record", async function () {
+    it("record", async () => {
       await assertError(
         serializer.serialize(
           "x",
@@ -861,12 +854,12 @@ describe("Error scenarios", function () {
     });
   });
   describe("Serialized value validation", function () {
-    afterEach(async function () {
+    afterEach(async () => {
       schemaList.push("validation.User");
       await removeSchemas(schemaList, pipeline, client);
     });
 
-    it("record", async function () {
+    it("record", async () => {
       const serializedValue = await serializer.serialize(
         {
           field1: 1,
@@ -898,7 +891,7 @@ describe("Error scenarios", function () {
         causeMessage: /trailing data/,
       });
     });
-    it("long", async function () {
+    it("long", async () => {
       const serializedValue = await serializer.serialize(
         {
           field: 9007199254740990,
@@ -924,7 +917,7 @@ describe("Error scenarios", function () {
         causeMessage: /potential precision loss/,
       });
     });
-    it("union", async function () {
+    it("union", async () => {
       const serializedValue = await serializer.serialize(
         {
           field: "x",
@@ -947,7 +940,7 @@ describe("Error scenarios", function () {
         causeMessage: /invalid union index: -3/,
       });
     });
-    it("enum", async function () {
+    it("enum", async () => {
       const serializedValue = await serializer.serialize(
         {
           field: "A",
@@ -977,11 +970,11 @@ describe("Error scenarios", function () {
   });
 
   describe("Deserialized value validation", function () {
-    afterEach(async function () {
+    afterEach(async () => {
       await removeSchemas(schemaList, pipeline, client);
     });
 
-    it("long with logical DateTime type", async function () {
+    it("long with logical DateTime type", async () => {
       const schema = await registry.registerSchema({
         name: testSchemaName,
         groupName: testGroup,

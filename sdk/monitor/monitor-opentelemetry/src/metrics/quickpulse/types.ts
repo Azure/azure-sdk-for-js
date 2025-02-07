@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { MonitoringDataPoint, PublishResponse } from "../../generated";
-import { DocumentIngress, CollectionConfigurationError } from "../../generated";
+import type { TokenCredential } from "@azure/core-auth";
+import type { MonitoringDataPoint, PublishResponse } from "../../generated";
+import type { DocumentIngress, CollectionConfigurationError } from "../../generated";
 
 /**
  * Quickpulse Exporter Options
@@ -31,8 +31,8 @@ export interface QuickpulseExporterOptions {
 }
 
 export enum QuickPulseOpenTelemetryMetricNames {
-  COMMITTED_BYTES = "azureMonitor.memoryCommittedBytes",
-  PROCESSOR_TIME = "azureMonitor.processorTotalProcessorTime",
+  PHYSICAL_BYTES = "azureMonitor.physicalBytes",
+  PROCESSOR_TIME_NORMALIZED = "azureMonitor.percentProcessorTimeNormalized",
   REQUEST_RATE = "azureMonitor.requestsSec",
   REQUEST_FAILURE_RATE = "azureMonitor.requestsFailedSec",
   REQUEST_DURATION = "azureMonitor.requestDuration",
@@ -43,10 +43,14 @@ export enum QuickPulseOpenTelemetryMetricNames {
 }
 
 export enum QuickPulseMetricNames {
-  // Memory
+  // Memory (old)
   COMMITTED_BYTES = "\\Memory\\Committed Bytes",
-  // CPU
+  // Memory (new - current process)
+  PHYSICAL_BYTES = "\\Process\\Physical Bytes",
+  // CPU (old)
   PROCESSOR_TIME = "\\Processor(_Total)\\% Processor Time",
+  // CPU (new - current process)
+  PROCESSOR_TIME_NORMALIZED = "\\% Process\\Processor Time Normalized",
   // Request
   REQUEST_RATE = "\\ApplicationInsights\\Requests/Sec",
   REQUEST_FAILURE_RATE = "\\ApplicationInsights\\Requests Failed/Sec",

@@ -36,6 +36,12 @@ import {
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
   AccountsRenewCredentialsOptionalParams,
+  AccountsTransitionToCmkOptionalParams,
+  AccountsTransitionToCmkResponse,
+  AccountsGetChangeKeyVaultInformationOptionalParams,
+  AccountsGetChangeKeyVaultInformationResponse,
+  AccountsChangeKeyVaultOptionalParams,
+  AccountsChangeKeyVaultResponse,
   AccountsListBySubscriptionNextResponse,
   AccountsListNextResponse,
 } from "../models";
@@ -573,6 +579,286 @@ export class AccountsImpl implements Accounts {
   }
 
   /**
+   * Transitions all volumes in a VNet to a different encryption key source (Microsoft-managed key or
+   * Azure Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
+   * another account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginTransitionToCmk(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsTransitionToCmkOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsTransitionToCmkResponse>,
+      AccountsTransitionToCmkResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AccountsTransitionToCmkResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: transitionToCmkOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AccountsTransitionToCmkResponse,
+      OperationState<AccountsTransitionToCmkResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Transitions all volumes in a VNet to a different encryption key source (Microsoft-managed key or
+   * Azure Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
+   * another account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginTransitionToCmkAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsTransitionToCmkOptionalParams,
+  ): Promise<AccountsTransitionToCmkResponse> {
+    const poller = await this.beginTransitionToCmk(
+      resourceGroupName,
+      accountName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Contains data from encryption.keyVaultProperties as well as information about which private endpoint
+   * is used by each encryption sibling set. Response from this endpoint can be modified and used as
+   * request body for POST request.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginGetChangeKeyVaultInformation(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsGetChangeKeyVaultInformationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsGetChangeKeyVaultInformationResponse>,
+      AccountsGetChangeKeyVaultInformationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AccountsGetChangeKeyVaultInformationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: getChangeKeyVaultInformationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AccountsGetChangeKeyVaultInformationResponse,
+      OperationState<AccountsGetChangeKeyVaultInformationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Contains data from encryption.keyVaultProperties as well as information about which private endpoint
+   * is used by each encryption sibling set. Response from this endpoint can be modified and used as
+   * request body for POST request.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginGetChangeKeyVaultInformationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsGetChangeKeyVaultInformationOptionalParams,
+  ): Promise<AccountsGetChangeKeyVaultInformationResponse> {
+    const poller = await this.beginGetChangeKeyVaultInformation(
+      resourceGroupName,
+      accountName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Affects existing volumes that are encrypted with Key Vault/Managed HSM, and new volumes. Supports
+   * HSM to Key Vault, Key Vault to HSM, HSM to HSM and Key Vault to Key Vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginChangeKeyVault(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsChangeKeyVaultOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsChangeKeyVaultResponse>,
+      AccountsChangeKeyVaultResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<AccountsChangeKeyVaultResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: changeKeyVaultOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      AccountsChangeKeyVaultResponse,
+      OperationState<AccountsChangeKeyVaultResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Affects existing volumes that are encrypted with Key Vault/Managed HSM, and new volumes. Supports
+   * HSM to Key Vault, Key Vault to HSM, HSM to HSM and Key Vault to Key Vault.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginChangeKeyVaultAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsChangeKeyVaultOptionalParams,
+  ): Promise<AccountsChangeKeyVaultResponse> {
+    const poller = await this.beginChangeKeyVault(
+      resourceGroupName,
+      accountName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -770,6 +1056,100 @@ const renewCredentialsOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
   ],
   headerParameters: [Parameters.accept],
+  serializer,
+};
+const transitionToCmkOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/transitiontocmk",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.AccountsTransitionToCmkHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AccountsTransitionToCmkHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AccountsTransitionToCmkHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AccountsTransitionToCmkHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const getChangeKeyVaultInformationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/getKeyVaultStatus",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const changeKeyVaultOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/changeKeyVault",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.AccountsChangeKeyVaultHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AccountsChangeKeyVaultHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AccountsChangeKeyVaultHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AccountsChangeKeyVaultHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body8,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {

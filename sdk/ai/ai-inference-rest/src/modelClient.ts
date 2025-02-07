@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import { TokenCredential, KeyCredential, isKeyCredential } from "@azure/core-auth";
-import { ModelClient } from "./clientDefinitions.js";
+import type { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { isKeyCredential } from "@azure/core-auth";
+import type { ModelClient } from "./clientDefinitions.js";
 import { tracingPolicy } from "./tracingPolicy.js";
 
 /** The optional parameters for the client */
@@ -25,7 +27,7 @@ export default function createClient(
   { apiVersion = "2024-05-01-preview", ...options }: ModelClientOptions = {},
 ): ModelClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-ai-inference/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-ai-inference/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

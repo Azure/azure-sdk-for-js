@@ -53,7 +53,7 @@ node dist/azureBareMetalInstancesGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID="<baremetalinfrastructure subscription id>" BAREMETALINFRASTRUCTURE_RESOURCE_GROUP="<baremetalinfrastructure resource group>" node dist/azureBareMetalInstancesGetSample.js
+npx dev-tool run vendored cross-env BAREMETALINFRASTRUCTURE_SUBSCRIPTION_ID="<baremetalinfrastructure subscription id>" BAREMETALINFRASTRUCTURE_RESOURCE_GROUP="<baremetalinfrastructure resource group>" node dist/azureBareMetalInstancesGetSample.js
 ```
 
 ## Next Steps
@@ -65,7 +65,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [azurebaremetalinstanceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/baremetalinfrastructure/arm-baremetalinfrastructure/samples/v1/typescript/src/azureBareMetalInstancesListBySubscriptionSample.ts
 [azurebaremetalinstancesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/baremetalinfrastructure/arm-baremetalinfrastructure/samples/v1/typescript/src/azureBareMetalInstancesUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/baremetalinfrastructure/arm-baremetalinfrastructure/samples/v1/typescript/src/operationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-baremetalinfrastructure?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-baremetalinfrastructure?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/baremetalinfrastructure/arm-baremetalinfrastructure/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

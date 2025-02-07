@@ -19,7 +19,7 @@ import {
   ReplicationUpdateParameters,
   ReplicationsUpdateOptionalParams,
   ReplicationsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Replications. */

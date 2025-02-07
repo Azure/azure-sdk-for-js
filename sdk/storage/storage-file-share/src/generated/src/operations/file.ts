@@ -766,6 +766,7 @@ const startCopyOperationSpec: coreClient.OperationSpec = {
     Parameters.accept1,
     Parameters.metadata,
     Parameters.leaseId,
+    Parameters.filePermissionFormat,
     Parameters.allowTrailingDot,
     Parameters.filePermission,
     Parameters.filePermissionKey1,

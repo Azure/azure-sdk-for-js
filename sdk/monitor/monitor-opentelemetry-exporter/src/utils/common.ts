@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import os from "os";
+import os from "node:os";
 import {
   SEMRESATTRS_DEVICE_ID,
   SEMRESATTRS_DEVICE_MODEL_NAME,
@@ -34,17 +34,19 @@ import {
   SEMRESATTRS_K8S_JOB_NAME,
   SEMRESATTRS_K8S_CRONJOB_NAME,
   SEMRESATTRS_K8S_DAEMONSET_NAME,
-  SEMRESATTRS_TELEMETRY_SDK_VERSION,
-  SEMRESATTRS_TELEMETRY_SDK_LANGUAGE,
-  SEMRESATTRS_TELEMETRY_SDK_NAME,
+  ATTR_TELEMETRY_SDK_VERSION,
+  ATTR_TELEMETRY_SDK_LANGUAGE,
+  ATTR_TELEMETRY_SDK_NAME,
 } from "@opentelemetry/semantic-conventions";
-import { Tags } from "../types";
-import { getInstance } from "../platform";
-import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../generated";
-import { Resource } from "@opentelemetry/resources";
-import { Attributes, HrTime } from "@opentelemetry/api";
+import type { Tags } from "../types.js";
+import { getInstance } from "../platform/index.js";
+import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
+import { KnownContextTagKeys } from "../generated/index.js";
+import type { Resource } from "@opentelemetry/resources";
+import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
-import { AnyValue } from "@opentelemetry/api-logs";
+import type { AnyValue } from "@opentelemetry/api-logs";
+import { ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED } from "../Declarations/Constants.js";
 
 export function hrTimeToDate(hrTime: HrTime): Date {
   return new Date(hrTimeToNanoseconds(hrTime) / 1000000);
@@ -223,9 +225,9 @@ export function createResourceMetricEnvelope(
       if (
         !(
           key.startsWith("_MS.") ||
-          key === SEMRESATTRS_TELEMETRY_SDK_VERSION ||
-          key === SEMRESATTRS_TELEMETRY_SDK_LANGUAGE ||
-          key === SEMRESATTRS_TELEMETRY_SDK_NAME
+          key === ATTR_TELEMETRY_SDK_VERSION ||
+          key === ATTR_TELEMETRY_SDK_LANGUAGE ||
+          key === ATTR_TELEMETRY_SDK_NAME
         )
       ) {
         resourceAttributes[key] = resource.attributes[key] as string;
@@ -281,5 +283,5 @@ export function serializeAttribute(value: AnyValue): string {
 }
 
 export function shouldCreateResourceMetric(): boolean {
-  return !(process.env.ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED?.toLowerCase() === "true");
+  return !(process.env[ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED]?.toLowerCase() === "true");
 }

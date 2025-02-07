@@ -44,7 +44,7 @@ node deleteUpdate.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" INSTANCE_ID="<instance id>" DEVICEUPDATE_UPDATE_PROVIDER="<deviceupdate update provider>" DEVICEUPDATE_UPDATE_NAME="<deviceupdate update name>" DEVICEUPDATE_UPDATE_VERSION="<deviceupdate update version>" node deleteUpdate.js
+npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" INSTANCE_ID="<instance id>" DEVICEUPDATE_UPDATE_PROVIDER="<deviceupdate update provider>" DEVICEUPDATE_UPDATE_NAME="<deviceupdate update name>" DEVICEUPDATE_UPDATE_VERSION="<deviceupdate update version>" node deleteUpdate.js
 ```
 
 ## Next Steps
@@ -57,7 +57,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getupdate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/javascript/getUpdate.js
 [importupdate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/javascript/importUpdate.js
 [listupdates]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/deviceupdate/iot-device-update-rest/samples/v1/javascript/listUpdates.js
-[apiref]: https://docs.microsoft.com/rest/api/deviceupdate/2021-06-01-preview/device-update
+[apiref]: https://learn.microsoft.com/rest/api/deviceupdate/2021-06-01-preview/device-update
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureiotdeviceupdateinstance]: https://docs.microsoft.com/azure/iot-hub-device-update/understand-device-update
+[createinstance_azureiotdeviceupdateinstance]: https://learn.microsoft.com/azure/iot-hub-device-update/understand-device-update
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceupdate/iot-device-update-rest/README.md

@@ -5,20 +5,20 @@
 ```ts
 
 import { AzureLogger } from '@azure/logger';
-import { BlobItem } from '@azure/storage-blob';
-import { BlobSetMetadataOptions } from '@azure/storage-blob';
-import { BlockBlobUploadOptions } from '@azure/storage-blob';
-import { BlockBlobUploadResponse } from '@azure/storage-blob';
-import { Checkpoint } from '@azure/event-hubs';
-import { CheckpointStore } from '@azure/event-hubs';
-import { ContainerListBlobFlatSegmentResponse } from '@azure/storage-blob';
-import { ContainerListBlobsOptions } from '@azure/storage-blob';
-import { ContainerSetMetadataResponse } from '@azure/storage-blob';
-import { HttpRequestBody } from '@azure/storage-blob';
-import { Metadata } from '@azure/storage-blob';
-import { OperationOptions } from '@azure/event-hubs';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PartitionOwnership } from '@azure/event-hubs';
+import type { BlobItem } from '@azure/storage-blob';
+import type { BlobSetMetadataOptions } from '@azure/storage-blob';
+import type { BlockBlobUploadOptions } from '@azure/storage-blob';
+import type { BlockBlobUploadResponse } from '@azure/storage-blob';
+import type { Checkpoint } from '@azure/event-hubs';
+import type { CheckpointStore } from '@azure/event-hubs';
+import type { ContainerListBlobFlatSegmentResponse } from '@azure/storage-blob';
+import type { ContainerListBlobsOptions } from '@azure/storage-blob';
+import type { ContainerSetMetadataResponse } from '@azure/storage-blob';
+import type { HttpRequestBody } from '@azure/storage-blob';
+import type { Metadata } from '@azure/storage-blob';
+import type { OperationOptions } from '@azure/event-hubs';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PartitionOwnership } from '@azure/event-hubs';
 
 // @public
 export class BlobCheckpointStore implements CheckpointStore {

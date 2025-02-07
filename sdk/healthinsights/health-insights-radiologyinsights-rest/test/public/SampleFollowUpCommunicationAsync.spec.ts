@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import {
-  AzureHealthInsightsClient,
-  ClinicalDocumentTypeEnum,
-  getLongRunningPoller,
-} from "../../src";
-import { createRecorder, createTestClient } from "./utils/recordedClient";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { AzureHealthInsightsClient } from "../../src/index.js";
+import { ClinicalDocumentTypeEnum, getLongRunningPoller } from "../../src/index.js";
+import { createRecorder, createTestClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
   system: "Http://hl7.org/fhir/ValueSet/cpt-all",
@@ -185,16 +181,16 @@ describe("Follow Up Communication Inference Test", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = await createTestClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("follow up communication inference test", async function () {
+  it("follow up communication inference test", async () => {
     const result = await client
       .path("/radiology-insights/jobs/{id}", "jobId-17138794923687")
       .put(param);

@@ -54,6 +54,8 @@ module.exports = function (config) {
       "SOFT_DELETE_ACCOUNT_SAS",
       "PREMIUM_FILE_ACCOUNT_NAME",
       "PREMIUM_FILE_ACCOUNT_SAS",
+      "PROVISIONED_FILE_ACCOUNT_NAME",
+      "PROVISIONED_FILE_ACCOUNT_SAS",
       "TEST_MODE",
       "RECORDINGS_RELATIVE_PATH",
     ],

@@ -7,21 +7,24 @@
  * error matches `"AbortError"`.
  *
  * @example
- * ```ts snippet:abort_error
+ * ```ts snippet:ReadmeSampleAbortError
  * import { AbortError } from "@typespec/ts-http-runtime";
  *
  * async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
  *   if (options.abortSignal.aborted) {
  *     throw new AbortError();
  *   }
+ *
  *   // do async work
  * }
+ *
  * const controller = new AbortController();
  * controller.abort();
+ *
  * try {
  *   doAsyncWork({ abortSignal: controller.signal });
  * } catch (e) {
- *   if (e.name === "AbortError") {
+ *   if (e instanceof Error && e.name === "AbortError") {
  *     // handle abort error here.
  *   }
  * }

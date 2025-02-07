@@ -7,18 +7,8 @@ extends:
       ServiceDirectory: communication
       CloudConfig:
         Public:
-          ServiceConnection: azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzurePublicMsft.json
           SubscriptionConfigurations:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
-        Int:
-          SubscriptionConfigurations:
-            - $(sub-config-communication-int-test-resources-common)
-            - $(sub-config-communication-int-test-resources-js)
-          MatrixFilters:
-            - TestType=^(?!(browser|sample)).*
-      Clouds: Public,Int
       TestResourceDirectories:
         - communication/test-resources/

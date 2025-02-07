@@ -10,5 +10,6 @@ export * from "./operations";
 export * from "./operationsStatus";
 export * from "./redisEnterprise";
 export * from "./databases";
+export * from "./accessPolicyAssignmentOperations";
 export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";

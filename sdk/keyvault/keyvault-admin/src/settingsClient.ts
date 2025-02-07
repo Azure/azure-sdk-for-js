@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
-import { LATEST_API_VERSION } from "./constants.js";
-import { KeyVaultClient, Setting as GeneratedSetting } from "./generated/index.js";
-import { logger } from "./log.js";
-import {
+import type { TokenCredential } from "@azure/core-auth";
+import type { Setting as GeneratedSetting } from "./generated/index.js";
+import type { KeyVaultClient } from "./generated/index.js";
+import type {
   UpdateSettingOptions,
   GetSettingOptions,
   ListSettingsOptions,
@@ -16,6 +13,7 @@ import {
   SettingsClientOptions,
   BooleanKeyVaultSetting,
 } from "./settingsClientModels.js";
+import { createKeyVaultClient } from "./createKeyVaultClient.js";
 
 function makeSetting(generatedSetting: GeneratedSetting): KeyVaultSetting {
   if (generatedSetting.type === "boolean") {
@@ -71,33 +69,12 @@ export class KeyVaultSettingsClient {
    * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
    * @param options - options used to configure Key Vault API requests.
-
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(vaultUrl: string, credential: TokenCredential, options: SettingsClientOptions = {}) {
     this.vaultUrl = vaultUrl;
 
-    const apiVersion = options.serviceVersion || LATEST_API_VERSION;
-
-    const clientOptions = {
-      ...options,
-      loggingOptions: {
-        logger: logger.info,
-        additionalAllowedHeaderNames: [
-          "x-ms-keyvault-region",
-          "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version",
-        ],
-      },
-    };
-
-    this.client = new KeyVaultClient(apiVersion, clientOptions);
-    this.client.pipeline.addPolicy(
-      bearerTokenAuthenticationPolicy({
-        credential,
-        scopes: [],
-        challengeCallbacks: createKeyVaultChallengeCallbacks(options),
-      }),
-    );
+    this.client = createKeyVaultClient(vaultUrl, credential, options);
   }
 
   /**
@@ -111,7 +88,7 @@ export class KeyVaultSettingsClient {
     options: UpdateSettingOptions = {},
   ): Promise<KeyVaultSetting> {
     return makeSetting(
-      await this.client.updateSetting(this.vaultUrl, setting.name, String(setting.value), options),
+      await this.client.updateSetting(setting.name, { value: String(setting.value) }, options),
     );
   }
 
@@ -122,7 +99,7 @@ export class KeyVaultSettingsClient {
    * @param options - the optional parameters.
    */
   async getSetting(settingName: string, options: GetSettingOptions = {}): Promise<KeyVaultSetting> {
-    return makeSetting(await this.client.getSetting(this.vaultUrl, settingName, options));
+    return makeSetting(await this.client.getSetting(settingName, options));
   }
 
   /**
@@ -130,8 +107,9 @@ export class KeyVaultSettingsClient {
    *
    * @param options - the optional parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async getSettings(options: ListSettingsOptions = {}): Promise<ListSettingsResponse> {
-    const { settings } = await this.client.getSettings(this.vaultUrl, options);
+    const { settings } = await this.client.getSettings(options);
     return { settings: settings?.map(makeSetting) ?? [] };
   }
 }

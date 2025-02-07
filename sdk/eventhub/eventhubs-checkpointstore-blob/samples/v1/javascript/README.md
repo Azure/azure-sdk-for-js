@@ -51,7 +51,7 @@ node receiveEventsUsingCheckpointStore.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env EVENTHUB_FQDN="<eventhub fqdn>" EVENTHUB_NAME="<eventhub name>" EVENTHUB_CONSUMER_GROUP="<eventhub consumer group>" STORAGE_CONTAINER_URL="<storage container url>" node receiveEventsUsingCheckpointStore.js
+npx dev-tool run vendored cross-env EVENTHUB_FQDN="<eventhub fqdn>" EVENTHUB_NAME="<eventhub name>" EVENTHUB_CONSUMER_GROUP="<eventhub consumer group>" STORAGE_CONTAINER_URL="<storage container url>" node receiveEventsUsingCheckpointStore.js
 ```
 
 ## Next Steps
@@ -60,8 +60,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [receiveeventsusingcheckpointstore]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/javascript/receiveEventsUsingCheckpointStore.js
 [receiveeventswithapispecificstorage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/javascript/receiveEventsWithApiSpecificStorage.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/eventhubs-checkpointstore-blob
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureeventhub]: https://docs.microsoft.com/azure/event-hubs/event-hubs-create
-[createinstance_azurestorageaccount]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
+[createinstance_azureeventhub]: https://learn.microsoft.com/azure/event-hubs/event-hubs-create
+[createinstance_azurestorageaccount]: https://learn.microsoft.com/azure/storage/common/storage-account-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/eventhubs-checkpointstore-blob/README.md

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import type {
   PublishResultOutput,
   ReceiveResultOutput,
   AcknowledgeResultOutput,
   ReleaseResultOutput,
   RejectResultOutput,
   RenewCloudEventLocksResultOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface PublishCloudEvent200Response extends HttpResponse {

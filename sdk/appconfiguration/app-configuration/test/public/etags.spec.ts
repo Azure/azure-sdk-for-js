@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, testPollingOptions } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { testPollingOptions } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   startRecorder,
-} from "./utils/testHelpers";
-import { AppConfigurationClient } from "../../src";
-import { Context } from "mocha";
-import { assert } from "chai";
+} from "./utils/testHelpers.js";
+import type { AppConfigurationClient } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
   let key: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     key = recorder.variable("etags", `etags${Math.floor(Math.random() * 1000)}`);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     await client.addConfigurationSetting({
@@ -27,7 +27,7 @@ describe("etags", () => {
     });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await deleteKeyCompletely([key], client);
     await recorder.stop();
   });

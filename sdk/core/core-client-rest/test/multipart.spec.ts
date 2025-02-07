@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { PartDescriptor, buildBodyPart } from "../src/multipart.js";
+import type { PartDescriptor } from "../src/multipart.js";
+import { buildBodyPart } from "../src/multipart.js";
 import { stringToUint8Array } from "@azure/core-util";
 
 describe("multipart buildBodyPart", () => {
@@ -195,7 +196,7 @@ describe("multipart buildBodyPart", () => {
       {
         description: "binary content gets passed through, regardless of content type",
         descriptor: {
-          contentType: "application/json; charset=UTF-8",
+          contentType: "application/json",
           body: new Uint8Array([1, 2, 3]),
         },
         expected: new Uint8Array([1, 2, 3]),

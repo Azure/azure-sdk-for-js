@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PipelineResponse, RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { PathUncheckedResponse } from "./common.js";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
+import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { PathUncheckedResponse } from "./common.js";
 
 /**
  * Creates a rest error from a PathUnchecked response
@@ -17,14 +18,14 @@ export function createRestError(
   response?: PathUncheckedResponse,
 ): RestError {
   const resp = typeof messageOrResponse === "string" ? response! : messageOrResponse;
-  const internalError = resp.body.error || resp.body;
+  const internalError = resp.body?.error ?? resp.body;
   const message =
     typeof messageOrResponse === "string"
       ? messageOrResponse
       : (internalError.message ?? `Unexpected status code: ${resp.status}`);
   return new RestError(message, {
     statusCode: statusCodeToNumber(resp.status),
-    code: internalError.code,
+    code: internalError?.code,
     request: resp.request,
     response: toPipelineResponse(resp),
   });

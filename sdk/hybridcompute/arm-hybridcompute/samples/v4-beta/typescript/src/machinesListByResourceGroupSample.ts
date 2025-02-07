@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get the next page of hybrid machines.
  *
  * @summary Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get the next page of hybrid machines.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/machine/Machines_ListByResourceGroup.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/machine/Machines_ListByResourceGroup.json
  */
-async function listMachinesByResourceGroup() {
+async function listMachinesByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -36,7 +34,7 @@ async function listMachinesByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listMachinesByResourceGroup();
 }
 

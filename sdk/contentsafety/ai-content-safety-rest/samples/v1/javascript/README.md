@@ -39,7 +39,7 @@ node sampleAnalyzeImage.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONTENT_SAFETY_ENDPOINT="<content safety endpoint>" CONTENT_SAFETY_API_KEY="<content safety api key>" node sampleAnalyzeImage.js
+npx dev-tool run vendored cross-env CONTENT_SAFETY_ENDPOINT="<content safety endpoint>" CONTENT_SAFETY_API_KEY="<content safety api key>" node sampleAnalyzeImage.js
 ```
 
 ## Next Steps
@@ -49,6 +49,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sampleanalyzeimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1/javascript/sampleAnalyzeImage.js
 [sampleanalyzetext]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1/javascript/sampleAnalyzeText.js
 [samplemanageblocklist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1/javascript/sampleManageBlocklist.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety-rest/README.md

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Service Fabric application type name resource created or in the process of being created in the Service Fabric managed cluster resource.
  *
  * @summary Get a Service Fabric application type name resource created or in the process of being created in the Service Fabric managed cluster resource.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ApplicationTypeNameGetOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationTypeNameGetOperation_example.json
  */
 async function getAnApplicationType() {
   const subscriptionId =

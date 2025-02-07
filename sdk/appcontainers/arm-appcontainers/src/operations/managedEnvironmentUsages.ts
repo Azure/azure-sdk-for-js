@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ManagedEnvironmentUsages } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ManagedEnvironmentUsages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
 import {
   Usage,
   ManagedEnvironmentUsagesListNextOptionalParams,
   ManagedEnvironmentUsagesListOptionalParams,
   ManagedEnvironmentUsagesListResponse,
   ManagedEnvironmentUsagesListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedEnvironmentUsages operations. */
@@ -169,7 +169,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.environmentName1,
+    Parameters.environmentName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -190,7 +190,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.environmentName1,
+    Parameters.environmentName2,
   ],
   headerParameters: [Parameters.accept],
   serializer,

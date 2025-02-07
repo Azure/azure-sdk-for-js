@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the tags of an application resource of a given managed cluster.
  *
  * @summary Updates the tags of an application resource of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ApplicationPatchOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationPatchOperation_example.json
  */
 async function patchAnApplication() {
   const subscriptionId =

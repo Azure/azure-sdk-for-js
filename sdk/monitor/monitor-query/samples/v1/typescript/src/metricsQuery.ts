@@ -38,7 +38,7 @@ export async function main() {
     });
 
     console.log(
-      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`
+      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
     );
 
     const metrics: Metric[] = metricsResponse.metrics;

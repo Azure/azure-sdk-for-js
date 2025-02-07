@@ -4,18 +4,18 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { CreateHttpPollerOptions } from '@azure/core-lro';
-import { HttpResponse } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { SimplePollerLike } from '@azure/core-lro';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AdditionalProviderParameters {
@@ -138,8 +138,6 @@ export type ApplicationDataCreateOrUpdateParameters = ApplicationDataCreateOrUpd
 
 // @public
 export interface ApplicationDataDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -498,8 +496,6 @@ export type AttachmentsCreateOrUpdateParameters = AttachmentsCreateOrUpdateMedia
 // @public
 export interface AttachmentsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -787,8 +783,6 @@ export type BoundariesCreateOrUpdateParameters = BoundariesCreateOrUpdateMediaTy
 
 // @public
 export interface BoundariesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1178,7 +1172,7 @@ export interface BoundaryOverlapResponseOutput {
 export type BoundaryResourceMergeAndPatch = Partial<Boundary>;
 
 // @public (undocumented)
-export function buildMultiCollection(queryParameters: string[], parameterName: string): string;
+export function buildMultiCollection(items: string[], parameterName: string): string;
 
 // @public
 export interface CascadeDeleteJobOutput {
@@ -1197,7 +1191,7 @@ export interface CascadeDeleteJobOutput {
 }
 
 // @public
-function createClient($host: string, credentials: TokenCredential, options?: ClientOptions): FarmBeatsClient;
+function createClient($host: string, credentials: TokenCredential, { apiVersion, ...options }?: FarmBeatsClientOptions): FarmBeatsClient;
 export default createClient;
 
 // @public
@@ -1330,8 +1324,6 @@ export type CropProductsCreateOrUpdateParameters = CropProductsCreateOrUpdateMed
 
 // @public
 export interface CropProductsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1496,8 +1488,6 @@ export type CropsCreateOrUpdateParameters = CropsCreateOrUpdateMediaTypesParam &
 // @public
 export interface CropsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -1614,7 +1604,7 @@ export interface Device {
     deviceDataModelId?: string;
     hardwareId?: string;
     integrationId?: string;
-    location?: Location;
+    location?: Location_2;
     name?: string;
     parentDeviceId?: string;
     properties?: Record<string, any>;
@@ -1718,8 +1708,6 @@ export type DeviceDataModelsCreateOrUpdateParameters = DeviceDataModelsCreateOrU
 
 // @public
 export interface DeviceDataModelsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1909,8 +1897,6 @@ export type DevicesCreateOrUpdateParameters = DevicesCreateOrUpdateMediaTypesPar
 // @public
 export interface DevicesDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -2050,6 +2036,11 @@ export interface Farm {
 export type FarmBeatsClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface FarmBeatsClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface FarmListResponseOutput {
@@ -2274,8 +2265,6 @@ export type FarmsCreateOrUpdateParameters = FarmsCreateOrUpdateMediaTypesParam &
 
 // @public
 export interface FarmsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -2588,8 +2577,6 @@ export type FieldsCreateOrUpdateParameters = FieldsCreateOrUpdateMediaTypesParam
 // @public
 export interface FieldsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -2810,7 +2797,7 @@ export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -2928,8 +2915,6 @@ export type HarvestDataCreateOrUpdateParameters = HarvestDataCreateOrUpdateMedia
 
 // @public
 export interface HarvestDataDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -3449,8 +3434,6 @@ export type InsightAttachmentsCreateOrUpdateParameters = InsightAttachmentsCreat
 // @public
 export interface InsightAttachmentsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -3719,8 +3702,6 @@ export type InsightsCreateOrUpdateParameters = InsightsCreateOrUpdateMediaTypesP
 
 // @public
 export interface InsightsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -4469,10 +4450,11 @@ export interface LabDetailsOutput {
 }
 
 // @public
-export interface Location {
+interface Location_2 {
     latitude: number;
     longitude: number;
 }
+export { Location_2 as Location }
 
 // @public
 export interface LocationOutput {
@@ -4609,8 +4591,6 @@ export type ManagementZonesCreateOrUpdateParameters = ManagementZonesCreateOrUpd
 
 // @public
 export interface ManagementZonesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -5105,8 +5085,6 @@ export type NutrientAnalysesCreateOrUpdateParameters = NutrientAnalysesCreateOrU
 // @public
 export interface NutrientAnalysesDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -5477,8 +5455,6 @@ export type OAuthProvidersCreateOrUpdateParameters = OAuthProvidersCreateOrUpdat
 // @public
 export interface OAuthProvidersDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -5803,6 +5779,18 @@ export interface OAuthTokensListQueryParamProperties {
 }
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
 
 // @public
@@ -5902,8 +5890,6 @@ export type PartiesCreateOrUpdateParameters = PartiesCreateOrUpdateMediaTypesPar
 
 // @public
 export interface PartiesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -6190,8 +6176,6 @@ export type PlantingDataCreateOrUpdateParameters = PlantingDataCreateOrUpdateMed
 
 // @public
 export interface PlantingDataDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -6556,8 +6540,6 @@ export type PlantTissueAnalysesCreateOrUpdateParameters = PlantTissueAnalysesCre
 
 // @public
 export interface PlantTissueAnalysesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -7009,8 +6991,6 @@ export type PrescriptionMapsCreateOrUpdateParameters = PrescriptionMapsCreateOrU
 // @public
 export interface PrescriptionMapsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -7324,8 +7304,6 @@ export type PrescriptionsCreateOrUpdateParameters = PrescriptionsCreateOrUpdateM
 
 // @public
 export interface PrescriptionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -7926,7 +7904,7 @@ export interface ScenesListQueryParamProperties {
     endDateTime?: Date | string;
     imageFormats?: string;
     imageNames?: string;
-    imageResolutions?: Array<number>;
+    imageResolutions?: string;
     maxCloudCoveragePercentage?: number;
     maxDarkPixelCoveragePercentage?: number;
     maxPageSize?: number;
@@ -8170,8 +8148,6 @@ export type SeasonalFieldsCreateOrUpdateParameters = SeasonalFieldsCreateOrUpdat
 
 // @public
 export interface SeasonalFieldsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -8453,8 +8429,6 @@ export type SeasonsCreateOrUpdateParameters = SeasonsCreateOrUpdateMediaTypesPar
 // @public
 export interface SeasonsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -8565,7 +8539,7 @@ export interface SeasonsListQueryParamProperties {
     propertyFilters?: string;
     skipToken?: string;
     statuses?: string;
-    years?: Array<number>;
+    years?: string;
 }
 
 // @public
@@ -8575,7 +8549,7 @@ export interface Sensor {
     deviceId?: string;
     hardwareId?: string;
     integrationId?: string;
-    location?: Location;
+    location?: Location_2;
     name?: string;
     port?: Port;
     properties?: Record<string, any>;
@@ -8697,8 +8671,6 @@ export type SensorDataModelsCreateOrUpdateParameters = SensorDataModelsCreateOrU
 
 // @public
 export interface SensorDataModelsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -8967,8 +8939,6 @@ export type SensorMappingsCreateOrUpdateParameters = SensorMappingsCreateOrUpdat
 
 // @public
 export interface SensorMappingsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -9245,8 +9215,6 @@ export type SensorPartnerIntegrationsCreateOrUpdateParameters = SensorPartnerInt
 // @public
 export interface SensorPartnerIntegrationsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -9488,8 +9456,6 @@ export type SensorsCreateOrUpdateParameters = SensorsCreateOrUpdateMediaTypesPar
 // @public
 export interface SensorsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -9667,6 +9633,28 @@ export interface SensorsRenewConnectionStringMediaTypesParam {
 
 // @public (undocumented)
 export type SensorsRenewConnectionStringParameters = SensorsRenewConnectionStringMediaTypesParam & SensorsRenewConnectionStringBodyParam & RequestParameters;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface SoilMoistureModelJob {
@@ -10002,8 +9990,6 @@ export type TillageDataCreateOrUpdateParameters = TillageDataCreateOrUpdateMedia
 
 // @public
 export interface TillageDataDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -10830,8 +10816,6 @@ export type ZonesCreateOrUpdateParameters = ZonesCreateOrUpdateMediaTypesParam &
 
 // @public
 export interface ZonesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }

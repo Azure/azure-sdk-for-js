@@ -14,7 +14,7 @@ dotenv.config();
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
 
@@ -63,9 +63,9 @@ export async function main(): Promise<void> {
 
   // Purge the key - the key is permanently deleted
   // This operation could take some time to complete
-  console.time("purge a single key");
+  await console.time("purge a single key");
   await client.purgeDeletedKey(keyName);
-  console.timeEnd("purge a single key");
+  await console.timeEnd("purge a single key");
 }
 
 main().catch((error) => {

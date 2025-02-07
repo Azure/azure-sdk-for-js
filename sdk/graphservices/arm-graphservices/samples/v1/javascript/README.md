@@ -43,7 +43,7 @@ node accountsCreateAndUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env GRAPHSERVICES_SUBSCRIPTION_ID="<graphservices subscription id>" GRAPHSERVICES_RESOURCE_GROUP="<graphservices resource group>" node accountsCreateAndUpdateSample.js
+npx dev-tool run vendored cross-env GRAPHSERVICES_SUBSCRIPTION_ID="<graphservices subscription id>" GRAPHSERVICES_RESOURCE_GROUP="<graphservices resource group>" node accountsCreateAndUpdateSample.js
 ```
 
 ## Next Steps
@@ -57,6 +57,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [accountslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/graphservices/arm-graphservices/samples/v1/javascript/accountsListBySubscriptionSample.js
 [accountsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/graphservices/arm-graphservices/samples/v1/javascript/accountsUpdateSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/graphservices/arm-graphservices/samples/v1/javascript/operationsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-graphservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-graphservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/graphservices/arm-graphservices/README.md

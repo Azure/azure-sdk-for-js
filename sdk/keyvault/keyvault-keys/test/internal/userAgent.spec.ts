@@ -1,22 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyClient } from "../../src";
-import { SDK_VERSION } from "../../src/constants";
-import { TokenCredential } from "@azure/core-auth";
-import { assert } from "@azure-tools/test-utils";
+import { KeyClient } from "../../src/index.js";
+import { SDK_VERSION } from "../../src/constants.js";
+import { describe, it, assert } from "vitest";
 
 describe("Keys client's user agent", () => {
   it("SDK_VERSION and user-agent should match", async function () {
     let userAgent: string | undefined;
-    const client = new KeyClient("https://myvault.vault.azure.net", {} as TokenCredential, {
-      httpClient: {
-        sendRequest: async (request) => {
-          userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
-          throw new Error("only a test");
+    const client = new KeyClient(
+      "https://myvault.vault.azure.net",
+      {
+        getToken: async () => {
+          return {
+            token: "my-test-token",
+            expiresOnTimestamp: 111111111111,
+          };
         },
       },
-    });
+      {
+        httpClient: {
+          sendRequest: async (request) => {
+            userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+            throw new Error("only a test");
+          },
+        },
+      },
+    );
 
     try {
       await client.getKey("foo");

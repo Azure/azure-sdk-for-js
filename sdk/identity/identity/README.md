@@ -47,7 +47,12 @@ Most of the credential types offered by `@azure/identity` use the [Microsoft Aut
 
 The `@azure/identity` credential types are implementations of [@azure/core-auth](https://www.npmjs.com/package/@azure/core-auth)'s `TokenCredential` class. In principle, any object with a `getToken` method that satisfies `getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>` works as a `TokenCredential`. This means developers can write their own credential types to support authentication cases not covered by `@azure/identity`. To learn more, see [Custom Credentials](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#custom-credentials).
 
-Though our credential types support many advanced cases, developers may want full control of the authentication protocol. For that use case, we recommend using [Microsoft Authentication Library for JavaScript (MSAL.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js) directly. You can read more through the following links:
+Though our credential types support many advanced scenarios, developers may want to use [Microsoft Authentication Library for JavaScript (MSAL.js)](https://github.com/AzureAD/microsoft-authentication-library-for-js) directly instead. Consider using MSAL.js in the following scenarios:
+
+- Developers who want full control of the authentication protocol and its configuration.
+- Our credential types are designed to be used with Azure SDK clients with intelligent caching and token refreshing handled at the core HTTP layer. If you find yourself having to use `getToken` directly, you may benefit from using MSAL.js for more control over the authentication flow and token caching.
+
+You can read more through the following links:
 
 - We portray some advanced use cases of `@azure/identity` on the [Azure Identity Examples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md) page.
   - There, we specifically have an [Advanced Examples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#advanced-examples) section.
@@ -117,20 +122,7 @@ See [Credential Classes](#credential-classes).
 
 ### DefaultAzureCredential
 
-`DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in Azure. This is because `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed with credentials used to authenticate in a development environment.
-
-> Note: `DefaultAzureCredential` is intended to simplify getting started with the SDK by handling common scenarios with reasonable default behaviors. Developers who want more control or whose scenario isn't served by the default settings should use other credential types.
-
-If used from Node.js, `DefaultAzureCredential` attempts to authenticate via the following mechanisms in order:
-
-![DefaultAzureCredential authentication flow][defaultauthflow_image]
-
-1. **Environment** - `DefaultAzureCredential` reads account information specified via [environment variables](#environment-variables) and uses it to authenticate.
-1. **Workload Identity** - If the application is deployed to Azure Kubernetes Service with Managed Identity enabled, `DefaultAzureCredential` authenticates with it.
-1. **Managed Identity** - If the application is deployed to an Azure host with Managed Identity enabled, `DefaultAzureCredential` authenticates with that account.
-1. **Azure CLI** - If the developer authenticated an account via the Azure CLI `az login` command, `DefaultAzureCredential` authenticates with that account.
-1. **Azure PowerShell** - If the developer authenticated using the Azure PowerShell module `Connect-AzAccount` command, `DefaultAzureCredential` authenticates with that account.
-1. **Azure Developer CLI** - If the developer authenticated an account via the Azure Developer CLI `azd auth login` command, `DefaultAzureCredential` authenticates with that account.
+`DefaultAzureCredential` simplifies authentication while developing apps that deploy to Azure by combining credentials used in Azure hosting environments with credentials used in local development. For more information, see [DefaultAzureCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-defaultazurecredential-for-flexibility).
 
 #### Continuation policy
 
@@ -163,8 +155,10 @@ import { KeyClient } from "@azure/keyvault-keys";
 
 // Configure vault URL
 const vaultUrl = "https://<your-unique-keyvault-name>.vault.azure.net";
+
 // Azure SDK clients accept the credential as a parameter
 const credential = new DefaultAzureCredential();
+
 // Create authenticated client
 const client = new KeyClient(vaultUrl, credential);
 ```
@@ -188,11 +182,13 @@ const clientId = "<client-id>";
 const clientSecret = "<client-secret>";
 const anotherClientId = "<another-client-id>";
 const anotherSecret = "<another-client-secret>";
+
 // When an access token is requested, the chain will try each
 // credential in order, stopping when one provides a token
 const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
 const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
 const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
+
 // The chain can be used anywhere a credential is required
 const client = new KeyClient(vaultUrl, credentialChain);
 ```
@@ -285,7 +281,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
 | [`AuthorizationCodeCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/authorizationcodecredential?view=azure-node-latest)   | Authenticates a user with a previously obtained authorization code.                                                                                                                                                       | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-auth-code-flow)          | [OAuth2 authentication code](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow)     |
 | [`DeviceCodeCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/devicecodecredential?view=azure-node-latest)                 | Interactively authenticates a user on devices with limited UI.                                                                                                                                                            | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-device-code-flow)        | [Device code authentication](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-device-code)        |
-| [`InteractiveBrowserCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredential?view=azure-node-latest) | Interactively authenticates a user with the default system browser. Read more about how this happens [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md). | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-interactively-in-the-browser) | [OAuth2 authentication code](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow)     |
+| [`InteractiveBrowserCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredential?view=azure-node-latest) | Interactively authenticates a user with the default system browser. Read more about how this happens [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md). | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-interactively-in-the-browser) | [OAuth2 authorization code](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow)     |
 | [`OnBehalfOfCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/onbehalfofcredential?view=azure-node-latest)                 | Propagates the delegated user identity and permissions through the request chain                                                                                                                                          |                                                                                                                                                                                  | [On-behalf-of authentication](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow) |
 | [`UsernamePasswordCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest)     | Authenticates a user with a username and password.                                                                                                                                                                        | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-username-and-password)   | [Username + password authentication](https://learn.microsoft.com/entra/identity-platform/v2-oauth-ropc)        |
 
@@ -389,5 +385,3 @@ To contribute to this library, read the [contributing guide](https://github.com/
 [azure_identity_broker]: https://www.npmjs.com/package/@azure/identity-broker
 [azure_identity_broker_readme]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker
 [authority_hosts]: https://learn.microsoft.com/javascript/api/@azure/identity/azureauthorityhosts
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

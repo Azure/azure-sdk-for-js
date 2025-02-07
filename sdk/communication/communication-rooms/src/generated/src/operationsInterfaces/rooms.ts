@@ -6,32 +6,34 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  RoomModel,
+  RoomsListOptionalParams,
   RoomsCreateOptionalParams,
   RoomsCreateResponse,
-  RoomsListOptionalParams,
-  RoomsListResponse,
   RoomsGetOptionalParams,
   RoomsGetResponse,
   RoomsUpdateOptionalParams,
   RoomsUpdateResponse,
   RoomsDeleteOptionalParams,
-  RoomsListNextOptionalParams,
-  RoomsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Rooms. */
 export interface Rooms {
+  /**
+   * Retrieves all created rooms.
+   * @param options The options parameters.
+   */
+  list(
+    options?: RoomsListOptionalParams,
+  ): PagedAsyncIterableIterator<RoomModel>;
   /**
    * Creates a new room.
    * @param options The options parameters.
    */
   create(options?: RoomsCreateOptionalParams): Promise<RoomsCreateResponse>;
-  /**
-   * Retrieves all created rooms.
-   * @param options The options parameters.
-   */
-  list(options?: RoomsListOptionalParams): Promise<RoomsListResponse>;
   /**
    * Retrieves an existing room by id.
    * @param roomId The id of the room requested.
@@ -39,7 +41,7 @@ export interface Rooms {
    */
   get(
     roomId: string,
-    options?: RoomsGetOptionalParams
+    options?: RoomsGetOptionalParams,
   ): Promise<RoomsGetResponse>;
   /**
    * Update a room with given changes.
@@ -48,7 +50,7 @@ export interface Rooms {
    */
   update(
     roomId: string,
-    options?: RoomsUpdateOptionalParams
+    options?: RoomsUpdateOptionalParams,
   ): Promise<RoomsUpdateResponse>;
   /**
    * Delete a room.
@@ -56,13 +58,4 @@ export interface Rooms {
    * @param options The options parameters.
    */
   delete(roomId: string, options?: RoomsDeleteOptionalParams): Promise<void>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: RoomsListNextOptionalParams
-  ): Promise<RoomsListNextResponse>;
 }

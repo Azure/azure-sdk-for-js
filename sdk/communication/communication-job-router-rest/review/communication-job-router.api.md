@@ -4,19 +4,17 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorResponse } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { Paged } from '@azure/core-paging';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { ErrorResponse } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { KeyCredential } from '@azure/core-auth';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface Accept {
@@ -60,6 +58,11 @@ export type AcceptParameters = RequestParameters;
 export type AzureCommunicationRoutingServiceClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface AzureCommunicationRoutingServiceClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface BestWorkerMode extends DistributionModeParent {
@@ -488,13 +491,19 @@ export interface DirectMapRouterRuleOutput extends RouterRuleOutputParent {
 export type DistributionMode = DistributionModeParent | BestWorkerMode | LongestIdleMode | RoundRobinMode;
 
 // @public
+export type DistributionModeKind = string;
+
+// @public
+export type DistributionModeKindOutput = string;
+
+// @public
 export type DistributionModeOutput = DistributionModeOutputParent | BestWorkerModeOutput | LongestIdleModeOutput | RoundRobinModeOutput;
 
 // @public
 export interface DistributionModeOutputParent {
     bypassSelectors?: boolean;
     // (undocumented)
-    kind: string;
+    kind: DistributionModeKindOutput;
     maxConcurrentOffers?: number;
     minConcurrentOffers?: number;
 }
@@ -503,7 +512,7 @@ export interface DistributionModeOutputParent {
 export interface DistributionModeParent {
     bypassSelectors?: boolean;
     // (undocumented)
-    kind: string;
+    kind: DistributionModeKind;
     maxConcurrentOffers?: number;
     minConcurrentOffers?: number;
 }
@@ -531,20 +540,26 @@ export type DistributionPolicyResourceMergeAndPatch = Partial<DistributionPolicy
 export type ExceptionAction = ExceptionActionParent | CancelExceptionAction | ManualReclassifyExceptionAction | ReclassifyExceptionAction;
 
 // @public
+export type ExceptionActionKind = string;
+
+// @public
+export type ExceptionActionKindOutput = string;
+
+// @public
 export type ExceptionActionOutput = ExceptionActionOutputParent | CancelExceptionActionOutput | ManualReclassifyExceptionActionOutput | ReclassifyExceptionActionOutput;
 
 // @public
 export interface ExceptionActionOutputParent {
     id?: string;
     // (undocumented)
-    kind: string;
+    kind: ExceptionActionKindOutput;
 }
 
 // @public
 export interface ExceptionActionParent {
     id?: string;
     // (undocumented)
-    kind: string;
+    kind: ExceptionActionKind;
 }
 
 // @public
@@ -582,32 +597,44 @@ export interface ExceptionRuleOutput {
 export type ExceptionTrigger = ExceptionTriggerParent | QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
 
 // @public
+export type ExceptionTriggerKind = string;
+
+// @public
+export type ExceptionTriggerKindOutput = string;
+
+// @public
 export type ExceptionTriggerOutput = ExceptionTriggerOutputParent | QueueLengthExceptionTriggerOutput | WaitTimeExceptionTriggerOutput;
 
 // @public
 export interface ExceptionTriggerOutputParent {
     // (undocumented)
-    kind: string;
+    kind: ExceptionTriggerKindOutput;
 }
 
 // @public
 export interface ExceptionTriggerParent {
     // (undocumented)
-    kind: string;
+    kind: ExceptionTriggerKind;
 }
 
 // @public
 export interface ExpressionRouterRule extends RouterRuleParent {
     expression: string;
     kind: "expression";
-    language?: string;
+    language?: ExpressionRouterRuleLanguage;
 }
+
+// @public
+export type ExpressionRouterRuleLanguage = string;
+
+// @public
+export type ExpressionRouterRuleLanguageOutput = string;
 
 // @public
 export interface ExpressionRouterRuleOutput extends RouterRuleOutputParent {
     expression: string;
     kind: "expression";
-    language?: string;
+    language?: ExpressionRouterRuleLanguageOutput;
 }
 
 // @public
@@ -809,7 +836,7 @@ export interface GetJobDefaultResponse extends HttpResponse {
 export type GetJobParameters = RequestParameters;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -1016,19 +1043,31 @@ export function isUnexpected(response: ListWorkers200Response | ListWorkersDefau
 export type JobMatchingMode = JobMatchingModeParent | ScheduleAndSuspendMode | QueueAndMatchMode | SuspendMode;
 
 // @public
+export type JobMatchingModeKind = string;
+
+// @public
+export type JobMatchingModeKindOutput = string;
+
+// @public
 export type JobMatchingModeOutput = JobMatchingModeOutputParent | ScheduleAndSuspendModeOutput | QueueAndMatchModeOutput | SuspendModeOutput;
 
 // @public
 export interface JobMatchingModeOutputParent {
     // (undocumented)
-    kind: string;
+    kind: JobMatchingModeKindOutput;
 }
 
 // @public
 export interface JobMatchingModeParent {
     // (undocumented)
-    kind: string;
+    kind: JobMatchingModeKind;
 }
+
+// @public
+export type LabelOperator = string;
+
+// @public
+export type LabelOperatorOutput = string;
 
 // @public (undocumented)
 export interface ListClassificationPolicies {
@@ -1201,7 +1240,7 @@ export interface ListJobsQueryParamProperties {
     queueId?: string;
     scheduledAfter?: Date | string;
     scheduledBefore?: Date | string;
-    status?: string;
+    status?: RouterJobStatusSelector;
 }
 
 // @public (undocumented)
@@ -1289,7 +1328,7 @@ export interface ListWorkersQueryParamProperties {
     hasCapacity?: boolean;
     maxpagesize?: number;
     queueId?: string;
-    state?: string;
+    state?: RouterWorkerStateSelector;
 }
 
 // @public
@@ -1331,22 +1370,52 @@ export interface OAuth2WebhookClientCredentialOutput {
 }
 
 // @public
-export type PagedClassificationPolicyOutput = Paged<ClassificationPolicyOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export type PagedDistributionPolicyOutput = Paged<DistributionPolicyOutput>;
+export interface PagedClassificationPolicyOutput {
+    nextLink?: string;
+    value: Array<ClassificationPolicyOutput>;
+}
 
 // @public
-export type PagedExceptionPolicyOutput = Paged<ExceptionPolicyOutput>;
+export interface PagedDistributionPolicyOutput {
+    nextLink?: string;
+    value: Array<DistributionPolicyOutput>;
+}
 
 // @public
-export type PagedRouterJobOutput = Paged<RouterJobOutput>;
+export interface PagedExceptionPolicyOutput {
+    nextLink?: string;
+    value: Array<ExceptionPolicyOutput>;
+}
 
 // @public
-export type PagedRouterQueueOutput = Paged<RouterQueueOutput>;
+export interface PagedRouterJobOutput {
+    nextLink?: string;
+    value: Array<RouterJobOutput>;
+}
 
 // @public
-export type PagedRouterWorkerOutput = Paged<RouterWorkerOutput>;
+export interface PagedRouterQueueOutput {
+    nextLink?: string;
+    value: Array<RouterQueueOutput>;
+}
+
+// @public
+export interface PagedRouterWorkerOutput {
+    nextLink?: string;
+    value: Array<RouterWorkerOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -1367,14 +1436,14 @@ export interface PagingOptions<TResponse> {
 export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachmentParent {
     key: string;
     kind: "passThrough";
-    labelOperator: string;
+    labelOperator: LabelOperator;
 }
 
 // @public
 export interface PassThroughQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
     key: string;
     kind: "passThrough";
-    labelOperator: string;
+    labelOperator: LabelOperatorOutput;
 }
 
 // @public
@@ -1382,7 +1451,7 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
     expiresAfterSeconds?: number;
     key: string;
     kind: "passThrough";
-    labelOperator: string;
+    labelOperator: LabelOperator;
 }
 
 // @public
@@ -1390,7 +1459,7 @@ export interface PassThroughWorkerSelectorAttachmentOutput extends WorkerSelecto
     expiresAfterSeconds?: number;
     key: string;
     kind: "passThrough";
-    labelOperator: string;
+    labelOperator: LabelOperatorOutput;
 }
 
 // @public
@@ -1419,18 +1488,24 @@ export interface QueueLengthExceptionTriggerOutput extends ExceptionTriggerOutpu
 export type QueueSelectorAttachment = QueueSelectorAttachmentParent | ConditionalQueueSelectorAttachment | PassThroughQueueSelectorAttachment | RuleEngineQueueSelectorAttachment | StaticQueueSelectorAttachment | WeightedAllocationQueueSelectorAttachment;
 
 // @public
+export type QueueSelectorAttachmentKind = string;
+
+// @public
+export type QueueSelectorAttachmentKindOutput = string;
+
+// @public
 export type QueueSelectorAttachmentOutput = QueueSelectorAttachmentOutputParent | ConditionalQueueSelectorAttachmentOutput | PassThroughQueueSelectorAttachmentOutput | RuleEngineQueueSelectorAttachmentOutput | StaticQueueSelectorAttachmentOutput | WeightedAllocationQueueSelectorAttachmentOutput;
 
 // @public
 export interface QueueSelectorAttachmentOutputParent {
     // (undocumented)
-    kind: string;
+    kind: QueueSelectorAttachmentKindOutput;
 }
 
 // @public
 export interface QueueSelectorAttachmentParent {
     // (undocumented)
-    kind: string;
+    kind: QueueSelectorAttachmentKind;
 }
 
 // @public
@@ -1528,10 +1603,6 @@ export interface RouterChannelOutput {
 }
 
 // @public
-export interface RouterConditionalRequestHeadersOutput {
-}
-
-// @public
 export interface RouterJob {
     channelId?: string;
     channelReference?: string;
@@ -1610,7 +1681,7 @@ export interface RouterJobOutput {
     queueId?: string;
     requestedWorkerSelectors?: Array<RouterWorkerSelectorOutput>;
     readonly scheduledAt?: string;
-    readonly status?: string;
+    readonly status?: RouterJobStatusOutput;
     tags?: Record<string, any>;
 }
 
@@ -1625,6 +1696,15 @@ export interface RouterJobPositionDetailsOutput {
 
 // @public
 export type RouterJobResourceMergeAndPatch = Partial<RouterJob>;
+
+// @public
+export type RouterJobStatus = string;
+
+// @public
+export type RouterJobStatusOutput = string;
+
+// @public
+export type RouterJobStatusSelector = string;
 
 // @public
 export interface RouterQueue {
@@ -1650,14 +1730,14 @@ export type RouterQueueResourceMergeAndPatch = Partial<RouterQueue>;
 // @public
 export interface RouterQueueSelector {
     key: string;
-    labelOperator: string;
+    labelOperator: LabelOperator;
     value?: unknown;
 }
 
 // @public
 export interface RouterQueueSelectorOutput {
     key: string;
-    labelOperator: string;
+    labelOperator: LabelOperatorOutput;
     value?: any;
 }
 
@@ -1673,18 +1753,24 @@ export interface RouterQueueStatisticsOutput {
 export type RouterRule = RouterRuleParent | DirectMapRouterRule | ExpressionRouterRule | FunctionRouterRule | StaticRouterRule | WebhookRouterRule;
 
 // @public
+export type RouterRuleKind = string;
+
+// @public
+export type RouterRuleKindOutput = string;
+
+// @public
 export type RouterRuleOutput = RouterRuleOutputParent | DirectMapRouterRuleOutput | ExpressionRouterRuleOutput | FunctionRouterRuleOutput | StaticRouterRuleOutput | WebhookRouterRuleOutput;
 
 // @public
 export interface RouterRuleOutputParent {
     // (undocumented)
-    kind: string;
+    kind: RouterRuleKindOutput;
 }
 
 // @public
 export interface RouterRuleParent {
     // (undocumented)
-    kind: string;
+    kind: RouterRuleKind;
 }
 
 // @public
@@ -1727,7 +1813,7 @@ export interface RouterWorkerOutput {
     maxConcurrentOffers?: number;
     readonly offers?: Array<RouterJobOfferOutput>;
     queues?: string[];
-    readonly state?: string;
+    readonly state?: RouterWorkerStateOutput;
     tags?: Record<string, any>;
 }
 
@@ -1739,7 +1825,7 @@ export interface RouterWorkerSelector {
     expedite?: boolean;
     expiresAfterSeconds?: number;
     key: string;
-    labelOperator: string;
+    labelOperator: LabelOperator;
     value?: unknown;
 }
 
@@ -1749,10 +1835,25 @@ export interface RouterWorkerSelectorOutput {
     expiresAfterSeconds?: number;
     readonly expiresAt?: string;
     key: string;
-    labelOperator: string;
-    readonly status?: string;
+    labelOperator: LabelOperatorOutput;
+    readonly status?: RouterWorkerSelectorStatusOutput;
     value?: any;
 }
+
+// @public
+export type RouterWorkerSelectorStatus = string;
+
+// @public
+export type RouterWorkerSelectorStatusOutput = string;
+
+// @public
+export type RouterWorkerState = string;
+
+// @public
+export type RouterWorkerStateOutput = string;
+
+// @public
+export type RouterWorkerStateSelector = string;
 
 // @public (undocumented)
 export interface Routes {
@@ -1820,7 +1921,7 @@ export interface ScoringRuleOptions {
     batchSize?: number;
     descendingOrder?: boolean;
     isBatchScoringEnabled?: boolean;
-    scoringParameters?: string[];
+    scoringParameters?: ScoringRuleParameterSelector[];
 }
 
 // @public
@@ -1828,8 +1929,14 @@ export interface ScoringRuleOptionsOutput {
     batchSize?: number;
     descendingOrder?: boolean;
     isBatchScoringEnabled?: boolean;
-    scoringParameters?: string[];
+    scoringParameters?: ScoringRuleParameterSelectorOutput[];
 }
+
+// @public
+export type ScoringRuleParameterSelector = string;
+
+// @public
+export type ScoringRuleParameterSelectorOutput = string;
 
 // @public
 export interface StaticQueueSelectorAttachment extends QueueSelectorAttachmentParent {
@@ -2454,18 +2561,24 @@ export interface WeightedAllocationWorkerSelectorAttachmentOutput extends Worker
 export type WorkerSelectorAttachment = WorkerSelectorAttachmentParent | ConditionalWorkerSelectorAttachment | PassThroughWorkerSelectorAttachment | RuleEngineWorkerSelectorAttachment | StaticWorkerSelectorAttachment | WeightedAllocationWorkerSelectorAttachment;
 
 // @public
+export type WorkerSelectorAttachmentKind = string;
+
+// @public
+export type WorkerSelectorAttachmentKindOutput = string;
+
+// @public
 export type WorkerSelectorAttachmentOutput = WorkerSelectorAttachmentOutputParent | ConditionalWorkerSelectorAttachmentOutput | PassThroughWorkerSelectorAttachmentOutput | RuleEngineWorkerSelectorAttachmentOutput | StaticWorkerSelectorAttachmentOutput | WeightedAllocationWorkerSelectorAttachmentOutput;
 
 // @public
 export interface WorkerSelectorAttachmentOutputParent {
     // (undocumented)
-    kind: string;
+    kind: WorkerSelectorAttachmentKindOutput;
 }
 
 // @public
 export interface WorkerSelectorAttachmentParent {
     // (undocumented)
-    kind: string;
+    kind: WorkerSelectorAttachmentKind;
 }
 
 // @public

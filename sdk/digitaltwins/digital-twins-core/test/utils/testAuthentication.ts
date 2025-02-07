@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DigitalTwinsClient } from "../../src";
+import { DigitalTwinsClient } from "../../src/index.js";
 import { env, Recorder } from "@azure-tools/test-recorder";
+import type { TestInfo } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-export async function authenticate(that: Mocha.Context): Promise<any> {
-  const recorder = new Recorder(that.currentTest);
+export async function authenticate(that: TestInfo): Promise<any> {
+  const recorder = new Recorder(that);
   await recorder.start({
     envSetupForPlayback: {
       AZURE_DIGITALTWINS_URL: "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net",

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get unsupported vm size for Service Fabric Managed Clusters.
  *
  * @summary Get unsupported vm size for Service Fabric Managed Clusters.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/managedUnsupportedVMSizesGet_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/managedUnsupportedVMSizesGet_example.json
  */
 async function getUnsupportedVMSizes() {
   const subscriptionId =

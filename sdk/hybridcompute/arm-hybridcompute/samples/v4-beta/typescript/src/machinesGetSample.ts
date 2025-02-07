@@ -13,17 +13,15 @@ import {
   HybridComputeManagementClient,
 } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a hybrid machine.
  *
  * @summary Retrieves information about the model view or the instance view of a hybrid machine.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/machine/Machines_Get.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/machine/Machines_Get.json
  */
-async function getMachine() {
+async function getMachine(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -39,9 +37,9 @@ async function getMachine() {
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a hybrid machine.
  *
  * @summary Retrieves information about the model view or the instance view of a hybrid machine.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/machine/Machines_Get_LicenseProfileInstanceView.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/machine/Machines_Get_LicenseProfileInstanceView.json
  */
-async function getMachineWithLicenseProfileInstanceView() {
+async function getMachineWithLicenseProfileInstanceView(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -59,7 +57,7 @@ async function getMachineWithLicenseProfileInstanceView() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getMachine();
   getMachineWithLicenseProfileInstanceView();
 }

@@ -14,10 +14,9 @@
  * @azsdk-weight 40
  */
 
-import DocumentTranslator, { StartTranslationDetails } from "@azure-rest/ai-document-translator";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { StartTranslationDetails } from "@azure-rest/ai-document-translator";
+import DocumentTranslator from "@azure-rest/ai-document-translator";
+import "dotenv/config";
 
 /**
  * These are states of the Long Running Operation considered as terminal
@@ -49,7 +48,7 @@ const batchSubmissionRequest: StartTranslationDetails = {
   ],
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Translate documents in a container sample ==");
 
   // Create a new client
@@ -90,7 +89,7 @@ export async function main() {
 
     // The checkStatus operation returns a retry-after header that contains the
     // time in seconds to wait before sending the next polling request
-    const parsedRetryAfter = Number.parseInt(operationState.headers["retry-after"] || "5");
+    const parsedRetryAfter = Number.parseInt(String(operationState.headers["retry-after"]) || "5");
     const waitTime = Number.isInteger(parsedRetryAfter) ? parsedRetryAfter : 5;
     await wait(waitTime);
   } while (!terminalStates.includes(operationState.body.status));
@@ -113,7 +112,7 @@ function wait(seconds: number): Promise<void> {
 }
 
 // Helper function that extracts the batch id from operation-location header
-function extractBatchId(batchUrl: string = "") {
+function extractBatchId(batchUrl: string = ""): string {
   const parts = batchUrl.split("/");
 
   return parts[parts.length - 1];

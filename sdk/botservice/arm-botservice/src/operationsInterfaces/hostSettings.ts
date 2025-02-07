@@ -9,7 +9,7 @@
 import {
   HostSettingsGetOptionalParams,
   HostSettingsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a HostSettings. */
 export interface HostSettings {

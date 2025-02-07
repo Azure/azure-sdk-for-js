@@ -6,7 +6,6 @@ extends:
       PackageName: "@azure/attestation"
       ServiceDirectory: attestation
       TimeoutInMinutes: 90
-      Clouds: Preview
       Location: westus
       MatrixFilters:
         - DependencyVersion=^$

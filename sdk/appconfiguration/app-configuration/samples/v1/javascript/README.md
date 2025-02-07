@@ -60,7 +60,7 @@ node helloworld.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZ_CONFIG_ENDPOINT="<az config endpoint>" node helloworld.js
+npx dev-tool run vendored cross-env AZ_CONFIG_ENDPOINT="<az config endpoint>" node helloworld.js
 ```
 
 ## Next Steps
@@ -79,7 +79,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/listRevisions.js
 [secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/secretReference.js
 [featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1/javascript/featureFlag.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/app-configuration
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/app-configuration
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureappconfigurationaccount]: https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store
+[createinstance_azureappconfigurationaccount]: https://learn.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/README.md

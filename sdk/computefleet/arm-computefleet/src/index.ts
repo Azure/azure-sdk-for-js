@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AzureFleetClient, AzureFleetClientOptionalParams } from "./azureFleetClient.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+
+export { AzureFleetClient } from "./azureFleetClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  TrackedResource,
   Fleet,
   FleetProperties,
-  KnownResourceProvisioningState,
-  ResourceProvisioningState,
+  ProvisioningState,
+  KnownProvisioningState,
   SpotPriorityProfile,
   KnownEvictionPolicy,
   EvictionPolicy,
@@ -22,7 +23,25 @@ export {
   KnownRegularPriorityAllocationStrategy,
   RegularPriorityAllocationStrategy,
   VmSizeProfile,
-  ComputeProfile,
+  VMAttributes,
+  VMAttributeMinMaxInteger,
+  VMAttributeMinMaxDouble,
+  KnownVMAttributeSupport,
+  VMAttributeSupport,
+  KnownLocalStorageDiskType,
+  LocalStorageDiskType,
+  KnownAcceleratorManufacturer,
+  AcceleratorManufacturer,
+  KnownAcceleratorType,
+  AcceleratorType,
+  KnownVMCategory,
+  VMCategory,
+  KnownArchitectureType,
+  ArchitectureType,
+  KnownCpuManufacturer,
+  CpuManufacturer,
+  AdditionalLocationsProfile,
+  LocationProfile,
   BaseVirtualMachineProfile,
   VirtualMachineScaleSetOSProfile,
   WindowsConfiguration,
@@ -134,14 +153,18 @@ export {
   VMSizeProperties,
   ServiceArtifactReference,
   SecurityPostureReference,
+  ComputeProfile,
+  AdditionalCapabilities,
   ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   Plan,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
+  TrackedResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
   FleetUpdate,
   ManagedServiceIdentityUpdate,
   ResourcePlanUpdate,
@@ -155,8 +178,9 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  Versions,
-  ProvisioningState,
+} from "./models/index.js";
+export {
+  AzureFleetClientOptionalParams,
   OperationsListOptionalParams,
   FleetsGetOptionalParams,
   FleetsCreateOrUpdateOptionalParams,
@@ -165,8 +189,6 @@ export {
   FleetsListByResourceGroupOptionalParams,
   FleetsListBySubscriptionOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
-} from "./models/index.js";
+} from "./api/index.js";
 export { FleetsOperations, OperationsOperations } from "./classic/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -3,7 +3,8 @@
 
 // Import the required modules
 import assert from "assert";
-import { Container, CosmosClient, FeedOptions, OperationType, ResourceType } from "../../../src";
+import type { Container, FeedOptions } from "../../../src";
+import { CosmosClient, OperationType, ResourceType } from "../../../src";
 import { endpoint } from "../../public/common/_testConfig";
 import { masterKey } from "../../public/common/_fakeTestSecrets";
 import {

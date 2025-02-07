@@ -13,7 +13,7 @@ export {
   CloudEventRequest,
   createFailedRequest,
   ActionableCloudEventResponse,
-} from "./events";
+} from "./events.js";
 
 export {
   AuthenticationEventContext,
@@ -23,11 +23,11 @@ export {
   TokenIssuanceStartData,
   TokenIssuanceStartRequest,
   TokenIssuanceStartResponse,
-} from "./tokenIssuanceStart/context";
+} from "./tokenIssuanceStart/context.js";
 export {
   ProvideClaimsForToken,
   TokenClaim,
   createProvideClaimsForToken,
-} from "./tokenIssuanceStart/actions";
+} from "./tokenIssuanceStart/actions.js";
 
-export { TokenIssuanceStartAction } from "./tokenIssuanceStart/context";
+export { TokenIssuanceStartAction } from "./tokenIssuanceStart/context.js";

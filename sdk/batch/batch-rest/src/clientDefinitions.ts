@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ListApplicationsParameters,
   GetApplicationParameters,
   ListPoolUsageMetricsParameters,
@@ -60,6 +60,9 @@ import {
   ReplaceNodeUserParameters,
   GetNodeParameters,
   RebootNodeParameters,
+  StartNodeParameters,
+  DeallocateNodeParameters,
+  ReimageNodeParameters,
   DisableNodeSchedulingParameters,
   EnableNodeSchedulingParameters,
   GetNodeRemoteLoginSettingsParameters,
@@ -72,7 +75,7 @@ import {
   GetNodeFilePropertiesParameters,
   ListNodeFilesParameters,
 } from "./parameters.js";
-import {
+import type {
   ListApplications200Response,
   ListApplicationsDefaultResponse,
   GetApplication200Response,
@@ -191,6 +194,12 @@ import {
   GetNodeDefaultResponse,
   RebootNode202Response,
   RebootNodeDefaultResponse,
+  StartNode202Response,
+  StartNodeDefaultResponse,
+  DeallocateNode202Response,
+  DeallocateNodeDefaultResponse,
+  ReimageNode202Response,
+  ReimageNodeDefaultResponse,
   DisableNodeScheduling200Response,
   DisableNodeSchedulingDefaultResponse,
   EnableNodeScheduling200Response,
@@ -214,7 +223,7 @@ import {
   ListNodeFiles200Response,
   ListNodeFilesDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListApplications {
   /**
@@ -265,7 +274,7 @@ export interface CreatePool {
   post(
     options: CreatePoolParameters,
   ): StreamableMethod<CreatePool201Response | CreatePoolDefaultResponse>;
-  /** Lists all of the Pools in the specified Account. */
+  /** Lists all of the Pools which be mounted. */
   get(
     options?: ListPoolsParameters,
   ): StreamableMethod<ListPools200Response | ListPoolsDefaultResponse>;
@@ -777,6 +786,31 @@ export interface RebootNode {
   ): StreamableMethod<RebootNode202Response | RebootNodeDefaultResponse>;
 }
 
+export interface StartNode {
+  /** You can start a Compute Node only if it has been deallocated. */
+  post(
+    options?: StartNodeParameters,
+  ): StreamableMethod<StartNode202Response | StartNodeDefaultResponse>;
+}
+
+export interface DeallocateNode {
+  /** You can deallocate a Compute Node only if it is in an idle or running state. */
+  post(
+    options: DeallocateNodeParameters,
+  ): StreamableMethod<DeallocateNode202Response | DeallocateNodeDefaultResponse>;
+}
+
+export interface ReimageNode {
+  /**
+   * You can reinstall the operating system on a Compute Node only if it is in an
+   * idle or running state. This API can be invoked only on Pools created with the
+   * cloud service configuration property.
+   */
+  post(
+    options: ReimageNodeParameters,
+  ): StreamableMethod<ReimageNode202Response | ReimageNodeDefaultResponse>;
+}
+
 export interface DisableNodeScheduling {
   /**
    * You can disable Task scheduling on a Compute Node only if its current
@@ -799,9 +833,8 @@ export interface EnableNodeScheduling {
 
 export interface GetNodeRemoteLoginSettings {
   /**
-   * Before you can remotely login to a Compute Node using the remote login
-   * settings, you must create a user Account on the Compute Node. This API can be
-   * invoked only on Pools created with the virtual machine configuration property.
+   * Before you can remotely login to a Compute Node using the remote login settings,
+   * you must create a user Account on the Compute Node.
    */
   get(
     options?: GetNodeRemoteLoginSettingsParameters,
@@ -957,6 +990,16 @@ export interface Routes {
   (path: "/pools/{poolId}/nodes/{nodeId}", poolId: string, nodeId: string): GetNode;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/reboot' has methods for the following verbs: post */
   (path: "/pools/{poolId}/nodes/{nodeId}/reboot", poolId: string, nodeId: string): RebootNode;
+  /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/start' has methods for the following verbs: post */
+  (path: "/pools/{poolId}/nodes/{nodeId}/start", poolId: string, nodeId: string): StartNode;
+  /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/deallocate' has methods for the following verbs: post */
+  (
+    path: "/pools/{poolId}/nodes/{nodeId}/deallocate",
+    poolId: string,
+    nodeId: string,
+  ): DeallocateNode;
+  /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/reimage' has methods for the following verbs: post */
+  (path: "/pools/{poolId}/nodes/{nodeId}/reimage", poolId: string, nodeId: string): ReimageNode;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/disablescheduling' has methods for the following verbs: post */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/disablescheduling",

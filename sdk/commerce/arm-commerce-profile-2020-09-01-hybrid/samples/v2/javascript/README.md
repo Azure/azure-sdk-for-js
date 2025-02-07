@@ -37,7 +37,7 @@ node rateCardGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMERCE_SUBSCRIPTION_ID="<commerce subscription id>" node rateCardGetSample.js
+npx dev-tool run vendored cross-env COMMERCE_SUBSCRIPTION_ID="<commerce subscription id>" node rateCardGetSample.js
 ```
 
 ## Next Steps
@@ -45,6 +45,6 @@ npx cross-env COMMERCE_SUBSCRIPTION_ID="<commerce subscription id>" node rateCar
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [ratecardgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/commerce/arm-commerce-profile-2020-09-01-hybrid/samples/v2/javascript/rateCardGetSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-commerce-profile-2020-09-01-hybrid?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-commerce-profile-2020-09-01-hybrid?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/commerce/arm-commerce-profile-2020-09-01-hybrid/README.md

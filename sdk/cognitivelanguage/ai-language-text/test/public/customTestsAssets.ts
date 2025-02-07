@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 // Source: https://github.com/Azure-Samples/cognitive-services-sample-data-files/tree/master/language-service
-import {
+import type {
   ExportedCustomEntityRecognitionProjectAssets,
   ExportedCustomMultiLabelClassificationProjectAssets,
   ExportedCustomSingleLabelClassificationProjectAssets,

@@ -560,6 +560,34 @@ export const SharePropertiesInternal: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      includedBurstIops: {
+        serializedName: "IncludedBurstIops",
+        xmlName: "IncludedBurstIops",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "MaxBurstCreditsForIops",
+        xmlName: "MaxBurstCreditsForIops",
+        type: {
+          name: "Number"
+        }
+      },
+      nextAllowedProvisionedIopsDowngradeTime: {
+        serializedName: "NextAllowedProvisionedIopsDowngradeTime",
+        xmlName: "NextAllowedProvisionedIopsDowngradeTime",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      nextAllowedProvisionedBandwidthDowngradeTime: {
+        serializedName: "NextAllowedProvisionedBandwidthDowngradeTime",
+        xmlName: "NextAllowedProvisionedBandwidthDowngradeTime",
+        type: {
+          name: "DateTimeRfc1123"
+        }
       }
     }
   }
@@ -1395,6 +1423,41 @@ export const ShareCreateHeaders: coreClient.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      quota: {
+        serializedName: "x-ms-share-quota",
+        xmlName: "x-ms-share-quota",
+        type: {
+          name: "Number"
+        }
+      },
+      shareProvisionedIops: {
+        serializedName: "x-ms-share-provisioned-iops",
+        xmlName: "x-ms-share-provisioned-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      shareProvisionedBandwidthMibps: {
+        serializedName: "x-ms-share-provisioned-bandwidth-mibps",
+        xmlName: "x-ms-share-provisioned-bandwidth-mibps",
+        type: {
+          name: "Number"
+        }
+      },
+      shareIncludedBurstIops: {
+        serializedName: "x-ms-share-included-burst-iops",
+        xmlName: "x-ms-share-included-burst-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "x-ms-share-max-burst-credits-for-iops",
+        xmlName: "x-ms-share-max-burst-credits-for-iops",
+        type: {
+          name: "Number"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -1609,6 +1672,36 @@ export const ShareGetPropertiesHeaders: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      includedBurstIops: {
+        serializedName: "x-ms-share-included-burst-iops",
+        xmlName: "x-ms-share-included-burst-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "x-ms-share-max-burst-credits-for-iops",
+        xmlName: "x-ms-share-max-burst-credits-for-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      nextAllowedProvisionedIopsDowngradeTime: {
+        serializedName:
+          "x-ms-share-next-allowed-provisioned-iops-downgrade-time",
+        xmlName: "x-ms-share-next-allowed-provisioned-iops-downgrade-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      nextAllowedProvisionedBandwidthDowngradeTime: {
+        serializedName:
+          "x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time",
+        xmlName: "x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -1662,6 +1755,20 @@ export const ShareDeleteHeaders: coreClient.CompositeMapper = {
         xmlName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      usageBytes: {
+        serializedName: "x-ms-file-share-usage-bytes",
+        xmlName: "x-ms-file-share-usage-bytes",
+        type: {
+          name: "Number"
+        }
+      },
+      snapshotUsageBytes: {
+        serializedName: "x-ms-file-share-snapshot-usage-bytes",
+        xmlName: "x-ms-file-share-snapshot-usage-bytes",
+        type: {
+          name: "Number"
         }
       },
       errorCode: {
@@ -2306,6 +2413,64 @@ export const ShareSetPropertiesHeaders: coreClient.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      quota: {
+        serializedName: "x-ms-share-quota",
+        xmlName: "x-ms-share-quota",
+        type: {
+          name: "Number"
+        }
+      },
+      provisionedIops: {
+        serializedName: "x-ms-share-provisioned-iops",
+        xmlName: "x-ms-share-provisioned-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      provisionedBandwidthMibps: {
+        serializedName: "x-ms-share-provisioned-bandwidth-mibps",
+        xmlName: "x-ms-share-provisioned-bandwidth-mibps",
+        type: {
+          name: "Number"
+        }
+      },
+      includedBurstIops: {
+        serializedName: "x-ms-share-included-burst-iops",
+        xmlName: "x-ms-share-included-burst-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "x-ms-share-max-burst-credits-for-iops",
+        xmlName: "x-ms-share-max-burst-credits-for-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      nextAllowedQuotaDowngradeTime: {
+        serializedName: "x-ms-share-next-allowed-quota-downgrade-time",
+        xmlName: "x-ms-share-next-allowed-quota-downgrade-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      nextAllowedProvisionedIopsDowngradeTime: {
+        serializedName:
+          "x-ms-share-next-allowed-provisioned-iops-downgrade-time",
+        xmlName: "x-ms-share-next-allowed-provisioned-iops-downgrade-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      nextAllowedProvisionedBandwidthDowngradeTime: {
+        serializedName:
+          "x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time",
+        xmlName: "x-ms-share-next-allowed-provisioned-bandwidth-downgrade-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -2656,6 +2821,41 @@ export const ShareRestoreHeaders: coreClient.CompositeMapper = {
         xmlName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      quota: {
+        serializedName: "x-ms-share-quota",
+        xmlName: "x-ms-share-quota",
+        type: {
+          name: "Number"
+        }
+      },
+      provisionedIops: {
+        serializedName: "x-ms-share-provisioned-iops",
+        xmlName: "x-ms-share-provisioned-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      provisionedBandwidthMibps: {
+        serializedName: "x-ms-share-provisioned-bandwidth-mibps",
+        xmlName: "x-ms-share-provisioned-bandwidth-mibps",
+        type: {
+          name: "Number"
+        }
+      },
+      includedBurstIops: {
+        serializedName: "x-ms-share-included-burst-iops",
+        xmlName: "x-ms-share-included-burst-iops",
+        type: {
+          name: "Number"
+        }
+      },
+      maxBurstCreditsForIops: {
+        serializedName: "x-ms-share-max-burst-credits-for-iops",
+        xmlName: "x-ms-share-max-burst-credits-for-iops",
+        type: {
+          name: "Number"
         }
       }
     }

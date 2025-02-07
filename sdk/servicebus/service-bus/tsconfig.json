@@ -1,22 +1,10 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "ES2020",
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
-    "lib": ["dom", "ES2018.AsyncIterable"],
-    "paths": {
-      "@azure/service-bus": ["./src/index"]
-    }
-  },
-  "exclude": [
-    "node_modules",
-    "./types/**/*.d.ts",
-    "./samples/**/*.ts",
-    "test/perf-js-libs/*",
-    "test/perf/track-1",
-    "test/stress*"
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
   ],
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+  "compilerOptions": {
+    "esModuleInterop": true
+  }
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.17.1 (Unreleased)
+## 1.19.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,35 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.19.0 (2025-02-06)
+
+### Features Added
+
+- Add `agent` and `tlsSettings` to `PipelineRequestOptions` [PR #32590](https://github.com/Azure/azure-sdk-for-js/pull/32590)
+- Add `agent` option to `PipelineOptions` [PR #32809](https://github.com/Azure/azure-sdk-for-js/pull/32809)
+
+## 1.18.2 (2025-01-10)
+
+### Bugs Fixed
+
+- Fixed an issue where tracing spans were incorrectly marked as successful. [PR #32018](https://github.com/Azure/azure-sdk-for-js/pull/32018)
+
+## 1.18.1 (2024-11-26)
+
+### Bugs Fixed
+
+- Fix `this` not being bound correctly for `ChallengeCallbacks` implementations in `bearerTokenAuthenticationPolicy`. [PR #31961](https://github.com/Azure/azure-sdk-for-js/pull/31961)
+
+## 1.18.0 (2024-11-12)
+
+### Features Added
+
+- `BearerTokenAuthenticationPolicy` will handle CAE claims challenge by default. [PR #31501](https://github.com/Azure/azure-sdk-for-js/pull/31501/)
+
+### Bugs Fixed
+
+- Fix an issue in `isStreamComplete` where the method never resolves if the stream is not readable.
 
 ## 1.17.0 (2024-09-12)
 

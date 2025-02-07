@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { DynatraceObservability } from "./dynatraceObservability";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { DynatraceObservability } from "./dynatraceObservability.js";
+export * from "./operationsInterfaces/index.js";

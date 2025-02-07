@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { DeleteSecretOptions, DeletedSecret, GetDeletedSecretOptions } from "../../secretsModels";
-import {
-  KeyVaultSecretPollOperation,
-  KeyVaultSecretPollOperationState,
-} from "../keyVaultSecretPoller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { getSecretFromSecretBundle } from "../../transformations";
-import { OperationOptions } from "@azure/core-client";
-import { tracingClient } from "../../tracing";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
+  DeleteSecretOptions,
+  DeletedSecret,
+  GetDeletedSecretOptions,
+} from "../../secretsModels.js";
+import type { KeyVaultSecretPollOperationState } from "../keyVaultSecretPoller.js";
+import { KeyVaultSecretPollOperation } from "../keyVaultSecretPoller.js";
+import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import { getSecretFromSecretBundle } from "../../transformations.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import { tracingClient } from "../../tracing.js";
 
 /**
  * An interface representing the state of a delete secret's poll operation
@@ -27,7 +29,6 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
 > {
   constructor(
     public state: DeleteSecretPollOperationState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
     private operationOptions: OperationOptions = {},
   ) {
@@ -43,7 +44,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
       "DeleteSecretPoller.deleteSecret",
       options,
       async (updatedOptions) => {
-        const response = await this.client.deleteSecret(this.vaultUrl, name, updatedOptions);
+        const response = await this.client.deleteSecret(name, updatedOptions);
         return getSecretFromSecretBundle(response);
       },
     );
@@ -61,7 +62,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
       "DeleteSecretPoller.getDeletedSecret",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getDeletedSecret(this.vaultUrl, name, updatedOptions);
+        const response = await this.client.getDeletedSecret(name, updatedOptions);
         return getSecretFromSecretBundle(response);
       },
     );

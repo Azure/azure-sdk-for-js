@@ -29,7 +29,7 @@ import {
   TrustedAccessRolesImpl,
   TrustedAccessRoleBindingsImpl,
   LoadBalancersImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   ManagedClusters,
@@ -45,8 +45,8 @@ import {
   TrustedAccessRoles,
   TrustedAccessRoleBindings,
   LoadBalancers,
-} from "./operationsInterfaces";
-import { ContainerServiceClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ContainerServiceClientOptionalParams } from "./models/index.js";
 
 export class ContainerServiceClient extends coreClient.ServiceClient {
   $host: string;
@@ -80,7 +80,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/21.2.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-containerservice/21.4.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -134,7 +134,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-07-02-preview";
+    this.apiVersion = options.apiVersion || "2024-09-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);

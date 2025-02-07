@@ -1,6 +1,6 @@
 # Azure AI Search client library for JavaScript
 
-[Azure AI Search](https://docs.microsoft.com/azure/search/) (formerly known as "Azure Cognitive Search") is an AI-powered information retrieval platform that helps developers build rich search experiences and generative AI apps that combine large language models with enterprise data.
+[Azure AI Search](https://learn.microsoft.com/azure/search/) (formerly known as "Azure Cognitive Search") is an AI-powered information retrieval platform that helps developers build rich search experiences and generative AI apps that combine large language models with enterprise data.
 
 The Azure AI Search service is well suited for the following application scenarios:
 
@@ -33,9 +33,9 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/search/search-documents/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/search-documents)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/search-documents)
-- [REST API documentation](https://docs.microsoft.com/rest/api/searchservice/)
-- [Product documentation](https://docs.microsoft.com/azure/search/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/search-documents)
+- [REST API documentation](https://learn.microsoft.com/rest/api/searchservice/)
+- [Product documentation](https://learn.microsoft.com/azure/search/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples)
 
 ## Getting started
@@ -64,7 +64,7 @@ To create a new search service, you can use the [Azure portal][create_search_ser
 az search service create --name <mysearch> --resource-group <mysearch-rg> --sku free --location westus
 ```
 
-See [choosing a pricing tier](https://docs.microsoft.com/azure/search/search-sku-tier) for more information about available options.
+See [choosing a pricing tier](https://learn.microsoft.com/azure/search/search-sku-tier) for more information about available options.
 
 ### Authenticate the client
 
@@ -74,7 +74,7 @@ To interact with the search service, you'll need to create an instance of the ap
 
 An API key can be an easier approach to start with because it doesn't require pre-existing role assignments.
 
-You can get the **endpoint** and an **API key** from the search service in the [Azure portal](https://portal.azure.com/). Please refer the [documentation](https://docs.microsoft.com/azure/search/search-security-api-keys) for instructions on how to get an API key.
+You can get the **endpoint** and an **API key** from the search service in the [Azure portal](https://portal.azure.com/). Please refer the [documentation](https://learn.microsoft.com/azure/search/search-security-api-keys) for instructions on how to get an API key.
 
 Alternatively, you can use the following [Azure CLI](https://learn.microsoft.com/cli/azure/) command to retrieve the API key from the search service:
 
@@ -100,7 +100,7 @@ const {
 const searchClient = new SearchClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<apiKey>")
+  new AzureKeyCredential("<apiKey>"),
 );
 
 // To manage indexes and synonymmaps
@@ -112,7 +112,7 @@ const indexerClient = new SearchIndexerClient("<endpoint>", new AzureKeyCredenti
 
 ### Authenticate in a National Cloud
 
-To authenticate in a [National Cloud](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to make the following additions to your client configuration:
+To authenticate in a [National Cloud](https://learn.microsoft.com/azure/active-directory/develop/authentication-national-cloud), you will need to make the following additions to your client configuration:
 
 - Set the `Audience` in `SearchClientOptions`
 
@@ -132,7 +132,7 @@ const searchClient = new SearchClient(
   new AzureKeyCredential("<apiKey>"),
   {
     audience: KnownSearchAudience.AzureChina,
-  }
+  },
 );
 
 // To manage indexes and synonymmaps
@@ -153,24 +153,24 @@ exposes operations on these resources through three main client types.
 
 - `SearchClient` helps with:
 
-  - [Searching](https://docs.microsoft.com/azure/search/search-lucene-query-architecture)
+  - [Searching](https://learn.microsoft.com/azure/search/search-lucene-query-architecture)
     your indexed documents using [vector queries](https://learn.microsoft.com/azure/search/vector-search-how-to-query),
     [keyword queries](https://learn.microsoft.com/azure/search/search-query-create)
     and [hybrid queries](https://learn.microsoft.com/azure/search/hybrid-search-how-to-query)
   - [Vector query filters](https://learn.microsoft.com/azure/search/vector-search-filters) and [Text query filters](https://learn.microsoft.com/azure/search/search-filters)
   - [Semantic ranking](https://learn.microsoft.com/azure/search/semantic-how-to-query-request) and [scoring profiles](https://learn.microsoft.com/azure/search/index-add-scoring-profiles) for boosting relevance
-  - [Autocompleting](https://docs.microsoft.com/rest/api/searchservice/autocomplete) partially typed search terms based on documents in the index
-  - [Suggesting](https://docs.microsoft.com/rest/api/searchservice/suggestions) the most likely matching text in documents as a user types
-  - [Adding, Updating or Deleting Documents](https://docs.microsoft.com/rest/api/searchservice/addupdate-or-delete-documents) documents from an index
+  - [Autocompleting](https://learn.microsoft.com/rest/api/searchservice/autocomplete) partially typed search terms based on documents in the index
+  - [Suggesting](https://learn.microsoft.com/rest/api/searchservice/suggestions) the most likely matching text in documents as a user types
+  - [Adding, Updating or Deleting Documents](https://learn.microsoft.com/rest/api/searchservice/addupdate-or-delete-documents) documents from an index
 
 - `SearchIndexClient` allows you to:
 
-  - [Create, delete, update, or configure a search index](https://docs.microsoft.com/rest/api/searchservice/index-operations)
-  - [Declare custom synonym maps to expand or rewrite queries](https://docs.microsoft.com/rest/api/searchservice/synonym-map-operations)
+  - [Create, delete, update, or configure a search index](https://learn.microsoft.com/rest/api/searchservice/index-operations)
+  - [Declare custom synonym maps to expand or rewrite queries](https://learn.microsoft.com/rest/api/searchservice/synonym-map-operations)
 
 - `SearchIndexerClient` allows you to:
-  - [Start indexers to automatically crawl data sources](https://docs.microsoft.com/rest/api/searchservice/indexer-operations)
-  - [Define AI powered Skillsets to transform and enrich your data](https://docs.microsoft.com/rest/api/searchservice/skillset-operations)
+  - [Start indexers to automatically crawl data sources](https://learn.microsoft.com/rest/api/searchservice/indexer-operations)
+  - [Define AI powered Skillsets to transform and enrich your data](https://learn.microsoft.com/rest/api/searchservice/skillset-operations)
 
 **Note**: These clients cannot function in the browser because the APIs it calls do not have support for Cross-Origin Resource Sharing (CORS).
 
@@ -182,11 +182,11 @@ An item stored inside a search index. The shape of this document is described in
 
 ### Pagination
 
-Typically you will only wish to [show a subset of search results](https://docs.microsoft.com/azure/search/search-pagination-page-layout#total-hits-and-page-counts) to a user at one time. To support this, you can use the `top`, `skip` and `includeTotalCount` parameters to provide a paged experience on top of search results.
+Typically you will only wish to [show a subset of search results](https://learn.microsoft.com/azure/search/search-pagination-page-layout#total-hits-and-page-counts) to a user at one time. To support this, you can use the `top`, `skip` and `includeTotalCount` parameters to provide a paged experience on top of search results.
 
 ### Document field encoding
 
-[Supported data types](https://docs.microsoft.com/rest/api/searchservice/Supported-data-types) in an index are mapped to JSON types in API requests/responses. The JS client library keeps these mostly the same, with some exceptions:
+[Supported data types](https://learn.microsoft.com/rest/api/searchservice/Supported-data-types) in an index are mapped to JSON types in API requests/responses. The JS client library keeps these mostly the same, with some exceptions:
 
 - `Edm.DateTimeOffset` is converted to a JS `Date`.
 - `Edm.GeographyPoint` is converted to a `GeographyPoint` type exported by the client library.
@@ -302,7 +302,7 @@ main();
 
 ### Perform a search on documents
 
-To list all results of a particular query, you can use `search` with a search string that uses [simple query syntax](https://docs.microsoft.com/azure/search/query-simple-syntax):
+To list all results of a particular query, you can use `search` with a search string that uses [simple query syntax](https://learn.microsoft.com/azure/search/query-simple-syntax):
 
 ```js
 const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");
@@ -319,7 +319,7 @@ async function main() {
 main();
 ```
 
-For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `full`:
+For a more advanced search that uses [Lucene syntax](https://learn.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `full`:
 
 ```js
 const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");
@@ -364,7 +364,7 @@ interface Hotel {
 const client = new SearchClient<Hotel>(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<apiKey>")
+  new AzureKeyCredential("<apiKey>"),
 );
 
 async function main() {
@@ -395,7 +395,7 @@ main();
 
 #### Querying with OData filters
 
-Using the `filter` query parameter allows you to query an index using the syntax of an [OData \$filter expression](https://docs.microsoft.com/azure/search/search-query-odata-filter).
+Using the `filter` query parameter allows you to query an index using the syntax of an [OData \$filter expression](https://learn.microsoft.com/azure/search/search-query-odata-filter).
 
 ```js
 const { SearchClient, AzureKeyCredential, odata } = require("@azure/search-documents");
@@ -430,11 +430,13 @@ const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");
 const searchClient = new SearchClient(
   "<endpoint>",
   "<indexName>",
-  new AzureKeyCredential("<apiKey>")
+  new AzureKeyCredential("<apiKey>"),
 );
 
 async function main() {
-  const queryVector = [/*...*/];
+  const queryVector = [
+    /*...*/
+  ];
   const searchResults = await searchClient.search("*", {
     vectorSearchOptions: {
       queries: [
@@ -458,7 +460,7 @@ main();
 
 #### Querying with facets
 
-[Facets](https://docs.microsoft.com/azure/search/search-filters-facets) are used to help a user of your application refine a search along pre-configured dimensions. [Facet syntax](https://docs.microsoft.com/rest/api/searchservice/search-documents#facetstring-zero-or-more) provides the options to sort and bucket facet values.
+[Facets](https://learn.microsoft.com/azure/search/search-filters-facets) are used to help a user of your application refine a search along pre-configured dimensions. [Facet syntax](https://learn.microsoft.com/rest/api/searchservice/search-documents#facetstring-zero-or-more) provides the options to sort and bucket facet values.
 
 ```js
 const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");
@@ -507,7 +509,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 ## Next steps
 
 - [Go further with search-documents and our samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/search-documents/samples)
-- [Read more about the Azure AI Search service](https://docs.microsoft.com/azure/search/search-what-is-azure-search)
+- [Read more about the Azure AI Search service](https://learn.microsoft.com/azure/search/search-what-is-azure-search)
 
 ## Contributing
 
@@ -521,16 +523,16 @@ This project has adopted the [Microsoft Open Source Code of Conduct][coc]. For m
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fsearch%2Fsearch%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[search_resource]: https://docs.microsoft.com/azure/search/search-create-service-portal
+[search_resource]: https://learn.microsoft.com/azure/search/search-create-service-portal
 [azure_portal]: https://portal.azure.com
-[cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
-[create_search_service_docs]: https://docs.microsoft.com/azure/search/search-create-service-portal
-[create_search_service_ps]: https://docs.microsoft.com/azure/search/search-manage-powershell#create-or-delete-a-service
-[create_search_service_cli]: https://docs.microsoft.com/cli/azure/search/service?view=azure-cli-latest#az-search-service-create
+[cognitive_auth]: https://learn.microsoft.com/azure/cognitive-services/authentication
+[create_search_service_docs]: https://learn.microsoft.com/azure/search/search-create-service-portal
+[create_search_service_ps]: https://learn.microsoft.com/azure/search/search-manage-powershell#create-or-delete-a-service
+[create_search_service_cli]: https://learn.microsoft.com/cli/azure/search/service?view=azure-cli-latest#az-search-service-create
 [cla]: https://cla.microsoft.com
 [coc]: https://opensource.microsoft.com/codeofconduct/
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/

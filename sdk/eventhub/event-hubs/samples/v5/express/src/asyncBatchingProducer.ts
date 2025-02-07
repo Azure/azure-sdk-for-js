@@ -12,7 +12,7 @@
   between sending batches.
 */
 
-import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { delay } from "@azure/core-util";
 import { EventData, EventDataBatch, EventHubProducerClient } from "@azure/event-hubs";
 
 export interface AsyncBatchingProducerOptions {
@@ -69,7 +69,7 @@ export class AsyncBatchingProducer {
         // Wait for either the next event, or for the allotted time to pass.
         const event = await Promise.race([
           futureEvent,
-          wait(maximumTimeToWaitForEvent, abortSignal)
+          delay(maximumTimeToWaitForEvent, { abortSignal })
         ]);
 
         if (!event) {
@@ -118,36 +118,6 @@ export class AsyncBatchingProducer {
     this._lastBatchCreationTime = Date.now();
     return this._producer.createBatch();
   }
-}
-
-/**
- * This function returns a promise that resolves after the specified amount of time.
- * It also supports cancellation via passing in an `abortSignal`.
- * @param timeInMs - The amount of time in milliseconds the function should wait before resolving.
- * @param abortSignal - Used to support rejecting the promise immediately.
- */
-function wait(timeInMs: number, abortSignal: AbortSignalLike): Promise<void> {
-  return new Promise((resolve, reject) => {
-    // Cancel quickly if the provided abortSignal has already been aborted.
-    if (abortSignal.aborted) {
-      return reject(new AbortError("The operation was cancelled."));
-    }
-    // Create an abort event listener that rejects the promise with an AbortError.
-    // It also clears the existing setTimeout and removes itself from the abortSignal.
-    const abortListener = () => {
-      clearTimeout(tid);
-      reject(new AbortError("This operation was cancelled."));
-      abortSignal.removeEventListener("abort", abortListener);
-    };
-    // Create the timer that will resolve the promise.
-    // It also ensures that abort event listener is removed from the abortSignal.
-    const tid = setTimeout(() => {
-      abortSignal.removeEventListener("abort", abortListener);
-      resolve();
-    }, timeInMs);
-    // Add an abort listener so that the promise can be rejected if the user cancels their operation.
-    abortSignal.addEventListener("abort", abortListener);
-  });
 }
 
 /**

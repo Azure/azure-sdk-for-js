@@ -16,7 +16,7 @@ import {
   ArtifactGenerationProperties as ArtifactGenerationPropertiesMapper,
   Workflow as WorkflowMapper,
   TagsObject as TagsObjectMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

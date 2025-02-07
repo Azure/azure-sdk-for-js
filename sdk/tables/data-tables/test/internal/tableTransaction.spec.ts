@@ -1,19 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  HttpClient,
-  PipelineResponse,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import { TableTransaction, parseTransactionResponse } from "../../src/TableTransaction";
-import { TableClient } from "../../src/TableClient";
-import { assert } from "chai";
+import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { TableTransaction, parseTransactionResponse } from "../../src/TableTransaction.js";
+import { TableClient } from "../../src/TableClient.js";
+import { describe, it, assert } from "vitest";
 
-describe("TableTransaction", function () {
-  describe("parseTransactionResponse", function () {
-    it("should handle error with no error info", function () {
+describe("TableTransaction", () => {
+  describe("parseTransactionResponse", () => {
+    it("should handle error with no error info", () => {
       const testResponse: PipelineResponse = {
         headers: createHttpHeaders(),
         request: createPipelineRequest({ url: "https://example.org" }),
@@ -28,7 +24,7 @@ describe("TableTransaction", function () {
       }
     });
 
-    it("should handle error with  odata error info", function () {
+    it("should handle error with  odata error info", () => {
       const testResponse: PipelineResponse = {
         headers: createHttpHeaders(),
         request: createPipelineRequest({ url: "https://example.org" }),
@@ -50,7 +46,7 @@ describe("TableTransaction", function () {
       }
     });
 
-    it("should honor the custom httpClient passed to the TableClient", async function () {
+    it("should honor the custom httpClient passed to the TableClient", async () => {
       let isProxy = false;
       const proxyHttpClient: HttpClient = {
         sendRequest: async (request) => {
@@ -70,8 +66,8 @@ describe("TableTransaction", function () {
     });
   });
 
-  describe("updateEntity", function () {
-    it("should have ergonomic overloads", function () {
+  describe("updateEntity", () => {
+    it("should have ergonomic overloads", () => {
       const transaction = new TableTransaction();
       const entity = { partitionKey: "1", rowKey: "1" };
       transaction.updateEntity(entity);

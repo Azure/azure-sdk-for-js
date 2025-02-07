@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ListOperationsParameters,
   GetDocumentModelBuildOperationParameters,
   GetDocumentModelComposeOperationParameters,
@@ -9,14 +9,17 @@ import {
   GetDocumentClassifierCopyToOperationParameters,
   GetDocumentClassifierBuildOperationParameters,
   GetOperationParameters,
-  GetResourceInfoParameters,
+  GetResourceDetailsParameters,
   GetAnalyzeResultParameters,
+  DeleteAnalyzeResultParameters,
   GetAnalyzeResultPdfParameters,
   GetAnalyzeResultFigureParameters,
   AnalyzeDocumentFromStreamParameters,
   AnalyzeDocumentParameters,
   GetAnalyzeBatchResultParameters,
+  DeleteAnalyzeBatchResultParameters,
   AnalyzeBatchDocumentsParameters,
+  ListAnalyzeBatchResultsParameters,
   GetModelParameters,
   DeleteModelParameters,
   BuildModelParameters,
@@ -34,7 +37,7 @@ import {
   AuthorizeClassifierCopyParameters,
   CopyClassifierToParameters,
 } from "./parameters.js";
-import {
+import type {
   ListOperations200Response,
   ListOperationsDefaultResponse,
   GetDocumentModelBuildOperation200Response,
@@ -49,10 +52,12 @@ import {
   GetDocumentClassifierBuildOperationDefaultResponse,
   GetOperation200Response,
   GetOperationDefaultResponse,
-  GetResourceInfo200Response,
-  GetResourceInfoDefaultResponse,
+  GetResourceDetails200Response,
+  GetResourceDetailsDefaultResponse,
   GetAnalyzeResult200Response,
   GetAnalyzeResultDefaultResponse,
+  DeleteAnalyzeResult204Response,
+  DeleteAnalyzeResultDefaultResponse,
   GetAnalyzeResultPdf200Response,
   GetAnalyzeResultPdfDefaultResponse,
   GetAnalyzeResultFigure200Response,
@@ -63,8 +68,12 @@ import {
   AnalyzeDocumentDefaultResponse,
   GetAnalyzeBatchResult200Response,
   GetAnalyzeBatchResultDefaultResponse,
+  DeleteAnalyzeBatchResult204Response,
+  DeleteAnalyzeBatchResultDefaultResponse,
   AnalyzeBatchDocuments202Response,
   AnalyzeBatchDocumentsDefaultResponse,
+  ListAnalyzeBatchResults200Response,
+  ListAnalyzeBatchResultsDefaultResponse,
   GetModel200Response,
   GetModelDefaultResponse,
   DeleteModel204Response,
@@ -98,7 +107,7 @@ import {
   CopyClassifierTo202Response,
   CopyClassifierToDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListOperations {
   /** Lists all operations. */
@@ -146,11 +155,11 @@ export interface GetDocumentModelBuildOperation {
   ): StreamableMethod<GetOperation200Response | GetOperationDefaultResponse>;
 }
 
-export interface GetResourceInfo {
+export interface GetResourceDetails {
   /** Return information about the current resource. */
   get(
-    options?: GetResourceInfoParameters,
-  ): StreamableMethod<GetResourceInfo200Response | GetResourceInfoDefaultResponse>;
+    options?: GetResourceDetailsParameters,
+  ): StreamableMethod<GetResourceDetails200Response | GetResourceDetailsDefaultResponse>;
 }
 
 export interface GetAnalyzeResult {
@@ -158,6 +167,10 @@ export interface GetAnalyzeResult {
   get(
     options?: GetAnalyzeResultParameters,
   ): StreamableMethod<GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse>;
+  /** Mark the result of document analysis for deletion. */
+  delete(
+    options?: DeleteAnalyzeResultParameters,
+  ): StreamableMethod<DeleteAnalyzeResult204Response | DeleteAnalyzeResultDefaultResponse>;
 }
 
 export interface GetAnalyzeResultPdf {
@@ -192,6 +205,12 @@ export interface GetAnalyzeBatchResult {
   get(
     options?: GetAnalyzeBatchResultParameters,
   ): StreamableMethod<GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse>;
+  /** Mark the batch document analysis result for deletion. */
+  delete(
+    options?: DeleteAnalyzeBatchResultParameters,
+  ): StreamableMethod<
+    DeleteAnalyzeBatchResult204Response | DeleteAnalyzeBatchResultDefaultResponse
+  >;
 }
 
 export interface AnalyzeBatchDocuments {
@@ -199,6 +218,13 @@ export interface AnalyzeBatchDocuments {
   post(
     options: AnalyzeBatchDocumentsParameters,
   ): StreamableMethod<AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsDefaultResponse>;
+}
+
+export interface ListAnalyzeBatchResults {
+  /** List batch document analysis results. */
+  get(
+    options?: ListAnalyzeBatchResultsParameters,
+  ): StreamableMethod<ListAnalyzeBatchResults200Response | ListAnalyzeBatchResultsDefaultResponse>;
 }
 
 export interface GetModel {
@@ -318,8 +344,8 @@ export interface Routes {
   /** Resource for '/operations/\{operationId\}' has methods for the following verbs: get */
   (path: "/operations/{operationId}", operationId: string): GetDocumentModelBuildOperation;
   /** Resource for '/info' has methods for the following verbs: get */
-  (path: "/info"): GetResourceInfo;
-  /** Resource for '/documentModels/\{modelId\}/analyzeResults/\{resultId\}' has methods for the following verbs: get */
+  (path: "/info"): GetResourceDetails;
+  /** Resource for '/documentModels/\{modelId\}/analyzeResults/\{resultId\}' has methods for the following verbs: get, delete */
   (
     path: "/documentModels/{modelId}/analyzeResults/{resultId}",
     modelId: string,
@@ -340,7 +366,7 @@ export interface Routes {
   ): GetAnalyzeResultFigure;
   /** Resource for '/documentModels/\{modelId\}:analyze' has methods for the following verbs: post */
   (path: "/documentModels/{modelId}:analyze", modelId: string): AnalyzeDocumentFromStream;
-  /** Resource for '/documentModels/\{modelId\}/analyzeBatchResults/\{resultId\}' has methods for the following verbs: get */
+  /** Resource for '/documentModels/\{modelId\}/analyzeBatchResults/\{resultId\}' has methods for the following verbs: get, delete */
   (
     path: "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
     modelId: string,
@@ -348,6 +374,8 @@ export interface Routes {
   ): GetAnalyzeBatchResult;
   /** Resource for '/documentModels/\{modelId\}:analyzeBatch' has methods for the following verbs: post */
   (path: "/documentModels/{modelId}:analyzeBatch", modelId: string): AnalyzeBatchDocuments;
+  /** Resource for '/documentModels/\{modelId\}/analyzeBatchResults' has methods for the following verbs: get */
+  (path: "/documentModels/{modelId}/analyzeBatchResults", modelId: string): ListAnalyzeBatchResults;
   /** Resource for '/documentModels/\{modelId\}' has methods for the following verbs: get, delete */
   (path: "/documentModels/{modelId}", modelId: string): GetModel;
   /** Resource for '/documentModels:build' has methods for the following verbs: post */

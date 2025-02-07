@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonOptions } from "@azure/storage-blob";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { CommonOptions } from "@azure/storage-blob";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Options to configure {@link BlobChangeFeedClient.listChanges} operation.

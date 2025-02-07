@@ -66,7 +66,7 @@ node machinePoolsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env REDHATOPENSHIFT_SUBSCRIPTION_ID="<redhatopenshift subscription id>" REDHATOPENSHIFT_RESOURCE_GROUP="<redhatopenshift resource group>" node machinePoolsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env REDHATOPENSHIFT_SUBSCRIPTION_ID="<redhatopenshift subscription id>" REDHATOPENSHIFT_RESOURCE_GROUP="<redhatopenshift resource group>" node machinePoolsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -103,6 +103,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [syncsetsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redhatopenshift/arm-redhatopenshift/samples/v1-beta/javascript/syncSetsGetSample.js
 [syncsetslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redhatopenshift/arm-redhatopenshift/samples/v1-beta/javascript/syncSetsListSample.js
 [syncsetsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redhatopenshift/arm-redhatopenshift/samples/v1-beta/javascript/syncSetsUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-redhatopenshift?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-redhatopenshift?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/redhatopenshift/arm-redhatopenshift/README.md

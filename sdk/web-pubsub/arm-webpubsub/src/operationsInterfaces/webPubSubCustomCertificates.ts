@@ -15,8 +15,8 @@ import {
   WebPubSubCustomCertificatesGetResponse,
   WebPubSubCustomCertificatesCreateOrUpdateOptionalParams,
   WebPubSubCustomCertificatesCreateOrUpdateResponse,
-  WebPubSubCustomCertificatesDeleteOptionalParams
-} from "../models";
+  WebPubSubCustomCertificatesDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WebPubSubCustomCertificates. */
@@ -30,7 +30,7 @@ export interface WebPubSubCustomCertificates {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubCustomCertificatesListOptionalParams
+    options?: WebPubSubCustomCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<CustomCertificate>;
   /**
    * Get a custom certificate.
@@ -43,7 +43,7 @@ export interface WebPubSubCustomCertificates {
     resourceGroupName: string,
     resourceName: string,
     certificateName: string,
-    options?: WebPubSubCustomCertificatesGetOptionalParams
+    options?: WebPubSubCustomCertificatesGetOptionalParams,
   ): Promise<WebPubSubCustomCertificatesGetResponse>;
   /**
    * Create or update a custom certificate.
@@ -58,7 +58,7 @@ export interface WebPubSubCustomCertificates {
     resourceName: string,
     certificateName: string,
     parameters: CustomCertificate,
-    options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams
+    options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubCustomCertificatesCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface WebPubSubCustomCertificates {
     resourceName: string,
     certificateName: string,
     parameters: CustomCertificate,
-    options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams
+    options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams,
   ): Promise<WebPubSubCustomCertificatesCreateOrUpdateResponse>;
   /**
    * Delete a custom certificate.
@@ -91,6 +91,6 @@ export interface WebPubSubCustomCertificates {
     resourceGroupName: string,
     resourceName: string,
     certificateName: string,
-    options?: WebPubSubCustomCertificatesDeleteOptionalParams
+    options?: WebPubSubCustomCertificatesDeleteOptionalParams,
   ): Promise<void>;
 }

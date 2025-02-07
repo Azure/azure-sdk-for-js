@@ -5,7 +5,7 @@ import { doubleToByteArrayJSBI, writeNumberForBinaryEncodingJSBI } from "./encod
 import { writeStringForBinaryEncoding } from "./encoding/string";
 import { BytePrefix } from "./encoding/prefix";
 import MurmurHash from "./murmurHash";
-import { PrimitivePartitionKeyValue } from "../../documents";
+import type { PrimitivePartitionKeyValue } from "../../documents";
 
 const MAX_STRING_CHARS = 100;
 

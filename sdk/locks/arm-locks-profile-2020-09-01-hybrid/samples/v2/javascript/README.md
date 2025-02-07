@@ -53,7 +53,7 @@ node authorizationOperationsListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env LOCKS_SUBSCRIPTION_ID="<locks subscription id>" node authorizationOperationsListSample.js
+npx dev-tool run vendored cross-env LOCKS_SUBSCRIPTION_ID="<locks subscription id>" node authorizationOperationsListSample.js
 ```
 
 ## Next Steps
@@ -77,6 +77,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [managementlockslistatresourcelevelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/locks/arm-locks-profile-2020-09-01-hybrid/samples/v2/javascript/managementLocksListAtResourceLevelSample.js
 [managementlockslistatsubscriptionlevelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/locks/arm-locks-profile-2020-09-01-hybrid/samples/v2/javascript/managementLocksListAtSubscriptionLevelSample.js
 [managementlockslistbyscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/locks/arm-locks-profile-2020-09-01-hybrid/samples/v2/javascript/managementLocksListByScopeSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-locks-profile-2020-09-01-hybrid?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-locks-profile-2020-09-01-hybrid?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/locks/arm-locks-profile-2020-09-01-hybrid/README.md

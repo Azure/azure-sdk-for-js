@@ -10,11 +10,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-//Get secrets
-//You will have to set these environment variables for the sample to work
 const cluEndpoint =
   process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
@@ -24,8 +21,8 @@ const service: ConversationAnalysisClient = new ConversationAnalysisClient(
   new AzureKeyCredential(cluKey),
 );
 
-export async function main() {
-  //Analyze query
+export async function main(): Promise<void> {
+  // Analyze query
   const poller = await service.beginConversationAnalysis({
     displayName: "Analyze conversations from xxx",
     analysisInput: {
@@ -72,18 +69,18 @@ export async function main() {
   if (actionResult.tasks.items === undefined) return;
 
   const taskResult = actionResult.tasks.items[0];
-  if (taskResult.kind == "conversationalSummarizationResults") {
+  if (taskResult.kind === "conversationalSummarizationResults") {
     console.log("... view task status ...");
     console.log("status: %s", taskResult.status);
     const resolutionResult = taskResult.results;
-    if (resolutionResult.errors && resolutionResult.errors.length != 0) {
-      console.log("... errors occured ...");
+    if (resolutionResult.errors && resolutionResult.errors.length !== 0) {
+      console.log("... errors occurred ...");
       for (const error of resolutionResult.errors) {
         console.log(error);
       }
     } else {
       const conversationResult = resolutionResult.conversations[0];
-      if (conversationResult.warnings && conversationResult.warnings.length != 0) {
+      if (conversationResult.warnings && conversationResult.warnings.length !== 0) {
         console.log("... view warnings ...");
         for (const warning of conversationResult.warnings) {
           console.log(warning);

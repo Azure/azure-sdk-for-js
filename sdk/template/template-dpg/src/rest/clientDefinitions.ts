@@ -9,7 +9,7 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import {
+import type {
   ListWidgetsParameters,
   CreateWidgetParameters,
   GetWidgetParameters,
@@ -17,7 +17,7 @@ import {
   DeleteWidgetParameters,
   AnalyzeWidgetParameters,
 } from "./parameters.js";
-import {
+import type {
   ListWidgets200Response,
   ListWidgetsDefaultResponse,
   CreateWidget201Response,
@@ -31,7 +31,7 @@ import {
   AnalyzeWidget200Response,
   AnalyzeWidgetDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListWidgets {
   /**

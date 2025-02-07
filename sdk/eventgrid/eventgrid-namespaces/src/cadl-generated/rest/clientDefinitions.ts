@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PublishCloudEventParameters,
   PublishCloudEventsParameters,
   ReceiveCloudEventsParameters,
@@ -9,8 +9,8 @@ import {
   ReleaseCloudEventsParameters,
   RejectCloudEventsParameters,
   RenewCloudEventLocksParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   PublishCloudEvent200Response,
   PublishCloudEventDefaultResponse,
   PublishCloudEvents200Response,
@@ -25,8 +25,8 @@ import {
   RejectCloudEventsDefaultResponse,
   RenewCloudEventLocks200Response,
   RenewCloudEventLocksDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface PublishCloudEvent {
   /** Publish a single Cloud Event to a namespace topic. */

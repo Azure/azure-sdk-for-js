@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ListApplications200Response,
   ListApplicationsDefaultResponse,
   GetApplication200Response,
@@ -120,6 +120,12 @@ import {
   GetNodeDefaultResponse,
   RebootNode202Response,
   RebootNodeDefaultResponse,
+  StartNode202Response,
+  StartNodeDefaultResponse,
+  DeallocateNode202Response,
+  DeallocateNodeDefaultResponse,
+  ReimageNode202Response,
+  ReimageNodeDefaultResponse,
   DisableNodeScheduling200Response,
   DisableNodeSchedulingDefaultResponse,
   EnableNodeScheduling200Response,
@@ -203,6 +209,9 @@ const responseMap: Record<string, string[]> = {
   "PUT /pools/{poolId}/nodes/{nodeId}/users/{userName}": ["200"],
   "GET /pools/{poolId}/nodes/{nodeId}": ["200"],
   "POST /pools/{poolId}/nodes/{nodeId}/reboot": ["202"],
+  "POST /pools/{poolId}/nodes/{nodeId}/start": ["202"],
+  "POST /pools/{poolId}/nodes/{nodeId}/deallocate": ["202"],
+  "POST /pools/{poolId}/nodes/{nodeId}/reimage": ["202"],
   "POST /pools/{poolId}/nodes/{nodeId}/disablescheduling": ["200"],
   "POST /pools/{poolId}/nodes/{nodeId}/enablescheduling": ["200"],
   "GET /pools/{poolId}/nodes/{nodeId}/remoteloginsettings": ["200"],
@@ -396,6 +405,15 @@ export function isUnexpected(
   response: RebootNode202Response | RebootNodeDefaultResponse,
 ): response is RebootNodeDefaultResponse;
 export function isUnexpected(
+  response: StartNode202Response | StartNodeDefaultResponse,
+): response is StartNodeDefaultResponse;
+export function isUnexpected(
+  response: DeallocateNode202Response | DeallocateNodeDefaultResponse,
+): response is DeallocateNodeDefaultResponse;
+export function isUnexpected(
+  response: ReimageNode202Response | ReimageNodeDefaultResponse,
+): response is ReimageNodeDefaultResponse;
+export function isUnexpected(
   response: DisableNodeScheduling200Response | DisableNodeSchedulingDefaultResponse,
 ): response is DisableNodeSchedulingDefaultResponse;
 export function isUnexpected(
@@ -548,6 +566,12 @@ export function isUnexpected(
     | GetNodeDefaultResponse
     | RebootNode202Response
     | RebootNodeDefaultResponse
+    | StartNode202Response
+    | StartNodeDefaultResponse
+    | DeallocateNode202Response
+    | DeallocateNodeDefaultResponse
+    | ReimageNode202Response
+    | ReimageNodeDefaultResponse
     | DisableNodeScheduling200Response
     | DisableNodeSchedulingDefaultResponse
     | EnableNodeScheduling200Response
@@ -629,6 +653,9 @@ export function isUnexpected(
   | ReplaceNodeUserDefaultResponse
   | GetNodeDefaultResponse
   | RebootNodeDefaultResponse
+  | StartNodeDefaultResponse
+  | DeallocateNodeDefaultResponse
+  | ReimageNodeDefaultResponse
   | DisableNodeSchedulingDefaultResponse
   | EnableNodeSchedulingDefaultResponse
   | GetNodeRemoteLoginSettingsDefaultResponse

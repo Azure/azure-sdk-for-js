@@ -1,33 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics";
-import { TokenCredential } from "@azure/core-auth";
+import { AzureLogAnalytics } from "./generated/logquery/src/azureLogAnalytics.js";
+import type { TokenCredential } from "@azure/core-auth";
 
-import {
+import type {
   LogsQueryBatchOptions,
   LogsQueryBatchResult,
   LogsQueryOptions,
   LogsQueryPartialResult,
   LogsQueryResult,
-  LogsQueryResultStatus,
   LogsQuerySuccessfulResult,
   QueryBatch,
-} from "./models/publicLogsModels";
+} from "./models/publicLogsModels.js";
+import { LogsQueryResultStatus } from "./models/publicLogsModels.js";
 
 import {
   convertGeneratedTable,
   convertRequestForQueryBatch,
   convertResponseForQueryBatch,
   mapError,
-} from "./internal/modelConverters";
-import { formatPreferHeader } from "./internal/util";
-import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { QueryTimeInterval } from "./models/timeInterval";
-import { convertTimespanToInterval } from "./timespanConversion";
-import { KnownMonitorLogsQueryAudience, SDK_VERSION } from "./constants";
-import { tracingClient } from "./tracing";
-import { getLogQueryEndpoint } from "./internal/logQueryOptionUtils";
+} from "./internal/modelConverters.js";
+import { formatPreferHeader } from "./internal/util.js";
+import type {
+  CommonClientOptions,
+  FullOperationResponse,
+  OperationOptions,
+} from "@azure/core-client";
+import type { QueryTimeInterval } from "./models/timeInterval.js";
+import { convertTimespanToInterval } from "./timespanConversion.js";
+import { KnownMonitorLogsQueryAudience, SDK_VERSION } from "./constants.js";
+import { tracingClient } from "./tracing.js";
+import { getLogQueryEndpoint } from "./internal/logQueryOptionUtils.js";
 
 /**
  * Options for the LogsQueryClient.
@@ -187,7 +191,7 @@ export class LogsQueryClient {
    *
    * @param resourceId - The identifier of the resource. The expected format is
          '/subscriptions/<sid>/resourceGroups/<rg>/providers/<providerName>/<resourceType>/<resourceName>'.
-   * @param query - A Kusto query. Learn more about the `Kusto query syntax <https://docs.microsoft.com/azure/data-explorer/kusto/query/>`.
+   * @param query - A Kusto query. Learn more about the `Kusto query syntax <https://learn.microsoft.com/azure/data-explorer/kusto/query/>`.
    * @param timespan - The timespan over which to query data. This is an ISO8601 time period value. This timespan is applied in addition to any that are specified in the query expression.
    *  Some common durations can be found in the {@link Durations} object.
    * @param options - Options to adjust various aspects of the request.

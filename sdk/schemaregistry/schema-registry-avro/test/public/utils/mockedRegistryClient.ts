@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
   RegisterSchemaOptions,
@@ -9,20 +9,19 @@ import {
   SchemaDescription,
   SchemaProperties,
   SchemaRegistry,
-  SchemaRegistryClient,
 } from "@azure/schema-registry";
+import { SchemaRegistryClient } from "@azure/schema-registry";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { testGroup, testSchemaIds } from "./dummies";
-import { v4 as uuid } from "uuid";
-import { Recorder, assertEnvironmentVariable, env, isLiveMode } from "@azure-tools/test-recorder";
+import { testGroup, testSchemaIds } from "./dummies.js";
+import { randomUUID } from "@azure/core-util";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, env, isLiveMode } from "@azure-tools/test-recorder";
+import type { Pipeline, HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import {
   createPipelineRequest,
   createHttpHeaders,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
-  Pipeline,
-  HttpClient,
-  PipelineRequest,
 } from "@azure/core-rest-pipeline";
 type UpdatedSchemaDescription = Required<Omit<SchemaDescription, "version">>;
 
@@ -92,7 +91,7 @@ function createMockedTestRegistry(): SchemaRegistry {
 
     function newId(): string {
       if (idCounter >= testSchemaIds.length) {
-        return uuid();
+        return randomUUID();
       }
       const id = testSchemaIds[idCounter];
       idCounter++;

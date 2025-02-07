@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isUnexpected } from "./isUnexpected";
-import {
+import { isUnexpected } from "./isUnexpected.js";
+import type {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
   RegisterSchemaOptions,
   Schema,
   SchemaDescription,
   SchemaProperties,
-} from "./models";
-import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
-import { SchemaRegistryClient } from "./clientDefinitions";
+} from "./models.js";
+import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions.js";
+import type { SchemaRegistryClient } from "./clientDefinitions.js";
 import { createRestError } from "@azure-rest/core-client";
 
 export async function registerSchema(

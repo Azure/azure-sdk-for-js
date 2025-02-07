@@ -12,7 +12,7 @@ import {
   ReservationOrdersListByBillingAccountOptionalParams,
   ReservationOrdersGetByBillingAccountOptionalParams,
   ReservationOrdersGetByBillingAccountResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReservationOrders. */

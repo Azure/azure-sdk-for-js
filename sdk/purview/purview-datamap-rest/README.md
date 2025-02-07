@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-datamap-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/purview-datamap)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/purview-datamap?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/purview-datamap?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/purview/purview-datamap-rest/samples)
 
 ## Getting started
@@ -35,7 +35,7 @@ To use an [Azure Active Directory (AAD) token credential](https://github.com/Azu
 provide an instance of the desired credential type obtained from the
 [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
 
 After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
@@ -55,10 +55,8 @@ The following sections provide several code snippets covering some of the most c
 ```typescript
 import PurviewDataMap from "@azure-rest/purview-datamap";
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
 import { isUnexpected } from "@azure-rest/purview-datamap";
-
-dotenv.config();
+import "dotenv/config";
 
 const endpoint = process.env["ENDPOINT"] || "";
 
@@ -82,7 +80,7 @@ main().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts
 const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");

@@ -33,7 +33,7 @@ export async function main() {
     doWork(parentSpan);
   }
   // Be sure to end the span.
-  parentSpan.end();
+  await parentSpan.end();
 }
 
 function doWork(parent: Span) {

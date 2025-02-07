@@ -7,12 +7,10 @@
  */
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -31,7 +29,10 @@ export async function main() {
 }
 
 // get enriched series data for a detection configuration
-async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConfigId: string) {
+async function getEnrichedSeriesData(
+  client: MetricsAdvisorClient,
+  detectionConfigId: string,
+): Promise<void> {
   console.log("Retrieving metric enriched series data...");
   try {
     const result = await client.getMetricEnrichedSeriesData(
@@ -66,7 +67,7 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
   }
 }
 
-async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: string) {
+async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: string): Promise<void> {
   console.log("Retrieving metric series data...");
   try {
     const result = await client.getMetricSeriesData(
@@ -81,11 +82,12 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
 
     for (const series of result) {
       console.log(series.definition);
-      if (series.timestamps && series.timestamps.length)
+      if (series.timestamps && series.timestamps.length) {
         for (let i = 0; i < series.timestamps!.length; i++) {
           console.log(`  ${series.timestamps![i]}`);
           console.log(`  ${series.values![i]}`);
         }
+      }
     }
   } catch (err: any) {
     console.log("!!!!!  error in listing metric series data");
@@ -93,11 +95,7 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
   }
 }
 
-main()
-  .then((_) => {
-    console.log("Succeeded");
-  })
-  .catch((err) => {
-    console.log("Error occurred:");
-    console.log(err);
-  });
+main().catch((err) => {
+  console.log("Error occurred:");
+  console.log(err);
+});

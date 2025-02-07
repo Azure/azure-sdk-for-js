@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Point2D } from "../transforms/polygon";
-import {
+import type { Point2D } from "../transforms/polygon.js";
+import type {
   DocumentSpan,
   DocumentTableCellKind,
   DocumentField as GeneratedDocumentField,
@@ -11,8 +11,8 @@ import {
   SelectionMarkState,
   DocumentBarcodeKind,
   DocumentFormulaKind,
-} from "../generated";
-import { AnalyzeDocumentOptions } from "../options";
+} from "../generated/index.js";
+import { AnalyzeDocumentOptions } from "../options/index.js";
 
 /** Simple document elements such as words, selection marks and lines are bounded by the polygon. */
 export interface HasBoundingPolygon {

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as coreClient from "@azure/core-client";
-import { DeletionRecoveryLevel } from "./generated/models";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import type * as coreClient from "@azure-rest/core-client";
+import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import { DeletionRecoveryLevel } from "./generated/index.js";
 
 /**
  * The latest supported KeyVault service API version

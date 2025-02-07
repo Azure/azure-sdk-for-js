@@ -1,5 +1,5 @@
-const packageJson = require("./package.json");
-const { exec } = require("child_process");
+import packageJson from "./package.json" with { type: "json" };
+import { exec } from "child_process";
 
 const versions = ["latest"];
 

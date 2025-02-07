@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import {
+import type { TokenCredential, KeyCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type {
   CloudEvent,
   PublishResult,
   ReceiveResult,
@@ -11,8 +11,8 @@ import {
   ReleaseResult,
   RejectResult,
   RenewLocksResult,
-} from "./models/models";
-import {
+} from "./models/models.js";
+import type {
   PublishCloudEventOptionalParams,
   PublishCloudEventsOptionalParams,
   ReceiveCloudEventsOptionalParams,
@@ -20,11 +20,10 @@ import {
   ReleaseCloudEventsOptionalParams,
   RejectCloudEventsOptionalParams,
   RenewCloudEventLocksOptionalParams,
-} from "./models/options";
+} from "./models/options.js";
+import type { EventGridClientOptions, EventGridContext } from "./api/index.js";
 import {
   createEventGrid,
-  EventGridClientOptions,
-  EventGridContext,
   publishCloudEvent,
   publishCloudEvents,
   receiveCloudEvents,
@@ -32,9 +31,9 @@ import {
   releaseCloudEvents,
   rejectCloudEvents,
   renewCloudEventLocks,
-} from "./api/index";
+} from "./api/index.js";
 
-export { EventGridClientOptions } from "./api/EventGridContext";
+export { EventGridClientOptions } from "./api/EventGridContext.js";
 
 export class EventGridClient {
   private _client: EventGridContext;

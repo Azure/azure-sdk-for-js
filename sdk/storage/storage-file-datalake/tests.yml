@@ -7,6 +7,5 @@ extends:
       ServiceDirectory: storage
       TimeoutInMinutes: 90
       Location: canadacentral
-      Clouds: 'Preview'
       MatrixFilters:
         - DependencyVersion=^$

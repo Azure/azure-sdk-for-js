@@ -833,24 +833,22 @@ You can find more code samples through the following links:
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-[aboutkeys]: https://docs.microsoft.com/azure/key-vault/keys/about-keys
-[keyvault]: https://docs.microsoft.com/azure/key-vault/key-vault-overview
-[managedhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
+[aboutkeys]: https://learn.microsoft.com/azure/key-vault/keys/about-keys
+[keyvault]: https://learn.microsoft.com/azure/key-vault/key-vault-overview
+[managedhsm]: https://learn.microsoft.com/azure/key-vault/managed-hsm/overview
 [cors]: https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md
 [package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-keys
 [package-npm]: https://www.npmjs.com/package/@azure/keyvault-keys
-[docs]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
+[docs]: https://learn.microsoft.com/javascript/api/@azure/keyvault-keys
 [docs-service]: https://azure.microsoft.com/services/key-vault/
 [samples]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples
 [tscompileroptions]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
-[softdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete
-[azure_keyvault]: https://docs.microsoft.com/azure/key-vault/general/overview
-[azure_keyvault_cli]: https://docs.microsoft.com/azure/key-vault/general/quick-create-cli
-[azure_keyvault_portal]: https://docs.microsoft.com/azure/key-vault/general/quick-create-portal
-[azure_keyvault_mhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
-[azure_keyvault_mhsm_cli]: https://docs.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
+[softdelete]: https://learn.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete
+[azure_keyvault]: https://learn.microsoft.com/azure/key-vault/general/overview
+[azure_keyvault_cli]: https://learn.microsoft.com/azure/key-vault/general/quick-create-cli
+[azure_keyvault_portal]: https://learn.microsoft.com/azure/key-vault/general/quick-create-portal
+[azure_keyvault_mhsm]: https://learn.microsoft.com/azure/key-vault/managed-hsm/overview
+[azure_keyvault_mhsm_cli]: https://learn.microsoft.com/azure/key-vault/managed-hsm/quick-create-cli
 [default_azure_credential]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
-[managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
+[managed_identity]: https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2FREADME.png)

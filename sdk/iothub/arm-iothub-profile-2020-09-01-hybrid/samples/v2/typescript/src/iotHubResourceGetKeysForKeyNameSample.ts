@@ -15,9 +15,9 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Get a shared access policy by name from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
+ * This sample demonstrates how to Get a shared access policy by name from an IoT hub. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
  *
- * @summary Get a shared access policy by name from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
+ * @summary Get a shared access policy by name from an IoT hub. For more information, see: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-security.
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/preview/2019-07-01-preview/examples/iothub_getkey.json
  */
 async function iotHubResourceGetKeysForKeyName() {

@@ -1,12 +1,7 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "outDir": "./dist",
-    "importHelpers": true,
-    "module": "CommonJS",
-    "paths": {
-      "@azure/create-microsoft-playwright-testing": ["./src/index"]
-    }
-  },
-  "exclude": ["dist", "node_modules", "test"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

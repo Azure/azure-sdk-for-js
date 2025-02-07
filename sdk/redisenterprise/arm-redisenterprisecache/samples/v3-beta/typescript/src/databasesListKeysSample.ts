@@ -15,14 +15,15 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Retrieves the access keys for the RedisEnterprise database.
+ * This sample demonstrates how to Retrieves the access keys for the Redis Enterprise database.
  *
- * @summary Retrieves the access keys for the RedisEnterprise database.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-03-01-preview/examples/RedisEnterpriseDatabasesListKeys.json
+ * @summary Retrieves the access keys for the Redis Enterprise database.
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDatabasesListKeys.json
  */
 async function redisEnterpriseDatabasesListKeys() {
   const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "subid";
+    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
+    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName =
     process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";

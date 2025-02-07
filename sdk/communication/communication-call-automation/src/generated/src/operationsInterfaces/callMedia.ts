@@ -28,15 +28,13 @@ import {
   CallMediaHoldOptionalParams,
   UnholdRequest,
   CallMediaUnholdOptionalParams,
-  StartHoldMusicRequest,
-  CallMediaStartHoldMusicOptionalParams,
-  StopHoldMusicRequest,
-  CallMediaStopHoldMusicOptionalParams,
   StartMediaStreamingRequest,
   CallMediaStartMediaStreamingOptionalParams,
   StopMediaStreamingRequest,
   CallMediaStopMediaStreamingOptionalParams,
-} from "../models";
+  InterruptAudioAndAnnounceRequest,
+  CallMediaInterruptAudioAndAnnounceOptionalParams,
+} from "../models/index.js";
 
 /** Interface representing a CallMedia. */
 export interface CallMedia {
@@ -160,28 +158,6 @@ export interface CallMedia {
     options?: CallMediaUnholdOptionalParams,
   ): Promise<void>;
   /**
-   * Hold participant from the call using identifier.
-   * @param callConnectionId The call connection id.
-   * @param startHoldMusicRequest The participants to be hold from the call.
-   * @param options The options parameters.
-   */
-  startHoldMusic(
-    callConnectionId: string,
-    startHoldMusicRequest: StartHoldMusicRequest,
-    options?: CallMediaStartHoldMusicOptionalParams,
-  ): Promise<void>;
-  /**
-   * Unhold participants from the call using identifier.
-   * @param callConnectionId The call connection id.
-   * @param stopHoldMusicRequest The participants to be hold from the call.
-   * @param options The options parameters.
-   */
-  stopHoldMusic(
-    callConnectionId: string,
-    stopHoldMusicRequest: StopHoldMusicRequest,
-    options?: CallMediaStopHoldMusicOptionalParams,
-  ): Promise<void>;
-  /**
    * Starts media streaming in the call.
    * @param callConnectionId The call connection id.
    * @param startMediaStreamingRequest
@@ -202,5 +178,16 @@ export interface CallMedia {
     callConnectionId: string,
     stopMediaStreamingRequest: StopMediaStreamingRequest,
     options?: CallMediaStopMediaStreamingOptionalParams,
+  ): Promise<void>;
+  /**
+   * Plays audio to participants in the call.
+   * @param callConnectionId The call connection id.
+   * @param interruptRequest play request payload.
+   * @param options The options parameters.
+   */
+  interruptAudioAndAnnounce(
+    callConnectionId: string,
+    interruptRequest: InterruptAudioAndAnnounceRequest,
+    options?: CallMediaInterruptAudioAndAnnounceOptionalParams,
   ): Promise<void>;
 }

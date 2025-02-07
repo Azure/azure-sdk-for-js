@@ -66,7 +66,7 @@ node dist/deploymentStacksCreateOrUpdateAtManagementGroupSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/deploymentStacksCreateOrUpdateAtManagementGroupSample.js
+npx dev-tool run vendored cross-env  node dist/deploymentStacksCreateOrUpdateAtManagementGroupSample.js
 ```
 
 ## Next Steps
@@ -91,7 +91,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deploymentstacksvalidatestackatmanagementgroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks/samples/v1/typescript/src/deploymentStacksValidateStackAtManagementGroupSample.ts
 [deploymentstacksvalidatestackatresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks/samples/v1/typescript/src/deploymentStacksValidateStackAtResourceGroupSample.ts
 [deploymentstacksvalidatestackatsubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks/samples/v1/typescript/src/deploymentStacksValidateStackAtSubscriptionSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resourcesdeploymentstacks?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourcesdeploymentstacks?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

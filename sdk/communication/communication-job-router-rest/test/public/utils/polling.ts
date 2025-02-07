@@ -1,32 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureCommunicationRoutingServiceClient, RouterJobOutput } from "../../../src";
-import { RouterJob } from "../../../src";
-
-// export async function pollForJobOffer(
-//   workerId: string,
-//   client: JobRouterClient
-// ): Promise<RouterJobOffer> {
-//   let worker: RouterWorker = {};
-//   while (worker.offers?.length === undefined || worker.offers.length < 1) {
-//     worker = await client.getWorker(workerId);
-//   }
-//
-//   return worker.offers[0];
-// }
-//
-// export async function pollForJobAssignment(
-//   jobId: string,
-//   client: JobRouterClient
-// ): Promise<RouterJobAssignment> {
-//   let job: RouterJob = {};
-//   while (job.assignments === undefined || Object.keys(job.assignments).length < 1) {
-//     job = await client.getJob(jobId);
-//   }
-//
-//   return Object.values(job.assignments)[0];
-// }
+import type {
+  AzureCommunicationRoutingServiceClient,
+  RouterJobOutput,
+} from "../../../src/index.js";
+import type { RouterJob } from "../../../src/index.js";
 
 export async function pollForJobQueued(
   jobId: string,
@@ -47,18 +26,6 @@ export async function pollForJobQueued(
   return job;
 }
 
-// export async function pollForJobCancelled(
-//   jobId: string,
-//   client: JobRouterClient
-// ): Promise<RouterJob> {
-//   let job: RouterJob = {};
-//   while (job.status !== "cancelled") {
-//     job = await client.getJob(jobId);
-//   }
-//
-//   return job;
-// }
-
 /**
  * Runs the function `fn`
  * and retries automatically if it fails.
@@ -72,7 +39,7 @@ export const retry = async <T>(
   fn: () => Promise<T> | T,
   { retries, retryIntervalMs }: { retries: number; retryIntervalMs: number },
 ): Promise<T> => {
-  const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
+  const sleep = (ms = 0): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
   try {
     return await fn();
   } catch (error) {

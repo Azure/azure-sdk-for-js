@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   BodyPart,
   MultipartRequestBody,
   RawHttpHeadersInput,
-  RestError,
-  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
+import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { stringToUint8Array } from "@azure/core-util";
 import { isBinaryBody } from "./helpers/isBinaryBody.js";
 
@@ -109,7 +108,7 @@ function getPartContentType(descriptor: PartDescriptor): HeaderValue | undefined
   }
 
   // arbitrary non-text object -> generic JSON content type by default. We will try to JSON.stringify the body.
-  return "application/json; charset=UTF-8";
+  return "application/json";
 }
 
 /**

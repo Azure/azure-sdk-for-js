@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ActionType } from "./generated";
-import {
+import type {
   DeletedKeyBundle,
   DeletedKeyItem,
   KeyRotationPolicy as GeneratedPolicy,
@@ -10,15 +9,18 @@ import {
   KeyBundle,
   KeyItem,
   LifetimeActions,
-} from "./generated/models";
-import { parseKeyVaultKeyIdentifier } from "./identifier";
-import {
+} from "./generated/models/index.js";
+import { parseKeyVaultKeyIdentifier } from "./identifier.js";
+import type {
   DeletedKey,
   KeyProperties,
   KeyRotationPolicy,
+  KeyRotationPolicyAction,
   KeyRotationPolicyProperties,
   KeyVaultKey,
-} from "./keysModels";
+} from "./keysModels.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "./generated/index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
  * @internal
@@ -123,15 +125,15 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
   return resultObject;
 }
 
-const actionTypeCaseInsensitiveMapping: Record<string, string> = {
+const actionTypeCaseInsensitiveMapping: Record<string, KeyRotationPolicyAction> = {
   rotate: "Rotate",
   notify: "Notify",
 };
 
-function getNormalizedActionType(caseInsensitiveActionType: string): ActionType {
+function getNormalizedActionType(caseInsensitiveActionType: string): KeyRotationPolicyAction {
   const result = actionTypeCaseInsensitiveMapping[caseInsensitiveActionType.toLowerCase()];
   if (result) {
-    return result as ActionType;
+    return result;
   }
 
   throw new Error(`Unrecognized action type: ${caseInsensitiveActionType}`);
@@ -184,3 +186,47 @@ export const keyRotationTransformations = {
     return policy;
   },
 };
+
+/**
+ * A helper supporting compatibility between modular and legacy paged async iterables.
+ *
+ * Provides the following compatibility:
+ * 1. Maps the values of the paged async iterable using the provided mapper function.
+ * 2. Supports `maxPageSize` operation on the paged async iterable.
+ *
+ * TODO: move this to keyvault-common once everything is merged
+ */
+export function mapPagedAsyncIterable<
+  TGenerated,
+  TPublic,
+  TOptions extends OperationOptions & { maxresults?: number },
+>(
+  options: TOptions,
+  operation: (options: TOptions) => PagedAsyncIterableIterator<TGenerated>,
+  mapper: (x: TGenerated) => TPublic,
+): PagedAsyncIterableIterator<TPublic> {
+  let iter: ReturnType<typeof operation> | undefined = undefined;
+  return {
+    async next() {
+      iter ??= operation({ ...options, maxresults: undefined });
+      const result = await iter.next();
+
+      return {
+        ...result,
+        value: result.value && mapper(result.value),
+      };
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    async *byPage<TSettings extends PageSettings & { maxPageSize?: number }>(settings?: TSettings) {
+      // Pass the maxPageSize value to the underlying page operation
+      const iteratorByPage = operation({ ...options, maxresults: settings?.maxPageSize }).byPage(
+        settings,
+      );
+      for await (const page of iteratorByPage) {
+        yield page.map(mapper);
+      }
+    },
+  };
+}

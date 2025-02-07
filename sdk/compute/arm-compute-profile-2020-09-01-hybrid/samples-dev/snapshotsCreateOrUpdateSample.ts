@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  Snapshot,
-  ComputeManagementClient
-} from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import type { Snapshot } from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
@@ -23,28 +17,25 @@ dotenv.config();
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription.json
  */
-async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot1";
   const snapshot: Snapshot = {
     creationData: {
       createOption: "Import",
-      sourceUri:
-        "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+      sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
       storageAccountId:
-        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount"
+        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -55,26 +46,23 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription.json
  */
-async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot1";
   const snapshot: Snapshot = {
     creationData: {
       createOption: "Import",
-      sourceUri:
-        "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+      sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -85,34 +73,32 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2019-07-01/examples/CreateASnapshotFromAnExistingSnapshot.json
  */
-async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot2";
   const snapshot: Snapshot = {
     creationData: {
       createOption: "Copy",
       sourceResourceId:
-        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1",
     },
-    location: "West US"
+    location: "West US",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
 
-async function main() {
-  createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription();
-  createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription();
-  createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription();
+async function main(): Promise<void> {
+  await createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription();
+  await createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription();
+  await createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription();
 }
 
 main().catch(console.error);

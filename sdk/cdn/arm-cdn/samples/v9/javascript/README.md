@@ -148,7 +148,7 @@ node afdCustomDomainsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CDN_SUBSCRIPTION_ID="<cdn subscription id>" CDN_RESOURCE_GROUP="<cdn resource group>" node afdCustomDomainsCreateSample.js
+npx dev-tool run vendored cross-env CDN_SUBSCRIPTION_ID="<cdn subscription id>" CDN_RESOURCE_GROUP="<cdn resource group>" node afdCustomDomainsCreateSample.js
 ```
 
 ## Next Steps
@@ -267,6 +267,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [securitypolicieslistbyprofilesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cdn/arm-cdn/samples/v9/javascript/securityPoliciesListByProfileSample.js
 [securitypoliciespatchsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cdn/arm-cdn/samples/v9/javascript/securityPoliciesPatchSample.js
 [validateprobesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cdn/arm-cdn/samples/v9/javascript/validateProbeSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-cdn?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-cdn?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cdn/arm-cdn/README.md

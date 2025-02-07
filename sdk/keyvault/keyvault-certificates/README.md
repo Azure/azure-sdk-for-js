@@ -2,7 +2,7 @@
 
 Azure Key Vault is a cloud service that provides secure storage and automated management of certificates used throughout a cloud application. Multiple certificates, and multiple versions of the same certificate, can be kept in the Azure Key Vault. Each certificate in the vault has a policy associated with it which controls the issuance and lifetime of the certificate, along with actions to be taken as certificates near expiry.
 
-If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/azure/key-vault/key-vault-overview)
+If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://learn.microsoft.com/azure/key-vault/key-vault-overview)
 
 Use the client library for Azure Key Vault Certificates in your Node.js application to:
 
@@ -20,7 +20,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-certificates)
 - [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/keyvault-certificates)
 - [Product documentation](https://azure.microsoft.com/services/key-vault/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-certificates/samples)
 
@@ -101,7 +101,7 @@ const client = new CertificateClient(url, credential);
   query.
 - **Soft delete** allows Key Vaults to support deletion and purging as two
   separate steps, so deleted certificates are not immediately lost. This only happens if the Key Vault
-  has [soft-delete](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
+  has [soft-delete](https://learn.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
   enabled.
 - A **Certificate backup** can be generated from any created certificate. These backups come as
   binary data, and can only be used to regenerate a previously deleted certificate.
@@ -311,11 +311,11 @@ async function main() {
   console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
   const specificCertificate = await client.getCertificateVersion(
     certificateName,
-    latestCertificate.properties.version
+    latestCertificate.properties.version,
   );
   console.log(
     `The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `,
-    specificCertificate
+    specificCertificate,
   );
 }
 
@@ -503,7 +503,7 @@ main();
 The `beginDeleteCertificate` method sets a certificate up for deletion. This process will
 happen in the background as soon as the necessary resources are available.
 
-If [soft-delete](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
+If [soft-delete](https://learn.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
 is enabled for the Key Vault, this operation will only label the certificate as a
 _deleted_ certificate. A deleted certificate can't be updated. They can only be either
 read, recovered or purged.
@@ -586,7 +586,7 @@ async function main() {
     console.log("Deleted certificate: ", deletedCertificate);
   }
   for await (let certificateProperties of client.listPropertiesOfCertificateVersions(
-    certificateName
+    certificateName,
   )) {
     console.log("Certificate properties: ", certificateProperties);
   }
@@ -657,12 +657,10 @@ You can find more code samples through the following links:
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-[azure_keyvault]: https://docs.microsoft.com/azure/key-vault/general/overview
-[azure_keyvault_cli]: https://docs.microsoft.com/azure/key-vault/general/quick-create-cli
-[azure_keyvault_portal]: https://docs.microsoft.com/azure/key-vault/general/quick-create-portal
+[azure_keyvault]: https://learn.microsoft.com/azure/key-vault/general/overview
+[azure_keyvault_cli]: https://learn.microsoft.com/azure/key-vault/general/quick-create-cli
+[azure_keyvault_portal]: https://learn.microsoft.com/azure/key-vault/general/quick-create-portal
 [default_azure_credential]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
-[managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
+[managed_identity]: https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest
-[composition-of-a-certificate]: https://docs.microsoft.com/azure/key-vault/certificates/about-certificates#composition-of-a-certificate
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2FREADME.png)
+[composition-of-a-certificate]: https://learn.microsoft.com/azure/key-vault/certificates/about-certificates#composition-of-a-certificate

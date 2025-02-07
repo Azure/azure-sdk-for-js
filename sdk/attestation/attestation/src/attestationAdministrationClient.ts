@@ -1,43 +1,43 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GeneratedClient } from "./generated/generatedClient";
-import { logger } from "./logger";
+/* eslint-disable @azure/azure-sdk/ts-naming-options */
+import { GeneratedClient } from "./generated/generatedClient.js";
+import { logger } from "./logger.js";
 
-import {
+import type {
   AttestationCertificateManagementBody,
   GeneratedClientOptionalParams,
   JsonWebKey,
   PolicyCertificatesResult,
-} from "./generated/models";
+} from "./generated/models/index.js";
 
-import { bytesToString } from "./utils/utf8";
+import { bytesToString } from "./utils/utf8.js";
 
-import {
+import type {
   AttestationResponse,
   AttestationSigner,
   AttestationTokenValidationOptions,
   AttestationType,
   PolicyCertificatesModificationResult,
   PolicyResult,
-} from "./models";
-import { StoredAttestationPolicy } from "./models/storedAttestationPolicy";
+} from "./models/index.js";
+import { StoredAttestationPolicy } from "./models/storedAttestationPolicy.js";
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import { TypeDeserializer } from "./utils/typeDeserializer";
-import * as Mappers from "./generated/models/mappers";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import { TypeDeserializer } from "./utils/typeDeserializer.js";
+import * as Mappers from "./generated/models/mappers.js";
 
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-import { hexToBase64 } from "./utils/helpers";
-import { _policyResultFromGenerated } from "./models/policyResult";
-import { _attestationSignerFromGenerated } from "./models/attestationSigner";
-import { verifyAttestationSigningKey } from "./utils/helpers";
-import { createAttestationResponse } from "./models/attestationResponse";
-import { AttestationTokenImpl } from "./models/attestationToken";
-import { tracingClient } from "./generated/tracing";
+import { hexToBase64 } from "./utils/helpers.js";
+import { _policyResultFromGenerated } from "./models/policyResult.js";
+import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
+import { verifyAttestationSigningKey } from "./utils/helpers.js";
+import { createAttestationResponse } from "./models/attestationResponse.js";
+import { AttestationTokenImpl } from "./models/attestationToken.js";
+import { tracingClient } from "./generated/tracing.js";
 
 /**
  * Attestation Client Construction Options.
@@ -107,13 +107,12 @@ export class AttestationAdministrationClient {
    * Creates an instance of AttestationAdministrationClient.
    *
    * Example usage:
-   * ```ts
+   * ```ts snippet:AttestationAdministrationClient_Constructor
    * import { AttestationAdministrationClient } from "@azure/attestation";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
-   * const client = new AttestationAdministrationClient(
-   *    "<service endpoint>",
-   *    new TokenCredential("<>")
-   * );
+   * const endpoint = "https://<attestation-instance>.<region>.attest.azure.net";
+   * const client = new AttestationAdministrationClient(endpoint, new DefaultAzureCredential());
    * ```
    *
    * @param endpoint - The attestation instance endpoint, for example https://mytenant.attest.azure.net.

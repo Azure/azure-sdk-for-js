@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ExternalUser } from "../operationsInterfaces";
+import { ExternalUser } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftElastic } from "../microsoftElastic";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftElastic } from "../microsoftElastic.js";
 import {
   ExternalUserCreateOrUpdateOptionalParams,
-  ExternalUserCreateOrUpdateResponse
-} from "../models";
+  ExternalUserCreateOrUpdateResponse,
+} from "../models/index.js";
 
 /** Class containing ExternalUser operations. */
 export class ExternalUserImpl implements ExternalUser {
@@ -31,18 +31,18 @@ export class ExternalUserImpl implements ExternalUser {
   /**
    * Create User inside elastic deployment which are used by customers to perform operations on the
    * elastic deployment
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     monitorName: string,
-    options?: ExternalUserCreateOrUpdateOptionalParams
+    options?: ExternalUserCreateOrUpdateOptionalParams,
   ): Promise<ExternalUserCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 }
@@ -50,16 +50,15 @@ export class ExternalUserImpl implements ExternalUser {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/createOrUpdateExternalUser",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/createOrUpdateExternalUser",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExternalUserCreationResponse
+      bodyMapper: Mappers.ExternalUserCreationResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
@@ -67,9 +66,9 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

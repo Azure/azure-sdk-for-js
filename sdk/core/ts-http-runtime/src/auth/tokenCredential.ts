@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-import { TracingContext } from "../tracing/interfaces.js";
+import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
 
 /**
  * Represents a credential capable of providing an authentication token.
@@ -39,15 +38,6 @@ export interface GetTokenOptions {
     timeout?: number;
   };
   /**
-   * Options used when tracing is enabled.
-   */
-  tracingOptions?: {
-    /**
-     * Tracing Context for the current request.
-     */
-    tracingContext?: TracingContext;
-  };
-  /**
    * Claim details to perform the Continuous Access Evaluation authentication flow
    */
   claims?: string;
@@ -74,6 +64,13 @@ export interface AccessToken {
    * The access token's expiration timestamp in milliseconds, UNIX epoch time.
    */
   expiresOnTimestamp: number;
+
+  /**
+   * The timestamp when the access token should be refreshed, in milliseconds, UNIX epoch time.
+   */
+  refreshAfterTimestamp?: number;
+
+  // UNBRANDED DIFFERENCE: Unbranded Core does not support PoP ("Proof-of-Presence") tokens.
 }
 
 /**

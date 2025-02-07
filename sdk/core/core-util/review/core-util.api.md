@@ -45,11 +45,12 @@ export interface CreateAbortablePromiseOptions extends AbortOptions {
 }
 
 // @public
-export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
+export function delay(timeInMs: number, options?: DelayOptions_2): Promise<void>;
 
 // @public
-export interface DelayOptions extends AbortOptions {
+interface DelayOptions_2 extends AbortOptions {
 }
+export { DelayOptions_2 as DelayOptions }
 
 // @public
 export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
@@ -59,6 +60,9 @@ export function getErrorMessage(e: unknown): string;
 
 // @public
 export function getRandomIntegerInclusive(min: number, max: number): number;
+
+// @public
+export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 // @public
 export const isBrowser: boolean;

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Registers the preview feature for the subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Features/stable/2021-07-01/examples/registerFeature.json
  */
-async function registerFeature() {
+async function registerFeature(): Promise<void> {
   const subscriptionId = "subid";
   const resourceProviderNamespace = "Resource Provider Namespace";
   const featureName = "feature";

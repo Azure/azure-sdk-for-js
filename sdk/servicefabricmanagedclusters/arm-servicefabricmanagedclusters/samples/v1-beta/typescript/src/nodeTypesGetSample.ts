@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Service Fabric node type of a given managed cluster.
  *
  * @summary Get a Service Fabric node type of a given managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypeGetOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypeGetOperation_example.json
  */
 async function getANodeType() {
   const subscriptionId =

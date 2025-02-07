@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { TokenCredential } from "@azure/core-auth";
-import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { TokenCredential } from "@azure/core-auth";
+import type { HttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 
-import {
+import type {
   BlobQueryArrowConfiguration,
   BlobQueryCsvTextConfiguration,
   BlobQueryJsonTextConfiguration,
   BlobQueryParquetConfiguration,
 } from "../Clients";
-import {
+import type {
   QuerySerialization,
   BlobTags,
   BlobName,
@@ -27,14 +28,14 @@ import {
   PathStylePorts,
   URLConstants,
 } from "./constants";
-import {
+import type {
   Tags,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
   ObjectReplicationStatus,
   HttpAuthorization,
 } from "../models";
-import {
+import type {
   ListBlobsFlatSegmentResponseModel,
   BlobItemInternal as BlobItemInternalModel,
   ListBlobsHierarchySegmentResponseModel,
@@ -42,7 +43,7 @@ import {
   PageBlobGetPageRangesDiffResponseModel,
   PageRangeInfo,
 } from "../generatedModels";
-import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -91,8 +92,8 @@ import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
  *
  * We will apply strategy one, and call encodeURIComponent for these parameters like blobName. Because what customers passes in is a plain name instead of a URL.
  *
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
  *
  * @param url -
  */
@@ -119,7 +120,7 @@ export interface ConnectionString {
 
 function getProxyUriFromDevConnString(connectionString: string): string {
   // Development Connection String
-  // https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
+  // https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
   let proxyUri = "";
   if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
     // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri

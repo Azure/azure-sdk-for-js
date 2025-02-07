@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SapLandscapeMonitorOperations } from "../operationsInterfaces";
+import { SapLandscapeMonitorOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { WorkloadsClient } from "../workloadsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { WorkloadsClient } from "../workloadsClient.js";
 import {
   SapLandscapeMonitorGetOptionalParams,
   SapLandscapeMonitorGetResponse,
@@ -22,7 +22,7 @@ import {
   SapLandscapeMonitorUpdateResponse,
   SapLandscapeMonitorListOptionalParams,
   SapLandscapeMonitorListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing SapLandscapeMonitorOperations operations. */
 export class SapLandscapeMonitorOperationsImpl

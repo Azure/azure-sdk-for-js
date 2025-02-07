@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TokenCredential } from "@azure/core-auth";
-import { TokenProvider } from "./auth";
-import { PermissionDefinition } from "./client";
-import { ConnectionPolicy, ConsistencyLevel } from "./documents";
-import { PluginConfig } from "./plugins/Plugin";
-import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
-import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
-import { HttpClient } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import type { TokenProvider } from "./auth";
+import type { PermissionDefinition } from "./client";
+import type { ConnectionPolicy, ConsistencyLevel } from "./documents";
+import type { PluginConfig } from "./plugins/Plugin";
+import type { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
+import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
+import type { HttpClient } from "@azure/core-rest-pipeline";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 export interface Agent {
@@ -20,7 +20,7 @@ export interface Agent {
 
 export interface CosmosClientOptions {
   /** The service endpoint to use to create the client. */
-  endpoint: string;
+  endpoint?: string;
   /** The account master or readonly key */
   key?: string;
   /** An object that contains resources tokens.
@@ -60,4 +60,6 @@ export interface CosmosClientOptions {
   diagnosticLevel?: CosmosDbDiagnosticLevel;
   /** @internal */
   plugins?: PluginConfig[];
+  /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */
+  connectionString?: string;
 }

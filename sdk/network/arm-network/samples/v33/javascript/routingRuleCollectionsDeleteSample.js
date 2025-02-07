@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an routing rule collection.
  *
  * @summary Deletes an routing rule collection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerRoutingRuleCollectionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingRuleCollectionDelete.json
  */
 async function deletesAnRoutingRuleCollection() {
   const subscriptionId =

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawTestStep } from "../common/types";
+import type { RawTestStep } from "../common/types";
 
 export class TestResult {
   testId!: string;
@@ -27,7 +27,7 @@ export class TestResult {
 export type WebTestConfig = {
   jobName: string;
   projectName: string;
-  browserType: string;
+  browserType?: string;
   os: string;
 };
 

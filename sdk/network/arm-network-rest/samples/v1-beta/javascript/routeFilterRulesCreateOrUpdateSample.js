@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a route in the specified route filter.
@@ -37,7 +37,7 @@ async function routeFilterRuleCreate() {
       subscriptionId,
       resourceGroupName,
       routeFilterName,
-      ruleName
+      ruleName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

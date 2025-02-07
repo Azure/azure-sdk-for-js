@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   TextAnalysisAuthoringListProjects200Response,
   TextAnalysisAuthoringListProjectsDefaultResponse,
   TextAnalysisAuthoringCreateProject200Response,
@@ -77,7 +77,7 @@ import {
   TextAnalysisAuthoringGetSupportedLanguagesDefaultResponse,
   TextAnalysisAuthoringListTrainingConfigVersions200Response,
   TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /authoring/analyze-text/projects": ["200"],

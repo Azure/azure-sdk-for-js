@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LatLon } from "@azure/maps-common";
-import { createMultiCollection } from "./createMultiCollection";
+import type { LatLon } from "@azure/maps-common";
+import { createMultiCollection } from "./createMultiCollection.js";
 
 /**
  * Specify how the pin's position and label text.

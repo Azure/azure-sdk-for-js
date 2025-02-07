@@ -3,10 +3,10 @@
 
 import { assert } from "chai";
 
-import { DataLakeFileSystemClient } from "../src";
+import type { DataLakeFileSystemClient } from "../src";
 import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Aborter", () => {
   let fileSystemName: string;

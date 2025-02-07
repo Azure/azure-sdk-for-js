@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import { computeSha256Hash, computeSha256Hmac } from "@azure/core-util";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 
 /**
  * Create an HTTP pipeline policy to authenticate a request
@@ -33,7 +33,7 @@ export function appConfigKeyCredentialPolicy(credential: string, secret: string)
       request.headers.set("x-ms-date", utcNow);
       request.headers.set("x-ms-content-sha256", contentHash);
       // Syntax for Authorization header
-      // Reference - https://docs.microsoft.com/en-us/azure/azure-app-configuration/rest-api-authentication-hmac#syntax
+      // Reference - https://learn.microsoft.com/en-us/azure/azure-app-configuration/rest-api-authentication-hmac#syntax
       request.headers.set(
         "Authorization",
         `HMAC-SHA256 Credential=${credential}&SignedHeaders=${signedHeaders}&Signature=${signature}`,

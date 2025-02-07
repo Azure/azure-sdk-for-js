@@ -18,7 +18,7 @@ async function main() {
   // configuration is set to TryFromExpanded.
   const client = new ModelsRepositoryClient({ repositoryLocation: repositoryEndpoint });
   const result = await client.getModels(dtmi, { dependencyResolution: "tryFromExpanded" });
-  Object.keys(result).forEach((fetchedDtmi) => {
+  await Object.keys(result).forEach((fetchedDtmi) => {
     const currentDtdl = result[fetchedDtmi] as any;
     console.log("------------------------------------------------");
     console.log(`DTMI is: ${fetchedDtmi}`);

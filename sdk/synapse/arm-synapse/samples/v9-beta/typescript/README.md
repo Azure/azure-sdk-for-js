@@ -276,7 +276,7 @@ node dist/azureAdOnlyAuthenticationsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SYNAPSE_SUBSCRIPTION_ID="<synapse subscription id>" SYNAPSE_RESOURCE_GROUP="<synapse resource group>" node dist/azureAdOnlyAuthenticationsCreateSample.js
+npx dev-tool run vendored cross-env SYNAPSE_SUBSCRIPTION_ID="<synapse subscription id>" SYNAPSE_RESOURCE_GROUP="<synapse resource group>" node dist/azureAdOnlyAuthenticationsCreateSample.js
 ```
 
 ## Next Steps
@@ -511,7 +511,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspaceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/arm-synapse/samples/v9-beta/typescript/src/workspacesListByResourceGroupSample.ts
 [workspaceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/arm-synapse/samples/v9-beta/typescript/src/workspacesListSample.ts
 [workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/arm-synapse/samples/v9-beta/typescript/src/workspacesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-synapse?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-synapse?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/synapse/arm-synapse/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

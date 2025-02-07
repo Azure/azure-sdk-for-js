@@ -4,7 +4,7 @@
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { toHttpHeadersLike } from "@azure/core-http-compat";
 
-import { ServiceSubmitBatchResponseModel } from "./generatedModels";
+import type { ServiceSubmitBatchResponseModel } from "./generatedModels";
 import {
   HTTP_VERSION_1_1,
   HTTP_LINE_ENDING,
@@ -12,8 +12,8 @@ import {
   HTTPURLConnection,
 } from "./utils/constants";
 import { getBodyAsText } from "./BatchUtils";
-import { BatchSubRequest } from "./BlobBatch";
-import { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse";
+import type { BatchSubRequest } from "./BlobBatch";
+import type { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse";
 import { logger } from "./log";
 
 const HTTP_HEADER_DELIMITER = ": ";
@@ -51,7 +51,7 @@ export class BatchResponseParser {
     this.batchResponseEnding = `--${this.responseBatchBoundary}--`;
   }
 
-  // For example of response, please refer to https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch#response
+  // For example of response, please refer to https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch#response
   public async parseBatchResponse(): Promise<ParsedBatchResponse> {
     // When logic reach here, suppose batch request has already succeeded with 202, so we can further parse
     // sub request's response.

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyCredential } from "./keyCredential.js";
+import type { KeyCredential } from "./keyCredential.js";
 
 /**
  * A static-key-based credential that supports updating

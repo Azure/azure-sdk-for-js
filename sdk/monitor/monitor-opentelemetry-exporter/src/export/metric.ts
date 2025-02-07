@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { context, diag } from "@opentelemetry/api";
-import {
-  AggregationTemporality,
-  InstrumentType,
-  PushMetricExporter,
-  ResourceMetrics,
-} from "@opentelemetry/sdk-metrics";
-import { ExportResult, ExportResultCode, suppressTracing } from "@opentelemetry/core";
-import { AzureMonitorBaseExporter } from "./base";
-import { TelemetryItem as Envelope } from "../generated";
-import { resourceMetricsToEnvelope } from "../utils/metricUtils";
-import { AzureMonitorExporterOptions } from "../config";
-import { HttpSender } from "../platform";
+import type { PushMetricExporter, ResourceMetrics } from "@opentelemetry/sdk-metrics";
+import { AggregationTemporality, InstrumentType } from "@opentelemetry/sdk-metrics";
+import type { ExportResult } from "@opentelemetry/core";
+import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
+import { AzureMonitorBaseExporter } from "./base.js";
+import type { TelemetryItem as Envelope } from "../generated/index.js";
+import { resourceMetricsToEnvelope } from "../utils/metricUtils.js";
+import type { AzureMonitorExporterOptions } from "../config.js";
+import { HttpSender } from "../platform/index.js";
 
 /**
  * Azure Monitor OpenTelemetry Metric Exporter.
@@ -49,7 +46,6 @@ export class AzureMonitorMetricExporter
    * @param metrics - Resource metrics to export.
    * @param resultCallback - Result callback.
    */
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async export(
     metrics: ResourceMetrics,
     resultCallback: (result: ExportResult) => void,

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
-import { JsonFeatureFlagValue } from "./internal/jsonModels";
-import { logger } from "./logger";
+import type { ConfigurationSetting, ConfigurationSettingParam } from "./models.js";
+import type { JsonFeatureFlagValue } from "./internal/jsonModels.js";
+import { logger } from "./logger.js";
 
 /**
  * The prefix for feature flags.
@@ -28,7 +28,7 @@ export interface FeatureFlagValue {
    * Our feature management library supports three types of built-in filters: Targeting, TimeWindow, and Percentage.
    * Custom filters can also be created based on different factors, such as device used, browser types, geographic location, etc.
    *
-   * [More Info](https://docs.microsoft.com/en-us/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
+   * [More Info](https://learn.microsoft.com/en-us/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
    */
   conditions: {
     clientFilters: { name: string; parameters?: Record<string, unknown> }[];

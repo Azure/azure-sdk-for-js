@@ -13,17 +13,15 @@ import {
   HybridComputeManagementClient,
 } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to install patches on a hybrid machine identity in Azure.
  *
  * @summary The operation to install patches on a hybrid machine identity in Azure.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/machine/Machine_InstallPatches.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/machine/Machine_InstallPatches.json
  */
-async function installPatchStateOfAMachine() {
+async function installPatchStateOfAMachine(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -47,7 +45,7 @@ async function installPatchStateOfAMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   installPatchStateOfAMachine();
 }
 

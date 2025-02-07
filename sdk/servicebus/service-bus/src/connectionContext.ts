@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { connectionLogger as logger } from "./log";
-import { packageJsonInfo } from "./util/constants";
-import {
+import { connectionLogger as logger } from "./log.js";
+import { packageJsonInfo } from "./util/constants.js";
+import type {
   ConnectionConfig,
-  ConnectionContextBase,
   CreateConnectionContextBaseParameters,
   SasTokenProvider,
 } from "@azure/core-amqp";
-import { TokenCredential } from "@azure/core-auth";
-import { ServiceBusClientOptions } from "./constructorHelpers";
-import {
+import { ConnectionContextBase } from "@azure/core-amqp";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ServiceBusClientOptions } from "./constructorHelpers.js";
+import type {
   AmqpError,
   Connection,
   ConnectionError,
-  ConnectionEvents,
   EventContext,
   OnAmqpEvent,
 } from "rhea-promise";
-import { MessageSender } from "./core/messageSender";
-import { MessageSession } from "./session/messageSession";
-import { MessageReceiver } from "./core/messageReceiver";
-import { ManagementClient } from "./core/managementClient";
-import { formatUserAgentPrefix } from "./util/utils";
-import { getRuntimeInfo } from "./util/runtimeInfo";
-import { NonSessionReceiverType, ReceiverType } from "./core/linkEntity";
-import { ServiceBusError } from "./serviceBusError";
+import { ConnectionEvents } from "rhea-promise";
+import type { MessageSender } from "./core/messageSender.js";
+import type { MessageSession } from "./session/messageSession.js";
+import type { MessageReceiver } from "./core/messageReceiver.js";
+import { ManagementClient } from "./core/managementClient.js";
+import { formatUserAgentPrefix } from "./util/utils.js";
+import { getRuntimeInfo } from "./util/runtimeInfo.js";
+import type { NonSessionReceiverType, ReceiverType } from "./core/linkEntity.js";
+import { ServiceBusError } from "./serviceBusError.js";
 
 /**
  * @internal

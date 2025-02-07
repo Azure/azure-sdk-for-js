@@ -9,7 +9,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry)
 - [Package (npm)](https://www.npmjs.com/package/@azure/schema-registry)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/schema-registry)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/schema-registry)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry/samples)
 
 ## Getting started
@@ -77,8 +77,8 @@ const description = {
   name: "<name>",
   groupName: "<group name>",
   format: "<schema format>",
-  definition: "<schema definition>"
-}
+  definition: "<schema definition>",
+};
 
 const registered = await client.registerSchema(description);
 console.log(registered.id);
@@ -96,8 +96,8 @@ const description = {
   name: "<name>",
   groupName: "<group name>",
   format: "<schema format>",
-  definition: "<schema definition>"
-}
+  definition: "<schema definition>",
+};
 
 const found = await client.getSchemaProperties(description);
 if (found) {
@@ -179,9 +179,9 @@ learn more about how to build and test the code.
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fschemaregistry%2Fschema-registry%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity

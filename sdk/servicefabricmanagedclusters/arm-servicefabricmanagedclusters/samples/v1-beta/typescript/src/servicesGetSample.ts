@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Service Fabric service resource created or in the process of being created in the Service Fabric managed application resource.
  *
  * @summary Get a Service Fabric service resource created or in the process of being created in the Service Fabric managed application resource.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ServiceGetOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ServiceGetOperation_example.json
  */
 async function getAService() {
   const subscriptionId =

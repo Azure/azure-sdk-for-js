@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CreateCertificatePollOperation, CreateCertificateState } from "./operation.js";
-import {
+import type { CreateCertificateState } from "./operation.js";
+import { CreateCertificatePollOperation } from "./operation.js";
+import type {
   KeyVaultCertificateWithPolicy,
   CreateCertificateOptions,
   CertificatePolicy,
 } from "../../certificatesModels.js";
-import {
-  KeyVaultCertificatePoller,
-  KeyVaultCertificatePollerOptions,
-} from "../keyVaultCertificatePoller.js";
+import type { KeyVaultCertificatePollerOptions } from "../keyVaultCertificatePoller.js";
+import { KeyVaultCertificatePoller } from "../keyVaultCertificatePoller.js";
 
 export interface CreateCertificatePollerOptions extends KeyVaultCertificatePollerOptions {
   certificatePolicy?: CertificatePolicy;
@@ -26,7 +25,6 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
 > {
   constructor(options: CreateCertificatePollerOptions) {
     const {
-      vaultUrl,
       client,
       certificateName,
       certificatePolicy,
@@ -49,7 +47,6 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
         certificatePolicy,
         createCertificateOptions,
       },
-      vaultUrl,
       client,
       operationOptions,
     );

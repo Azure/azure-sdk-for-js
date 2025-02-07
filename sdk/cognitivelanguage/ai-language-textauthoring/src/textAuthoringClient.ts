@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { TextAuthoringClient } from "./clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential, KeyCredential } from "@azure/core-auth";
+import type { TextAuthoringClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of the class TextAuthoringClient class.
- * @param Endpoint type: string Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
- * @param credentials type: TokenCredential | KeyCredential
+ * @param Endpoint - type: string Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
+ * @param credentials - type: TokenCredential | KeyCredential
  */
 export default function createAuthoringClient(
   Endpoint: string,

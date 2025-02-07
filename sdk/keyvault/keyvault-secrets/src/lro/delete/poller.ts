@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeleteSecretPollOperation, DeleteSecretPollOperationState } from "./operation";
-import { DeletedSecret } from "../../secretsModels";
-import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
+import type { DeleteSecretPollOperationState } from "./operation.js";
+import { DeleteSecretPollOperation } from "./operation.js";
+import type { DeletedSecret } from "../../secretsModels.js";
+import type { KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller.js";
+import { KeyVaultSecretPoller } from "../keyVaultSecretPoller.js";
 
 /**
  * Class that creates a poller that waits until a secret finishes being deleted.
@@ -13,7 +15,7 @@ export class DeleteSecretPoller extends KeyVaultSecretPoller<
   DeletedSecret
 > {
   constructor(options: KeyVaultSecretPollerOptions) {
-    const { vaultUrl, client, name, operationOptions, intervalInMs = 2000, resumeFrom } = options;
+    const { client, name, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: DeleteSecretPollOperationState | undefined;
 
@@ -26,7 +28,6 @@ export class DeleteSecretPoller extends KeyVaultSecretPoller<
         ...state,
         name,
       },
-      vaultUrl,
       client,
       operationOptions,
     );

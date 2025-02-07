@@ -2660,6 +2660,8 @@ export enum KnownStorageErrorCode {
   AuthorizationServiceMismatch = "AuthorizationServiceMismatch",
   /** AuthorizationResourceTypeMismatch */
   AuthorizationResourceTypeMismatch = "AuthorizationResourceTypeMismatch",
+  /** BlobAccessTierNotSupportedForAccountType */
+  BlobAccessTierNotSupportedForAccountType = "BlobAccessTierNotSupportedForAccountType",
 }
 
 /**
@@ -2779,7 +2781,8 @@ export enum KnownStorageErrorCode {
  * **AuthorizationProtocolMismatch** \
  * **AuthorizationPermissionMismatch** \
  * **AuthorizationServiceMismatch** \
- * **AuthorizationResourceTypeMismatch**
+ * **AuthorizationResourceTypeMismatch** \
+ * **BlobAccessTierNotSupportedForAccountType**
  */
 export type StorageErrorCode = string;
 /** Defines values for GeoReplicationStatusType. */
@@ -3446,6 +3449,10 @@ export interface BlobSetImmutabilityPolicyOptionalParams
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  snapshot?: string;
+  /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+  versionId?: string;
   /** Specifies the date time when the blobs immutability policy is set to expire. */
   immutabilityPolicyExpiry?: Date;
   /** Specifies the immutability policy mode to set on the blob. */
@@ -3463,6 +3470,10 @@ export interface BlobDeleteImmutabilityPolicyOptionalParams
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  snapshot?: string;
+  /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+  versionId?: string;
 }
 
 /** Contains response data for the deleteImmutabilityPolicy operation. */
@@ -3476,6 +3487,10 @@ export interface BlobSetLegalHoldOptionalParams
   timeoutInSeconds?: number;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
+  /** The snapshot parameter is an opaque DateTime value that, when present, specifies the blob snapshot to retrieve. For more information on working with blob snapshots, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/creating-a-snapshot-of-a-blob">Creating a Snapshot of a Blob.</a> */
+  snapshot?: string;
+  /** The version id parameter is an opaque DateTime value that, when present, specifies the version of the blob to operate on. It's for service version 2019-10-10 and newer. */
+  versionId?: string;
 }
 
 /** Contains response data for the setLegalHold operation. */

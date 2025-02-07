@@ -14,14 +14,14 @@ import {
   createRandomLocalFileWithTotalSize,
   getUniqueName,
 } from "../utils";
-import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
+import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { isNodeLike } from "@azure/core-util";
 
 describe("Highlevel", () => {

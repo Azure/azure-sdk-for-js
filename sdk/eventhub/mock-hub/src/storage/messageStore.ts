@@ -3,8 +3,8 @@
 
 /// <reference lib="ES2018.AsyncIterable" />
 
-import { EventPosition } from "../utils/eventPosition.js";
-import { Message } from "rhea";
+import type { EventPosition } from "../utils/eventPosition.js";
+import type { Message } from "rhea";
 import { Queue } from "./queue.js";
 
 export interface MessageRecord {

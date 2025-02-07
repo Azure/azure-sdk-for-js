@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-invalid-this */
 
 import { describe, it, assert } from "vitest";
 import { WebPubSubEventHandler } from "../src/webPubSubEventHandler.js";

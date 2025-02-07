@@ -15,8 +15,8 @@ import {
   uriSanitizers,
 } from "../utils/index.browser";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
-import { Context } from "mocha";
+import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import type { Context } from "mocha";
 
 describe("Highlevel", () => {
   let containerName: string;

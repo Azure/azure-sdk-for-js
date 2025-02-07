@@ -630,7 +630,12 @@ const setImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.BlobSetImmutabilityPolicyExceptionHeaders,
     },
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp12],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.snapshot,
+    Parameters.versionId,
+    Parameters.comp12,
+  ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -655,7 +660,12 @@ const deleteImmutabilityPolicyOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.BlobDeleteImmutabilityPolicyExceptionHeaders,
     },
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp12],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.snapshot,
+    Parameters.versionId,
+    Parameters.comp12,
+  ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,
@@ -677,7 +687,12 @@ const setLegalHoldOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.BlobSetLegalHoldExceptionHeaders,
     },
   },
-  queryParameters: [Parameters.timeoutInSeconds, Parameters.comp13],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.snapshot,
+    Parameters.versionId,
+    Parameters.comp13,
+  ],
   urlParameters: [Parameters.url],
   headerParameters: [
     Parameters.version,

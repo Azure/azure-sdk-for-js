@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  GalleryImageVersionsGetParameters
+  GalleryImageVersionsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery image version.
@@ -28,8 +23,8 @@ async function getAGalleryImageVersionWithReplicationStatus() {
   const options: GalleryImageVersionsGetParameters = {
     queryParameters: {
       $expand: "ReplicationStatus",
-      "api-version": "2022-01-03"
-    }
+      "api-version": "2022-01-03",
+    },
   };
   const result = await client
     .path(
@@ -38,7 +33,7 @@ async function getAGalleryImageVersionWithReplicationStatus() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .get(options);
   console.log(result);
@@ -60,7 +55,7 @@ async function getAGalleryImageVersionWithSnapshotsAsASource() {
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
   const options: GalleryImageVersionsGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
@@ -69,7 +64,7 @@ async function getAGalleryImageVersionWithSnapshotsAsASource() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .get(options);
   console.log(result);
@@ -91,7 +86,7 @@ async function getAGalleryImageVersionWithVhdAsASource() {
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
   const options: GalleryImageVersionsGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
@@ -100,7 +95,7 @@ async function getAGalleryImageVersionWithVhdAsASource() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .get(options);
   console.log(result);
@@ -122,7 +117,7 @@ async function getAGalleryImageVersion() {
   const galleryImageName = "myGalleryImageName";
   const galleryImageVersionName = "1.0.0";
   const options: GalleryImageVersionsGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
@@ -131,7 +126,7 @@ async function getAGalleryImageVersion() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .get(options);
   console.log(result);

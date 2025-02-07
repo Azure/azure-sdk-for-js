@@ -1,55 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getLongRunningPoller } from "../pollingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
-  deidServicePropertiesSerializer,
-  managedServiceIdentitySerializer,
-  managedServiceIdentityUpdateSerializer,
-  deidPropertiesUpdateSerializer,
-  DeidService,
-  DeidUpdate,
-  _DeidServiceListResult,
-} from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { buildPagedAsyncIterator } from "../pagingHelpers.js";
-import {
-  isUnexpected,
   HealthDataAIServicesContext as Client,
-  DeidServicesCreate200Response,
-  DeidServicesCreate201Response,
-  DeidServicesCreateDefaultResponse,
-  DeidServicesCreateLogicalResponse,
-  DeidServicesDelete202Response,
-  DeidServicesDelete204Response,
-  DeidServicesDeleteDefaultResponse,
-  DeidServicesDeleteLogicalResponse,
-  DeidServicesGet200Response,
-  DeidServicesGetDefaultResponse,
-  DeidServicesListByResourceGroup200Response,
-  DeidServicesListByResourceGroupDefaultResponse,
-  DeidServicesListBySubscription200Response,
-  DeidServicesListBySubscriptionDefaultResponse,
-  DeidServicesUpdate200Response,
-  DeidServicesUpdate202Response,
-  DeidServicesUpdateDefaultResponse,
-  DeidServicesUpdateLogicalResponse,
-} from "../../rest/index.js";
-import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  createRestError,
-} from "@azure-rest/core-client";
-import { serializeRecord } from "../../helpers/serializerHelpers.js";
-import {
+  DeidServicesCreateOptionalParams,
+  DeidServicesDeleteOptionalParams,
   DeidServicesGetOptionalParams,
   DeidServicesListByResourceGroupOptionalParams,
   DeidServicesListBySubscriptionOptionalParams,
-  DeidServicesCreateOptionalParams,
   DeidServicesUpdateOptionalParams,
-  DeidServicesDeleteOptionalParams,
-} from "../../models/options.js";
+} from "../index.js";
+import {
+  DeidService,
+  deidServiceSerializer,
+  deidServiceDeserializer,
+  _DeidServiceListResult,
+  _deidServiceListResultDeserializer,
+  DeidUpdate,
+  deidUpdateSerializer,
+} from "../../models/models.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _deidServicesGetSend(
   context: Client,
@@ -57,7 +38,7 @@ export function _deidServicesGetSend(
   resourceGroupName: string,
   deidServiceName: string,
   options: DeidServicesGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<DeidServicesGet200Response | DeidServicesGetDefaultResponse> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}",
@@ -69,92 +50,14 @@ export function _deidServicesGetSend(
 }
 
 export async function _deidServicesGetDeserialize(
-  result: DeidServicesGet200Response | DeidServicesGetDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<DeidService> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          provisioningState: result.body.properties?.["provisioningState"],
-          serviceUrl: result.body.properties?.["serviceUrl"],
-          privateEndpointConnections:
-            result.body.properties?.["privateEndpointConnections"] === undefined
-              ? result.body.properties?.["privateEndpointConnections"]
-              : result.body.properties?.["privateEndpointConnections"].map((p) => {
-                  return {
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
-                          },
-                          provisioningState: p.properties?.["provisioningState"],
-                        },
-                  };
-                }),
-          publicNetworkAccess: result.body.properties?.["publicNetworkAccess"],
-        },
-    identity: !result.body.identity
-      ? undefined
-      : {
-          principalId: result.body.identity?.["principalId"],
-          tenantId: result.body.identity?.["tenantId"],
-          type: result.body.identity?.["type"],
-          userAssignedIdentities: result.body.identity?.["userAssignedIdentities"],
-        },
-  };
+  return deidServiceDeserializer(result.body);
 }
 
 /** Get a DeidService */
@@ -182,9 +85,7 @@ export function _deidServicesListByResourceGroupSend(
   options: DeidServicesListByResourceGroupOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  DeidServicesListByResourceGroup200Response | DeidServicesListByResourceGroupDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices",
@@ -195,101 +96,14 @@ export function _deidServicesListByResourceGroupSend(
 }
 
 export async function _deidServicesListByResourceGroupDeserialize(
-  result:
-    | DeidServicesListByResourceGroup200Response
-    | DeidServicesListByResourceGroupDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_DeidServiceListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              provisioningState: p.properties?.["provisioningState"],
-              serviceUrl: p.properties?.["serviceUrl"],
-              privateEndpointConnections:
-                p.properties?.["privateEndpointConnections"] === undefined
-                  ? p.properties?.["privateEndpointConnections"]
-                  : p.properties?.["privateEndpointConnections"].map((p) => {
-                      return {
-                        id: p["id"],
-                        name: p["name"],
-                        type: p["type"],
-                        systemData: !p.systemData
-                          ? undefined
-                          : {
-                              createdBy: p.systemData?.["createdBy"],
-                              createdByType: p.systemData?.["createdByType"],
-                              createdAt:
-                                p.systemData?.["createdAt"] !== undefined
-                                  ? new Date(p.systemData?.["createdAt"])
-                                  : undefined,
-                              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                              lastModifiedAt:
-                                p.systemData?.["lastModifiedAt"] !== undefined
-                                  ? new Date(p.systemData?.["lastModifiedAt"])
-                                  : undefined,
-                            },
-                        properties: !p.properties
-                          ? undefined
-                          : {
-                              groupIds: p.properties?.["groupIds"],
-                              privateEndpoint: !p.properties?.privateEndpoint
-                                ? undefined
-                                : { id: p.properties?.privateEndpoint?.["id"] },
-                              privateLinkServiceConnectionState: {
-                                status: p.properties?.privateLinkServiceConnectionState["status"],
-                                description:
-                                  p.properties?.privateLinkServiceConnectionState["description"],
-                                actionsRequired:
-                                  p.properties?.privateLinkServiceConnectionState[
-                                    "actionsRequired"
-                                  ],
-                              },
-                              provisioningState: p.properties?.["provisioningState"],
-                            },
-                      };
-                    }),
-              publicNetworkAccess: p.properties?.["publicNetworkAccess"],
-            },
-        identity: !p.identity
-          ? undefined
-          : {
-              principalId: p.identity?.["principalId"],
-              tenantId: p.identity?.["tenantId"],
-              type: p.identity?.["type"],
-              userAssignedIdentities: p.identity?.["userAssignedIdentities"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _deidServiceListResultDeserializer(result.body);
 }
 
 /** List DeidService resources by resource group */
@@ -305,6 +119,7 @@ export function deidServicesListByResourceGroup(
     context,
     () => _deidServicesListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
     _deidServicesListByResourceGroupDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
@@ -315,9 +130,7 @@ export function _deidServicesListBySubscriptionSend(
   options: DeidServicesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  DeidServicesListBySubscription200Response | DeidServicesListBySubscriptionDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.HealthDataAIServices/deidServices",
@@ -327,99 +140,14 @@ export function _deidServicesListBySubscriptionSend(
 }
 
 export async function _deidServicesListBySubscriptionDeserialize(
-  result: DeidServicesListBySubscription200Response | DeidServicesListBySubscriptionDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_DeidServiceListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              provisioningState: p.properties?.["provisioningState"],
-              serviceUrl: p.properties?.["serviceUrl"],
-              privateEndpointConnections:
-                p.properties?.["privateEndpointConnections"] === undefined
-                  ? p.properties?.["privateEndpointConnections"]
-                  : p.properties?.["privateEndpointConnections"].map((p) => {
-                      return {
-                        id: p["id"],
-                        name: p["name"],
-                        type: p["type"],
-                        systemData: !p.systemData
-                          ? undefined
-                          : {
-                              createdBy: p.systemData?.["createdBy"],
-                              createdByType: p.systemData?.["createdByType"],
-                              createdAt:
-                                p.systemData?.["createdAt"] !== undefined
-                                  ? new Date(p.systemData?.["createdAt"])
-                                  : undefined,
-                              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                              lastModifiedAt:
-                                p.systemData?.["lastModifiedAt"] !== undefined
-                                  ? new Date(p.systemData?.["lastModifiedAt"])
-                                  : undefined,
-                            },
-                        properties: !p.properties
-                          ? undefined
-                          : {
-                              groupIds: p.properties?.["groupIds"],
-                              privateEndpoint: !p.properties?.privateEndpoint
-                                ? undefined
-                                : { id: p.properties?.privateEndpoint?.["id"] },
-                              privateLinkServiceConnectionState: {
-                                status: p.properties?.privateLinkServiceConnectionState["status"],
-                                description:
-                                  p.properties?.privateLinkServiceConnectionState["description"],
-                                actionsRequired:
-                                  p.properties?.privateLinkServiceConnectionState[
-                                    "actionsRequired"
-                                  ],
-                              },
-                              provisioningState: p.properties?.["provisioningState"],
-                            },
-                      };
-                    }),
-              publicNetworkAccess: p.properties?.["publicNetworkAccess"],
-            },
-        identity: !p.identity
-          ? undefined
-          : {
-              principalId: p.identity?.["principalId"],
-              tenantId: p.identity?.["tenantId"],
-              type: p.identity?.["type"],
-              userAssignedIdentities: p.identity?.["userAssignedIdentities"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _deidServiceListResultDeserializer(result.body);
 }
 
 /** List DeidService resources by subscription ID */
@@ -434,6 +162,7 @@ export function deidServicesListBySubscription(
     context,
     () => _deidServicesListBySubscriptionSend(context, subscriptionId, options),
     _deidServicesListBySubscriptionDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
@@ -445,12 +174,7 @@ export function _deidServicesCreateSend(
   deidServiceName: string,
   resource: DeidService,
   options: DeidServicesCreateOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | DeidServicesCreate200Response
-  | DeidServicesCreate201Response
-  | DeidServicesCreateDefaultResponse
-  | DeidServicesCreateLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}",
@@ -460,111 +184,19 @@ export function _deidServicesCreateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
-        location: resource["location"],
-        properties: !resource.properties
-          ? resource.properties
-          : deidServicePropertiesSerializer(resource.properties),
-        identity: !resource.identity
-          ? resource.identity
-          : managedServiceIdentitySerializer(resource.identity),
-      },
+      body: deidServiceSerializer(resource),
     });
 }
 
 export async function _deidServicesCreateDeserialize(
-  result:
-    | DeidServicesCreate200Response
-    | DeidServicesCreate201Response
-    | DeidServicesCreateDefaultResponse
-    | DeidServicesCreateLogicalResponse,
+  result: PathUncheckedResponse,
 ): Promise<DeidService> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  const res = result as unknown as DeidServicesCreateLogicalResponse;
-  return {
-    tags: res.body["tags"],
-    location: res.body["location"],
-    id: res.body["id"],
-    name: res.body["name"],
-    type: res.body["type"],
-    systemData: !res.body.systemData
-      ? undefined
-      : {
-          createdBy: res.body.systemData?.["createdBy"],
-          createdByType: res.body.systemData?.["createdByType"],
-          createdAt:
-            res.body.systemData?.["createdAt"] !== undefined
-              ? new Date(res.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            res.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(res.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !res.body.properties
-      ? undefined
-      : {
-          provisioningState: res.body.properties?.["provisioningState"],
-          serviceUrl: res.body.properties?.["serviceUrl"],
-          privateEndpointConnections:
-            res.body.properties?.["privateEndpointConnections"] === undefined
-              ? res.body.properties?.["privateEndpointConnections"]
-              : res.body.properties?.["privateEndpointConnections"].map((p) => {
-                  return {
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
-                          },
-                          provisioningState: p.properties?.["provisioningState"],
-                        },
-                  };
-                }),
-          publicNetworkAccess: res.body.properties?.["publicNetworkAccess"],
-        },
-    identity: !res.body.identity
-      ? undefined
-      : {
-          principalId: res.body.identity?.["principalId"],
-          tenantId: res.body.identity?.["tenantId"],
-          type: res.body.identity?.["type"],
-          userAssignedIdentities: res.body.identity?.["userAssignedIdentities"],
-        },
-  };
+  return deidServiceDeserializer(result.body);
 }
 
 /** Create a DeidService */
@@ -576,7 +208,7 @@ export function deidServicesCreate(
   resource: DeidService,
   options: DeidServicesCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DeidService>, DeidService> {
-  return getLongRunningPoller(context, _deidServicesCreateDeserialize, {
+  return getLongRunningPoller(context, _deidServicesCreateDeserialize, ["200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -588,6 +220,7 @@ export function deidServicesCreate(
         resource,
         options,
       ),
+    resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<DeidService>, DeidService>;
 }
 
@@ -598,12 +231,7 @@ export function _deidServicesUpdateSend(
   deidServiceName: string,
   properties: DeidUpdate,
   options: DeidServicesUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | DeidServicesUpdate200Response
-  | DeidServicesUpdate202Response
-  | DeidServicesUpdateDefaultResponse
-  | DeidServicesUpdateLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}",
@@ -613,110 +241,19 @@ export function _deidServicesUpdateSend(
     )
     .patch({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
-        identity: !properties.identity
-          ? properties.identity
-          : managedServiceIdentityUpdateSerializer(properties.identity),
-        properties: !properties.properties
-          ? properties.properties
-          : deidPropertiesUpdateSerializer(properties.properties),
-      },
+      body: deidUpdateSerializer(properties),
     });
 }
 
 export async function _deidServicesUpdateDeserialize(
-  result:
-    | DeidServicesUpdate200Response
-    | DeidServicesUpdate202Response
-    | DeidServicesUpdateDefaultResponse
-    | DeidServicesUpdateLogicalResponse,
+  result: PathUncheckedResponse,
 ): Promise<DeidService> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  const res = result as unknown as DeidServicesUpdateLogicalResponse;
-  return {
-    tags: res.body["tags"],
-    location: res.body["location"],
-    id: res.body["id"],
-    name: res.body["name"],
-    type: res.body["type"],
-    systemData: !res.body.systemData
-      ? undefined
-      : {
-          createdBy: res.body.systemData?.["createdBy"],
-          createdByType: res.body.systemData?.["createdByType"],
-          createdAt:
-            res.body.systemData?.["createdAt"] !== undefined
-              ? new Date(res.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            res.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(res.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !res.body.properties
-      ? undefined
-      : {
-          provisioningState: res.body.properties?.["provisioningState"],
-          serviceUrl: res.body.properties?.["serviceUrl"],
-          privateEndpointConnections:
-            res.body.properties?.["privateEndpointConnections"] === undefined
-              ? res.body.properties?.["privateEndpointConnections"]
-              : res.body.properties?.["privateEndpointConnections"].map((p) => {
-                  return {
-                    id: p["id"],
-                    name: p["name"],
-                    type: p["type"],
-                    systemData: !p.systemData
-                      ? undefined
-                      : {
-                          createdBy: p.systemData?.["createdBy"],
-                          createdByType: p.systemData?.["createdByType"],
-                          createdAt:
-                            p.systemData?.["createdAt"] !== undefined
-                              ? new Date(p.systemData?.["createdAt"])
-                              : undefined,
-                          lastModifiedBy: p.systemData?.["lastModifiedBy"],
-                          lastModifiedByType: p.systemData?.["lastModifiedByType"],
-                          lastModifiedAt:
-                            p.systemData?.["lastModifiedAt"] !== undefined
-                              ? new Date(p.systemData?.["lastModifiedAt"])
-                              : undefined,
-                        },
-                    properties: !p.properties
-                      ? undefined
-                      : {
-                          groupIds: p.properties?.["groupIds"],
-                          privateEndpoint: !p.properties?.privateEndpoint
-                            ? undefined
-                            : { id: p.properties?.privateEndpoint?.["id"] },
-                          privateLinkServiceConnectionState: {
-                            status: p.properties?.privateLinkServiceConnectionState["status"],
-                            description:
-                              p.properties?.privateLinkServiceConnectionState["description"],
-                            actionsRequired:
-                              p.properties?.privateLinkServiceConnectionState["actionsRequired"],
-                          },
-                          provisioningState: p.properties?.["provisioningState"],
-                        },
-                  };
-                }),
-          publicNetworkAccess: res.body.properties?.["publicNetworkAccess"],
-        },
-    identity: !res.body.identity
-      ? undefined
-      : {
-          principalId: res.body.identity?.["principalId"],
-          tenantId: res.body.identity?.["tenantId"],
-          type: res.body.identity?.["type"],
-          userAssignedIdentities: res.body.identity?.["userAssignedIdentities"],
-        },
-  };
+  return deidServiceDeserializer(result.body);
 }
 
 /** Update a DeidService */
@@ -728,7 +265,7 @@ export function deidServicesUpdate(
   properties: DeidUpdate,
   options: DeidServicesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DeidService>, DeidService> {
-  return getLongRunningPoller(context, _deidServicesUpdateDeserialize, {
+  return getLongRunningPoller(context, _deidServicesUpdateDeserialize, ["200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -740,6 +277,7 @@ export function deidServicesUpdate(
         properties,
         options,
       ),
+    resourceLocationConfig: "location",
   }) as PollerLike<OperationState<DeidService>, DeidService>;
 }
 
@@ -749,12 +287,7 @@ export function _deidServicesDeleteSend(
   resourceGroupName: string,
   deidServiceName: string,
   options: DeidServicesDeleteOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | DeidServicesDelete202Response
-  | DeidServicesDelete204Response
-  | DeidServicesDeleteDefaultResponse
-  | DeidServicesDeleteLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}",
@@ -765,14 +298,9 @@ export function _deidServicesDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _deidServicesDeleteDeserialize(
-  result:
-    | DeidServicesDelete202Response
-    | DeidServicesDelete204Response
-    | DeidServicesDeleteDefaultResponse
-    | DeidServicesDeleteLogicalResponse,
-): Promise<void> {
-  if (isUnexpected(result)) {
+export async function _deidServicesDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
@@ -787,10 +315,11 @@ export function deidServicesDelete(
   deidServiceName: string,
   options: DeidServicesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _deidServicesDeleteDeserialize, {
+  return getLongRunningPoller(context, _deidServicesDeleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _deidServicesDeleteSend(context, subscriptionId, resourceGroupName, deidServiceName, options),
+    resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }

@@ -9,9 +9,9 @@ import { webSnippet as sdkLoader } from "@microsoft/applicationinsights-web-snip
 import * as browserSdkLoaderHelper from "./browserSdkLoaderHelper";
 import * as prefixHelper from "../utils/common";
 import * as zlib from "zlib";
-import { InternalConfig } from "../shared";
+import type { InternalConfig } from "../shared";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
-import { IncomingMessage, ServerResponse } from "http";
+import type { IncomingMessage, ServerResponse } from "http";
 import { Logger } from "../shared/logging/logger";
 import { BROWSER_SDK_LOADER_DEFAULT_SOURCE } from "../types";
 import { diag } from "@opentelemetry/api";

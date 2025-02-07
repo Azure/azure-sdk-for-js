@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CheckpointStore, PartitionOwnership } from "./eventProcessor.js";
-import { Checkpoint } from "./partitionProcessor.js";
+import type { CheckpointStore, PartitionOwnership } from "./eventProcessor.js";
+import type { Checkpoint } from "./partitionProcessor.js";
 import { throwTypeErrorIfParameterMissing } from "./util/error.js";
 import { getRandomName } from "./util/utils.js";
 

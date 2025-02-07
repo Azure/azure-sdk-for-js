@@ -3,16 +3,10 @@
 
 import { describe, it, assert } from "vitest";
 import { sendRequest } from "../src/sendRequest.js";
-import {
-  MultipartRequestBody,
-  Pipeline,
-  PipelineResponse,
-  RestError,
-  createEmptyPipeline,
-  createHttpHeaders,
-} from "@azure/core-rest-pipeline";
+import type { MultipartRequestBody, Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
+import { RestError, createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { stringToUint8Array } from "@azure/core-util";
-import { PartDescriptor } from "../src/multipart.js";
+import type { PartDescriptor } from "../src/multipart.js";
 
 describe("sendRequest", () => {
   const foo = new Uint8Array([0x66, 0x6f, 0x6f]);
@@ -319,7 +313,7 @@ describe("sendRequest", () => {
           },
           {
             headers: createHttpHeaders({
-              "content-type": "application/json; charset=UTF-8",
+              "content-type": "application/json",
               "content-disposition": `form-data; name="fileArray2"`,
             }),
             body: stringToUint8Array("{}", "utf-8"),
@@ -467,7 +461,7 @@ describe("sendRequest", () => {
   it("should set application/json by default if it is json string", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
-      assert.equal(request.headers.get("content-type"), "application/json; charset=UTF-8");
+      assert.equal(request.headers.get("content-type"), "application/json");
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 

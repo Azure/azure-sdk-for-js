@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AbstractiveSummarizationLROResult,
   AnalyzeResponse,
   AnalyzeTextLROResultUnion,
@@ -43,8 +43,8 @@ import {
   CustomEntitiesResultDocumentsItem,
   CustomLabelClassificationResultDocumentsItem,
   HealthcareEntitiesDocumentResult,
-} from "./generated";
-import {
+} from "./generated/index.js";
+import type {
   AnalyzeActionName,
   AnalyzeBatchActionName,
   AnalyzeBatchResult,
@@ -65,14 +65,14 @@ import {
   TextAnalysisError,
   TextAnalysisErrorResult,
   TextAnalysisSuccessResult,
-} from "./models";
+} from "./models.js";
+import type { AssessmentIndex } from "./util.js";
 import {
-  AssessmentIndex,
   extractErrorPointerIndex,
   parseAssessmentIndex,
   parseHealthcareEntityIndex,
   sortResponseIdObjects,
-} from "./util";
+} from "./util.js";
 import { RestError } from "@azure/core-rest-pipeline";
 
 /**

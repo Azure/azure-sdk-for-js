@@ -14,9 +14,10 @@ import {
   MachineRunCommandsCreateOrUpdateOptionalParams,
   MachineRunCommandsCreateOrUpdateResponse,
   MachineRunCommandsDeleteOptionalParams,
+  MachineRunCommandsDeleteResponse,
   MachineRunCommandsGetOptionalParams,
   MachineRunCommandsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MachineRunCommands. */
@@ -79,7 +80,12 @@ export interface MachineRunCommands {
     machineName: string,
     runCommandName: string,
     options?: MachineRunCommandsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MachineRunCommandsDeleteResponse>,
+      MachineRunCommandsDeleteResponse
+    >
+  >;
   /**
    * The operation to delete a run command.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -92,7 +98,7 @@ export interface MachineRunCommands {
     machineName: string,
     runCommandName: string,
     options?: MachineRunCommandsDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<MachineRunCommandsDeleteResponse>;
   /**
    * The operation to get a run command.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

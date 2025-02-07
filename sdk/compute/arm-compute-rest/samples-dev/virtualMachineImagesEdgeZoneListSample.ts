@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineImagesEdgeZoneListParameters,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachineImagesEdgeZoneListParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MaximumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListMaximumSetGen() {
+async function virtualMachineImagesEdgeZoneListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -55,7 +50,7 @@ virtualMachineImagesEdgeZoneListMaximumSetGen().catch(console.error);
  * @summary Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_List_MinimumSet_Gen.json
  */
-async function virtualMachineImagesEdgeZoneListMinimumSetGen() {
+async function virtualMachineImagesEdgeZoneListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

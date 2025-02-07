@@ -6,10 +6,9 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SearchIndexerClient, SearchIndexerSkillset } from "@azure/search-documents";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { SearchIndexerSkillset } from "@azure/search-documents";
+import { SearchIndexerClient } from "@azure/search-documents";
+import "dotenv/config";
 
 const endpoint = process.env.ENDPOINT || "";
 

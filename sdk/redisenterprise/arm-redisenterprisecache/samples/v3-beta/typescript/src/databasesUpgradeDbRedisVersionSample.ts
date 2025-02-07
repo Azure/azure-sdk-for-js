@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Upgrades the database Redis version to the latest available.
  *
  * @summary Upgrades the database Redis version to the latest available.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-03-01-preview/examples/RedisEnterpriseDatabasesUpgradeDBRedisVersion.json
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDatabasesUpgradeDBRedisVersion.json
  */
 async function howToUpgradeYourDatabaseRedisVersion() {
   const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "subid";
+    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
+    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName =
     process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";

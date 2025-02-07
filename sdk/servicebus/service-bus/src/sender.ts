@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import Long from "long";
-import { MessageSender } from "./core/messageSender";
-import { ServiceBusMessage } from "./serviceBusMessage";
-import { ConnectionContext } from "./connectionContext";
+import type Long from "long";
+import { MessageSender } from "./core/messageSender.js";
+import type { ServiceBusMessage } from "./serviceBusMessage.js";
+import type { ConnectionContext } from "./connectionContext.js";
 import {
   errorInvalidMessageTypeSingleOrArray,
   getSenderClosedErrorMsg,
@@ -13,23 +13,18 @@ import {
   throwTypeErrorIfNotInstanceOfParameterType,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-} from "./util/errors";
-import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateMessageBatchOptions } from "./models";
-import {
-  RetryConfig,
-  RetryOperationType,
-  RetryOptions,
-  retry,
-  AmqpAnnotatedMessage,
-} from "@azure/core-amqp";
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-import { TracingSpanLink } from "@azure/core-tracing";
-import { senderLogger as logger } from "./log";
-import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
-import { ensureValidIdentifier } from "./util/utils";
-import { ServiceBusError } from "./serviceBusError";
-import { instrumentMessage } from "./diagnostics/instrumentServiceBusMessage";
+} from "./util/errors.js";
+import type { ServiceBusMessageBatch } from "./serviceBusMessageBatch.js";
+import type { CreateMessageBatchOptions } from "./models.js";
+import type { RetryConfig, RetryOptions, AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { RetryOperationType, retry } from "@azure/core-amqp";
+import type { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs.js";
+import type { TracingSpanLink } from "@azure/core-tracing";
+import { senderLogger as logger } from "./log.js";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing.js";
+import { ensureValidIdentifier } from "./util/utils.js";
+import { ServiceBusError } from "./serviceBusError.js";
+import { instrumentMessage } from "./diagnostics/instrumentServiceBusMessage.js";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -57,7 +52,7 @@ export interface ServiceBusSender {
    *
    *  `await sender.sendMessages(message);`
    *
-   * __This is because the batched messages are not capable of sending the larger messages yet. You'll hit the `force detached` error in this case otherwise. Read [service-bus-premium-messaging#large-messages-support](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-premium-messaging#large-messages-support). More info at [#23014](https://github.com/Azure/azure-sdk-for-js/pull/23014).__
+   * __This is because the batched messages are not capable of sending the larger messages yet. You'll hit the `force detached` error in this case otherwise. Read [service-bus-premium-messaging#large-messages-support](https://learn.microsoft.com/en-us/azure/service-bus-messaging/service-bus-premium-messaging#large-messages-support). More info at [#23014](https://github.com/Azure/azure-sdk-for-js/pull/23014).__
    *
    * @param messages - A single message or an array of messages or a batch of messages created via the createBatch()
    * method to send.

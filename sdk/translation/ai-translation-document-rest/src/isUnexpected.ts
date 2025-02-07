@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import {
+import type {
   DocumentTranslate200Response,
   DocumentTranslateDefaultResponse,
   StartTranslation202Response,

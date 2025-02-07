@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { BlobSASPermissions } from "./BlobSASPermissions";
-import { UserDelegationKey } from "../BlobServiceClient";
+import type { UserDelegationKey } from "../BlobServiceClient";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
 import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
 import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential";
-import { ipRangeToString, SasIPRange } from "./SasIPRange";
-import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
+import type { SasIPRange } from "./SasIPRange";
+import { ipRangeToString } from "./SasIPRange";
+import type { SASProtocol } from "./SASQueryParameters";
+import { SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "../utils/constants";
 import { truncatedISO8061Date } from "../utils/utils.common";
 
@@ -72,7 +74,7 @@ export interface BlobSASSignatureValues {
   /**
    * Optional. The name of the access policy on the container this SAS references if any.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 
@@ -294,7 +296,7 @@ export function generateBlobSASQueryParametersInternal(
 
   // Version 2019-12-12 adds support for the blob tags permission.
   // Version 2018-11-09 adds support for the signed resource and signed blob snapshot time fields.
-  // https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas#constructing-the-signature-string
+  // https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas#constructing-the-signature-string
   if (version >= "2018-11-09") {
     if (sharedKeyCredential !== undefined) {
       return generateBlobSASQueryParameters20181109(blobSASSignatureValues, sharedKeyCredential);

@@ -5,7 +5,7 @@
  * This sample demonstrates how the scheduleMessages() function can be used to schedule messages to
  * appear on a Service Bus Queue/Subscription at a later time.
  *
- * See https://docs.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
+ * See https://learn.microsoft.com/azure/service-bus-messaging/message-sequencing#scheduled-messages
  * to learn about scheduling messages.
  *
  * @summary Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time
@@ -93,7 +93,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
 
   console.log(`\nStarting receiver immediately at ${new Date(Date.now())}`);
 
-  queueReceiver.subscribe({
+  await queueReceiver.subscribe({
     processMessage,
     processError,
   });
@@ -106,7 +106,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
 
   queueReceiver = sbClient.createReceiver(queueName);
 
-  queueReceiver.subscribe({
+  await queueReceiver.subscribe({
     processMessage,
     processError,
   });

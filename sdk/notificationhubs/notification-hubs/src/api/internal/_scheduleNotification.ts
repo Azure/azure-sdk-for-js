@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./_client.js";
-import { NonNullableRecord } from "../../utils/utils.js";
-import { Notification } from "../../models/notification.js";
-import { NotificationHubsClientContext } from "../index.js";
-import { NotificationHubsMessageResponse } from "../../models/notificationDetails.js";
+import type { NonNullableRecord } from "../../utils/utils.js";
+import type { Notification } from "../../models/notification.js";
+import type { NotificationHubsClientContext } from "../index.js";
+import type { NotificationHubsMessageResponse } from "../../models/notificationDetails.js";
 import { tracingClient } from "../../utils/tracing.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
  * Schedules a push notification to devices that match the given tags or tag expression at the specified time.

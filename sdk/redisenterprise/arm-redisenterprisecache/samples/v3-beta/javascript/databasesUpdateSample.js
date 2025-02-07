@@ -16,14 +16,16 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a database
  *
  * @summary Updates a database
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-03-01-preview/examples/RedisEnterpriseDatabasesUpdate.json
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDatabasesUpdate.json
  */
 async function redisEnterpriseDatabasesUpdate() {
-  const subscriptionId = process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "subid";
+  const subscriptionId =
+    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName = process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";
   const databaseName = "default";
   const parameters = {
+    accessKeysAuthentication: "Enabled",
     clientProtocol: "Encrypted",
     evictionPolicy: "AllKeysLRU",
     persistence: { rdbEnabled: true, rdbFrequency: "12h" },

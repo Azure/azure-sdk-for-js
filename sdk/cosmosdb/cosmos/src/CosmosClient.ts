@@ -6,13 +6,16 @@ import { ClientContext } from "./ClientContext";
 import { parseConnectionString } from "./common";
 import { Constants } from "./common/constants";
 import { getUserAgent } from "./common/platform";
-import { CosmosClientOptions } from "./CosmosClientOptions";
-import { ClientConfigDiagnostic } from "./CosmosDiagnostics";
+import type { CosmosClientOptions } from "./CosmosClientOptions";
+import type { ClientConfigDiagnostic } from "./CosmosDiagnostics";
 import { determineDiagnosticLevel, getDiagnosticLevelFromEnvironment } from "./diagnostics";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
+import type { DatabaseAccount } from "./documents";
+import { defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
-import { RequestOptions, ResourceResponse } from "./request";
+import type { RequestOptions } from "./request";
+import { ResourceResponse } from "./request";
 import { checkURL } from "./utils/checkURL";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics";
 
@@ -67,6 +70,10 @@ export class CosmosClient {
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
+    } else if (optionsOrConnectionString.connectionString) {
+      const { endpoint, key } = parseConnectionString(optionsOrConnectionString.connectionString);
+      optionsOrConnectionString.endpoint = endpoint;
+      optionsOrConnectionString.key = key;
     }
 
     const endpoint = checkURL(optionsOrConnectionString.endpoint);
@@ -92,9 +99,9 @@ export class CosmosClient {
         optionsOrConnectionString.consistencyLevel;
     }
 
-    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = getUserAgent(
-      optionsOrConnectionString.userAgentSuffix,
-    );
+    const userAgent = getUserAgent(optionsOrConnectionString.userAgentSuffix);
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.UserAgent] = userAgent;
+    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] = userAgent;
 
     const globalEndpointManager = new GlobalEndpointManager(
       optionsOrConnectionString,
@@ -268,5 +275,14 @@ export class CosmosClient {
     if (this.endpointRefresher.unref && typeof this.endpointRefresher.unref === "function") {
       this.endpointRefresher.unref();
     }
+  }
+
+  /**
+   * Update the host framework. If provided host framework will be used to generate the defualt SDK user agent.
+   * @param hostFramework - A custom string.
+   * @internal
+   */
+  public async updateHostFramework(hostFramework: string): Promise<void> {
+    this.clientContext.refreshUserAgent(hostFramework);
   }
 }

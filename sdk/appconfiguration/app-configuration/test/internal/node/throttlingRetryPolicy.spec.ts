@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AppConfigurationClient } from "../../../src";
-import {
-  createHttpHeaders,
+import { AppConfigurationClient } from "../../../src/index.js";
+import type {
   HttpClient,
   PipelineRequest,
   RestError,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import chai from "chai";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { randomUUID } from "@azure/core-util";
 import { NoOpCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, expect } from "vitest";
 
 describe("Should not retry forever", () => {
   let client: AppConfigurationClient;
@@ -40,27 +40,20 @@ describe("Should not retry forever", () => {
     const key = randomUUID();
     const numberOfSettings = 200;
     const promises = [];
-    let errorWasThrown = false;
-    try {
-      for (let index = 0; index < numberOfSettings; index++) {
-        promises.push(
-          client.addConfigurationSetting(
-            {
-              key: key + "-" + index,
-              value: "added",
-            },
-            {
-              abortSignal: AbortSignal.timeout(1000),
-            },
-          ),
-        );
-      }
-      await Promise.all(promises);
-    } catch (error: any) {
-      errorWasThrown = true;
-      chai.assert.equal((error as any).name, "AbortError", "Unexpected error thrown");
+    for (let index = 0; index < numberOfSettings; index++) {
+      promises.push(
+        client.addConfigurationSetting(
+          {
+            key: key + "-" + index,
+            value: "added",
+          },
+          {
+            abortSignal: AbortSignal.timeout(1000),
+          },
+        ),
+      );
     }
-    chai.assert.equal(errorWasThrown, true, "Error was not thrown");
+    await expect(Promise.all(promises)).rejects.toThrow(/The operation was aborted/);
   });
 
   it("should not retry forever without abortSignal", async () => {
@@ -91,15 +84,15 @@ describe("Should not retry forever", () => {
     } catch (error: any) {
       errorWasThrown = true;
       const err = error as RestError;
-      chai.assert.equal(err.name, "RestError", "Unexpected error thrown");
-      chai.assert.equal(JSON.parse(err.message).status, 429, "Unexpected error thrown");
-      chai.assert.equal(
+      assert.equal(err.name, "RestError", "Unexpected error thrown");
+      assert.equal(JSON.parse(err.message).status, 429, "Unexpected error thrown");
+      assert.equal(
         JSON.parse(err.message).title,
         "Resource utilization has surpassed the assigned quota",
         "Unexpected error thrown",
       );
     }
-    chai.assert.equal(errorWasThrown, true, "Error was not thrown");
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 });
 

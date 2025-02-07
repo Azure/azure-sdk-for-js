@@ -9,13 +9,11 @@
  * @azsdk-weight 50
  */
 
-import { ConversationAnalysisClient, ConversationalTask } from "@azure/ai-language-conversations";
+import type { ConversationalTask } from "@azure/ai-language-conversations";
+import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
 import { AzureKeyCredential } from "@azure/core-auth";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-//Get secrets
-//You will have to set these environment variables for the sample to work
 const cluEndpoint =
   process.env.AZURE_CONVERSATIONS_ENDPOINT || "https://dummyendpoint.cognitiveservices.azure.com";
 const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
@@ -58,8 +56,8 @@ const body: ConversationalTask = {
   },
 };
 
-export async function main() {
-  //Analyze query
+export async function main(): Promise<void> {
+  // Analyze query
   const { result } = await service.analyzeConversation(body);
   console.log("query: ", result.query);
   console.log("project kind: ", result.prediction.projectKind);
@@ -68,12 +66,12 @@ export async function main() {
   console.log("\ntop intent: ", topIntent);
 
   const prediction = result.prediction;
-  if (prediction.projectKind == "Orchestration") {
+  if (prediction.projectKind === "Orchestration") {
     const topIntentObject = prediction.intents[topIntent];
     console.log("confidence score: ", topIntentObject.confidence);
     console.log("project kind: ", topIntentObject.targetProjectKind);
 
-    if (topIntentObject.targetProjectKind == "QuestionAnswering") {
+    if (topIntentObject.targetProjectKind === "QuestionAnswering") {
       console.log("\nqna response:");
 
       const qnaResponse = topIntentObject.result;

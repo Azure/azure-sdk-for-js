@@ -9,7 +9,7 @@
 import {
   ComponentFeatureCapabilitiesGetOptionalParams,
   ComponentFeatureCapabilitiesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ComponentFeatureCapabilities. */
 export interface ComponentFeatureCapabilities {

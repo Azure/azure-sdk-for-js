@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "@azure-tools/test-utils";
-import { JsonSchemaSerializer } from "../../src";
-import { Context } from "mocha";
-import { SchemaRegistry } from "@azure/schema-registry";
-import { assertError } from "./utils/assertError";
-import { createTestRegistry } from "./utils/mockedRegistryClient";
-import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer";
-import { createContentType, testGroup, testSchema } from "./utils/dummies";
+import type { JsonSchemaSerializer } from "../../src/index.js";
+import type { SchemaRegistry } from "@azure/schema-registry";
+import { assertError } from "./utils/assertError.js";
+import { createTestRegistry } from "./utils/mockedRegistryClient.js";
+import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer.js";
+import { createContentType, testGroup, testSchema } from "./utils/dummies.js";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { randomUUID } from "@azure/core-util";
+import { describe, it, assert, expect, beforeEach } from "vitest";
 
-describe("Error scenarios", function () {
+describe("Error scenarios", () => {
   let serializer: JsonSchemaSerializer;
   let registry: SchemaRegistry;
   let recorder: Recorder;
 
-  beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     serializer = await createTestSerializer({
       registry,
@@ -29,28 +28,28 @@ describe("Error scenarios", function () {
     });
   });
 
-  describe("Schema validation", function () {
-    it("unrecognized content type", async function () {
-      await assert.isRejected(
+  describe("Schema validation", () => {
+    it("unrecognized content type", async () => {
+      await expect(
         serializer.deserialize({
           data: new Uint8Array(1),
           contentType: "avro/binary+1234",
         }),
-        /avro\/binary.*application\/json/,
-      );
+      ).rejects.toThrow(/avro\/binary.*application\/json/);
     });
-    it("a schema with non-json format", async function (this: Context) {
-      await assert.isRejected(
+
+    it("a schema with non-json format", async () => {
+      await expect(
         registry.registerSchema({
           name: "Name",
           definition: "Definition",
           format: "notjson",
           groupName: testGroup,
         }),
-        /Invalid schema type for PUT request.*notjson/,
-      );
+      ).rejects.toThrow(/Invalid schema type for PUT request.*notjson/);
     });
-    it("schema to serialize with is not found", async function () {
+
+    it("schema to serialize with is not found", async () => {
       const schema = JSON.stringify({
         $schema: "https://json-schema.org/draft/2020-12/schema",
         $id: "student",
@@ -62,23 +61,24 @@ describe("Error scenarios", function () {
           },
         },
       });
-      await assert.isRejected(serializer.serialize({ name: "Bob" }, schema), /not found/);
+      await expect(serializer.serialize({ name: "Bob" }, schema)).rejects.toThrow(/not found/);
     });
-    it("schema to deserialize with is not found", async function () {
-      await assert.isRejected(
+
+    it("schema to deserialize with is not found", async () => {
+      await expect(
         serializer.deserialize({
           data: Uint8Array.from([0]),
           contentType: createContentType(randomUUID()),
         }),
-        /does not exist/,
-      );
+      ).rejects.toThrow(/does not exist/);
     });
-    it("invalid schema at time of deserializing", async function (this: Context) {
+
+    it("invalid schema at time of deserializing", async (ctx) => {
       /**
        * This test can not run in live mode because the service will validate the schema.
        */
       if (isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       const id = await registerTestSchema(registry);
       const { data } = await serializer.serialize(
@@ -98,12 +98,14 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("not JSON schema", async function () {
+
+    it("not JSON schema", async () => {
       await assertError(serializer.serialize(null, ""), {
         causeMessage: /Unexpected end of JSON input/,
       });
     });
-    it("null schema", async function () {
+
+    it("null schema", async () => {
       await assertError(
         /**
          * The type checking will prevent this from happening but I am including
@@ -115,9 +117,10 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("schema with invalid enum", async function () {
+
+    it("schema with invalid enum", async (ctx) => {
       if (!isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       const schema = JSON.stringify({
         $schema: "https://json-schema.org/draft/2020-12/schema",
@@ -148,7 +151,8 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("schema without an ID", async function () {
+
+    it("schema without an ID", async () => {
       await assertError(
         serializer.serialize(
           null,
@@ -164,9 +168,10 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("schema with invalid ID", async function () {
+
+    it("schema with invalid ID", async (ctx) => {
       if (!isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
       await assertError(
         serializer.serialize(
@@ -181,9 +186,10 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("schema with invalid type", async function () {
+
+    it("schema with invalid type", async (ctx) => {
       if (!isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
 
       const schema = JSON.stringify({
@@ -206,7 +212,8 @@ describe("Error scenarios", function () {
         },
       );
     });
-    it("parsing json errors", async function () {
+
+    it("parsing json errors", async () => {
       await registerTestSchema(registry);
       const serializedValue = await serializer.serialize(
         {

@@ -6,62 +6,61 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   ManagedPrivateEndpoint,
   ManagedPrivateEndpointsListOptionalParams,
   ManagedPrivateEndpointsGetOptionalParams,
   ManagedPrivateEndpointsGetResponse,
   ManagedPrivateEndpointsCreateOptionalParams,
   ManagedPrivateEndpointsCreateResponse,
-  ManagedPrivateEndpointsDeleteOptionalParams
-} from "../models";
+  ManagedPrivateEndpointsDeleteOptionalParams,
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedPrivateEndpoints. */
 export interface ManagedPrivateEndpoints {
   /**
    * List Managed Private Endpoints
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param options The options parameters.
+   * @param managedVirtualNetworkName - Managed virtual network name
+   * @param options - The options parameters.
    */
   list(
     managedVirtualNetworkName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedPrivateEndpoint>;
   /**
    * Get Managed Private Endpoints
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param managedPrivateEndpointName Managed private endpoint name
-   * @param options The options parameters.
+   * @param managedVirtualNetworkName - Managed virtual network name
+   * @param managedPrivateEndpointName - Managed private endpoint name
+   * @param options - The options parameters.
    */
   get(
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsGetOptionalParams
+    options?: ManagedPrivateEndpointsGetOptionalParams,
   ): Promise<ManagedPrivateEndpointsGetResponse>;
   /**
    * Create Managed Private Endpoints
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param managedPrivateEndpointName Managed private endpoint name
-   * @param managedPrivateEndpoint Managed private endpoint properties.
-   * @param options The options parameters.
+   * @param managedVirtualNetworkName - Managed virtual network name
+   * @param managedPrivateEndpointName - Managed private endpoint name
+   * @param managedPrivateEndpoint - Managed private endpoint properties.
+   * @param options - The options parameters.
    */
   create(
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
     managedPrivateEndpoint: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsCreateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOptionalParams,
   ): Promise<ManagedPrivateEndpointsCreateResponse>;
   /**
    * Delete Managed Private Endpoints
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param managedPrivateEndpointName Managed private endpoint name
-   * @param options The options parameters.
+   * @param managedVirtualNetworkName - Managed virtual network name
+   * @param managedPrivateEndpointName - Managed private endpoint name
+   * @param options - The options parameters.
    */
   delete(
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<void>;
 }

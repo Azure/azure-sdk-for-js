@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { TestProxyHttpClient, testProxyHttpPolicy } from "./testProxyHttpClient";
-import { PerfTestBase } from "./perfTestBase";
+import { TestProxyHttpClient, testProxyHttpPolicy } from "./testProxyHttpClient.js";
+import { PerfTestBase } from "./perfTestBase.js";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
 /**

@@ -2,33 +2,32 @@
 // Licensed under the MIT License.
 
 import { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
-import { QuantumJobClient } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import * as fs from "fs";
-import { TokenCredential } from "@azure/identity";
+import type { QuantumJobClient } from "../../src/index.js";
+import { authenticate } from "../utils/testAuthentication.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import * as fs from "node:fs";
+import type { TokenCredential } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { getRecorderUniqueVariable } from "../utils/recorderUtils";
+import { getRecorderUniqueVariable } from "../utils/recorderUtils.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Quantum job lifecycle", () => {
   let client: QuantumJobClient;
   let recorder: Recorder;
   let credentials: TokenCredential;
 
-  beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this.currentTest);
+  beforeEach(async (ctx) => {
+    const authentication = await authenticate(ctx);
     client = authentication.client;
     recorder = authentication.recorder;
     credentials = authentication.credentials;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("Test Get Providers Status", async function () {
+  it("Test Get Providers Status", async () => {
     let index = 0;
     for await (const status of client.providers.listStatus()) {
       assert.isNotEmpty(status.id);
@@ -40,7 +39,7 @@ describe("Quantum job lifecycle", () => {
     assert.isTrue(index >= 1);
   });
 
-  it("Test Get Quotas", async function () {
+  it("Test Get Quotas", async () => {
     let index = 0;
     for await (const quota of client.quotas.list()) {
       assert.isNotEmpty(quota.dimension);
@@ -55,7 +54,7 @@ describe("Quantum job lifecycle", () => {
     assert.isTrue(index >= 1);
   });
 
-  it("Test Quantum Job Lifecycle", async function () {
+  it("Test Quantum Job Lifecycle", async () => {
     // Get container Uri with SAS key
     const containerName = "testcontainer";
     const containerUri =
@@ -102,9 +101,9 @@ describe("Quantum job lifecycle", () => {
     const providerId = "quantinuum";
     const target = "quantinuum.sim.h1-1e";
     const inputParams = {
-      "entryPoint": "ENTRYPOINT__BellState",
-      "arguments": <string[]>[],
-      "targetCapability": "AdaptiveExecution",    
+      entryPoint: "ENTRYPOINT__BellState",
+      arguments: <string[]>[],
+      targetCapability: "AdaptiveExecution",
     };
     const createJobDetails = {
       containerUri: containerUri,
@@ -137,11 +136,11 @@ describe("Quantum job lifecycle", () => {
     for await (const job of jobs) {
       if (job.id === jobDetails.id) {
         jobFound = true;
-        assert.equal(jobDetails.inputDataFormat, jobDetails.inputDataFormat);
-        assert.equal(jobDetails.outputDataFormat, jobDetails.outputDataFormat);
-        assert.equal(jobDetails.providerId, jobDetails.providerId);
-        assert.equal(jobDetails.target, jobDetails.target);
-        assert.equal(jobDetails.name, jobDetails.name);
+        assert.equal(job.inputDataFormat, jobDetails.inputDataFormat);
+        assert.equal(job.outputDataFormat, jobDetails.outputDataFormat);
+        assert.equal(job.providerId, jobDetails.providerId);
+        assert.equal(job.target, jobDetails.target);
+        assert.equal(job.name, jobDetails.name);
       }
     }
     assert.isTrue(jobFound);

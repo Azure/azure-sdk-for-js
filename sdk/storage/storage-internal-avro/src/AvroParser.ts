@@ -4,9 +4,9 @@
 // TODO: Do a review of the Object usage and non-interfaces
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { AvroReadable } from "./AvroReadable";
-import { KeyValuePair } from "./utils/utils.common";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { AvroReadable } from "./AvroReadable";
+import type { KeyValuePair } from "./utils/utils.common";
 
 /**
  * Options to configure the AvroParser read methods.
@@ -306,7 +306,7 @@ export abstract class AvroType {
     try {
       return AvroType.fromStringSchema(type);
     } catch {
-      // eslint-disable-line no-empty
+      // no-op
     }
 
     switch (type) {

@@ -1,40 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "@azure-tools/test-utils";
-import { Suite, Context } from "mocha";
-
-import { Recorder } from "@azure-tools/test-recorder";
-
-import { createRecordedClient } from "./utils/recordedClient";
-
-import { EventGridPublisherClient } from "../../src";
-
-import { RestError } from "@azure/core-rest-pipeline";
-import { AdditionalPolicyConfig } from "@azure/core-client";
-import { getRandomNumber } from "./utils/testUtils";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createRecordedClient } from "./utils/recordedClient.js";
+import type { EventGridPublisherClient } from "../../src/index.js";
+import type { RestError } from "@azure/core-rest-pipeline";
+import type { AdditionalPolicyConfig, OperationOptions } from "@azure/core-client";
+import { getRandomNumber } from "./utils/testUtils.js";
 import {
   TraceParentHeaderName,
   TraceStateHeaderName,
-} from "../../src/cloudEventDistrubtedTracingEnricherPolicy";
+} from "../../src/cloudEventDistrubtedTracingEnricherPolicy.js";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-describe("EventGridPublisherClient", function (this: Suite) {
+expect.extend({ toSupportTracing });
+
+describe("EventGridPublisherClient", { timeout: 10000 }, () => {
   let recorder: Recorder;
 
-  this.timeout(10000);
-
-  describe("#send (EventGrid schema)", function () {
+  describe("#send (EventGrid schema)", () => {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async (ctx) => {
       ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
+        ctx,
         "EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT",
         "EventGrid",
       ));
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
@@ -93,12 +89,12 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
   });
 
-  describe("#send error cases (EventGrid schema)", function () {
+  describe("#send error cases (EventGrid schema)", () => {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async (ctx) => {
       ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
+        ctx,
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
         "EventGrid",
         {
@@ -107,7 +103,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
       ));
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
@@ -137,19 +133,19 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
   });
 
-  describe("#send (CloudEvent schema)", function () {
+  describe("#send (CloudEvent schema)", () => {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async (ctx) => {
       ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
+        ctx,
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
         "CloudEvent",
       ));
       await recorder.setMatcher("HeaderlessMatcher");
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
@@ -206,11 +202,11 @@ describe("EventGridPublisherClient", function (this: Suite) {
       assert.strictEqual(status, 200);
     });
 
-    describe("when tracing headers are present in the request", function () {
+    describe("when tracing headers are present in the request", () => {
       const traceparentValue = "00-00000000000000000000000000000001-0000000000000003-00";
       const tracestateValue = "00-123";
 
-      beforeEach(async function (this: Context) {
+      beforeEach(async (ctx) => {
         const setHeadersPolicy: AdditionalPolicyConfig = {
           policy: {
             name: "foo",
@@ -224,7 +220,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         };
 
         ({ client, recorder } = await createRecordedClient(
-          this.currentTest,
+          ctx,
           "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
           "CloudEvent",
           {
@@ -234,35 +230,32 @@ describe("EventGridPublisherClient", function (this: Suite) {
         await recorder.setMatcher("HeaderlessMatcher");
       });
 
-      it("enriches events with distributed tracing information", async function (this: Context) {
+      it("enriches events with distributed tracing information", async () => {
         let requestBody: string | undefined;
 
-        await assert.supportsTracing(
-          async (options) => {
-            await client.send(
-              [
-                {
-                  type: "Azure.Sdk.TestEvent1",
-                  id: recorder.variable(
-                    "cloudTracingEventId",
-                    `cloudTracingEventId${getRandomNumber()}`,
-                  ),
-                  time: new Date(recorder.variable("cloudTracingEventDate", new Date().toString())),
-                  source: "/earth/unitedstates/washington/kirkland/finnhill",
-                  subject: "Single with Trace Parent",
-                  data: {
-                    hello: "world",
-                  },
-                },
-              ],
+        await expect(async (options: OperationOptions) => {
+          await client.send(
+            [
               {
-                ...options,
-                onResponse: (response) => (requestBody = response.request.body as string),
+                type: "Azure.Sdk.TestEvent1",
+                id: recorder.variable(
+                  "cloudTracingEventId",
+                  `cloudTracingEventId${getRandomNumber()}`,
+                ),
+                time: new Date(recorder.variable("cloudTracingEventDate", new Date().toString())),
+                source: "/earth/unitedstates/washington/kirkland/finnhill",
+                subject: "Single with Trace Parent",
+                data: {
+                  hello: "world",
+                },
               },
-            );
-          },
-          ["EventGridPublisherClient.send"],
-        );
+            ],
+            {
+              ...options,
+              onResponse: (response) => (requestBody = response.request.body as string),
+            },
+          );
+        }).toSupportTracing(["EventGridPublisherClient.send"]);
 
         const parsedBody = JSON.parse(requestBody || "");
         assert.isArray(parsedBody);
@@ -272,12 +265,12 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
   });
 
-  describe("#send error cases (CloudEvent schema)", function () {
+  describe("#send error cases (CloudEvent schema)", () => {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async (ctx) => {
       ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
+        ctx,
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
         "CloudEvent",
         {
@@ -286,7 +279,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
       ));
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
@@ -314,18 +307,18 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
   });
 
-  describe("#send (Custom Event Schema)", function () {
+  describe("#send (Custom Event Schema)", () => {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async (ctx) => {
       ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
+        ctx,
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
         "Custom",
       ));
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
@@ -378,12 +371,12 @@ describe("EventGridPublisherClient", function (this: Suite) {
     });
   });
 
-  describe("#send error cases (Custom Event Schema)", function () {
+  describe("#send error cases (Custom Event Schema)", () => {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async (ctx) => {
       ({ client, recorder } = await createRecordedClient(
-        this.currentTest,
+        ctx,
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
         "Custom",
         {
@@ -392,7 +385,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
       ));
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 

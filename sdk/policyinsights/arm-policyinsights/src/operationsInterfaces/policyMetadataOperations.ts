@@ -11,8 +11,8 @@ import {
   SlimPolicyMetadata,
   PolicyMetadataListOptionalParams,
   PolicyMetadataGetResourceOptionalParams,
-  PolicyMetadataGetResourceResponse
-} from "../models";
+  PolicyMetadataGetResourceResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PolicyMetadataOperations. */
@@ -22,7 +22,7 @@ export interface PolicyMetadataOperations {
    * @param options The options parameters.
    */
   list(
-    options?: PolicyMetadataListOptionalParams
+    options?: PolicyMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<SlimPolicyMetadata>;
   /**
    * Get policy metadata resource.
@@ -31,6 +31,6 @@ export interface PolicyMetadataOperations {
    */
   getResource(
     resourceName: string,
-    options?: PolicyMetadataGetResourceOptionalParams
+    options?: PolicyMetadataGetResourceOptionalParams,
   ): Promise<PolicyMetadataGetResourceResponse>;
 }

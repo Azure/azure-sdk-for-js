@@ -13,7 +13,7 @@ import {
   ConfigurationProfileHCIAssignmentsGetOptionalParams,
   ConfigurationProfileHCIAssignmentsGetResponse,
   ConfigurationProfileHCIAssignmentsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ConfigurationProfileHCIAssignments. */
 export interface ConfigurationProfileHCIAssignments {

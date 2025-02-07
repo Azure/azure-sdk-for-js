@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { HttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import {
   HeaderConstants,
   URLConstants,
   DevelopmentConnectionString,
   PathStylePorts,
 } from "./constants";
-import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
  * Append a string to URL path. Will remove duplicated "/" in front of the string
@@ -148,7 +149,7 @@ export interface ConnectionString {
 
 function getProxyUriFromDevConnString(connectionString: string): string {
   // Development Connection String
-  // https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
+  // https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#connect-to-the-emulator-account-using-the-well-known-account-name-and-key
   let proxyUri = "";
   if (connectionString.search("DevelopmentStorageProxyUri=") !== -1) {
     // CONNECTION_STRING=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://myProxyUri

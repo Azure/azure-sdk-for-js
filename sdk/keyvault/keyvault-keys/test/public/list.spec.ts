@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
 import { Recorder, env, isRecordMode } from "@azure-tools/test-recorder";
 
-import { KeyClient } from "../../src";
-import { getServiceVersion } from "./utils/common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+import type { KeyClient } from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
+import type TestClient from "./utils/testClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Keys client - list keys in various ways", () => {
   const keyPrefix = `list${env.KEY_NAME || "KeyName"}`;
@@ -18,11 +15,11 @@ describe("Keys client - list keys in various ways", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(envSetupForPlayback);
 
-    const authentication = await authenticate(getServiceVersion(), recorder);
+    const authentication = await authenticate(recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -37,10 +34,10 @@ describe("Keys client - list keys in various ways", () => {
   // Use this while recording to make sure the target keyvault is clean.
   // The next tests will produce a more consistent output.
   // This test is only useful while developing locally.
-  it("can purge all keys", async function (this: Context): Promise<void> {
+  it("can purge all keys", async function (ctx): Promise<void> {
     // WARNING: When TEST_MODE equals "record", all of the keys in the indicated KEYVAULT_URI will be deleted as part of this test.
     if (!isRecordMode()) {
-      return this.skip();
+      return ctx.skip();
     }
     for await (const properties of client.listPropertiesOfKeys()) {
       try {
@@ -58,8 +55,8 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  it("can get the versions of a key", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("can get the versions of a key", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const expectedVersions = 2;
 
     for (let i = 0; i < expectedVersions; ++i) {
@@ -79,8 +76,8 @@ describe("Keys client - list keys in various ways", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("can get the versions of a key (paged)", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("can get the versions of a key (paged)", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
 
     const expectedVersions = 2;
     for (let i = 0; i < expectedVersions; ++i) {
@@ -91,6 +88,7 @@ describe("Keys client - list keys in various ways", () => {
     for await (const page of client
       .listPropertiesOfKeyVersions(keyName)
       .byPage({ maxPageSize: 1 })) {
+      assert.isAtMost(page.length, 1);
       for (const version of page) {
         assert.equal(
           version.name,
@@ -104,8 +102,8 @@ describe("Keys client - list keys in various ways", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("list 0 versions of a non-existing key", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("list 0 versions of a non-existing key", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     let totalVersions = 0;
     for await (const version of client.listPropertiesOfKeyVersions(keyName)) {
       assert.equal(
@@ -118,8 +116,8 @@ describe("Keys client - list keys in various ways", () => {
     assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
   });
 
-  it("list 0 versions of a non-existing key (paged)", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("list 0 versions of a non-existing key (paged)", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     let totalVersions = 0;
     for await (const page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
       for (const version of page) {
@@ -134,8 +132,8 @@ describe("Keys client - list keys in various ways", () => {
     assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
   });
 
-  it("can get several inserted keys", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("can get several inserted keys", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
     for (const name of keyNames) {
       await client.createKey(name, "RSA");
@@ -155,15 +153,17 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  it("can get several inserted keys (paged)", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("can get several inserted keys (paged)", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
     for (const name of keyNames) {
       await client.createKey(name, "RSA");
     }
 
     let found = 0;
+
     for await (const page of client.listPropertiesOfKeys().byPage({ maxPageSize: 1 })) {
+      assert.isAtMost(page.length, 1);
       for (const properties of page) {
         // The vault might contain more keys than the ones we inserted.
         if (!keyNames.includes(properties.name)) continue;
@@ -178,8 +178,8 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  it("list deleted keys", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("list deleted keys", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
     for (const name of keyNames) {
       await client.createKey(name, "RSA");
@@ -203,8 +203,8 @@ describe("Keys client - list keys in various ways", () => {
     }
   });
 
-  it("list deleted keys (paged)", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("list deleted keys (paged)", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
     for (const name of keyNames) {
       await client.createKey(name, "RSA");
@@ -216,6 +216,7 @@ describe("Keys client - list keys in various ways", () => {
 
     let found = 0;
     for await (const page of client.listDeletedKeys().byPage({ maxPageSize: 1 })) {
+      assert.isAtMost(page.length, 1);
       for (const deletedKey of page) {
         // The vault might contain more keys than the ones we inserted.
         if (!keyNames.includes(deletedKey.name)) continue;

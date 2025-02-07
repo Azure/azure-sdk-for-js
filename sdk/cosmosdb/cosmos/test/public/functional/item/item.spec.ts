@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
-import {
+import type { Suite } from "mocha";
+import type {
   Container,
   ContainerDefinition,
   ContainerRequest,
-  CosmosClient,
+  ItemDefinition,
+  OperationInput,
   PatchOperation,
   RequestOptions,
 } from "../../../../src";
-import { ItemDefinition } from "../../../../src";
+import { CosmosClient, StatusCodes } from "../../../../src";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -27,12 +28,8 @@ import {
 } from "../../common/TestHelpers";
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
-import {
-  PartitionKey,
-  PartitionKeyDefinition,
-  PartitionKeyDefinitionVersion,
-  PartitionKeyKind,
-} from "../../../../src/documents";
+import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents";
 import { PriorityLevel } from "../../../../src/documents/PriorityLevel";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";
 
@@ -522,6 +519,48 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
     const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
     const { resource } = await container.items.create({});
     assert.ok(resource.id);
+  });
+
+  it("should not return payload in write operations response when contentResponseOnWriteEnable is false", async function () {
+    const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
+    const options = { contentResponseOnWriteEnabled: false };
+    const createResponse = await container.items.create({ id: "1", key: "A" }, options);
+    assert.equal(createResponse.resource, null);
+    assert.equal(createResponse.statusCode, StatusCodes.Created);
+
+    const upsertResponse = await container.items.upsert({ id: "1", key: "B" }, options);
+    assert.equal(upsertResponse.resource, null);
+    assert.equal(upsertResponse.statusCode, StatusCodes.Ok);
+
+    const replaceResponse = await container.item("1", "1").replace({ id: "1", key: "C" }, options);
+    assert.equal(replaceResponse.resource, null);
+    assert.equal(replaceResponse.statusCode, StatusCodes.Ok);
+
+    const batchOperations: OperationInput[] = [
+      {
+        operationType: "Create",
+        resourceBody: { id: "2", key: "D" },
+      },
+    ];
+    const batchResponse = await container.items.batch(batchOperations, "2", options);
+    assert.equal(batchResponse.result[0].resourceBody, undefined);
+    assert.equal(batchResponse.code, StatusCodes.Ok);
+
+    const operations: PatchOperation[] = [
+      {
+        op: "replace",
+        path: "/key",
+        value: "b",
+      },
+    ];
+    const patchResponse = await container.item("1", "1").patch(operations, options);
+    assert.equal(patchResponse.resource, null);
+    assert.equal(patchResponse.statusCode, StatusCodes.Ok);
+
+    const deleteResponse = await container.item("2", "2").delete(options);
+    assert.equal(deleteResponse.resource, null);
+    assert.equal(deleteResponse.statusCode, StatusCodes.NoContent);
+    await container.delete();
   });
 
   describe("Upsert when collection partitioned on id", async () => {

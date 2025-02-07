@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DigitalTwinsClient, DigitalTwinsAddRelationshipOptionalParams } from "../../src";
-import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure-tools/test-recorder";
-import chai from "chai";
+import type {
+  DigitalTwinsClient,
+  DigitalTwinsAddRelationshipOptionalParams,
+} from "../../src/index.js";
+import { authenticate } from "../utils/testAuthentication.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { isRestError } from "@azure/core-rest-pipeline";
-
-const assert: typeof chai.assert = chai.assert;
-const should = chai.should();
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const BUILDING_MODEL_ID = "dtmi:samples:DTRelationshipsTestsBuilding;1";
 const FLOOR_MODEL_ID = "dtmi:samples:DTRelationshipsTestsFloor;1";
@@ -85,13 +85,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
-    const authentication = await authenticate(this);
+  beforeEach(async (ctx) => {
+    const authentication = await authenticate(ctx);
     client = authentication.client;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -206,7 +206,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await createDigitalTwins();
   }
 
-  it("create basic relationship", async function () {
+  it("create basic relationship", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -248,7 +248,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("create invalid relationship - invalid twin id", async function () {
+  it("create invalid relationship - invalid twin id", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -269,10 +269,10 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       await cleanup(FLOOR_DIGITAL_TWIN_ID, relationshipId);
     }
-    should.equal(errorWasThrown, true, "Error was not thrown");
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create invalid relationship - invalid twin target id", async function () {
+  it("create invalid relationship - invalid twin target id", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -293,10 +293,10 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       await cleanup(FLOOR_DIGITAL_TWIN_ID, relationshipId);
     }
-    should.equal(errorWasThrown, true, "Error was not thrown");
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create relationship conditionally", async function () {
+  it("create relationship conditionally", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -349,13 +349,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         errorWasThrown = true;
         assert.include(error.message, `header was specified but a relationship with the id`);
       }
-      should.equal(errorWasThrown, true, "Error was not thrown");
+      assert.equal(errorWasThrown, true, "Error was not thrown");
     } finally {
       await cleanup(FLOOR_DIGITAL_TWIN_ID, relationshipId);
     }
   });
 
-  it("upsert relationship", async function () {
+  it("upsert relationship", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -434,7 +434,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("get relationship", async function () {
+  it("get relationship", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -512,7 +512,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("get relationship not existing", async function () {
+  it("get relationship not existing", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -527,13 +527,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         error.message,
         `Relationship ` + relationshipId + ` not found on twin ` + BUILDING_DIGITAL_TWIN_ID,
       );
-      should.equal(errorWasThrown, true, "Error was not thrown");
+      assert.equal(errorWasThrown, true, "Error was not thrown");
     } finally {
       await cleanup(BUILDING_DIGITAL_TWIN_ID, relationshipId);
     }
   });
 
-  it("delete relationship", async function () {
+  it("delete relationship", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -587,14 +587,14 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
           error.message,
           `Relationship ` + relationshipId + ` not found on twin ` + BUILDING_DIGITAL_TWIN_ID,
         );
-        should.equal(errorWasThrown, true, "Error was not thrown");
+        assert.equal(errorWasThrown, true, "Error was not thrown");
       }
     } finally {
       await cleanup(BUILDING_DIGITAL_TWIN_ID, relationshipId);
     }
   });
 
-  it("delete relationship not existing", async function () {
+  it("delete relationship not existing", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -609,13 +609,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
         error.message,
         `Relationship ` + relationshipId + ` not found on twin ` + BUILDING_DIGITAL_TWIN_ID,
       );
-      should.equal(errorWasThrown, true, "Error was not thrown");
+      assert.equal(errorWasThrown, true, "Error was not thrown");
     } finally {
       await cleanup(BUILDING_DIGITAL_TWIN_ID, relationshipId);
     }
   });
 
-  it("update relationship replace", async function () {
+  it("update relationship replace", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -695,7 +695,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship remove", async function () {
+  it("update relationship remove", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -773,7 +773,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship add", async function () {
+  it("update relationship add", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -861,7 +861,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship multiple", async function () {
+  it("update relationship multiple", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -944,7 +944,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship invalid patch", async function () {
+  it("update relationship invalid patch", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1000,7 +1000,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       } catch (error: any) {
         errorWasThrown = true;
         assert.include(error.message, `Unsupported operation type move`);
-        should.equal(errorWasThrown, true, "Error was not thrown");
+        assert.equal(errorWasThrown, true, "Error was not thrown");
       }
 
       const patch2 = [
@@ -1018,7 +1018,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
           error.message,
           `The target location specified by path segment 'isAccessDoorRestricted' was not found`,
         );
-        should.equal(errorWasThrown, true, "Error was not thrown");
+        assert.equal(errorWasThrown, true, "Error was not thrown");
       }
 
       const patch3 = [
@@ -1032,7 +1032,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       } catch (error: any) {
         errorWasThrown = true;
         assert.include(error.message, `Parameter op must not be empty`);
-        should.equal(errorWasThrown, true, "Error was not thrown");
+        assert.equal(errorWasThrown, true, "Error was not thrown");
       }
 
       const patch4 = [{}];
@@ -1042,14 +1042,14 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
       } catch (error: any) {
         errorWasThrown = true;
         assert.include(error.message, `Parameter op must not be empty`);
-        should.equal(errorWasThrown, true, "Error was not thrown");
+        assert.equal(errorWasThrown, true, "Error was not thrown");
       }
     } finally {
       await cleanup(BUILDING_DIGITAL_TWIN_ID, relationshipId);
     }
   });
 
-  it("update relationship conditionally", async function () {
+  it("update relationship conditionally", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1132,7 +1132,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship not existing", async function () {
+  it("update relationship not existing", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1151,13 +1151,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } catch (error: any) {
       errorWasThrown = true;
       assert.include(error.message, `Relationship foo not found on twin`);
-      should.equal(errorWasThrown, true, "Error was not thrown");
+      assert.equal(errorWasThrown, true, "Error was not thrown");
     } finally {
       await cleanup(BUILDING_DIGITAL_TWIN_ID, relationshipId);
     }
   });
 
-  it("list relationships", async function () {
+  it("list relationships", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1212,7 +1212,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("list incoming relationships", async function () {
+  it("list incoming relationships", async () => {
     await setUpModels();
     await setUpDigitalTwins();
 

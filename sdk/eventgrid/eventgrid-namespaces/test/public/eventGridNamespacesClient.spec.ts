@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Suite, Context } from "mocha";
-import { assert } from "@azure-tools/test-utils";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import {
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import type {
   EventGridSenderClient,
   EventGridReceiverClient,
   CloudEvent,
   ReceiveResult,
   RejectResult,
   RenewLocksResult,
-  EventGridDeserializer,
-} from "../../src";
-import { createRecordedClient } from "./utils/recordedClient";
-// eslint-disable-next-line @typescript-eslint/no-redeclare
+} from "../../src/index.js";
+import { EventGridDeserializer } from "../../src/index.js";
+import { createRecordedClient } from "./utils/recordedClient.js";
 import { Buffer } from "buffer";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+
 /* eslint no-constant-condition: "off" */
 async function clearMessages(receiverClient: EventGridReceiverClient): Promise<void> {
   // Clear any messages that may be available in the topic.
@@ -26,7 +26,7 @@ async function clearMessages(receiverClient: EventGridReceiverClient): Promise<v
   }
 }
 
-describe("Event Grid Namespace Client", function (this: Suite) {
+describe("Event Grid Namespace Client", () => {
   let recorder: Recorder;
   let senderClient: EventGridSenderClient;
   let receiverClient: EventGridReceiverClient;
@@ -34,13 +34,13 @@ describe("Event Grid Namespace Client", function (this: Suite) {
   let topicName: string;
   let maxDeliveryCount: number;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async (ctx) => {
     eventSubscriptionName = env["EVENT_SUBSCRIPTION_NAME"] ?? "testsubscription1";
     topicName = env["TOPIC_NAME"] ?? "testtopic1";
     maxDeliveryCount = env["MAX_DELIVERY_COUNT"] ? parseInt(env["MAX_DELIVERY_COUNT"]) : 10;
 
     ({ senderClient, receiverClient, recorder } = await createRecordedClient(
-      this.currentTest,
+      ctx,
       "EVENT_GRID_NAMESPACES_ENDPOINT",
       topicName,
       eventSubscriptionName,
@@ -49,12 +49,12 @@ describe("Event Grid Namespace Client", function (this: Suite) {
     await clearMessages(receiverClient);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await clearMessages(receiverClient);
     await recorder.stop();
   });
 
-  describe("Non Binary Mode Publishing", function () {
+  describe("Non Binary Mode Publishing", () => {
     it("publishes a single cloud event", async () => {
       const eventId: string = `singleEventIdV210001`;
       const cloudEvent: CloudEvent<any> = {
@@ -212,7 +212,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
     });
   });
 
-  describe("Binary Mode Publishing", function () {
+  describe("Binary Mode Publishing", () => {
     it("publishes a single cloud event - Binary Data", async () => {
       const eventId: string = `singleEventIdV210007`;
       const data = {

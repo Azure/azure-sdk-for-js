@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationParameter, OperationURLParameter } from "@azure/core-client";
+import type { OperationParameter, OperationURLParameter } from "@azure/core-client";
 import {
   JobDetails as JobDetailsMapper,
-  BlobDetails as BlobDetailsMapper
-} from "../models/mappers";
+  BlobDetails as BlobDetailsMapper,
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -19,9 +19,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -30,10 +30,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -42,9 +42,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -53,9 +53,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const workspaceName: OperationURLParameter = {
@@ -64,9 +64,9 @@ export const workspaceName: OperationURLParameter = {
     serializedName: "workspaceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const jobId: OperationURLParameter = {
@@ -75,9 +75,9 @@ export const jobId: OperationURLParameter = {
     serializedName: "jobId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -87,14 +87,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const job: OperationParameter = {
   parameterPath: "job",
-  mapper: JobDetailsMapper
+  mapper: JobDetailsMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -103,13 +103,13 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const blobDetails: OperationParameter = {
   parameterPath: "blobDetails",
-  mapper: BlobDetailsMapper
+  mapper: BlobDetailsMapper,
 };

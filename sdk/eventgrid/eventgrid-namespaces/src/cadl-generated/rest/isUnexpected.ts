@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PublishCloudEvent200Response,
   PublishCloudEventDefaultResponse,
   PublishCloudEvents200Response,
@@ -16,7 +16,7 @@ import {
   RejectCloudEventsDefaultResponse,
   RenewCloudEventLocks200Response,
   RenewCloudEventLocksDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /topics/{topicName}:publish": ["200"],

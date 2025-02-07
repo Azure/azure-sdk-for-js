@@ -19,10 +19,11 @@ import {
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
+import { createLroSpec } from "./lroImpl.js";
 import {
   LicensesImpl,
   MachinesImpl,
+  LicenseProfilesImpl,
   MachineExtensionsImpl,
   ExtensionMetadataImpl,
   OperationsImpl,
@@ -34,10 +35,11 @@ import {
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
   NetworkSecurityPerimeterConfigurationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Licenses,
   Machines,
+  LicenseProfiles,
   MachineExtensions,
   ExtensionMetadata,
   Operations,
@@ -49,14 +51,14 @@ import {
   PrivateLinkResources,
   PrivateEndpointConnections,
   NetworkSecurityPerimeterConfigurations,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   HybridComputeManagementClientOptionalParams,
   MachineExtensionUpgrade,
   UpgradeExtensionsOptionalParams,
-} from "./models";
+} from "./models/index.js";
 
 export class HybridComputeManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -90,7 +92,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcompute/4.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-hybridcompute/4.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -144,9 +146,10 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-20-preview";
+    this.apiVersion = options.apiVersion || "2024-07-31-preview";
     this.licenses = new LicensesImpl(this);
     this.machines = new MachinesImpl(this);
+    this.licenseProfiles = new LicenseProfilesImpl(this);
     this.machineExtensions = new MachineExtensionsImpl(this);
     this.extensionMetadata = new ExtensionMetadataImpl(this);
     this.operations = new OperationsImpl(this);
@@ -283,6 +286,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
   licenses: Licenses;
   machines: Machines;
+  licenseProfiles: LicenseProfiles;
   machineExtensions: MachineExtensions;
   extensionMetadata: ExtensionMetadata;
   operations: Operations;

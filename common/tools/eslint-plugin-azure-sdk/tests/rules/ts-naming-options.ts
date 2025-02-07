@@ -6,8 +6,8 @@
  *
  */
 
-import { createRuleTester } from "../ruleTester";
-import rule from "../../src/rules/ts-naming-options";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-naming-options.js";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -20,6 +20,14 @@ ruleTester.run("ts-naming-options", rule, {
     // single method
     {
       code: "class ExampleClient { createExample(options: CreateExampleOptions) {}; };",
+    },
+    // single method with default value
+    {
+      code: "class ExampleClient { createExample(options: CreateExampleOptions = {}) {}; };",
+    },
+    // OperationOptions is allowed
+    {
+      code: "class ExampleClient { public createExample(options: OperationOptions) {}; };",
     },
     // multiple methods
     {
@@ -37,6 +45,14 @@ ruleTester.run("ts-naming-options", rule, {
   invalid: [
     {
       code: "class ExampleClient { createExample(options: Options) {}; };",
+      errors: [
+        {
+          message: "options parameter type is not prefixed with the method name",
+        },
+      ],
+    },
+    {
+      code: "class ExampleClient { createExample(options: Options = {}) {}; };",
       errors: [
         {
           message: "options parameter type is not prefixed with the method name",

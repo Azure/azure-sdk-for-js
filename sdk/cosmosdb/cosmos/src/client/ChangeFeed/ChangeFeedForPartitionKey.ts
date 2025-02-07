@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
-import { Container, Resource } from "../../client";
-import { ClientContext } from "../../ClientContext";
-import { Constants, ResourceType, StatusCodes } from "../../common";
-import { FeedOptions, Response, ErrorResponse } from "../../request";
+import type { Container, Resource } from "../../client";
+import type { ClientContext } from "../../ClientContext";
+import { Constants, ResourceType } from "../../common";
+import type { FeedOptions, Response } from "../../request";
+import { ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
-import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import { PartitionKey } from "../../documents";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
+import type { PartitionKey } from "../../documents";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 import { ChangeFeedMode } from "./ChangeFeedMode";
 /**
@@ -176,19 +177,11 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         getEmptyCosmosDiagnostics(),
       );
     } catch (err) {
-      if (err.code >= StatusCodes.BadRequest && err.code !== StatusCodes.Gone) {
-        const errorResponse = new ErrorResponse(err.message);
-        errorResponse.code = err.code;
-        errorResponse.headers = err.headers;
-        throw errorResponse;
-      }
-      return new ChangeFeedIteratorResponse(
-        [],
-        0,
-        err.code,
-        err.headers,
-        getEmptyCosmosDiagnostics(),
-      );
+      // If any errors are encountered, throw the error.
+      const errorResponse = new ErrorResponse(err.message);
+      errorResponse.code = err.code;
+      errorResponse.headers = err.headers;
+      throw errorResponse;
     }
   }
 }

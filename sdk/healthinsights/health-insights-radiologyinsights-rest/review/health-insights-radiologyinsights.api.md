@@ -4,17 +4,17 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { CreateHttpPollerOptions } from '@azure/core-lro';
-import { ErrorModel } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { SimplePollerLike } from '@azure/core-lro';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
+import type { ErrorModel } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { SimplePollerLike } from '@azure/core-lro';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AgeMismatchInference extends RadiologyInsightsInferenceParent {
@@ -27,7 +27,7 @@ export interface AgeMismatchInferenceOutput extends RadiologyInsightsInferenceOu
 }
 
 // @public
-export interface Annotation extends Element {
+export interface Annotation extends Element_2 {
     authorString?: string;
     text: string;
     time?: string;
@@ -77,7 +77,7 @@ export enum ClinicalDocumentTypeOutputEnum {
 }
 
 // @public
-export interface CodeableConcept extends Element {
+export interface CodeableConcept extends Element_2 {
     coding?: Array<Coding>;
     text?: string;
 }
@@ -89,7 +89,7 @@ export interface CodeableConceptOutput extends ElementOutput {
 }
 
 // @public
-export interface Coding extends Element {
+export interface Coding extends Element_2 {
     code?: string;
     display?: string;
     system?: string;
@@ -125,7 +125,7 @@ export interface Condition extends DomainResourceParent {
     abatementAge?: Quantity;
     abatementDateTime?: string;
     abatementPeriod?: Period;
-    abatementRange?: Range;
+    abatementRange?: Range_2;
     abatementString?: string;
     bodySite?: Array<CodeableConcept>;
     category?: Array<CodeableConcept>;
@@ -137,7 +137,7 @@ export interface Condition extends DomainResourceParent {
     onsetAge?: Quantity;
     onsetDateTime?: string;
     onsetPeriod?: Period;
-    onsetRange?: Range;
+    onsetRange?: Range_2;
     onsetString?: string;
     recordedDate?: string;
     resourceType: "Condition";
@@ -185,7 +185,7 @@ export interface ConditionStageOutput {
 }
 
 // @public
-export interface ContactDetail extends Element {
+export interface ContactDetail extends Element_2 {
     name?: string;
     telecom?: Array<ContactPoint>;
 }
@@ -360,7 +360,8 @@ export type DocumentContentSourceType = string | "inline" | "reference";
 export type DocumentContentSourceTypeOutput = string | "inline" | "reference";
 
 // @public
-export type DocumentType = string | "note" | "fhirBundle" | "dicom" | "genomicSequencing";
+type DocumentType_2 = string | "note" | "fhirBundle" | "dicom" | "genomicSequencing";
+export { DocumentType_2 as DocumentType }
 
 // @public
 export type DocumentTypeOutput = string | "note" | "fhirBundle" | "dicom" | "genomicSequencing";
@@ -390,10 +391,11 @@ export interface DomainResourceParent extends Resource {
 }
 
 // @public
-export interface Element {
+interface Element_2 {
     extension?: Array<Extension>;
     id?: string;
 }
+export { Element_2 as Element }
 
 // @public
 export interface ElementOutput {
@@ -408,7 +410,7 @@ export type EncounterClass = string | "inpatient" | "ambulatory" | "observation"
 export type EncounterClassOutput = string | "inpatient" | "ambulatory" | "observation" | "emergency" | "virtual" | "healthHome";
 
 // @public
-export interface Extension extends Element {
+export interface Extension extends Element_2 {
     url: string;
     valueBoolean?: boolean;
     valueCodeableConcept?: CodeableConcept;
@@ -416,7 +418,7 @@ export interface Extension extends Element {
     valueInteger?: number;
     valuePeriod?: Period;
     valueQuantity?: Quantity;
-    valueRange?: Range;
+    valueRange?: Range_2;
     valueRatio?: Ratio;
     valueReference?: Reference;
     valueSampledData?: SampledData;
@@ -590,7 +592,7 @@ export interface HealthInsightsErrorResponseOutput {
 }
 
 // @public
-export interface Identifier extends Element {
+export interface Identifier extends Element_2 {
     assigner?: Reference;
     period?: Period;
     system?: string;
@@ -716,7 +718,7 @@ export interface MetaOutput {
 }
 
 // @public
-export interface Narrative extends Element {
+export interface Narrative extends Element_2 {
     div: string;
     status: string;
 }
@@ -755,7 +757,7 @@ export interface Observation extends DomainResourceParent {
     valueInteger?: number;
     valuePeriod?: Period;
     valueQuantity?: Quantity;
-    valueRange?: Range;
+    valueRange?: Range_2;
     valueRatio?: Ratio;
     valueSampledData?: SampledData;
     valueString?: string;
@@ -763,7 +765,7 @@ export interface Observation extends DomainResourceParent {
 }
 
 // @public
-export interface ObservationComponent extends Element {
+export interface ObservationComponent extends Element_2 {
     code: CodeableConcept;
     dataAbsentReason?: CodeableConcept;
     interpretation?: Array<CodeableConcept>;
@@ -774,7 +776,7 @@ export interface ObservationComponent extends Element {
     valueInteger?: number;
     valuePeriod?: Period;
     valueQuantity?: Quantity;
-    valueRange?: Range;
+    valueRange?: Range_2;
     valueRatio?: Ratio;
     valueReference?: Reference;
     valueSampledData?: SampledData;
@@ -839,7 +841,7 @@ export interface ObservationOutput extends DomainResourceOutputParent {
 
 // @public
 export interface ObservationReferenceRange {
-    age?: Range;
+    age?: Range_2;
     appliesTo?: Array<CodeableConcept>;
     high?: Quantity;
     low?: Quantity;
@@ -901,7 +903,7 @@ export interface PatientDocument {
     id: string;
     language?: string;
     specialtyType?: SpecialtyType;
-    type: DocumentType;
+    type: DocumentType_2;
 }
 
 // @public
@@ -954,7 +956,7 @@ export type PatientSex = string | "female" | "male" | "unspecified";
 export type PatientSexOutput = string | "female" | "male" | "unspecified";
 
 // @public
-export interface Period extends Element {
+export interface Period extends Element_2 {
     end?: string;
     start?: string;
 }
@@ -984,7 +986,7 @@ export interface ProcedureRecommendationParent {
 }
 
 // @public
-export interface Quantity extends Element {
+export interface Quantity extends Element_2 {
     code?: string;
     comparator?: string;
     system?: string;
@@ -1137,10 +1139,11 @@ export interface RadiologyProcedureInferenceOutput extends RadiologyInsightsInfe
 }
 
 // @public
-export interface Range extends Element {
+interface Range_2 extends Element_2 {
     high?: Quantity;
     low?: Quantity;
 }
+export { Range_2 as Range }
 
 // @public
 export interface RangeOutput extends ElementOutput {
@@ -1149,7 +1152,7 @@ export interface RangeOutput extends ElementOutput {
 }
 
 // @public
-export interface Ratio extends Element {
+export interface Ratio extends Element_2 {
     denominator?: Quantity;
     numerator?: Quantity;
 }
@@ -1183,7 +1186,7 @@ export type RecommendationFindingStatusType = string | "present" | "differential
 export type RecommendationFindingStatusTypeOutput = string | "present" | "differential" | "ruleOut" | "conditional";
 
 // @public
-export interface Reference extends Element {
+export interface Reference extends Element_2 {
     display?: string;
     identifier?: Identifier;
     reference?: string;
@@ -1302,7 +1305,7 @@ export interface Routes {
 }
 
 // @public
-export interface SampledData extends Element {
+export interface SampledData extends Element_2 {
     data?: string;
     dimensions: number;
     factor?: number;

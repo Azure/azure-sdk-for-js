@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { AzureDeveloperCliCredentialOptions } from "./azureDeveloperCliCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
+import type { AzureDeveloperCliCredentialOptions } from "./azureDeveloperCliCredentialOptions.js";
+import { CredentialUnavailableError } from "../errors.js";
 import child_process from "child_process";
 import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { tracingClient } from "../util/tracing";
-import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils";
+} from "../util/tenantIdUtils.js";
+import { tracingClient } from "../util/tracing.js";
+import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils.js";
 
 /**
  * Mockable reference to the Developer CLI credential cliCredentialFunctions
@@ -24,12 +24,12 @@ export const developerCliCredentialInternals = {
    */
   getSafeWorkingDir(): string {
     if (process.platform === "win32") {
-      if (!process.env.SystemRoot) {
+      if (!process.env["SYSTEMROOT"]) {
         throw new Error(
-          "Azure Developer CLI credential expects a 'SystemRoot' environment variable",
+          "Azure Developer CLI credential expects a 'SYSTEMROOT' environment variable",
         );
       }
-      return process.env.SystemRoot;
+      return process.env["SYSTEMROOT"];
     } else {
       return "/bin";
     }
@@ -197,7 +197,8 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           return {
             token: resp.token,
             expiresOnTimestamp: new Date(resp.expiresOn).getTime(),
-          };
+            tokenType: "Bearer",
+          } as AccessToken;
         } catch (e: any) {
           if (obj.stderr) {
             throw new CredentialUnavailableError(obj.stderr);

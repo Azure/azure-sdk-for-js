@@ -4,10 +4,10 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export interface AdmInstallation extends DeviceTokenInstallation {
@@ -786,7 +786,8 @@ export interface MpnsTemplateRegistrationDescriptionCommon extends MpnsRegistrat
 }
 
 // @public
-export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | FcmV1Notification | XiaomiNotification | WindowsNotification | TemplateNotification;
+type Notification_2 = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | FcmV1Notification | XiaomiNotification | WindowsNotification | TemplateNotification;
+export { Notification_2 as Notification }
 
 // @public
 export interface NotificationCommon {

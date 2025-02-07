@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentSpan } from "../../src";
+import type { DocumentSpan } from "../../src/index.js";
 import {
   contains,
   fastGetChildren,
   iteratorFromFirstMatchBinarySearch,
-} from "../../src/lro/analysis";
-
-import { assert } from "chai";
+} from "../../src/lro/analysis.js";
+import { describe, it, assert } from "vitest";
 
 interface TestData {
   id: number;

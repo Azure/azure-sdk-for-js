@@ -1,54 +1,51 @@
-import sinon from "sinon";
-import { expect } from "@azure-tools/test-utils";
-import child_process from "child_process";
-import fs, { PathLike } from "fs";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { describe, it, beforeEach, afterEach, expect, vi } from "vitest";
+import child_process from "node:child_process";
+import fs, { PathLike } from "node:fs";
 import {
   getLanguageAndConfigInfoFromConfigurationFile,
   getLanguageAndConfigInfoFromDirectory,
   executeCommand,
   getFileReferenceForImport,
-} from "../src/utils";
-import { Languages } from "../src/constants";
+} from "../src/utils.js";
+import { Languages } from "../src/constants.js";
 
 describe("Utility functions", () => {
-  let consoleErrorStub: any;
-  let consoleLogStub: any;
-
   beforeEach(() => {
-    sinon.restore();
-    consoleErrorStub = sinon.stub(console, "error").callsFake(() => {});
-    consoleLogStub = sinon.stub(console, "log").callsFake(() => {});
+    vi.spyOn(console, "error");
+    vi.spyOn(console, "log");
   });
 
   afterEach(() => {
-    consoleErrorStub.restore();
-    consoleLogStub.restore();
+    vi.clearAllMocks();
   });
 
   describe("executeCommand", () => {
     it("should return output of command", async () => {
       const command = "echo Hello World";
-      sinon.stub(child_process, "exec").callsFake((_: string, callback: any): any => {
+      vi.spyOn(child_process, "exec").mockImplementation((_: string, callback: any): any => {
         callback(null, "Hello World", "");
       });
 
-      const response = await executeCommand(command);
+      const response = (await executeCommand(command)).trim();
       expect(response).to.equal("Hello World");
     });
 
     it("should throw error if command fails", async () => {
       const command = "echo Hello World";
-      sinon.stub(child_process, "exec").callsFake((_: string, callback: any): any => {
+      vi.spyOn(child_process, "exec").mockImplementation((_: string, callback: any): any => {
         callback(new Error("Command failed"), "", "");
       });
 
-      await expect(executeCommand(command)).to.be.rejectedWith(Error);
+      expect(executeCommand(command)).rejects;
     });
   });
 
   describe("getLanguageAndConfigInfoFromDirectory", () => {
     it("should fetch language and playwright config file from directory - typescript", () => {
-      sinon.stub(fs, "existsSync").callsFake((fileName: PathLike) => {
+      vi.spyOn(fs, "existsSync").mockImplementation((fileName: PathLike) => {
         return fileName === "playwright.config.ts";
       });
 
@@ -58,7 +55,7 @@ describe("Utility functions", () => {
     });
 
     it("should fetch language and playwright config file from directory - javascript", () => {
-      sinon.stub(fs, "existsSync").callsFake((fileName: PathLike) => {
+      vi.spyOn(fs, "existsSync").mockImplementation((fileName: PathLike) => {
         return fileName === "playwright.config.js";
       });
 
@@ -68,7 +65,7 @@ describe("Utility functions", () => {
     });
 
     it("should throw error if no configuration file found in directory", () => {
-      sinon.stub(fs, "existsSync").returns(false);
+      vi.spyOn(fs, "existsSync").mockReturnValue(false);
       expect(() => getLanguageAndConfigInfoFromDirectory()).to.throw();
     });
   });

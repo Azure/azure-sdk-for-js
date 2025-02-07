@@ -4,22 +4,22 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { AccessToken } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
 import { Connection } from 'rhea-promise';
-import { Message } from 'rhea-promise';
-import { MessageHeader } from 'rhea-promise';
-import { MessageProperties } from 'rhea-promise';
-import { NamedKeyCredential } from '@azure/core-auth';
-import { Receiver } from 'rhea-promise';
-import { ReceiverOptions } from 'rhea-promise';
-import { ReqResLink } from 'rhea-promise';
-import { SASCredential } from '@azure/core-auth';
-import { Sender } from 'rhea-promise';
-import { SenderOptions } from 'rhea-promise';
-import { Session } from 'rhea-promise';
-import { WebSocketImpl } from 'rhea-promise';
+import type { Message } from 'rhea-promise';
+import type { MessageHeader } from 'rhea-promise';
+import type { MessageProperties } from 'rhea-promise';
+import type { NamedKeyCredential } from '@azure/core-auth';
+import type { Receiver } from 'rhea-promise';
+import type { ReceiverOptions } from 'rhea-promise';
+import type { ReqResLink } from 'rhea-promise';
+import type { SASCredential } from '@azure/core-auth';
+import type { Sender } from 'rhea-promise';
+import type { SenderOptions } from 'rhea-promise';
+import type { Session } from 'rhea-promise';
+import type { WebSocketImpl } from 'rhea-promise';
 
 // @public
 export interface AcquireLockProperties {
@@ -274,7 +274,6 @@ export const Constants: {
     readonly attachEpoch: "com.microsoft:epoch";
     readonly receiverIdentifierName: "com.microsoft:receiver-name";
     readonly enableReceiverRuntimeMetricName: "com.microsoft:enable-receiver-runtime-metric";
-    readonly geoReplication: "com.microsoft:georeplication";
     readonly timespan: "com.microsoft:timespan";
     readonly uri: "com.microsoft:uri";
     readonly dateTimeOffset: "com.microsoft:datetime-offset";

@@ -99,7 +99,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2024-11-04",
+    defaultValue: "2025-01-05",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -244,7 +244,7 @@ export const accessTier: OperationParameter = {
     xmlName: "x-ms-access-tier",
     type: {
       name: "Enum",
-      allowedValues: ["TransactionOptimized", "Hot", "Cool"]
+      allowedValues: ["TransactionOptimized", "Hot", "Cool", "Premium"]
     }
   }
 };
@@ -310,6 +310,28 @@ export const paidBurstingMaxIops: OperationParameter = {
   mapper: {
     serializedName: "x-ms-share-paid-bursting-max-iops",
     xmlName: "x-ms-share-paid-bursting-max-iops",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const shareProvisionedIops: OperationParameter = {
+  parameterPath: ["options", "shareProvisionedIops"],
+  mapper: {
+    serializedName: "x-ms-share-provisioned-iops",
+    xmlName: "x-ms-share-provisioned-iops",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const shareProvisionedBandwidthMibps: OperationParameter = {
+  parameterPath: ["options", "shareProvisionedBandwidthMibps"],
+  mapper: {
+    serializedName: "x-ms-share-provisioned-bandwidth-mibps",
+    xmlName: "x-ms-share-provisioned-bandwidth-mibps",
     type: {
       name: "Number"
     }

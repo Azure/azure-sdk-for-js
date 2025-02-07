@@ -2,46 +2,50 @@
 // Licensed under the MIT License.
 
 import {
-  fabricCapacityPropertiesSerializer,
-  rpSkuSerializer,
-  fabricCapacityUpdatePropertiesSerializer,
-  FabricCapacity,
-  FabricCapacityUpdate,
-  CheckNameAvailabilityRequest,
-  CheckNameAvailabilityResponse,
-  RpSkuDetailsForExistingResource,
-  RpSkuDetailsForNewResource,
-  _FabricCapacityListResult,
-  _RpSkuEnumerationForExistingResourceResult,
-  _RpSkuEnumerationForNewResourceResult,
-} from "../../models/models.js";
-import { FabricContext as Client } from "../index.js";
+  FabricContext as Client,
+  FabricCapacitiesCheckNameAvailabilityOptionalParams,
+  FabricCapacitiesCreateOrUpdateOptionalParams,
+  FabricCapacitiesDeleteOptionalParams,
+  FabricCapacitiesGetOptionalParams,
+  FabricCapacitiesListByResourceGroupOptionalParams,
+  FabricCapacitiesListBySubscriptionOptionalParams,
+  FabricCapacitiesListSkusForCapacityOptionalParams,
+  FabricCapacitiesListSkusOptionalParams,
+  FabricCapacitiesResumeOptionalParams,
+  FabricCapacitiesSuspendOptionalParams,
+  FabricCapacitiesUpdateOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
-import { serializeRecord } from "../../helpers/serializerHelpers.js";
+  FabricCapacity,
+  fabricCapacitySerializer,
+  fabricCapacityDeserializer,
+  FabricCapacityUpdate,
+  fabricCapacityUpdateSerializer,
+  _FabricCapacityListResult,
+  _fabricCapacityListResultDeserializer,
+  CheckNameAvailabilityRequest,
+  checkNameAvailabilityRequestSerializer,
+  CheckNameAvailabilityResponse,
+  checkNameAvailabilityResponseDeserializer,
+  _RpSkuEnumerationForExistingResourceResult,
+  _rpSkuEnumerationForExistingResourceResultDeserializer,
+  RpSkuDetailsForExistingResource,
+  _RpSkuEnumerationForNewResourceResult,
+  _rpSkuEnumerationForNewResourceResultDeserializer,
+  RpSkuDetailsForNewResource,
+} from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
-  FabricCapacitiesGetOptionalParams,
-  FabricCapacitiesCreateOrUpdateOptionalParams,
-  FabricCapacitiesUpdateOptionalParams,
-  FabricCapacitiesDeleteOptionalParams,
-  FabricCapacitiesListByResourceGroupOptionalParams,
-  FabricCapacitiesListBySubscriptionOptionalParams,
-  FabricCapacitiesResumeOptionalParams,
-  FabricCapacitiesSuspendOptionalParams,
-  FabricCapacitiesCheckNameAvailabilityOptionalParams,
-  FabricCapacitiesListSkusForCapacityOptionalParams,
-  FabricCapacitiesListSkusOptionalParams,
-} from "../../models/options.js";
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _fabricCapacitiesGetSend(
   context: Client,
@@ -68,37 +72,7 @@ export async function _fabricCapacitiesGetDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: {
-      provisioningState: result.body.properties["provisioningState"],
-      state: result.body.properties["state"],
-      administration: {
-        members: result.body.properties.administration["members"],
-      },
-    },
-    sku: { name: result.body.sku["name"], tier: result.body.sku["tier"] },
-  };
+  return fabricCapacityDeserializer(result.body);
 }
 
 /** Get a FabricCapacity */
@@ -138,12 +112,7 @@ export function _fabricCapacitiesCreateOrUpdateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
-        location: resource["location"],
-        properties: fabricCapacityPropertiesSerializer(resource.properties),
-        sku: rpSkuSerializer(resource.sku),
-      },
+      body: fabricCapacitySerializer(resource),
     });
 }
 
@@ -155,37 +124,7 @@ export async function _fabricCapacitiesCreateOrUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: {
-      provisioningState: result.body.properties["provisioningState"],
-      state: result.body.properties["state"],
-      administration: {
-        members: result.body.properties.administration["members"],
-      },
-    },
-    sku: { name: result.body.sku["name"], tier: result.body.sku["tier"] },
-  };
+  return fabricCapacityDeserializer(result.body);
 }
 
 /** Create a FabricCapacity */
@@ -232,13 +171,7 @@ export function _fabricCapacitiesUpdateSend(
     )
     .patch({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        sku: !properties.sku ? properties.sku : rpSkuSerializer(properties.sku),
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
-        properties: !properties.properties
-          ? properties.properties
-          : fabricCapacityUpdatePropertiesSerializer(properties.properties),
-      },
+      body: fabricCapacityUpdateSerializer(properties),
     });
 }
 
@@ -250,37 +183,7 @@ export async function _fabricCapacitiesUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: {
-      provisioningState: result.body.properties["provisioningState"],
-      state: result.body.properties["state"],
-      administration: {
-        members: result.body.properties.administration["members"],
-      },
-    },
-    sku: { name: result.body.sku["name"], tier: result.body.sku["tier"] },
-  };
+  return fabricCapacityDeserializer(result.body);
 }
 
 /** Update a FabricCapacity */
@@ -384,40 +287,7 @@ export async function _fabricCapacitiesListByResourceGroupDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: {
-          provisioningState: p.properties["provisioningState"],
-          state: p.properties["state"],
-          administration: { members: p.properties.administration["members"] },
-        },
-        sku: { name: p.sku["name"], tier: p.sku["tier"] },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _fabricCapacityListResultDeserializer(result.body);
 }
 
 /** List FabricCapacity resources by resource group */
@@ -459,40 +329,7 @@ export async function _fabricCapacitiesListBySubscriptionDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: {
-          provisioningState: p.properties["provisioningState"],
-          state: p.properties["state"],
-          administration: { members: p.properties.administration["members"] },
-        },
-        sku: { name: p.sku["name"], tier: p.sku["tier"] },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _fabricCapacityListResultDeserializer(result.body);
 }
 
 /** List FabricCapacity resources by subscription ID */
@@ -631,7 +468,7 @@ export function _fabricCapacitiesCheckNameAvailabilitySend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: { name: body["name"], type: body["type"] },
+      body: checkNameAvailabilityRequestSerializer(body),
     });
 }
 
@@ -643,11 +480,7 @@ export async function _fabricCapacitiesCheckNameAvailabilityDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    nameAvailable: result.body["nameAvailable"],
-    reason: result.body["reason"],
-    message: result.body["message"],
-  };
+  return checkNameAvailabilityResponseDeserializer(result.body);
 }
 
 /** Implements local CheckNameAvailability operations */
@@ -697,15 +530,7 @@ export async function _fabricCapacitiesListSkusForCapacityDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        resourceType: p["resourceType"],
-        sku: { name: p.sku["name"], tier: p.sku["tier"] },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _rpSkuEnumerationForExistingResourceResultDeserializer(result.body);
 }
 
 /** List eligible SKUs for a Microsoft Fabric resource */
@@ -752,16 +577,7 @@ export async function _fabricCapacitiesListSkusDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        resourceType: p["resourceType"],
-        name: p["name"],
-        locations: p["locations"],
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _rpSkuEnumerationForNewResourceResultDeserializer(result.body);
 }
 
 /** List eligible SKUs for Microsoft Fabric resource provider */

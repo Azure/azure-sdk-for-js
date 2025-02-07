@@ -59,7 +59,7 @@ node dist/dtmiConventionsSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/dtmiConventionsSample.js
+npx dev-tool run vendored cross-env  node dist/dtmiConventionsSample.js
 ```
 
 ## Next Steps
@@ -68,7 +68,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [dtmiconventionssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iot/iot-modelsrepository/samples/v1/typescript/src/dtmiConventionsSample.ts
 [modelresolutionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iot/iot-modelsrepository/samples/v1/typescript/src/modelResolutionSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iot/iot-modelsrepository/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

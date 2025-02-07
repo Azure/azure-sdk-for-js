@@ -15,6 +15,12 @@ export const commandInfo = makeCommandInfo(
       kind: "boolean",
       default: true,
     },
+    "test-proxy-debug": {
+      description:
+        "Runs the test-proxy with debug logs enabled (Logging__LogLevel__Default=Debug); generates testProxyOutput.log",
+      kind: "boolean",
+      default: false,
+    },
   },
 );
 
@@ -25,6 +31,8 @@ export default leafCommand(commandInfo, async (options) => {
 
   const stopRelay =
     options["relay-server"] && (await shouldStartRelay()) ? startRelayServer() : undefined;
+
+  if (options["test-proxy-debug"]) process.env["Logging__LogLevel__Default"] = "Debug";
 
   try {
     const result = await runTestsWithProxyTool({

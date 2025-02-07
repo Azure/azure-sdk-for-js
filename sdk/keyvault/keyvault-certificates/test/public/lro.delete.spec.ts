@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { env, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
-import {
-  CertificateClient,
-  DeletedCertificate,
-  DefaultCertificatePolicy,
-} from "../../src/index.js";
+import type { CertificateClient, DeletedCertificate } from "../../src/index.js";
+import { DefaultCertificatePolicy } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
+import type TestClient from "./utils/testClient.js";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("Certificates client - lro - delete", () => {

@@ -20,7 +20,7 @@ import {
   AfdCustomDomainsUpdateResponse,
   AfdCustomDomainsDeleteOptionalParams,
   AfdCustomDomainsRefreshValidationTokenOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AfdCustomDomains. */

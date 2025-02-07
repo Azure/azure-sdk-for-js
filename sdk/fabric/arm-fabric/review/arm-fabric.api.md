@@ -201,7 +201,7 @@ export enum KnownResourceState {
 
 // @public
 export enum KnownRpSkuTier {
-    fabric = "Fabric"
+    Fabric = "Fabric"
 }
 
 // @public
