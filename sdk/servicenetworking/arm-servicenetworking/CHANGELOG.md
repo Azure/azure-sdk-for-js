@@ -1,6 +1,6 @@
 # Release History
     
-## 2.0.0 (2025-02-05)
+## 2.0.0 (2025-02-07)
     
 ### Features Added
 
@@ -34,10 +34,6 @@
   - Interface TrafficControllerUpdate has a new optional parameter properties
   - Added Enum KnownPolicyType
   - Added Enum KnownVersions
-  - Enum KnownAssociationType has a new value subnets
-  - Enum KnownOrigin has a new value "user,system"
-  - Enum KnownOrigin has a new value system
-  - Enum KnownOrigin has a new value user
   - Added function restorePoller
 
 ### Breaking Changes
@@ -80,10 +76,6 @@
   - Class ServiceNetworkingManagementClient no longer has parameter $host
   - Class ServiceNetworkingManagementClient no longer has parameter apiVersion
   - Class ServiceNetworkingManagementClient no longer has parameter subscriptionId
-  - Enum KnownAssociationType no longer has value Subnets
-  - Enum KnownOrigin no longer has value System
-  - Enum KnownOrigin no longer has value User
-  - Enum KnownOrigin no longer has value UserSystem
   - Removed function getContinuationToken
     
     

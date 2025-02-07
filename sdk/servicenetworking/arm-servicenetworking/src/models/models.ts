@@ -801,7 +801,7 @@ export function associationPropertiesDeserializer(item: any): AssociationPropert
 /** Association Type Enum */
 export enum KnownAssociationType {
   /** Association of Type Subnet */
-  subnets = "subnets",
+  Subnets = "subnets",
 }
 
 /**

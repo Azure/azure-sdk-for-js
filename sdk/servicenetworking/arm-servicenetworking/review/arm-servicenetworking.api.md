@@ -166,7 +166,7 @@ export enum KnownActionType {
 
 // @public
 export enum KnownAssociationType {
-    subnets = "subnets"
+    Subnets = "subnets"
 }
 
 // @public
