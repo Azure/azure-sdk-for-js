@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "vitest";
-import { get, type Metadata } from "./utils.js";
+import { get } from "./utils.js";
 import { getImageDimensionsFromResponse, getImageDimensionsFromString } from "./images.js";
 import type {
   AzureChatExtensionDataSourceResponseCitationOutput,
@@ -39,6 +39,7 @@ import type {
 } from "openai/resources/chat/completions.mjs";
 import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import type { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
+import type { Metadata } from "./types.js";
 
 export function assertAudioResult(responseFormat: AudioResultFormat, result: Transcription): void {
   switch (responseFormat) {
@@ -473,7 +474,7 @@ export function assertAssistantEquality(
   assert.equal(response.name, assistant.name);
   assert.equal(response.instructions, assistant.instructions);
   assert.equal(response.description, assistant.description);
-  assert.equal((response.metadata as Metadata).foo, "bar");
+  assert.equal((response.metadata as unknown as Metadata).foo, "bar");
   assert.isNotNull(response.tools[0]);
   const tools = assistant.tools || [];
   assert.equal(response.tools[0].type, tools[0].type);

@@ -3,33 +3,22 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { createClient } from "../utils/createClient.js";
-import {
-  APIMatrix,
-  type APIVersion,
-  type DeploymentInfo,
-  getDeployments,
-  getSucceeded,
-  updateWithSucceeded,
-  withDeployments,
-} from "../utils/utils.js";
+import { APIMatrix, type APIVersion, withDeployments } from "../utils/utils.js";
 import { assertImagesWithJSON, assertImagesWithURLs } from "../utils/asserts.js";
-import type { OpenAI, AzureOpenAI } from "openai";
 import { describe, it, beforeAll } from "vitest";
 import { incompatibleAudioModels, o1ModelsToSkip } from "../utils/models.js";
+import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
 describe("Images", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let deployments: DeploymentInfo[] = [];
-      let client: AzureOpenAI | OpenAI;
+      let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeAll(async function () {
-        client = createClient(apiVersion, "vision");
-        deployments = await getDeployments("vision");
+        clientsAndDeployments = createClient(apiVersion, { imageGenerations: "true" });
       });
 
-      describe("getImages", function () {
-        const imageGenerationDeployments: DeploymentInfo[] = [];
+      describe("images.generate", function () {
         const prompt = "a flower vase on a table";
         const numberOfImages = 1;
         const height = 1024;
@@ -37,39 +26,33 @@ describe("Images", function () {
         const size = `${height}x${width}`;
 
         it("generates image URLs", async function () {
-          updateWithSucceeded(
-            await withDeployments(
-              getSucceeded(deployments, imageGenerationDeployments),
-              (deploymentName) =>
-                client.images.generate({
-                  model: deploymentName,
-                  prompt: prompt,
-                  n: numberOfImages,
-                  size,
-                }),
-              (item) => assertImagesWithURLs(item, height, width),
-              [...o1ModelsToSkip, ...incompatibleAudioModels],
-            ),
-            imageGenerationDeployments,
+          await withDeployments(
+            clientsAndDeployments,
+            (client, deploymentName) =>
+              client.images.generate({
+                model: deploymentName,
+                prompt: prompt,
+                n: numberOfImages,
+                size,
+              }),
+            (item) => assertImagesWithURLs(item, height, width),
+            [...o1ModelsToSkip, ...incompatibleAudioModels],
           );
         });
 
         it("generates image strings", async function () {
-          updateWithSucceeded(
-            await withDeployments(
-              getSucceeded(deployments, imageGenerationDeployments),
-              (deploymentName) =>
-                client.images.generate({
-                  model: deploymentName,
-                  prompt,
-                  n: numberOfImages,
-                  size,
-                  response_format: "b64_json",
-                }),
-              (item) => assertImagesWithJSON(item, height, width),
-              [...o1ModelsToSkip, ...incompatibleAudioModels],
-            ),
-            imageGenerationDeployments,
+          await withDeployments(
+            clientsAndDeployments,
+            (client, deploymentName) =>
+              client.images.generate({
+                model: deploymentName,
+                prompt,
+                n: numberOfImages,
+                size,
+                response_format: "b64_json",
+              }),
+            (item) => assertImagesWithJSON(item, height, width),
+            [...o1ModelsToSkip, ...incompatibleAudioModels],
           );
         });
       });

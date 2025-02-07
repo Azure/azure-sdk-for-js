@@ -1,54 +1,51 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import OpenAI, { type AzureClientOptions, AzureOpenAI } from "openai";
+import OpenAI, { AzureOpenAI } from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
-import { APIVersion, type DeploymentType } from "./utils.js";
+import { APIVersion, filterDeployments } from "./utils.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { getEndpointAudio, getEndpointCompletions, getEndpointVision } from "./injectables.js";
+import { getResourcesInfo } from "./injectables.js";
+import type { ClientsAndDeploymentsInfo, CreateClientOptions, ModelCapabilities } from "./types.js";
 
 const scope = "https://cognitiveservices.azure.com/.default";
+
 export function createClient(
   apiVersion: APIVersion,
-  resourceType: DeploymentType,
-  clientOptions?: AzureClientOptions,
-): AzureOpenAI | OpenAI {
-  const { endpoint } = getEndpointFromResourceType(resourceType);
+  capabilities: ModelCapabilities,
+  options: CreateClientOptions = {},
+): ClientsAndDeploymentsInfo {
+  const { clientOptions, sku, deploymentsToSkip } = options;
+  const { resourcesInfo } = getResourcesInfo();
   switch (apiVersion) {
     case APIVersion.Preview:
     case APIVersion.Stable: {
       const credential = createTestCredential();
-      return new AzureOpenAI({
-        azureADTokenProvider: getBearerTokenProvider(credential, scope),
-        apiVersion,
-        endpoint,
-        ...clientOptions,
+      const azureADTokenProvider = getBearerTokenProvider(credential, scope);
+      let count = 0;
+      const clientsAndDeployments = filterDeployments(resourcesInfo, {
+        capabilities,
+        sku,
+        deploymentsToSkip,
+      }).map(({ deployments, endpoint }) => {
+        count += deployments.length;
+        return {
+          client: new AzureOpenAI({
+            azureADTokenProvider,
+            apiVersion,
+            endpoint,
+            ...clientOptions,
+          }),
+          deployments,
+        };
       });
+      return { clientsAndDeployments, count };
     }
     case APIVersion.OpenAI: {
-      return new OpenAI();
+      return { clientsAndDeployments: [{ client: new OpenAI(), deployments: [] }], count: 0 };
     }
     default: {
       throw Error(`Unsupported service API version: ${apiVersion}`);
     }
-  }
-}
-
-function getEndpointFromResourceType(resourceType: DeploymentType): {
-  endpoint: string;
-} {
-  switch (resourceType) {
-    case "vision":
-      return {
-        endpoint: getEndpointVision(),
-      };
-    case "audio":
-      return {
-        endpoint: getEndpointAudio(),
-      };
-    case "completions":
-      return {
-        endpoint: getEndpointCompletions(),
-      };
   }
 }
