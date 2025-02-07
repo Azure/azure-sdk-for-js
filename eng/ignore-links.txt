@@ -17,3 +17,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-databoundaries?view=azure-n
 https://docs.microsoft.com/javascript/api/@azure/arm-terraform?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-connectedcache?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-neonpostgres?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-pineconevectordb?view=azure-node-preview
