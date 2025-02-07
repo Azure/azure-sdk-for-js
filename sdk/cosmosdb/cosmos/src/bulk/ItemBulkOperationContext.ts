@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import type { RetryPolicy } from "../retry/RetryPolicy";
 import type { BulkOperationResult } from "../utils/batch";
 import { TaskCompletionSource } from "../utils/batch";
@@ -12,16 +13,23 @@ import { TaskCompletionSource } from "../utils/batch";
 export class ItemBulkOperationContext {
   pkRangeId: string;
   retryPolicy: RetryPolicy;
+  diagnosticNode: DiagnosticNodeInternal;
   private readonly taskCompletionSource: TaskCompletionSource<BulkOperationResult>;
 
-  constructor(pkRangeId: string, retryPolicy: RetryPolicy) {
+
+  constructor(pkRangeId: string, retryPolicy: RetryPolicy, diagnosticNode: DiagnosticNodeInternal) {
     this.pkRangeId = pkRangeId;
     this.retryPolicy = retryPolicy;
+    this.diagnosticNode = diagnosticNode;
     this.taskCompletionSource = new TaskCompletionSource<BulkOperationResult>();
   }
 
   public get operationPromise(): Promise<BulkOperationResult> {
     return this.taskCompletionSource.task;
+  }
+
+  addDiagnosticChild(diagnosticNode: DiagnosticNodeInternal): void {
+    this.diagnosticNode.children.push(diagnosticNode);
   }
 
   updatePKRangeId(pkRangeId: string): void {

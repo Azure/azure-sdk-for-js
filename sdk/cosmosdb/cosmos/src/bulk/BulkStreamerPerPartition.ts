@@ -6,11 +6,11 @@ import type { ExecuteCallback, RetryCallback } from "../utils/batch";
 import { BulkBatcher } from "./BulkBatcher";
 import semaphore from "semaphore";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import type { RequestOptions } from "../request/RequestOptions";
 import { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm";
 import type { Limiter } from "./Limiter";
+import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 
 /**
  * Handles operation queueing and dispatching. Fills batches efficiently and maintains a timer for early dispatching in case of partially-filled batches and to optimize for throughput.
@@ -23,7 +23,6 @@ export class BulkStreamerPerPartition {
   private readonly executor: ExecuteCallback;
   private readonly retrier: RetryCallback;
   private readonly options: RequestOptions;
-  private readonly diagnosticNode: DiagnosticNodeInternal;
 
   private currentBatcher: BulkBatcher;
   private readonly lock: semaphore.Semaphore;
@@ -35,19 +34,20 @@ export class BulkStreamerPerPartition {
   private congestionControlAlgorithm: BulkCongestionAlgorithm;
   private congestionControlTimer: NodeJS.Timeout;
   private congestionControlDelayInMs: number = 100;
+  private diagnosticLevel: CosmosDbDiagnosticLevel;
 
   constructor(
     executor: ExecuteCallback,
     retrier: RetryCallback,
     limiter: Limiter,
     options: RequestOptions,
-    diagnosticNode: DiagnosticNodeInternal,
+    diagnosticLevel: CosmosDbDiagnosticLevel,
   ) {
     this.executor = executor;
     this.retrier = retrier;
     this.limiterSemaphore = limiter;
     this.options = options;
-    this.diagnosticNode = diagnosticNode;
+    this.diagnosticLevel = diagnosticLevel;
     this.oldPartitionMetric = new BulkPartitionMetric();
     this.partitionMetric = new BulkPartitionMetric();
     this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
@@ -101,7 +101,7 @@ export class BulkStreamerPerPartition {
       this.executor,
       this.retrier,
       this.options,
-      this.diagnosticNode,
+      this.diagnosticLevel,
     );
   }
 

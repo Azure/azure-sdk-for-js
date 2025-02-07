@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import type { RequestOptions } from "../request";
 import { ErrorResponse } from "../request";
 import { Constants, StatusCodes } from "../common";
@@ -12,6 +12,7 @@ import type { ItemBulkOperation } from "./ItemBulkOperation";
 import type { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { getCurrentTimestampInMs } from "../utils/time";
 import type { Limiter } from "./Limiter";
+import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 
 /**
  * Maintains a batch of operations and dispatches it as a unit of work.
@@ -26,20 +27,20 @@ export class BulkBatcher {
   private readonly executor: ExecuteCallback;
   private readonly retrier: RetryCallback;
   private readonly options: RequestOptions;
-  private readonly diagnosticNode: DiagnosticNodeInternal;
+  private readonly diagnosticLevel: CosmosDbDiagnosticLevel;
 
   constructor(
     private limiter: Limiter,
     executor: ExecuteCallback,
     retrier: RetryCallback,
     options: RequestOptions,
-    diagnosticNode: DiagnosticNodeInternal,
+    diagnosticLevel: CosmosDbDiagnosticLevel,
   ) {
     this.batchOperationsList = [];
     this.executor = executor;
     this.retrier = retrier;
     this.options = options;
-    this.diagnosticNode = diagnosticNode;
+    this.diagnosticLevel = diagnosticLevel;
     this.currentSize = 0;
     this.toBeDispatched = false;
   }
@@ -85,11 +86,17 @@ export class BulkBatcher {
   public async dispatch(partitionMetric: BulkPartitionMetric): Promise<void> {
     this.toBeDispatched = true;
     const startTime = getCurrentTimestampInMs();
+    const diagnosticNode = new DiagnosticNodeInternal(
+      this.diagnosticLevel,
+      // ASK: what type should this be?
+      DiagnosticNodeType.BATCH_REQUEST,
+      null,
+    );
     try {
       const response: BulkResponse = await this.executor(
         this.batchOperationsList,
         this.options,
-        this.diagnosticNode,
+        diagnosticNode,
       );
       // status code of 0 represents an empty response,
       // we are sending this back from executor in case of 410 error
@@ -127,18 +134,20 @@ export class BulkBatcher {
           errorResponse.retryAfterInMs = bulkOperationResult.retryAfter;
           const shouldRetry = await operation.operationContext.retryPolicy.shouldRetry(
             errorResponse,
-            this.diagnosticNode,
+            diagnosticNode,
           );
           if (shouldRetry) {
-            await this.retrier(operation, this.diagnosticNode, this.options);
+            await this.retrier(operation, diagnosticNode);
             continue;
           }
         }
+        operation.operationContext.addDiagnosticChild(diagnosticNode);
         operation.operationContext.complete(bulkOperationResult);
       }
     } catch (error) {
       // Mark all operations in the batch as failed
       for (const operation of this.batchOperationsList) {
+        operation.operationContext.addDiagnosticChild(diagnosticNode);
         operation.operationContext.fail(error);
       }
     } finally {

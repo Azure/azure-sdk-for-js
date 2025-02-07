@@ -4,7 +4,7 @@
 import { readPartitionKeyDefinition } from "../client/ClientUtils";
 import type { Container } from "../client/Container";
 import type { ClientContext } from "../ClientContext";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
@@ -21,7 +21,7 @@ import { ItemBulkOperationContext } from "./ItemBulkOperationContext";
 import { Constants, getPathFromLink, ResourceType } from "../common";
 import { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
-import { addDignosticChild } from "../utils/diagnostics";
+import { addDignosticChild, withDiagnostics } from "../utils/diagnostics";
 import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
 import type { RetryPolicy } from "../retry/RetryPolicy";
 import { Limiter } from "./Limiter";
@@ -43,7 +43,6 @@ export class BulkStreamer {
   private readonly streamersByPartitionKeyRangeId: Map<string, BulkStreamerPerPartition>;
   private readonly limitersByPartitionKeyRangeId: Map<string, Limiter>;
   private options: RequestOptions;
-  private diagnosticNode: DiagnosticNodeInternal;
   private partitionKeyDefinition: PartitionKeyDefinition;
   private partitionKeyDefinitionPromise: Promise<PartitionKeyDefinition>;
 
@@ -55,7 +54,6 @@ export class BulkStreamer {
     clientContext: ClientContext,
     partitionKeyRangeCache: PartitionKeyRangeCache,
     options: RequestOptions,
-    diagnosticNode: DiagnosticNodeInternal,
 
   ) {
     this.container = container;
@@ -64,7 +62,6 @@ export class BulkStreamer {
     this.streamersByPartitionKeyRangeId = new Map();
     this.limitersByPartitionKeyRangeId = new Map();
     this.options = options;
-    this.diagnosticNode = diagnosticNode;
     this.executeRequest = this.executeRequest.bind(this);
     this.reBatchOperation = this.reBatchOperation.bind(this);
   }
@@ -96,39 +93,41 @@ export class BulkStreamer {
     if (!operation) {
       throw new ErrorResponse("Operation is required.");
     }
-    if (!this.partitionKeyDefinition) {
-      if (!this.partitionKeyDefinitionPromise) {
-        this.partitionKeyDefinitionPromise = (async () => {
-          try {
-            const partitionKeyDefinition = await readPartitionKeyDefinition(this.diagnosticNode, this.container);
-            this.partitionKeyDefinition = partitionKeyDefinition;
-            return partitionKeyDefinition;
-          } finally {
-            this.partitionKeyDefinitionPromise = null;
-          }
-        })();
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (!this.partitionKeyDefinition) {
+        if (!this.partitionKeyDefinitionPromise) {
+          this.partitionKeyDefinitionPromise = (async () => {
+            try {
+              const partitionKeyDefinition = await readPartitionKeyDefinition(diagnosticNode, this.container);
+              this.partitionKeyDefinition = partitionKeyDefinition;
+              return partitionKeyDefinition;
+            } finally {
+              this.partitionKeyDefinitionPromise = null;
+            }
+          })();
+        }
+        await this.partitionKeyDefinitionPromise;
       }
-      await this.partitionKeyDefinitionPromise;
-    }
-    const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation);
-    const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
-    // TODO: change implementation to add just retry context instead of retry policy in operation context
-    const retryPolicy = this.getRetryPolicy();
-    const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy);
-    const itemOperation: ItemBulkOperation = {
-      operationInput: operation,
-      operationContext: context,
-    };
-    streamerForPartition.add(itemOperation);
-    return context.operationPromise;
+      const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
+      const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
+      // TODO: change implementation to add just retry context instead of retry policy in operation context
+      const retryPolicy = this.getRetryPolicy();
+      const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy, diagnosticNode);
+      const itemOperation: ItemBulkOperation = {
+        operationInput: operation,
+        operationContext: context,
+      };
+      streamerForPartition.add(itemOperation);
+      return context.operationPromise;
+    }, this.clientContext, DiagnosticNodeType.CLIENT_REQUEST_NODE);
   }
 
-  private async resolvePartitionKeyRangeId(operation: OperationInput): Promise<string> {
+  private async resolvePartitionKeyRangeId(operation: OperationInput, diagnosticNode: DiagnosticNodeInternal): Promise<string> {
     try {
       const partitionKeyRanges = (
         await this.partitionKeyRangeCache.onCollectionRoutingMap(
           this.container.url,
-          this.diagnosticNode,
+          diagnosticNode,
         )
       ).getOrderedParitionKeyRanges();
 
@@ -183,7 +182,7 @@ export class BulkStreamer {
           const stopDispatch = await limiter.isStopped();
           if (stopDispatch) {
             operations.map((operation) => {
-              this.reBatchOperation(operation);
+              this.reBatchOperation(operation, diagnosticNode);
             });
             // Return empty response as the request is not sent.
             resolve(BulkResponse.createEmptyResponse(operations, 0, 0, {}));
@@ -201,9 +200,10 @@ export class BulkStreamer {
             diagnosticNode,
             DiagnosticNodeType.BATCH_REQUEST,
           );
-          resolve(BulkResponse.fromResponseMessage(response, operations));
+
+          resolve(BulkResponse.fromResponseMessage(response, operations, this.clientContext));
         } catch (error) {
-          resolve(BulkResponse.fromResponseMessage(error, operations));
+          resolve(BulkResponse.fromResponseMessage(error, operations, this.clientContext));
         } finally {
           limiter.leave();
         }
@@ -211,8 +211,8 @@ export class BulkStreamer {
     });
   }
 
-  private async reBatchOperation(operation: ItemBulkOperation): Promise<void> {
-    const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation.operationInput);
+  private async reBatchOperation(operation: ItemBulkOperation, diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation.operationInput, diagnosticNode);
     operation.operationContext.updatePKRangeId(partitionKeyRangeId);
     const streamer = this.getStreamerForPKRange(partitionKeyRangeId);
     streamer.add(operation);
@@ -241,7 +241,7 @@ export class BulkStreamer {
       this.reBatchOperation,
       limiter,
       this.options,
-      this.diagnosticNode,
+      this.clientContext.diagnosticLevel,
     );
     this.streamersByPartitionKeyRangeId.set(pkRangeId, newStreamer);
     return newStreamer;

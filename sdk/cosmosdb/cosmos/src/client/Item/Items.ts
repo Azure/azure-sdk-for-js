@@ -465,17 +465,11 @@ export class Items {
    * ```
    */
   public getBulkStreamer(options: RequestOptions = {}): BulkStreamer {
-    const diagnosticNode = new DiagnosticNodeInternal(
-      this.clientContext.diagnosticLevel,
-      DiagnosticNodeType.CLIENT_REQUEST_NODE,
-      null,
-    );
     const bulkStreamer = new BulkStreamer(
       this.container,
       this.clientContext,
       this.partitionKeyRangeCache,
       options,
-      diagnosticNode,
     );
     return bulkStreamer;
   }

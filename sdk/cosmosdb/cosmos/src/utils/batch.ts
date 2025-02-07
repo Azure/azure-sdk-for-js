@@ -44,6 +44,8 @@ export interface BulkOperationResult extends OperationResponse {
   activityId?: string;
   sessionToken?: string;
   retryAfter?: number;
+  operationInput?: OperationInput;
+  diagnostics?: CosmosDiagnostics;
 }
 
 export interface OperationResponse {
@@ -328,7 +330,6 @@ export type ExecuteCallback = (
 export type RetryCallback = (
   operation: ItemBulkOperation,
   diagnosticNode: DiagnosticNodeInternal,
-  options: RequestOptions,
 ) => Promise<void>;
 
 export class TaskCompletionSource<T> {

@@ -4,7 +4,7 @@
 import { Limiter } from "../../../src/bulk/Limiter";
 import type { ExecuteCallback, RetryCallback } from "../../../src/utils/batch";
 import type { BulkResponse, ItemBulkOperation, ItemBulkOperationContext } from "../../../src/bulk";
-import type { DiagnosticNodeInternal } from "../../../src";
+import { CosmosDbDiagnosticLevel } from "../../../src";
 import { BulkStreamerPerPartition } from "../../../src/bulk/BulkStreamerPerPartition";
 import assert from "assert";
 
@@ -22,7 +22,7 @@ describe("BulkStreamerPerPartition", () => {
       mockRetrier,
       limiter,
       {},
-      {} as DiagnosticNodeInternal,
+      CosmosDbDiagnosticLevel.info,
     );
   });
   afterEach(() => {

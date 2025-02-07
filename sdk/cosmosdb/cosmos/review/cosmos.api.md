@@ -39,6 +39,10 @@ export interface BulkOperationResult extends OperationResponse {
     // (undocumented)
     activityId?: string;
     // (undocumented)
+    diagnostics?: CosmosDiagnostics;
+    // (undocumented)
+    operationInput?: OperationInput;
+    // (undocumented)
     retryAfter?: number;
     // (undocumented)
     sessionToken?: string;
