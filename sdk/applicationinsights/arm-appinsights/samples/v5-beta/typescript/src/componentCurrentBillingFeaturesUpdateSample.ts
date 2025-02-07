@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   ApplicationInsightsComponentBillingFeatures,
   ApplicationInsightsManagementClient,
@@ -28,10 +26,10 @@ async function componentCurrentBillingFeaturesUpdate(): Promise<void> {
     process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "my-component";
   const billingFeaturesProperties: ApplicationInsightsComponentBillingFeatures =
-    {
-      currentBillingFeatures: ["Basic", "Application Insights Enterprise"],
-      dataVolumeCap: { cap: 100, stopSendNotificationWhenHitCap: true },
-    };
+  {
+    currentBillingFeatures: ["Basic", "Application Insights Enterprise"],
+    dataVolumeCap: { cap: 100, stopSendNotificationWhenHitCap: true },
+  };
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(
     credential,
