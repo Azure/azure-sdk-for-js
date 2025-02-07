@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/iot-modelsrepository": ["./dist/esm"]
+      "@azure/iot-modelsrepository": [
+        "./dist/esm"
+      ]
     }
   }
 }
