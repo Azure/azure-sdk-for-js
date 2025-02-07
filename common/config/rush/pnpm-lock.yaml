@@ -402,7 +402,7 @@ importers:
         version: file:projects/arm-hybridconnectivity.tgz
       '@rush-temp/arm-hybridcontainerservice':
         specifier: file:./projects/arm-hybridcontainerservice.tgz
-        version: file:projects/arm-hybridcontainerservice.tgz
+        version: file:projects/arm-hybridcontainerservice.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
       '@rush-temp/arm-hybridkubernetes':
         specifier: file:./projects/arm-hybridkubernetes.tgz
         version: file:projects/arm-hybridkubernetes.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)
@@ -3014,7 +3014,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-hybridcontainerservice@file:projects/arm-hybridcontainerservice.tgz':
-    resolution: {integrity: sha512-DuL2F7HCF2FOGm6QkEizwd0NEkA0i1CN6BKGhOeuYa+A/G6SMAtPAtbmh/h2mckVnscteb66Aycbcq/5UIJkiA==, tarball: file:projects/arm-hybridcontainerservice.tgz}
+    resolution: {integrity: sha512-mRkCr2BYc/slu1AMP8bgIKTgScFqdo0MFTUl+dcgJ/6qF1izDnPdMFHRKBGzUawE44bi1AeO0w/Oe6D8OlzOGg==, tarball: file:projects/arm-hybridcontainerservice.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-hybridkubernetes@file:projects/arm-hybridkubernetes.tgz':
@@ -14224,25 +14224,40 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
-  '@rush-temp/arm-hybridcontainerservice@file:projects/arm-hybridcontainerservice.tgz':
+  '@rush-temp/arm-hybridcontainerservice@file:projects/arm-hybridcontainerservice.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.74
-      chai: 4.5.0
+      '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.74)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.74)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/arm-hybridkubernetes@file:projects/arm-hybridkubernetes.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
