@@ -9,6 +9,7 @@ import {
   RoleAssignmentsListForScopeOptionalParams,
 } from "../index.js";
 import {
+  keyVaultErrorDeserializer,
   RoleAssignment,
   roleAssignmentDeserializer,
   RoleAssignmentCreateParameters,
@@ -27,6 +28,159 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
+export function _listForScopeSend(
+  context: Client,
+  scope: string,
+  options: RoleAssignmentsListForScopeOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path("/{scope}/providers/Microsoft.Authorization/roleAssignments", {
+      value: scope,
+      allowReserved: true,
+    })
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: {
+        "api-version": context.apiVersion,
+        $filter: options?.$filter,
+      },
+    });
+}
+
+export async function _listForScopeDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_RoleAssignmentListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return _roleAssignmentListResultDeserializer(result.body);
+}
+
+/** Gets role assignments for a scope. */
+export function listForScope(
+  context: Client,
+  scope: string,
+  options: RoleAssignmentsListForScopeOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<RoleAssignment> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listForScopeSend(context, scope, options),
+    _listForScopeDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _getSend(
+  context: Client,
+  scope: string,
+  roleAssignmentName: string,
+  options: RoleAssignmentsGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+      { value: scope, allowReserved: true },
+      roleAssignmentName,
+    )
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
+}
+
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RoleAssignment> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return roleAssignmentDeserializer(result.body);
+}
+
+/** Get the specified role assignment. */
+export async function get(
+  context: Client,
+  scope: string,
+  roleAssignmentName: string,
+  options: RoleAssignmentsGetOptionalParams = { requestOptions: {} },
+): Promise<RoleAssignment> {
+  const result = await _getSend(context, scope, roleAssignmentName, options);
+  return _getDeserialize(result);
+}
+
+export function _createSend(
+  context: Client,
+  scope: string,
+  roleAssignmentName: string,
+  parameters: RoleAssignmentCreateParameters,
+  options: RoleAssignmentsCreateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+      { value: scope, allowReserved: true },
+      roleAssignmentName,
+    )
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+      body: roleAssignmentCreateParametersSerializer(parameters),
+    });
+}
+
+export async function _createDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RoleAssignment> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return roleAssignmentDeserializer(result.body);
+}
+
+/** Creates a role assignment. */
+export async function create(
+  context: Client,
+  scope: string,
+  roleAssignmentName: string,
+  parameters: RoleAssignmentCreateParameters,
+  options: RoleAssignmentsCreateOptionalParams = { requestOptions: {} },
+): Promise<RoleAssignment> {
+  const result = await _createSend(
+    context,
+    scope,
+    roleAssignmentName,
+    parameters,
+    options,
+  );
+  return _createDeserialize(result);
+}
+
 export function _$deleteSend(
   context: Client,
   scope: string,
@@ -39,7 +193,14 @@ export function _$deleteSend(
       { value: scope, allowReserved: true },
       roleAssignmentName,
     )
-    .delete({ ...operationOptionsToRequestParameters(options) });
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
 export async function _$deleteDeserialize(
@@ -47,7 +208,9 @@ export async function _$deleteDeserialize(
 ): Promise<RoleAssignment> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
   }
 
   return roleAssignmentDeserializer(result.body);
@@ -72,131 +235,4 @@ export async function $delete(
     options,
   );
   return _$deleteDeserialize(result);
-}
-
-export function _createSend(
-  context: Client,
-  scope: string,
-  roleAssignmentName: string,
-  parameters: RoleAssignmentCreateParameters,
-  options: RoleAssignmentsCreateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
-      { value: scope, allowReserved: true },
-      roleAssignmentName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      body: roleAssignmentCreateParametersSerializer(parameters),
-    });
-}
-
-export async function _createDeserialize(
-  result: PathUncheckedResponse,
-): Promise<RoleAssignment> {
-  const expectedStatuses = ["201"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return roleAssignmentDeserializer(result.body);
-}
-
-/** Creates a role assignment. */
-export async function create(
-  context: Client,
-  scope: string,
-  roleAssignmentName: string,
-  parameters: RoleAssignmentCreateParameters,
-  options: RoleAssignmentsCreateOptionalParams = { requestOptions: {} },
-): Promise<RoleAssignment> {
-  const result = await _createSend(
-    context,
-    scope,
-    roleAssignmentName,
-    parameters,
-    options,
-  );
-  return _createDeserialize(result);
-}
-
-export function _getSend(
-  context: Client,
-  scope: string,
-  roleAssignmentName: string,
-  options: RoleAssignmentsGetOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
-      { value: scope, allowReserved: true },
-      roleAssignmentName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<RoleAssignment> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return roleAssignmentDeserializer(result.body);
-}
-
-/** Get the specified role assignment. */
-export async function get(
-  context: Client,
-  scope: string,
-  roleAssignmentName: string,
-  options: RoleAssignmentsGetOptionalParams = { requestOptions: {} },
-): Promise<RoleAssignment> {
-  const result = await _getSend(context, scope, roleAssignmentName, options);
-  return _getDeserialize(result);
-}
-
-export function _listForScopeSend(
-  context: Client,
-  scope: string,
-  options: RoleAssignmentsListForScopeOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path("/{scope}/providers/Microsoft.Authorization/roleAssignments", {
-      value: scope,
-      allowReserved: true,
-    })
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      queryParameters: { $filter: options?.$filter },
-    });
-}
-
-export async function _listForScopeDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_RoleAssignmentListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return _roleAssignmentListResultDeserializer(result.body);
-}
-
-/** Gets role assignments for a scope. */
-export function listForScope(
-  context: Client,
-  scope: string,
-  options: RoleAssignmentsListForScopeOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<RoleAssignment> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listForScopeSend(context, scope, options),
-    _listForScopeDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
 }

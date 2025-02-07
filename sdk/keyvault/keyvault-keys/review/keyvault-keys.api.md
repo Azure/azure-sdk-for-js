@@ -377,6 +377,8 @@ export enum KnownEncryptionAlgorithms {
     A256Cbcpad = "A256CBCPAD",
     A256GCM = "A256GCM",
     A256KW = "A256KW",
+    CkmAesKeyWrap = "CKM_AES_KEY_WRAP",
+    CkmAesKeyWrapPad = "CKM_AES_KEY_WRAP_PAD",
     RSA15 = "RSA1_5",
     RSAOaep = "RSA-OAEP",
     RSAOaep256 = "RSA-OAEP-256"
@@ -424,6 +426,9 @@ export enum KnownSignatureAlgorithms {
     ES256K = "ES256K",
     ES384 = "ES384",
     ES512 = "ES512",
+    HS256 = "HS256",
+    HS384 = "HS384",
+    HS512 = "HS512",
     PS256 = "PS256",
     PS384 = "PS384",
     PS512 = "PS512",

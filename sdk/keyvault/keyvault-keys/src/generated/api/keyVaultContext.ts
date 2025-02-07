@@ -45,7 +45,7 @@ export function createKeyVault(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "7.6-preview.1";
+  const apiVersion = options.apiVersion ?? "7.6-preview.2";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

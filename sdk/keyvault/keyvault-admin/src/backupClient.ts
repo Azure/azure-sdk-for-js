@@ -5,6 +5,8 @@ import type {
   KeyVaultBackupClientOptions,
   KeyVaultBackupResult,
   KeyVaultBeginBackupOptions,
+  KeyVaultBeginPreBackupOptions,
+  KeyVaultBeginPreRestoreOptions,
   KeyVaultBeginRestoreOptions,
   KeyVaultBeginSelectiveKeyRestoreOptions,
   KeyVaultRestoreResult,
@@ -15,7 +17,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { mappings } from "./mappings.js";
 import { createKeyVaultClient } from "./createKeyVaultClient.js";
 import type { PollerLike } from "./lro/shim.js";
-import { wrapPoller } from "./lro/shim.js";
+import { wrapPoller, updateState } from "./lro/shim.js";
 import {
   KeyVaultAdminPollOperationState,
   KeyVaultBackupOperationState,
@@ -72,6 +74,127 @@ export class KeyVaultBackupClient {
     this.vaultUrl = vaultUrl;
 
     this.client = createKeyVaultClient(vaultUrl, credential, options);
+  }
+
+  /**
+   * Starts a pre-backup operation which can be used to check whether the customer can perform a {@link beginBackup} operation using the provided SAS token.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the Key Vault backup is generated.
+   *
+   * Example usage:
+   * ```ts
+   * TODO: use the snippet extraction once merged
+   * ```
+   * @param blobStorageUri - The URL of the blob storage resource, including the path to the container where the backup will end up being stored.
+   * @param sasToken - The SAS token used to access the blob storage resource.
+   * @param options - The optional parameters.
+   */
+  public async beginPreBackup(
+    blobStorageUri: string,
+    sasToken: string,
+    options?: KeyVaultBeginPreBackupOptions,
+  ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+  /**
+   * Starts a pre-backup operation which can be used to check whether the customer can perform a {@link beginBackup} operation using the Managed HSM's configured user-assigned managed identity to authenticate with Azure Storage.
+   *
+   * This function returns a Long Running Operation poller that allows you to wait indefinitely until the Key Vault backup is generated.
+   *
+   * Example usage:
+   * ```ts
+   * TODO: use the snippet extraction once merged
+   * ```
+   * @param blobStorageUri - The URL of the blob storage resource, including the path to the container where the backup will end up being stored.
+   * @param options - The optional parameters.
+   */
+  public async beginPreBackup(
+    blobStorageUri: string,
+    options?: KeyVaultBeginPreBackupOptions,
+  ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
+  public async beginPreBackup(
+    blobStorageUri: string,
+    sasTokenOrOptions: string | KeyVaultBeginPreBackupOptions = {},
+    optionsWhenSasTokenSpecified: KeyVaultBeginPreBackupOptions = {},
+  ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>> {
+    const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
+    const options =
+      typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
+
+    let poller;
+    if (options.resumeFrom) {
+      poller = restorePoller(this.client, options.resumeFrom, this.client.preFullBackup, options);
+    } else {
+      poller = this.client.preFullBackup(
+        {
+          storageResourceUri: blobStorageUri,
+          token: sasToken,
+          useManagedIdentity: sasToken === undefined,
+        },
+        {
+          abortSignal: options.abortSignal,
+          requestOptions: options.requestOptions,
+          onResponse: options.onResponse,
+          tracingOptions: options.tracingOptions,
+          updateIntervalInMs: options.intervalInMs,
+        },
+      );
+    }
+
+    poller.onProgress(updateState);
+
+    return wrapPoller(poller) as ReturnType<typeof this.beginPreBackup>;
+  }
+
+  public async beginPreRestore(
+    folderUri: string,
+    sasToken: string,
+    options?: KeyVaultBeginPreRestoreOptions,
+  ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
+  public async beginPreRestore(
+    folderUri: string,
+    options?: KeyVaultBeginPreRestoreOptions,
+  ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
+
+  public async beginPreRestore(
+    folderUri: string,
+    sasTokenOrOptions: string | KeyVaultBeginPreRestoreOptions = {},
+    optionsWhenSasTokenSpecified: KeyVaultBeginPreRestoreOptions = {},
+  ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>> {
+    const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
+    const options =
+      typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
+
+    const folderUriParts = mappings.folderUriParts(folderUri);
+
+    let poller;
+    if (options.resumeFrom) {
+      poller = restorePoller(
+        this.client,
+        options.resumeFrom,
+        this.client.preFullRestoreOperation,
+        options,
+      );
+    } else {
+      poller = this.client.preFullRestoreOperation(
+        {
+          folderToRestore: folderUriParts.folderName,
+          sasTokenParameters: {
+            storageResourceUri: folderUriParts.folderUri,
+            token: sasToken,
+            useManagedIdentity: sasToken === undefined,
+          },
+        },
+        {
+          abortSignal: options.abortSignal,
+          requestOptions: options.requestOptions,
+          onResponse: options.onResponse,
+          tracingOptions: options.tracingOptions,
+          updateIntervalInMs: options.intervalInMs,
+        },
+      );
+    }
+    poller.onProgress(updateState);
+
+    return wrapPoller(poller) as ReturnType<typeof this.beginPreRestore>;
   }
 
   /**
@@ -159,26 +282,29 @@ export class KeyVaultBackupClient {
     const options =
       typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
+    let poller;
     if (options.resumeFrom) {
-      return wrapPoller(
-        restorePoller(this.client, options.resumeFrom, this.client.fullBackup, options),
-      );
-    }
-
-    return wrapPoller(
-      this.client.fullBackup({
-        abortSignal: options.abortSignal,
-        requestOptions: options.requestOptions,
-        azureStorageBlobContainerUri: {
+      poller = restorePoller(this.client, options.resumeFrom, this.client.fullBackup, options);
+    } else {
+      poller = this.client.fullBackup(
+        {
           storageResourceUri: blobStorageUri,
           token: sasToken,
           useManagedIdentity: sasToken === undefined,
         },
-        onResponse: options.onResponse,
-        tracingOptions: options.tracingOptions,
-        updateIntervalInMs: options.intervalInMs,
-      }),
-    );
+        {
+          abortSignal: options.abortSignal,
+          requestOptions: options.requestOptions,
+          onResponse: options.onResponse,
+          tracingOptions: options.tracingOptions,
+          updateIntervalInMs: options.intervalInMs,
+        },
+      );
+    }
+
+    poller.onProgress(updateState);
+
+    return wrapPoller(poller) as ReturnType<typeof this.beginBackup>;
   }
 
   /**
@@ -270,17 +396,17 @@ export class KeyVaultBackupClient {
 
     const folderUriParts = mappings.folderUriParts(folderUri);
 
+    let poller;
     if (options.resumeFrom) {
-      return wrapPoller(
-        restorePoller(this.client, options.resumeFrom, this.client.fullRestoreOperation, options),
+      poller = restorePoller(
+        this.client,
+        options.resumeFrom,
+        this.client.fullRestoreOperation,
+        options,
       );
-    }
-
-    return wrapPoller(
-      this.client.fullRestoreOperation({
-        abortSignal: options.abortSignal,
-        requestOptions: options.requestOptions,
-        restoreBlobDetails: {
+    } else {
+      poller = this.client.fullRestoreOperation(
+        {
           folderToRestore: folderUriParts.folderName,
           sasTokenParameters: {
             storageResourceUri: folderUriParts.folderUri,
@@ -288,11 +414,18 @@ export class KeyVaultBackupClient {
             useManagedIdentity: sasToken === undefined,
           },
         },
-        onResponse: options.onResponse,
-        tracingOptions: options.tracingOptions,
-        updateIntervalInMs: options.intervalInMs,
-      }),
-    );
+        {
+          abortSignal: options.abortSignal,
+          requestOptions: options.requestOptions,
+          onResponse: options.onResponse,
+          tracingOptions: options.tracingOptions,
+          updateIntervalInMs: options.intervalInMs,
+        },
+      );
+    }
+    poller.onProgress(updateState);
+
+    return wrapPoller(poller) as ReturnType<typeof this.beginRestore>;
   }
 
   /**
@@ -397,23 +530,18 @@ export class KeyVaultBackupClient {
 
     const folderUriParts = mappings.folderUriParts(folderUri);
 
+    let poller;
     if (options.resumeFrom) {
-      return wrapPoller(
-        restorePoller(
-          this.client,
-          options.resumeFrom,
-          this.client.selectiveKeyRestoreOperation,
-          options,
-        ),
+      poller = restorePoller(
+        this.client,
+        options.resumeFrom,
+        this.client.selectiveKeyRestoreOperation,
+        options,
       );
-    }
-
-    return wrapPoller(
-      this.client.selectiveKeyRestoreOperation(keyName, {
-        abortSignal: options.abortSignal,
-        requestOptions: options.requestOptions,
-        onResponse: options.onResponse,
-        restoreBlobDetails: {
+    } else {
+      poller = this.client.selectiveKeyRestoreOperation(
+        keyName,
+        {
           folder: folderUriParts.folderName,
           sasTokenParameters: {
             storageResourceUri: folderUriParts.folderUri,
@@ -421,9 +549,17 @@ export class KeyVaultBackupClient {
             useManagedIdentity: sasToken === undefined,
           },
         },
-        tracingOptions: options.tracingOptions,
-        updateIntervalInMs: options.intervalInMs,
-      }),
-    );
+        {
+          abortSignal: options.abortSignal,
+          requestOptions: options.requestOptions,
+          onResponse: options.onResponse,
+          tracingOptions: options.tracingOptions,
+          updateIntervalInMs: options.intervalInMs,
+        },
+      );
+    }
+    poller.onProgress(updateState);
+
+    return wrapPoller(poller) as ReturnType<typeof this.beginSelectiveKeyRestore>;
   }
 }

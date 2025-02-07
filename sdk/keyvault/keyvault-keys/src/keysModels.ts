@@ -17,7 +17,7 @@ export { KeyType, KeyOperation };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.5";
+export const LATEST_API_VERSION = "7.6-preview.2";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -594,35 +594,6 @@ export enum KnownKeyOperations {
   UnwrapKey = "unwrapKey",
   /** Key operation - import */
   Import = "import",
-}
-
-/** Known values of {@link KeyExportEncryptionAlgorithm} that the service accepts. */
-export enum KnownKeyExportEncryptionAlgorithm {
-  /** CKM_RSA_AES_KEY_WRAP Key Export Encryption Algorithm */
-  CkmRsaAesKeyWrap = "CKM_RSA_AES_KEY_WRAP",
-  /** RSA_AES_KEY_WRAP_256 Key Export Encryption Algorithm */
-  RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
-  /** RSA_AES_KEY_WRAP_384 Key Export Encryption Algorithm */
-  RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384",
-}
-
-/**
- * JsonWebKey Key Type (kty), as defined in
- * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
- */
-export enum KnownKeyTypes {
-  /** Elliptic Curve. */
-  EC = "EC",
-  /** Elliptic Curve with a private key which is stored in the HSM. */
-  ECHSM = "EC-HSM",
-  /** RSA (https://tools.ietf.org/html/rfc3447) */
-  RSA = "RSA",
-  /** RSA with a private key which is stored in the HSM. */
-  RSAHSM = "RSA-HSM",
-  /** Octet sequence (used to represent symmetric keys) */
-  Oct = "oct",
-  /** Octet sequence (used to represent symmetric keys) which is stored the HSM. */
-  OctHSM = "oct-HSM",
 }
 
 /* eslint-disable tsdoc/syntax */
