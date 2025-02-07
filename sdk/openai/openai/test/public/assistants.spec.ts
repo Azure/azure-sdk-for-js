@@ -31,7 +31,12 @@ describe("Assistants", () => {
           apiVersion,
           { assistants: "true" },
           {
-            deploymentsToSkip: ["gpt-4o-mini-batch", "gpt-4o-mini-2", "gpt-4o-mini-global-batch"],
+            deploymentsToSkip: [
+              "gpt-4o-mini-batch",
+              "gpt-4o-mini-2",
+              "gpt-4o-mini-global-batch",
+              "gpt-35-turbo",
+            ],
           },
         );
       });

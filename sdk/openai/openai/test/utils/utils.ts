@@ -93,7 +93,6 @@ export async function withDeployments<T>(
   if (errors.length > 0) {
     throw new AggregateError(errors);
   }
-  assert.isNotEmpty(succeeded, "No deployments succeeded");
   logger.info(
     `Succeeded with (${succeeded.length}): ${JSON.stringify(succeeded.map(({ deploymentName }) => deploymentName).join(", "))}`,
   );

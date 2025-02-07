@@ -11,7 +11,7 @@ export interface Metadata {
 export type DeploymentType = "vision" | "audio" | "completions";
 
 export interface ModelCapabilities {
-  completions?: string;
+  completion?: string;
   chatCompletion?: string;
   jsonObjectResponse?: string;
   assistants?: string;

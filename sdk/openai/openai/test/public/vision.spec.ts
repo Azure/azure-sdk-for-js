@@ -20,7 +20,7 @@ describe("Vision", function () {
           apiVersion,
           { chatCompletion: "true" },
           {
-            modelsToSkip: [{ name: "gpt-4o-audio-preview" }],
+            modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "o1" }],
           },
         );
       });

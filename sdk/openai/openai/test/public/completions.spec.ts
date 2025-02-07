@@ -11,13 +11,13 @@ import { completionsModelsToSkip } from "../utils/models.js";
 import "../../src/types/index.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
-describe("Completions", function () {
+describe("Legacy Completions", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        clientsAndDeployments = createClient(apiVersion, { completions: "true" });
+        clientsAndDeployments = createClient(apiVersion, { completion: "true" });
       });
 
       describe("completions.create", function () {
