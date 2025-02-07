@@ -21,7 +21,8 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/index.js",
@@ -35,6 +36,7 @@
     "@azure/arm-msi": "^2.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.6.0",
+    "@azure/logger": "^1.1.4",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.3",
     "@vitest/coverage-istanbul": "^3.0.3",
@@ -43,10 +45,7 @@
     "typescript": "~5.7.2",
     "vitest": "^3.0.3"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -81,7 +80,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
   "//metadata": {
