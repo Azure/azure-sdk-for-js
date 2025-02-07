@@ -3,7 +3,7 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
-import { createClient } from "../utils/createClient.js";
+import { createClientsAndDeployments } from "../utils/createClients.js";
 import type { APIVersion } from "../utils/utils.js";
 import { assertChatCompletions, assertChatCompletionsList } from "../utils/asserts.js";
 import {
@@ -23,7 +23,7 @@ describe("Chat Completions", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        clientsAndDeployments = createClient(
+        clientsAndDeployments = createClientsAndDeployments(
           apiVersion,
           { chatCompletion: "true" },
           {
@@ -226,7 +226,7 @@ describe("Chat Completions", function () {
         });
 
         it("respects json_object responseFormat", async function () {
-          clientsAndDeployments = createClient(apiVersion, {
+          clientsAndDeployments = createClientsAndDeployments(apiVersion, {
             chatCompletion: "true",
             jsonObjectResponse: "true",
           });

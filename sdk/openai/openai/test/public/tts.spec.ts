@@ -3,7 +3,7 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, beforeEach, it, assert } from "vitest";
-import { createClient } from "../utils/createClient.js";
+import { createClientsAndDeployments } from "../utils/createClients.js";
 import { APIVersion, withDeployments } from "../utils/utils.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
@@ -13,7 +13,7 @@ describe("Text to speech", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        clientsAndDeployments = createClient(
+        clientsAndDeployments = createClientsAndDeployments(
           apiVersion,
           { audio: "true" },
           { modelsToSkip: [{ name: "whisper" }] },

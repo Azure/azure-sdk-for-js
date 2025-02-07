@@ -3,7 +3,7 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, beforeEach, it } from "vitest";
-import { createClient } from "../utils/createClient.js";
+import { createClientsAndDeployments } from "../utils/createClients.js";
 import type { APIVersion } from "../utils/utils.js";
 import { assertCompletions, assertCompletionsStream } from "../utils/asserts.js";
 import { APIMatrix, withDeployments } from "../utils/utils.js";
@@ -17,7 +17,7 @@ describe("Legacy Completions", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        clientsAndDeployments = createClient(apiVersion, { completion: "true" });
+        clientsAndDeployments = createClientsAndDeployments(apiVersion, { completion: "true" });
       });
 
       describe("completions.create", function () {

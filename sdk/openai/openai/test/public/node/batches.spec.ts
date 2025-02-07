@@ -4,7 +4,7 @@
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, beforeEach, it } from "vitest";
 import { type OpenAI, toFile } from "openai";
-import { createClient } from "../../utils/createClient.js";
+import { createClientsAndDeployments } from "../../utils/createClients.js";
 import { APIVersion, withDeployments } from "../../utils/utils.js";
 import { assertBatch, assertNonEmptyArray } from "../../utils/asserts.js";
 import { delay } from "@azure/core-util";
@@ -17,7 +17,11 @@ describe("Batches", () => {
       let clientAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        clientAndDeployments = createClient(apiVersion, {}, { sku: { name: "GlobalBatch" } });
+        clientAndDeployments = createClientsAndDeployments(
+          apiVersion,
+          {},
+          { sku: { name: "GlobalBatch" } },
+        );
       });
 
       describe("batches.create", function () {

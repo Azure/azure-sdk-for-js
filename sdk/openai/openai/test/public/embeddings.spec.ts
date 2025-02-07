@@ -3,7 +3,7 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, beforeAll } from "vitest";
-import { createClient } from "../utils/createClient.js";
+import { createClientsAndDeployments } from "../utils/createClients.js";
 import { APIMatrix, type APIVersion, withDeployments } from "../utils/utils.js";
 import { assertEmbeddings } from "../utils/asserts.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
@@ -14,7 +14,7 @@ describe("Embeddings", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeAll(async function () {
-        clientsAndDeployments = createClient(apiVersion, { embeddings: "true" });
+        clientsAndDeployments = createClientsAndDeployments(apiVersion, { embeddings: "true" });
       });
 
       describe("embeddings.create", function () {

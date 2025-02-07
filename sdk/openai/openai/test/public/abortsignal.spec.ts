@@ -3,7 +3,7 @@
 
 import { assert, describe, beforeEach, it } from "vitest";
 import { matrix } from "@azure-tools/test-utils-vitest";
-import { createClient } from "../utils/createClient.js";
+import { createClientsAndDeployments } from "../utils/createClients.js";
 import { APIVersion } from "../utils/utils.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
@@ -12,7 +12,7 @@ describe("AbortSignal", () => {
 
   matrix([[APIVersion.Stable]] as const, async function (apiVersion: APIVersion) {
     beforeEach(async function () {
-      clientsAndDeployments = createClient(apiVersion, { chatCompletion: "true" });
+      clientsAndDeployments = createClientsAndDeployments(apiVersion, { chatCompletion: "true" });
     });
 
     // TODO: Fix the tests for client.chat.completions.create

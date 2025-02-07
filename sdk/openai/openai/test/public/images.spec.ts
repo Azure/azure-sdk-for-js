@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { matrix } from "@azure-tools/test-utils-vitest";
-import { createClient } from "../utils/createClient.js";
+import { createClientsAndDeployments } from "../utils/createClients.js";
 import { APIMatrix, type APIVersion, withDeployments } from "../utils/utils.js";
 import { assertImagesWithJSON, assertImagesWithURLs } from "../utils/asserts.js";
 import { describe, it, beforeAll } from "vitest";
@@ -14,7 +14,9 @@ describe("Images", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeAll(async function () {
-        clientsAndDeployments = createClient(apiVersion, { imageGenerations: "true" });
+        clientsAndDeployments = createClientsAndDeployments(apiVersion, {
+          imageGenerations: "true",
+        });
       });
 
       describe("images.generate", function () {

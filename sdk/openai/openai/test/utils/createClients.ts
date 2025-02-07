@@ -10,7 +10,7 @@ import type { ClientsAndDeploymentsInfo, CreateClientOptions, ModelCapabilities 
 
 const scope = "https://cognitiveservices.azure.com/.default";
 
-export function createClient(
+export function createClientsAndDeployments(
   apiVersion: APIVersion,
   capabilities: ModelCapabilities,
   options: CreateClientOptions = {},

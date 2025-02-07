@@ -3,7 +3,7 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
-import { createClient } from "../utils/createClient.js";
+import { createClientsAndDeployments } from "../utils/createClients.js";
 import { assertChatCompletions } from "../utils/asserts.js";
 import { APIMatrix, type APIVersion, withDeployments } from "../utils/utils.js";
 import { RestError } from "@azure/core-rest-pipeline";
@@ -16,7 +16,7 @@ describe("Vision", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        clientsAndDeployments = createClient(
+        clientsAndDeployments = createClientsAndDeployments(
           apiVersion,
           { chatCompletion: "true" },
           {

@@ -4,7 +4,7 @@
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
 import { type OpenAI, toFile } from "openai";
-import { createClient } from "../../utils/createClient.js";
+import { createClientsAndDeployments } from "../../utils/createClients.js";
 import { APIVersion } from "../../utils/utils.js";
 
 describe("Assistants", () => {
@@ -13,7 +13,8 @@ describe("Assistants", () => {
       let client: OpenAI;
 
       beforeEach(async function () {
-        client = createClient(apiVersion, { assistants: "true" }).clientsAndDeployments[0].client;
+        client = createClientsAndDeployments(apiVersion, { assistants: "true" })
+          .clientsAndDeployments[0].client;
       });
 
       describe("all CRUD APIs", function () {

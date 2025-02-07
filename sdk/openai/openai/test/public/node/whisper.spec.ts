@@ -4,7 +4,7 @@
 import { createReadStream } from "fs";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, beforeEach } from "vitest";
-import { createClient } from "../../utils/createClient.js";
+import { createClientsAndDeployments } from "../../utils/createClients.js";
 import {
   APIMatrix,
   type APIVersion,
@@ -21,7 +21,7 @@ describe("Whisper", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        clientsAndDeployments = createClient(
+        clientsAndDeployments = createClientsAndDeployments(
           apiVersion,
           { audio: "true" },
           { sku: { capacity: 30 } },

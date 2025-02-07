@@ -4,7 +4,7 @@
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
 import { assertAssistantEquality } from "../utils/asserts.js";
-import { createClient } from "../utils/createClient.js";
+import { createClientsAndDeployments } from "../utils/createClients.js";
 import { APIVersion, isRateLimitRun, withDeployments } from "../utils/utils.js";
 import type { ClientsAndDeploymentsInfo, Metadata } from "../utils/types.js";
 import type { AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
@@ -27,7 +27,7 @@ describe("Assistants", () => {
       }
 
       beforeEach(async function () {
-        clientsAndDeployments = createClient(
+        clientsAndDeployments = createClientsAndDeployments(
           apiVersion,
           { assistants: "true" },
           {
