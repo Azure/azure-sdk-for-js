@@ -2,9 +2,12 @@
 
 # Release History
 
-## 4.6.1 (Unreleased)
+## 4.7.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- Added support for service API version `7.6-preview.1`. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
+- Added `KeyVaultBackupClient.beginPreBackup` and `KeyVaultBackupClient.beginPreRestore` methods for checking if it is possible to perform a full key backup or full key restore. [#32947](https://github.com/Azure/azure-sdk-for-js/pull/32947)
 
 ### Breaking Changes
 

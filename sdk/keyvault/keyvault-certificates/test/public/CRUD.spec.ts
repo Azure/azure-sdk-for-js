@@ -66,6 +66,16 @@ describe("Certificates client - create, read, update and delete", () => {
     expect(pendingCertificate!.properties.name).toEqual(certificateName);
   });
 
+  it("can create a certificate with preserveCertificateOrder", async (ctx) => {
+    const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
+    const poller = await client.beginCreateCertificate(certificateName, basicCertificatePolicy, {
+      ...testPollerProperties,
+      preserveCertificateOrder: true,
+    });
+    const pendingCertificate = poller.getResult(); // Pending certificate
+    expect(pendingCertificate!.properties.preserveCertificateOrder).toEqual(true);
+  });
+
   it("can abort creating a certificate", async function (ctx) {
     const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
     const controller = new AbortController();

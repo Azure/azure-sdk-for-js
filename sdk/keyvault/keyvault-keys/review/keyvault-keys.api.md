@@ -179,6 +179,11 @@ export interface GetDeletedKeyOptions extends coreClient.OperationOptions {
 }
 
 // @public
+export interface GetKeyAttestationOptions extends coreClient.OperationOptions {
+    version?: string;
+}
+
+// @public
 export interface GetKeyOptions extends coreClient.OperationOptions {
     version?: string;
 }
@@ -238,6 +243,7 @@ export class KeyClient {
     getCryptographyClient(keyName: string, options?: GetCryptographyClientOptions): CryptographyClient;
     getDeletedKey(name: string, options?: GetDeletedKeyOptions): Promise<DeletedKey>;
     getKey(name: string, options?: GetKeyOptions): Promise<KeyVaultKey>;
+    getKeyAttestation(name: string, options?: GetKeyAttestationOptions): Promise<KeyVaultKey>;
     getKeyRotationPolicy(keyName: string, options?: GetKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
     getRandomBytes(count: number, options?: GetRandomBytesOptions): Promise<Uint8Array>;
     importKey(name: string, key: JsonWebKey_2, options?: ImportKeyOptions): Promise<KeyVaultKey>;
@@ -277,6 +283,8 @@ export interface KeyPollerOptions extends coreClient.OperationOptions {
 
 // @public
 export interface KeyProperties {
+    // Warning: (ae-forgotten-export) The symbol "KeyAttestation" needs to be exported by the entry point index.d.ts
+    attestation?: KeyAttestation;
     readonly createdOn?: Date;
     enabled?: boolean;
     expiresOn?: Date;
@@ -377,6 +385,8 @@ export enum KnownEncryptionAlgorithms {
     A256Cbcpad = "A256CBCPAD",
     A256GCM = "A256GCM",
     A256KW = "A256KW",
+    CkmAesKeyWrap = "CKM_AES_KEY_WRAP",
+    CkmAesKeyWrapPad = "CKM_AES_KEY_WRAP_PAD",
     RSA15 = "RSA1_5",
     RSAOaep = "RSA-OAEP",
     RSAOaep256 = "RSA-OAEP-256"
@@ -424,6 +434,9 @@ export enum KnownSignatureAlgorithms {
     ES256K = "ES256K",
     ES384 = "ES384",
     ES512 = "ES512",
+    HS256 = "HS256",
+    HS384 = "HS384",
+    HS512 = "HS512",
     PS256 = "PS256",
     PS384 = "PS384",
     PS512 = "PS512",
