@@ -179,9 +179,9 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -202,8 +202,8 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownVersions {
-    v2023_11_01 = "2023-11-01",
-    v2025_05_01 = "2025-01-01"
+    V2023_11_01 = "2023-11-01",
+    V2025_05_01 = "2025-01-01"
 }
 
 // @public

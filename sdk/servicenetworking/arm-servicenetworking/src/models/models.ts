@@ -70,11 +70,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  user = "user",
+  User = "user",
   /** Indicates the operation is initiated by a system. */
-  system = "system",
+  System = "system",
   /** Indicates the operation is initiated by a user or system. */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -901,7 +901,7 @@ export function associationArrayDeserializer(result: Array<Association>): any[] 
 /** Api versions */
 export enum KnownVersions {
   /** 2023-11-01 stable version */
-  v2023_11_01 = "2023-11-01",
+  V2023_11_01 = "2023-11-01",
   /** 2025-01-01 stable version */
-  v2025_05_01 = "2025-01-01",
+  V2025_05_01 = "2025-01-01",
 }
