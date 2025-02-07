@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   ClassificationPolicy,
   DistributionPolicy,
   ExceptionPolicy,
@@ -13,10 +13,12 @@ import {
   CancelJobOptions,
   CompleteJobOptions,
   CloseJobOptions,
+  RouterJobStatusSelector,
   UnassignJobOptions,
   DeclineJobOfferOptions,
   RouterWorker,
-} from "./models";
+  RouterWorkerStateSelector,
+} from "./models.js";
 
 export interface UpsertClassificationPolicyHeaders {
   /** The request should only proceed if an entity matches this string. */
@@ -255,7 +257,7 @@ export interface ListJobsQueryParamProperties {
    *
    * Possible values: "all", "pendingClassification", "queued", "assigned", "completed", "closed", "cancelled", "classificationFailed", "created", "pendingSchedule", "scheduled", "scheduleFailed", "waitingForActivation", "active"
    */
-  status?: string;
+  status?: RouterJobStatusSelector;
   /** If specified, filter jobs by queue. */
   queueId?: string;
   /** If specified, filter jobs by channel. */
@@ -330,7 +332,7 @@ export interface ListWorkersQueryParamProperties {
    *
    * Possible values: "active", "draining", "inactive", "all"
    */
-  state?: string;
+  state?: RouterWorkerStateSelector;
   /** If specified, select workers who have a channel configuration with this channel. */
   channelId?: string;
   /** If specified, select workers who are assigned to this queue. */

@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { CommunicationIdentityOperationsImpl } from "./operations";
-import { CommunicationIdentityOperations } from "./operationsInterfaces";
-import { IdentityRestClientOptionalParams } from "./models";
+import { CommunicationIdentityOperationsImpl } from "./operations/index.js";
+import { CommunicationIdentityOperations } from "./operationsInterfaces/index.js";
+import { IdentityRestClientOptionalParams } from "./models/index.js";
 
 export class IdentityRestClient extends coreClient.ServiceClient {
   endpoint: string;

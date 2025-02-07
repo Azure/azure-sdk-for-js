@@ -1,29 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  AppConfigurationClient,
+import type {
   AppConfigurationClientOptions,
   ListSnapshotsPage,
   ConfigurationSnapshot,
   SettingLabel,
   ListLabelsPage,
 } from "../../../src/index.js";
-import {
+import { AppConfigurationClient } from "../../../src/index.js";
+import type {
   ConfigurationSetting,
   ListConfigurationSettingPage,
   ListRevisionsPage,
 } from "../../../src/index.js";
-import {
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-  VitestTestContext,
-  assertEnvironmentVariable,
-} from "@azure-tools/test-recorder";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { RestError } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/identity";
+import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { RestError } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "vitest";
 

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { MonitoringDataPoint, PublishResponse } from "../../generated";
-import { DocumentIngress, CollectionConfigurationError } from "../../generated";
+import type { TokenCredential } from "@azure/core-auth";
+import type { MonitoringDataPoint, PublishResponse } from "../../generated";
+import type { DocumentIngress, CollectionConfigurationError } from "../../generated";
 
 /**
  * Quickpulse Exporter Options

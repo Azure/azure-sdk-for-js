@@ -116,7 +116,7 @@ node backupEnginesGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID="<recoveryservicesbackup subscription id>" RECOVERYSERVICESBACKUP_RESOURCE_GROUP="<recoveryservicesbackup resource group>" node backupEnginesGetSample.js
+npx dev-tool run vendored cross-env RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID="<recoveryservicesbackup subscription id>" RECOVERYSERVICESBACKUP_RESOURCE_GROUP="<recoveryservicesbackup resource group>" node backupEnginesGetSample.js
 ```
 
 ## Next Steps
@@ -203,6 +203,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [validateoperationresultsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup/samples/v13/javascript/validateOperationResultsGetSample.js
 [validateoperationstatusesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup/samples/v13/javascript/validateOperationStatusesGetSample.js
 [validateoperationtriggersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup/samples/v13/javascript/validateOperationTriggerSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup/README.md

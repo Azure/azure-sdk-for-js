@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  NetworkProfilesUpdateTagsParameters
+  NetworkProfilesUpdateTagsParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates network profile tags.
@@ -25,14 +20,14 @@ async function updateNetworkProfileTags() {
   const networkProfileName = "test-np";
   const options: NetworkProfilesUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
       subscriptionId,
       resourceGroupName,
-      networkProfileName
+      networkProfileName,
     )
     .patch(options);
   console.log(result);

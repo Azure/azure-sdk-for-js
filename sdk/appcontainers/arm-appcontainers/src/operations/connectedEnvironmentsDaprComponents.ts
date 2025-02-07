@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ConnectedEnvironmentsDaprComponents } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ConnectedEnvironmentsDaprComponents } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
 import {
   DaprComponent,
   ConnectedEnvironmentsDaprComponentsListNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   ConnectedEnvironmentsDaprComponentsListSecretsOptionalParams,
   ConnectedEnvironmentsDaprComponentsListSecretsResponse,
   ConnectedEnvironmentsDaprComponentsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectedEnvironmentsDaprComponents operations. */
@@ -313,7 +313,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.connectedEnvironmentName,
     Parameters.componentName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer,
 };

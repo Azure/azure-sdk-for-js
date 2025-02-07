@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
@@ -20,9 +21,6 @@ describe("HealthDataAIServices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HealthDataAIServicesClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
@@ -35,18 +33,15 @@ describe("HealthDataAIServices test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("operation list test", async function () {
+  it("operation list test", async () => {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);

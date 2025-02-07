@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 /**
@@ -20,7 +20,7 @@ import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
 import { vsCodePlugin } from "@azure/identity-vscode";
 useIdentityPlugin(vsCodePlugin);
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
 
   // This is the scope we will use to get a token from the Microsoft Entra token endpoint.

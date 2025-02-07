@@ -10,18 +10,13 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { PostgreSQLManagementFlexibleServerClient } from "../src/postgreSQLManagementFlexibleServerClient";
+import { PostgreSQLManagementFlexibleServerClient } from "../src/postgreSQLManagementFlexibleServerClient.js";
+import { describe, it, beforeEach, afterEach, assert  } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  AZURE_CLIENT_ID: "azure_client_id",
-  AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id"
 };
 
@@ -41,20 +36,14 @@ describe("PostgreSQLFlexible test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: PostgreSQLManagementFlexibleServerClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
 
   });
 
@@ -62,7 +51,8 @@ describe("PostgreSQLFlexible test", () => {
     await recorder.stop();
   });
 
-  it.skip("operation list test", async function () {
+  it("operation list test", async function () {
     const result = await client.operations.list();
+    assert.ok(result);
   });
 })

@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-client";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type {
   DeleteCertificateOptions,
   DeletedCertificate,
   GetDeletedCertificateOptions,
 } from "../../certificatesModels.js";
-import {
-  KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState,
-} from "../keyVaultCertificatePoller.js";
-import { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";
+import { KeyVaultCertificatePollOperation } from "../keyVaultCertificatePoller.js";
+import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations.js";
 import { tracingClient } from "../../tracing.js";
 
@@ -36,7 +34,6 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
 > {
   constructor(
     public state: DeleteCertificatePollOperationState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
     private operationOptions: OperationOptions = {},
   ) {
@@ -55,11 +52,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
       "DeleteCertificatePoller.deleteCertificate",
       options,
       async (updatedOptions) => {
-        const response = await this.client.deleteCertificate(
-          this.vaultUrl,
-          certificateName,
-          updatedOptions,
-        );
+        const response = await this.client.deleteCertificate(certificateName, updatedOptions);
         return getDeletedCertificateFromDeletedCertificateBundle(response);
       },
     );
@@ -77,14 +70,8 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
       "DeleteCertificatePoller.getDeletedCertificate",
       options,
       async (updatedOptions) => {
-        let parsedBody: any;
-        await this.client.getDeletedCertificate(this.vaultUrl, certificateName, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getDeletedCertificateFromDeletedCertificateBundle(parsedBody);
+        const response = await this.client.getDeletedCertificate(certificateName, updatedOptions);
+        return getDeletedCertificateFromDeletedCertificateBundle(response);
       },
     );
   }

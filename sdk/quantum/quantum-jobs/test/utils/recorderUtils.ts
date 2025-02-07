@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, RecorderStartOptions, SanitizerOptions, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import type { Recorder, RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 type UriSanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["uriSanitizers"];
 type BodyKeySanitizers = Required<RecorderStartOptions>["sanitizerOptions"]["bodyKeySanitizers"];
 
@@ -15,7 +16,12 @@ export function getRecorderUniqueVariable(recorder: Recorder, name: string): str
   return recorder.variable(name, getUniqueName(name));
 }
 
-function getUriSanitizerForQueryParam(paramName: string) {
+function getUriSanitizerForQueryParam(paramName: string): {
+  regex: boolean;
+  target: string;
+  groupForReplace: string;
+  value: string;
+} {
   return {
     regex: true,
     target: `http.+\\?([^&=]+=[^&=]+&)*(?<param>${paramName}=[^&=]+&?)`,
@@ -26,7 +32,7 @@ function getUriSanitizerForQueryParam(paramName: string) {
 
 export function getSanitizers(): SanitizerOptions {
   const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
-  const regexSanitizers : UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
+  const regexSanitizers: UriSanitizers = sasParams.map(getUriSanitizerForQueryParam);
   regexSanitizers.push({
     regex: true,
     target: `https://(?<account>.*?).blob.core.windows.net`,
@@ -50,28 +56,28 @@ export function getSanitizers(): SanitizerOptions {
     value: "eastus",
   });
 
-  const bodyKeySanitizers : BodyKeySanitizers = [
+  const bodyKeySanitizers: BodyKeySanitizers = [
     {
       regex: "(?:\\?(sv|sig|se|srt|ss|sp)=)(?<secret>.*)",
       value: "Sanitized",
       groupForReplace: "secret",
-      jsonPath: "$"
+      jsonPath: "$",
     },
     {
       value: "Sanitized",
-      jsonPath: "$..sasUri"
+      jsonPath: "$..sasUri",
     },
     {
       value: "Sanitized",
-      jsonPath: "$..containerUri"
+      jsonPath: "$..containerUri",
     },
     {
       value: "Sanitized",
-      jsonPath: "$..inputDataUri"
+      jsonPath: "$..inputDataUri",
     },
     {
       value: "Sanitized",
-      jsonPath: "$..outputDataUri"
+      jsonPath: "$..outputDataUri",
     },
   ];
 

@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  CredentialSet,
-  ContainerRegistryManagementClient
-} from "@azure/arm-containerregistry";
+import type { CredentialSet } from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a credential set for a container registry with the specified parameters.
@@ -23,43 +17,36 @@ dotenv.config();
  * @summary Creates a credential set for a container registry with the specified parameters.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/CredentialSetCreate.json
  */
-async function credentialSetCreate() {
+async function credentialSetCreate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const credentialSetName = "myCredentialSet";
   const credentialSetCreateParameters: CredentialSet = {
     authCredentials: [
       {
         name: "Credential1",
-        passwordSecretIdentifier:
-          "https://myvault.vault.azure.net/secrets/password",
-        usernameSecretIdentifier:
-          "https://myvault.vault.azure.net/secrets/username"
-      }
+        passwordSecretIdentifier: "https://myvault.vault.azure.net/secrets/password",
+        usernameSecretIdentifier: "https://myvault.vault.azure.net/secrets/username",
+      },
     ],
     identity: { type: "SystemAssigned" },
-    loginServer: "docker.io"
+    loginServer: "docker.io",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.credentialSets.beginCreateAndWait(
     resourceGroupName,
     registryName,
     credentialSetName,
-    credentialSetCreateParameters
+    credentialSetCreateParameters,
   );
   console.log(result);
 }
 
-async function main() {
-  credentialSetCreate();
+async function main(): Promise<void> {
+  await credentialSetCreate();
 }
 
 main().catch(console.error);

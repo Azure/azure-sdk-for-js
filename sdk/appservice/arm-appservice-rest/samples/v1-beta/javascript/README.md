@@ -44,7 +44,7 @@ node appServiceEnvironmentsGetInboundNetworkDependenciesEndpointsSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SUBSCRIPTION_ID="<subscription id>" node appServiceEnvironmentsGetInboundNetworkDependenciesEndpointsSample.js
+npx dev-tool run vendored cross-env SUBSCRIPTION_ID="<subscription id>" node appServiceEnvironmentsGetInboundNetworkDependenciesEndpointsSample.js
 ```
 
 ## Next Steps
@@ -59,6 +59,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [appserviceplanslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServicePlansListByResourceGroupSample.js
 [appserviceplanslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServicePlansListSample.js
 [appserviceplansupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServicePlansUpdateSample.js
-[apiref]: https://docs.microsoft.com/rest/api/appservice
+[apiref]: https://learn.microsoft.com/rest/api/appservice
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice-rest/README.md

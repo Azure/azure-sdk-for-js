@@ -1,11 +1,10 @@
 // @ts-check
 import azsdkEslint from "@azure/eslint-plugin-azure-sdk";
 
-export default [
+export default azsdkEslint.config([
   {
     ignores: ["**/src/utils/hashing/murmurHash.ts"],
   },
-  ...azsdkEslint.configs.recommended,
   {
     languageOptions: {
       parserOptions: {
@@ -25,8 +24,6 @@ export default [
       "@azure/azure-sdk/ts-apisurface-supportcancellation": "warn",
       // this rule requires introducing breaking changes, should be fixed by the cosmos team
       "@azure/azure-sdk/ts-naming-options": "warn",
-      // left to the cosmos team make this rule error again
-      "@azure/azure-sdk/ts-package-json-module": "warn",
       "@azure/azure-sdk/ts-doc-internal": "warn",
     },
   },
@@ -39,4 +36,4 @@ export default [
       "@typescript-eslint/no-unused-expressions": "off",
     },
   },
-];
+]);

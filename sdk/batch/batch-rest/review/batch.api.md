@@ -5,17 +5,17 @@
 ```ts
 
 import { AzureNamedKeyCredential } from '@azure/core-auth';
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { PipelinePolicy } from '@azure/core-rest-pipeline';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessScope = string;
@@ -328,11 +328,13 @@ export interface BatchJobManagerTaskOutput {
 
 // @public
 export interface BatchJobNetworkConfiguration {
+    skipWithdrawFromVNet: boolean;
     subnetId: string;
 }
 
 // @public
 export interface BatchJobNetworkConfigurationOutput {
+    skipWithdrawFromVNet: boolean;
     subnetId: string;
 }
 
@@ -692,6 +694,7 @@ export interface BatchJobUpdateContent {
     constraints?: BatchJobConstraints;
     maxParallelTasks?: number;
     metadata?: Array<MetadataItem>;
+    networkConfiguration?: BatchJobNetworkConfiguration;
     onAllTasksComplete?: OnAllBatchTasksComplete;
     poolInfo?: BatchPoolInfo;
     priority?: number;
@@ -712,6 +715,8 @@ export type BatchNodeCommunicationModeOutput = string;
 // @public
 export interface BatchNodeCountsOutput {
     creating: number;
+    deallocated: number;
+    deallocating: number;
     idle: number;
     leavingPool: number;
     offline: number;
@@ -727,6 +732,14 @@ export interface BatchNodeCountsOutput {
     upgradingOS: number;
     waitingForStartTask: number;
 }
+
+// @public
+export interface BatchNodeDeallocateContent {
+    nodeDeallocateOption?: BatchNodeDeallocateOption;
+}
+
+// @public
+export type BatchNodeDeallocateOption = string;
 
 // @public
 export type BatchNodeDeallocationOption = string;
@@ -856,6 +869,14 @@ export interface BatchNodeRebootContent {
 
 // @public
 export type BatchNodeRebootOption = string;
+
+// @public
+export interface BatchNodeReimageContent {
+    nodeReimageOption?: BatchNodeReimageOption;
+}
+
+// @public
+export type BatchNodeReimageOption = string;
 
 // @public
 export interface BatchNodeRemoteLoginSettingsOutput {
@@ -1140,9 +1161,20 @@ export interface BatchPoolStatisticsOutput {
 // @public
 export interface BatchPoolUpdateContent {
     applicationPackageReferences?: Array<BatchApplicationPackageReference>;
+    displayName?: string;
+    enableInterNodeCommunication?: boolean;
     metadata?: Array<MetadataItem>;
+    mountConfiguration?: Array<MountConfiguration>;
+    networkConfiguration?: NetworkConfiguration;
+    resourceTags?: Record<string, string>;
     startTask?: BatchStartTask;
     targetNodeCommunicationMode?: BatchNodeCommunicationMode;
+    taskSchedulingPolicy?: BatchTaskSchedulingPolicy;
+    taskSlotsPerNode?: number;
+    upgradePolicy?: UpgradePolicy;
+    userAccounts?: Array<UserAccount>;
+    virtualMachineConfiguration?: VirtualMachineConfiguration;
+    vmSize?: string;
 }
 
 // @public
@@ -1281,6 +1313,7 @@ export interface BatchTaskContainerExecutionInfoOutput {
 
 // @public
 export interface BatchTaskContainerSettings {
+    containerHostBatchBindMounts?: Array<ContainerHostBatchBindMountEntry>;
     containerRunOptions?: string;
     imageName: string;
     registry?: ContainerRegistryReference;
@@ -1289,6 +1322,7 @@ export interface BatchTaskContainerSettings {
 
 // @public
 export interface BatchTaskContainerSettingsOutput {
+    containerHostBatchBindMounts?: Array<ContainerHostBatchBindMountEntryOutput>;
     containerRunOptions?: string;
     imageName: string;
     registry?: ContainerRegistryReferenceOutput;
@@ -1554,6 +1588,24 @@ export interface ContainerConfigurationOutput {
     containerRegistries?: Array<ContainerRegistryReferenceOutput>;
     type: ContainerTypeOutput;
 }
+
+// @public
+export interface ContainerHostBatchBindMountEntry {
+    isReadOnly?: boolean;
+    source?: ContainerHostDataPath;
+}
+
+// @public
+export interface ContainerHostBatchBindMountEntryOutput {
+    isReadOnly?: boolean;
+    source?: ContainerHostDataPathOutput;
+}
+
+// @public
+export type ContainerHostDataPath = string;
+
+// @public
+export type ContainerHostDataPathOutput = string;
 
 // @public
 export interface ContainerRegistryReference {
@@ -2014,6 +2066,73 @@ export interface DataDiskOutput {
 }
 
 // @public (undocumented)
+export interface DeallocateNode {
+    post(options: DeallocateNodeParameters): StreamableMethod<DeallocateNode202Response | DeallocateNodeDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface DeallocateNode202Headers {
+    "client-request-id"?: string;
+    "last-modified"?: string;
+    "request-id"?: string;
+    dataserviceid: string;
+    etag?: string;
+}
+
+// @public
+export interface DeallocateNode202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & DeallocateNode202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface DeallocateNodeBodyParam {
+    body?: BatchNodeDeallocateContent;
+}
+
+// @public (undocumented)
+export interface DeallocateNodeDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: BatchErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface DeallocateNodeHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & DeallocateNodeHeaders;
+}
+
+// @public (undocumented)
+export interface DeallocateNodeHeaders {
+    "client-request-id"?: string;
+    "ocp-date"?: string;
+    "return-client-request-id"?: boolean;
+}
+
+// @public (undocumented)
+export interface DeallocateNodeMediaTypesParam {
+    contentType: "application/json; odata=minimalmetadata";
+}
+
+// @public (undocumented)
+export type DeallocateNodeParameters = DeallocateNodeQueryParam & DeallocateNodeHeaderParam & DeallocateNodeMediaTypesParam & DeallocateNodeBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeallocateNodeQueryParam {
+    // (undocumented)
+    queryParameters?: DeallocateNodeQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeallocateNodeQueryParamProperties {
+    timeOut?: number;
+}
+
+// @public (undocumented)
 export interface DeleteJob {
     delete(options?: DeleteJobParameters): StreamableMethod<DeleteJob202Response | DeleteJobDefaultResponse>;
     get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
@@ -2071,6 +2190,7 @@ export interface DeleteJobQueryParam {
 
 // @public (undocumented)
 export interface DeleteJobQueryParamProperties {
+    force?: boolean;
     timeOut?: number;
 }
 
@@ -2124,6 +2244,7 @@ export interface DeleteJobScheduleQueryParam {
 
 // @public (undocumented)
 export interface DeleteJobScheduleQueryParamProperties {
+    force?: boolean;
     timeOut?: number;
 }
 
@@ -3918,8 +4039,10 @@ export interface HttpHeaderOutput {
 
 // @public
 export interface ImageReference {
+    communityGalleryImageId?: string;
     offer?: string;
     publisher?: string;
+    sharedGalleryImageId?: string;
     sku?: string;
     version?: string;
     virtualMachineImageId?: string;
@@ -3927,9 +4050,11 @@ export interface ImageReference {
 
 // @public
 export interface ImageReferenceOutput {
+    communityGalleryImageId?: string;
     readonly exactVersion?: string;
     offer?: string;
     publisher?: string;
+    sharedGalleryImageId?: string;
     sku?: string;
     version?: string;
     virtualMachineImageId?: string;
@@ -4162,6 +4287,15 @@ export function isUnexpected(response: GetNode200Response | GetNodeDefaultRespon
 
 // @public (undocumented)
 export function isUnexpected(response: RebootNode202Response | RebootNodeDefaultResponse): response is RebootNodeDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: StartNode202Response | StartNodeDefaultResponse): response is StartNodeDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: DeallocateNode202Response | DeallocateNodeDefaultResponse): response is DeallocateNodeDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ReimageNode202Response | ReimageNodeDefaultResponse): response is ReimageNodeDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: DisableNodeScheduling200Response | DisableNodeSchedulingDefaultResponse): response is DisableNodeSchedulingDefaultResponse;
@@ -5182,12 +5316,14 @@ export type LoginModeOutput = string;
 
 // @public
 export interface ManagedDisk {
-    storageAccountType: StorageAccountType;
+    securityProfile?: VMDiskSecurityProfile;
+    storageAccountType?: StorageAccountType;
 }
 
 // @public
 export interface ManagedDiskOutput {
-    storageAccountType: StorageAccountTypeOutput;
+    securityProfile?: VMDiskSecurityProfileOutput;
+    storageAccountType?: StorageAccountTypeOutput;
 }
 
 // @public
@@ -5613,6 +5749,73 @@ export interface RecentBatchJob {
 export interface RecentBatchJobOutput {
     id?: string;
     url?: string;
+}
+
+// @public (undocumented)
+export interface ReimageNode {
+    post(options: ReimageNodeParameters): StreamableMethod<ReimageNode202Response | ReimageNodeDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface ReimageNode202Headers {
+    "client-request-id"?: string;
+    "last-modified"?: string;
+    "request-id"?: string;
+    dataserviceid: string;
+    etag?: string;
+}
+
+// @public
+export interface ReimageNode202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & ReimageNode202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface ReimageNodeBodyParam {
+    body?: BatchNodeReimageContent;
+}
+
+// @public (undocumented)
+export interface ReimageNodeDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: BatchErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface ReimageNodeHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & ReimageNodeHeaders;
+}
+
+// @public (undocumented)
+export interface ReimageNodeHeaders {
+    "client-request-id"?: string;
+    "ocp-date"?: string;
+    "return-client-request-id"?: boolean;
+}
+
+// @public (undocumented)
+export interface ReimageNodeMediaTypesParam {
+    contentType: "application/json; odata=minimalmetadata";
+}
+
+// @public (undocumented)
+export type ReimageNodeParameters = ReimageNodeQueryParam & ReimageNodeHeaderParam & ReimageNodeMediaTypesParam & ReimageNodeBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ReimageNodeQueryParam {
+    // (undocumented)
+    queryParameters?: ReimageNodeQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ReimageNodeQueryParamProperties {
+    timeOut?: number;
 }
 
 // @public (undocumented)
@@ -6176,6 +6379,9 @@ export interface Routes {
     (path: "/pools/{poolId}/nodes/{nodeId}/users/{userName}", poolId: string, nodeId: string, userName: string): DeleteNodeUser;
     (path: "/pools/{poolId}/nodes/{nodeId}", poolId: string, nodeId: string): GetNode;
     (path: "/pools/{poolId}/nodes/{nodeId}/reboot", poolId: string, nodeId: string): RebootNode;
+    (path: "/pools/{poolId}/nodes/{nodeId}/start", poolId: string, nodeId: string): StartNode;
+    (path: "/pools/{poolId}/nodes/{nodeId}/deallocate", poolId: string, nodeId: string): DeallocateNode;
+    (path: "/pools/{poolId}/nodes/{nodeId}/reimage", poolId: string, nodeId: string): ReimageNode;
     (path: "/pools/{poolId}/nodes/{nodeId}/disablescheduling", poolId: string, nodeId: string): DisableNodeScheduling;
     (path: "/pools/{poolId}/nodes/{nodeId}/enablescheduling", poolId: string, nodeId: string): EnableNodeScheduling;
     (path: "/pools/{poolId}/nodes/{nodeId}/remoteloginsettings", poolId: string, nodeId: string): GetNodeRemoteLoginSettings;
@@ -6189,6 +6395,12 @@ export interface Routes {
 
 // @public
 export type SchedulingStateOutput = string;
+
+// @public
+export type SecurityEncryptionTypes = string;
+
+// @public
+export type SecurityEncryptionTypesOutput = string;
 
 // @public
 export interface SecurityProfile {
@@ -6218,6 +6430,63 @@ export interface ServiceArtifactReference {
 // @public
 export interface ServiceArtifactReferenceOutput {
     id: string;
+}
+
+// @public (undocumented)
+export interface StartNode {
+    post(options?: StartNodeParameters): StreamableMethod<StartNode202Response | StartNodeDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface StartNode202Headers {
+    "client-request-id"?: string;
+    "last-modified"?: string;
+    "request-id"?: string;
+    dataserviceid: string;
+    etag?: string;
+}
+
+// @public
+export interface StartNode202Response extends HttpResponse {
+    // (undocumented)
+    headers: RawHttpHeaders & StartNode202Headers;
+    // (undocumented)
+    status: "202";
+}
+
+// @public (undocumented)
+export interface StartNodeDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: BatchErrorOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface StartNodeHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & StartNodeHeaders;
+}
+
+// @public (undocumented)
+export interface StartNodeHeaders {
+    "client-request-id"?: string;
+    "ocp-date"?: string;
+    "return-client-request-id"?: boolean;
+}
+
+// @public (undocumented)
+export type StartNodeParameters = StartNodeQueryParam & StartNodeHeaderParam & RequestParameters;
+
+// @public (undocumented)
+export interface StartNodeQueryParam {
+    // (undocumented)
+    queryParameters?: StartNodeQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface StartNodeQueryParamProperties {
+    timeOut?: number;
 }
 
 // @public
@@ -6358,6 +6627,7 @@ export interface TerminateJobQueryParam {
 
 // @public (undocumented)
 export interface TerminateJobQueryParamProperties {
+    force?: boolean;
     timeOut?: number;
 }
 
@@ -6419,6 +6689,7 @@ export interface TerminateJobScheduleQueryParam {
 
 // @public (undocumented)
 export interface TerminateJobScheduleQueryParamProperties {
+    force?: boolean;
     timeOut?: number;
 }
 
@@ -6868,6 +7139,16 @@ export interface VirtualMachineConfigurationOutput {
 export interface VirtualMachineInfoOutput {
     imageReference?: ImageReferenceOutput;
     scaleSetVmResourceId?: string;
+}
+
+// @public
+export interface VMDiskSecurityProfile {
+    securityEncryptionType?: SecurityEncryptionTypes;
+}
+
+// @public
+export interface VMDiskSecurityProfileOutput {
+    securityEncryptionType?: SecurityEncryptionTypesOutput;
 }
 
 // @public

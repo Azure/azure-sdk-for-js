@@ -153,7 +153,7 @@ const migrateBackupsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body36,
+  requestBody: Parameters.body39,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

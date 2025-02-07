@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import { CloudEvent, ReleaseDelay } from "./models";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { CloudEvent, ReleaseDelay } from "./models.js";
 
 export interface PublishCloudEventBodyParam {
   /** Single Cloud Event being published. */

@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  RecoverDeletedCertificatePollOperation,
-  RecoverDeletedCertificateState,
-} from "./operation.js";
-import { KeyVaultCertificateWithPolicy } from "../../certificatesModels.js";
-import {
-  KeyVaultCertificatePoller,
-  KeyVaultCertificatePollerOptions,
-} from "../keyVaultCertificatePoller.js";
+import type { RecoverDeletedCertificateState } from "./operation.js";
+import { RecoverDeletedCertificatePollOperation } from "./operation.js";
+import type { KeyVaultCertificateWithPolicy } from "../../certificatesModels.js";
+import type { KeyVaultCertificatePollerOptions } from "../keyVaultCertificatePoller.js";
+import { KeyVaultCertificatePoller } from "../keyVaultCertificatePoller.js";
 
 export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
 
@@ -21,14 +17,7 @@ export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
   KeyVaultCertificateWithPolicy
 > {
   constructor(options: RecoverDeletedCertificatePollerOptions) {
-    const {
-      vaultUrl,
-      client,
-      certificateName,
-      operationOptions,
-      intervalInMs = 2000,
-      resumeFrom,
-    } = options;
+    const { client, certificateName, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: RecoverDeletedCertificateState | undefined;
 
@@ -41,7 +30,6 @@ export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
         ...state,
         certificateName,
       },
-      vaultUrl,
       client,
       operationOptions,
     );

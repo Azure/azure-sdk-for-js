@@ -3,12 +3,12 @@
 
 import { createRecordedDeidentificationClient, createRecorder } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { DeidentificationClient } from "../../src/clientDefinitions.js";
+import type { DeidentificationClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-import { DeidentificationContent } from "../../src/models.js";
-import { DeidentificationResultOutput } from "../../src/outputModels.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { DeidentificationContent } from "../../src/models.js";
+import type { DeidentificationResultOutput } from "../../src/outputModels.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 
 const fakeServiceEndpoint = "example.com";
 const replaceableVariables: Record<string, string> = {
@@ -19,7 +19,7 @@ describe("Realtime", () => {
   let recorder: Recorder;
   let client: DeidentificationClient;
 
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     recorder = await createRecorder(context);
     await recorder.start({
       envSetupForPlayback: replaceableVariables,
@@ -33,11 +33,11 @@ describe("Realtime", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("surrogate returns expected", async function () {
+  it("surrogate returns expected", async () => {
     const content: DeidentificationContent = {
       dataType: "Plaintext",
       inputText: "Hello, my name is John Smith.",
@@ -65,7 +65,7 @@ describe("Realtime", () => {
     );
   }, 10000);
 
-  it("tag returns expected", async function () {
+  it("tag returns expected", async () => {
     const content: DeidentificationContent = {
       dataType: "Plaintext",
       inputText: "Hello, my name is John Smith.",

@@ -58,7 +58,7 @@ node monitorsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env DYNATRACE_SUBSCRIPTION_ID="<dynatrace subscription id>" DYNATRACE_RESOURCE_GROUP="<dynatrace resource group>" node monitorsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env DYNATRACE_SUBSCRIPTION_ID="<dynatrace subscription id>" DYNATRACE_RESOURCE_GROUP="<dynatrace resource group>" node monitorsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -87,6 +87,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tagrulesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dynatrace/arm-dynatrace/samples/v2/javascript/tagRulesDeleteSample.js
 [tagrulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dynatrace/arm-dynatrace/samples/v2/javascript/tagRulesGetSample.js
 [tagruleslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/dynatrace/arm-dynatrace/samples/v2/javascript/tagRulesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-dynatrace?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-dynatrace?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dynatrace/arm-dynatrace/README.md

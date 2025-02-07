@@ -88,7 +88,7 @@ node clientGroupsGetMembersCountSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SERVICE-MAP_SUBSCRIPTION_ID="<service-map subscription id>" SERVICE-MAP_RESOURCE_GROUP="<service-map resource group>" node clientGroupsGetMembersCountSample.js
+npx dev-tool run vendored cross-env SERVICE-MAP_SUBSCRIPTION_ID="<service-map subscription id>" SERVICE-MAP_RESOURCE_GROUP="<service-map resource group>" node clientGroupsGetMembersCountSample.js
 ```
 
 ## Next Steps
@@ -147,6 +147,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [smmapsgeneratesinglemachinedependencypost]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/service-map/arm-servicemap/samples/v3-beta/javascript/smMapsGenerateSingleMachineDependencyPost.js
 [smsummariesgetmachinesget]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/service-map/arm-servicemap/samples/v3-beta/javascript/smSummariesGetMachinesGet.js
 [summariesgetmachinessample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/service-map/arm-servicemap/samples/v3-beta/javascript/summariesGetMachinesSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-servicemap?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-servicemap?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/service-map/arm-servicemap/README.md

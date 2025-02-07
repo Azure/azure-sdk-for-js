@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PartitionOwnership } from "../eventProcessor.js";
+import type { PartitionOwnership } from "../eventProcessor.js";
 import { logger } from "../logger.js";
 
 /**

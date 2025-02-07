@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Environments } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Environments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureAPICenter } from "../azureAPICenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureAPICenter } from "../azureAPICenter.js";
 import {
   Environment,
   EnvironmentsListNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   EnvironmentsHeadOptionalParams,
   EnvironmentsHeadResponse,
   EnvironmentsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Environments operations. */

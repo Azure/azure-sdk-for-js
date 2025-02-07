@@ -10,9 +10,14 @@ import { ExportResultCode } from "@opentelemetry/core";
 import { TraceHandler } from "../../../../src/traces";
 import { MetricHandler } from "../../../../src/metrics";
 import { InternalConfig } from "../../../../src/shared";
-import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
-import { BasicTracerProvider, ReadableSpan, SpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { ProxyTracerProvider, Span, metrics, trace } from "@opentelemetry/api";
+import type { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
+import type {
+  BasicTracerProvider,
+  ReadableSpan,
+  SpanProcessor,
+} from "@opentelemetry/sdk-trace-base";
+import type { ProxyTracerProvider, Span } from "@opentelemetry/api";
+import { metrics, trace } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 
 describe("Library/TraceHandler", () => {
@@ -169,7 +174,6 @@ describe("Library/TraceHandler", () => {
                 `http://localhost:${mockHttpServerPort}/test`,
               );
               assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
-              assert.deepStrictEqual(spans[1].attributes["net.peer.port"], mockHttpServerPort);
 
               assert.deepStrictEqual(
                 spans[0]["_spanContext"]["traceId"],

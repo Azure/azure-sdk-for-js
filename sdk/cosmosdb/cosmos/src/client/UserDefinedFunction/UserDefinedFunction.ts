@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClientContext } from "../../ClientContext";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   createUserDefinedFunctionUri,
   getIdFromLink,
@@ -9,9 +9,9 @@ import {
   isResourceValid,
   ResourceType,
 } from "../../common";
-import { RequestOptions } from "../../request";
-import { Container } from "../Container";
-import { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
+import type { RequestOptions } from "../../request";
+import type { Container } from "../Container";
+import type { UserDefinedFunctionDefinition } from "./UserDefinedFunctionDefinition";
 import { UserDefinedFunctionResponse } from "./UserDefinedFunctionResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 

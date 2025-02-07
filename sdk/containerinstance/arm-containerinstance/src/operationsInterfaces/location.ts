@@ -13,37 +13,37 @@ import {
   CachedImages,
   LocationListCachedImagesOptionalParams,
   Capabilities,
-  LocationListCapabilitiesOptionalParams
-} from "../models";
+  LocationListCapabilitiesOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Location. */
 export interface Location {
   /**
    * Get the usage for a subscription
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listUsage(
     location: string,
-    options?: LocationListUsageOptionalParams
+    options?: LocationListUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Get the list of cached images on specific OS type for a subscription in a region.
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listCachedImages(
     location: string,
-    options?: LocationListCachedImagesOptionalParams
+    options?: LocationListCachedImagesOptionalParams,
   ): PagedAsyncIterableIterator<CachedImages>;
   /**
    * Get the list of CPU/memory/GPU capabilities of a region.
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listCapabilities(
     location: string,
-    options?: LocationListCapabilitiesOptionalParams
+    options?: LocationListCapabilitiesOptionalParams,
   ): PagedAsyncIterableIterator<Capabilities>;
 }

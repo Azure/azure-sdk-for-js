@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
 import assert from "assert";
-import { Container, CosmosClient } from "../../../src";
+import type { Container } from "../../../src";
+import { CosmosClient } from "../../../src";
 import { addEntropy, removeAllDatabases } from "../common/TestHelpers";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";

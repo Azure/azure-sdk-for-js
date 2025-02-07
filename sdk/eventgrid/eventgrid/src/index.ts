@@ -3,7 +3,12 @@
 
 export { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
-export { CloudEvent, EventGridEvent, SendCloudEventInput, SendEventGridEventInput } from "./models";
+export {
+  CloudEvent,
+  EventGridEvent,
+  SendCloudEventInput,
+  SendEventGridEventInput,
+} from "./models.js";
 
 export {
   EventGridPublisherClient,
@@ -13,16 +18,16 @@ export {
   InputSchema,
   InputSchemaToInputTypeMap,
   InputSchemaToOptionsTypeMap,
-} from "./eventGridClient";
+} from "./eventGridClient.js";
 
 export {
   generateSharedAccessSignature,
   GenerateSharedAccessSignatureOptions,
-} from "./generateSharedAccessSignature";
+} from "./generateSharedAccessSignature.js";
 
-export { EventGridDeserializer } from "./consumer";
+export { EventGridDeserializer } from "./consumer.js";
 
-export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates";
+export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates.js";
 
 export {
   AcsChatEventBase,
@@ -364,4 +369,8 @@ export {
   AcsChatThreadPropertiesUpdatedEventData,
   AcsChatThreadEventInThreadBase,
   StorageBlobAccessTier,
-} from "./generated/models";
+  ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
+  StorageLifecyclePolicyRunSummary,
+  StorageLifecycleCompletionStatus,
+  KnownStorageLifecycleCompletionStatus,
+} from "./generated/models/index.js";

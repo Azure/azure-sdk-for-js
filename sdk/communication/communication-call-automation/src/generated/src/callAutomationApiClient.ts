@@ -17,15 +17,15 @@ import {
   CallMediaImpl,
   CallDialogImpl,
   CallRecordingImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   CallConnection,
   CallMedia,
   CallDialog,
   CallRecording,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   CallAutomationApiClientOptionalParams,
   CreateCallRequest,
@@ -38,7 +38,10 @@ import {
   RedirectCallOptionalParams,
   RejectCallRequest,
   RejectCallOptionalParams,
-} from "./models";
+  ConnectRequest,
+  ConnectOptionalParams,
+  ConnectResponse,
+} from "./models/index.js";
 
 export class CallAutomationApiClient extends coreClient.ServiceClient {
   endpoint: string;
@@ -65,7 +68,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-call-automation/1.3.0-beta.1`;
+    const packageDetails = `azsdk-js-communication-call-automation/1.4.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -84,7 +87,7 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2023-10-03-preview";
+    this.apiVersion = options.apiVersion || "2024-09-01-preview";
     this.callConnection = new CallConnectionImpl(this);
     this.callMedia = new CallMediaImpl(this);
     this.callDialog = new CallDialogImpl(this);
@@ -180,6 +183,21 @@ export class CallAutomationApiClient extends coreClient.ServiceClient {
     );
   }
 
+  /**
+   * Create a connection to a CallLocator.
+   * @param connectRequest The create connection request.
+   * @param options The options parameters.
+   */
+  connect(
+    connectRequest: ConnectRequest,
+    options?: ConnectOptionalParams,
+  ): Promise<ConnectResponse> {
+    return this.sendOperationRequest(
+      { connectRequest, options },
+      connectOperationSpec,
+    );
+  }
+
   callConnection: CallConnection;
   callMedia: CallMedia;
   callDialog: CallDialog;
@@ -265,6 +283,29 @@ const rejectCallOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.rejectCallRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent,
+  ],
+  mediaType: "json",
+  serializer,
+};
+const connectOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections:connect",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CallConnectionPropertiesInternal,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  requestBody: Parameters.connectRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [

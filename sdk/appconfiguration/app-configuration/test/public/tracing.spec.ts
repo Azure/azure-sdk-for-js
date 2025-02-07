@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
-import { AppConfigurationClient } from "../../src/appConfigurationClient.js";
+import type { AppConfigurationClient } from "../../src/appConfigurationClient.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 
 describe("supports tracing", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
@@ -19,7 +19,7 @@ describe("supports tracing", () => {
     await recorder.stop();
   });
 
-  it("can trace through the various options", async function () {
+  it("can trace through the various options", async () => {
     const key = recorder.variable(
       "noLabelTests",
       `noLabelTests${Math.floor(Math.random() * 1000)}`,

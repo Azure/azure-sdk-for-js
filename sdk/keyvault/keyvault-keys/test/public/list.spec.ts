@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 import { Recorder, env, isRecordMode } from "@azure-tools/test-recorder";
 
-import { KeyClient } from "../../src/index.js";
+import type { KeyClient } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import type TestClient from "./utils/testClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Keys client - list keys in various ways", () => {
   const keyPrefix = `list${env.KEY_NAME || "KeyName"}`;
@@ -88,6 +88,7 @@ describe("Keys client - list keys in various ways", () => {
     for await (const page of client
       .listPropertiesOfKeyVersions(keyName)
       .byPage({ maxPageSize: 1 })) {
+      assert.isAtMost(page.length, 1);
       for (const version of page) {
         assert.equal(
           version.name,
@@ -160,7 +161,9 @@ describe("Keys client - list keys in various ways", () => {
     }
 
     let found = 0;
+
     for await (const page of client.listPropertiesOfKeys().byPage({ maxPageSize: 1 })) {
+      assert.isAtMost(page.length, 1);
       for (const properties of page) {
         // The vault might contain more keys than the ones we inserted.
         if (!keyNames.includes(properties.name)) continue;
@@ -213,6 +216,7 @@ describe("Keys client - list keys in various ways", () => {
 
     let found = 0;
     for await (const page of client.listDeletedKeys().byPage({ maxPageSize: 1 })) {
+      assert.isAtMost(page.length, 1);
       for (const deletedKey of page) {
         // The vault might contain more keys than the ones we inserted.
         if (!keyNames.includes(deletedKey.name)) continue;

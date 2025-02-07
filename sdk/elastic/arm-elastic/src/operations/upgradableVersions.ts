@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { UpgradableVersions } from "../operationsInterfaces";
+import { UpgradableVersions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftElastic } from "../microsoftElastic";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftElastic } from "../microsoftElastic.js";
 import {
   UpgradableVersionsDetailsOptionalParams,
-  UpgradableVersionsDetailsResponse
-} from "../models";
+  UpgradableVersionsDetailsResponse,
+} from "../models/index.js";
 
 /** Class containing UpgradableVersions operations. */
 export class UpgradableVersionsImpl implements UpgradableVersions {
@@ -30,18 +30,18 @@ export class UpgradableVersionsImpl implements UpgradableVersions {
 
   /**
    * List of upgradable versions for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   details(
     resourceGroupName: string,
     monitorName: string,
-    options?: UpgradableVersionsDetailsOptionalParams
+    options?: UpgradableVersionsDetailsOptionalParams,
   ): Promise<UpgradableVersionsDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      detailsOperationSpec
+      detailsOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class UpgradableVersionsImpl implements UpgradableVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const detailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listUpgradableVersions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listUpgradableVersions",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.UpgradableVersionsList
+      bodyMapper: Mappers.UpgradableVersionsList,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -63,7 +63,7 @@ node guestConfigurationAssignmentReportsGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env GUESTCONFIGURATION_SUBSCRIPTION_ID="<guestconfiguration subscription id>" GUESTCONFIGURATION_RESOURCE_GROUP="<guestconfiguration resource group>" node guestConfigurationAssignmentReportsGetSample.js
+npx dev-tool run vendored cross-env GUESTCONFIGURATION_SUBSCRIPTION_ID="<guestconfiguration subscription id>" GUESTCONFIGURATION_RESOURCE_GROUP="<guestconfiguration resource group>" node guestConfigurationAssignmentReportsGetSample.js
 ```
 
 ## Next Steps
@@ -97,6 +97,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [guestconfigurationhcrpassignmentsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/javascript/guestConfigurationHcrpAssignmentsGetSample.js
 [guestconfigurationhcrpassignmentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/javascript/guestConfigurationHcrpAssignmentsListSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/guestconfiguration/arm-guestconfiguration/samples/v1-beta/javascript/operationsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-guestconfiguration?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-guestconfiguration?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/guestconfiguration/arm-guestconfiguration/README.md

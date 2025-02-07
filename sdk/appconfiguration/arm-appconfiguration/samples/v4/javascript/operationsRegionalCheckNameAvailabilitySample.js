@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks whether the configuration store name is available for use.
  *
  * @summary Checks whether the configuration store name is available for use.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/RegionalCheckNameAvailable.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/RegionalCheckNameAvailable.json
  */
 async function configurationStoresCheckNameAvailable() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function configurationStoresCheckNameAvailable() {
   const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.operations.regionalCheckNameAvailability(
     location,
-    checkNameAvailabilityParameters
+    checkNameAvailabilityParameters,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function configurationStoresCheckNameAvailable() {
  * This sample demonstrates how to Checks whether the configuration store name is available for use.
  *
  * @summary Checks whether the configuration store name is available for use.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/RegionalCheckNameNotAvailable.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/RegionalCheckNameNotAvailable.json
  */
 async function configurationStoresCheckNameNotAvailable() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function configurationStoresCheckNameNotAvailable() {
   const client = new AppConfigurationManagementClient(credential, subscriptionId);
   const result = await client.operations.regionalCheckNameAvailability(
     location,
-    checkNameAvailabilityParameters
+    checkNameAvailabilityParameters,
   );
   console.log(result);
 }

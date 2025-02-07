@@ -6,19 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ListAssociatedTrafficFilters } from "../operationsInterfaces";
+import { ListAssociatedTrafficFilters } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftElastic } from "../microsoftElastic";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftElastic } from "../microsoftElastic.js";
 import {
   ListAssociatedTrafficFiltersListOptionalParams,
-  ListAssociatedTrafficFiltersListResponse
-} from "../models";
+  ListAssociatedTrafficFiltersListResponse,
+} from "../models/index.js";
 
 /** Class containing ListAssociatedTrafficFilters operations. */
 export class ListAssociatedTrafficFiltersImpl
-  implements ListAssociatedTrafficFilters {
+  implements ListAssociatedTrafficFilters
+{
   private readonly client: MicrosoftElastic;
 
   /**
@@ -31,18 +32,18 @@ export class ListAssociatedTrafficFiltersImpl
 
   /**
    * Get the list of all associated traffic filters for the given deployment.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: ListAssociatedTrafficFiltersListOptionalParams
+    options?: ListAssociatedTrafficFiltersListOptionalParams,
   ): Promise<ListAssociatedTrafficFiltersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -50,24 +51,23 @@ export class ListAssociatedTrafficFiltersImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listAssociatedTrafficFilters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listAssociatedTrafficFilters",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticTrafficFilterResponse
+      bodyMapper: Mappers.ElasticTrafficFilterResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

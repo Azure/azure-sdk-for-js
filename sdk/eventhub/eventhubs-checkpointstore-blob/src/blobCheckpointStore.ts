@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CheckpointStore,
   PartitionOwnership,
   Checkpoint,
   OperationOptions,
 } from "@azure/event-hubs";
-import { Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
+import type { Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
 import { logger, logErrorStackTrace } from "./log.js";
-import { ContainerClientLike } from "./storageBlobInterfaces.js";
+import type { ContainerClientLike } from "./storageBlobInterfaces.js";
 import { throwTypeErrorIfParameterMissing } from "./util/error.js";
 
 /**

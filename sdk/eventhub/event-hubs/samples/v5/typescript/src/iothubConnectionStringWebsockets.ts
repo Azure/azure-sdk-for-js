@@ -9,7 +9,7 @@
  * The Event Hubs connection string is then used with the EventHubConsumerClient to receive events.
  *
  * More information about the built-in messaging endpoint can be found at:
- * https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
+ * https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin
  */
 
 import * as crypto from "crypto";
@@ -17,6 +17,8 @@ import { Buffer } from "buffer";
 import { AmqpError, Connection, ReceiverEvents, parseConnectionString } from "rhea-promise";
 import * as rheaPromise from "rhea-promise";
 import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+import { SecretClient } from "@azure/keyvault-secrets";
+import { DefaultAzureCredential } from "@azure/identity";
 import WebSocket from "ws";
 
 // Load the .env file if it exists
@@ -31,8 +33,13 @@ function isAmqpError(err: any): err is AmqpError {
 }
 
 const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
+// IoT Hub connection string is stored in Key Vault.
+const keyvaultUri = process.env["KEYVAULT_URI"] || "<your keyvault uri>";
+// IoT Hub connection string name in Key Vault.
+const iotHubConnectionStringName =
+  process.env["IOTHUB_CONNECTION_STRING_SECRET_NAME"] || "<your iot hub connection string name>";
 
-// This code is modified from https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
+// This code is modified from https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens.
 function generateSasToken(
   resourceUri: string,
   signingKey: string,
@@ -80,7 +87,7 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
   }
 
   // Generate a token to authenticate to the service.
-  // The code for generateSasToken can be found at https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens
+  // The code for generateSasToken can be found at https://learn.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-security#security-tokens
   const token = generateSasToken(
     `${HostName}/messages/events`,
     SharedAccessKey,
@@ -134,9 +141,14 @@ async function convertIotHubToEventHubsConnectionString(connectionString: string
 export async function main() {
   console.log(`Running iothubConnectionString sample`);
 
-  const eventHubsConnectionString = await convertIotHubToEventHubsConnectionString(
-    "HostName=<your-iot-hub>.azure-devices.net;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>",
-  );
+  const kvClient = new SecretClient(keyvaultUri, new DefaultAzureCredential());
+  const { value: iotHubConnectionString } = await kvClient.getSecret(iotHubConnectionStringName);
+  if (!iotHubConnectionString) {
+    throw new Error(`Failed to retrieve the IotHub connection string from Key Vault.`);
+  }
+
+  const eventHubsConnectionString =
+    await convertIotHubToEventHubsConnectionString(iotHubConnectionString);
 
   const consumerClient = new EventHubConsumerClient(consumerGroup, eventHubsConnectionString);
 

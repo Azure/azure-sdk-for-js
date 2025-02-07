@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import { CosmosHeaders } from "../../queryExecutionContext";
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics";
+import type { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request/ResourceResponse";
-import { Resource } from "../Resource";
-import { ContainerDefinition } from "./ContainerDefinition";
-import { Container } from "./index";
+import type { Resource } from "../Resource";
+import type { ContainerDefinition } from "./ContainerDefinition";
+import type { Container } from "./index";
 
 /** Response object for Container operations */
 export class ContainerResponse extends ResourceResponse<ContainerDefinition & Resource> {

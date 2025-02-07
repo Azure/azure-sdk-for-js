@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationState, PollerLike } from "@azure/core-lro";
+import type { OperationState, PollerLike } from "@azure/core-lro";
 
 /**
  * Describes the types of notification hub jobs.

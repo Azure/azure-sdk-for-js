@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationTracingOptions, TracingClient, createTracingClient } from "@azure/core-tracing";
+import type { OperationTracingOptions, TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
+import type { Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
-  Pipeline,
-  PipelineResponse,
   createDefaultHttpClient,
   createHttpHeaders,
   createPipelineFromOptions,

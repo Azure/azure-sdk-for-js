@@ -15,7 +15,7 @@ import {
   TestJobResumeOptionalParams,
   TestJobStopOptionalParams,
   TestJobSuspendOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a TestJobOperations. */
 export interface TestJobOperations {

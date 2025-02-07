@@ -1,12 +1,7 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "lib": ["dom", "esnext"],
-    "paths": {
-      "@azure/data-tables": ["./src/index"]
-    }
-  },
-  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

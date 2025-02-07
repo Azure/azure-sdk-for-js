@@ -20,15 +20,15 @@ skip-enum-validation: true
 title: Phone Numbers Client
 v3: true
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 use-legacy-lro: true
 tracing-info:
   namespace: "Microsoft.Communication"
   packagePrefix: "Azure.Communication"
-
 typescript:
   generate-metadata: false
   azure-arm: false
+module-kind: esm
 ```
 
 ## Customizations

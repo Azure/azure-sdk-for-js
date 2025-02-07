@@ -24,7 +24,7 @@ import {
   ApiVersionsImpl,
   ApiDefinitionsImpl,
   EnvironmentsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Services,
@@ -35,8 +35,8 @@ import {
   ApiVersions,
   ApiDefinitions,
   Environments,
-} from "./operationsInterfaces";
-import { AzureAPICenterOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureAPICenterOptionalParams } from "./models/index.js";
 
 export class AzureAPICenter extends coreClient.ServiceClient {
   $host: string;

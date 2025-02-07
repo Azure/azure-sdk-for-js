@@ -72,16 +72,24 @@ export interface ConfidentialComputeProperties {
 }
 
 // @public
+export interface ConfigMap {
+    keyValuePairs?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface Container {
     command?: string[];
+    configMap?: ConfigMap;
     environmentVariables?: EnvironmentVariable[];
-    image: string;
+    image?: string;
     readonly instanceView?: ContainerPropertiesInstanceView;
     livenessProbe?: ContainerProbe;
     name: string;
     ports?: ContainerPort[];
     readinessProbe?: ContainerProbe;
-    resources: ResourceRequirements;
+    resources?: ResourceRequirements;
     securityContext?: SecurityContextDefinition;
     volumeMounts?: VolumeMount[];
 }
@@ -150,8 +158,140 @@ export type ContainerGroupNetworkProtocol = string;
 export type ContainerGroupPriority = string;
 
 // @public
+export interface ContainerGroupProfile extends Resource, ContainerGroupProfileProperties {
+}
+
+// @public
+export interface ContainerGroupProfileGetByRevisionNumberOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerGroupProfileGetByRevisionNumberResponse = ContainerGroupProfile;
+
+// @public
+export interface ContainerGroupProfileListAllRevisionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerGroupProfileListAllRevisionsNextResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface ContainerGroupProfileListAllRevisionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerGroupProfileListAllRevisionsResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface ContainerGroupProfileListResult {
+    nextLink?: string;
+    value?: ContainerGroupProfile[];
+}
+
+// @public
+export interface ContainerGroupProfileOperations {
+    getByRevisionNumber(resourceGroupName: string, containerGroupProfileName: string, revisionNumber: string, options?: ContainerGroupProfileGetByRevisionNumberOptionalParams): Promise<ContainerGroupProfileGetByRevisionNumberResponse>;
+    listAllRevisions(resourceGroupName: string, containerGroupProfileName: string, options?: ContainerGroupProfileListAllRevisionsOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
+}
+
+// @public
+export interface ContainerGroupProfilePatch {
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface ContainerGroupProfileProperties {
+    confidentialComputeProperties?: ConfidentialComputeProperties;
+    containers: Container[];
+    diagnostics?: ContainerGroupDiagnostics;
+    encryptionProperties?: EncryptionProperties;
+    extensions?: DeploymentExtensionSpec[];
+    imageRegistryCredentials?: ImageRegistryCredential[];
+    initContainers?: InitContainerDefinition[];
+    ipAddress?: IpAddress;
+    osType: OperatingSystemTypes;
+    priority?: ContainerGroupPriority;
+    restartPolicy?: ContainerGroupRestartPolicy;
+    readonly revision?: number;
+    sku?: ContainerGroupSku;
+    volumes?: Volume[];
+}
+
+// @public
+export interface ContainerGroupProfileReferenceDefinition {
+    id?: string;
+    revision?: number;
+}
+
+// @public
+export interface ContainerGroupProfiles {
+    createOrUpdate(resourceGroupName: string, containerGroupProfileName: string, containerGroupProfile: ContainerGroupProfile, options?: ContainerGroupProfilesCreateOrUpdateOptionalParams): Promise<ContainerGroupProfilesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, containerGroupProfileName: string, options?: ContainerGroupProfilesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, containerGroupProfileName: string, options?: ContainerGroupProfilesGetOptionalParams): Promise<ContainerGroupProfilesGetResponse>;
+    list(options?: ContainerGroupProfilesListOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
+    listByResourceGroup(resourceGroupName: string, options?: ContainerGroupProfilesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerGroupProfile>;
+    patch(resourceGroupName: string, containerGroupProfileName: string, properties: ContainerGroupProfilePatch, options?: ContainerGroupProfilesPatchOptionalParams): Promise<ContainerGroupProfilesPatchResponse>;
+}
+
+// @public
+export interface ContainerGroupProfilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerGroupProfilesCreateOrUpdateResponse = ContainerGroupProfile;
+
+// @public
+export interface ContainerGroupProfilesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ContainerGroupProfilesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerGroupProfilesGetResponse = ContainerGroupProfile;
+
+// @public
+export interface ContainerGroupProfilesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerGroupProfilesListByResourceGroupNextResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface ContainerGroupProfilesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerGroupProfilesListByResourceGroupResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface ContainerGroupProfilesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerGroupProfilesListNextResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface ContainerGroupProfilesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerGroupProfilesListResponse = ContainerGroupProfileListResult;
+
+// @public
+export interface ContainerGroupProfilesPatchOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ContainerGroupProfilesPatchResponse = ContainerGroupProfile;
+
+// @public
 export interface ContainerGroupProperties {
     confidentialComputeProperties?: ConfidentialComputeProperties;
+    containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
     containers: Container[];
     diagnostics?: ContainerGroupDiagnostics;
     dnsConfig?: DnsConfiguration;
@@ -162,11 +302,13 @@ export interface ContainerGroupProperties {
     initContainers?: InitContainerDefinition[];
     readonly instanceView?: ContainerGroupPropertiesInstanceView;
     ipAddress?: IpAddress;
-    osType: OperatingSystemTypes;
+    readonly isCreatedFromStandbyPool?: boolean;
+    osType?: OperatingSystemTypes;
     priority?: ContainerGroupPriority;
     readonly provisioningState?: string;
     restartPolicy?: ContainerGroupRestartPolicy;
     sku?: ContainerGroupSku;
+    standbyPoolProfile?: StandbyPoolProfileDefinition;
     subnetIds?: ContainerGroupSubnetId[];
     volumes?: Volume[];
 }
@@ -307,6 +449,10 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerInstanceManagementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    containerGroupProfileOperations: ContainerGroupProfileOperations;
+    // (undocumented)
+    containerGroupProfiles: ContainerGroupProfiles;
     // (undocumented)
     containerGroups: ContainerGroups;
     // (undocumented)
@@ -748,6 +894,12 @@ export interface SecurityContextDefinition {
     runAsGroup?: number;
     runAsUser?: number;
     seccompProfile?: string;
+}
+
+// @public
+export interface StandbyPoolProfileDefinition {
+    failContainerGroupCreateOnReuseFailure?: boolean;
+    id?: string;
 }
 
 // @public

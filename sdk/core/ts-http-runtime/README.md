@@ -31,18 +31,20 @@ A `PipelineResponse` describes the HTTP response (body, headers, and status code
 
 A `SendRequest` method is a method that given a `PipelineRequest` can asynchronously return a `PipelineResponse`.
 
-```ts snippet:send_request
-import { PipelineResponse } from "@typespec/ts-http-runtime";
+```ts snippet:ReadmeSampleSendRequest
+import { PipelineRequest, PipelineResponse } from "@typespec/ts-http-runtime";
 
-export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
+type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 ```
 
 ### HttpClient
 
 An `HttpClient` is any object that satisfies the following interface to implement a `SendRequest` method:
 
-```ts snippet:http_request
-export interface HttpClient {
+```ts snippet:ReadmeSampleHttpRequest
+import { SendRequest } from "@typespec/ts-http-runtime";
+
+interface HttpClient {
   /**
    * The method that makes the request and returns a response.
    */
@@ -56,10 +58,10 @@ export interface HttpClient {
 
 A `PipelinePolicy` is a simple object that implements the following interface:
 
-```ts snippet:pipeline_policy
-import { PipelineResponse } from "@typespec/ts-http-runtime";
+```ts snippet:ReadmeSamplePipelinePolicy
+import { PipelineRequest, SendRequest, PipelineResponse } from "@typespec/ts-http-runtime";
 
-export interface PipelinePolicy {
+interface PipelinePolicy {
   /**
    * The policy name. Must be a unique string in the pipeline.
    */
@@ -79,8 +81,8 @@ One can view the role of policies as that of `middleware`, a concept that is fam
 
 The `sendRequest` implementation can both transform the outgoing request as well as the incoming response:
 
-```ts snippet:custom_policy
-import { PipelineResponse } from "@typespec/ts-http-runtime";
+```ts snippet:ReadmeSampleCustomPolicy
+import { PipelineRequest, SendRequest, PipelineResponse } from "@typespec/ts-http-runtime";
 
 const customPolicy = {
   name: "My wonderful policy",
@@ -88,9 +90,10 @@ const customPolicy = {
     // Change the outgoing request by adding a new header
     request.headers.set("X-Cool-Header", 42);
     const result = await next(request);
-    if (response.status === 403) {
+    if (result.status === 403) {
       // Do something special if this policy sees Forbidden
     }
+
     return result;
   },
 };
@@ -106,10 +109,17 @@ You can think of policies being applied like a stack (first-in/last-out.) The fi
 
 A `Pipeline` satisfies the following interface:
 
-```ts snippet:pipeline
-import { PipelineResponse } from "@typespec/ts-http-runtime";
+```ts snippet:ReadmeSamplePipeline
+import {
+  PipelinePolicy,
+  AddPolicyOptions,
+  PipelinePhase,
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse,
+} from "@typespec/ts-http-runtime";
 
-export interface Pipeline {
+interface Pipeline {
   addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
   removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
   sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
@@ -131,8 +141,10 @@ Phases occur in the above order, with serialization policies being applied first
 
 When adding a policy to the pipeline you can specify not only what phase a policy is in, but also if it has any dependencies:
 
-```ts snippet:add_policy_options
-export interface AddPolicyOptions {
+```ts snippet:ReadmeSampleAddPipelineOptions
+import { PipelinePhase } from "@typespec/ts-http-runtime";
+
+interface AddPipelineOptions {
   beforePolicies?: string[];
   afterPolicies?: string[];
   afterPhase?: PipelinePhase;
@@ -163,5 +175,3 @@ If you run into issues while using this library, please feel free to [file an is
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fts-http-runtime%2FREADME.png)

@@ -18,7 +18,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all available code versions for Service Fabric cluster resources by location.
  *
  * @summary Gets all available code versions for Service Fabric cluster resources by location.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ManagedClusterVersionList_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ManagedClusterVersionList_example.json
  */
 async function listClusterVersions() {
   const subscriptionId =

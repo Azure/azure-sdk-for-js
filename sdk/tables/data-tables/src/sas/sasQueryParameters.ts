@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SasIPRange, ipRangeToString } from "./sasIPRange";
-import { UserDelegationKey } from "./models";
-import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
+import type { SasIPRange } from "./sasIPRange.js";
+import { ipRangeToString } from "./sasIPRange.js";
+import type { UserDelegationKey } from "./models.js";
+import { truncatedISO8061Date } from "../utils/truncateISO8061Date.js";
 
 /**
  * Protocols for generated SAS.
@@ -67,7 +68,7 @@ export class SasQueryParameters {
   /**
    * Optional. The signed identifier (only for {@link TableSasSignatureValues}).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   public readonly identifier?: string;
 
@@ -405,12 +406,12 @@ export interface SasQueryParametersOptions {
   /**
    * Optional. The signed identifier for access policy
    *
-   * @see https://docs.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
   /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link AccountSasSignatureValues}).
-   * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
    */
   resource?: string;
   /**

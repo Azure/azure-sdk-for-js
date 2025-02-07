@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DeletedSecret, KeyVaultSecret } from "../../src/index.js";
-import { DeletedSecretBundle, SecretBundle } from "../../src/generated/index.js";
+import type { DeletedSecret, KeyVaultSecret } from "../../src/index.js";
+import type { DeletedSecretBundle, SecretBundle } from "../../src/generated/index.js";
 import { getSecretFromSecretBundle } from "../../src/transformations.js";
 import { describe, it, assert } from "vitest";
 

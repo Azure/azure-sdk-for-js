@@ -96,7 +96,7 @@ node arcSettingsConsentAndInstallDefaultExtensionsSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURESTACKHCI_SUBSCRIPTION_ID="<azurestackhci subscription id>" AZURESTACKHCI_RESOURCE_GROUP="<azurestackhci resource group>" node arcSettingsConsentAndInstallDefaultExtensionsSample.js
+npx dev-tool run vendored cross-env AZURESTACKHCI_SUBSCRIPTION_ID="<azurestackhci subscription id>" AZURESTACKHCI_RESOURCE_GROUP="<azurestackhci resource group>" node arcSettingsConsentAndInstallDefaultExtensionsSample.js
 ```
 
 ## Next Steps
@@ -163,6 +163,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [updateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azurestackhci/arm-azurestackhci/samples/v4-beta/javascript/updatesListSample.js
 [updatespostsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azurestackhci/arm-azurestackhci/samples/v4-beta/javascript/updatesPostSample.js
 [updatesputsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azurestackhci/arm-azurestackhci/samples/v4-beta/javascript/updatesPutSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-azurestackhci?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhci?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurestackhci/arm-azurestackhci/README.md

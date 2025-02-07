@@ -1,5 +1,5 @@
 import { SourceFile, SyntaxKind, Node } from "ts-morph";
-import * as ts from "typescript"; // For using TypeScript factory methods
+import ts from "typescript"; // For using TypeScript factory methods
 
 /**
  * Converts usages of `assert.isRejected` from chai-as-promised to `expect(...).rejects.toThrow(...)`

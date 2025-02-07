@@ -8,10 +8,7 @@
  * @azsdk-weight 40
  */
 
-import {
-  PurviewMetadataPolicies,
-  PurviewMetadataPoliciesClient,
-} from "@azure-rest/purview-administration";
+import { PurviewMetadataPolicies } from "@azure-rest/purview-administration";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
@@ -19,9 +16,9 @@ dotenv.config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== List metadata policies sample ==");
-  const client = PurviewMetadataPoliciesClient(endpoint, new DefaultAzureCredential());
+  const client = PurviewMetadataPolicies.createClient(endpoint, new DefaultAzureCredential());
 
   const response = await client.path("/metadataPolicies").get();
 
@@ -31,10 +28,14 @@ async function main() {
     throw new Error(error);
   }
 
-  const policies = PurviewMetadataPolicies.Pagination.paginate(client, response);
+  const policies = PurviewMetadataPolicies.PaginateHelper.paginate(client, response);
 
   for await (const policy of policies) {
-    console.log(policy.name);
+    if (Array.isArray(policy)) {
+      console.error("Unexpected array:", policy);
+    } else {
+      console.log(policy.name);
+    }
   }
 }
 

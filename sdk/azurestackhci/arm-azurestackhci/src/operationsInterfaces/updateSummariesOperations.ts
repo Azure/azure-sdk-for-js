@@ -16,7 +16,7 @@ import {
   UpdateSummariesPutResponse,
   UpdateSummariesGetOptionalParams,
   UpdateSummariesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a UpdateSummariesOperations. */

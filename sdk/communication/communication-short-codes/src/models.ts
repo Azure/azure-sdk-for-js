@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import {
+import type { OperationOptions } from "@azure/core-client";
+import type {
   ShortCodesGetShortCodesOptionalParams,
   ShortCodesGetUSProgramBriefsOptionalParams,
   ShortCodesGetCostsOptionalParams,
-} from ".";
+} from "./index.js";
 
 /**
  * Additional options for the delete US Program Brief request.
@@ -73,4 +73,4 @@ export {
   AttachmentType,
   FileType,
   ProgramBriefAttachmentSummary,
-} from "./generated/src/models/";
+} from "./generated/src/models/index.js";

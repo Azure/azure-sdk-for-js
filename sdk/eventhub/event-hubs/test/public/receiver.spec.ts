@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   EventData,
   EventHubConsumerClient,
   EventHubProducerClient,
   ReceivedEventData,
   Subscription,
-  earliestEventPosition,
-  latestEventPosition,
 } from "../../src/index.js";
+import { earliestEventPosition, latestEventPosition } from "../../src/index.js";
 import debugModule from "debug";
 import { should } from "../utils/chai.js";
 import { describe, it, afterEach, beforeEach } from "vitest";
@@ -17,24 +16,24 @@ import { createConsumer, createProducer } from "../utils/clients.js";
 
 const debug = debugModule("azure:event-hubs:receiver-spec");
 
-describe("EventHubConsumerClient", function () {
+describe("EventHubConsumerClient", () => {
   let producerClient: EventHubProducerClient;
   let consumerClient: EventHubConsumerClient;
   let partitionIds: string[];
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     producerClient = createProducer().producer;
     consumerClient = createConsumer().consumer;
     partitionIds = await producerClient.getPartitionIds({});
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await producerClient.close();
     await consumerClient.close();
   });
 
-  describe("subscribe() with partitionId 0 as number", function () {
-    it("should not throw an error", async function () {
+  describe("subscribe() with partitionId 0 as number", () => {
+    it("should not throw an error", async () => {
       let subscription: Subscription | undefined;
       await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
@@ -58,12 +57,12 @@ describe("EventHubConsumerClient", function () {
     });
   });
 
-  describe("subscribe() with EventPosition specified as", function () {
+  describe("subscribe() with EventPosition specified as", () => {
     let partitionId: string;
     let eventSentBeforeSubscribe: EventData;
     let eventsSentAfterSubscribe: EventData[];
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       partitionId = partitionIds[0];
 
       eventSentBeforeSubscribe = {
@@ -82,7 +81,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'from end of stream' should receive messages correctly", async function () {
+    it("'from end of stream' should receive messages correctly", async () => {
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
       const eventsReceived: ReceivedEventData[] = [];
@@ -132,7 +131,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'after a particular sequence number' should receive messages correctly", async function () {
+    it("'after a particular sequence number' should receive messages correctly", async () => {
       const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
@@ -183,7 +182,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'after a particular sequence number' with isInclusive should receive messages correctly", async function () {
+    it("'after a particular sequence number' with isInclusive should receive messages correctly", async () => {
       const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
@@ -241,7 +240,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'after a particular offset' should receive messages correctly", async function () {
+    it("'after a particular offset' should receive messages correctly", async () => {
       const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
@@ -292,7 +291,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'after a particular offset' with isInclusive should receive messages correctly", async function () {
+    it("'after a particular offset' with isInclusive should receive messages correctly", async () => {
       const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
@@ -352,7 +351,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'after a particular enqueued time' should receive messages correctly", async function () {
+    it("'after a particular enqueued time' should receive messages correctly", async () => {
       const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
@@ -407,8 +406,8 @@ describe("EventHubConsumerClient", function () {
     });
   });
 
-  describe("subscribe() with trackLastEnqueuedEventProperties", function () {
-    it("should have lastEnqueuedEventProperties populated", async function () {
+  describe("subscribe() with trackLastEnqueuedEventProperties", () => {
+    it("should have lastEnqueuedEventProperties populated", async () => {
       const partitionId = partitionIds[0];
 
       const eventData = { body: "Hello awesome world " + Math.random() };

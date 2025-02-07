@@ -18,7 +18,7 @@ import {
   CustomDomainsDeleteOptionalParams,
   CustomDomainsUpdateOptionalParams,
   CustomDomainsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CustomDomains. */

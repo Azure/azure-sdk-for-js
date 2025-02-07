@@ -39,7 +39,7 @@ node sample_match_trials_fhir.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env HEALTH_INSIGHTS_API_KEY="<health insights api key>" HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" node sample_match_trials_fhir.js
+npx dev-tool run vendored cross-env HEALTH_INSIGHTS_API_KEY="<health insights api key>" HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" node sample_match_trials_fhir.js
 ```
 
 ## Next Steps
@@ -49,6 +49,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sample_match_trials_fhir]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/javascript/sample_match_trials_fhir.js
 [sample_match_trials_structured_coded_elements]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/javascript/sample_match_trials_structured_coded_elements.js
 [sample_match_trials_unstructured_clinical_note]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-clinicalmatching-rest/samples/v1-beta/javascript/sample_match_trials_unstructured_clinical_note.js
-[apiref]: https://docs.microsoft.com/javascript/api
+[apiref]: https://learn.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/README.md

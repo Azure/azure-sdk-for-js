@@ -3,7 +3,7 @@
 
 import { isNode } from "@azure/core-util";
 
-import {
+import type {
   BlobDownloadResponseModel,
   BlobType,
   CopyStatusType,
@@ -13,9 +13,10 @@ import {
   BlobQueryHeaders,
   BlobQueryResponseModel,
 } from "./generatedModels";
-import { Metadata } from "./models";
-import { BlobQuickQueryStream, BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
-import { ResponseWithHeaders } from "./utils/utils.common";
+import type { Metadata } from "./models";
+import type { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
+import { BlobQuickQueryStream } from "./utils/BlobQuickQueryStream";
+import type { ResponseWithHeaders } from "./utils/utils.common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

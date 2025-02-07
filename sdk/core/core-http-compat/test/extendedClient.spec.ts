@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { PipelinePolicy, createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";
-import {
+import type { PipelinePolicy } from "@azure/core-rest-pipeline";
+import { createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";
+import type {
   DictionaryMapper,
   OperationArguments,
   OperationRequest,
   OperationSpec,
-  createSerializer,
-  serializationPolicy,
 } from "@azure/core-client";
+import { createSerializer, serializationPolicy } from "@azure/core-client";
 import { ExtendedServiceClient, disableKeepAlivePolicyName } from "../src/index.js";
 import {
   pipelineContainsDisableKeepAlivePolicy,

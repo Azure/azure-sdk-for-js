@@ -6,13 +6,13 @@ import {
   waitForTimeoutOrAbortOrResolve,
 } from "../../../src/util/utils.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import type { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
 import {
   extractSpanContextFromServiceBusMessage,
   TRACEPARENT_PROPERTY,
 } from "../../../src/diagnostics/instrumentServiceBusMessage.js";
-import { ServiceBusReceivedMessage } from "../../../src/index.js";
+import type { ServiceBusReceivedMessage } from "../../../src/index.js";
 import { tracingClient } from "../../../src/diagnostics/tracing.js";
 import { describe, it, vi, beforeEach } from "vitest";
 import { assert, expect } from "../../public/utils/chai.js";

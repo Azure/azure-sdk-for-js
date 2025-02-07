@@ -2,17 +2,18 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
-import { AccessToken, GetTokenOptions, TokenCredential } from "../../src/auth/tokenCredential.js";
-import {
-  AuthorizeRequestOnChallengeOptions,
-  HttpClient,
-  PipelineResponse,
-  bearerTokenAuthenticationPolicy,
-  createEmptyPipeline,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "../../src/index.js";
+import type {
+  AccessToken,
+  GetTokenOptions,
+  TokenCredential,
+} from "../../src/auth/tokenCredential.js";
+import type { HttpClient, PipelineResponse } from "../../src/index.js";
 import { TextDecoder } from "node:util";
+import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import { createEmptyPipeline } from "../../src/pipeline.js";
+import type { AuthorizeRequestOnChallengeOptions } from "../../src/policies/bearerTokenAuthenticationPolicy.js";
+import { bearerTokenAuthenticationPolicy } from "../../src/policies/bearerTokenAuthenticationPolicy.js";
 
 export interface TestChallenge {
   scope: string;

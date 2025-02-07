@@ -228,7 +228,7 @@ node dist/caCertificatesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env EVENTGRID_SUBSCRIPTION_ID="<eventgrid subscription id>" EVENTGRID_RESOURCE_GROUP="<eventgrid resource group>" node dist/caCertificatesCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env EVENTGRID_SUBSCRIPTION_ID="<eventgrid subscription id>" EVENTGRID_RESOURCE_GROUP="<eventgrid resource group>" node dist/caCertificatesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -415,7 +415,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [topicsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/arm-eventgrid/samples/v14-beta/typescript/src/topicsUpdateSample.ts
 [verifiedpartnersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/arm-eventgrid/samples/v14-beta/typescript/src/verifiedPartnersGetSample.ts
 [verifiedpartnerslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/arm-eventgrid/samples/v14-beta/typescript/src/verifiedPartnersListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-eventgrid?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-eventgrid?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/arm-eventgrid/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

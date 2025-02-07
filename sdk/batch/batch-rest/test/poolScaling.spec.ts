@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
-import {
+import type {
   BatchClient,
   CreatePoolParameters,
   EnablePoolAutoScaleParameters,
   EvaluatePoolAutoScaleParameters,
-  isUnexpected,
 } from "../src/index.js";
+import { isUnexpected, type GetPool200Response } from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import moment from "moment";
@@ -26,7 +27,7 @@ describe("Autoscale operations", async () => {
   /**
    * Provision helper resources needed for testing jobs
    */
-  beforeAll(async function () {
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -63,7 +64,7 @@ describe("Autoscale operations", async () => {
                 Unable to provision resource needed for Job Testing.
                 Response Body: ${poolPostResult.body.message}`);
       }
-      const getSteadyPool = async () => {
+      const getSteadyPool = async (): Promise<GetPool200Response | null> => {
         const getPoolResult = await batchClient.path("/pools/{poolId}", BASIC_POOL).get();
         if (isUnexpected(getPoolResult)) {
           assert.fail(`Received unexpected status code from getting pool: ${getPoolResult.status}
@@ -82,7 +83,7 @@ describe("Autoscale operations", async () => {
   /**
    * Unprovision helper resources after all tests ran
    */
-  afterAll(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -94,12 +95,12 @@ describe("Autoscale operations", async () => {
     }
   });
 
-  beforeEach(async function (ctx: VitestTestContext) {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

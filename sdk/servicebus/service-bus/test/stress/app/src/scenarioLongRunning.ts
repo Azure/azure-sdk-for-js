@@ -9,7 +9,7 @@ import {
 } from "./serviceBusStressTester";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusClient, ServiceBusSender } from "@azure/service-bus";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 captureConsoleOutputToAppInsights();
 
@@ -36,7 +36,7 @@ async function sendMessagesForever(
 
         const messagesToSend = [
           {
-            messageId: uuidv4(),
+            messageId: randomUUID(),
             body: `Message: ${Date.now()}`,
           },
         ];

@@ -15,7 +15,9 @@ export class EnvironmentVariables {
   correlationId: string | undefined;
   shardId: string | undefined;
   region: string | undefined;
+  runName: string;
   constructor() {
+    this.runName = process.env["_MPT_SERVICE_RUN_NAME"]!;
     this.runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]!;
     this.correlationId = randomUUID();
   }

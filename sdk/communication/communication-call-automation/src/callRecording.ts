@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CallRecordingImpl } from "./generated/src/operations";
-import {
+import { CallRecordingImpl } from "./generated/src/operations/index.js";
+import type {
   CallAutomationApiClientOptionalParams,
   StartCallRecordingRequest,
-} from "./generated/src/models/index";
-import { RecordingStateResult } from "./models/responses";
-import {
+} from "./generated/src/models/index.js";
+import type { RecordingStateResult } from "./models/responses.js";
+import type {
   StartRecordingOptions,
   StopRecordingOptions,
   PauseRecordingOptions,
@@ -14,14 +14,14 @@ import {
   ResumeRecordingOptions,
   DeleteRecordingOptions,
   DownloadRecordingOptions,
-} from "./models/options";
-import { communicationIdentifierModelConverter } from "./utli/converters";
-import { ContentDownloaderImpl } from "./contentDownloader";
-import * as fs from "fs";
+} from "./models/options.js";
+import { communicationIdentifierModelConverter } from "./utli/converters.js";
+import { ContentDownloaderImpl } from "./contentDownloader.js";
+import * as fs from "node:fs";
 import { randomUUID } from "@azure/core-util";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { CallAutomationApiClient } from "./generated/src";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { CallAutomationApiClient } from "./generated/src/index.js";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -53,7 +53,7 @@ export class CallRecording {
    */
   public async start(options: StartRecordingOptions): Promise<RecordingStateResult> {
     const startCallRecordingRequest: StartCallRecordingRequest = {
-      callLocator: options.callLocator,
+      callLocator: options.callLocator ? options.callLocator : undefined,
     };
 
     startCallRecordingRequest.recordingChannelType = options.recordingChannel;
@@ -81,13 +81,23 @@ export class CallRecording {
         );
       });
     }
-
-    if (options.callLocator.kind === "groupCallLocator") {
-      startCallRecordingRequest.callLocator.kind = "groupCallLocator";
-      startCallRecordingRequest.callLocator.groupCallId = options.callLocator.id;
-    } else {
-      startCallRecordingRequest.callLocator.kind = "serverCallLocator";
-      startCallRecordingRequest.callLocator.serverCallId = options.callLocator.id;
+    if (options.callLocator) {
+      if (options.callLocator.kind === "groupCallLocator") {
+        startCallRecordingRequest.callLocator = {
+          groupCallId: options.callLocator.id,
+          kind: "groupCallLocator",
+        };
+      } else if (options.callLocator.kind === "roomCallLocator") {
+        startCallRecordingRequest.callLocator = {
+          roomId: options.callLocator.id,
+          kind: "roomCallLocator",
+        };
+      } else {
+        startCallRecordingRequest.callLocator = {
+          serverCallId: options.callLocator.id,
+          kind: "serverCallLocator",
+        };
+      }
     }
 
     const optionsInternal = {

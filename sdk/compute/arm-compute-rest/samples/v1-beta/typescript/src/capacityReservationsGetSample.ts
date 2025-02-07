@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  CapacityReservationsGetParameters
+  CapacityReservationsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation that retrieves information about the capacity reservation.
@@ -25,7 +20,7 @@ async function getACapacityReservation() {
   const capacityReservationGroupName = "myCapacityReservationGroup";
   const capacityReservationName = "myCapacityReservation";
   const options: CapacityReservationsGetParameters = {
-    queryParameters: { $expand: "instanceView", "api-version": "2022-08-01" }
+    queryParameters: { $expand: "instanceView", "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getACapacityReservation() {
       subscriptionId,
       resourceGroupName,
       capacityReservationGroupName,
-      capacityReservationName
+      capacityReservationName,
     )
     .get(options);
   console.log(result);

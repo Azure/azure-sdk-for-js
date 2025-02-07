@@ -11,7 +11,7 @@ import {
   MetadataGetResponse,
   MetadataPostOptionalParams,
   MetadataPostResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Metadata. */
 export interface Metadata {

@@ -1,17 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { Context, Test } from "mocha";
-import {
-  Recorder,
-  RecorderStartOptions,
-  SanitizerOptions,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
-import { SmsClient } from "../../../src";
+import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { SmsClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export interface RecordedClient<T> {
@@ -59,7 +52,7 @@ const recorderOptions: RecorderStartOptions = {
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("CustomDefaultMatcher", {
@@ -74,9 +67,9 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedSmsClient(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<SmsClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   const client = new SmsClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
@@ -89,9 +82,9 @@ export async function createRecordedSmsClient(
 }
 
 export async function createRecordedSmsClientWithToken(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<SmsClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(

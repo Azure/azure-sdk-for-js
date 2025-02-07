@@ -5,8 +5,8 @@
  * @file Rule to require client methods to use standardized verb prefixes and suffixes where possible.
  */
 
-import { getPublicMethods } from "../utils";
-import { createRule } from "../utils/ruleCreator";
+import { getPublicMethods } from "../utils/index.js";
+import { createRule } from "../utils/ruleCreator.js";
 import { TSESTree, ASTUtils } from "@typescript-eslint/utils";
 
 /**

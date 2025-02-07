@@ -5,6 +5,20 @@ import { SpawnOptions, spawn } from "node:child_process";
 
 export interface RunOptions extends SpawnOptions {
   captureOutput?: boolean;
+
+  /**
+   * By default a non-zero exit code will cause an exception to be thrown.
+   * Set this option to true to not throw in this case.
+   */
+  captureExitCode?: boolean;
+}
+
+export interface RunResult {
+  exitCode: number;
+}
+
+export interface RunResultWithOutput extends RunResult {
+  output: string;
 }
 
 /**
@@ -13,7 +27,7 @@ export interface RunOptions extends SpawnOptions {
  * @param command - the command to run. If an array of strings is passed, the first element will be the executable to run and the remaining elements will be the arguments. If a string is passed, it will be split on space (' ') and
  *                  then treated the same as a string array (quoting etc will not work for escaping).
  */
-export async function run(command: string[] | string): Promise<void>;
+export async function run(command: string[] | string): Promise<RunResult>;
 
 /**
  * Run the given command as a child process.
@@ -25,7 +39,7 @@ export async function run(command: string[] | string): Promise<void>;
 export async function run(
   command: string[] | string,
   options: RunOptions & { captureOutput: true },
-): Promise<string>;
+): Promise<RunResultWithOutput>;
 
 /**
  * Run the given command as a child process.
@@ -37,27 +51,25 @@ export async function run(
 export async function run(
   command: string[] | string,
   options: RunOptions & { captureOutput?: false },
-): Promise<void>;
+): Promise<RunResult>;
 
 export async function run(
   command: string[] | string,
   options: RunOptions = {},
-): Promise<string | void> {
+): Promise<RunResult | RunResultWithOutput> {
   const [executable, ...argv] = typeof command === "string" ? command.split(" ") : command;
 
   let output = "";
 
-  await new Promise((resolve, reject) => {
+  const exitCode = await new Promise<number>((resolve, reject) => {
     const proc = spawn(executable, argv, options);
 
     proc.stderr?.setEncoding("utf8");
     proc.on("exit", (exitCode, signal) => {
       if (exitCode === null) {
         reject(new Error(`subprocess exited with signal ${signal}`));
-      } else if (exitCode === 0) {
-        resolve(output);
       } else {
-        reject(new Error(`subprocess exited with exit code ${exitCode}.\nOutput:\n${output}`));
+        resolve(exitCode);
       }
     });
 
@@ -73,7 +85,9 @@ export async function run(
     }
   });
 
-  if (options.captureOutput) {
-    return output;
+  if (!options.captureExitCode && exitCode !== 0) {
+    throw new Error(`Process exited with exit code ${exitCode}`);
   }
+
+  return { output, exitCode };
 }

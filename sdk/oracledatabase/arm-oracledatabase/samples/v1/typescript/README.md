@@ -114,7 +114,7 @@ node dist/autonomousDatabaseBackupsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ORACLEDATABASE_SUBSCRIPTION_ID="<oracledatabase subscription id>" ORACLEDATABASE_RESOURCE_GROUP="<oracledatabase resource group>" node dist/autonomousDatabaseBackupsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env ORACLEDATABASE_SUBSCRIPTION_ID="<oracledatabase subscription id>" ORACLEDATABASE_RESOURCE_GROUP="<oracledatabase resource group>" node dist/autonomousDatabaseBackupsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -187,7 +187,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualnetworkaddressesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/oracledatabase/arm-oracledatabase/samples/v1/typescript/src/virtualNetworkAddressesDeleteSample.ts
 [virtualnetworkaddressesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/oracledatabase/arm-oracledatabase/samples/v1/typescript/src/virtualNetworkAddressesGetSample.ts
 [virtualnetworkaddresseslistbycloudvmclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/oracledatabase/arm-oracledatabase/samples/v1/typescript/src/virtualNetworkAddressesListByCloudVMClusterSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-oracledatabase?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-oracledatabase?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/oracledatabase/arm-oracledatabase/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

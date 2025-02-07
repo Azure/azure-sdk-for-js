@@ -15,7 +15,7 @@ import {
   AttestOpenEnclaveRequest as AttestOpenEnclaveRequestMapper,
   AttestSgxEnclaveRequest as AttestSgxEnclaveRequestMapper,
   TpmAttestationRequest as TpmAttestationRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

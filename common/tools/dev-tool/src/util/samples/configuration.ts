@@ -29,17 +29,17 @@ export interface SampleConfiguration {
    */
   productName?: string;
   /**
-   * Product slugs to use on docs.microsoft.com in addition to "azure".
+   * Product slugs to use on learn.microsoft.com in addition to "azure".
    */
   productSlugs?: string[];
   /**
-   * Disable generation of docs.microsoft.com publication metadata.
+   * Disable generation of learn.microsoft.com publication metadata.
    */
   disableDocsMs?: boolean;
   /**
    * Link to the API reference documentation. If this is not provided, we
    * assume the API reference is located at
-   * `docs.microsoft.com/javascript/api/<packageName>`.
+   * `learn.microsoft.com/javascript/api/<packageName>`.
    */
   apiRefLink?: string;
   /**

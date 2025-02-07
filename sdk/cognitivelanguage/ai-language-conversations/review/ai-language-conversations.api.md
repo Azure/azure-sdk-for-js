@@ -5,11 +5,11 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type * as coreClient from '@azure/core-client';
+import type { KeyCredential } from '@azure/core-auth';
+import type { PollerLike } from '@azure/core-lro';
+import type { PollOperationState } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AgeResolution extends BaseResolution, QuantityResolution {

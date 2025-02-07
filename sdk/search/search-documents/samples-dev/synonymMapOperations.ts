@@ -6,10 +6,9 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SearchIndexClient, SynonymMap } from "@azure/search-documents";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { SynonymMap } from "@azure/search-documents";
+import { SearchIndexClient } from "@azure/search-documents";
+import "dotenv/config";
 
 const endpoint = process.env.ENDPOINT || "";
 const TEST_SYNONYM_MAP_NAME = "example-synonymmap-sample-1";
@@ -30,7 +29,7 @@ async function getAndUpdateSynonymMap(
   console.log(`Get And Update SynonymMap Operation`);
   const sm: SynonymMap = await client.getSynonymMap(synonymMapName);
   console.log(`Update synonyms Synonym Map my-synonymmap`);
-  sm.synonyms.push("Florida, Fld. => FL");
+  await sm.synonyms.push("Florida, Fld. => FL");
   await client.createOrUpdateSynonymMap(sm);
 }
 

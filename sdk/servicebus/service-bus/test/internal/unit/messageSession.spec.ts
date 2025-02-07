@@ -9,20 +9,20 @@ import {
   defer,
 } from "./unittestUtils.js";
 import { EventEmitter } from "events";
-import {
-  ReceiverEvents,
+import type {
   EventContext,
   Message as RheaMessage,
-  SessionEvents,
   Receiver as RheaPromiseReceiver,
 } from "rhea-promise";
-import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver.js";
-import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
-import { ProcessErrorArgs, ServiceBusError } from "../../../src/index.js";
-import { ReceiveMode } from "../../../src/models.js";
+import { ReceiverEvents, SessionEvents } from "rhea-promise";
+import type { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver.js";
+import type { ServiceBusMessageImpl } from "../../../src/serviceBusMessage.js";
+import type { ProcessErrorArgs, ServiceBusError } from "../../../src/index.js";
+import type { ReceiveMode } from "../../../src/models.js";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
-import { describe, it, vi, beforeEach, MockInstance, beforeAll, afterAll } from "vitest";
+import type { MockInstance } from "vitest";
+import { describe, it, vi, beforeEach, beforeAll, afterAll } from "vitest";
 import { assert, expect } from "../../public/utils/chai.js";
 
 describe("Message session unit tests - receiveMessages", () => {

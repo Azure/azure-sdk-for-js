@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { LroError } from "../poller/models.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { LroError } from "../poller/models.js";
 
 /**
  * The potential location of the result of the LRO if specified by the LRO extension in the swagger.

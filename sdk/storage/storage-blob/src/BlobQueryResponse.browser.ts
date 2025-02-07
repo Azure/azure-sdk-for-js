@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   BlobDownloadResponseModel,
   BlobType,
   CopyStatusType,
@@ -11,9 +11,9 @@ import {
   BlobQueryResponseModel,
   BlobQueryHeaders,
 } from "./generatedModels";
-import { Metadata } from "./models";
-import { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
-import { ResponseWithHeaders } from "./utils/utils.common";
+import type { Metadata } from "./models";
+import type { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";
+import type { ResponseWithHeaders } from "./utils/utils.common";
 
 /**
  * ONLY AVAILABLE IN BROWSER RUNTIME.

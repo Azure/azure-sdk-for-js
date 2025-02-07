@@ -3,14 +3,13 @@
 
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString =
   process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
   "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== SIP Routing Client Example ==\n");
 
   // Build client

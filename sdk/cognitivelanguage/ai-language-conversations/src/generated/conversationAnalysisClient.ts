@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "./lroImpl";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { LroImpl } from "./lroImpl.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ConversationAnalysisClientOptionalParams,
   AnalyzeConversationTaskUnion,
@@ -25,7 +25,7 @@ import {
   AnalyzeConversationJobsInput,
   ConversationAnalysisOptionalParams,
   ConversationAnalysisResponse
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class ConversationAnalysisClient extends coreClient.ServiceClient {

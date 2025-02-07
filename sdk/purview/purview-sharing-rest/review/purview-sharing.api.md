@@ -4,19 +4,19 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { CreateHttpPollerOptions } from '@azure/core-lro';
-import { HttpResponse } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { SimplePollerLike } from '@azure/core-lro';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AdlsGen2AccountSink extends SinkParent {
@@ -147,7 +147,7 @@ export interface BlobStorageArtifactPropertiesOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewSharingClient;
+function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewSharingClientOptions): PurviewSharingClient;
 export default createClient;
 
 // @public
@@ -157,7 +157,7 @@ export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -299,6 +299,18 @@ export interface OperationResponseOutput {
 }
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
 
 // @public
@@ -340,6 +352,11 @@ export interface PurviewShareErrorOutput {
 export type PurviewSharingClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface PurviewSharingClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export type ReceivedShare = InPlaceReceivedShare;
@@ -1186,6 +1203,28 @@ export interface ShareResourcesGetAllShareResourcesQueryParam {
 export interface ShareResourcesGetAllShareResourcesQueryParamProperties {
     filter?: string;
     orderby?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

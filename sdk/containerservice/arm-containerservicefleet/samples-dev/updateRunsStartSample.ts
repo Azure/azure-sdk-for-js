@@ -6,26 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts an UpdateRun.
  *
  * @summary Starts an UpdateRun.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/UpdateRuns_Start.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/UpdateRuns_Start.json
  */
-async function startsAnUpdateRun() {
+async function startsAnUpdateRun(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const updateRunName = "run1";
   const credential = new DefaultAzureCredential();
@@ -38,8 +32,8 @@ async function startsAnUpdateRun() {
   console.log(result);
 }
 
-async function main() {
-  startsAnUpdateRun();
+async function main(): Promise<void> {
+  await startsAnUpdateRun();
 }
 
 main().catch(console.error);

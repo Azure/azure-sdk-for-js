@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { addTestStreamingReceiver } from "./unittestUtils.js";
-import { ProcessErrorArgs, ServiceBusReceivedMessage } from "../../../src/index.js";
-import { EventContext } from "rhea-promise";
+import type { ProcessErrorArgs, ServiceBusReceivedMessage } from "../../../src/index.js";
+import type { EventContext } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
 import { assertThrows } from "../../public/utils/testUtils.js";
@@ -170,8 +170,7 @@ describe("StreamingReceiver unit tests", () => {
 
       await assertThrows(() => subscribePromise, {
         name: "AbortError",
-        message:
-          "Error 0: AbortError: Cannot request messages on the receiver since it is suspended.",
+        message: "Cannot request messages on the receiver since it is suspended.",
       });
 
       // closeLink is called on cleanup when we fail to add credits (which we would because our receiver
@@ -210,7 +209,7 @@ describe("StreamingReceiver unit tests", () => {
 
       await assertThrows(() => subscribePromise, {
         name: "AbortError",
-        message: "Error 0: AbortError: Receiver was suspended during initialization.",
+        message: "Receiver was suspended during initialization.",
       });
 
       // closeLink should not be called if no link was created
@@ -218,7 +217,7 @@ describe("StreamingReceiver unit tests", () => {
 
       assert.deepEqual(errors, [
         {
-          message: "Error 0: AbortError: Receiver was suspended during initialization.",
+          message: "Receiver was suspended during initialization.",
           errorSource: "receive",
         },
       ]);

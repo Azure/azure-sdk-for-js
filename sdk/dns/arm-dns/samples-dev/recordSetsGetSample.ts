@@ -6,20 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetARecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetARecordset.json
  */
-async function getARecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getARecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "A";
@@ -29,22 +28,20 @@ async function getARecordset() {
     resourceGroupName,
     zoneName,
     relativeRecordSetName,
-    recordType
+    recordType,
   );
   console.log(result);
 }
-
-getARecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetAAAARecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetAAAARecordset.json
  */
-async function getAaaaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getAaaaRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "AAAA";
@@ -54,22 +51,20 @@ async function getAaaaRecordset() {
     resourceGroupName,
     zoneName,
     relativeRecordSetName,
-    recordType
+    recordType,
   );
   console.log(result);
 }
-
-getAaaaRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetCaaRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetCaaRecordset.json
  */
-async function getCaaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getCaaRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "CAA";
@@ -79,22 +74,20 @@ async function getCaaRecordset() {
     resourceGroupName,
     zoneName,
     relativeRecordSetName,
-    recordType
+    recordType,
   );
   console.log(result);
 }
-
-getCaaRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetCNAMERecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetCNAMERecordset.json
  */
-async function getCnameRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getCnameRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "CNAME";
@@ -104,22 +97,43 @@ async function getCnameRecordset() {
     resourceGroupName,
     zoneName,
     relativeRecordSetName,
-    recordType
+    recordType,
   );
   console.log(result);
 }
-
-getCnameRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetMXRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetDSRecordset.json
  */
-async function getMxRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getDsRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
+  const zoneName = "zone1";
+  const relativeRecordSetName = "record1";
+  const recordType = "DS";
+  const credential = new DefaultAzureCredential();
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.get(
+    resourceGroupName,
+    zoneName,
+    relativeRecordSetName,
+    recordType,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets a record set.
+ *
+ * @summary Gets a record set.
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetMXRecordset.json
+ */
+async function getMxRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "MX";
@@ -129,22 +143,43 @@ async function getMxRecordset() {
     resourceGroupName,
     zoneName,
     relativeRecordSetName,
-    recordType
+    recordType,
   );
   console.log(result);
 }
-
-getMxRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetNSRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetNAPTRRecordset.json
  */
-async function getNsRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getNaptrRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
+  const zoneName = "zone1";
+  const relativeRecordSetName = "record1";
+  const recordType = "NAPTR";
+  const credential = new DefaultAzureCredential();
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.get(
+    resourceGroupName,
+    zoneName,
+    relativeRecordSetName,
+    recordType,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets a record set.
+ *
+ * @summary Gets a record set.
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetNSRecordset.json
+ */
+async function getNsRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "NS";
@@ -154,22 +189,20 @@ async function getNsRecordset() {
     resourceGroupName,
     zoneName,
     relativeRecordSetName,
-    recordType
+    recordType,
   );
   console.log(result);
 }
-
-getNsRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetPTRRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetPTRRecordset.json
  */
-async function getPtrRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getPtrRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "0.0.127.in-addr.arpa";
   const relativeRecordSetName = "1";
   const recordType = "PTR";
@@ -179,22 +212,20 @@ async function getPtrRecordset() {
     resourceGroupName,
     zoneName,
     relativeRecordSetName,
-    recordType
+    recordType,
   );
   console.log(result);
 }
-
-getPtrRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetSOARecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetSOARecordset.json
  */
-async function getSoaRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getSoaRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "@";
   const recordType = "SOA";
@@ -204,22 +235,20 @@ async function getSoaRecordset() {
     resourceGroupName,
     zoneName,
     relativeRecordSetName,
-    recordType
+    recordType,
   );
   console.log(result);
 }
-
-getSoaRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetSRVRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetSRVRecordset.json
  */
-async function getSrvRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getSrvRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "SRV";
@@ -229,22 +258,43 @@ async function getSrvRecordset() {
     resourceGroupName,
     zoneName,
     relativeRecordSetName,
-    recordType
+    recordType,
   );
   console.log(result);
 }
-
-getSrvRecordset().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets a record set.
  *
  * @summary Gets a record set.
- * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetTXTRecordset.json
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetTLSARecordset.json
  */
-async function getTxtRecordset() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+async function getTlsaRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
+  const zoneName = "zone1";
+  const relativeRecordSetName = "record1";
+  const recordType = "TLSA";
+  const credential = new DefaultAzureCredential();
+  const client = new DnsManagementClient(credential, subscriptionId);
+  const result = await client.recordSets.get(
+    resourceGroupName,
+    zoneName,
+    relativeRecordSetName,
+    recordType,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets a record set.
+ *
+ * @summary Gets a record set.
+ * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/GetTXTRecordset.json
+ */
+async function getTxtRecordset(): Promise<void> {
+  const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
   const relativeRecordSetName = "record1";
   const recordType = "TXT";
@@ -254,9 +304,25 @@ async function getTxtRecordset() {
     resourceGroupName,
     zoneName,
     relativeRecordSetName,
-    recordType
+    recordType,
   );
   console.log(result);
 }
 
-getTxtRecordset().catch(console.error);
+async function main(): Promise<void> {
+  await getARecordset();
+  await getAaaaRecordset();
+  await getCaaRecordset();
+  await getCnameRecordset();
+  await getDsRecordset();
+  await getMxRecordset();
+  await getNaptrRecordset();
+  await getNsRecordset();
+  await getPtrRecordset();
+  await getSoaRecordset();
+  await getSrvRecordset();
+  await getTlsaRecordset();
+  await getTxtRecordset();
+}
+
+main().catch(console.error);

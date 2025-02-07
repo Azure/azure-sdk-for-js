@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AnalyzeAction, KnownAnalyzeTextLROTaskKind } from "../../src/generated/models";
-import { AnalyzeActionName, AnalyzeBatchActionName } from "../../src";
-import { AssertEqual } from "./utils";
-import { assert } from "@azure-tools/test-utils";
+import type {
+  AnalyzeAction,
+  KnownAnalyzeTextLROTaskKind,
+} from "../../src/generated/models/index.js";
+import type { AnalyzeActionName, AnalyzeBatchActionName } from "../../src/index.js";
+import type { AssertEqual } from "./utils.js";
+import { describe, it, assert } from "vitest";
 
-describe("Models", function () {
-  it("AnalyzeActionName", function () {
+describe("Models", () => {
+  it("AnalyzeActionName", () => {
     const equalTypes: AssertEqual<AnalyzeActionName, AnalyzeAction["kind"]> = true;
     assert.isTrue(equalTypes);
   });
-  it("AnalyzeBatchActionName", function () {
+  it("AnalyzeBatchActionName", () => {
     const equalTypes: AssertEqual<
       AnalyzeBatchActionName,
       keyof typeof KnownAnalyzeTextLROTaskKind

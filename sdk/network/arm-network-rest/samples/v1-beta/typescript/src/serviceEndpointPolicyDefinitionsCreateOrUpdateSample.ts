@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ServiceEndpointPolicyDefinitionsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a service endpoint policy definition in the specified service endpoint policy.
@@ -33,11 +28,11 @@ async function createServiceEndpointPolicyDefinition() {
         serviceResources: [
           "/subscriptions/subid1",
           "/subscriptions/subid1/resourceGroups/storageRg",
-          "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount"
-        ]
-      }
+          "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount",
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -45,7 +40,7 @@ async function createServiceEndpointPolicyDefinition() {
       subscriptionId,
       resourceGroupName,
       serviceEndpointPolicyName,
-      serviceEndpointPolicyDefinitionName
+      serviceEndpointPolicyDefinitionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -1,12 +1,10 @@
 {
-  "extends": "../../../tsconfig",
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ],
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": ".",
-    "paths": {
-      "@azure/web-pubsub-express": ["./src/index.ts"]
-    }
-  },
-  "include": ["src/**/*.ts", "src/**/*.cts", "src/**/*.mts", "test/**/*.ts", "samples-dev/**/*.ts"]
+    "esModuleInterop": true
+  }
 }

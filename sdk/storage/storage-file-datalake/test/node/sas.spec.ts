@@ -2,8 +2,15 @@
 // Licensed under the MIT License.
 import { Recorder, delay } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
+import type {
+  PathAccessControlItem,
+  PathPermissions,
+  StorageSharedKeyCredential,
+  UserDelegationKey,
+  FileSystemListPathsResponse,
+} from "../../src";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -17,12 +24,7 @@ import {
   generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters,
   newPipeline,
-  PathAccessControlItem,
-  PathPermissions,
-  StorageSharedKeyCredential,
-  UserDelegationKey,
   SASQueryParameters,
-  FileSystemListPathsResponse,
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
 import { DirectorySASPermissions } from "../../src/sas/DirectorySASPermissions";
@@ -563,7 +565,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
      * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
      * During this interval, a shared access signature that is associated with the stored access policy will
      * fail with status code 403 (Forbidden), until the access policy becomes active.
-     * More details: https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * More details: https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
      * Note: delay in recorder module only take effect in live and recording mode.
      */
     await delay(30 * 1000);
@@ -620,7 +622,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
      * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
      * During this interval, a shared access signature that is associated with the stored access policy will
      * fail with status code 403 (Forbidden), until the access policy becomes active.
-     * More details: https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * More details: https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
      * Note: delay in recorder module only take effect in live and recording mode.
      */
     await delay(30 * 1000);
@@ -1527,7 +1529,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
      * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
      * During this interval, a shared access signature that is associated with the stored access policy will
      * fail with status code 403 (Forbidden), until the access policy becomes active.
-     * More details: https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * More details: https://learn.microsoft.com/en-us/rest/api/storageservices/set-container-acl
      * Note: delay in recorder module only take effect in live and recording mode.
      */
     await delay(30 * 1000);

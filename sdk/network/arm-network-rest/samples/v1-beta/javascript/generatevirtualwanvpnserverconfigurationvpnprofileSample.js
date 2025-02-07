@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Generates a unique VPN profile for P2S clients for VirtualWan and associated VpnServerConfiguration combination in the specified resource group.
@@ -33,7 +33,7 @@ async function generateVirtualWanVpnServerConfigurationVpnProfile() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{virtualWANName}/GenerateVpnProfile",
       subscriptionId,
       resourceGroupName,
-      virtualWANName
+      virtualWANName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

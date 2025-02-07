@@ -13,15 +13,19 @@
  * @summary build a model with a single document type from a training data set
  */
 
-import DocumentIntelligence, { DocumentModelBuildOperationDetailsOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import type { DocumentModelBuildOperationDetailsOutput } from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" })
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+  );
   const random = Date.now().toString();
   const modelId =
     (process.env.CUSTOM_MODEL_ID || "<model id>") + random.substring(random.length - 6);
@@ -33,7 +37,7 @@ async function main() {
       buildMode: "template",
       modelId,
       azureBlobSource: {
-        containerUrl: trainingDataSasUrl
+        containerUrl: trainingDataSasUrl,
       },
     },
   });
@@ -42,9 +46,8 @@ async function main() {
     throw initialResponse.body.error;
   }
   const poller = getLongRunningPoller(client, initialResponse);
-  const model = (
-    (await (await poller).pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput
-  ).result;
+  const model = ((await poller.pollUntilDone()).body as DocumentModelBuildOperationDetailsOutput)
+    .result;
   if (!model) {
     throw new Error("Expected a DocumentModelDetailsOutput response.");
   }
@@ -58,14 +61,17 @@ async function main() {
 
   console.log("Document Types:");
   for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    model.docTypes || {}
+    model.docTypes || {},
   )) {
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);
 
     // For simplicity, this example will only show top-level field names
     console.log("  Fields:");
-
+    if (!schema) {
+      console.log("    <no fields>");
+      continue;
+    }
     for (const [fieldName, fieldSchema] of Object.entries(schema)) {
       console.log(`  - "${fieldName}" (${fieldSchema.type})`);
       console.log(`    ${fieldSchema.description || "<no description>"}`);

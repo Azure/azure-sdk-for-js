@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultScopeSuffix } from "./constants";
+const DefaultScopeSuffix = "/.default";
+
+/**
+ * Error message for Service Fabric Managed Identity environment.
+ */
+export const serviceFabricErrorMessage =
+  "Specifying a `clientId` or `resourceId` is not supported by the Service Fabric managed identity environment. The managed identity configuration is determined by the Service Fabric cluster resource configuration. See https://aka.ms/servicefabricmi for more information";
 
 /**
  * Most MSIs send requests to the IMDS endpoint, or a similar endpoint.

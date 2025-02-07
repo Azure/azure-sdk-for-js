@@ -5,7 +5,7 @@
 // Licensed under the MIT License.
 const createNetworkManagementClient = require("@azure-rest/arm-network").default;
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Delete the pending scope connection created by this network manager.
@@ -29,7 +29,7 @@ async function deleteNetworkManagerScopeConnection() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      scopeConnectionName
+      scopeConnectionName,
     )
     .delete(options);
   console.log(result);

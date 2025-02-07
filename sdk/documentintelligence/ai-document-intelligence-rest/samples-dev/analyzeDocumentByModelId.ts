@@ -8,33 +8,35 @@
  * @summary analyze a document using a model by ID
  */
 
-import DocumentIntelligence, { AnalyzeResultOperationOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" })
-  const modelId = process.env.DOCUMENT_INTELLIGENCE_CUSTOM_MODEL_ID || "<custom model ID>";// "prebuilt-layout";
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+  );
+  const modelId = process.env.DOCUMENT_INTELLIGENCE_CUSTOM_MODEL_ID || "<custom model ID>"; // "prebuilt-layout";
 
-  const initialResponse = await client
-    .path("/documentModels/{modelId}:analyze", modelId)
-    .post({
-      contentType: "application/json",
-      body: {
-        urlSource: "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png",
-      },
-      queryParameters: { locale: "en-IN" },
-    });
+  const initialResponse = await client.path("/documentModels/{modelId}:analyze", modelId).post({
+    contentType: "application/json",
+    body: {
+      urlSource:
+        "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png",
+    },
+    queryParameters: { locale: "en-IN" },
+  });
   if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
   }
-  const poller = await getLongRunningPoller(client, initialResponse);
-  const analyzeResult = (
-    (await (poller).pollUntilDone()).body as AnalyzeResultOperationOutput
-  ).analyzeResult;
+  const poller = getLongRunningPoller(client, initialResponse);
+  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
+    .analyzeResult;
 
   const documents = analyzeResult?.documents;
 
@@ -46,7 +48,7 @@ async function main() {
   console.log(
     "Extracted document:",
     document.docType,
-    `(confidence: ${document.confidence || "<undefined>"})`
+    `(confidence: ${document.confidence || "<undefined>"})`,
   );
   console.log("Fields:", document.fields);
 }

@@ -4,8 +4,8 @@
 import { assert } from "chai";
 import { getBSU, recorderEnvSetup, bodyToString, uriSanitizers, getUniqueName } from "./utils";
 import { Recorder } from "@azure-tools/test-recorder";
-import { ShareClient, ShareDirectoryClient, ShareFileClient, SignedIdentifier } from "../src";
-import { Context } from "mocha";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient, SignedIdentifier } from "../src";
+import type { Context } from "mocha";
 import { isNode } from "@azure/core-util";
 
 // for file

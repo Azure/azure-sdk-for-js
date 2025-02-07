@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   DeletedSecret,
   GetSecretOptions,
   KeyVaultSecret,
   SecretProperties,
 } from "../../secretsModels.js";
-import {
-  KeyVaultSecretPollOperation,
-  KeyVaultSecretPollOperationState,
-} from "../keyVaultSecretPoller.js";
-import { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import type { KeyVaultSecretPollOperationState } from "../keyVaultSecretPoller.js";
+import { KeyVaultSecretPollOperation } from "../keyVaultSecretPoller.js";
+import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
 import { getSecretFromSecretBundle } from "../../transformations.js";
-import { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../../tracing.js";
 
 /**
@@ -32,7 +30,6 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
 > {
   constructor(
     public state: RecoverDeletedSecretPollOperationState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
     private options: OperationOptions = {},
   ) {
@@ -49,7 +46,6 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
       options,
       async (updatedOptions) => {
         const response = await this.client.getSecret(
-          this.vaultUrl,
           name,
           options && options.version ? options.version : "",
           updatedOptions,
@@ -71,11 +67,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
       "RecoverDeletedSecretPoller.recoverDeletedSecret",
       options,
       async (updatedOptions) => {
-        const response = await this.client.recoverDeletedSecret(
-          this.vaultUrl,
-          name,
-          updatedOptions,
-        );
+        const response = await this.client.recoverDeletedSecret(name, updatedOptions);
         return getSecretFromSecretBundle(response);
       },
     );

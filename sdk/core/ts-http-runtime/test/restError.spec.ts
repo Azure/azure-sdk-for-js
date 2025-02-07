@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { PipelineRequest, PipelineResponse } from "../src/interfaces.js";
+import type { PipelineRequest, PipelineResponse } from "../src/interfaces.js";
 import { createHttpHeaders } from "../src/httpHeaders.js";
 import { RestError } from "../src/restError.js";
 

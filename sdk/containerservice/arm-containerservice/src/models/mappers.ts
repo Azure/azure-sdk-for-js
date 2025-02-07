@@ -846,6 +846,12 @@ export const AgentPoolUpgradeSettings: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      maxUnavailable: {
+        serializedName: "maxUnavailable",
+        type: {
+          name: "String",
+        },
+      },
       drainTimeoutInMinutes: {
         constraints: {
           InclusiveMaximum: 1440,
@@ -953,6 +959,12 @@ export const KubeletConfig: coreClient.CompositeMapper = {
         serializedName: "podMaxPids",
         type: {
           name: "Number",
+        },
+      },
+      seccompDefault: {
+        serializedName: "seccompDefault",
+        type: {
+          name: "String",
         },
       },
     },
@@ -1964,7 +1976,6 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
     className: "ContainerServiceNetworkProfile",
     modelProperties: {
       networkPlugin: {
-        defaultValue: "kubenet",
         serializedName: "networkPlugin",
         type: {
           name: "String",
@@ -2441,6 +2452,12 @@ export const AdvancedNetworking: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AdvancedNetworking",
     modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
       observability: {
         serializedName: "observability",
         type: {
@@ -2470,12 +2487,6 @@ export const AdvancedNetworkingObservability: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
-      tlsManagement: {
-        serializedName: "tlsManagement",
-        type: {
-          name: "String",
-        },
-      },
     },
   },
 };
@@ -2484,22 +2495,6 @@ export const AdvancedNetworkingSecurity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AdvancedNetworkingSecurity",
-    modelProperties: {
-      fqdnPolicy: {
-        serializedName: "fqdnPolicy",
-        type: {
-          name: "Composite",
-          className: "AdvancedNetworkingFqdnPolicy",
-        },
-      },
-    },
-  },
-};
-
-export const AdvancedNetworkingFqdnPolicy: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AdvancedNetworkingFqdnPolicy",
     modelProperties: {
       enabled: {
         serializedName: "enabled",
@@ -5514,7 +5509,6 @@ export const NetworkProfileForSnapshot: coreClient.CompositeMapper = {
     className: "NetworkProfileForSnapshot",
     modelProperties: {
       networkPlugin: {
-        defaultValue: "kubenet",
         serializedName: "networkPlugin",
         type: {
           name: "String",

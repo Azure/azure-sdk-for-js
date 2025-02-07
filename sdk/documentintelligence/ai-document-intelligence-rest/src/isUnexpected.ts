@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ListOperations200Response,
   ListOperationsDefaultResponse,
   GetDocumentModelBuildOperation200Response,
@@ -16,10 +16,12 @@ import {
   GetDocumentClassifierBuildOperationDefaultResponse,
   GetOperation200Response,
   GetOperationDefaultResponse,
-  GetResourceInfo200Response,
-  GetResourceInfoDefaultResponse,
+  GetResourceDetails200Response,
+  GetResourceDetailsDefaultResponse,
   GetAnalyzeResult200Response,
   GetAnalyzeResultDefaultResponse,
+  DeleteAnalyzeResult204Response,
+  DeleteAnalyzeResultDefaultResponse,
   GetAnalyzeResultPdf200Response,
   GetAnalyzeResultPdfDefaultResponse,
   GetAnalyzeResultFigure200Response,
@@ -32,9 +34,13 @@ import {
   AnalyzeDocumentDefaultResponse,
   GetAnalyzeBatchResult200Response,
   GetAnalyzeBatchResultDefaultResponse,
+  DeleteAnalyzeBatchResult204Response,
+  DeleteAnalyzeBatchResultDefaultResponse,
   AnalyzeBatchDocuments202Response,
   AnalyzeBatchDocumentsLogicalResponse,
   AnalyzeBatchDocumentsDefaultResponse,
+  ListAnalyzeBatchResults200Response,
+  ListAnalyzeBatchResultsDefaultResponse,
   GetModel200Response,
   GetModelDefaultResponse,
   DeleteModel204Response,
@@ -81,13 +87,16 @@ const responseMap: Record<string, string[]> = {
   "GET /operations/{operationId}": ["200"],
   "GET /info": ["200"],
   "GET /documentModels/{modelId}/analyzeResults/{resultId}": ["200"],
+  "DELETE /documentModels/{modelId}/analyzeResults/{resultId}": ["204"],
   "GET /documentModels/{modelId}/analyzeResults/{resultId}/pdf": ["200"],
   "GET /documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}": ["200"],
   "GET /documentModels/{modelId}:analyze": ["200", "202"],
   "POST /documentModels/{modelId}:analyze": ["202"],
   "GET /documentModels/{modelId}/analyzeBatchResults/{resultId}": ["200"],
+  "DELETE /documentModels/{modelId}/analyzeBatchResults/{resultId}": ["204"],
   "GET /documentModels/{modelId}:analyzeBatch": ["200", "202"],
   "POST /documentModels/{modelId}:analyzeBatch": ["202"],
+  "GET /documentModels/{modelId}/analyzeBatchResults": ["200"],
   "GET /documentModels/{modelId}": ["200"],
   "DELETE /documentModels/{modelId}": ["204"],
   "GET /documentModels:build": ["200", "202"],
@@ -143,11 +152,14 @@ export function isUnexpected(
   response: GetOperation200Response | GetOperationDefaultResponse,
 ): response is GetOperationDefaultResponse;
 export function isUnexpected(
-  response: GetResourceInfo200Response | GetResourceInfoDefaultResponse,
-): response is GetResourceInfoDefaultResponse;
+  response: GetResourceDetails200Response | GetResourceDetailsDefaultResponse,
+): response is GetResourceDetailsDefaultResponse;
 export function isUnexpected(
   response: GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse,
 ): response is GetAnalyzeResultDefaultResponse;
+export function isUnexpected(
+  response: DeleteAnalyzeResult204Response | DeleteAnalyzeResultDefaultResponse,
+): response is DeleteAnalyzeResultDefaultResponse;
 export function isUnexpected(
   response: GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse,
 ): response is GetAnalyzeResultPdfDefaultResponse;
@@ -170,11 +182,17 @@ export function isUnexpected(
   response: GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse,
 ): response is GetAnalyzeBatchResultDefaultResponse;
 export function isUnexpected(
+  response: DeleteAnalyzeBatchResult204Response | DeleteAnalyzeBatchResultDefaultResponse,
+): response is DeleteAnalyzeBatchResultDefaultResponse;
+export function isUnexpected(
   response:
     | AnalyzeBatchDocuments202Response
     | AnalyzeBatchDocumentsLogicalResponse
     | AnalyzeBatchDocumentsDefaultResponse,
 ): response is AnalyzeBatchDocumentsDefaultResponse;
+export function isUnexpected(
+  response: ListAnalyzeBatchResults200Response | ListAnalyzeBatchResultsDefaultResponse,
+): response is ListAnalyzeBatchResultsDefaultResponse;
 export function isUnexpected(
   response: GetModel200Response | GetModelDefaultResponse,
 ): response is GetModelDefaultResponse;
@@ -251,10 +269,12 @@ export function isUnexpected(
     | GetDocumentClassifierBuildOperationDefaultResponse
     | GetOperation200Response
     | GetOperationDefaultResponse
-    | GetResourceInfo200Response
-    | GetResourceInfoDefaultResponse
+    | GetResourceDetails200Response
+    | GetResourceDetailsDefaultResponse
     | GetAnalyzeResult200Response
     | GetAnalyzeResultDefaultResponse
+    | DeleteAnalyzeResult204Response
+    | DeleteAnalyzeResultDefaultResponse
     | GetAnalyzeResultPdf200Response
     | GetAnalyzeResultPdfDefaultResponse
     | GetAnalyzeResultFigure200Response
@@ -267,9 +287,13 @@ export function isUnexpected(
     | AnalyzeDocumentDefaultResponse
     | GetAnalyzeBatchResult200Response
     | GetAnalyzeBatchResultDefaultResponse
+    | DeleteAnalyzeBatchResult204Response
+    | DeleteAnalyzeBatchResultDefaultResponse
     | AnalyzeBatchDocuments202Response
     | AnalyzeBatchDocumentsLogicalResponse
     | AnalyzeBatchDocumentsDefaultResponse
+    | ListAnalyzeBatchResults200Response
+    | ListAnalyzeBatchResultsDefaultResponse
     | GetModel200Response
     | GetModelDefaultResponse
     | DeleteModel204Response
@@ -317,14 +341,17 @@ export function isUnexpected(
   | GetDocumentClassifierCopyToOperationDefaultResponse
   | GetDocumentClassifierBuildOperationDefaultResponse
   | GetOperationDefaultResponse
-  | GetResourceInfoDefaultResponse
+  | GetResourceDetailsDefaultResponse
   | GetAnalyzeResultDefaultResponse
+  | DeleteAnalyzeResultDefaultResponse
   | GetAnalyzeResultPdfDefaultResponse
   | GetAnalyzeResultFigureDefaultResponse
   | AnalyzeDocumentFromStreamDefaultResponse
   | AnalyzeDocumentDefaultResponse
   | GetAnalyzeBatchResultDefaultResponse
+  | DeleteAnalyzeBatchResultDefaultResponse
   | AnalyzeBatchDocumentsDefaultResponse
+  | ListAnalyzeBatchResultsDefaultResponse
   | GetModelDefaultResponse
   | DeleteModelDefaultResponse
   | BuildModelDefaultResponse

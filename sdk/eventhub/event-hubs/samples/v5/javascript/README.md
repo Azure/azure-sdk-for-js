@@ -56,7 +56,7 @@ node sendBufferedEvents.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env EVENTHUB_FQDN="<eventhub fqns>" EVENTHUB_NAME="<eventhub name>" node sendBufferedEvents.js
+npx dev-tool run vendored cross-env EVENTHUB_FQDN="<eventhub fqdn>" EVENTHUB_NAME="<eventhub name>" node sendBufferedEvents.js
 ```
 
 ## Next Steps
@@ -71,7 +71,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [iothubconnectionstringwebsockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/iothubConnectionStringWebsockets.js
 [usewithiothub]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/useWithIotHub.js
 [websockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/websockets.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/event-hubs
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureeventhub]: https://docs.microsoft.com/azure/event-hubs/event-hubs-create
+[createinstance_azureeventhub]: https://learn.microsoft.com/azure/event-hubs/event-hubs-create
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/README.md

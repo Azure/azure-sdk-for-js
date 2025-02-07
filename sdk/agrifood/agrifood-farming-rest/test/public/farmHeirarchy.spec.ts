@@ -1,22 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   FarmBeatsClient,
-  getLongRunningPoller,
   SatelliteDataIngestionJobOutput,
   SceneListResponseOutput,
-  isUnexpected,
-} from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
-
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { isNode } from "@azure/core-util";
+} from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const startDateTime = new Date("2020-02-01T08:00:00.000Z");
 const endDateTime = new Date("2020-03-02T08:00:00.000Z");
-const suffix = isNode ? "node" : "browser";
+const suffix = isNodeLike ? "node" : "browser";
 const partyId = `${suffix}-contoso-party`;
 const boundaryId = `${suffix}-contoso-boundary`;
 const testparty = {
@@ -31,13 +28,13 @@ describe("party Operations", () => {
   let recorder: Recorder;
   let client: FarmBeatsClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
     jobId = recorder.variable("jobId", `${suffix}-job-${Math.ceil(Math.random() * 1000)}`);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

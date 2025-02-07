@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnConnectionsStartPacketCaptureParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts packet capture on Vpn connection in the specified resource group.
@@ -29,9 +24,9 @@ async function startPacketCaptureOnVpnConnectionWithFilter() {
     body: {
       filterData:
         "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}",
-      linkConnectionNames: ["siteLink1", "siteLink2"]
+      linkConnectionNames: ["siteLink1", "siteLink2"],
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -39,7 +34,7 @@ async function startPacketCaptureOnVpnConnectionWithFilter() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      vpnConnectionName
+      vpnConnectionName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -63,7 +58,7 @@ async function startPacketCaptureOnVpnConnectionWithoutFilter() {
   const vpnConnectionName = "vpnConnection1";
   const options: VpnConnectionsStartPacketCaptureParameters = {
     body: { linkConnectionNames: ["siteLink1", "siteLink2"] },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -71,7 +66,7 @@ async function startPacketCaptureOnVpnConnectionWithoutFilter() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      vpnConnectionName
+      vpnConnectionName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -10,14 +10,12 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert, use } from "chai";
-import { Context } from "mocha";
-import { ContainerAppsAPIClient } from "../src/containerAppsAPIClient";
-import { ContainerApp, ManagedEnvironment } from "../src/models";
+import { ContainerAppsAPIClient } from "../src/containerAppsAPIClient.js";
+import { ContainerApp, ManagedEnvironment } from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
@@ -46,14 +44,14 @@ describe("AppContainer test", () => {
   let containerAppEnvelope: ContainerApp;
   let environmentName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ContainerAppsAPIClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "westus";
     resourceGroup = "myjstest";
     containerAppName = "mycontainerappxxx";
     environmentName = "testcontainerenv12";
@@ -73,7 +71,7 @@ describe("AppContainer test", () => {
 
   it("managedEnvironments create test", async function () {
     environmentEnvelope = {
-      location: "East US",
+      location,
       zoneRedundant: false
     };
     const res = await client.managedEnvironments.beginCreateOrUpdateAndWait(
@@ -111,10 +109,11 @@ describe("AppContainer test", () => {
       resourceGroup,
       containerAppName
     );
+    console.log(res);
   });
 
   it("containerapp delete test", async function () {
-    const res = await client.containerApps.beginDeleteAndWait(resourceGroup, containerAppName, testPollingOptions);
+    await client.containerApps.beginDeleteAndWait(resourceGroup, containerAppName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.containerApps.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -123,7 +122,7 @@ describe("AppContainer test", () => {
   })
 
   it("managedEnvironments delete test", async function () {
-    const res = await client.managedEnvironments.beginDeleteAndWait(resourceGroup, environmentName, testPollingOptions);
+    await client.managedEnvironments.beginDeleteAndWait(resourceGroup, environmentName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.managedEnvironments.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

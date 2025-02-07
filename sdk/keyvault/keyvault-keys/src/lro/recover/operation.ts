@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-client";
-import { KeyVaultClient } from "../../generated/keyVaultClient.js";
-import { GetKeyOptions, KeyVaultKey, RecoverDeletedKeyOptions } from "../../keysModels.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import type { GetKeyOptions, KeyVaultKey, RecoverDeletedKeyOptions } from "../../keysModels.js";
 import { tracingClient } from "../../tracing.js";
 import { getKeyFromKeyBundle } from "../../transformations.js";
-import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller.js";
+import type { KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller.js";
+import { KeyVaultKeyPollOperation } from "../keyVaultKeyPoller.js";
 
 /**
  * An interface representing the state of a delete key's poll operation
@@ -21,7 +22,6 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
 > {
   constructor(
     public state: RecoverDeletedKeyPollOperationState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
     private operationOptions: OperationOptions = {},
   ) {
@@ -38,7 +38,6 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
       options,
       async (updatedOptions) => {
         const response = await this.client.getKey(
-          this.vaultUrl,
           name,
           updatedOptions?.version || "",
           updatedOptions,
@@ -60,7 +59,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
       "RecoverDeletedKeyPoller.recoverDeleteKey",
       options,
       async (updatedOptions) => {
-        const response = await this.client.recoverDeletedKey(this.vaultUrl, name, updatedOptions);
+        const response = await this.client.recoverDeletedKey(name, updatedOptions);
         return getKeyFromKeyBundle(response);
       },
     );

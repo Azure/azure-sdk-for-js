@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DeserializeOptions,
   JsonSchemaSerializerOptions,
   MessageAdapter,
   MessageContent,
-} from "./models";
-import { KnownSchemaFormats, SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
-import { isMessageContent } from "./utility";
-import { errorWithCause, wrapError } from "./errors";
+} from "./models.js";
+import type { SchemaDescription, SchemaRegistry } from "@azure/schema-registry";
+import { KnownSchemaFormats } from "@azure/schema-registry";
+import { isMessageContent } from "./utility.js";
+import { errorWithCause, wrapError } from "./errors.js";
 import { LRUCache } from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 
 const jsonMimeType = "application/json";
 const encoder = new TextEncoder();

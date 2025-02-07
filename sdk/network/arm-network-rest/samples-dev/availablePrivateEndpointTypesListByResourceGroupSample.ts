@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  AvailablePrivateEndpointTypesListByResourceGroupParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { AvailablePrivateEndpointTypesListByResourceGroupParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.

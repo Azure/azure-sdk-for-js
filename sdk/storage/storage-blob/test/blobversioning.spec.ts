@@ -13,16 +13,16 @@ import {
   uriSanitizers,
 } from "./utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import {
+import type {
   ContainerClient,
   BlobServiceClient,
   BlobClient,
   BlockBlobClient,
   BlockBlobUploadResponse,
-  BlobBatch,
 } from "../src";
+import { BlobBatch } from "../src";
 import { setURLParameter } from "../src/utils/utils.common";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Blob versioning", () => {
   let blobServiceClient: BlobServiceClient;

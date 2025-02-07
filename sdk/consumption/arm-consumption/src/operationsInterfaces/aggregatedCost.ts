@@ -11,7 +11,7 @@ import {
   AggregatedCostGetByManagementGroupResponse,
   AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams,
   AggregatedCostGetForBillingPeriodByManagementGroupResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AggregatedCost. */
 export interface AggregatedCost {

@@ -200,7 +200,7 @@ node apiPortalCustomDomainsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPPLATFORM_SUBSCRIPTION_ID="<appplatform subscription id>" APPPLATFORM_RESOURCE_GROUP="<appplatform resource group>" node apiPortalCustomDomainsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env APPPLATFORM_SUBSCRIPTION_ID="<appplatform subscription id>" APPPLATFORM_RESOURCE_GROUP="<appplatform resource group>" node apiPortalCustomDomainsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -371,6 +371,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storagesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appplatform/arm-appplatform/samples/v3/javascript/storagesDeleteSample.js
 [storagesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appplatform/arm-appplatform/samples/v3/javascript/storagesGetSample.js
 [storageslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appplatform/arm-appplatform/samples/v3/javascript/storagesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appplatform?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appplatform?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appplatform/arm-appplatform/README.md

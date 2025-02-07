@@ -5,7 +5,7 @@
 
 import * as zlib from "zlib";
 import { promisify } from "util";
-import * as http from "http";
+import type * as http from "http";
 
 // currently support the following encoding types
 export enum contentEncodingMethod {

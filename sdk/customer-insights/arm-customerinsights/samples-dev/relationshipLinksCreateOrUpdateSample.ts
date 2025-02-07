@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  RelationshipLinkResourceFormat,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { RelationshipLinkResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -20,7 +16,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a relationship link or updates an existing relationship link within a hub.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/RelationshipLinksCreateOrUpdate.json
  */
-async function relationshipLinksCreateOrUpdate() {
+async function relationshipLinksCreateOrUpdate(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";
@@ -31,23 +27,20 @@ async function relationshipLinksCreateOrUpdate() {
     interactionType: "testInteraction4332",
     linkName: "Somelink",
     profilePropertyReferences: [
-      { interactionPropertyName: "profile1", profilePropertyName: "ProfileId" }
+      { interactionPropertyName: "profile1", profilePropertyName: "ProfileId" },
     ],
     relatedProfilePropertyReferences: [
-      { interactionPropertyName: "profile1", profilePropertyName: "ProfileId" }
+      { interactionPropertyName: "profile1", profilePropertyName: "ProfileId" },
     ],
-    relationshipName: "testProfile2326994"
+    relationshipName: "testProfile2326994",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.relationshipLinks.beginCreateOrUpdateAndWait(
     resourceGroupName,
     hubName,
     relationshipLinkName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

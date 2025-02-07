@@ -1,17 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert } from "vitest";
-import type { Client, PipelineResponse, Routes } from "@typespec/ts-http-runtime";
-import { AbortError, createTracingClient } from "@typespec/ts-http-runtime";
+/* eslint "@typescript-eslint/no-shadow": "off" */
+
+import { describe, it } from "vitest";
+import type {
+  HttpClient,
+  PipelinePhase,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+  AddPolicyOptions,
+  Client,
+} from "../src/index.js";
+import { AbortError } from "../src/index.js";
+
+interface GetOperationResult {}
+interface DetectFromUrl {}
+interface Routes {
+  /** Resource for '/operations/\{operationId\}' has methods for the following verbs: get */
+  (path: "/operations/{operationId}", operationId: string): GetOperationResult;
+  /** Resource for '/detect' has methods for the following verbs: post */
+  (path: "/detect"): DetectFromUrl;
+}
 
 describe("snippets", () => {
-  it("send_request", () => {
-    export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
+  it("ReadmeSampleSendRequest", () => {
+    type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
   });
 
-  it("http_request", () => {
-    export interface HttpClient {
+  it("ReadmeSampleHttpRequest", () => {
+    interface HttpClient {
       /**
        * The method that makes the request and returns a response.
        */
@@ -19,8 +39,8 @@ describe("snippets", () => {
     }
   });
 
-  it("pipeline_policy", () => {
-    export interface PipelinePolicy {
+  it("ReadmeSamplePipelinePolicy", () => {
+    interface PipelinePolicy {
       /**
        * The policy name. Must be a unique string in the pipeline.
        */
@@ -34,7 +54,7 @@ describe("snippets", () => {
     }
   });
 
-  it("custom_policy", () => {
+  it("ReadmeSampleCustomPolicy", () => {
     // @ts-ignore
     const customPolicy = {
       name: "My wonderful policy",
@@ -42,16 +62,17 @@ describe("snippets", () => {
         // Change the outgoing request by adding a new header
         request.headers.set("X-Cool-Header", 42);
         const result = await next(request);
-        if (response.status === 403) {
+        if (result.status === 403) {
           // Do something special if this policy sees Forbidden
         }
+        // @ts-preserve-whitespace
         return result;
       },
     };
   });
 
-  it("pipeline", () => {
-    export interface Pipeline {
+  it("ReadmeSamplePipeline", () => {
+    interface Pipeline {
       addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
       removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
       sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
@@ -60,8 +81,8 @@ describe("snippets", () => {
     }
   });
 
-  it("add_policy_options", () => {
-    export interface AddPolicyOptions {
+  it("ReadmeSampleAddPipelineOptions", () => {
+    interface AddPipelineOptions {
       beforePolicies?: string[];
       afterPolicies?: string[];
       afterPhase?: PipelinePhase;
@@ -69,48 +90,30 @@ describe("snippets", () => {
     }
   });
 
-  it("abort_error", () => {
+  it("ReadmeSampleAbortError", () => {
     async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
       if (options.abortSignal.aborted) {
         throw new AbortError();
       }
-
+      // @ts-preserve-whitespace
       // do async work
     }
-
+    // @ts-preserve-whitespace
     const controller = new AbortController();
     controller.abort();
+    // @ts-preserve-whitespace
     try {
       doAsyncWork({ abortSignal: controller.signal });
     } catch (e) {
-      if (e.name === "AbortError") {
+      if (e instanceof Error && e.name === "AbortError") {
         // handle abort error here.
       }
     }
   });
 
-  it("path_example", () => {
-    export type MyClient = Client & {
+  it("ReadmeSamplePathExample", () => {
+    type MyClient = Client & {
       path: Routes;
     };
-  });
-
-  it("with_span_example", () => {
-    const tracingClient = createTracingClient({
-      namespace: "test.namespace",
-      packageName: "test-package",
-      packageVersion: "1.0.0",
-    });
-
-    const options = {};
-
-    const myOperationResult = await tracingClient.withSpan(
-      "myClassName.myOperationName",
-      options,
-      (updatedOptions) => {
-        // Do something with the updated options.
-        return "myOperationResult";
-      },
-    );
   });
 });

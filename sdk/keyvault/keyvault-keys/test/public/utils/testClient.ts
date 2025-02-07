@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { testPollerProperties } from "./recorderUtils.js";
-import { KeyClient } from "../../../src/index.js";
+import type { KeyClient } from "../../../src/index.js";
 
 export interface TestClientInterface {
   client: KeyClient;

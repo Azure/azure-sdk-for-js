@@ -18,6 +18,6 @@ export interface Operations {
    * @param options The options parameters.
    */
   list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): PagedAsyncIterableIterator<Operation>;
 }

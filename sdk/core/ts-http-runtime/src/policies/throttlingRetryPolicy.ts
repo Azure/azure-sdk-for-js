@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PipelinePolicy } from "../pipeline.js";
+import type { PipelinePolicy } from "../pipeline.js";
 import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy.js";
 import { retryPolicy } from "./retryPolicy.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
@@ -25,9 +25,9 @@ export interface ThrottlingRetryPolicyOptions {
  * A policy that retries when the server sends a 429 response with a Retry-After header.
  *
  * To learn more, please refer to
- * https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-request-limits,
- * https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits and
- * https://docs.microsoft.com/en-us/azure/virtual-machines/troubleshooting/troubleshooting-throttling-errors
+ * https://learn.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-request-limits,
+ * https://learn.microsoft.com/en-us/azure/azure-subscription-service-limits and
+ * https://learn.microsoft.com/en-us/azure/virtual-machines/troubleshooting/troubleshooting-throttling-errors
  *
  * @param options - Options that configure retry logic.
  */

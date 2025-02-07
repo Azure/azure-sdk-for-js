@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/** The type of included properties of the output context. */
+export type OnYourDataContextProperty = "citations" | "intent" | "all_retrieved_documents";
+
 /**
  * A specific representation of configurable options for Azure Search when using it as an Azure OpenAI chat
  * extension.
@@ -25,15 +28,30 @@ export interface AzureSearchChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication?: OnYourDataAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataApiKeyAuthenticationOptions
+    | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions
+    | OnYourDataUserAssignedManagedIdentityAuthenticationOptions
+    | OnYourDataAccessTokenAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
   in_scope?: boolean;
   /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
   strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
+  /**
+   * The max number of rewritten queries should be send to search provider for one user message. If not specified,
+   * the system will decide the number of queries to send.
+   */
+  max_search_queries?: number;
+  /**
+   * If specified as true, the system will allow partial search results to be used and the request fails if all the queries fail.
+   * If not specified, or specified as false, the request will fail if any search query fails.
+   */
+  allow_partial_result?: boolean;
+  /** The included properties of the output context. If not specified, the default value is `citations` and `intent`. */
+  include_contexts?: OnYourDataContextProperty[];
   /** The absolute endpoint path for the Azure Cognitive Search resource to use. */
   endpoint: string;
   /** The name of the index to use as available in the referenced Azure Cognitive Search resource. */
@@ -96,15 +114,28 @@ export interface ElasticsearchChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication?: OnYourDataAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataKeyAndKeyIdAuthenticationOptions
+    | OnYourDataEncodedApiKeyAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
   in_scope?: boolean;
   /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
   strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
+  /**
+   * The max number of rewritten queries should be send to search provider for one user message. If not specified,
+   * the system will decide the number of queries to send.
+   */
+  max_search_queries?: number;
+  /**
+   * If specified as true, the system will allow partial search results to be used and the request fails if all the queries fail.
+   * If not specified, or specified as false, the request will fail if any search query fails.
+   */
+  allow_partial_result?: boolean;
+  /** The included properties of the output context. If not specified, the default value is `citations` and `intent`. */
+  include_contexts?: OnYourDataContextProperty[];
   /** The endpoint of Elasticsearch®. */
   endpoint: string;
   /** The index name of Elasticsearch®. */
@@ -173,15 +204,27 @@ export interface AzureCosmosDBChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication?: OnYourDataAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataConnectionStringAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
   in_scope?: boolean;
   /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
   strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
+  /**
+   * The max number of rewritten queries should be send to search provider for one user message. If not specified,
+   * the system will decide the number of queries to send.
+   */
+  max_search_queries?: number;
+  /**
+   * If specified as true, the system will allow partial search results to be used and the request fails if all the queries fail.
+   * If not specified, or specified as false, the request will fail if any search query fails.
+   */
+  allow_partial_result?: boolean;
+  /** The included properties of the output context. If not specified, the default value is `citations` and `intent`. */
+  include_contexts?: OnYourDataContextProperty[];
   /** The MongoDB vCore database name to use with Azure Cosmos DB. */
   database_name: string;
   /** The name of the Azure Cosmos DB resource container. */
@@ -240,10 +283,12 @@ export interface OnYourDataConnectionStringAuthenticationOptions
  */
 export interface OnYourDataDeploymentNameVectorizationSource
   extends OnYourDataVectorizationSourceParent {
-  /** The type of vectorization source to use. Always 'DeploymentName' for this type. */
+  /** The type of vectorization source to use. Always 'deployment_name' for this type. */
   type: "deployment_name";
   /** The embedding model deployment name within the same Azure OpenAI resource. This enables you to use vector search without Azure OpenAI api-key and without Azure OpenAI public network access. */
   deployment_name: string;
+  /** The number of dimensions the embeddings should have. Only supported in `text-embedding-3` and later models. */
+  dimensions?: number;
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using an Elasticsearch encoded API key. */
@@ -256,16 +301,32 @@ export interface OnYourDataEncodedApiKeyAuthenticationOptions
 }
 
 /**
+ * The authentication options for Azure OpenAI On Your Data when using a username and password.
+ */
+export interface OnYourDataUsernameAndPasswordAuthenticationOptions
+  extends OnYourDataAuthenticationOptionsParent {
+  /** The discriminator type for username and password. */
+  type: "username_and_password";
+  /** The username. */
+  username: string;
+  /** The password. */
+  password: string;
+}
+
+/**
  * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
  * on a public Azure OpenAI endpoint call for embeddings.
  */
 export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectorizationSourceParent {
-  /** The type of vectorization source to use. Always 'Endpoint' for this type. */
+  /** The type of vectorization source to use. Always 'endpoint' for this type. */
   type: "endpoint";
   /** Specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings. The api-version query parameter is not allowed. */
   endpoint: string;
   /** Specifies the authentication options to use when retrieving embeddings from the specified endpoint. */
-  authentication: OnYourDataAuthenticationOptions;
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataVectorSearchApiKeyAuthenticationOptions
+    | OnYourDataVectorSearchAccessTokenAuthenticationOptions;
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using an Elasticsearch key and key ID pair. */
@@ -313,56 +374,13 @@ export interface OnYourDataVectorizationSourceParent {
 }
 
 /**
- *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
- *   completions request that should use Azure OpenAI chat extensions to augment the response behavior.
- *   The use of this configuration is compatible only with Azure OpenAI.
+ * A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
+ * completions request that should use Azure OpenAI chat extensions to augment the response behavior.
+ * The use of this configuration is compatible only with Azure OpenAI.
  */
 export interface AzureChatExtensionConfigurationParent {
   /** The type label. */
   type: string;
-}
-
-/**
- * A specific representation of configurable options for Azure Machine Learning vector index when using it as an Azure
- * OpenAI chat extension.
- */
-export interface AzureMachineLearningIndexChatExtensionConfiguration
-  extends AzureChatExtensionConfigurationParent {
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Azure Machine Learning vector index.
-   */
-  type: "azure_ml_index";
-  /** The parameters for the Azure Machine Learning vector index chat extension. */
-  parameters: AzureMachineLearningIndexChatExtensionParameters;
-}
-
-/** Parameters for the Azure Machine Learning vector index chat extension. The supported authentication types are AccessToken, SystemAssignedManagedIdentity and UserAssignedManagedIdentity. */
-export interface AzureMachineLearningIndexChatExtensionParameters {
-  /**
-   * The authentication method to use when accessing the defined data source.
-   * Each data source type supports a specific set of available authentication methods; please see the documentation of
-   * the data source for supported mechanisms.
-   * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
-   * authentication.
-   */
-  authentication?: OnYourDataAuthenticationOptions;
-  /** The configured top number of documents to feature for the configured query. */
-  top_n_documents?: number;
-  /** Whether queries should be restricted to use of indexed data. */
-  in_scope?: boolean;
-  /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
-  strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
-  /** The resource ID of the Azure Machine Learning project. */
-  project_resource_id: string;
-  /** The Azure Machine Learning vector index name. */
-  name: string;
-  /** The version of the Azure Machine Learning vector index. */
-  version: string;
-  /** Search filter. Only supported if the Azure Machine Learning vector index is of type AzureSearch. */
-  filter?: string;
 }
 
 /**
@@ -374,7 +392,7 @@ export interface PineconeChatExtensionConfiguration extends AzureChatExtensionCo
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Pinecone.
    */
-  type: "Pinecone";
+  type: "pinecone";
   /** The parameters to use when configuring Azure OpenAI chat extensions. */
   parameters: PineconeChatExtensionParameters;
 }
@@ -388,15 +406,25 @@ export interface PineconeChatExtensionParameters {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication?: OnYourDataAuthenticationOptions;
+  authentication: OnYourDataAuthenticationOptionsParent | OnYourDataApiKeyAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
   in_scope?: boolean;
   /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
   strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
+  /**
+   * The max number of rewritten queries should be send to search provider for one user message. If not specified,
+   * the system will decide the number of queries to send.
+   */
+  max_search_queries?: number;
+  /**
+   * If specified as true, the system will allow partial search results to be used and the request fails if all the queries fail.
+   * If not specified, or specified as false, the request will fail if any search query fails.
+   */
+  allow_partial_result?: boolean;
+  /** The included properties of the output context. If not specified, the default value is `citations` and `intent`. */
+  include_contexts?: OnYourDataContextProperty[];
   /** The environment name of Pinecone. */
   environment: string;
   /** The name of the Pinecone database index. */
@@ -421,23 +449,126 @@ export interface PineconeFieldMappingOptions {
   content_fields_separator?: string;
 }
 
-/** A representation of the available Azure OpenAI enhancement configurations. */
-export interface AzureChatEnhancementConfiguration {
-  /** A representation of the available options for the Azure OpenAI grounding enhancement. */
-  grounding?: AzureChatGroundingEnhancementConfiguration;
-  /** A representation of the available options for the Azure OpenAI optical character recognition (OCR) enhancement. */
-  ocr?: AzureChatOCREnhancementConfiguration;
-}
-/** A representation of the available options for the Azure OpenAI grounding enhancement. */
-export interface AzureChatGroundingEnhancementConfiguration {
-  /** Specifies whether the enhancement is enabled. */
-  enabled: boolean;
+/**
+ * A specific representation of configurable options for Mongo DB when using it as an Azure OpenAI chat
+ * extension.
+ */
+export interface MongoDBChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
+  /**
+   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
+   * default value for Azure Cosmos DB.
+   */
+  type: "mongo_db";
+  /** The parameters to use when configuring Azure OpenAI CosmosDB chat extensions. */
+  parameters: MongoDBChatExtensionParameters;
 }
 
-/** A representation of the available options for the Azure OpenAI optical character recognition (OCR) enhancement. */
-export interface AzureChatOCREnhancementConfiguration {
-  /** Specifies whether the enhancement is enabled. */
-  enabled: boolean;
+/**
+ * Parameters to use when configuring Azure OpenAI On Your Data chat extensions when using Mongo DB.
+ * The supported authentication type is ConnectionString.
+ */
+export interface MongoDBChatExtensionParameters {
+  /**
+   * The authentication method to use when accessing the defined data source.
+   * Each data source type supports a specific set of available authentication methods; please see the documentation of
+   * the data source for supported mechanisms.
+   * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
+   * authentication.
+   */
+  authentication:
+    | OnYourDataAuthenticationOptionsParent
+    | OnYourDataUsernameAndPasswordAuthenticationOptions;
+  /** The configured top number of documents to feature for the configured query. */
+  top_n_documents?: number;
+  /** Whether queries should be restricted to use of indexed data. */
+  in_scope?: boolean;
+  /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
+  strictness?: number;
+  /**
+   * The max number of rewritten queries should be send to search provider for one user message. If not specified,
+   * the system will decide the number of queries to send.
+   */
+  max_search_queries?: number;
+  /**
+   * If specified as true, the system will allow partial search results to be used and the request fails if all the queries fail.
+   * If not specified, or specified as false, the request will fail if any search query fails.
+   */
+  allow_partial_result?: boolean;
+  /** The included properties of the output context. If not specified, the default value is `citations` and `intent`. */
+  include_contexts?: OnYourDataContextProperty[];
+  /** The endpoint name for MongoDB. */
+  endpoint: string;
+  /** The collection name for MongoDB. */
+  collection_name: string;
+  /** The database name for MongoDB. */
+  database_name: string;
+  /** The app name for MongoDB. */
+  app_name: string;
+  /** The name of the MongoDB index. */
+  index_name: string;
+  /** Customized field mapping behavior to use when interacting with the search index. */
+  fields_mapping: MongoDBFieldMappingOptions;
+  /** The embedding dependency for vector search. */
+  embedding_dependency:
+    | OnYourDataEndpointVectorizationSource
+    | OnYourDataDeploymentNameVectorizationSource;
+}
+
+/** Optional settings to control how fields are processed when using a configured MongoDB resource. */
+export interface MongoDBFieldMappingOptions {
+  /** The name of the index field to use as a title. */
+  title_field?: string;
+  /** The name of the index field to use as a URL. */
+  url_field?: string;
+  /** The name of the index field to use as a filepath. */
+  filepath_field?: string;
+  /** The names of index fields that should be treated as content. */
+  content_fields: string[];
+  /** The separator pattern that content fields should use. */
+  content_fields_separator?: string;
+  /** The names of fields that represent vector data. */
+  vector_fields: string[];
+}
+
+/**
+ * The authentication options for Azure OpenAI On Your Data vector search.
+ */
+export interface OnYourDataVectorSearchAuthenticationOptions {
+  /** The type of authentication to use. */
+  type: string;
+}
+
+/**
+ * The authentication options for Azure OpenAI On Your Data vector search when using an API key.
+ */
+export interface OnYourDataVectorSearchApiKeyAuthenticationOptions
+  extends OnYourDataVectorSearchAuthenticationOptions {
+  /** The authentication type of API key. */
+  type: "api_key";
+
+  /** The API key to use for authentication. */
+  key: string;
+}
+
+/**
+ * The authentication options for Azure OpenAI On Your Data vector search when using access token.
+ */
+export interface OnYourDataVectorSearchAccessTokenAuthenticationOptions
+  extends OnYourDataVectorSearchAuthenticationOptions {
+  /** The authentication type of access token. */
+  type: "access_token";
+
+  /** The access token to use for authentication. */
+  access_token: string;
+}
+
+/**
+ * Represents the integrated vectorizer defined within the search resource.
+ */
+export interface OnYourDataIntegratedVectorizationSource
+  extends OnYourDataVectorizationSourceParent {
+  /** The type discriminator. Always 'integrated'. */
+  type: "integrated";
 }
 
 /** The authentication options for Azure OpenAI On Your Data. */
@@ -456,17 +587,18 @@ export type OnYourDataVectorizationSource =
   | OnYourDataVectorizationSourceParent
   | OnYourDataEndpointVectorizationSource
   | OnYourDataDeploymentNameVectorizationSource
-  | OnYourDataModelIdVectorizationSource;
+  | OnYourDataModelIdVectorizationSource
+  | OnYourDataIntegratedVectorizationSource;
 
 /**
- *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
- *   completions request that should use Azure OpenAI chat extensions to augment the response behavior.
- *   The use of this configuration is compatible only with Azure OpenAI.
+ * A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
+ * completions request that should use Azure OpenAI chat extensions to augment the response behavior.
+ * The use of this configuration is compatible only with Azure OpenAI.
  */
 export type AzureChatExtensionConfiguration =
   | AzureChatExtensionConfigurationParent
   | AzureSearchChatExtensionConfiguration
-  | AzureMachineLearningIndexChatExtensionConfiguration
   | AzureCosmosDBChatExtensionConfiguration
   | ElasticsearchChatExtensionConfiguration
-  | PineconeChatExtensionConfiguration;
+  | PineconeChatExtensionConfiguration
+  | MongoDBChatExtensionConfiguration;

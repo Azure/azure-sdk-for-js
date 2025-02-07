@@ -9,8 +9,8 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { RequestParameters } from "@azure-rest/core-client";
-import { CreateWidget, UpdateWidget } from "./models.js";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { CreateWidget, UpdateWidget } from "./models.js";
 
 export type ListWidgetsParameters = RequestParameters;
 export type GetWidgetParameters = RequestParameters;

@@ -8,11 +8,11 @@
  * @azsdk-weight 40
  */
 
-import { ConversationalTask, ConversationAnalysisClient } from "@azure/ai-language-conversations";
+import type { ConversationalTask } from "@azure/ai-language-conversations";
+import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
 // To use an API Key, import `AzureKeyCredential`
 import { AzureKeyCredential } from "@azure/core-auth";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 // You will need to set these environment variables or edit the following values
 const projectName = process.env.AZURE_CONVERSATIONS_PROJECT_NAME || "<project-name>";
@@ -33,7 +33,7 @@ const body: ConversationalTask = {
   },
 };
 
-async function sample_authentication_api_key() {
+async function main(): Promise<void> {
   console.log("\n.. authentication_with_api_key");
   // You will need to set these environment variables or edit the following values
   const endpoint =
@@ -45,8 +45,6 @@ async function sample_authentication_api_key() {
   console.log("top intent: ", result.prediction.topIntent);
 }
 
-function main() {
-  sample_authentication_api_key();
-}
-
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

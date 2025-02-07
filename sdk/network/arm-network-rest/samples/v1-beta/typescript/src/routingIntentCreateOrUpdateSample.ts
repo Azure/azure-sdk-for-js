@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   RoutingIntentCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
@@ -33,18 +28,18 @@ async function routeTablePut() {
             name: "InternetTraffic",
             destinations: ["Internet"],
             nextHop:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"
+              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1",
           },
           {
             name: "PrivateTrafficPolicy",
             destinations: ["PrivateTraffic"],
             nextHop:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"
-          }
-        ]
-      }
+              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1",
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -52,7 +47,7 @@ async function routeTablePut() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routingIntentName
+      routingIntentName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

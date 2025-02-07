@@ -1,21 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
-import * as os from "os";
-import * as path from "path";
+import { tmpdir } from "node:os";
+import { basename, join } from "node:path";
 import { diag } from "@opentelemetry/api";
-import { PersistentStorage } from "../../../types";
-import { FileAccessControl } from "./fileAccessControl";
-import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers";
-import { promisify } from "util";
-import { AzureMonitorExporterOptions } from "../../../config";
-
-const statAsync = promisify(fs.stat);
-const readdirAsync = promisify(fs.readdir);
-const readFileAsync = promisify(fs.readFile);
-const unlinkAsync = promisify(fs.unlink);
-const writeFileAsync = promisify(fs.writeFile);
+import type { PersistentStorage } from "../../../types.js";
+import { FileAccessControl } from "./fileAccessControl.js";
+import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers.js";
+import type { AzureMonitorExporterOptions } from "../../../config.js";
+import { readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
 
 /**
  * File system persist class.
@@ -60,8 +53,8 @@ export class FileSystemPersist implements PersistentStorage {
       );
     }
     if (this._enabled) {
-      this._tempDirectory = path.join(
-        this._options?.storageDirectory || os.tmpdir(),
+      this._tempDirectory = join(
+        this._options?.storageDirectory || tmpdir(),
         "Microsoft",
         "AzureMonitor",
         FileSystemPersist.TEMPDIR_PREFIX + this._instrumentationKey,
@@ -117,20 +110,20 @@ export class FileSystemPersist implements PersistentStorage {
    */
   private async _getFirstFileOnDisk(): Promise<Buffer | null> {
     try {
-      const stats = await statAsync(this._tempDirectory);
+      const stats = await stat(this._tempDirectory);
       if (stats.isDirectory()) {
-        const origFiles = await readdirAsync(this._tempDirectory);
+        const origFiles = await readdir(this._tempDirectory);
         const files = origFiles.filter((f) =>
-          path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
+          basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
         );
         if (files.length === 0) {
           return null;
         } else {
           const firstFile = files[0];
-          const filePath = path.join(this._tempDirectory, firstFile);
-          const payload = await readFileAsync(filePath);
+          const filePath = join(this._tempDirectory, firstFile);
+          const payload = await readFile(filePath);
           // delete the file first to prevent double sending
-          await unlinkAsync(filePath);
+          await unlink(filePath);
           return payload;
         }
       }
@@ -167,12 +160,12 @@ export class FileSystemPersist implements PersistentStorage {
     }
 
     const fileName = `${new Date().getTime()}${FileSystemPersist.FILENAME_SUFFIX}`;
-    const fileFullPath = path.join(this._tempDirectory, fileName);
+    const fileFullPath = join(this._tempDirectory, fileName);
 
     // Mode 600 is w/r for creator and no read access for others
     diag.info(`saving data to disk at: ${fileFullPath}`);
     try {
-      await writeFileAsync(fileFullPath, payload, { mode: 0o600 });
+      await writeFile(fileFullPath, payload, { mode: 0o600 });
     } catch (writeError: any) {
       diag.warn(`Error writing file to persistent file storage`, writeError);
       return false;
@@ -182,16 +175,15 @@ export class FileSystemPersist implements PersistentStorage {
 
   private async _fileCleanupTask(): Promise<boolean> {
     try {
-      const stats = await statAsync(this._tempDirectory);
+      const stats = await stat(this._tempDirectory);
       if (stats.isDirectory()) {
-        const origFiles = await readdirAsync(this._tempDirectory);
+        const origFiles = await readdir(this._tempDirectory);
         const files = origFiles.filter((f) =>
-          path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
+          basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
         );
         if (files.length === 0) {
           return false;
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           files.forEach(async (file) => {
             // Check expiration
             const fileCreationDate: Date = new Date(
@@ -199,8 +191,8 @@ export class FileSystemPersist implements PersistentStorage {
             );
             const expired = new Date(+new Date() - this.fileRetemptionPeriod) > fileCreationDate;
             if (expired) {
-              const filePath = path.join(this._tempDirectory, file);
-              await unlinkAsync(filePath);
+              const filePath = join(this._tempDirectory, file);
+              await unlink(filePath);
             }
           });
           return true;

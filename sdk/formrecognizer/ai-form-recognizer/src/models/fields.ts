@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentSpan } from "..";
+import type { DocumentSpan } from "../index.js";
 
-import { AddressValue, CurrencyValue, DocumentField as GeneratedDocumentField } from "../generated";
-import { toBoundingRegions } from "../transforms/polygon";
-import { capitalize } from "../util";
-import { BoundingRegion } from "./documentElements";
+import type {
+  AddressValue,
+  CurrencyValue,
+  DocumentField as GeneratedDocumentField,
+} from "../generated/index.js";
+import { toBoundingRegions } from "../transforms/polygon.js";
+import { capitalize } from "../util.js";
+import type { BoundingRegion } from "./documentElements.js";
 
 /**
  * Fields that are common to all DocumentField variants.

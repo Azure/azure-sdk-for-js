@@ -2,16 +2,13 @@
 // Licensed under the MIT License.
 
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
-import {
-  HttpClient,
-  PipelineRequest,
-  PipelineResponse,
-  createHttpHeaders,
-} from "@azure/core-rest-pipeline";
-import * as RestModel from "../../../src/generated/src/models";
-import { ChatClient, ChatParticipant, ChatThreadClient } from "../../../src";
-import { CommunicationIdentifierModel } from "../../../src/generated/src";
-import { baseUri, generateToken } from "../../public/utils/connectionUtils";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type * as RestModel from "../../../src/generated/src/models/index.js";
+import type { ChatParticipant } from "../../../src/index.js";
+import { ChatClient, ChatThreadClient } from "../../../src/index.js";
+import type { CommunicationIdentifierModel } from "../../../src/generated/src/index.js";
+import { baseUri, generateToken } from "../../public/utils/connectionUtils.js";
 
 export const mockCommunicationIdentifier: CommunicationIdentifierModel = {
   communicationUser: { id: "id" },

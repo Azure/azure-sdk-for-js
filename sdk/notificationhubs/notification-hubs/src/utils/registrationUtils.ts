@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { RestError } from "@azure/core-rest-pipeline";
-import { RegistrationChannel } from "../models/registration.js";
+import type { RegistrationChannel } from "../models/registration.js";
 
 export function getFilterByChannel(device: RegistrationChannel): string {
   switch (device.kind) {

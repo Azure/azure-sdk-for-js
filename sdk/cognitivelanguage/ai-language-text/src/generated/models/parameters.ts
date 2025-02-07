@@ -14,7 +14,7 @@ import {
 import {
   AnalyzeAction as AnalyzeActionMapper,
   AnalyzeTextJobsInput as AnalyzeTextJobsInputMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DimensionsListOptionalParams,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { DimensionsListOptionalParams } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the dimensions by the defined scope.
@@ -23,12 +17,12 @@ dotenv.config();
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountDimensionsList.json
  */
-async function billingAccountDimensionsListLegacy() {
+async function billingAccountDimensionsListLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/100";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope)) {
+  for await (const item of client.dimensions.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -40,12 +34,12 @@ async function billingAccountDimensionsListLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingAccountDimensionsList.json
  */
-async function billingAccountDimensionsListMca() {
+async function billingAccountDimensionsListMca(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope)) {
+  for await (const item of client.dimensions.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -57,7 +51,7 @@ async function billingAccountDimensionsListMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountDimensionsListExpandAndTop.json
  */
-async function billingAccountDimensionsListExpandAndTopLegacy() {
+async function billingAccountDimensionsListExpandAndTopLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/100";
   const expand = "properties/data";
   const top = 5;
@@ -65,7 +59,7 @@ async function billingAccountDimensionsListExpandAndTopLegacy() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -77,7 +71,7 @@ async function billingAccountDimensionsListExpandAndTopLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingAccountDimensionsListExpandAndTop.json
  */
-async function billingAccountDimensionsListExpandAndTopMca() {
+async function billingAccountDimensionsListExpandAndTopMca(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789";
   const expand = "properties/data";
   const top = 5;
@@ -85,7 +79,7 @@ async function billingAccountDimensionsListExpandAndTopMca() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -97,7 +91,7 @@ async function billingAccountDimensionsListExpandAndTopMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BillingAccountDimensionsListWithFilter.json
  */
-async function billingAccountDimensionsListWithFilterLegacy() {
+async function billingAccountDimensionsListWithFilterLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/100";
   const filter = "properties/category eq 'resourceId'";
   const expand = "properties/data";
@@ -106,7 +100,7 @@ async function billingAccountDimensionsListWithFilterLegacy() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -118,7 +112,7 @@ async function billingAccountDimensionsListWithFilterLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingAccountDimensionsListWithFilter.json
  */
-async function billingAccountDimensionsListWithFilterMca() {
+async function billingAccountDimensionsListWithFilterMca(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789";
   const filter = "properties/category eq 'resourceId'";
   const expand = "properties/data";
@@ -127,7 +121,7 @@ async function billingAccountDimensionsListWithFilterMca() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -139,13 +133,12 @@ async function billingAccountDimensionsListWithFilterMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingProfileDimensionsList.json
  */
-async function billingProfileDimensionsListMca() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
+async function billingProfileDimensionsListMca(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope)) {
+  for await (const item of client.dimensions.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -157,16 +150,15 @@ async function billingProfileDimensionsListMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingProfileDimensionsListExpandAndTop.json
  */
-async function billingProfileDimensionsListExpandAndTopMca() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
+async function billingProfileDimensionsListExpandAndTopMca(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const expand = "properties/data";
   const top = 5;
   const options: DimensionsListOptionalParams = { expand, top };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -178,9 +170,8 @@ async function billingProfileDimensionsListExpandAndTopMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCABillingProfileDimensionsListWithFilter.json
  */
-async function billingProfileDimensionsListWithFilterMca() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
+async function billingProfileDimensionsListWithFilterMca(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579";
   const filter = "properties/category eq 'resourceId'";
   const expand = "properties/data";
   const top = 5;
@@ -188,7 +179,7 @@ async function billingProfileDimensionsListWithFilterMca() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -200,13 +191,12 @@ async function billingProfileDimensionsListWithFilterMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCACustomerDimensionsList.json
  */
-async function customerDimensionsListMca() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
+async function customerDimensionsListMca(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope)) {
+  for await (const item of client.dimensions.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -218,16 +208,15 @@ async function customerDimensionsListMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCACustomerDimensionsListExpandAndTop.json
  */
-async function customerDimensionsListExpandAndTopMca() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
+async function customerDimensionsListExpandAndTopMca(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
   const expand = "properties/data";
   const top = 5;
   const options: DimensionsListOptionalParams = { expand, top };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -239,9 +228,8 @@ async function customerDimensionsListExpandAndTopMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCACustomerDimensionsListWithFilter.json
  */
-async function customerDimensionsListWithFilterMca() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
+async function customerDimensionsListWithFilterMca(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/5678";
   const filter = "properties/category eq 'resourceId'";
   const expand = "properties/data";
   const top = 5;
@@ -249,7 +237,7 @@ async function customerDimensionsListWithFilterMca() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -261,13 +249,12 @@ async function customerDimensionsListWithFilterMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DepartmentDimensionsList.json
  */
-async function departmentDimensionsListLegacy() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/departments/123";
+async function departmentDimensionsListLegacy(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/departments/123";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope)) {
+  for await (const item of client.dimensions.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -279,16 +266,15 @@ async function departmentDimensionsListLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DepartmentDimensionsListExpandAndTop.json
  */
-async function departmentDimensionsListExpandAndTopLegacy() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/departments/123";
+async function departmentDimensionsListExpandAndTopLegacy(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/departments/123";
   const expand = "properties/data";
   const top = 5;
   const options: DimensionsListOptionalParams = { expand, top };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -300,9 +286,8 @@ async function departmentDimensionsListExpandAndTopLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/DepartmentDimensionsListWithFilter.json
  */
-async function departmentDimensionsListWithFilterLegacy() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/departments/123";
+async function departmentDimensionsListWithFilterLegacy(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/departments/123";
   const filter = "properties/category eq 'resourceId'";
   const expand = "properties/data";
   const top = 5;
@@ -310,7 +295,7 @@ async function departmentDimensionsListWithFilterLegacy() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -322,13 +307,12 @@ async function departmentDimensionsListWithFilterLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/EnrollmentAccountDimensionsList.json
  */
-async function enrollmentAccountDimensionsListLegacy() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
+async function enrollmentAccountDimensionsListLegacy(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope)) {
+  for await (const item of client.dimensions.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -340,16 +324,15 @@ async function enrollmentAccountDimensionsListLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/EnrollmentAccountDimensionsListExpandAndTop.json
  */
-async function enrollmentAccountDimensionsListExpandAndTopLegacy() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
+async function enrollmentAccountDimensionsListExpandAndTopLegacy(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const expand = "properties/data";
   const top = 5;
   const options: DimensionsListOptionalParams = { expand, top };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -361,9 +344,8 @@ async function enrollmentAccountDimensionsListExpandAndTopLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/EnrollmentAccountDimensionsListWithFilter.json
  */
-async function enrollmentAccountDimensionsListWithFilterLegacy() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
+async function enrollmentAccountDimensionsListWithFilterLegacy(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const filter = "properties/category eq 'resourceId'";
   const expand = "properties/data";
   const top = 5;
@@ -371,7 +353,7 @@ async function enrollmentAccountDimensionsListWithFilterLegacy() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -383,13 +365,13 @@ async function enrollmentAccountDimensionsListWithFilterLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCAInvoiceSectionDimensionsList.json
  */
-async function invoiceSectionDimensionsListMca() {
+async function invoiceSectionDimensionsListMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope)) {
+  for await (const item of client.dimensions.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -401,7 +383,7 @@ async function invoiceSectionDimensionsListMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCAInvoiceSectionDimensionsListExpandAndTop.json
  */
-async function invoiceSectionDimensionsListExpandAndTopMca() {
+async function invoiceSectionDimensionsListExpandAndTopMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876";
   const expand = "properties/data";
@@ -410,7 +392,7 @@ async function invoiceSectionDimensionsListExpandAndTopMca() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -422,7 +404,7 @@ async function invoiceSectionDimensionsListExpandAndTopMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/MCAInvoiceSectionDimensionsListWithFilter.json
  */
-async function invoiceSectionDimensionsListWithFilterMca() {
+async function invoiceSectionDimensionsListWithFilterMca(): Promise<void> {
   const scope =
     "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/invoiceSections/9876";
   const filter = "properties/category eq 'resourceId'";
@@ -432,7 +414,7 @@ async function invoiceSectionDimensionsListWithFilterMca() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -444,12 +426,12 @@ async function invoiceSectionDimensionsListWithFilterMca() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ManagementGroupDimensionsList.json
  */
-async function managementGroupDimensionsListLegacy() {
+async function managementGroupDimensionsListLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/MyMgId";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope)) {
+  for await (const item of client.dimensions.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -461,7 +443,7 @@ async function managementGroupDimensionsListLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ManagementGroupDimensionsListExpandAndTop.json
  */
-async function managementGroupDimensionsListExpandAndTopLegacy() {
+async function managementGroupDimensionsListExpandAndTopLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/MyMgId";
   const expand = "properties/data";
   const top = 5;
@@ -469,7 +451,7 @@ async function managementGroupDimensionsListExpandAndTopLegacy() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -481,7 +463,7 @@ async function managementGroupDimensionsListExpandAndTopLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ManagementGroupDimensionsListWithFilter.json
  */
-async function managementGroupDimensionsListWithFilterLegacy() {
+async function managementGroupDimensionsListWithFilterLegacy(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/MyMgId";
   const filter = "properties/category eq 'resourceId'";
   const expand = "properties/data";
@@ -490,7 +472,7 @@ async function managementGroupDimensionsListWithFilterLegacy() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -502,16 +484,15 @@ async function managementGroupDimensionsListWithFilterLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ResourceGroupDimensionsList.json
  */
-async function resourceGroupDimensionsListLegacy() {
-  const scope =
-    "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/system.orlando";
+async function resourceGroupDimensionsListLegacy(): Promise<void> {
+  const scope = "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/system.orlando";
   const expand = "properties/data";
   const top = 5;
   const options: DimensionsListOptionalParams = { expand, top };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -523,7 +504,7 @@ async function resourceGroupDimensionsListLegacy() {
  * @summary Lists the dimensions by the defined scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/SubscriptionDimensionsList.json
  */
-async function subscriptionDimensionsListLegacy() {
+async function subscriptionDimensionsListLegacy(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const expand = "properties/data";
   const top = 5;
@@ -531,39 +512,39 @@ async function subscriptionDimensionsListLegacy() {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.dimensions.list(scope, options)) {
+  for await (const item of client.dimensions.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  billingAccountDimensionsListLegacy();
-  billingAccountDimensionsListMca();
-  billingAccountDimensionsListExpandAndTopLegacy();
-  billingAccountDimensionsListExpandAndTopMca();
-  billingAccountDimensionsListWithFilterLegacy();
-  billingAccountDimensionsListWithFilterMca();
-  billingProfileDimensionsListMca();
-  billingProfileDimensionsListExpandAndTopMca();
-  billingProfileDimensionsListWithFilterMca();
-  customerDimensionsListMca();
-  customerDimensionsListExpandAndTopMca();
-  customerDimensionsListWithFilterMca();
-  departmentDimensionsListLegacy();
-  departmentDimensionsListExpandAndTopLegacy();
-  departmentDimensionsListWithFilterLegacy();
-  enrollmentAccountDimensionsListLegacy();
-  enrollmentAccountDimensionsListExpandAndTopLegacy();
-  enrollmentAccountDimensionsListWithFilterLegacy();
-  invoiceSectionDimensionsListMca();
-  invoiceSectionDimensionsListExpandAndTopMca();
-  invoiceSectionDimensionsListWithFilterMca();
-  managementGroupDimensionsListLegacy();
-  managementGroupDimensionsListExpandAndTopLegacy();
-  managementGroupDimensionsListWithFilterLegacy();
-  resourceGroupDimensionsListLegacy();
-  subscriptionDimensionsListLegacy();
+async function main(): Promise<void> {
+  await billingAccountDimensionsListLegacy();
+  await billingAccountDimensionsListMca();
+  await billingAccountDimensionsListExpandAndTopLegacy();
+  await billingAccountDimensionsListExpandAndTopMca();
+  await billingAccountDimensionsListWithFilterLegacy();
+  await billingAccountDimensionsListWithFilterMca();
+  await billingProfileDimensionsListMca();
+  await billingProfileDimensionsListExpandAndTopMca();
+  await billingProfileDimensionsListWithFilterMca();
+  await customerDimensionsListMca();
+  await customerDimensionsListExpandAndTopMca();
+  await customerDimensionsListWithFilterMca();
+  await departmentDimensionsListLegacy();
+  await departmentDimensionsListExpandAndTopLegacy();
+  await departmentDimensionsListWithFilterLegacy();
+  await enrollmentAccountDimensionsListLegacy();
+  await enrollmentAccountDimensionsListExpandAndTopLegacy();
+  await enrollmentAccountDimensionsListWithFilterLegacy();
+  await invoiceSectionDimensionsListMca();
+  await invoiceSectionDimensionsListExpandAndTopMca();
+  await invoiceSectionDimensionsListWithFilterMca();
+  await managementGroupDimensionsListLegacy();
+  await managementGroupDimensionsListExpandAndTopLegacy();
+  await managementGroupDimensionsListWithFilterLegacy();
+  await resourceGroupDimensionsListLegacy();
+  await subscriptionDimensionsListLegacy();
 }
 
 main().catch(console.error);

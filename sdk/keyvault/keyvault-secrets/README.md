@@ -1,7 +1,7 @@
 # Azure Key Vault Secret client library for JavaScript
 
 Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
-If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://docs.microsoft.com/azure/key-vault/key-vault-overview)
+If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?](https://learn.microsoft.com/azure/key-vault/key-vault-overview)
 
 Azure Key Vault Secrets management allows you to securely store and
 tightly control access to tokens, passwords, certificates, API keys,
@@ -23,7 +23,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets)
 - [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/keyvault-secrets)
 - [Product documentation](https://azure.microsoft.com/services/key-vault/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-secrets/samples)
 
@@ -36,7 +36,7 @@ Key links:
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Key Vault resource](https://docs.microsoft.com/azure/key-vault/quick-create-portal)
+- A [Key Vault resource](https://learn.microsoft.com/azure/key-vault/quick-create-portal)
 - An existing [Azure Key Vault][azure_keyvault]. If you need to create a key vault, you can do so in the Azure Portal by following the steps in [this document][azure_keyvault_portal]. Alternatively, you can use the Azure CLI by following the steps in [this document][azure_keyvault_cli].
 
 ### Install the package
@@ -74,7 +74,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   query.
 - **Soft delete** allows Key Vaults to support deletion and purging as two
   separate steps, so deleted secrets are not immediately lost. This only happens if the Key Vault
-  has [soft-delete](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
+  has [soft-delete](https://learn.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
   enabled.
 - A **Secret backup** can be generated from any created secret. These backups come as
   binary data, and can only be used to regenerate a previously deleted secret.
@@ -285,7 +285,7 @@ async function main() {
 main();
 ```
 
-If [soft-delete](https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
+If [soft-delete](https://learn.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)
 is enabled for the Key Vault, this operation will only label the secret as a
 _deleted_ secret. A deleted secret can't be updated. They can only be either
 read, recovered or purged.
@@ -499,11 +499,9 @@ You can find more code samples through the following links:
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-[azure_keyvault]: https://docs.microsoft.com/azure/key-vault/general/overview
-[azure_keyvault_cli]: https://docs.microsoft.com/azure/key-vault/general/quick-create-cli
-[azure_keyvault_portal]: https://docs.microsoft.com/azure/key-vault/general/quick-create-portal
+[azure_keyvault]: https://learn.microsoft.com/azure/key-vault/general/overview
+[azure_keyvault_cli]: https://learn.microsoft.com/azure/key-vault/general/quick-create-cli
+[azure_keyvault_portal]: https://learn.microsoft.com/azure/key-vault/general/quick-create-portal
 [default_azure_credential]: https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential?view=azure-node-latest
-[managed_identity]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
+[managed_identity]: https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-secrets%2FREADME.png)

@@ -586,17 +586,102 @@ export class NodeTypesImpl implements NodeTypes {
    * @param parameters The parameters to update the node type configuration.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    nodeTypeName: string,
+    parameters: NodeTypeUpdateParameters,
+    options?: NodeTypesUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NodeTypesUpdateResponse>,
+      NodeTypesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<NodeTypesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        nodeTypeName,
+        parameters,
+        options,
+      },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NodeTypesUpdateResponse,
+      OperationState<NodeTypesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update the configuration of a node type of a given managed cluster, only updating tags.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param nodeTypeName The name of the node type.
+   * @param parameters The parameters to update the node type configuration.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
     nodeTypeName: string,
     parameters: NodeTypeUpdateParameters,
     options?: NodeTypesUpdateOptionalParams,
   ): Promise<NodeTypesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, nodeTypeName, parameters, options },
-      updateOperationSpec,
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      clusterName,
+      nodeTypeName,
+      parameters,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -864,6 +949,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.NodeType,
+    },
+    201: {
+      bodyMapper: Mappers.NodeType,
+    },
+    202: {
+      bodyMapper: Mappers.NodeType,
+    },
+    204: {
       bodyMapper: Mappers.NodeType,
     },
     default: {

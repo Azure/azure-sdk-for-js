@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClientContext } from "../../ClientContext";
+import type { ClientContext } from "../../ClientContext";
 import {
   Constants,
+  extractPath,
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
@@ -10,18 +11,21 @@ import {
   StatusCodes,
 } from "../../common";
 import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
-import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
+import type { SqlQuerySpec } from "../../queryExecutionContext";
+import { mergeHeaders } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions } from "../../request";
-import { Database } from "../Database";
-import { Resource } from "../Resource";
+import { ErrorResponse, FeedOptions, RequestOptions } from "../../request";
+import type { Database } from "../Database";
+import type { Resource } from "../Resource";
 import { Container } from "./Container";
-import { ContainerDefinition } from "./ContainerDefinition";
-import { ContainerRequest } from "./ContainerRequest";
+import type { ContainerDefinition } from "./ContainerDefinition";
+import type { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import { EncryptionManager } from "../../encryption/EncryptionManager";
+import { EncryptionType } from "../../encryption";
 
 /**
  * Operations for creating new containers, and reading/querying all containers
@@ -34,9 +38,14 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
  * do this once on application start up.
  */
 export class Containers {
+  /**
+   * @internal
+   * @param database - The parent {@link Database}.
+   */
   constructor(
     public readonly database: Database,
     private readonly clientContext: ClientContext,
+    private encryptionManager?: EncryptionManager,
   ) {}
 
   /**
@@ -183,6 +192,41 @@ export class Containers {
       };
     }
 
+    if (this.clientContext.enableEncryption && body.clientEncryptionPolicy) {
+      // Ensures that id and partition key paths specified in the client encryption policy for encryption are encrypted using Deterministic encryption algorithm.
+      const encryptedPaths = body.clientEncryptionPolicy.includedPaths;
+      const partitionKeyPaths = body.partitionKey.paths.map(extractPath);
+      let isPartitionKeyEncrypted = false;
+      let isIdEncrypted = false;
+      for (const encryptedPath of encryptedPaths) {
+        if (encryptedPath.path === "/id") {
+          isIdEncrypted = true;
+          if (encryptedPath.encryptionType !== EncryptionType.DETERMINISTIC) {
+            throw new ErrorResponse(
+              "The '/id' property must be encrypted using Deterministic encryption.",
+            );
+          }
+        }
+        if (partitionKeyPaths.includes(encryptedPath.path)) {
+          isPartitionKeyEncrypted = true;
+          if (encryptedPath.encryptionType !== EncryptionType.DETERMINISTIC) {
+            throw new ErrorResponse(
+              `Path: ${encryptedPath.path} which is part of the partition key has to be encrypted with Deterministic type Encryption.`,
+            );
+          }
+        }
+      }
+      // Ensures that the policy format version is 2 if id or partition key paths are encrypted.
+      if (
+        (isPartitionKeyEncrypted || isIdEncrypted) &&
+        body.clientEncryptionPolicy.policyFormatVersion === 1
+      ) {
+        throw new ErrorResponse(
+          "Encryption of partition key or id is only supported with policy format version 2.",
+        );
+      }
+    }
+
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
@@ -191,7 +235,13 @@ export class Containers {
       diagnosticNode,
       options,
     });
-    const ref = new Container(this.database, response.result.id, this.clientContext);
+    const ref = new Container(
+      this.database,
+      response.result.id,
+      this.clientContext,
+      this.encryptionManager,
+      response.result._rid,
+    );
     return new ContainerResponse(
       response.result,
       response.headers,

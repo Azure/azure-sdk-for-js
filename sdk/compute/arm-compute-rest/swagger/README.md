@@ -5,6 +5,8 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: arm
 package-name: "@azure-rest/arm-compute"
 title: ComputeManagementClient
 description: Compute Management Rest Client
@@ -20,7 +22,10 @@ rest-level-client: true
 add-credentials: true
 security: AADToken
 security-scopes: "https://management.azure.com/.default"
+use-extension:
+  "@autorest/typescript": "6.0.34"
 modelerfour:
   lenient-model-deduplication: true
   treat-type-object-as-anything: true
+module-kind: esm
 ```

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 declare global {
   interface FormData {}
   interface Blob {}
@@ -10,7 +9,6 @@ declare global {
   interface TransformStream<I = any, O = any> {}
 }
 
-/* eslint-enable @typescript-eslint/no-unused-vars */
 export type { HttpMethods } from "@azure/core-util";
 export type {
   Agent,
@@ -117,6 +115,7 @@ export {
   type AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
 } from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
+export { agentPolicy, agentPolicyName } from "./policies/agentPolicy.js";
 export {
   createFile,
   createFileFromStream,

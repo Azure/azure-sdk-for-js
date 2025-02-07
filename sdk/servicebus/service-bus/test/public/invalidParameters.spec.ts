@@ -3,9 +3,11 @@
 
 import Long from "long";
 import { TestClientType, TestMessage } from "./utils/testUtils.js";
-import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2.js";
-import { ServiceBusSender } from "../../src/index.js";
-import { ServiceBusClient, ServiceBusSessionReceiver } from "../../src/index.js";
+import type { ServiceBusClientForTests } from "./utils/testutils2.js";
+import { createServiceBusClientForTests } from "./utils/testutils2.js";
+import type { ServiceBusSender } from "../../src/index.js";
+import type { ServiceBusSessionReceiver } from "../../src/index.js";
+import { ServiceBusClient } from "../../src/index.js";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { assert, should } from "./utils/chai.js";
 

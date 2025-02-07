@@ -67,7 +67,7 @@ node dist/checkNameAvailabilityCheckAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/checkNameAvailabilityCheckAvailabilitySample.js
+npx dev-tool run vendored cross-env  node dist/checkNameAvailabilityCheckAvailabilitySample.js
 ```
 
 ## Next Steps
@@ -93,7 +93,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [troubleshootersendsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/selfhelp/arm-selfhelp/samples/v2-beta/typescript/src/troubleshootersEndSample.ts
 [troubleshootersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/selfhelp/arm-selfhelp/samples/v2-beta/typescript/src/troubleshootersGetSample.ts
 [troubleshootersrestartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/selfhelp/arm-selfhelp/samples/v2-beta/typescript/src/troubleshootersRestartSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-selfhelp?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-selfhelp?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/selfhelp/arm-selfhelp/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

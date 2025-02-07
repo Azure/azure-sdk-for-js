@@ -7,12 +7,7 @@ import ts from "typescript";
  * Tests for syntax compatibility.
  *
  * This is a Map from Category -> Name -> Test, where Test is a predicate that determines if a ts.Node is an instance
- * of the syntax form. For example:
- *
- * ES2020 -> NullishCoalesce -> ts.isNullishCoalesce
- * Category: ES2020
- * Name: NullishCoalesce
- * Test: ts.isNullishCoalesce (TS API built-in helper)
+ * of the syntax form.
  *
  * If the test returns true, then the syntax is considered unsupported by the compiler, and an error will be generated
  * during sample publication.
@@ -43,25 +38,6 @@ const SYNTAX_VIABILITY_TESTS = {
     // import("foo")
     ImportExpression: (node: ts.Node) =>
       ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword,
-  },
-  ES2021: {
-    // x ??= y, x ||= y, and x &&= y (Node 15+)
-    ShorthandAssignment: (node: ts.Node) =>
-      ts.isBinaryExpression(node) &&
-      [
-        ts.SyntaxKind.AmpersandAmpersandEqualsToken,
-        ts.SyntaxKind.BarBarEqualsToken,
-        ts.SyntaxKind.QuestionQuestionEqualsToken,
-      ].includes(node.operatorToken.kind),
-  },
-  ES2022: {
-    // This is well-supported in TypeScript but is emitted as an assignment rather than a `static`
-    // static foo = "bar" (Node 12+, but not emitted as static by TypeScript)
-    StaticField: (node: ts.Node) =>
-      ts.isPropertyDeclaration(node) &&
-      node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.StaticKeyword),
-    // static { ... } (Node 17+)
-    StaticInitializer: ts.isClassStaticBlockDeclaration,
   },
 } as const;
 

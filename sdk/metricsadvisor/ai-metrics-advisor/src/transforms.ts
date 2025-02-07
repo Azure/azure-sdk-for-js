@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AuthenticationTypeEnum,
   AzureApplicationInsightsParameter,
   AzureBlobParameter,
@@ -48,8 +48,8 @@ import {
   SQLServerDataFeed as ServiceSQLServerDataFeed,
   SqlSourceParameter,
   WebhookHookInfo,
-} from "./generated/models";
-import {
+} from "./generated/models/index.js";
+import type {
   AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
   AnomalyDetectionConfigurationPatch,
@@ -84,7 +84,7 @@ import {
   NotificationHook,
   NotificationHookUnion,
   SqlServerAuthTypes,
-} from "./models";
+} from "./models.js";
 
 // transform the protocol layer (codegen) service models into convenience layer models
 

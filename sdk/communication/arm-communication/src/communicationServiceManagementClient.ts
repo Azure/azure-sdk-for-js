@@ -20,15 +20,15 @@ import {
   DomainsImpl,
   EmailServicesImpl,
   SenderUsernamesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   CommunicationServices,
   Domains,
   EmailServices,
   SenderUsernames,
-} from "./operationsInterfaces";
-import { CommunicationServiceManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { CommunicationServiceManagementClientOptionalParams } from "./models/index.js";
 
 export class CommunicationServiceManagementClient extends coreClient.ServiceClient {
   $host: string;

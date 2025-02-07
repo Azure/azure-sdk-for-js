@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ProjectResource,
-  VisualStudioResourceProviderClient
-} from "@azure/arm-visualstudio";
+import type { ProjectResource } from "@azure/arm-visualstudio";
+import { VisualStudioResourceProviderClient } from "@azure/arm-visualstudio";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -20,7 +16,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Updates the tags of the specified Team Services project.
  * x-ms-original-file: specification/visualstudio/resource-manager/Microsoft.VisualStudio/preview/2014-04-01-preview/examples/UpdateProjectResource.json
  */
-async function updateAProjectResource() {
+async function updateAProjectResource(): Promise<void> {
   const subscriptionId = "0de7f055-dbea-498d-8e9e-da287eedca90";
   const resourceGroupName = "VS-Example-Group";
   const rootResourceName = "ExampleAccount";
@@ -28,22 +24,18 @@ async function updateAProjectResource() {
   const body: ProjectResource = {
     name: "ms.example",
     type: "Microsoft.VisualStudio/account/extension",
-    id:
-      "/subscriptions/0de7f055-dbea-498d-8e9e-da287eedca90/resourceGroups/VS-Example-Group/providers/microsoft.visualstudio/account/ExampleAccount/project/ExampleProject",
+    id: "/subscriptions/0de7f055-dbea-498d-8e9e-da287eedca90/resourceGroups/VS-Example-Group/providers/microsoft.visualstudio/account/ExampleAccount/project/ExampleProject",
     location: "Central US",
     properties: {},
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
-  const client = new VisualStudioResourceProviderClient(
-    credential,
-    subscriptionId
-  );
+  const client = new VisualStudioResourceProviderClient(credential, subscriptionId);
   const result = await client.projects.update(
     resourceGroupName,
     rootResourceName,
     resourceName,
-    body
+    body,
   );
   console.log(result);
 }

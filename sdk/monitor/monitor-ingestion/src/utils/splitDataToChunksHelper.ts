@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getBinarySize } from "./getBinarySize";
+import { getBinarySize } from "./getBinarySize.js";
 
 /**
  * @internal

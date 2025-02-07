@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
-import { Container, ContainerDefinition, Database } from "../../../src";
+import type { Suite } from "mocha";
+import type { Container, ContainerDefinition, Database } from "../../../src";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 import { StatusCodes } from "../../../src";
 

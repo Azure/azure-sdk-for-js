@@ -4,43 +4,43 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { LroEngineOptions } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export interface ApplicationDeltaHealthPolicy {
     defaultServiceTypeDeltaHealthPolicy?: ServiceTypeDeltaHealthPolicy;
     serviceTypeDeltaHealthPolicies?: Record<string, ServiceTypeDeltaHealthPolicy>;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationDeltaHealthPolicyOutput {
     defaultServiceTypeDeltaHealthPolicy?: ServiceTypeDeltaHealthPolicyOutput;
     serviceTypeDeltaHealthPolicies?: Record<string, ServiceTypeDeltaHealthPolicyOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationHealthPolicy {
     defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
     serviceTypeHealthPolicies?: Record<string, ServiceTypeHealthPolicy>;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationHealthPolicyOutput {
     defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicyOutput;
     serviceTypeHealthPolicies?: Record<string, ServiceTypeHealthPolicyOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationMetricDescription {
     maximumCapacity?: number;
     name?: string;
@@ -48,7 +48,7 @@ export interface ApplicationMetricDescription {
     totalApplicationCapacity?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationMetricDescriptionOutput {
     maximumCapacity?: number;
     name?: string;
@@ -56,48 +56,47 @@ export interface ApplicationMetricDescriptionOutput {
     totalApplicationCapacity?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationResource extends ProxyResource {
     identity?: ManagedIdentity;
     properties?: ApplicationResourceProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationResourceListOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     // (undocumented)
     value?: Array<ApplicationResourceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationResourceOutput extends ProxyResourceOutput {
     identity?: ManagedIdentityOutput;
     properties?: ApplicationResourcePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationResourceProperties extends ApplicationResourceUpdateProperties {
-    provisioningState?: string;
     typeName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationResourcePropertiesOutput extends ApplicationResourceUpdatePropertiesOutput {
-    provisioningState?: string;
+    readonly provisioningState?: string;
     typeName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationResourceUpdate extends ProxyResource {
     properties?: ApplicationResourceUpdateProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationResourceUpdateOutput extends ProxyResourceOutput {
     properties?: ApplicationResourceUpdatePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationResourceUpdateProperties {
     managedIdentities?: Array<ApplicationUserAssignedIdentity>;
     maximumNodes?: number;
@@ -109,7 +108,7 @@ export interface ApplicationResourceUpdateProperties {
     upgradePolicy?: ApplicationUpgradePolicy;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationResourceUpdatePropertiesOutput {
     managedIdentities?: Array<ApplicationUserAssignedIdentityOutput>;
     maximumNodes?: number;
@@ -135,7 +134,7 @@ export interface ApplicationsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface ApplicationsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ApplicationsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -153,21 +152,17 @@ export type ApplicationsCreateOrUpdateParameters = ApplicationsCreateOrUpdateMed
 // @public
 export interface ApplicationsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ApplicationsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ApplicationsDeletedefaultResponse extends HttpResponse {
+export interface ApplicationsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -179,10 +174,10 @@ export type ApplicationsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ApplicationsGet {
-    delete(options?: ApplicationsDeleteParameters): StreamableMethod<ApplicationsDelete202Response | ApplicationsDelete204Response | ApplicationsDeletedefaultResponse>;
-    get(options?: ApplicationsGetParameters): StreamableMethod<ApplicationsGet200Response | ApplicationsGetdefaultResponse>;
-    patch(options: ApplicationsUpdateParameters): StreamableMethod<ApplicationsUpdate202Response | ApplicationsUpdatedefaultResponse>;
-    put(options: ApplicationsCreateOrUpdateParameters): StreamableMethod<ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdatedefaultResponse>;
+    delete(options?: ApplicationsDeleteParameters): StreamableMethod<ApplicationsDelete202Response | ApplicationsDelete204Response | ApplicationsDeleteDefaultResponse>;
+    get(options?: ApplicationsGetParameters): StreamableMethod<ApplicationsGet200Response | ApplicationsGetDefaultResponse>;
+    patch(options: ApplicationsUpdateParameters): StreamableMethod<ApplicationsUpdate202Response | ApplicationsUpdateDefaultResponse>;
+    put(options: ApplicationsCreateOrUpdateParameters): StreamableMethod<ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -194,7 +189,7 @@ export interface ApplicationsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface ApplicationsGetdefaultResponse extends HttpResponse {
+export interface ApplicationsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -206,7 +201,7 @@ export type ApplicationsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ApplicationsList {
-    get(options?: ApplicationsListParameters): StreamableMethod<ApplicationsList200Response | ApplicationsListdefaultResponse>;
+    get(options?: ApplicationsListParameters): StreamableMethod<ApplicationsList200Response | ApplicationsListDefaultResponse>;
 }
 
 // @public
@@ -218,7 +213,7 @@ export interface ApplicationsList200Response extends HttpResponse {
 }
 
 // @public
-export interface ApplicationsListdefaultResponse extends HttpResponse {
+export interface ApplicationsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -242,7 +237,7 @@ export interface ApplicationsUpdateBodyParam {
 }
 
 // @public
-export interface ApplicationsUpdatedefaultResponse extends HttpResponse {
+export interface ApplicationsUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -257,31 +252,30 @@ export interface ApplicationsUpdateMediaTypesParam {
 // @public (undocumented)
 export type ApplicationsUpdateParameters = ApplicationsUpdateMediaTypesParam & ApplicationsUpdateBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ApplicationTypeResource extends ProxyResource {
     properties?: ApplicationTypeResourceProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationTypeResourceListOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     // (undocumented)
     value?: Array<ApplicationTypeResourceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationTypeResourceOutput extends ProxyResourceOutput {
     properties?: ApplicationTypeResourcePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationTypeResourceProperties {
-    provisioningState?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationTypeResourcePropertiesOutput {
-    provisioningState?: string;
+    readonly provisioningState?: string;
 }
 
 // @public
@@ -298,7 +292,7 @@ export interface ApplicationTypesCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface ApplicationTypesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ApplicationTypesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -316,21 +310,17 @@ export type ApplicationTypesCreateOrUpdateParameters = ApplicationTypesCreateOrU
 // @public
 export interface ApplicationTypesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ApplicationTypesDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ApplicationTypesDeletedefaultResponse extends HttpResponse {
+export interface ApplicationTypesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -342,9 +332,9 @@ export type ApplicationTypesDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ApplicationTypesGet {
-    delete(options?: ApplicationTypesDeleteParameters): StreamableMethod<ApplicationTypesDelete202Response | ApplicationTypesDelete204Response | ApplicationTypesDeletedefaultResponse>;
-    get(options?: ApplicationTypesGetParameters): StreamableMethod<ApplicationTypesGet200Response | ApplicationTypesGetdefaultResponse>;
-    put(options: ApplicationTypesCreateOrUpdateParameters): StreamableMethod<ApplicationTypesCreateOrUpdate200Response | ApplicationTypesCreateOrUpdatedefaultResponse>;
+    delete(options?: ApplicationTypesDeleteParameters): StreamableMethod<ApplicationTypesDelete202Response | ApplicationTypesDelete204Response | ApplicationTypesDeleteDefaultResponse>;
+    get(options?: ApplicationTypesGetParameters): StreamableMethod<ApplicationTypesGet200Response | ApplicationTypesGetDefaultResponse>;
+    put(options: ApplicationTypesCreateOrUpdateParameters): StreamableMethod<ApplicationTypesCreateOrUpdate200Response | ApplicationTypesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -356,7 +346,7 @@ export interface ApplicationTypesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface ApplicationTypesGetdefaultResponse extends HttpResponse {
+export interface ApplicationTypesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -368,7 +358,7 @@ export type ApplicationTypesGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ApplicationTypesList {
-    get(options?: ApplicationTypesListParameters): StreamableMethod<ApplicationTypesList200Response | ApplicationTypesListdefaultResponse>;
+    get(options?: ApplicationTypesListParameters): StreamableMethod<ApplicationTypesList200Response | ApplicationTypesListDefaultResponse>;
 }
 
 // @public
@@ -380,7 +370,7 @@ export interface ApplicationTypesList200Response extends HttpResponse {
 }
 
 // @public
-export interface ApplicationTypesListdefaultResponse extends HttpResponse {
+export interface ApplicationTypesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -390,35 +380,33 @@ export interface ApplicationTypesListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type ApplicationTypesListParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ApplicationTypeVersionResource extends ProxyResource {
     properties?: ApplicationTypeVersionResourceProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationTypeVersionResourceListOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     // (undocumented)
     value?: Array<ApplicationTypeVersionResourceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationTypeVersionResourceOutput extends ProxyResourceOutput {
     properties?: ApplicationTypeVersionResourcePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationTypeVersionResourceProperties {
     appPackageUrl: string;
-    defaultParameterList?: Record<string, string>;
-    provisioningState?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationTypeVersionResourcePropertiesOutput {
     appPackageUrl: string;
-    defaultParameterList?: Record<string, string>;
-    provisioningState?: string;
+    readonly defaultParameterList?: Record<string, string>;
+    readonly provisioningState?: string;
 }
 
 // @public (undocumented)
@@ -445,7 +433,7 @@ export interface ApplicationTypeVersionsCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface ApplicationTypeVersionsCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ApplicationTypeVersionsCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -463,21 +451,17 @@ export type ApplicationTypeVersionsCreateOrUpdateParameters = ApplicationTypeVer
 // @public
 export interface ApplicationTypeVersionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ApplicationTypeVersionsDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ApplicationTypeVersionsDeletedefaultResponse extends HttpResponse {
+export interface ApplicationTypeVersionsDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -489,9 +473,9 @@ export type ApplicationTypeVersionsDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ApplicationTypeVersionsGet {
-    delete(options?: ApplicationTypeVersionsDeleteParameters): StreamableMethod<ApplicationTypeVersionsDelete202Response | ApplicationTypeVersionsDelete204Response | ApplicationTypeVersionsDeletedefaultResponse>;
-    get(options?: ApplicationTypeVersionsGetParameters): StreamableMethod<ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetdefaultResponse>;
-    put(options: ApplicationTypeVersionsCreateOrUpdateParameters): StreamableMethod<ApplicationTypeVersionsCreateOrUpdate202Response | ApplicationTypeVersionsCreateOrUpdatedefaultResponse>;
+    delete(options?: ApplicationTypeVersionsDeleteParameters): StreamableMethod<ApplicationTypeVersionsDelete202Response | ApplicationTypeVersionsDelete204Response | ApplicationTypeVersionsDeleteDefaultResponse>;
+    get(options?: ApplicationTypeVersionsGetParameters): StreamableMethod<ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetDefaultResponse>;
+    put(options: ApplicationTypeVersionsCreateOrUpdateParameters): StreamableMethod<ApplicationTypeVersionsCreateOrUpdate202Response | ApplicationTypeVersionsCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -503,7 +487,7 @@ export interface ApplicationTypeVersionsGet200Response extends HttpResponse {
 }
 
 // @public
-export interface ApplicationTypeVersionsGetdefaultResponse extends HttpResponse {
+export interface ApplicationTypeVersionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -515,7 +499,7 @@ export type ApplicationTypeVersionsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ApplicationTypeVersionsList {
-    get(options?: ApplicationTypeVersionsListParameters): StreamableMethod<ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListdefaultResponse>;
+    get(options?: ApplicationTypeVersionsListParameters): StreamableMethod<ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListDefaultResponse>;
 }
 
 // @public
@@ -527,7 +511,7 @@ export interface ApplicationTypeVersionsList200Response extends HttpResponse {
 }
 
 // @public
-export interface ApplicationTypeVersionsListdefaultResponse extends HttpResponse {
+export interface ApplicationTypeVersionsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -537,7 +521,7 @@ export interface ApplicationTypeVersionsListdefaultResponse extends HttpResponse
 // @public (undocumented)
 export type ApplicationTypeVersionsListParameters = RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ApplicationUpgradePolicy {
     applicationHealthPolicy?: ArmApplicationHealthPolicy;
     forceRestart?: boolean;
@@ -547,7 +531,7 @@ export interface ApplicationUpgradePolicy {
     upgradeReplicaSetCheckTimeout?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ApplicationUpgradePolicyOutput {
     applicationHealthPolicy?: ArmApplicationHealthPolicyOutput;
     forceRestart?: boolean;
@@ -569,7 +553,7 @@ export interface ApplicationUserAssignedIdentityOutput {
     principalId: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ArmApplicationHealthPolicy {
     considerWarningAsError?: boolean;
     defaultServiceTypeHealthPolicy?: ArmServiceTypeHealthPolicy;
@@ -577,7 +561,7 @@ export interface ArmApplicationHealthPolicy {
     serviceTypeHealthPolicyMap?: Record<string, ArmServiceTypeHealthPolicy>;
 }
 
-// @public (undocumented)
+// @public
 export interface ArmApplicationHealthPolicyOutput {
     considerWarningAsError?: boolean;
     defaultServiceTypeHealthPolicy?: ArmServiceTypeHealthPolicyOutput;
@@ -585,7 +569,7 @@ export interface ArmApplicationHealthPolicyOutput {
     serviceTypeHealthPolicyMap?: Record<string, ArmServiceTypeHealthPolicyOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ArmRollingUpgradeMonitoringPolicy {
     failureAction?: "Rollback" | "Manual";
     healthCheckRetryTimeout?: string;
@@ -595,7 +579,7 @@ export interface ArmRollingUpgradeMonitoringPolicy {
     upgradeTimeout?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ArmRollingUpgradeMonitoringPolicyOutput {
     failureAction?: "Rollback" | "Manual";
     healthCheckRetryTimeout?: string;
@@ -605,21 +589,21 @@ export interface ArmRollingUpgradeMonitoringPolicyOutput {
     upgradeTimeout?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ArmServiceTypeHealthPolicy {
     maxPercentUnhealthyPartitionsPerService?: number;
     maxPercentUnhealthyReplicasPerPartition?: number;
     maxPercentUnhealthyServices?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ArmServiceTypeHealthPolicyOutput {
     maxPercentUnhealthyPartitionsPerService?: number;
     maxPercentUnhealthyReplicasPerPartition?: number;
     maxPercentUnhealthyServices?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface AvailableOperationDisplayOutput {
     description?: string;
     operation?: string;
@@ -627,73 +611,73 @@ export interface AvailableOperationDisplayOutput {
     resource?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AzureActiveDirectory {
     clientApplication?: string;
     clusterApplication?: string;
     tenantId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface AzureActiveDirectoryOutput {
     clientApplication?: string;
     clusterApplication?: string;
     tenantId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface CertificateDescription {
     thumbprint: string;
     thumbprintSecondary?: string;
     x509StoreName?: "AddressBook" | "AuthRoot" | "CertificateAuthority" | "Disallowed" | "My" | "Root" | "TrustedPeople" | "TrustedPublisher";
 }
 
-// @public (undocumented)
+// @public
 export interface CertificateDescriptionOutput {
     thumbprint: string;
     thumbprintSecondary?: string;
     x509StoreName?: "AddressBook" | "AuthRoot" | "CertificateAuthority" | "Disallowed" | "My" | "Root" | "TrustedPeople" | "TrustedPublisher";
 }
 
-// @public (undocumented)
+// @public
 export interface ClientCertificateCommonName {
     certificateCommonName: string;
     certificateIssuerThumbprint: string;
     isAdmin: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ClientCertificateCommonNameOutput {
     certificateCommonName: string;
     certificateIssuerThumbprint: string;
     isAdmin: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ClientCertificateThumbprint {
     certificateThumbprint: string;
     isAdmin: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ClientCertificateThumbprintOutput {
     certificateThumbprint: string;
     isAdmin: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface Cluster extends Resource {
     properties?: ClusterProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterCodeVersionsListResultOutput {
     nextLink?: string;
     // (undocumented)
     value?: Array<ClusterCodeVersionsResultOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterCodeVersionsResultOutput {
     id?: string;
     name?: string;
@@ -701,54 +685,49 @@ export interface ClusterCodeVersionsResultOutput {
     type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterHealthPolicy {
     applicationHealthPolicies?: Record<string, ApplicationHealthPolicy>;
     maxPercentUnhealthyApplications?: number;
     maxPercentUnhealthyNodes?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterHealthPolicyOutput {
     applicationHealthPolicies?: Record<string, ApplicationHealthPolicyOutput>;
     maxPercentUnhealthyApplications?: number;
     maxPercentUnhealthyNodes?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterListResultOutput {
     nextLink?: string;
     // (undocumented)
     value?: Array<ClusterOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterOutput extends ResourceOutput {
     properties?: ClusterPropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterProperties {
     addOnFeatures?: Array<"RepairManager" | "DnsService" | "BackupRestoreService" | "ResourceMonitorService">;
     applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
-    availableClusterVersions?: Array<ClusterVersionDetails>;
     azureActiveDirectory?: AzureActiveDirectory;
     certificate?: CertificateDescription;
     certificateCommonNames?: ServerCertificateCommonNames;
     clientCertificateCommonNames?: Array<ClientCertificateCommonName>;
     clientCertificateThumbprints?: Array<ClientCertificateThumbprint>;
     clusterCodeVersion?: string;
-    clusterEndpoint?: string;
-    clusterId?: string;
-    clusterState?: "WaitingForNodes" | "Deploying" | "BaselineUpgrade" | "UpdatingUserConfiguration" | "UpdatingUserCertificate" | "UpdatingInfrastructure" | "EnforcingClusterVersion" | "UpgradeServiceUnreachable" | "AutoScale" | "Ready";
     diagnosticsStorageAccountConfig?: DiagnosticsStorageAccountConfig;
     eventStoreServiceEnabled?: boolean;
     fabricSettings?: Array<SettingsSectionDescription>;
     infrastructureServiceManager?: boolean;
     managementEndpoint: string;
     nodeTypes: Array<NodeTypeDescription>;
-    notifications?: Array<Notification>;
-    provisioningState?: "Updating" | "Succeeded" | "Failed" | "Canceled";
+    notifications?: Array<Notification_2>;
     reliabilityLevel?: "None" | "Bronze" | "Silver" | "Gold" | "Platinum";
     reverseProxyCertificate?: CertificateDescription;
     reverseProxyCertificateCommonNames?: ServerCertificateCommonNames;
@@ -763,20 +742,20 @@ export interface ClusterProperties {
     waveUpgradePaused?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterPropertiesOutput {
     addOnFeatures?: Array<"RepairManager" | "DnsService" | "BackupRestoreService" | "ResourceMonitorService">;
     applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicyOutput;
-    availableClusterVersions?: Array<ClusterVersionDetailsOutput>;
+    readonly availableClusterVersions?: Array<ClusterVersionDetailsOutput>;
     azureActiveDirectory?: AzureActiveDirectoryOutput;
     certificate?: CertificateDescriptionOutput;
     certificateCommonNames?: ServerCertificateCommonNamesOutput;
     clientCertificateCommonNames?: Array<ClientCertificateCommonNameOutput>;
     clientCertificateThumbprints?: Array<ClientCertificateThumbprintOutput>;
     clusterCodeVersion?: string;
-    clusterEndpoint?: string;
-    clusterId?: string;
-    clusterState?: "WaitingForNodes" | "Deploying" | "BaselineUpgrade" | "UpdatingUserConfiguration" | "UpdatingUserCertificate" | "UpdatingInfrastructure" | "EnforcingClusterVersion" | "UpgradeServiceUnreachable" | "AutoScale" | "Ready";
+    readonly clusterEndpoint?: string;
+    readonly clusterId?: string;
+    readonly clusterState?: "WaitingForNodes" | "Deploying" | "BaselineUpgrade" | "UpdatingUserConfiguration" | "UpdatingUserCertificate" | "UpdatingInfrastructure" | "EnforcingClusterVersion" | "UpgradeServiceUnreachable" | "AutoScale" | "Ready";
     diagnosticsStorageAccountConfig?: DiagnosticsStorageAccountConfigOutput;
     eventStoreServiceEnabled?: boolean;
     fabricSettings?: Array<SettingsSectionDescriptionOutput>;
@@ -784,7 +763,7 @@ export interface ClusterPropertiesOutput {
     managementEndpoint: string;
     nodeTypes: Array<NodeTypeDescriptionOutput>;
     notifications?: Array<NotificationOutput>;
-    provisioningState?: "Updating" | "Succeeded" | "Failed" | "Canceled";
+    readonly provisioningState?: "Updating" | "Succeeded" | "Failed" | "Canceled";
     reliabilityLevel?: "None" | "Bronze" | "Silver" | "Gold" | "Platinum";
     reverseProxyCertificate?: CertificateDescriptionOutput;
     reverseProxyCertificateCommonNames?: ServerCertificateCommonNamesOutput;
@@ -799,7 +778,7 @@ export interface ClusterPropertiesOutput {
     waveUpgradePaused?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterPropertiesUpdateParameters {
     addOnFeatures?: Array<"RepairManager" | "DnsService" | "BackupRestoreService" | "ResourceMonitorService">;
     applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
@@ -812,7 +791,7 @@ export interface ClusterPropertiesUpdateParameters {
     fabricSettings?: Array<SettingsSectionDescription>;
     infrastructureServiceManager?: boolean;
     nodeTypes?: Array<NodeTypeDescription>;
-    notifications?: Array<Notification>;
+    notifications?: Array<Notification_2>;
     reliabilityLevel?: "None" | "Bronze" | "Silver" | "Gold" | "Platinum";
     reverseProxyCertificate?: CertificateDescription;
     sfZonalUpgradeMode?: "Parallel" | "Hierarchical";
@@ -847,7 +826,7 @@ export interface ClustersCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface ClustersCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ClustersCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -865,21 +844,17 @@ export type ClustersCreateOrUpdateParameters = ClustersCreateOrUpdateMediaTypesP
 // @public
 export interface ClustersDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ClustersDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ClustersDeletedefaultResponse extends HttpResponse {
+export interface ClustersDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -891,10 +866,10 @@ export type ClustersDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ClustersGet {
-    delete(options?: ClustersDeleteParameters): StreamableMethod<ClustersDelete200Response | ClustersDelete204Response | ClustersDeletedefaultResponse>;
-    get(options?: ClustersGetParameters): StreamableMethod<ClustersGet200Response | ClustersGetdefaultResponse>;
-    patch(options: ClustersUpdateParameters): StreamableMethod<ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdatedefaultResponse>;
-    put(options: ClustersCreateOrUpdateParameters): StreamableMethod<ClustersCreateOrUpdate200Response | ClustersCreateOrUpdate202Response | ClustersCreateOrUpdatedefaultResponse>;
+    delete(options?: ClustersDeleteParameters): StreamableMethod<ClustersDelete200Response | ClustersDelete204Response | ClustersDeleteDefaultResponse>;
+    get(options?: ClustersGetParameters): StreamableMethod<ClustersGet200Response | ClustersGetDefaultResponse>;
+    patch(options: ClustersUpdateParameters): StreamableMethod<ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdateDefaultResponse>;
+    put(options: ClustersCreateOrUpdateParameters): StreamableMethod<ClustersCreateOrUpdate200Response | ClustersCreateOrUpdate202Response | ClustersCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -906,7 +881,7 @@ export interface ClustersGet200Response extends HttpResponse {
 }
 
 // @public
-export interface ClustersGetdefaultResponse extends HttpResponse {
+export interface ClustersGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -918,7 +893,7 @@ export type ClustersGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ClustersList {
-    get(options?: ClustersListParameters): StreamableMethod<ClustersList200Response | ClustersListdefaultResponse>;
+    get(options?: ClustersListParameters): StreamableMethod<ClustersList200Response | ClustersListDefaultResponse>;
 }
 
 // @public
@@ -931,7 +906,7 @@ export interface ClustersList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ClustersListByResourceGroup {
-    get(options?: ClustersListByResourceGroupParameters): StreamableMethod<ClustersListByResourceGroup200Response | ClustersListByResourceGroupdefaultResponse>;
+    get(options?: ClustersListByResourceGroupParameters): StreamableMethod<ClustersListByResourceGroup200Response | ClustersListByResourceGroupDefaultResponse>;
 }
 
 // @public
@@ -943,7 +918,7 @@ export interface ClustersListByResourceGroup200Response extends HttpResponse {
 }
 
 // @public
-export interface ClustersListByResourceGroupdefaultResponse extends HttpResponse {
+export interface ClustersListByResourceGroupDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -954,7 +929,7 @@ export interface ClustersListByResourceGroupdefaultResponse extends HttpResponse
 export type ClustersListByResourceGroupParameters = RequestParameters;
 
 // @public
-export interface ClustersListdefaultResponse extends HttpResponse {
+export interface ClustersListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -966,7 +941,7 @@ export type ClustersListParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ClustersListUpgradableVersions {
-    post(options?: ClustersListUpgradableVersionsParameters): StreamableMethod<ClustersListUpgradableVersions200Response | ClustersListUpgradableVersionsdefaultResponse>;
+    post(options?: ClustersListUpgradableVersionsParameters): StreamableMethod<ClustersListUpgradableVersions200Response | ClustersListUpgradableVersionsDefaultResponse>;
 }
 
 // @public
@@ -983,7 +958,7 @@ export interface ClustersListUpgradableVersionsBodyParam {
 }
 
 // @public
-export interface ClustersListUpgradableVersionsdefaultResponse extends HttpResponse {
+export interface ClustersListUpgradableVersionsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1020,7 +995,7 @@ export interface ClustersUpdateBodyParam {
 }
 
 // @public
-export interface ClustersUpdatedefaultResponse extends HttpResponse {
+export interface ClustersUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1035,13 +1010,13 @@ export interface ClustersUpdateMediaTypesParam {
 // @public (undocumented)
 export type ClustersUpdateParameters = ClustersUpdateMediaTypesParam & ClustersUpdateBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ClusterUpdateParameters {
     properties?: ClusterPropertiesUpdateParameters;
     tags?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterUpgradeDeltaHealthPolicy {
     applicationDeltaHealthPolicies?: Record<string, ApplicationDeltaHealthPolicy>;
     maxPercentDeltaUnhealthyApplications: number;
@@ -1049,7 +1024,7 @@ export interface ClusterUpgradeDeltaHealthPolicy {
     maxPercentUpgradeDomainDeltaUnhealthyNodes: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterUpgradeDeltaHealthPolicyOutput {
     applicationDeltaHealthPolicies?: Record<string, ApplicationDeltaHealthPolicyOutput>;
     maxPercentDeltaUnhealthyApplications: number;
@@ -1057,7 +1032,7 @@ export interface ClusterUpgradeDeltaHealthPolicyOutput {
     maxPercentUpgradeDomainDeltaUnhealthyNodes: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterUpgradePolicy {
     deltaHealthPolicy?: ClusterUpgradeDeltaHealthPolicy;
     forceRestart?: boolean;
@@ -1070,7 +1045,7 @@ export interface ClusterUpgradePolicy {
     upgradeTimeout: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterUpgradePolicyOutput {
     deltaHealthPolicy?: ClusterUpgradeDeltaHealthPolicyOutput;
     forceRestart?: boolean;
@@ -1083,14 +1058,14 @@ export interface ClusterUpgradePolicyOutput {
     upgradeTimeout: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterVersionDetails {
     codeVersion?: string;
     environment?: "Windows" | "Linux";
     supportExpiryUtc?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ClusterVersionDetailsOutput {
     codeVersion?: string;
     environment?: "Windows" | "Linux";
@@ -1099,7 +1074,7 @@ export interface ClusterVersionDetailsOutput {
 
 // @public (undocumented)
 export interface ClusterVersionsGet {
-    get(options?: ClusterVersionsGetParameters): StreamableMethod<ClusterVersionsGet200Response | ClusterVersionsGetdefaultResponse>;
+    get(options?: ClusterVersionsGetParameters): StreamableMethod<ClusterVersionsGet200Response | ClusterVersionsGetDefaultResponse>;
 }
 
 // @public
@@ -1112,7 +1087,7 @@ export interface ClusterVersionsGet200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ClusterVersionsGetByEnvironment {
-    get(options?: ClusterVersionsGetByEnvironmentParameters): StreamableMethod<ClusterVersionsGetByEnvironment200Response | ClusterVersionsGetByEnvironmentdefaultResponse>;
+    get(options?: ClusterVersionsGetByEnvironmentParameters): StreamableMethod<ClusterVersionsGetByEnvironment200Response | ClusterVersionsGetByEnvironmentDefaultResponse>;
 }
 
 // @public
@@ -1124,7 +1099,7 @@ export interface ClusterVersionsGetByEnvironment200Response extends HttpResponse
 }
 
 // @public
-export interface ClusterVersionsGetByEnvironmentdefaultResponse extends HttpResponse {
+export interface ClusterVersionsGetByEnvironmentDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1135,7 +1110,7 @@ export interface ClusterVersionsGetByEnvironmentdefaultResponse extends HttpResp
 export type ClusterVersionsGetByEnvironmentParameters = RequestParameters;
 
 // @public
-export interface ClusterVersionsGetdefaultResponse extends HttpResponse {
+export interface ClusterVersionsGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1147,7 +1122,7 @@ export type ClusterVersionsGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ClusterVersionsList {
-    get(options?: ClusterVersionsListParameters): StreamableMethod<ClusterVersionsList200Response | ClusterVersionsListdefaultResponse>;
+    get(options?: ClusterVersionsListParameters): StreamableMethod<ClusterVersionsList200Response | ClusterVersionsListDefaultResponse>;
 }
 
 // @public
@@ -1160,7 +1135,7 @@ export interface ClusterVersionsList200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ClusterVersionsListByEnvironment {
-    get(options?: ClusterVersionsListByEnvironmentParameters): StreamableMethod<ClusterVersionsListByEnvironment200Response | ClusterVersionsListByEnvironmentdefaultResponse>;
+    get(options?: ClusterVersionsListByEnvironmentParameters): StreamableMethod<ClusterVersionsListByEnvironment200Response | ClusterVersionsListByEnvironmentDefaultResponse>;
 }
 
 // @public
@@ -1172,7 +1147,7 @@ export interface ClusterVersionsListByEnvironment200Response extends HttpRespons
 }
 
 // @public
-export interface ClusterVersionsListByEnvironmentdefaultResponse extends HttpResponse {
+export interface ClusterVersionsListByEnvironmentDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1183,7 +1158,7 @@ export interface ClusterVersionsListByEnvironmentdefaultResponse extends HttpRes
 export type ClusterVersionsListByEnvironmentParameters = RequestParameters;
 
 // @public
-export interface ClusterVersionsListdefaultResponse extends HttpResponse {
+export interface ClusterVersionsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1193,11 +1168,11 @@ export interface ClusterVersionsListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type ClusterVersionsListParameters = RequestParameters;
 
-// @public (undocumented)
-function createClient(credentials: TokenCredential, options?: ClientOptions): ServiceFabricClient;
+// @public
+function createClient(credentials: TokenCredential, { apiVersion, ...options }?: ServiceFabricClientOptions): ServiceFabricClient;
 export default createClient;
 
-// @public (undocumented)
+// @public
 export interface DiagnosticsStorageAccountConfig {
     blobEndpoint: string;
     protectedAccountKeyName: string;
@@ -1207,7 +1182,7 @@ export interface DiagnosticsStorageAccountConfig {
     tableEndpoint: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DiagnosticsStorageAccountConfigOutput {
     blobEndpoint: string;
     protectedAccountKeyName: string;
@@ -1217,25 +1192,25 @@ export interface DiagnosticsStorageAccountConfigOutput {
     tableEndpoint: string;
 }
 
-// @public (undocumented)
+// @public
 export interface EndpointRangeDescription {
     endPort: number;
     startPort: number;
 }
 
-// @public (undocumented)
+// @public
 export interface EndpointRangeDescriptionOutput {
     endPort: number;
     startPort: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorModelErrorOutput {
     code?: string;
     message?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ErrorModelOutput {
     error?: ErrorModelErrorOutput;
 }
@@ -1244,121 +1219,119 @@ export interface ErrorModelOutput {
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
-export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: LroEngineOptions<TResult, PollOperationState<TResult>>): PollerLike<PollOperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
 
 // @public (undocumented)
-export function isUnexpected(response: ClustersGet200Response | ClustersGetdefaultResponse): response is ClustersGetdefaultResponse;
+export function isUnexpected(response: ClustersGet200Response | ClustersGetDefaultResponse): response is ClustersGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClustersCreateOrUpdate200Response | ClustersCreateOrUpdate202Response | ClustersCreateOrUpdatedefaultResponse): response is ClustersCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ClustersCreateOrUpdate200Response | ClustersCreateOrUpdate202Response | ClustersCreateOrUpdateDefaultResponse): response is ClustersCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdatedefaultResponse): response is ClustersUpdatedefaultResponse;
+export function isUnexpected(response: ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdateDefaultResponse): response is ClustersUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClustersDelete200Response | ClustersDelete204Response | ClustersDeletedefaultResponse): response is ClustersDeletedefaultResponse;
+export function isUnexpected(response: ClustersDelete200Response | ClustersDelete204Response | ClustersDeleteDefaultResponse): response is ClustersDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClustersListByResourceGroup200Response | ClustersListByResourceGroupdefaultResponse): response is ClustersListByResourceGroupdefaultResponse;
+export function isUnexpected(response: ClustersListByResourceGroup200Response | ClustersListByResourceGroupDefaultResponse): response is ClustersListByResourceGroupDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClustersList200Response | ClustersListdefaultResponse): response is ClustersListdefaultResponse;
+export function isUnexpected(response: ClustersList200Response | ClustersListDefaultResponse): response is ClustersListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClustersListUpgradableVersions200Response | ClustersListUpgradableVersionsdefaultResponse): response is ClustersListUpgradableVersionsdefaultResponse;
+export function isUnexpected(response: ClustersListUpgradableVersions200Response | ClustersListUpgradableVersionsDefaultResponse): response is ClustersListUpgradableVersionsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClusterVersionsGet200Response | ClusterVersionsGetdefaultResponse): response is ClusterVersionsGetdefaultResponse;
+export function isUnexpected(response: ClusterVersionsGet200Response | ClusterVersionsGetDefaultResponse): response is ClusterVersionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClusterVersionsGetByEnvironment200Response | ClusterVersionsGetByEnvironmentdefaultResponse): response is ClusterVersionsGetByEnvironmentdefaultResponse;
+export function isUnexpected(response: ClusterVersionsGetByEnvironment200Response | ClusterVersionsGetByEnvironmentDefaultResponse): response is ClusterVersionsGetByEnvironmentDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClusterVersionsList200Response | ClusterVersionsListdefaultResponse): response is ClusterVersionsListdefaultResponse;
+export function isUnexpected(response: ClusterVersionsList200Response | ClusterVersionsListDefaultResponse): response is ClusterVersionsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ClusterVersionsListByEnvironment200Response | ClusterVersionsListByEnvironmentdefaultResponse): response is ClusterVersionsListByEnvironmentdefaultResponse;
+export function isUnexpected(response: ClusterVersionsListByEnvironment200Response | ClusterVersionsListByEnvironmentDefaultResponse): response is ClusterVersionsListByEnvironmentDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: OperationsList200Response | OperationsListdefaultResponse): response is OperationsListdefaultResponse;
+export function isUnexpected(response: OperationsList200Response | OperationsListDefaultResponse): response is OperationsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationTypesGet200Response | ApplicationTypesGetdefaultResponse): response is ApplicationTypesGetdefaultResponse;
+export function isUnexpected(response: ApplicationTypesGet200Response | ApplicationTypesGetDefaultResponse): response is ApplicationTypesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationTypesCreateOrUpdate200Response | ApplicationTypesCreateOrUpdatedefaultResponse): response is ApplicationTypesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ApplicationTypesCreateOrUpdate200Response | ApplicationTypesCreateOrUpdateDefaultResponse): response is ApplicationTypesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationTypesDelete202Response | ApplicationTypesDelete204Response | ApplicationTypesDeletedefaultResponse): response is ApplicationTypesDeletedefaultResponse;
+export function isUnexpected(response: ApplicationTypesDelete202Response | ApplicationTypesDelete204Response | ApplicationTypesDeleteDefaultResponse): response is ApplicationTypesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationTypesList200Response | ApplicationTypesListdefaultResponse): response is ApplicationTypesListdefaultResponse;
+export function isUnexpected(response: ApplicationTypesList200Response | ApplicationTypesListDefaultResponse): response is ApplicationTypesListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetdefaultResponse): response is ApplicationTypeVersionsGetdefaultResponse;
+export function isUnexpected(response: ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetDefaultResponse): response is ApplicationTypeVersionsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationTypeVersionsCreateOrUpdate202Response | ApplicationTypeVersionsCreateOrUpdatedefaultResponse): response is ApplicationTypeVersionsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ApplicationTypeVersionsCreateOrUpdate202Response | ApplicationTypeVersionsCreateOrUpdateDefaultResponse): response is ApplicationTypeVersionsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationTypeVersionsDelete202Response | ApplicationTypeVersionsDelete204Response | ApplicationTypeVersionsDeletedefaultResponse): response is ApplicationTypeVersionsDeletedefaultResponse;
+export function isUnexpected(response: ApplicationTypeVersionsDelete202Response | ApplicationTypeVersionsDelete204Response | ApplicationTypeVersionsDeleteDefaultResponse): response is ApplicationTypeVersionsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListdefaultResponse): response is ApplicationTypeVersionsListdefaultResponse;
+export function isUnexpected(response: ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListDefaultResponse): response is ApplicationTypeVersionsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationsGet200Response | ApplicationsGetdefaultResponse): response is ApplicationsGetdefaultResponse;
+export function isUnexpected(response: ApplicationsGet200Response | ApplicationsGetDefaultResponse): response is ApplicationsGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdatedefaultResponse): response is ApplicationsCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdateDefaultResponse): response is ApplicationsCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationsUpdate202Response | ApplicationsUpdatedefaultResponse): response is ApplicationsUpdatedefaultResponse;
+export function isUnexpected(response: ApplicationsUpdate202Response | ApplicationsUpdateDefaultResponse): response is ApplicationsUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationsDelete202Response | ApplicationsDelete204Response | ApplicationsDeletedefaultResponse): response is ApplicationsDeletedefaultResponse;
+export function isUnexpected(response: ApplicationsDelete202Response | ApplicationsDelete204Response | ApplicationsDeleteDefaultResponse): response is ApplicationsDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ApplicationsList200Response | ApplicationsListdefaultResponse): response is ApplicationsListdefaultResponse;
+export function isUnexpected(response: ApplicationsList200Response | ApplicationsListDefaultResponse): response is ApplicationsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ServicesGet200Response | ServicesGetdefaultResponse): response is ServicesGetdefaultResponse;
+export function isUnexpected(response: ServicesGet200Response | ServicesGetDefaultResponse): response is ServicesGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ServicesCreateOrUpdate202Response | ServicesCreateOrUpdatedefaultResponse): response is ServicesCreateOrUpdatedefaultResponse;
+export function isUnexpected(response: ServicesCreateOrUpdate202Response | ServicesCreateOrUpdateDefaultResponse): response is ServicesCreateOrUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ServicesUpdate202Response | ServicesUpdatedefaultResponse): response is ServicesUpdatedefaultResponse;
+export function isUnexpected(response: ServicesUpdate202Response | ServicesUpdateDefaultResponse): response is ServicesUpdateDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ServicesDelete202Response | ServicesDelete204Response | ServicesDeletedefaultResponse): response is ServicesDeletedefaultResponse;
+export function isUnexpected(response: ServicesDelete202Response | ServicesDelete204Response | ServicesDeleteDefaultResponse): response is ServicesDeleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ServicesList200Response | ServicesListdefaultResponse): response is ServicesListdefaultResponse;
+export function isUnexpected(response: ServicesList200Response | ServicesListDefaultResponse): response is ServicesListDefaultResponse;
 
-// @public (undocumented)
+// @public
 export interface ManagedIdentity {
-    principalId?: string;
-    tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
     userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
-// @public (undocumented)
+// @public
 export interface ManagedIdentityOutput {
-    principalId?: string;
-    tenantId?: string;
+    readonly principalId?: string;
+    readonly tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
     userAssignedIdentities?: Record<string, UserAssignedIdentityOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface NamedPartitionSchemeDescription extends PartitionSchemeDescriptionParent {
     count: number;
     names: Array<string>;
@@ -1366,7 +1339,7 @@ export interface NamedPartitionSchemeDescription extends PartitionSchemeDescript
     partitionScheme: "Named";
 }
 
-// @public (undocumented)
+// @public
 export interface NamedPartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputParent {
     count: number;
     names: Array<string>;
@@ -1374,7 +1347,7 @@ export interface NamedPartitionSchemeDescriptionOutput extends PartitionSchemeDe
     partitionScheme: "Named";
 }
 
-// @public (undocumented)
+// @public
 export interface NodeTypeDescription {
     applicationPorts?: EndpointRangeDescription;
     capacities?: Record<string, string>;
@@ -1391,7 +1364,7 @@ export interface NodeTypeDescription {
     vmInstanceCount: number;
 }
 
-// @public (undocumented)
+// @public
 export interface NodeTypeDescriptionOutput {
     applicationPorts?: EndpointRangeDescriptionOutput;
     capacities?: Record<string, string>;
@@ -1408,15 +1381,16 @@ export interface NodeTypeDescriptionOutput {
     vmInstanceCount: number;
 }
 
-// @public (undocumented)
-export interface Notification {
+// @public
+interface Notification_2 {
     isEnabled: boolean;
     notificationCategory: "WaveProgress";
     notificationLevel: "Critical" | "All";
     notificationTargets: Array<NotificationTarget>;
 }
+export { Notification_2 as Notification }
 
-// @public (undocumented)
+// @public
 export interface NotificationOutput {
     isEnabled: boolean;
     notificationCategory: "WaveProgress";
@@ -1424,25 +1398,25 @@ export interface NotificationOutput {
     notificationTargets: Array<NotificationTargetOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface NotificationTarget {
     notificationChannel: "EmailUser" | "EmailSubscription";
     receivers: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface NotificationTargetOutput {
     notificationChannel: "EmailUser" | "EmailSubscription";
     receivers: Array<string>;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationListResultOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     value?: Array<OperationResultOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationResultOutput {
     display?: AvailableOperationDisplayOutput;
     isDataAction?: boolean;
@@ -1453,7 +1427,7 @@ export interface OperationResultOutput {
 
 // @public (undocumented)
 export interface OperationsList {
-    get(options?: OperationsListParameters): StreamableMethod<OperationsList200Response | OperationsListdefaultResponse>;
+    get(options?: OperationsListParameters): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse>;
 }
 
 // @public
@@ -1465,7 +1439,7 @@ export interface OperationsList200Response extends HttpResponse {
 }
 
 // @public
-export interface OperationsListdefaultResponse extends HttpResponse {
+export interface OperationsListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1474,6 +1448,18 @@ export interface OperationsListdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type OperationsListParameters = RequestParameters;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -1490,66 +1476,56 @@ export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
 }
 
-// @public (undocumented)
+// @public
 export type PartitionSchemeDescription = NamedPartitionSchemeDescription | SingletonPartitionSchemeDescription | UniformInt64RangePartitionSchemeDescription;
 
-// @public (undocumented)
+// @public
 export type PartitionSchemeDescriptionOutput = NamedPartitionSchemeDescriptionOutput | SingletonPartitionSchemeDescriptionOutput | UniformInt64RangePartitionSchemeDescriptionOutput;
 
-// @public (undocumented)
+// @public
 export interface PartitionSchemeDescriptionOutputParent {
     // (undocumented)
     partitionScheme: "PartitionSchemeDescription" | "Named" | "Singleton" | "UniformInt64Range";
 }
 
-// @public (undocumented)
+// @public
 export interface PartitionSchemeDescriptionParent {
     // (undocumented)
     partitionScheme: "PartitionSchemeDescription" | "Named" | "Singleton" | "UniformInt64Range";
 }
 
-// @public (undocumented)
+// @public
 export interface ProxyResource {
-    etag?: string;
-    id?: string;
     location?: string;
-    name?: string;
-    systemData?: SystemData;
     tags?: Record<string, string>;
-    type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ProxyResourceOutput {
-    etag?: string;
-    id?: string;
+    readonly etag?: string;
+    readonly id?: string;
     location?: string;
-    name?: string;
-    systemData?: SystemDataOutput;
+    readonly name?: string;
+    readonly systemData?: SystemDataOutput;
     tags?: Record<string, string>;
-    type?: string;
+    readonly type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface Resource {
-    etag?: string;
-    id?: string;
     location: string;
-    name?: string;
-    systemData?: SystemData;
     tags?: Record<string, string>;
-    type?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ResourceOutput {
-    etag?: string;
-    id?: string;
+    readonly etag?: string;
+    readonly id?: string;
     location: string;
-    name?: string;
-    systemData?: SystemDataOutput;
+    readonly name?: string;
+    readonly systemData?: SystemDataOutput;
     tags?: Record<string, string>;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public (undocumented)
@@ -1573,37 +1549,37 @@ export interface Routes {
     (path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applications/{applicationName}/services", subscriptionId: string, resourceGroupName: string, clusterName: string, applicationName: string): ServicesList;
 }
 
-// @public (undocumented)
+// @public
 export interface ServerCertificateCommonName {
     certificateCommonName: string;
     certificateIssuerThumbprint: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ServerCertificateCommonNameOutput {
     certificateCommonName: string;
     certificateIssuerThumbprint: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ServerCertificateCommonNames {
     commonNames?: Array<ServerCertificateCommonName>;
     x509StoreName?: "AddressBook" | "AuthRoot" | "CertificateAuthority" | "Disallowed" | "My" | "Root" | "TrustedPeople" | "TrustedPublisher";
 }
 
-// @public (undocumented)
+// @public
 export interface ServerCertificateCommonNamesOutput {
     commonNames?: Array<ServerCertificateCommonNameOutput>;
     x509StoreName?: "AddressBook" | "AuthRoot" | "CertificateAuthority" | "Disallowed" | "My" | "Root" | "TrustedPeople" | "TrustedPublisher";
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceCorrelationDescription {
     scheme: "Invalid" | "Affinity" | "AlignedAffinity" | "NonAlignedAffinity";
     serviceName: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceCorrelationDescriptionOutput {
     scheme: "Invalid" | "Affinity" | "AlignedAffinity" | "NonAlignedAffinity";
     serviceName: string;
@@ -1614,7 +1590,12 @@ export type ServiceFabricClient = Client & {
     path: Routes;
 };
 
-// @public (undocumented)
+// @public
+export interface ServiceFabricClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface ServiceLoadMetricDescription {
     defaultLoad?: number;
     name: string;
@@ -1623,7 +1604,7 @@ export interface ServiceLoadMetricDescription {
     weight?: "Zero" | "Low" | "Medium" | "High";
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceLoadMetricDescriptionOutput {
     defaultLoad?: number;
     name: string;
@@ -1632,39 +1613,39 @@ export interface ServiceLoadMetricDescriptionOutput {
     weight?: "Zero" | "Low" | "Medium" | "High";
 }
 
-// @public (undocumented)
+// @public
 export interface ServicePlacementPolicyDescription {
     // (undocumented)
     type: "ServicePlacementPolicyDescription";
 }
 
-// @public (undocumented)
+// @public
 export interface ServicePlacementPolicyDescriptionOutput {
     // (undocumented)
     type: "ServicePlacementPolicyDescription";
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceResource extends ProxyResource {
     properties?: ServiceResourceProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceResourceListOutput {
-    nextLink?: string;
+    readonly nextLink?: string;
     // (undocumented)
     value?: Array<ServiceResourceOutput>;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceResourceOutput extends ProxyResourceOutput {
     properties?: ServiceResourcePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export type ServiceResourceProperties = StatefulServiceProperties | StatelessServiceProperties;
 
-// @public (undocumented)
+// @public
 export interface ServiceResourcePropertiesBase {
     correlationScheme?: Array<ServiceCorrelationDescription>;
     defaultMoveCost?: "Zero" | "Low" | "Medium" | "High";
@@ -1673,7 +1654,7 @@ export interface ServiceResourcePropertiesBase {
     servicePlacementPolicies?: Array<ServicePlacementPolicyDescription>;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceResourcePropertiesBaseOutput {
     correlationScheme?: Array<ServiceCorrelationDescriptionOutput>;
     defaultMoveCost?: "Zero" | "Low" | "Medium" | "High";
@@ -1682,13 +1663,13 @@ export interface ServiceResourcePropertiesBaseOutput {
     servicePlacementPolicies?: Array<ServicePlacementPolicyDescriptionOutput>;
 }
 
-// @public (undocumented)
+// @public
 export type ServiceResourcePropertiesOutput = StatefulServicePropertiesOutput | StatelessServicePropertiesOutput;
 
-// @public (undocumented)
+// @public
 export interface ServiceResourcePropertiesOutputParent extends ServiceResourcePropertiesBaseOutput {
     partitionDescription?: PartitionSchemeDescriptionOutput;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     serviceDnsName?: string;
     // (undocumented)
     serviceKind: "ServiceResourceProperties" | "Stateful" | "Stateless";
@@ -1696,10 +1677,9 @@ export interface ServiceResourcePropertiesOutputParent extends ServiceResourcePr
     serviceTypeName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceResourcePropertiesParent extends ServiceResourcePropertiesBase {
     partitionDescription?: PartitionSchemeDescription;
-    provisioningState?: string;
     serviceDnsName?: string;
     // (undocumented)
     serviceKind: "ServiceResourceProperties" | "Stateful" | "Stateless";
@@ -1707,29 +1687,29 @@ export interface ServiceResourcePropertiesParent extends ServiceResourceProperti
     serviceTypeName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceResourceUpdate extends ProxyResource {
     properties?: ServiceResourceUpdateProperties;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceResourceUpdateOutput extends ProxyResourceOutput {
     properties?: ServiceResourceUpdatePropertiesOutput;
 }
 
-// @public (undocumented)
+// @public
 export type ServiceResourceUpdateProperties = StatefulServiceUpdateProperties | StatelessServiceUpdateProperties;
 
-// @public (undocumented)
+// @public
 export type ServiceResourceUpdatePropertiesOutput = StatefulServiceUpdatePropertiesOutput | StatelessServiceUpdatePropertiesOutput;
 
-// @public (undocumented)
+// @public
 export interface ServiceResourceUpdatePropertiesOutputParent extends ServiceResourcePropertiesBaseOutput {
     // (undocumented)
     serviceKind: "ServiceResourceUpdateProperties" | "Stateful" | "Stateless";
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceResourceUpdatePropertiesParent extends ServiceResourcePropertiesBase {
     // (undocumented)
     serviceKind: "ServiceResourceUpdateProperties" | "Stateful" | "Stateless";
@@ -1749,7 +1729,7 @@ export interface ServicesCreateOrUpdateBodyParam {
 }
 
 // @public
-export interface ServicesCreateOrUpdatedefaultResponse extends HttpResponse {
+export interface ServicesCreateOrUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1767,21 +1747,17 @@ export type ServicesCreateOrUpdateParameters = ServicesCreateOrUpdateMediaTypesP
 // @public
 export interface ServicesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ServicesDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
-export interface ServicesDeletedefaultResponse extends HttpResponse {
+export interface ServicesDeleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1793,10 +1769,10 @@ export type ServicesDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ServicesGet {
-    delete(options?: ServicesDeleteParameters): StreamableMethod<ServicesDelete202Response | ServicesDelete204Response | ServicesDeletedefaultResponse>;
-    get(options?: ServicesGetParameters): StreamableMethod<ServicesGet200Response | ServicesGetdefaultResponse>;
-    patch(options: ServicesUpdateParameters): StreamableMethod<ServicesUpdate202Response | ServicesUpdatedefaultResponse>;
-    put(options: ServicesCreateOrUpdateParameters): StreamableMethod<ServicesCreateOrUpdate202Response | ServicesCreateOrUpdatedefaultResponse>;
+    delete(options?: ServicesDeleteParameters): StreamableMethod<ServicesDelete202Response | ServicesDelete204Response | ServicesDeleteDefaultResponse>;
+    get(options?: ServicesGetParameters): StreamableMethod<ServicesGet200Response | ServicesGetDefaultResponse>;
+    patch(options: ServicesUpdateParameters): StreamableMethod<ServicesUpdate202Response | ServicesUpdateDefaultResponse>;
+    put(options: ServicesCreateOrUpdateParameters): StreamableMethod<ServicesCreateOrUpdate202Response | ServicesCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -1808,7 +1784,7 @@ export interface ServicesGet200Response extends HttpResponse {
 }
 
 // @public
-export interface ServicesGetdefaultResponse extends HttpResponse {
+export interface ServicesGetDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1820,7 +1796,7 @@ export type ServicesGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ServicesList {
-    get(options?: ServicesListParameters): StreamableMethod<ServicesList200Response | ServicesListdefaultResponse>;
+    get(options?: ServicesListParameters): StreamableMethod<ServicesList200Response | ServicesListDefaultResponse>;
 }
 
 // @public
@@ -1832,7 +1808,7 @@ export interface ServicesList200Response extends HttpResponse {
 }
 
 // @public
-export interface ServicesListdefaultResponse extends HttpResponse {
+export interface ServicesListDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1856,7 +1832,7 @@ export interface ServicesUpdateBodyParam {
 }
 
 // @public
-export interface ServicesUpdatedefaultResponse extends HttpResponse {
+export interface ServicesUpdateDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorModelOutput;
     // (undocumented)
@@ -1871,63 +1847,85 @@ export interface ServicesUpdateMediaTypesParam {
 // @public (undocumented)
 export type ServicesUpdateParameters = ServicesUpdateMediaTypesParam & ServicesUpdateBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ServiceTypeDeltaHealthPolicy {
     maxPercentDeltaUnhealthyServices?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceTypeDeltaHealthPolicyOutput {
     maxPercentDeltaUnhealthyServices?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceTypeHealthPolicy {
     maxPercentUnhealthyServices?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface ServiceTypeHealthPolicyOutput {
     maxPercentUnhealthyServices?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface SettingsParameterDescription {
     name: string;
     value: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SettingsParameterDescriptionOutput {
     name: string;
     value: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SettingsSectionDescription {
     name: string;
     parameters: Array<SettingsParameterDescription>;
 }
 
-// @public (undocumented)
+// @public
 export interface SettingsSectionDescriptionOutput {
     name: string;
     parameters: Array<SettingsParameterDescriptionOutput>;
 }
 
-// @public (undocumented)
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
+
+// @public
 export interface SingletonPartitionSchemeDescription extends PartitionSchemeDescriptionParent {
     // (undocumented)
     partitionScheme: "Singleton";
 }
 
-// @public (undocumented)
+// @public
 export interface SingletonPartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputParent {
     // (undocumented)
     partitionScheme: "Singleton";
 }
 
-// @public (undocumented)
+// @public
 export interface StatefulServiceProperties extends ServiceResourcePropertiesParent {
     hasPersistedState?: boolean;
     minReplicaSetSize?: number;
@@ -1939,7 +1937,7 @@ export interface StatefulServiceProperties extends ServiceResourcePropertiesPare
     targetReplicaSetSize?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface StatefulServicePropertiesOutput extends ServiceResourcePropertiesOutputParent {
     hasPersistedState?: boolean;
     minReplicaSetSize?: number;
@@ -1951,7 +1949,7 @@ export interface StatefulServicePropertiesOutput extends ServiceResourceProperti
     targetReplicaSetSize?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface StatefulServiceUpdateProperties extends ServiceResourceUpdatePropertiesParent {
     minReplicaSetSize?: number;
     quorumLossWaitDuration?: Date | string;
@@ -1962,7 +1960,7 @@ export interface StatefulServiceUpdateProperties extends ServiceResourceUpdatePr
     targetReplicaSetSize?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface StatefulServiceUpdatePropertiesOutput extends ServiceResourceUpdatePropertiesOutputParent {
     minReplicaSetSize?: number;
     quorumLossWaitDuration?: string;
@@ -1973,7 +1971,7 @@ export interface StatefulServiceUpdatePropertiesOutput extends ServiceResourceUp
     targetReplicaSetSize?: number;
 }
 
-// @public (undocumented)
+// @public
 export interface StatelessServiceProperties extends ServiceResourcePropertiesParent {
     instanceCloseDelayDuration?: string;
     instanceCount?: number;
@@ -1981,7 +1979,7 @@ export interface StatelessServiceProperties extends ServiceResourcePropertiesPar
     serviceKind: "Stateless";
 }
 
-// @public (undocumented)
+// @public
 export interface StatelessServicePropertiesOutput extends ServiceResourcePropertiesOutputParent {
     instanceCloseDelayDuration?: string;
     instanceCount?: number;
@@ -1989,7 +1987,7 @@ export interface StatelessServicePropertiesOutput extends ServiceResourcePropert
     serviceKind: "Stateless";
 }
 
-// @public (undocumented)
+// @public
 export interface StatelessServiceUpdateProperties extends ServiceResourceUpdatePropertiesParent {
     instanceCloseDelayDuration?: string;
     instanceCount?: number;
@@ -1997,7 +1995,7 @@ export interface StatelessServiceUpdateProperties extends ServiceResourceUpdateP
     serviceKind: "Stateless";
 }
 
-// @public (undocumented)
+// @public
 export interface StatelessServiceUpdatePropertiesOutput extends ServiceResourceUpdatePropertiesOutputParent {
     instanceCloseDelayDuration?: string;
     instanceCount?: number;
@@ -2005,7 +2003,7 @@ export interface StatelessServiceUpdatePropertiesOutput extends ServiceResourceU
     serviceKind: "Stateless";
 }
 
-// @public (undocumented)
+// @public
 export interface SystemData {
     createdAt?: Date | string;
     createdBy?: string;
@@ -2015,7 +2013,7 @@ export interface SystemData {
     lastModifiedByType?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SystemDataOutput {
     createdAt?: string;
     createdBy?: string;
@@ -2025,7 +2023,7 @@ export interface SystemDataOutput {
     lastModifiedByType?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UniformInt64RangePartitionSchemeDescription extends PartitionSchemeDescriptionParent {
     count: number;
     highKey: string;
@@ -2034,7 +2032,7 @@ export interface UniformInt64RangePartitionSchemeDescription extends PartitionSc
     partitionScheme: "UniformInt64Range";
 }
 
-// @public (undocumented)
+// @public
 export interface UniformInt64RangePartitionSchemeDescriptionOutput extends PartitionSchemeDescriptionOutputParent {
     count: number;
     highKey: string;
@@ -2043,7 +2041,7 @@ export interface UniformInt64RangePartitionSchemeDescriptionOutput extends Parti
     partitionScheme: "UniformInt64Range";
 }
 
-// @public (undocumented)
+// @public
 export interface UpgradableVersionPathResultOutput {
     // (undocumented)
     supportedPath?: Array<string>;
@@ -2056,14 +2054,12 @@ export interface UpgradableVersionsDescription {
 
 // @public (undocumented)
 export interface UserAssignedIdentity {
-    clientId?: string;
-    principalId?: string;
 }
 
 // @public (undocumented)
 export interface UserAssignedIdentityOutput {
-    clientId?: string;
-    principalId?: string;
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // (No @packageDocumentation comment for this package)

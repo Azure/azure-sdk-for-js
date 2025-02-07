@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CosmosDiagnostics, CosmosHeaders } from "../index";
+import type { CosmosDiagnostics, CosmosHeaders } from "../index";
 
 /**
  * @hidden

@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationParameters
+  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the specified network interface ip configuration in a virtual machine scale set.
@@ -27,7 +22,7 @@ async function getVirtualMachineScaleSetNetworkInterface() {
   const networkInterfaceName = "nic1";
   const ipConfigurationName = "ip1";
   const options: NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationParameters = {
-    queryParameters: { "api-version": "2018-10-01" }
+    queryParameters: { "api-version": "2018-10-01" },
   };
   const result = await client
     .path(
@@ -37,7 +32,7 @@ async function getVirtualMachineScaleSetNetworkInterface() {
       virtualMachineScaleSetName,
       virtualmachineIndex,
       networkInterfaceName,
-      ipConfigurationName
+      ipConfigurationName,
     )
     .get(options);
   console.log(result);

@@ -1,19 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type { PolicyModification } from "./index.js";
+import * as Mappers from "../generated/models/mappers.js";
 
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- *
- */
+import type { PolicyResult as GeneratedPolicyResult } from "../generated/models/index.js";
 
-import { PolicyModification } from "./index";
-import * as Mappers from "../generated/models/mappers";
-
-import { PolicyResult as GeneratedPolicyResult } from "../generated/models";
-
-import { TypeDeserializer } from "../utils/typeDeserializer";
-import { AttestationSigner, _attestationSignerFromGenerated } from "./attestationSigner";
+import { TypeDeserializer } from "../utils/typeDeserializer.js";
+import type { AttestationSigner } from "./attestationSigner.js";
+import { _attestationSignerFromGenerated } from "./attestationSigner.js";
 
 /**
  * The result of a policy certificate modification

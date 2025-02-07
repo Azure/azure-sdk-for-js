@@ -17,18 +17,20 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   FleetsImpl,
+  AutoUpgradeProfilesImpl,
   FleetMembersImpl,
   UpdateRunsImpl,
   FleetUpdateStrategiesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Fleets,
+  AutoUpgradeProfiles,
   FleetMembers,
   UpdateRuns,
   FleetUpdateStrategies,
-} from "./operationsInterfaces";
-import { ContainerServiceFleetClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ContainerServiceFleetClientOptionalParams } from "./models/index.js";
 
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
   $host: string;
@@ -62,7 +64,7 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerservicefleet/1.1.1`;
+    const packageDetails = `azsdk-js-arm-containerservicefleet/1.2.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,9 +118,10 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2024-05-02-preview";
     this.operations = new OperationsImpl(this);
     this.fleets = new FleetsImpl(this);
+    this.autoUpgradeProfiles = new AutoUpgradeProfilesImpl(this);
     this.fleetMembers = new FleetMembersImpl(this);
     this.updateRuns = new UpdateRunsImpl(this);
     this.fleetUpdateStrategies = new FleetUpdateStrategiesImpl(this);
@@ -155,6 +158,7 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
 
   operations: Operations;
   fleets: Fleets;
+  autoUpgradeProfiles: AutoUpgradeProfiles;
   fleetMembers: FleetMembers;
   updateRuns: UpdateRuns;
   fleetUpdateStrategies: FleetUpdateStrategies;

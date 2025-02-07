@@ -75,7 +75,7 @@ node dist/elasticSansCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ELASTICSANS_SUBSCRIPTION_ID="<elasticsans subscription id>" ELASTICSANS_RESOURCE_GROUP="<elasticsans resource group>" node dist/elasticSansCreateSample.js
+npx dev-tool run vendored cross-env ELASTICSANS_SUBSCRIPTION_ID="<elasticsans subscription id>" ELASTICSANS_RESOURCE_GROUP="<elasticsans resource group>" node dist/elasticSansCreateSample.js
 ```
 
 ## Next Steps
@@ -109,7 +109,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [volumesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elasticsans/arm-elasticsan/samples/v1/typescript/src/volumesGetSample.ts
 [volumeslistbyvolumegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elasticsans/arm-elasticsan/samples/v1/typescript/src/volumesListByVolumeGroupSample.ts
 [volumesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elasticsans/arm-elasticsan/samples/v1/typescript/src/volumesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-elasticsan?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-elasticsan?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/elasticsans/arm-elasticsan/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

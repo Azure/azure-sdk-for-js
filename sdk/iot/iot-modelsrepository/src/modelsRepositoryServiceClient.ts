@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ServiceClientOptions, ServiceClient } from "@azure/core-client";
-import { DEFAULT_API_VERSION } from "./utils/constants";
+import type { ServiceClientOptions } from "@azure/core-client";
+import { ServiceClient } from "@azure/core-client";
+import { DEFAULT_API_VERSION } from "./utils/constants.js";
 
 interface IoTModelsRepositoryServiceClientOptions extends ServiceClientOptions {
   // API Version to be used during HTTP Calls.

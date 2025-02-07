@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   HttpClient,
   LogPolicyOptions,
   Pipeline,
@@ -13,9 +13,9 @@ import {
   RequestBodyType,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -201,10 +201,10 @@ export interface Client {
    * This method will be used to send request that would check the path to provide
    * strong types. When used by the codegen this type gets overridden with the generated
    * types. For example:
-   * ```typescript snippet:path_example
-   * import { Client, Routes } from "@azure-rest/core-client";
+   * ```typescript snippet:PathExample
+   * import { Client } from "@azure-rest/core-client";
    *
-   * export type MyClient = Client & {
+   * type MyClient = Client & {
    *   path: Routes;
    * };
    * ```

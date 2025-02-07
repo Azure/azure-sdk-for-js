@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get long running operation result.
  *
  * @summary Get long running operation result.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/Long_running_operation_result.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/Long_running_operation_result.json
  */
 async function getOperationResult() {
   const subscriptionId =

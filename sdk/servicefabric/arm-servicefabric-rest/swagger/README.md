@@ -4,6 +4,8 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: arm
 package-name: "@azure-rest/arm-servicefabric"
 title: ServiceFabricClient
 description: Service Fabric Client
@@ -18,4 +20,7 @@ package-version: 1.0.0-beta.2
 rest-level-client: true
 security: AADToken
 security-scopes: "https://management.azure.com/.default"
+use-extension:
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```

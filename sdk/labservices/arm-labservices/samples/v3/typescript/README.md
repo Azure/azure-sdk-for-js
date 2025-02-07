@@ -89,7 +89,7 @@ node dist/imagesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env LABSERVICES_SUBSCRIPTION_ID="<labservices subscription id>" LABSERVICES_RESOURCE_GROUP="<labservices resource group>" node dist/imagesCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env LABSERVICES_SUBSCRIPTION_ID="<labservices subscription id>" LABSERVICES_RESOURCE_GROUP="<labservices resource group>" node dist/imagesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -137,7 +137,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualmachinesresetpasswordsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/labservices/arm-labservices/samples/v3/typescript/src/virtualMachinesResetPasswordSample.ts
 [virtualmachinesstartsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/labservices/arm-labservices/samples/v3/typescript/src/virtualMachinesStartSample.ts
 [virtualmachinesstopsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/labservices/arm-labservices/samples/v3/typescript/src/virtualMachinesStopSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-labservices?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-labservices?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/labservices/arm-labservices/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

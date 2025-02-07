@@ -102,7 +102,7 @@ node disasterRecoveryConfigsBreakPairingSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SERVICEBUS_SUBSCRIPTION_ID="<servicebus subscription id>" SERVICEBUS_RESOURCE_GROUP="<servicebus resource group>" node disasterRecoveryConfigsBreakPairingSample.js
+npx dev-tool run vendored cross-env SERVICEBUS_SUBSCRIPTION_ID="<servicebus subscription id>" SERVICEBUS_RESOURCE_GROUP="<servicebus resource group>" node disasterRecoveryConfigsBreakPairingSample.js
 ```
 
 ## Next Steps
@@ -175,6 +175,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [topicslistbynamespacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/arm-servicebus/samples/v6-beta/javascript/topicsListByNamespaceSample.js
 [topicslistkeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/arm-servicebus/samples/v6-beta/javascript/topicsListKeysSample.js
 [topicsregeneratekeyssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/arm-servicebus/samples/v6-beta/javascript/topicsRegenerateKeysSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-servicebus?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-servicebus?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/arm-servicebus/README.md

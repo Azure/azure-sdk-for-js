@@ -5,8 +5,9 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import { addToOffset } from "../util/testUtils.js";
 import { BlobCheckpointStore } from "../../src/index.js";
-import { ContainerClient } from "@azure/storage-blob";
-import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/event-hubs";
+import type { ContainerClient } from "@azure/storage-blob";
+import type { PartitionOwnership, Checkpoint } from "@azure/event-hubs";
+import { EventHubConsumerClient } from "@azure/event-hubs";
 import { parseIntOrThrow } from "../../src/blobCheckpointStore.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { assert, expect, should } from "../util/chai.js";
@@ -20,20 +21,20 @@ async function expectAbortError(promise: Promise<unknown>): Promise<void> {
   });
 }
 
-describe("Blob Checkpoint Store", function () {
+describe("Blob Checkpoint Store", () => {
   let containerClient: ContainerClient;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     containerClient = createContainer().container;
     await containerClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await containerClient.delete();
   });
 
-  describe("listOwnership", function () {
-    it("supports cancellation via abortSignal", async function () {
+  describe("listOwnership", () => {
+    it("supports cancellation via abortSignal", async () => {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and abort it after blocking code is ran.
@@ -52,7 +53,7 @@ describe("Blob Checkpoint Store", function () {
       );
     });
 
-    it("supports cancellation via abortSignal (pre-cancelled)", async function () {
+    it("supports cancellation via abortSignal (pre-cancelled)", async () => {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and immediately abort it.
@@ -73,7 +74,7 @@ describe("Blob Checkpoint Store", function () {
     });
   });
 
-  it("listOwnership should return an empty array", async function () {
+  it("listOwnership should return an empty array", async () => {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -83,8 +84,8 @@ describe("Blob Checkpoint Store", function () {
     should.equal(listOwnership.length, 0);
   });
 
-  describe("claimOwnership", function () {
-    it("supports cancellation via abortSignal", async function () {
+  describe("claimOwnership", () => {
+    it("supports cancellation via abortSignal", async () => {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and abort it after blocking code is ran.
@@ -109,7 +110,7 @@ describe("Blob Checkpoint Store", function () {
       );
     });
 
-    it("supports cancellation via abortSignal (pre-cancelled)", async function () {
+    it("supports cancellation via abortSignal (pre-cancelled)", async () => {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and immediately abort it.
@@ -199,7 +200,7 @@ describe("Blob Checkpoint Store", function () {
     });
   });
 
-  it("claimOwnership call should succeed, if it has been called for the first time", async function () {
+  it("claimOwnership call should succeed, if it has been called for the first time", async () => {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -255,7 +256,7 @@ describe("Blob Checkpoint Store", function () {
     );
   });
 
-  it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async function () {
+  it("After multiple claimOwnership calls for a single partition, listOwnership should return an array with a single PartitionOwnership for that partition.", async () => {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -311,7 +312,7 @@ describe("Blob Checkpoint Store", function () {
     );
   });
 
-  it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async function () {
+  it("After multiple claimOwnership calls for multiple partition, listOwnership should return an array with a single PartitionOwnership for each partition.", async () => {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",
@@ -386,8 +387,8 @@ describe("Blob Checkpoint Store", function () {
     should.exist(ownershipList[2].etag, "etag should exist.");
   });
 
-  describe("listCheckpoints", function () {
-    it("supports cancellation via abortSignal", async function () {
+  describe("listCheckpoints", () => {
+    it("supports cancellation via abortSignal", async () => {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and abort it after blocking code is ran.
@@ -406,7 +407,7 @@ describe("Blob Checkpoint Store", function () {
       );
     });
 
-    it("supports cancellation via abortSignal (pre-cancelled)", async function () {
+    it("supports cancellation via abortSignal (pre-cancelled)", async () => {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and immediately abort it.
@@ -562,7 +563,7 @@ describe("Blob Checkpoint Store", function () {
       });
     });
 
-    it("supports cancellation via abortSignal", async function () {
+    it("supports cancellation via abortSignal", async () => {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and abort it after blocking code is ran.
@@ -582,7 +583,7 @@ describe("Blob Checkpoint Store", function () {
       await expectAbortError(checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal }));
     });
 
-    it("supports cancellation via abortSignal (pre-cancelled)", async function () {
+    it("supports cancellation via abortSignal (pre-cancelled)", async () => {
       const checkpointStore = new BlobCheckpointStore(containerClient);
 
       // Create an abort controller and immediately abort it.
@@ -604,7 +605,7 @@ describe("Blob Checkpoint Store", function () {
     });
   });
 
-  it("Claiming ownership with an empty owner id should be fine (ie, unclaiming)", async function () {
+  it("Claiming ownership with an empty owner id should be fine (ie, unclaiming)", async () => {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
       "testNamespace.servicebus.windows.net",

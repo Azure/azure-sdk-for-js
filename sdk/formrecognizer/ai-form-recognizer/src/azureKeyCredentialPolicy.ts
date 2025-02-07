@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyCredential } from "@azure/core-auth";
-import { PipelinePolicy, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { KeyCredential } from "@azure/core-auth";
+import type { PipelinePolicy, PipelineResponse } from "@azure/core-rest-pipeline";
 
 const APIM_SUBSCRIPTION_KEY_HEADER = "Ocp-Apim-Subscription-Key";
 

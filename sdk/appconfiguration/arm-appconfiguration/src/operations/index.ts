@@ -6,9 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./configurationStores";
-export * from "./operations";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./keyValues";
-export * from "./replicas";
+export * from "./configurationStores.js";
+export * from "./operations.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./keyValues.js";
+export * from "./replicas.js";
+export * from "./snapshots.js";

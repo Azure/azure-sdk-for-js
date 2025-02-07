@@ -52,6 +52,15 @@ import {
   VpnPacketCaptureStopParameters,
   VirtualNetworkGatewaysStopPacketCaptureOptionalParams,
   VirtualNetworkGatewaysStopPacketCaptureResponse,
+  VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams,
+  VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse,
+  VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams,
+  VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse,
+  VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams,
+  VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse,
+  ExpressRouteFailoverStopApiParameters,
+  VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams,
+  VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse,
   VirtualNetworkGatewaysGetVpnclientConnectionHealthOptionalParams,
   VirtualNetworkGatewaysGetVpnclientConnectionHealthResponse,
   P2SVpnConnectionRequest,
@@ -564,6 +573,144 @@ export interface VirtualNetworkGateways {
     parameters: VpnPacketCaptureStopParameters,
     options?: VirtualNetworkGatewaysStopPacketCaptureOptionalParams,
   ): Promise<VirtualNetworkGatewaysStopPacketCaptureResponse>;
+  /**
+   * This operation retrieves the details of all the failover tests performed on the gateway for
+   * different peering locations
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param typeParam The type of failover test
+   * @param fetchLatest Fetch only the latest tests for each peering location
+   * @param options The options parameters.
+   */
+  beginGetFailoverAllTestDetails(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    typeParam: string,
+    fetchLatest: boolean,
+    options?: VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse>,
+      VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse
+    >
+  >;
+  /**
+   * This operation retrieves the details of all the failover tests performed on the gateway for
+   * different peering locations
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param typeParam The type of failover test
+   * @param fetchLatest Fetch only the latest tests for each peering location
+   * @param options The options parameters.
+   */
+  beginGetFailoverAllTestDetailsAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    typeParam: string,
+    fetchLatest: boolean,
+    options?: VirtualNetworkGatewaysGetFailoverAllTestDetailsOptionalParams,
+  ): Promise<VirtualNetworkGatewaysGetFailoverAllTestDetailsResponse>;
+  /**
+   * This operation retrieves the details of a particular failover test performed on the gateway based on
+   * the test Guid
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param peeringLocation Peering location of the test
+   * @param failoverTestId The unique Guid value which identifies the test
+   * @param options The options parameters.
+   */
+  beginGetFailoverSingleTestDetails(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    peeringLocation: string,
+    failoverTestId: string,
+    options?: VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse>,
+      VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse
+    >
+  >;
+  /**
+   * This operation retrieves the details of a particular failover test performed on the gateway based on
+   * the test Guid
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param peeringLocation Peering location of the test
+   * @param failoverTestId The unique Guid value which identifies the test
+   * @param options The options parameters.
+   */
+  beginGetFailoverSingleTestDetailsAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    peeringLocation: string,
+    failoverTestId: string,
+    options?: VirtualNetworkGatewaysGetFailoverSingleTestDetailsOptionalParams,
+  ): Promise<VirtualNetworkGatewaysGetFailoverSingleTestDetailsResponse>;
+  /**
+   * This operation starts failover simulation on the gateway for the specified peering location
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param peeringLocation Peering location of the test
+   * @param options The options parameters.
+   */
+  beginStartExpressRouteSiteFailoverSimulation(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    peeringLocation: string,
+    options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse>,
+      VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse
+    >
+  >;
+  /**
+   * This operation starts failover simulation on the gateway for the specified peering location
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param peeringLocation Peering location of the test
+   * @param options The options parameters.
+   */
+  beginStartExpressRouteSiteFailoverSimulationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    peeringLocation: string,
+    options?: VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysStartExpressRouteSiteFailoverSimulationResponse>;
+  /**
+   * This operation stops failover simulation on the gateway for the specified peering location
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param stopParameters Virtual network gateway stop simulation parameters supplied to stop failover
+   *                       simulation on gateway.
+   * @param options The options parameters.
+   */
+  beginStopExpressRouteSiteFailoverSimulation(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    stopParameters: ExpressRouteFailoverStopApiParameters,
+    options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse>,
+      VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse
+    >
+  >;
+  /**
+   * This operation stops failover simulation on the gateway for the specified peering location
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayName The name of the virtual network gateway.
+   * @param stopParameters Virtual network gateway stop simulation parameters supplied to stop failover
+   *                       simulation on gateway.
+   * @param options The options parameters.
+   */
+  beginStopExpressRouteSiteFailoverSimulationAndWait(
+    resourceGroupName: string,
+    virtualNetworkGatewayName: string,
+    stopParameters: ExpressRouteFailoverStopApiParameters,
+    options?: VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationOptionalParams,
+  ): Promise<VirtualNetworkGatewaysStopExpressRouteSiteFailoverSimulationResponse>;
   /**
    * Get VPN client connection health detail per P2S client connection of the virtual network gateway in
    * the specified resource group.

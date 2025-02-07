@@ -140,7 +140,7 @@ node dist/accessControlRecordsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/accessControlRecordsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env  node dist/accessControlRecordsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -239,7 +239,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [volumeslistbyvolumecontainersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storsimple8000series/arm-storsimple8000series/samples/v2/typescript/src/volumesListByVolumeContainerSample.ts
 [volumeslistmetricdefinitionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storsimple8000series/arm-storsimple8000series/samples/v2/typescript/src/volumesListMetricDefinitionSample.ts
 [volumeslistmetricssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storsimple8000series/arm-storsimple8000series/samples/v2/typescript/src/volumesListMetricsSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-storsimple8000series?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-storsimple8000series?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storsimple8000series/arm-storsimple8000series/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -105,7 +105,7 @@ node dist/applicationsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env HDINSIGHT_SUBSCRIPTION_ID="<hdinsight subscription id>" HDINSIGHT_RESOURCE_GROUP="<hdinsight resource group>" node dist/applicationsCreateSample.js
+npx dev-tool run vendored cross-env HDINSIGHT_SUBSCRIPTION_ID="<hdinsight subscription id>" HDINSIGHT_RESOURCE_GROUP="<hdinsight resource group>" node dist/applicationsCreateSample.js
 ```
 
 ## Next Steps
@@ -169,7 +169,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualmachinesgetasyncoperationstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hdinsight/arm-hdinsight/samples/v1-beta/typescript/src/virtualMachinesGetAsyncOperationStatusSample.ts
 [virtualmachineslisthostssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hdinsight/arm-hdinsight/samples/v1-beta/typescript/src/virtualMachinesListHostsSample.ts
 [virtualmachinesrestarthostssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hdinsight/arm-hdinsight/samples/v1-beta/typescript/src/virtualMachinesRestartHostsSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hdinsight?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hdinsight?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hdinsight/arm-hdinsight/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

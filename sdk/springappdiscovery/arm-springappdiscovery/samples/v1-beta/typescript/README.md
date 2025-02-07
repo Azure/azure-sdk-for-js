@@ -70,7 +70,7 @@ node dist/errorSummariesGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SPRINGAPPDISCOVERY_SUBSCRIPTION_ID="<springappdiscovery subscription id>" SPRINGAPPDISCOVERY_RESOURCE_GROUP="<springappdiscovery resource group>" node dist/errorSummariesGetSample.js
+npx dev-tool run vendored cross-env SPRINGAPPDISCOVERY_SUBSCRIPTION_ID="<springappdiscovery subscription id>" SPRINGAPPDISCOVERY_RESOURCE_GROUP="<springappdiscovery resource group>" node dist/errorSummariesGetSample.js
 ```
 
 ## Next Steps
@@ -99,7 +99,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [springbootsitesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/springappdiscovery/arm-springappdiscovery/samples/v1-beta/typescript/src/springbootsitesUpdateSample.ts
 [summariesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/springappdiscovery/arm-springappdiscovery/samples/v1-beta/typescript/src/summariesGetSample.ts
 [summarieslistbysitesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/springappdiscovery/arm-springappdiscovery/samples/v1-beta/typescript/src/summariesListBySiteSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-springappdiscovery?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-springappdiscovery?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/springappdiscovery/arm-springappdiscovery/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

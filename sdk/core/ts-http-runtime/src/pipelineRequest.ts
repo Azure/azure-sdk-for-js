@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   FormDataMap,
   HttpHeaders,
   HttpMethods,
@@ -12,9 +12,8 @@ import {
   TransferProgressEvent,
 } from "./interfaces.js";
 import { createHttpHeaders } from "./httpHeaders.js";
-import { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
+import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 import { randomUUID } from "./util/uuidUtils.js";
-import { OperationTracingOptions } from "./tracing/interfaces.js";
 
 /**
  * Settings to initialize a request.
@@ -101,11 +100,6 @@ export interface PipelineRequestOptions {
   abortSignal?: AbortSignalLike;
 
   /**
-   * Options used to create a span when tracing is enabled.
-   */
-  tracingOptions?: OperationTracingOptions;
-
-  /**
    * Callback which fires upon upload progress.
    */
   onUploadProgress?: (progress: TransferProgressEvent) => void;
@@ -133,7 +127,6 @@ class PipelineRequestImpl implements PipelineRequest {
   public disableKeepAlive: boolean;
   public abortSignal?: AbortSignalLike;
   public requestId: string;
-  public tracingOptions?: OperationTracingOptions;
   public allowInsecureConnection?: boolean;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
@@ -151,7 +144,6 @@ class PipelineRequestImpl implements PipelineRequest {
     this.streamResponseStatusCodes = options.streamResponseStatusCodes;
     this.withCredentials = options.withCredentials ?? false;
     this.abortSignal = options.abortSignal;
-    this.tracingOptions = options.tracingOptions;
     this.onUploadProgress = options.onUploadProgress;
     this.onDownloadProgress = options.onDownloadProgress;
     this.requestId = options.requestId || randomUUID();

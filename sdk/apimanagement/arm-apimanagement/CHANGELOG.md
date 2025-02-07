@@ -1,5 +1,21 @@
 # Release History
 
+## 9.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 9.2.0 (2024-11-25)
+
+### Features Added
+
+- Remove xmlSerializer and isXML to fix xml value response serialize issue
+
 ## 9.1.0 (2023-08-23)
 
 ### Features Added

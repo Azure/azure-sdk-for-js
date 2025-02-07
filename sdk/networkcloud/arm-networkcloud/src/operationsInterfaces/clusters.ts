@@ -17,13 +17,19 @@ import {
   ClustersCreateOrUpdateOptionalParams,
   ClustersCreateOrUpdateResponse,
   ClustersDeleteOptionalParams,
+  ClustersDeleteResponse,
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
+  ClusterContinueUpdateVersionParameters,
+  ClustersContinueUpdateVersionOptionalParams,
+  ClustersContinueUpdateVersionResponse,
   ClustersDeployOptionalParams,
   ClustersDeployResponse,
+  ClustersScanRuntimeOptionalParams,
+  ClustersScanRuntimeResponse,
   ClusterUpdateVersionParameters,
   ClustersUpdateVersionOptionalParams,
-  ClustersUpdateVersionResponse
+  ClustersUpdateVersionResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +40,7 @@ export interface Clusters {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ClustersListBySubscriptionOptionalParams
+    options?: ClustersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Get a list of clusters in the provided resource group.
@@ -43,7 +49,7 @@ export interface Clusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Get properties of the provided cluster.
@@ -54,7 +60,7 @@ export interface Clusters {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse>;
   /**
    * Create a new cluster or update the properties of the cluster if it exists.
@@ -67,7 +73,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     clusterParameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersCreateOrUpdateResponse>,
@@ -85,7 +91,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     clusterParameters: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<ClustersCreateOrUpdateResponse>;
   /**
    * Delete the provided cluster.
@@ -96,8 +102,13 @@ export interface Clusters {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: ClustersDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersDeleteResponse>,
+      ClustersDeleteResponse
+    >
+  >;
   /**
    * Delete the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -107,8 +118,8 @@ export interface Clusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
-  ): Promise<void>;
+    options?: ClustersDeleteOptionalParams,
+  ): Promise<ClustersDeleteResponse>;
   /**
    * Patch the properties of the provided cluster, or update the tags associated with the cluster.
    * Properties and tag updates can be done independently.
@@ -119,7 +130,7 @@ export interface Clusters {
   beginUpdate(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersUpdateResponse>,
@@ -136,10 +147,43 @@ export interface Clusters {
   beginUpdateAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse>;
   /**
-   * Deploy the cluster to the provided rack.
+   * Trigger the continuation of an update for a cluster with a matching update strategy that has paused
+   * after completing a segment of the update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param clusterContinueUpdateVersionParameters The request body.
+   * @param options The options parameters.
+   */
+  beginContinueUpdateVersion(
+    resourceGroupName: string,
+    clusterName: string,
+    clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters,
+    options?: ClustersContinueUpdateVersionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersContinueUpdateVersionResponse>,
+      ClustersContinueUpdateVersionResponse
+    >
+  >;
+  /**
+   * Trigger the continuation of an update for a cluster with a matching update strategy that has paused
+   * after completing a segment of the update.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param clusterContinueUpdateVersionParameters The request body.
+   * @param options The options parameters.
+   */
+  beginContinueUpdateVersionAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters,
+    options?: ClustersContinueUpdateVersionOptionalParams,
+  ): Promise<ClustersContinueUpdateVersionResponse>;
+  /**
+   * Deploy the cluster using the rack configuration provided during creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
@@ -147,7 +191,7 @@ export interface Clusters {
   beginDeploy(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeployOptionalParams
+    options?: ClustersDeployOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersDeployResponse>,
@@ -155,7 +199,7 @@ export interface Clusters {
     >
   >;
   /**
-   * Deploy the cluster to the provided rack.
+   * Deploy the cluster using the rack configuration provided during creation.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
@@ -163,8 +207,37 @@ export interface Clusters {
   beginDeployAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeployOptionalParams
+    options?: ClustersDeployOptionalParams,
   ): Promise<ClustersDeployResponse>;
+  /**
+   * Triggers the execution of a runtime protection scan to detect and remediate detected issues, in
+   * accordance with the cluster configuration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  beginScanRuntime(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersScanRuntimeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersScanRuntimeResponse>,
+      ClustersScanRuntimeResponse
+    >
+  >;
+  /**
+   * Triggers the execution of a runtime protection scan to detect and remediate detected issues, in
+   * accordance with the cluster configuration.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  beginScanRuntimeAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersScanRuntimeOptionalParams,
+  ): Promise<ClustersScanRuntimeResponse>;
   /**
    * Update the version of the provided cluster to one of the available supported versions.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -176,7 +249,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     clusterUpdateVersionParameters: ClusterUpdateVersionParameters,
-    options?: ClustersUpdateVersionOptionalParams
+    options?: ClustersUpdateVersionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersUpdateVersionResponse>,
@@ -194,6 +267,6 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     clusterUpdateVersionParameters: ClusterUpdateVersionParameters,
-    options?: ClustersUpdateVersionOptionalParams
+    options?: ClustersUpdateVersionOptionalParams,
   ): Promise<ClustersUpdateVersionResponse>;
 }

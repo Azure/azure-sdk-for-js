@@ -30,7 +30,7 @@ import {
   RemoteRenderingListConversionsNextResponse,
   RemoteRenderingListSessionsNextOptionalParams,
   RemoteRenderingListSessionsNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RemoteRendering. */
 export interface RemoteRendering {

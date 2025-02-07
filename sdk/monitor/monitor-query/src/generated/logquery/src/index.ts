@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { AzureLogAnalytics } from "./azureLogAnalytics";
-export { AzureLogAnalyticsContext } from "./azureLogAnalyticsContext";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { AzureLogAnalytics } from "./azureLogAnalytics.js";
+export { AzureLogAnalyticsContext } from "./azureLogAnalyticsContext.js";
+export * from "./operationsInterfaces/index.js";

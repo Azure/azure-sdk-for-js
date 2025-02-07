@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AppConfigurationClient, ConfigurationSetting } from "../../src/index.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { AppConfigurationClient, ConfigurationSetting } from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
@@ -20,12 +20,12 @@ describe("Various error cases", () => {
   let recorder: Recorder;
   const nonMatchingETag = "never-match-etag";
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -42,10 +42,8 @@ describe("Various error cases", () => {
       nonExistentKey = "non-existent key " + addedSetting.key;
     });
 
-    afterEach(async function (ctx) {
-      if (!ctx.task.pending) {
-        await deleteKeyCompletely([addedSetting.key], client);
-      }
+    afterEach(async () => {
+      await deleteKeyCompletely([addedSetting.key], client);
     });
 
     it("get: Non-existent key throws 404", async () => {
@@ -103,10 +101,8 @@ describe("Various error cases", () => {
       nonExistentKey = "bogus key " + addedSetting.key;
     });
 
-    afterEach(async function (ctx) {
-      if (!ctx.task.pending) {
-        await deleteKeyCompletely([addedSetting.key], client);
-      }
+    afterEach(async () => {
+      await deleteKeyCompletely([addedSetting.key], client);
     });
 
     it("get: value is unchanged from etag (304) using ifNoneMatch, sets all properties to undefined", async () => {

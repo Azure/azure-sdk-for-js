@@ -133,7 +133,7 @@ node dist/attachedDataNetworksCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MOBILENETWORK_SUBSCRIPTION_ID="<mobilenetwork subscription id>" MOBILENETWORK_RESOURCE_GROUP="<mobilenetwork resource group>" node dist/attachedDataNetworksCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env MOBILENETWORK_SUBSCRIPTION_ID="<mobilenetwork subscription id>" MOBILENETWORK_RESOURCE_GROUP="<mobilenetwork resource group>" node dist/attachedDataNetworksCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -225,7 +225,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sliceslistbymobilenetworksample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mobilenetwork/arm-mobilenetwork/samples/v6/typescript/src/slicesListByMobileNetworkSample.ts
 [slicesupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mobilenetwork/arm-mobilenetwork/samples/v6/typescript/src/slicesUpdateTagsSample.ts
 [ueinformationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/mobilenetwork/arm-mobilenetwork/samples/v6/typescript/src/ueInformationListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-mobilenetwork?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-mobilenetwork?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mobilenetwork/arm-mobilenetwork/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

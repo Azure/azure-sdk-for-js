@@ -61,7 +61,7 @@ node dist/sample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" SUBSCRIPTION_ID="<subscription id>" node dist/sample.js
+npx dev-tool run vendored cross-env LOADTESTSERVICE_ENDPOINT="<loadtestservice endpoint>" SUBSCRIPTION_ID="<subscription id>" node dist/sample.js
 ```
 
 ## Next Steps
@@ -70,7 +70,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/sample.ts
 [stoptest]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/loadtesting/load-testing-rest/samples/v1-beta/typescript/src/stopTest.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/load-testing
+[apiref]: https://learn.microsoft.com/javascript/api/@azure-rest/load-testing
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureloadtestingserviceinstance]: https://learn.microsoft.com/azure/load-testing/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/README.md

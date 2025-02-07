@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DeleteCertificatePollOperation,
-  DeleteCertificatePollOperationState,
-} from "./operation.js";
-import { DeletedCertificate } from "../../certificatesModels.js";
-import {
-  KeyVaultCertificatePoller,
-  KeyVaultCertificatePollerOptions,
-} from "../keyVaultCertificatePoller.js";
+import type { DeleteCertificatePollOperationState } from "./operation.js";
+import { DeleteCertificatePollOperation } from "./operation.js";
+import type { DeletedCertificate } from "../../certificatesModels.js";
+import type { KeyVaultCertificatePollerOptions } from "../keyVaultCertificatePoller.js";
+import { KeyVaultCertificatePoller } from "../keyVaultCertificatePoller.js";
 
 export interface DeleteCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
 
@@ -22,14 +18,7 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
   DeletedCertificate
 > {
   constructor(options: DeleteCertificatePollerOptions) {
-    const {
-      vaultUrl,
-      client,
-      certificateName,
-      operationOptions,
-      intervalInMs = 2000,
-      resumeFrom,
-    } = options;
+    const { client, certificateName, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: DeleteCertificatePollOperationState | undefined;
 
@@ -42,7 +31,6 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
         ...state,
         certificateName,
       },
-      vaultUrl,
       client,
       operationOptions,
     );

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { PartitionKeyDefinition } from "../documents";
-import { Container } from "./Container";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { PartitionKeyDefinition } from "../documents";
+import type { Container } from "./Container";
 
 export async function readPartitionKeyDefinition(
   diagnosticNode: DiagnosticNodeInternal,

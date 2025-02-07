@@ -8,13 +8,13 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
-import { GeneratedMonitorIngestionClientContext } from "./generatedMonitorIngestionClientContext";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
+import { GeneratedMonitorIngestionClientContext } from "./generatedMonitorIngestionClientContext.js";
 import {
   GeneratedMonitorIngestionClientOptionalParams,
   UploadOptionalParams
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class GeneratedMonitorIngestionClient extends GeneratedMonitorIngestionClientContext {

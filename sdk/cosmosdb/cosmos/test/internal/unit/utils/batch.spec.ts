@@ -3,11 +3,10 @@
 
 import assert from "assert";
 import { Constants } from "../../../../src";
+import type { Batch, Operation } from "../../../../src/utils/batch";
 import {
-  Batch,
   BulkOperationType,
   calculateObjectSizeInBytes,
-  Operation,
   splitBatchBasedOnBodySize,
 } from "../../../../src/utils/batch";
 

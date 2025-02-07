@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { TextAnalysisClient } from "../../src/index.js";
 import {
   AnalyzeBatchActionNames,
   KnownExtractiveSummarizationOrderingCriteria,
@@ -8,13 +9,13 @@ import {
   KnownPiiEntityDomain,
   KnownStringIndexType,
   KnownTextAnalysisErrorCode,
-  TextAnalysisClient,
-} from "../../src";
-import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
-import { Context, Suite } from "mocha";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert, matrix } from "@azure-tools/test-utils";
-import { assertActionsResults, assertRestError } from "./utils/resultHelper";
+} from "../../src/index.js";
+import type { AuthMethod } from "./utils/recordedClient.js";
+import { createClient, startRecorder } from "./utils/recordedClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import { assertActionsResults, assertRestError } from "./utils/resultHelper.js";
 import {
   expectation10,
   expectation11,
@@ -42,35 +43,36 @@ import {
   expectation9,
   expectation30,
   expectation31,
-} from "./expectations";
-import { authModes, windows365ArticlePart1, windows365ArticlePart2 } from "./inputs";
+} from "./expectations.js";
+import { authModes, windows365ArticlePart1, windows365ArticlePart2 } from "./inputs.js";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 const excludedSummarizationProperties = {
   excludedAdditionalProps: ["text", "rankScore", "offset", "length"],
 };
 
 matrix(authModes, async (authMethod: AuthMethod) => {
-  describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
+  describe(`[${authMethod}] TextAnalysisClient`, () => {
     let recorder: Recorder;
     let client: TextAnalysisClient;
 
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this.currentTest);
+    beforeEach(async (ctx) => {
+      recorder = await startRecorder(ctx);
       client = createClient(authMethod, {
         recorder,
       });
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
-    describe("analyzeBatch", function () {
+    describe("analyzeBatch", () => {
       const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-      describe("actions", function () {
-        describe("prebuilt", function () {
-          it("entity recognition", async function () {
+      describe("actions", () => {
+        describe("prebuilt", () => {
+          it("entity recognition", async () => {
             const docs = [
               {
                 id: "1",
@@ -99,7 +101,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation3);
           });
 
-          it("key phrase extraction", async function () {
+          it("key phrase extraction", async () => {
             const docs = [
               {
                 id: "1",
@@ -128,7 +130,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           });
 
           // The operation never starts and stay stuck in "notStarted" state
-          it.skip("entity linking", async function () {
+          it.skip("entity linking", async () => {
             const docs = [
               "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
               "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.",
@@ -150,7 +152,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           });
 
           // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
-          it.skip("pii entity recognition", async function () {
+          it.skip("pii entity recognition", async () => {
             const docs = [
               "My SSN is 859-98-0987.",
               "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
@@ -172,7 +174,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation7);
           });
 
-          it("pii entity recognition with filtered categories", async function () {
+          it("pii entity recognition with filtered categories", async () => {
             const docs = [
               "My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
               "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
@@ -195,7 +197,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           });
 
           // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
-          it.skip("pii entity recognition with phi domain", async function () {
+          it.skip("pii entity recognition with phi domain", async () => {
             const docs = [
               "My SSN is 859-98-0987 and your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
               "Your ABA number - 111000025 - is the first 9 digits in the lower left hand corner of your personal check.",
@@ -217,7 +219,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation24);
           });
 
-          it("sentiment analysis with opinion mining", async function () {
+          it("sentiment analysis with opinion mining", async () => {
             const docs = [
               "The food was unacceptable",
               "The rooms were beautiful. The AC was good and quiet.",
@@ -244,7 +246,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation9);
           });
 
-          it.skip("healthcare", async function () {
+          it.skip("healthcare", async () => {
             const docs = [
               "Patient does not suffer from high blood pressure.",
               "Prescribed 100mg ibuprofen, taken twice daily.",
@@ -265,7 +267,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation20);
           });
 
-          it("extractive summarization", async function () {
+          it("extractive summarization", async () => {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -287,7 +289,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("extractive summarization with maxSentenceCount", async function () {
+          it("extractive summarization with maxSentenceCount", async () => {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const maxSentenceCount = 2;
             const poller = await client.beginAnalyzeBatch(
@@ -323,7 +325,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(results, expectation28, excludedSummarizationProperties);
           });
 
-          it("extractive summarization with orderBy", async function () {
+          it("extractive summarization with orderBy", async () => {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -359,7 +361,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(results, expectation29, excludedSummarizationProperties);
           });
 
-          it("abstractive summarization", async function () {
+          it("abstractive summarization", async () => {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -378,7 +380,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             });
           });
 
-          it("abstractive summarization with sentenceCount", async function () {
+          it("abstractive summarization with sentenceCount", async () => {
             const docs = [windows365ArticlePart1, windows365ArticlePart2];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -400,9 +402,9 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
       });
 
-      describe("general behavior", function () {
-        describe("errors and warnings", function () {
-          it("bad request empty string", async function () {
+      describe("general behavior", () => {
+        describe("errors and warnings", () => {
+          it("bad request empty string", async () => {
             const docs = [""];
             await assertRestError(
               client.beginAnalyzeBatch(
@@ -420,7 +422,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("malformed action", async function () {
+          it("malformed action", async () => {
             const docs = ["I will go to the park."];
             await assertRestError(
               client.beginAnalyzeBatch(
@@ -443,7 +445,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("duplicate actions of the same type are disallowed", async function () {
+          it("duplicate actions of the same type are disallowed", async () => {
             const docs = ["I will go to the park."];
             await assertRestError(
               client.beginAnalyzeBatch(
@@ -469,7 +471,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             );
           });
 
-          it("too many documents", async function () {
+          it("too many documents", async () => {
             const docs = Array(26).fill("random text");
             await assertRestError(
               client.beginAnalyzeBatch(
@@ -493,7 +495,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           });
 
           // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
-          it.skip("payload too large", async function () {
+          it.skip("payload too large", async () => {
             const large_doc =
               "RECORD #333582770390100 | MH | 85986313 | | 054351 | 2/14/2001 12:00:00 AM | \
                 CORONARY ARTERY DISEASE | Signed | DIS | Admission Date: 5/22/2001 \
@@ -531,7 +533,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           });
         });
 
-        it("unique multiple actions per type are allowed", async function () {
+        it("unique multiple actions per type are allowed", async () => {
           const docs = ["I will go to the park."];
           const poller = await client.beginAnalyzeBatch(
             [
@@ -554,7 +556,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
-        it.skip("some documents with errors and multiple actions", async function () {
+        it.skip("some documents with errors and multiple actions", async () => {
           const docs = [
             { id: "1", language: "", text: "" },
             {
@@ -589,7 +591,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
-        it.skip("all documents with errors and multiple actions", async function () {
+        it.skip("all documents with errors and multiple actions", async () => {
           const docs = [
             { id: "1", language: "", text: "" },
             {
@@ -623,7 +625,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation11);
         });
 
-        it("output order is same as the input's one with multiple actions", async function () {
+        it("output order is same as the input's one with multiple actions", async () => {
           const docs = [
             { id: "1", text: "one" },
             { id: "2", text: "two" },
@@ -651,7 +653,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           await assertActionsResults(await poller.pollUntilDone(), expectation12);
         });
 
-        it("out of order input IDs with multiple actions", async function () {
+        it("out of order input IDs with multiple actions", async () => {
           const docs = [
             { id: "56", text: ":)" },
             { id: "0", text: ":(" },
@@ -680,7 +682,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         // The service says there is 6 documents instead of 5
-        it.skip("statistics", async function () {
+        it.skip("statistics", async () => {
           const docs = [":)", ":(", "", ":P", ":D"];
           const poller = await client.beginAnalyzeBatch(
             [
@@ -723,7 +725,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           }
         });
 
-        it("whole batch with a language hint", async function () {
+        it("whole batch with a language hint", async () => {
           const docs = [
             "This was the best day of my life.",
             "I did not like the hotel we stayed at. It was too expensive.",
@@ -751,7 +753,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
-        it.skip("whole batch input with no language hint", async function () {
+        it.skip("whole batch input with no language hint", async () => {
           const docs = [
             { id: "1", text: "I will go to the park." },
             { id: "2", text: "Este es un document escrito en Español." },
@@ -778,7 +780,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
-        it.skip("invalid language hint", async function () {
+        it.skip("invalid language hint", async () => {
           const docs = ["This should fail because we're passing in an invalid language hint"];
           const poller = await client.beginAnalyzeBatch(
             [
@@ -802,7 +804,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
-        it.skip("paged results with custom page size", async function () {
+        it.skip("paged results with custom page size", async () => {
           const totalDocs = 25;
           const docs = Array(totalDocs - 1).fill("random text");
           docs.push("Microsoft was founded by Bill Gates and Paul Allen");
@@ -826,7 +828,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           });
         });
 
-        it("operation metadata", async function () {
+        it("operation metadata", async () => {
           const docs = ["I will go to the park."];
           const poller = await client.beginAnalyzeBatch(
             [
@@ -856,7 +858,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         // FIXME: see https://github.com/Azure/azure-sdk-for-js/issues/23616
-        it.skip("cancel after progress", async function () {
+        it.skip("cancel after progress", async () => {
           const docs = [
             "Patient does not suffer from high blood pressure.",
             "Prescribed 100mg ibuprofen, taken twice daily.",
@@ -885,7 +887,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               await poller.sendCancellationRequest();
             }
           });
-          await assert.isRejected(pollPromise, /Operation was canceled/);
+          await expect(pollPromise).rejects.toThrow(/Operation was canceled/);
           assert.equal(poller.getOperationState().status, "canceled");
           const results = poller.getResult();
           if (results === undefined) {
@@ -902,7 +904,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         });
 
         // TODO: Fix the tests. Tracking issue https://github.com/Azure/azure-sdk-for-js/issues/30395
-        it.skip("rehydrated polling", async function () {
+        it.skip("rehydrated polling", async () => {
           const docs = [
             { id: "0", language: "en", text: "Patient does not suffer from high blood pressure." },
             { id: "1", language: "en", text: "Prescribed 100mg ibuprofen, taken twice daily." },
@@ -943,8 +945,8 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           await assertActionsResults(await originalPoller.pollUntilDone(), expectation26);
         });
 
-        describe("stringIndexType", function () {
-          it("family emoji with skin tone modifier", async function () {
+        describe("stringIndexType", () => {
+          it("family emoji with skin tone modifier", async () => {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -962,7 +964,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation18);
           });
 
-          it("family emoji with skin tone modifier with Utf16CodeUnit", async function () {
+          it("family emoji with skin tone modifier with Utf16CodeUnit", async () => {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [
@@ -980,7 +982,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await assertActionsResults(await poller.pollUntilDone(), expectation22);
           });
 
-          it("family emoji with skin tone modifier with UnicodeCodePoint", async function () {
+          it("family emoji with skin tone modifier with UnicodeCodePoint", async () => {
             const docs = ["👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen"];
             const poller = await client.beginAnalyzeBatch(
               [

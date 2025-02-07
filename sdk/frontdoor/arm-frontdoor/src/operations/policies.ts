@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Policies } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Policies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FrontDoorManagementClient } from "../frontDoorManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   WebApplicationFirewallPolicy,
   PoliciesListNextOptionalParams,
@@ -37,7 +37,7 @@ import {
   PoliciesDeleteOptionalParams,
   PoliciesListNextResponse,
   PoliciesListBySubscriptionNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Policies operations. */

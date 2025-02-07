@@ -60,5 +60,9 @@ extends:
         compiled: true
         break: true
       policy: M365
+      codeql:
+        compiled:
+          enabled: false
+          justificationForDisabling: "CodeQL times our pipelines out by running for hours before being force canceled."
 
     stages: ${{ parameters.stages }}

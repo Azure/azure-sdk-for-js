@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { InternalClientPipelineOptions } from "@azure/core-client";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { InternalClientPipelineOptions } from "@azure/core-client";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { CommunicationIdentifier } from "@azure/communication-common";
 import {
-  CommunicationIdentifier,
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
 
-import { logger } from "./logger";
-import { tracingClient } from "./tracing";
-import { RoomsRestClient } from "./generated/src";
+import { logger } from "./logger.js";
+import { tracingClient } from "./tracing.js";
+import { RoomsRestClient } from "./generated/src/index.js";
 import {
   mapCommunicationRoomToSDKModel,
   mapRoomParticipantForRemoval,
   mapRoomParticipantToRawId,
   mapToRoomParticipantSDKModel,
-} from "./models/mappers";
-import { CommunicationRoom, RoomParticipantPatch, RoomParticipant } from "./models/models";
-import {
+} from "./models/mappers.js";
+import type { CommunicationRoom, RoomParticipantPatch, RoomParticipant } from "./models/models.js";
+import type {
   CreateRoomOptions,
   DeleteRoomOptions,
   GetRoomOptions,
@@ -30,9 +30,9 @@ import {
   RoomsClientOptions,
   UpdateRoomOptions,
   AddOrUpdateParticipantsOptions,
-} from "./models/options";
+} from "./models/options.js";
 import { randomUUID } from "@azure/core-util";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * @internal
@@ -157,25 +157,10 @@ export class RoomsClient {
     pageSettings: ListPageSettings,
     options: ListRoomOptions = {},
   ): AsyncIterableIterator<CommunicationRoom[]> {
-    if (!pageSettings.continuationToken) {
-      const currentSetResponse = await this.client.rooms.list(options);
-      pageSettings.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map((room) => mapCommunicationRoomToSDKModel(room));
-      }
-    }
-
-    while (pageSettings.continuationToken) {
-      const currentSetResponse = await this.client.rooms.listNext(
-        pageSettings.continuationToken,
-        options,
-      );
-      pageSettings.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map((room) => mapCommunicationRoomToSDKModel(room));
-      } else {
-        break;
-      }
+    const currentSetResponse = await this.client.rooms.list(options);
+    const paged = currentSetResponse.byPage(pageSettings);
+    for await (const page of paged) {
+      yield page.map((room) => mapCommunicationRoomToSDKModel(room));
     }
   }
 
@@ -234,26 +219,10 @@ export class RoomsClient {
     pageSettings: ListPageSettings,
     options: ListParticipantsOptions = {},
   ): AsyncIterableIterator<RoomParticipant[]> {
-    if (!pageSettings.continuationToken) {
-      const currentSetResponse = await this.client.participants.list(roomId, options);
-      pageSettings.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(mapToRoomParticipantSDKModel, this);
-      }
-    }
-
-    while (pageSettings.continuationToken) {
-      const currentSetResponse = await this.client.participants.listNext(
-        roomId,
-        pageSettings.continuationToken,
-        options,
-      );
-      pageSettings.continuationToken = currentSetResponse.nextLink;
-      if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(mapToRoomParticipantSDKModel, this);
-      } else {
-        break;
-      }
+    const currentSetResponse = await this.client.participants.list(roomId, options);
+    const paged = currentSetResponse.byPage(pageSettings);
+    for await (const page of paged) {
+      yield page.map(mapToRoomParticipantSDKModel, this);
     }
   }
 
@@ -320,8 +289,8 @@ export class RoomsClient {
     return tracingClient.withSpan(
       "RoomsClient-AddOrUpdateParticipants",
       options,
-      (updatedOptions) => {
-        this.client.participants.update(roomId, {
+      async (updatedOptions): Promise<void> => {
+        await this.client.participants.update(roomId, {
           ...updatedOptions,
           participants: mapRoomParticipantToRawId(participants),
         });
@@ -341,11 +310,15 @@ export class RoomsClient {
     participantIdentifiers: CommunicationIdentifier[],
     options: RemoveParticipantsOptions = {},
   ): Promise<void> {
-    return tracingClient.withSpan("RoomsClient-RemoveParticipants", options, (updatedOptions) => {
-      this.client.participants.update(roomId, {
-        ...updatedOptions,
-        participants: mapRoomParticipantForRemoval(participantIdentifiers),
-      });
-    });
+    return tracingClient.withSpan(
+      "RoomsClient-RemoveParticipants",
+      options,
+      async (updatedOptions): Promise<void> => {
+        await this.client.participants.update(roomId, {
+          ...updatedOptions,
+          participants: mapRoomParticipantForRemoval(participantIdentifiers),
+        });
+      },
+    );
   }
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CompositeMapper } from "../src/interfaces.js";
+import type { CompositeMapper } from "../src/interfaces.js";
 
 const QueueDescription: CompositeMapper = {
   serializedName: "QueueDescription",

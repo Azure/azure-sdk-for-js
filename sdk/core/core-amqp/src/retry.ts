@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 /* eslint-disable eqeqeq */
 
-import { MessagingError, translate } from "./errors.js";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { MessagingError } from "./errors.js";
+import { translate } from "./errors.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants.js";
 import { checkNetworkConnection } from "./util/checkNetworkConnection.js";
 import { delay } from "@azure/core-util";
@@ -277,17 +278,9 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (success) {
     return result;
   } else {
-    throw compileErrors(errors);
+    if (errors.length === 1) {
+      throw errors[0];
+    }
+    throw new AggregateError(errors);
   }
-}
-
-function compileErrors(errors: (MessagingError | Error)[]): MessagingError | Error {
-  if (!errors.length) {
-    throw new RangeError("Error array is empty");
-  }
-  let i = 0;
-  const str = errors.map((error) => `Error ${i++}: ${error}`).join("\n\n");
-  const lastError = errors[errors.length - 1];
-  lastError.message = str;
-  return lastError;
 }

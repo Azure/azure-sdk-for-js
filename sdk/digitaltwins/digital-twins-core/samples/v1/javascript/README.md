@@ -66,7 +66,7 @@ node dt_component_lifecycle.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_DIGITALTWINS_URL="<azure digitaltwins url>" node dt_component_lifecycle.js
+npx dev-tool run vendored cross-env AZURE_DIGITALTWINS_URL="<azure digitaltwins url>" node dt_component_lifecycle.js
 ```
 
 ## Next Steps
@@ -91,7 +91,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [dt_relationships_get]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/javascript/dt_relationships_get.js
 [dt_relationships_list]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/javascript/dt_relationships_list.js
 [dt_scenario]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/digitaltwins/digital-twins-core/samples/v1/javascript/dt_scenario.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/digital-twins-core
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/digital-twins-core
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azuredigitaltwinsinstance]: https://docs.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal
+[createinstance_azuredigitaltwinsinstance]: https://learn.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-core/README.md

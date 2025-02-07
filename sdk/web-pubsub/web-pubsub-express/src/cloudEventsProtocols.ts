@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MqttDisconnectReasonCode } from "./enum/MqttErrorCodes/mqttDisconnectReasonCode.js";
-import { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
-import { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
+import type { MqttDisconnectReasonCode } from "./enum/MqttErrorCodes/mqttDisconnectReasonCode.js";
+import type { MqttV311ConnectReturnCode } from "./enum/MqttErrorCodes/mqttV311ConnectReturnCode.js";
+import type { MqttV500ConnectReasonCode } from "./enum/MqttErrorCodes/mqttV500ConnectReasonCode.js";
 
 /**
  * Response of the connect event.

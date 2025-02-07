@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PipelineResponse } from "../interfaces.js";
-import { RestError } from "../restError.js";
+import type { PipelineResponse } from "../interfaces.js";
+import type { RestError } from "../restError.js";
 import { calculateRetryDelay } from "../util/delay.js";
-import { RetryStrategy } from "./retryStrategy.js";
+import type { RetryStrategy } from "./retryStrategy.js";
 import { isThrottlingRetryResponse } from "./throttlingRetryStrategy.js";
 
 // intervals are in milliseconds

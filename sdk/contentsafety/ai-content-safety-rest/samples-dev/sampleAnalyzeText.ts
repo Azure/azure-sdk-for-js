@@ -5,16 +5,11 @@
  * @summary Demonstrates how to analyze text.
  */
 
-import ContentSafetyClient, {
-  isUnexpected
-} from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
+import "dotenv/config";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
   const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -33,7 +28,11 @@ async function main() {
 
   for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
     const textCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
-    console.log(textCategoriesAnalysisOutput.category, " severity: ", textCategoriesAnalysisOutput.severity)
+    console.log(
+      textCategoriesAnalysisOutput.category,
+      " severity: ",
+      textCategoriesAnalysisOutput.severity,
+    );
   }
 }
 

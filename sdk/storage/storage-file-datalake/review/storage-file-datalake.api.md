@@ -4,15 +4,15 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 import { AnonymousCredential } from '@azure/storage-blob';
 import { AnonymousCredentialPolicy } from '@azure/storage-blob';
 import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-blob';
-import { BlobLeaseClient } from '@azure/storage-blob';
-import { BlobQueryArrowConfiguration } from '@azure/storage-blob';
-import { ContainerRenameResponse } from '@azure/storage-blob';
-import { ContainerUndeleteResponse } from '@azure/storage-blob';
+import type { BlobLeaseClient } from '@azure/storage-blob';
+import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
+import type { ContainerRenameResponse } from '@azure/storage-blob';
+import type { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreClient from '@azure/core-client';
 import * as coreHttpCompat from '@azure/core-http-compat';
 import * as coreRestPipeline from '@azure/core-rest-pipeline';
@@ -24,29 +24,29 @@ import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import { isPipelineLike } from '@azure/storage-blob';
-import { KeepAliveOptions } from '@azure/core-http-compat';
+import type { KeepAliveOptions } from '@azure/core-http-compat';
 import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
-import { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
-import { OperationTracingOptions } from '@azure/core-tracing';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { ModifiedAccessConditions as ModifiedAccessConditions_3 } from '@azure/storage-blob';
+import type { OperationTracingOptions } from '@azure/core-tracing';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline } from '@azure/storage-blob';
 import { PipelineLike } from '@azure/storage-blob';
 import { PipelineOptions } from '@azure/storage-blob';
-import { ProxySettings } from '@azure/core-rest-pipeline';
-import { Readable } from 'stream';
+import type { ProxySettings } from '@azure/core-rest-pipeline';
+import type { Readable } from 'stream';
 import { RequestPolicy } from '@azure/core-http-compat';
 import { RequestPolicyFactory } from '@azure/core-http-compat';
 import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-http-compat';
 import { RestError } from '@azure/core-rest-pipeline';
 import { ServiceClientOptions } from '@azure/storage-blob';
-import { ServiceGetPropertiesOptions } from '@azure/storage-blob';
+import type { ServiceGetPropertiesOptions } from '@azure/storage-blob';
 import { ServiceListContainersSegmentResponse } from '@azure/storage-blob';
-import { ServiceRenameContainerOptions } from '@azure/storage-blob';
-import { ServiceSetPropertiesOptions } from '@azure/storage-blob';
-import { ServiceSetPropertiesResponse } from '@azure/storage-blob';
+import type { ServiceRenameContainerOptions } from '@azure/storage-blob';
+import type { ServiceSetPropertiesOptions } from '@azure/storage-blob';
+import type { ServiceSetPropertiesResponse } from '@azure/storage-blob';
 import { StorageBrowserPolicy } from '@azure/storage-blob';
 import { StorageBrowserPolicyFactory } from '@azure/storage-blob';
 import { StorageRetryOptions } from '@azure/storage-blob';
@@ -55,12 +55,12 @@ import { StorageRetryPolicyFactory } from '@azure/storage-blob';
 import { StorageRetryPolicyType } from '@azure/storage-blob';
 import { StorageSharedKeyCredential } from '@azure/storage-blob';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-blob';
-import { TokenCredential } from '@azure/core-auth';
-import { TransferProgressEvent } from '@azure/core-rest-pipeline';
-import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
+import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKeyModel } from '@azure/storage-blob';
 import { WebResourceLike as WebResource } from '@azure/core-http-compat';
-import { WithResponse } from '@azure/storage-blob';
+import type { WithResponse } from '@azure/storage-blob';
 
 // @public
 export interface AccessControlChangeCounters {

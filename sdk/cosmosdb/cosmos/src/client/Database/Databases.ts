@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClientContext } from "../../ClientContext";
+import type { ClientContext } from "../../ClientContext";
 import { Constants, isResourceValid, ResourceType, StatusCodes } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
-import { FetchFunctionCallback, mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
+import type { CosmosClient } from "../../CosmosClient";
+import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
+import { mergeHeaders } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions } from "../../request";
-import { Resource } from "../Resource";
+import type { FeedOptions, RequestOptions } from "../../request";
+import type { Resource } from "../Resource";
 import { Database } from "./Database";
-import { DatabaseDefinition } from "./DatabaseDefinition";
-import { DatabaseRequest } from "./DatabaseRequest";
+import type { DatabaseDefinition } from "./DatabaseDefinition";
+import type { DatabaseRequest } from "./DatabaseRequest";
 import { DatabaseResponse } from "./DatabaseResponse";
 import { validateOffer } from "../../utils/offers";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import { EncryptionManager } from "../../encryption/EncryptionManager";
 
 /**
  * Operations for creating new databases, and reading/querying all databases
@@ -27,12 +29,13 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
  */
 export class Databases {
   /**
-   * @hidden
+   * @internal
    * @param client - The parent {@link CosmosClient} for the Database.
    */
   constructor(
     public readonly client: CosmosClient,
     private readonly clientContext: ClientContext,
+    private encryptionManager?: EncryptionManager,
   ) {}
 
   /**
@@ -160,7 +163,13 @@ export class Databases {
       diagnosticNode,
       options,
     });
-    const ref = new Database(this.client, body.id, this.clientContext);
+    const ref = new Database(
+      this.client,
+      body.id,
+      this.clientContext,
+      this.encryptionManager,
+      response.result._rid,
+    );
     return new DatabaseResponse(
       response.result,
       response.headers,

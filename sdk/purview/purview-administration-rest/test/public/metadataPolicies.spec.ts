@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PurviewMetadataPolicies } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
 
-import { assert } from "chai";
-import { createMetadataClient } from "./utils/recordedClient";
-import { Context } from "mocha";
+import type { PurviewMetadataPolicies } from "../../src/index.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import { createMetadataClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { MetadataPolicyListOutput } from "../../src/metadataPolicies/outputModels.js";
 
 describe("List Metadata", () => {
   let recorder: Recorder;
-  let client: PurviewMetadataPolicies.Client.PurviewMetadataPoliciesRestClient;
+  let client: PurviewMetadataPolicies.Client.PurviewMetadataPoliciesClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createMetadataClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -27,7 +27,7 @@ describe("List Metadata", () => {
       console.log(result.request.url);
       assert.fail(`GET "/metadataPolicies" failed with ${result.status}`);
     }
-
-    assert.isDefined(result.body.values.length);
+    const metadataPolicyListOutput = result.body as MetadataPolicyListOutput;
+    assert.isDefined(metadataPolicyListOutput.values.length);
   });
 });

@@ -14,9 +14,10 @@
  *    to read from corresponding event hubs
  */
 
-import { AvroSerializer, MessageAdapter } from "../../src/index.js";
-import { EventData, createEventDataAdapter } from "@azure/event-hubs";
-import { MessagingTestClient } from "./clients/models.js";
+import type { AvroSerializer, MessageAdapter } from "../../src/index.js";
+import type { EventData } from "@azure/event-hubs";
+import { createEventDataAdapter } from "@azure/event-hubs";
+import type { MessagingTestClient } from "./clients/models.js";
 import { assertError } from "./utils/assertError.js";
 import { createEventHubsClient } from "./clients/eventHubs.js";
 import { createMockedMessagingClient } from "./clients/mocked.js";
@@ -25,7 +26,8 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { testGroup } from "./utils/dummies.js";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { createPipelineWithCredential, removeSchemas } from "./utils/mockedRegistryClient.js";
-import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
+import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 /**
@@ -163,7 +165,7 @@ describe("With messaging clients", function () {
         }
       }
 
-      beforeEach(async function (ctx) {
+      beforeEach(async (ctx) => {
         httpClient = createDefaultHttpClient();
         pipeline = createPipelineWithCredential();
         recorder = new Recorder(ctx);
@@ -177,7 +179,7 @@ describe("With messaging clients", function () {
         });
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         schemaList.push(schemaName);
         await removeSchemas(schemaList, pipeline, httpClient);
       });
@@ -239,7 +241,6 @@ describe("With messaging clients", function () {
           writerSchema,
           readerSchema,
           processMessage: async (p: Promise<unknown>) =>
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             assert.deepStrictEqual(await p, (({ favorite_color, ...rest }) => rest)(value)),
         });
       });

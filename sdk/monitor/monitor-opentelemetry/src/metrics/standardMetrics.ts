@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  MeterProvider,
+import type {
   MeterProviderOptions,
-  PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { InternalConfig } from "../shared/config";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { InternalConfig } from "../shared/config";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import { Counter, Histogram, Meter, SpanKind, ValueType } from "@opentelemetry/api";
-import { ReadableSpan, Span, TimedEvent } from "@opentelemetry/sdk-trace-base";
-import { LogRecord } from "@opentelemetry/sdk-logs";
+import type { Counter, Histogram, Meter } from "@opentelemetry/api";
+import { SpanKind, ValueType } from "@opentelemetry/api";
+import type { ReadableSpan, Span, TimedEvent } from "@opentelemetry/sdk-trace-base";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
 import {
   getDependencyDimensions,
   getExceptionDimensions,

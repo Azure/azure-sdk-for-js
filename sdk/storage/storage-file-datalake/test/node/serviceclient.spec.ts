@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 import { DataLakeServiceClient, getDataLakeServiceAccountAudience } from "../../src";
 import {

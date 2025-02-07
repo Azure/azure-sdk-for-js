@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ListAssetResourceParameters,
   UpdateAssetsParameters,
   GetAssetResourceParameters,
@@ -28,8 +28,8 @@ import {
   ListTaskParameters,
   GetTaskParameters,
   CancelTaskParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   ListAssetResource200Response,
   ListAssetResourceDefaultResponse,
   UpdateAssets200Response,
@@ -82,8 +82,8 @@ import {
   GetTaskDefaultResponse,
   CancelTask200Response,
   CancelTaskDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListAssetResource {
   /** Retrieve a list of assets for the provided search parameters. */
@@ -113,7 +113,7 @@ export interface ListDataConnection {
 export interface ValidateDataConnection {
   /** Validate a data connection with a given dataConnectionName. */
   post(
-    options?: ValidateDataConnectionParameters,
+    options: ValidateDataConnectionParameters,
   ): StreamableMethod<ValidateDataConnection200Response | ValidateDataConnectionDefaultResponse>;
 }
 
@@ -124,7 +124,7 @@ export interface GetDataConnection {
   ): StreamableMethod<GetDataConnection200Response | GetDataConnectionDefaultResponse>;
   /** Create or replace a data connection with a given dataConnectionName. */
   put(
-    options?: CreateOrReplaceDataConnectionParameters,
+    options: CreateOrReplaceDataConnectionParameters,
   ): StreamableMethod<
     CreateOrReplaceDataConnection200Response | CreateOrReplaceDataConnectionDefaultResponse
   >;
@@ -144,7 +144,7 @@ export interface ListDiscoGroup {
 export interface ValidateDiscoGroup {
   /** Validate a discovery group with a given groupName. */
   post(
-    options?: ValidateDiscoGroupParameters,
+    options: ValidateDiscoGroupParameters,
   ): StreamableMethod<ValidateDiscoGroup200Response | ValidateDiscoGroupDefaultResponse>;
 }
 
@@ -155,7 +155,7 @@ export interface GetDiscoGroup {
   ): StreamableMethod<GetDiscoGroup200Response | GetDiscoGroupDefaultResponse>;
   /** Create a discovery group with a given groupName. */
   put(
-    options?: CreateOrReplaceDiscoGroupParameters,
+    options: CreateOrReplaceDiscoGroupParameters,
   ): StreamableMethod<
     CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse
   >;
@@ -199,14 +199,14 @@ export interface GetBillable {
 export interface GetSnapshot {
   /** Get the most recent snapshot of asset summary values for the snapshot request. */
   post(
-    options?: GetSnapshotParameters,
+    options: GetSnapshotParameters,
   ): StreamableMethod<GetSnapshot200Response | GetSnapshotDefaultResponse>;
 }
 
 export interface GetSummary {
   /** Get asset summary details for the summary request. */
   post(
-    options?: GetSummaryParameters,
+    options: GetSummaryParameters,
   ): StreamableMethod<GetSummary200Response | GetSummaryDefaultResponse>;
 }
 
@@ -224,7 +224,7 @@ export interface GetSavedFilter {
   ): StreamableMethod<GetSavedFilter200Response | GetSavedFilterDefaultResponse>;
   /** Create or replace a saved filter with a given filterName. */
   put(
-    options?: CreateOrReplaceSavedFilterParameters,
+    options: CreateOrReplaceSavedFilterParameters,
   ): StreamableMethod<
     CreateOrReplaceSavedFilter200Response | CreateOrReplaceSavedFilterDefaultResponse
   >;

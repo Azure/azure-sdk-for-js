@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
-import { ChangeFeedOptions } from "../../ChangeFeedOptions";
-import { ClientContext } from "../../ClientContext";
+import type { ChangeFeedOptions } from "../../ChangeFeedOptions";
+import type { ClientContext } from "../../ClientContext";
 import {
+  Constants,
+  copyObject,
   getIdFromLink,
   getPathFromLink,
   isItemResourceValid,
@@ -13,38 +15,40 @@ import {
   SubStatusCodes,
 } from "../../common";
 import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
-import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
+import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, Response } from "../../request";
-import { Container, PartitionKeyRange } from "../Container";
+import type { FeedOptions, RequestOptions, Response } from "../../request";
+import type { Container, PartitionKeyRange } from "../Container";
 import { Item } from "./Item";
-import { ItemDefinition } from "./ItemDefinition";
+import type { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
-import {
+import type {
   Batch,
-  isKeyInRange,
-  prepareOperations,
   OperationResponse,
   OperationInput,
   BulkOptions,
+  BulkOperationResponse,
+  Operation,
+} from "../../utils/batch";
+import {
+  isKeyInRange,
+  prepareOperations,
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
-  BulkOperationResponse,
+  BulkOperationType,
 } from "../../utils/batch";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
-import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing";
-import {
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import { convertToInternalPartitionKey } from "../../documents";
+import type {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
-  changeFeedIteratorBuilder,
 } from "../../client/ChangeFeed";
 import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
-import {
-  DiagnosticNodeInternal,
-  DiagnosticNodeType,
-} from "../../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
@@ -52,6 +56,12 @@ import {
 } from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
+import { ChangeFeedIteratorBuilder } from "../ChangeFeed/ChangeFeedIteratorBuilder";
+import type { EncryptionQueryBuilder } from "../../encryption";
+import type { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBuilder";
+import type { Resource } from "../Resource";
+import { TypeMarker } from "../../encryption/enums/TypeMarker";
+import { EncryptionItemQueryIterator } from "../../encryption/EncryptionItemQueryIterator";
 
 /**
  * @hidden
@@ -94,6 +104,8 @@ export class Items {
    * const {result: items} = await items.query(querySpec).fetchAll();
    * ```
    */
+
+  //
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Queries all items.
@@ -133,21 +145,76 @@ export class Items {
       });
       return response;
     };
+    let iterator: QueryIterator<T>;
+    if (this.clientContext.enableEncryption) {
+      iterator = new EncryptionItemQueryIterator(
+        this.clientContext,
+        query,
+        options,
+        fetchFunction,
+        this.container,
+      );
+    } else {
+      iterator = new QueryIterator<T>(
+        this.clientContext,
+        query,
+        options,
+        fetchFunction,
+        this.container.url,
+        ResourceType.item,
+      );
+    }
+    return iterator;
+  }
+  /**
+   * Queries all items in an encrypted container.
+   * @param queryBuilder - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to build a query on encrypted properties.
+   * @param options - Used for modifying the request (for instance, specifying the partition key).
+   * @example Read all items to array.
+   * ```typescript
+   * const queryBuilder = new EncryptionQueryBuilder("SELECT firstname FROM Families f WHERE f.lastName = @lastName");
+   * queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
+   * const queryIterator = await items.getEncryptionQueryIterator<{firstName: string}>(queryBuilder);
+   * const {result: items} = await queryIterator.fetchAll();
+   * ```
+   */
+  public async getEncryptionQueryIterator(
+    queryBuilder: EncryptionQueryBuilder,
+    options: FeedOptions = {},
+  ): Promise<QueryIterator<ItemDefinition>> {
+    const encryptionSqlQuerySpec = queryBuilder.toEncryptionSqlQuerySpec();
+    const sqlQuerySpec = await this.buildSqlQuerySpec(encryptionSqlQuerySpec);
+    const iterator = this.query<ItemDefinition>(sqlQuerySpec, options);
+    return iterator;
+  }
 
-    return new QueryIterator(
-      this.clientContext,
-      query,
-      options,
-      fetchFunction,
-      this.container.url,
-      ResourceType.item,
-    );
+  private async buildSqlQuerySpec(encryptionSqlQuerySpec: SqlQuerySpec): Promise<SqlQuerySpec> {
+    let encryptionParameters = encryptionSqlQuerySpec.parameters as EncryptionSqlParameter[];
+    const sqlQuerySpec: SqlQuerySpec = {
+      query: encryptionSqlQuerySpec.query,
+      parameters: [],
+    };
+    // returns copy to avoid encryption of original parameters passed
+    encryptionParameters = copyObject(encryptionParameters);
+    for (const parameter of encryptionParameters) {
+      let value: any;
+      if (parameter.type !== undefined || parameter.type !== TypeMarker.Null) {
+        value = await this.container.encryptionProcessor.encryptQueryParameter(
+          parameter.path,
+          parameter.value,
+          parameter.path === "/id",
+          parameter.type,
+        );
+      }
+      sqlQuerySpec.parameters.push({ name: parameter.name, value: value });
+    }
+    return sqlQuerySpec;
   }
 
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    *
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    *
    * @example Read from the beginning of the change feed.
    * ```javascript
@@ -163,13 +230,13 @@ export class Items {
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    *
    */
   public readChangeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public readChangeFeed<T>(
     partitionKey: PartitionKey,
@@ -177,7 +244,7 @@ export class Items {
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   * @deprecated Use `changeFeed` instead.
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public readChangeFeed<T>(
@@ -193,7 +260,7 @@ export class Items {
 
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
-   *
+   * @deprecated Use `getChangeFeedIterator` instead.
    * @example Read from the beginning of the change feed.
    * ```javascript
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
@@ -208,10 +275,12 @@ export class Items {
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed<T>(
     partitionKey: PartitionKey,
@@ -219,6 +288,7 @@ export class Items {
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
+   * @deprecated Use `getChangeFeedIterator` instead.
    */
   public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public changeFeed<T>(
@@ -253,7 +323,7 @@ export class Items {
   ): ChangeFeedPullModelIterator<T> {
     const cfOptions = changeFeedIteratorOptions !== undefined ? changeFeedIteratorOptions : {};
     validateChangeFeedIteratorOptions(cfOptions);
-    const iterator = changeFeedIteratorBuilder(
+    const iterator = new ChangeFeedIteratorBuilder<T>(
       cfOptions,
       this.clientContext,
       this.container,
@@ -319,30 +389,53 @@ export class Items {
         diagnosticNode,
         this.container,
       );
-      const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
-
+      let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      if (this.clientContext.enableEncryption) {
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        // returns copy to avoid encryption of original body passed
+        body = copyObject(body);
+        body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
+        options.containerRid = this.container._rid;
+        partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      }
       const err = {};
       if (!isItemResourceValid(body, err)) {
         throw err;
       }
-
       const path = getPathFromLink(this.container.url, ResourceType.item);
       const id = getIdFromLink(this.container.url);
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.create<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          diagnosticNode,
+          options,
+          partitionKey,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          // Todo: internally retry post policy refresh
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
 
-      const response = await this.clientContext.create<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        diagnosticNode,
-        options,
-        partitionKey,
-      });
-
+      if (this.clientContext.enableEncryption) {
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
+        partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+      }
       const ref = new Item(
         this.container,
-        (response.result as any).id,
         this.clientContext,
+        response.result ? (response.result as any).id : undefined,
         partitionKey,
       );
       return new ItemResponse(
@@ -398,7 +491,19 @@ export class Items {
         diagnosticNode,
         this.container,
       );
-      const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+
+      if (this.clientContext.enableEncryption) {
+        // returns copy to avoid encryption of original body passed
+        body = copyObject(body);
+        options = options || {};
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        options.containerRid = this.container._rid;
+        body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
+        partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+      }
 
       const err = {};
       if (!isItemResourceValid(body, err)) {
@@ -407,21 +512,35 @@ export class Items {
 
       const path = getPathFromLink(this.container.url, ResourceType.item);
       const id = getIdFromLink(this.container.url);
-
-      const response = await this.clientContext.upsert<T>({
-        body,
-        path,
-        resourceType: ResourceType.item,
-        resourceId: id,
-        options,
-        partitionKey,
-        diagnosticNode,
-      });
+      let response: Response<T & Resource>;
+      try {
+        response = await this.clientContext.upsert<T>({
+          body,
+          path,
+          resourceType: ResourceType.item,
+          resourceId: id,
+          options,
+          partitionKey,
+          diagnosticNode,
+        });
+      } catch (error: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+        }
+        throw error;
+      }
+      if (this.clientContext.enableEncryption) {
+        response.result = await this.container.encryptionProcessor.decrypt(
+          response.result,
+          diagnosticNode,
+        );
+        partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+      }
 
       const ref = new Item(
         this.container,
-        (response.result as any).id,
         this.clientContext,
+        response.result ? (response.result as any).id : undefined,
         partitionKey,
       );
       return new ItemResponse(
@@ -477,13 +596,25 @@ export class Items {
         diagnosticNode,
         this.container,
       );
+
+      if (this.clientContext.enableEncryption) {
+        // returns copy to avoid encryption of original operations body passed
+        operations = copyObject(operations);
+        options = options || {};
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        options.containerRid = this.container._rid;
+        operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
+      }
+
       const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
         return {
           min: keyRange.minInclusive,
           max: keyRange.maxExclusive,
           rangeId: keyRange.id,
-          indexes: [],
-          operations: [],
+          indexes: [] as number[],
+          operations: [] as Operation[],
         };
       });
 
@@ -542,10 +673,24 @@ export class Items {
           diagnosticNode,
           DiagnosticNodeType.BATCH_REQUEST,
         );
+        if (this.clientContext.enableEncryption) {
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+          for (const result of response.result) {
+            result.resourceBody = await this.container.encryptionProcessor.decrypt(
+              result.resourceBody,
+            );
+          }
+          diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+        }
         response.result.forEach((operationResponse: OperationResponse, index: number) => {
           orderedResponses[batch.indexes[index]] = operationResponse;
         });
       } catch (err: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(err);
+        }
         // In the case of 410 errors, we need to recompute the partition key ranges
         // and redo the batch request, however, 410 errors occur for unsupported
         // partition key types as well since we don't support them, so for now we throw
@@ -617,8 +762,8 @@ export class Items {
         min: keyRange.minInclusive,
         max: keyRange.maxExclusive,
         rangeId: keyRange.id,
-        indexes: [],
-        operations: [],
+        indexes: [] as number[],
+        operations: [] as Operation[],
       };
     });
     let indexValue = 0;
@@ -720,6 +865,25 @@ export class Items {
       if (operations.length > 100) {
         throw new Error("Cannot run batch request with more than 100 operations per partition");
       }
+
+      if (this.clientContext.enableEncryption) {
+        // returns copy to avoid encryption of original operations body passed
+        operations = copyObject(operations);
+        options = options || {};
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        options.containerRid = this.container._rid;
+        if (partitionKey) {
+          const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
+          partitionKey =
+            await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+              partitionKeyInternal,
+            );
+        }
+        operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
+      }
+
       try {
         const response: Response<OperationResponse[]> = await this.clientContext.batch({
           body: operations,
@@ -729,10 +893,78 @@ export class Items {
           options,
           diagnosticNode,
         });
+
+        if (this.clientContext.enableEncryption) {
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+          for (const result of response.result) {
+            if (result.resourceBody) {
+              result.resourceBody = await this.container.encryptionProcessor.decrypt(
+                result.resourceBody,
+              );
+            }
+          }
+          diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+        }
+
         return response;
       } catch (err: any) {
+        if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(err);
+        }
         throw new Error(`Batch request error: ${err.message}`);
       }
     }, this.clientContext);
+  }
+
+  private async bulkBatchEncryptionHelper(
+    operations: OperationInput[],
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<OperationInput[]> {
+    diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
+    for (const operation of operations) {
+      if (Object.prototype.hasOwnProperty.call(operation, "partitionKey")) {
+        const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
+        operation.partitionKey =
+          await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+            partitionKeyInternal,
+          );
+      }
+      switch (operation.operationType) {
+        case BulkOperationType.Create:
+        case BulkOperationType.Upsert:
+          operation.resourceBody = await this.container.encryptionProcessor.encrypt(
+            operation.resourceBody,
+          );
+          break;
+        case BulkOperationType.Read:
+        case BulkOperationType.Delete:
+          operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+          break;
+        case BulkOperationType.Replace:
+          operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+          operation.resourceBody = await this.container.encryptionProcessor.encrypt(
+            operation.resourceBody,
+          );
+          break;
+        case BulkOperationType.Patch: {
+          operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+          const body = operation.resourceBody;
+          const patchRequestBody = Array.isArray(body) ? body : body.operations;
+          for (const patchOperation of patchRequestBody) {
+            if ("value" in patchOperation) {
+              patchOperation.value = await this.container.encryptionProcessor.encryptProperty(
+                patchOperation.path,
+                patchOperation.value,
+              );
+            }
+          }
+          break;
+        }
+      }
+    }
+    diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
+    return operations;
   }
 }

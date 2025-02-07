@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a network manager security user configuration.
  *
  * @summary Creates or updates a network manager security user configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerSecurityUserConfigurationPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityUserConfigurationPut.json
  */
 async function createNetworkManagerSecurityUserConfiguration() {
   const subscriptionId =

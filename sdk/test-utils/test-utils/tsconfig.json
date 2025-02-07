@@ -1,10 +1,18 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"]
+    "lib": ["dom"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }

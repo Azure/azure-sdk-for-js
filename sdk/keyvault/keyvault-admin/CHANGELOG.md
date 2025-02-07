@@ -1,5 +1,19 @@
 # Release History
 
+## 4.6.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed a typing issue in `KeyVaultBackupResult` and `KeyVaultRestoreResult` where `startTime` was marked as a required field. This field can be `undefined` if the operation never started successfully. [#32123](https://github.com/Azure/azure-sdk-for-js/pull/32123)
+
+### Other Changes
+
+- Generate code from TypeSpec. This is an internal change that should not affect customers. [#32123](https://github.com/Azure/azure-sdk-for-js/pull/32123)
+
 ## 4.6.0 (2024-10-16)
 
 ### Features Added

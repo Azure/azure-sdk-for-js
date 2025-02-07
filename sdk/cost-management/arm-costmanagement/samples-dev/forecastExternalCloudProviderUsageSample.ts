@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ForecastDefinition,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { ForecastDefinition } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the forecast charges for external cloud provider type defined.
@@ -23,7 +17,7 @@ dotenv.config();
  * @summary Lists the forecast charges for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalBillingAccountForecast.json
  */
-async function externalBillingAccountForecast() {
+async function externalBillingAccountForecast(): Promise<void> {
   const externalCloudProviderType = "externalBillingAccounts";
   const externalCloudProviderId = "100";
   const parameters: ForecastDefinition = {
@@ -38,41 +32,41 @@ async function externalBillingAccountForecast() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.forecast.externalCloudProviderUsage(
     externalCloudProviderType,
     externalCloudProviderId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -83,7 +77,7 @@ async function externalBillingAccountForecast() {
  * @summary Lists the forecast charges for external cloud provider type defined.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExternalSubscriptionForecast.json
  */
-async function externalSubscriptionForecast() {
+async function externalSubscriptionForecast(): Promise<void> {
   const externalCloudProviderType = "externalSubscriptions";
   const externalCloudProviderId = "100";
   const parameters: ForecastDefinition = {
@@ -98,48 +92,48 @@ async function externalSubscriptionForecast() {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
     timePeriod: {
       from: new Date("2022-08-01T00:00:00+00:00"),
-      to: new Date("2022-08-31T23:59:59+00:00")
+      to: new Date("2022-08-31T23:59:59+00:00"),
     },
-    timeframe: "Custom"
+    timeframe: "Custom",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.forecast.externalCloudProviderUsage(
     externalCloudProviderType,
     externalCloudProviderId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
-async function main() {
-  externalBillingAccountForecast();
-  externalSubscriptionForecast();
+async function main(): Promise<void> {
+  await externalBillingAccountForecast();
+  await externalSubscriptionForecast();
 }
 
 main().catch(console.error);

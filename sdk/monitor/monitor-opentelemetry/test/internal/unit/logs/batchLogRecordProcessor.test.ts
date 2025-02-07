@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
+import type { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
 import { InMemoryLogRecordExporter, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { ApplicationInsightsSampler } from "../../../../src/traces/sampler";

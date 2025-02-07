@@ -333,7 +333,7 @@ jobs:
       # running in this repository" if the previous rush command was killed.
       - pwsh: |
           for ($i=0; $i -lt 30; $i++) {
-            node eng/tools/rush-runner.js unlink
+            node eng/tools/rush-runner/index.js unlink
             if ($lastexitcode -eq 0) {
               break
             }

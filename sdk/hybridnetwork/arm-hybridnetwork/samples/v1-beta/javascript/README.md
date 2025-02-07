@@ -113,7 +113,7 @@ node artifactManifestsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env HYBRIDNETWORK_SUBSCRIPTION_ID="<hybridnetwork subscription id>" HYBRIDNETWORK_RESOURCE_GROUP="<hybridnetwork resource group>" node artifactManifestsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env HYBRIDNETWORK_SUBSCRIPTION_ID="<hybridnetwork subscription id>" HYBRIDNETWORK_RESOURCE_GROUP="<hybridnetwork resource group>" node artifactManifestsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -197,6 +197,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [siteslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridnetwork/arm-hybridnetwork/samples/v1-beta/javascript/sitesListByResourceGroupSample.js
 [siteslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridnetwork/arm-hybridnetwork/samples/v1-beta/javascript/sitesListBySubscriptionSample.js
 [sitesupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridnetwork/arm-hybridnetwork/samples/v1-beta/javascript/sitesUpdateTagsSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hybridnetwork?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hybridnetwork?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridnetwork/arm-hybridnetwork/README.md

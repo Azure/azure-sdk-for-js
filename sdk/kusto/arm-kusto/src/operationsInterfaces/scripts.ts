@@ -20,8 +20,8 @@ import {
   ScriptsDeleteOptionalParams,
   ScriptCheckNameRequest,
   ScriptsCheckNameAvailabilityOptionalParams,
-  ScriptsCheckNameAvailabilityResponse
-} from "../models";
+  ScriptsCheckNameAvailabilityResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Scripts. */
@@ -37,7 +37,7 @@ export interface Scripts {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: ScriptsListByDatabaseOptionalParams
+    options?: ScriptsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<Script>;
   /**
    * Gets a Kusto cluster database script.
@@ -52,7 +52,7 @@ export interface Scripts {
     clusterName: string,
     databaseName: string,
     scriptName: string,
-    options?: ScriptsGetOptionalParams
+    options?: ScriptsGetOptionalParams,
   ): Promise<ScriptsGetResponse>;
   /**
    * Creates a Kusto database script.
@@ -69,7 +69,7 @@ export interface Scripts {
     databaseName: string,
     scriptName: string,
     parameters: Script,
-    options?: ScriptsCreateOrUpdateOptionalParams
+    options?: ScriptsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ScriptsCreateOrUpdateResponse>,
@@ -91,7 +91,7 @@ export interface Scripts {
     databaseName: string,
     scriptName: string,
     parameters: Script,
-    options?: ScriptsCreateOrUpdateOptionalParams
+    options?: ScriptsCreateOrUpdateOptionalParams,
   ): Promise<ScriptsCreateOrUpdateResponse>;
   /**
    * Updates a database script.
@@ -108,7 +108,7 @@ export interface Scripts {
     databaseName: string,
     scriptName: string,
     parameters: Script,
-    options?: ScriptsUpdateOptionalParams
+    options?: ScriptsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ScriptsUpdateResponse>,
@@ -130,7 +130,7 @@ export interface Scripts {
     databaseName: string,
     scriptName: string,
     parameters: Script,
-    options?: ScriptsUpdateOptionalParams
+    options?: ScriptsUpdateOptionalParams,
   ): Promise<ScriptsUpdateResponse>;
   /**
    * Deletes a Kusto database script.
@@ -145,7 +145,7 @@ export interface Scripts {
     clusterName: string,
     databaseName: string,
     scriptName: string,
-    options?: ScriptsDeleteOptionalParams
+    options?: ScriptsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto database script.
@@ -160,7 +160,7 @@ export interface Scripts {
     clusterName: string,
     databaseName: string,
     scriptName: string,
-    options?: ScriptsDeleteOptionalParams
+    options?: ScriptsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Checks that the script name is valid and is not already in use.
@@ -175,6 +175,6 @@ export interface Scripts {
     clusterName: string,
     databaseName: string,
     scriptName: ScriptCheckNameRequest,
-    options?: ScriptsCheckNameAvailabilityOptionalParams
+    options?: ScriptsCheckNameAvailabilityOptionalParams,
   ): Promise<ScriptsCheckNameAvailabilityResponse>;
 }

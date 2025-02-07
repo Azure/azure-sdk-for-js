@@ -2,33 +2,32 @@
 // Licensed under the MIT License.
 
 import { senderLogger as logger } from "../log.js";
-import {
+import type {
   AmqpError,
   AwaitableSender,
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  message as RheaMessageUtil,
 } from "rhea-promise";
-import {
-  Constants,
-  ErrorNameConditionMapper,
+import { message as RheaMessageUtil } from "rhea-promise";
+import type {
   MessagingError,
   RetryConfig,
-  RetryOperationType,
   RetryOptions,
-  retry,
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
-import { ServiceBusMessage, toRheaMessage } from "../serviceBusMessage.js";
-import { ConnectionContext } from "../connectionContext.js";
+import { Constants, ErrorNameConditionMapper, RetryOperationType, retry } from "@azure/core-amqp";
+import type { ServiceBusMessage } from "../serviceBusMessage.js";
+import { toRheaMessage } from "../serviceBusMessage.js";
+import type { ConnectionContext } from "../connectionContext.js";
 import { LinkEntity } from "./linkEntity.js";
 import { getUniqueName, waitForSendable, waitForTimeoutOrAbortOrResolve } from "../util/utils.js";
 import { throwErrorIfConnectionClosed } from "../util/errors.js";
-import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch.js";
-import { CreateMessageBatchOptions } from "../models.js";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { ServiceBusMessageBatch } from "../serviceBusMessageBatch.js";
+import { ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch.js";
+import type { CreateMessageBatchOptions } from "../models.js";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
 import { isDefined } from "@azure/core-util";
 import { defaultDataTransformer } from "../dataTransformer.js";

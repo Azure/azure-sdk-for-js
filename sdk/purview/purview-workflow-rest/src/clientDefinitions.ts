@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ListWorkflowsParameters,
   GetWorkflowParameters,
   CreateOrReplaceWorkflowParameters,
@@ -16,8 +16,8 @@ import {
   RejectApprovalTaskParameters,
   ReassignWorkflowTaskParameters,
   UpdateTaskStatusParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   ListWorkflows200Response,
   ListWorkflowsDefaultResponse,
   GetWorkflow200Response,
@@ -46,8 +46,8 @@ import {
   ReassignWorkflowTaskDefaultResponse,
   UpdateTaskStatus200Response,
   UpdateTaskStatusDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListWorkflows {
   /** List all workflows. */

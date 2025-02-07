@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { LogAnalytics } from "../operationsInterfaces";
+import { LogAnalytics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CdnManagementClient } from "../cdnManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CdnManagementClient } from "../cdnManagementClient.js";
 import {
   LogMetric,
   LogMetricsGranularity,
@@ -31,7 +31,7 @@ import {
   WafRankingType,
   LogAnalyticsGetWafLogAnalyticsRankingsOptionalParams,
   LogAnalyticsGetWafLogAnalyticsRankingsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing LogAnalytics operations. */
 export class LogAnalyticsImpl implements LogAnalytics {

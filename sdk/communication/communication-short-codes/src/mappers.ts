@@ -6,4 +6,4 @@ export {
   MessageDetails as MessageDetailsMapper,
   ProgramDetails as ProgramDetailsMapper,
   TrafficDetails as TrafficDetailsMapper,
-} from "./generated/src/models/mappers";
+} from "./generated/src/models/mappers.js";

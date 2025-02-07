@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
-  PagedOperationDetailsOutput,
-  ErrorResponseOutput,
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
+  PagedDocumentIntelligenceOperationDetailsOutput,
+  DocumentIntelligenceErrorResponseOutput,
   DocumentModelBuildOperationDetailsOutput,
   DocumentModelComposeOperationDetailsOutput,
   DocumentModelCopyToOperationDetailsOutput,
   DocumentClassifierCopyToOperationDetailsOutput,
   DocumentClassifierBuildOperationDetailsOutput,
-  OperationDetailsOutput,
-  ResourceDetailsOutput,
-  AnalyzeResultOperationOutput,
-  AnalyzeBatchResultOperationOutput,
+  DocumentIntelligenceOperationDetailsOutput,
+  DocumentIntelligenceResourceDetailsOutput,
+  AnalyzeOperationOutput,
+  AnalyzeBatchOperationOutput,
+  PagedAnalyzeBatchOperationOutput,
   DocumentModelDetailsOutput,
-  CopyAuthorizationOutput,
+  ModelCopyAuthorizationOutput,
   PagedDocumentModelDetailsOutput,
   PagedDocumentClassifierDetailsOutput,
   DocumentClassifierDetailsOutput,
@@ -31,13 +32,13 @@ export interface ListOperations200Headers {
 /** The request has succeeded. */
 export interface ListOperations200Response extends HttpResponse {
   status: "200";
-  body: PagedOperationDetailsOutput;
+  body: PagedDocumentIntelligenceOperationDetailsOutput;
   headers: RawHttpHeaders & ListOperations200Headers;
 }
 
 export interface ListOperationsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface GetDocumentModelBuildOperation200Headers {
@@ -54,7 +55,7 @@ export interface GetDocumentModelBuildOperation200Response extends HttpResponse 
 
 export interface GetDocumentModelBuildOperationDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface GetDocumentModelComposeOperation200Headers {
@@ -71,7 +72,7 @@ export interface GetDocumentModelComposeOperation200Response extends HttpRespons
 
 export interface GetDocumentModelComposeOperationDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface GetDocumentModelCopyToOperation200Headers {
@@ -88,7 +89,7 @@ export interface GetDocumentModelCopyToOperation200Response extends HttpResponse
 
 export interface GetDocumentModelCopyToOperationDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface GetDocumentClassifierCopyToOperation200Headers {
@@ -105,7 +106,7 @@ export interface GetDocumentClassifierCopyToOperation200Response extends HttpRes
 
 export interface GetDocumentClassifierCopyToOperationDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface GetDocumentClassifierBuildOperation200Headers {
@@ -122,7 +123,7 @@ export interface GetDocumentClassifierBuildOperation200Response extends HttpResp
 
 export interface GetDocumentClassifierBuildOperationDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface GetOperation200Headers {
@@ -133,35 +134,35 @@ export interface GetOperation200Headers {
 /** The request has succeeded. */
 export interface GetOperation200Response extends HttpResponse {
   status: "200";
-  body: OperationDetailsOutput;
+  body: DocumentIntelligenceOperationDetailsOutput;
   headers: RawHttpHeaders & GetOperation200Headers;
 }
 
 export interface GetOperationDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The request has succeeded. */
-export interface GetResourceInfo200Response extends HttpResponse {
+export interface GetResourceDetails200Response extends HttpResponse {
   status: "200";
-  body: ResourceDetailsOutput;
+  body: DocumentIntelligenceResourceDetailsOutput;
 }
 
-export interface GetResourceInfoDefaultResponse extends HttpResponse {
+export interface GetResourceDetailsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The request has succeeded. */
 export interface GetAnalyzeResult200Response extends HttpResponse {
   status: "200";
-  body: AnalyzeResultOperationOutput;
+  body: AnalyzeOperationOutput;
 }
 
 export interface GetAnalyzeResultDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface GetAnalyzeResultPdf200Headers {
@@ -179,7 +180,7 @@ export interface GetAnalyzeResultPdf200Response extends HttpResponse {
 
 export interface GetAnalyzeResultPdfDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface GetAnalyzeResultFigure200Headers {
@@ -197,7 +198,17 @@ export interface GetAnalyzeResultFigure200Response extends HttpResponse {
 
 export interface GetAnalyzeResultFigureDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface DeleteAnalyzeResult204Response extends HttpResponse {
+  status: "204";
+}
+
+export interface DeleteAnalyzeResultDefaultResponse extends HttpResponse {
+  status: string;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface AnalyzeDocumentFromStream202Headers {
@@ -214,7 +225,7 @@ export interface AnalyzeDocumentFromStream202Response extends HttpResponse {
 
 export interface AnalyzeDocumentFromStreamDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The final response for long-running analyzeDocumentFromStream operation */
@@ -236,7 +247,7 @@ export interface AnalyzeDocument202Response extends HttpResponse {
 
 export interface AnalyzeDocumentDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The final response for long-running analyzeDocument operation */
@@ -247,12 +258,12 @@ export interface AnalyzeDocumentLogicalResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface GetAnalyzeBatchResult200Response extends HttpResponse {
   status: "200";
-  body: AnalyzeBatchResultOperationOutput;
+  body: AnalyzeBatchOperationOutput;
 }
 
 export interface GetAnalyzeBatchResultDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface AnalyzeBatchDocuments202Headers {
@@ -269,12 +280,33 @@ export interface AnalyzeBatchDocuments202Response extends HttpResponse {
 
 export interface AnalyzeBatchDocumentsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The final response for long-running analyzeBatchDocuments operation */
 export interface AnalyzeBatchDocumentsLogicalResponse extends HttpResponse {
   status: "200";
+}
+
+/** The request has succeeded. */
+export interface ListAnalyzeBatchResults200Response extends HttpResponse {
+  status: "200";
+  body: PagedAnalyzeBatchOperationOutput;
+}
+
+export interface ListAnalyzeBatchResultsDefaultResponse extends HttpResponse {
+  status: string;
+  body: DocumentIntelligenceErrorResponseOutput;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface DeleteAnalyzeBatchResult204Response extends HttpResponse {
+  status: "204";
+}
+
+export interface DeleteAnalyzeBatchResultDefaultResponse extends HttpResponse {
+  status: string;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface GetModel200Headers {
@@ -291,7 +323,7 @@ export interface GetModel200Response extends HttpResponse {
 
 export interface GetModelDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface BuildModel202Headers {
@@ -308,7 +340,7 @@ export interface BuildModel202Response extends HttpResponse {
 
 export interface BuildModelDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The final response for long-running buildModel operation */
@@ -330,7 +362,7 @@ export interface ComposeModel202Response extends HttpResponse {
 
 export interface ComposeModelDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The final response for long-running composeModel operation */
@@ -341,12 +373,12 @@ export interface ComposeModelLogicalResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface AuthorizeModelCopy200Response extends HttpResponse {
   status: "200";
-  body: CopyAuthorizationOutput;
+  body: ModelCopyAuthorizationOutput;
 }
 
 export interface AuthorizeModelCopyDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface CopyModelTo202Headers {
@@ -363,7 +395,7 @@ export interface CopyModelTo202Response extends HttpResponse {
 
 export interface CopyModelToDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The final response for long-running copyModelTo operation */
@@ -385,7 +417,7 @@ export interface ListModels200Response extends HttpResponse {
 
 export interface ListModelsDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface DeleteModel204Headers {
@@ -401,7 +433,7 @@ export interface DeleteModel204Response extends HttpResponse {
 
 export interface DeleteModelDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface BuildClassifier202Headers {
@@ -418,7 +450,7 @@ export interface BuildClassifier202Response extends HttpResponse {
 
 export interface BuildClassifierDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The final response for long-running buildClassifier operation */
@@ -440,7 +472,7 @@ export interface ListClassifiers200Response extends HttpResponse {
 
 export interface ListClassifiersDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface GetClassifier200Headers {
@@ -457,7 +489,7 @@ export interface GetClassifier200Response extends HttpResponse {
 
 export interface GetClassifierDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface DeleteClassifier204Headers {
@@ -473,7 +505,7 @@ export interface DeleteClassifier204Response extends HttpResponse {
 
 export interface DeleteClassifierDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface ClassifyDocumentFromStream202Headers {
@@ -490,7 +522,7 @@ export interface ClassifyDocumentFromStream202Response extends HttpResponse {
 
 export interface ClassifyDocumentFromStreamDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The final response for long-running classifyDocumentFromStream operation */
@@ -512,7 +544,7 @@ export interface ClassifyDocument202Response extends HttpResponse {
 
 export interface ClassifyDocumentDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The final response for long-running classifyDocument operation */
@@ -523,12 +555,12 @@ export interface ClassifyDocumentLogicalResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface GetClassifyResult200Response extends HttpResponse {
   status: "200";
-  body: AnalyzeResultOperationOutput;
+  body: AnalyzeOperationOutput;
 }
 
 export interface GetClassifyResultDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The request has succeeded. */
@@ -539,7 +571,7 @@ export interface AuthorizeClassifierCopy200Response extends HttpResponse {
 
 export interface AuthorizeClassifierCopyDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 export interface CopyClassifierTo202Headers {
@@ -556,7 +588,7 @@ export interface CopyClassifierTo202Response extends HttpResponse {
 
 export interface CopyClassifierToDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: DocumentIntelligenceErrorResponseOutput;
 }
 
 /** The final response for long-running copyClassifierTo operation */

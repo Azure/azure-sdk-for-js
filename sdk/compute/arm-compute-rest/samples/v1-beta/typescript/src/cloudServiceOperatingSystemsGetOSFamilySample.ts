@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  CloudServiceOperatingSystemsGetOSFamilyParameters
+  CloudServiceOperatingSystemsGetOSFamilyParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets properties of a guest operating system family that can be specified in the XML service configuration (.cscfg) for a cloud service.
@@ -24,14 +19,14 @@ async function getCloudServiceOSFamily() {
   const location = "westus2";
   const osFamilyName = "3";
   const options: CloudServiceOperatingSystemsGetOSFamilyParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsFamilies/{osFamilyName}",
       subscriptionId,
       location,
-      osFamilyName
+      osFamilyName,
     )
     .get(options);
   console.log(result);

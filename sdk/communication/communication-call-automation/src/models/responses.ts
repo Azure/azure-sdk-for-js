@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CallConnection } from "../callConnection";
-import { CallConnectionProperties, CallParticipant } from "./models";
-import { RecordingState } from "../generated/src";
-import {
+import type { CallConnection } from "../callConnection.js";
+import type { CallConnectionProperties, CallParticipant } from "./models.js";
+import type { RecordingState } from "../generated/src/index.js";
+import type {
   AddParticipantEventResult,
   AnswerCallEventResult,
   CancelAllMediaOperationsEventResult,
@@ -15,8 +15,9 @@ import {
   StartRecognizingEventResult,
   TransferCallToParticipantEventResult,
   CancelAddParticipantEventResult,
-} from "../eventprocessor/eventResponses";
-import { AbortSignalLike } from "@azure/abort-controller";
+  ConnectCallEventResult,
+} from "../eventprocessor/eventResponses.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * CreateCall result
@@ -50,6 +51,23 @@ export interface AnswerCallResult {
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number,
   ): Promise<AnswerCallEventResult>;
+}
+
+/**
+ * ConnectCall result
+ */
+export interface ConnectCallResult {
+  /** The callConnectionProperties */
+  callConnectionProperties: CallConnectionProperties;
+
+  /** The callConnection */
+  callConnection: CallConnection;
+
+  /** Waiting for event processor to process the event */
+  waitForEventProcessor(
+    abortSignal?: AbortSignalLike,
+    timeoutInMs?: number,
+  ): Promise<ConnectCallEventResult>;
 }
 
 /** The response payload for getting participants of the call. */

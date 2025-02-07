@@ -6,17 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   VirtualMachineScaleSetVMInstanceIDs,
   VirtualMachineScaleSetsRedeployOptionalParams,
-  ComputeManagementClient,
 } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on.
@@ -24,11 +20,9 @@ dotenv.config();
  * @summary Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Redeploy_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetRedeployMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetRedeployMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceIDs = {
     instanceIds: ["aaaaaaaaaaaaaaaaa"],
@@ -52,11 +46,9 @@ async function virtualMachineScaleSetRedeployMaximumSetGen() {
  * @summary Shuts down all the virtual machines in the virtual machine scale set, moves them to a new node, and powers them back on.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Redeploy_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetRedeployMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetRedeployMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -67,9 +59,9 @@ async function virtualMachineScaleSetRedeployMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetRedeployMaximumSetGen();
-  virtualMachineScaleSetRedeployMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetRedeployMaximumSetGen();
+  await virtualMachineScaleSetRedeployMinimumSetGen();
 }
 
 main().catch(console.error);

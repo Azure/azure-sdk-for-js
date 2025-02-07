@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { ComputedProperty } from "../../../src/documents/ComputedProperty";
-import { IndexingPolicy } from "../../../src/documents/IndexingPolicy";
+import type { ComputedProperty } from "../../../src/documents/ComputedProperty";
+import type { IndexingPolicy } from "../../../src/documents/IndexingPolicy";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
-import { Container } from "../../../src/client/Container/Container";
+import type { Container } from "../../../src/client/Container/Container";
 
 // As of the current emulator release (March 23), computed properties are not supported,
 // hence, we are temporarily excluding these tests.

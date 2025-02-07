@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   StringIndexType,
   DocumentAnalysisFeature,
-  ContentFormat,
+  DocumentContentFormat,
   AnalyzeOutputOption,
   AnalyzeDocumentRequest,
   AnalyzeBatchDocumentsRequest,
   BuildDocumentModelRequest,
   ComposeDocumentModelRequest,
   AuthorizeCopyRequest,
-  CopyAuthorization,
+  ModelCopyAuthorization,
   BuildDocumentClassifierRequest,
   SplitMode,
   ClassifyDocumentRequest,
@@ -102,10 +102,11 @@ export interface GetOperationHeaderParam {
 }
 
 export type GetOperationParameters = GetOperationHeaderParam & RequestParameters;
-export type GetResourceInfoParameters = RequestParameters;
+export type GetResourceDetailsParameters = RequestParameters;
 export type GetAnalyzeResultParameters = RequestParameters;
 export type GetAnalyzeResultPdfParameters = RequestParameters;
 export type GetAnalyzeResultFigureParameters = RequestParameters;
+export type DeleteAnalyzeResultParameters = RequestParameters;
 
 export interface AnalyzeDocumentFromStreamBodyParam {
   /**
@@ -113,11 +114,46 @@ export interface AnalyzeDocumentFromStreamBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    // eslint-disable-next-line n/no-unsupported-features/node-builtins
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
+}
+
+/** This is the wrapper object for the parameter `features` with explode set to false and style set to form. */
+export interface AnalyzeDocumentFromStreamFeaturesQueryParam {
+  /** Value of the parameter */
+  value: DocumentAnalysisFeature[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `queryFields` with explode set to false and style set to form. */
+export interface AnalyzeDocumentFromStreamQueryFieldsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `output` with explode set to false and style set to form. */
+export interface AnalyzeDocumentFromStreamOutputQueryParam {
+  /** Value of the parameter */
+  value: AnalyzeOutputOption[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
 }
 
 export interface AnalyzeDocumentFromStreamQueryParamProperties {
-  /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
+  /** 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
   pages?: string;
   /**
    * Locale hint for text recognition and document analysis.  Value may contain only
@@ -131,17 +167,17 @@ export interface AnalyzeDocumentFromStreamQueryParamProperties {
    */
   stringIndexType?: StringIndexType;
   /** List of optional analysis features. */
-  features?: DocumentAnalysisFeature[];
+  features?: DocumentAnalysisFeature[] | AnalyzeDocumentFromStreamFeaturesQueryParam;
   /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
+  queryFields?: string[] | AnalyzeDocumentFromStreamQueryFieldsQueryParam;
   /**
    * Format of the analyze result top-level content.
    *
    * Possible values: "text", "markdown"
    */
-  outputContentFormat?: ContentFormat;
+  outputContentFormat?: DocumentContentFormat;
   /** Additional outputs to generate during analysis. */
-  output?: AnalyzeOutputOption[];
+  output?: AnalyzeOutputOption[] | AnalyzeDocumentFromStreamOutputQueryParam;
 }
 
 export interface AnalyzeDocumentFromStreamQueryParam {
@@ -171,11 +207,41 @@ export type AnalyzeDocumentFromStreamParameters = AnalyzeDocumentFromStreamQuery
 
 export interface AnalyzeDocumentBodyParam {
   /** Analyze request parameters. */
-  body?: AnalyzeDocumentRequest;
+  body: AnalyzeDocumentRequest;
+}
+
+/** This is the wrapper object for the parameter `features` with explode set to false and style set to form. */
+export interface AnalyzeDocumentFeaturesQueryParam {
+  /** Value of the parameter */
+  value: DocumentAnalysisFeature[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `queryFields` with explode set to false and style set to form. */
+export interface AnalyzeDocumentQueryFieldsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `output` with explode set to false and style set to form. */
+export interface AnalyzeDocumentOutputQueryParam {
+  /** Value of the parameter */
+  value: AnalyzeOutputOption[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
 }
 
 export interface AnalyzeDocumentQueryParamProperties {
-  /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
+  /** 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
   pages?: string;
   /**
    * Locale hint for text recognition and document analysis.  Value may contain only
@@ -189,17 +255,17 @@ export interface AnalyzeDocumentQueryParamProperties {
    */
   stringIndexType?: StringIndexType;
   /** List of optional analysis features. */
-  features?: DocumentAnalysisFeature[];
+  features?: DocumentAnalysisFeature[] | AnalyzeDocumentFeaturesQueryParam;
   /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
+  queryFields?: string[] | AnalyzeDocumentQueryFieldsQueryParam;
   /**
    * Format of the analyze result top-level content.
    *
    * Possible values: "text", "markdown"
    */
-  outputContentFormat?: ContentFormat;
+  outputContentFormat?: DocumentContentFormat;
   /** Additional outputs to generate during analysis. */
-  output?: AnalyzeOutputOption[];
+  output?: AnalyzeOutputOption[] | AnalyzeDocumentOutputQueryParam;
 }
 
 export interface AnalyzeDocumentQueryParam {
@@ -219,11 +285,41 @@ export type GetAnalyzeBatchResultParameters = RequestParameters;
 
 export interface AnalyzeBatchDocumentsBodyParam {
   /** Analyze batch request parameters. */
-  body?: AnalyzeBatchDocumentsRequest;
+  body: AnalyzeBatchDocumentsRequest;
+}
+
+/** This is the wrapper object for the parameter `features` with explode set to false and style set to form. */
+export interface AnalyzeBatchDocumentsFeaturesQueryParam {
+  /** Value of the parameter */
+  value: DocumentAnalysisFeature[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `queryFields` with explode set to false and style set to form. */
+export interface AnalyzeBatchDocumentsQueryFieldsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `output` with explode set to false and style set to form. */
+export interface AnalyzeBatchDocumentsOutputQueryParam {
+  /** Value of the parameter */
+  value: AnalyzeOutputOption[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
 }
 
 export interface AnalyzeBatchDocumentsQueryParamProperties {
-  /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
+  /** 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
   pages?: string;
   /**
    * Locale hint for text recognition and document analysis.  Value may contain only
@@ -237,17 +333,17 @@ export interface AnalyzeBatchDocumentsQueryParamProperties {
    */
   stringIndexType?: StringIndexType;
   /** List of optional analysis features. */
-  features?: DocumentAnalysisFeature[];
+  features?: DocumentAnalysisFeature[] | AnalyzeBatchDocumentsFeaturesQueryParam;
   /** List of additional fields to extract.  Ex. "NumberOfGuests,StoreNumber" */
-  queryFields?: string[];
+  queryFields?: string[] | AnalyzeBatchDocumentsQueryFieldsQueryParam;
   /**
    * Format of the analyze result top-level content.
    *
    * Possible values: "text", "markdown"
    */
-  outputContentFormat?: ContentFormat;
+  outputContentFormat?: DocumentContentFormat;
   /** Additional outputs to generate during analysis. */
-  output?: AnalyzeOutputOption[];
+  output?: AnalyzeOutputOption[] | AnalyzeBatchDocumentsOutputQueryParam;
 }
 
 export interface AnalyzeBatchDocumentsQueryParam {
@@ -263,6 +359,8 @@ export type AnalyzeBatchDocumentsParameters = AnalyzeBatchDocumentsQueryParam &
   AnalyzeBatchDocumentsMediaTypesParam &
   AnalyzeBatchDocumentsBodyParam &
   RequestParameters;
+export type ListAnalyzeBatchResultsParameters = RequestParameters;
+export type DeleteAnalyzeBatchResultParameters = RequestParameters;
 
 export interface GetModelHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -298,7 +396,7 @@ export type AuthorizeModelCopyParameters = AuthorizeModelCopyBodyParam & Request
 
 export interface CopyModelToBodyParam {
   /** Copy to request parameters. */
-  body: CopyAuthorization;
+  body: ModelCopyAuthorization;
 }
 
 export type CopyModelToParameters = CopyModelToBodyParam & RequestParameters;
@@ -371,7 +469,12 @@ export interface ClassifyDocumentFromStreamBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    // eslint-disable-next-line n/no-unsupported-features/node-builtins
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface ClassifyDocumentFromStreamQueryParamProperties {
@@ -387,7 +490,7 @@ export interface ClassifyDocumentFromStreamQueryParamProperties {
    * Possible values: "auto", "none", "perPage"
    */
   split?: SplitMode;
-  /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
+  /** 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
   pages?: string;
 }
 
@@ -434,7 +537,7 @@ export interface ClassifyDocumentQueryParamProperties {
    * Possible values: "auto", "none", "perPage"
    */
   split?: SplitMode;
-  /** List of 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
+  /** 1-based page numbers to analyze.  Ex. "1-3,5,7-9" */
   pages?: string;
 }
 

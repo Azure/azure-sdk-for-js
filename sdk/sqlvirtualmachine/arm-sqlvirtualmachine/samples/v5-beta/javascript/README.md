@@ -57,7 +57,7 @@ node availabilityGroupListenersCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SQLVIRTUALMACHINE_SUBSCRIPTION_ID="<sqlvirtualmachine subscription id>" SQLVIRTUALMACHINE_RESOURCE_GROUP="<sqlvirtualmachine resource group>" node availabilityGroupListenersCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env SQLVIRTUALMACHINE_SUBSCRIPTION_ID="<sqlvirtualmachine subscription id>" SQLVIRTUALMACHINE_RESOURCE_GROUP="<sqlvirtualmachine resource group>" node availabilityGroupListenersCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -85,6 +85,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sqlvirtualmachinesredeploysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/samples/v5-beta/javascript/sqlVirtualMachinesRedeploySample.js
 [sqlvirtualmachinesstartassessmentsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/samples/v5-beta/javascript/sqlVirtualMachinesStartAssessmentSample.js
 [sqlvirtualmachinesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/samples/v5-beta/javascript/sqlVirtualMachinesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-sqlvirtualmachine?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-sqlvirtualmachine?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/README.md

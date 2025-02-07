@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   HttpClient,
   HttpMethods,
   MultipartRequestBody,
@@ -9,6 +9,8 @@ import {
   PipelineRequest,
   PipelineResponse,
   RequestBodyType,
+} from "@azure/core-rest-pipeline";
+import {
   RestError,
   createHttpHeaders,
   createPipelineRequest,
@@ -16,8 +18,9 @@ import {
 } from "@azure/core-rest-pipeline";
 import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
 import { isReadableStream } from "./helpers/isReadableStream.js";
-import { HttpResponse, RequestParameters } from "./common.js";
-import { PartDescriptor, buildMultipartBody } from "./multipart.js";
+import type { HttpResponse, RequestParameters } from "./common.js";
+import type { PartDescriptor } from "./multipart.js";
+import { buildMultipartBody } from "./multipart.js";
 
 /**
  * Helper function to send request used by the client
@@ -94,14 +97,14 @@ function getContentType(body: any): string | undefined {
   if (typeof body === "string") {
     try {
       JSON.parse(body);
-      return "application/json; charset=UTF-8";
+      return "application/json";
     } catch (error: any) {
       // If we fail to parse the body, it is not json
       return undefined;
     }
   }
   // By default return json
-  return "application/json; charset=UTF-8";
+  return "application/json";
 }
 
 export interface InternalRequestParameters extends RequestParameters {

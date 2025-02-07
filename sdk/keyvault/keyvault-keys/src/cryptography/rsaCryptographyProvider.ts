@@ -4,7 +4,7 @@
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
 import { publicEncrypt } from "node:crypto";
 import { createVerify } from "./crypto.js";
-import {
+import type {
   DecryptOptions,
   DecryptParameters,
   DecryptResult,
@@ -24,11 +24,8 @@ import {
   WrapResult,
 } from "../index.js";
 import { convertJWKtoPEM } from "./conversions.js";
-import {
-  CryptographyProvider,
-  CryptographyProviderOperation,
-  LocalCryptographyUnsupportedError,
-} from "./models.js";
+import type { CryptographyProvider, CryptographyProviderOperation } from "./models.js";
+import { LocalCryptographyUnsupportedError } from "./models.js";
 
 /**
  * An RSA cryptography provider supporting RSA algorithms.

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectionContext } from "../connectionContext.js";
-import {
+import type { ConnectionContext } from "../connectionContext.js";
+import type {
   MessageHandlers,
   OperationOptions,
   ReceiveMessagesOptions,
   ServiceBusReceivedMessage,
 } from "../index.js";
-import {
+import type {
   PeekMessagesOptions,
   GetMessageIteratorOptions,
   SubscribeOptions,
   DeleteMessagesOptions,
   PurgeMessagesOptions,
 } from "../models.js";
-import { MessageSession } from "../session/messageSession.js";
+import type { MessageSession } from "../session/messageSession.js";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
@@ -26,7 +26,7 @@ import {
   throwErrorIfInvalidOperationOnMessage,
   throwTypeErrorIfParameterTypeMismatch,
 } from "../util/errors.js";
-import { OnError, OnMessage } from "../core/messageReceiver.js";
+import type { OnError, OnMessage } from "../core/messageReceiver.js";
 import {
   abandonMessage,
   assertValidMessageHandlers,
@@ -37,23 +37,14 @@ import {
   getSessions,
   wrapProcessErrorHandler,
 } from "./receiverCommon.js";
-import {
-  defaultMaxTimeAfterFirstMessageForBatchingMs,
-  MaxDeleteMessageCount,
-  ServiceBusReceiver,
-} from "./receiver.js";
-import Long from "long";
-import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage.js";
-import {
-  Constants,
-  RetryConfig,
-  RetryOperationType,
-  RetryOptions,
-  retry,
-  ErrorNameConditionMapper,
-} from "@azure/core-amqp";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
-import { AmqpError } from "rhea-promise";
+import type { ServiceBusReceiver } from "./receiver.js";
+import { defaultMaxTimeAfterFirstMessageForBatchingMs, MaxDeleteMessageCount } from "./receiver.js";
+import type Long from "long";
+import type { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage.js";
+import type { RetryConfig, RetryOptions } from "@azure/core-amqp";
+import { Constants, RetryOperationType, retry, ErrorNameConditionMapper } from "@azure/core-amqp";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { AmqpError } from "rhea-promise";
 import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage.js";
 import { tracingClient } from "../diagnostics/tracing.js";
 import { receiverLogger as logger } from "../log.js";
@@ -104,7 +95,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 
   /**
    * Gets the state of the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns The state of that session
    * @throws Error if the underlying connection or receiver is closed.
@@ -114,7 +105,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 
   /**
    * Sets the state on the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
    * @param state - The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
@@ -257,7 +248,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   /**
    * Sets the state on the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
    * @param state - The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
@@ -295,7 +286,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   /**
    * Gets the state of the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
+   * {@link https://learn.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state | Session State}
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns The state of that session
    * @throws Error if the underlying connection or receiver is closed.

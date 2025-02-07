@@ -4,7 +4,7 @@
 2. Copy the `sample.env` file and name it as `.env`.
 3. Create an Azure KeyVault and populate the `.env` file with `KEYVAULT_URI` variable.
 4. Populate the `.env` file with your Azure Credentials.
-5. Refer to the [rate limits](https://docs.microsoft.com/azure/key-vault/general/service-limits) and then run the tests as follows:
+5. Refer to the [rate limits](https://learn.microsoft.com/azure/key-vault/general/service-limits) and then run the tests as follows:
 
 - Get Key
   - `npm run perf-test:node -- GetKeyTest --warmup 1 --iterations 1 --parallel 5`

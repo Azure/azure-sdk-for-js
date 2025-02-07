@@ -7,7 +7,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { FabricClient, FabricClientOptionalParams } from "./fabricClient.js";
+export { FabricClient } from "./fabricClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Operation,
@@ -16,13 +16,9 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  TrackedResource,
   FabricCapacity,
   FabricCapacityProperties,
+  ProvisioningState,
   KnownProvisioningState,
   KnownResourceState,
   ResourceState,
@@ -30,6 +26,11 @@ export {
   RpSku,
   KnownRpSkuTier,
   RpSkuTier,
+  TrackedResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
   FabricCapacityUpdate,
   FabricCapacityUpdateProperties,
   CheckNameAvailabilityRequest,
@@ -38,7 +39,9 @@ export {
   CheckNameAvailabilityReason,
   RpSkuDetailsForExistingResource,
   RpSkuDetailsForNewResource,
-  ProvisioningState,
+} from "./models/index.js";
+export {
+  FabricClientOptionalParams,
   FabricCapacitiesGetOptionalParams,
   FabricCapacitiesCreateOrUpdateOptionalParams,
   FabricCapacitiesUpdateOptionalParams,
@@ -51,6 +54,6 @@ export {
   FabricCapacitiesListSkusForCapacityOptionalParams,
   FabricCapacitiesListSkusOptionalParams,
   OperationsListOptionalParams,
-} from "./models/index.js";
+} from "./api/index.js";
 export { FabricCapacitiesOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

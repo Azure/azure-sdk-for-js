@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { afterEach, assert, beforeEach, describe, expect, it } from "vitest";
-import { SecretClient } from "../../src/index.js";
+import type { SecretClient } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
+import type TestClient from "./utils/testClient.js";
 expect.extend({ toSupportTracing });
 
 describe("Secret client - create, read, update and delete operations", () => {
@@ -68,7 +69,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can set a secret with attributes", async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
-    const expiryDate = new Date("3000-01-01");
+    const expiryDate = new Date("2027-01-01");
     expiryDate.setMilliseconds(0);
     await client.setSecret(secretName, secretValue, { expiresOn: expiryDate });
     const updated = await client.getSecret(secretName);
@@ -81,7 +82,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can update a secret", async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
-    const expiryDate = new Date("3000-01-01");
+    const expiryDate = new Date("2027-01-01");
     expiryDate.setMilliseconds(0);
 
     await client.setSecret(secretName, secretValue);
@@ -99,7 +100,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can update a disabled secret", async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
-    const expiryDate = new Date("3000-01-01");
+    const expiryDate = new Date("2027-01-01");
     expiryDate.setMilliseconds(0);
 
     await client.setSecret(secretName, secretValue, {
@@ -125,7 +126,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can't get a disabled secret", async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
-    const expiryDate = new Date("3000-01-01");
+    const expiryDate = new Date("2027-01-01");
     expiryDate.setMilliseconds(0);
 
     await client.setSecret(secretName, secretValue, {

@@ -40,7 +40,7 @@ node listRoleAssignments.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" node listRoleAssignments.js
+npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" node listRoleAssignments.js
 ```
 
 ## Next Steps
@@ -49,7 +49,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [listroleassignments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-access-control-rest/samples/v1-beta/javascript/listRoleAssignments.js
 [createroleassignment]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-access-control-rest/samples/v1-beta/javascript/createRoleAssignment.js
-[apiref]: https://docs.microsoft.com/rest/api/synapse/
+[apiref]: https://learn.microsoft.com/rest/api/synapse/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_creatingandmanagingsynapsecomputeresources]: https://docs.microsoft.com/azure/synapse-analytics/security/synapse-workspace-access-control-overview#creating-and-managing-synapse-compute-resources
+[createinstance_creatingandmanagingsynapsecomputeresources]: https://learn.microsoft.com/azure/synapse-analytics/security/synapse-workspace-access-control-overview#creating-and-managing-synapse-compute-resources
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/synapse/synapse-access-control-rest/README.md

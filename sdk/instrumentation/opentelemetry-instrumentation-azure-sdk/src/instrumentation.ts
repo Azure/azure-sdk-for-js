@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   Instrumentation,
-  InstrumentationBase,
   InstrumentationConfig,
   InstrumentationModuleDefinition,
+} from "@opentelemetry/instrumentation";
+import {
+  InstrumentationBase,
   InstrumentationNodeModuleDefinition,
 } from "@opentelemetry/instrumentation";
 
@@ -58,11 +60,13 @@ export class AzureSdkInstrumentation extends InstrumentationBase {
  * as well as network calls
  *
  * Example usage:
- * ```ts
- * const openTelemetryInstrumentation = require("@opentelemetry/instrumentation");
- * openTelemetryInstrumentation.registerInstrumentations({
+ * ```ts snippet:instrumentation_usage
+ * import { registerInstrumentations } from "@opentelemetry/instrumentation";
+ * import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
+ *
+ * registerInstrumentations({
  *   instrumentations: [createAzureSdkInstrumentation()],
- * })
+ * });
  * ```
  *
  * @remarks

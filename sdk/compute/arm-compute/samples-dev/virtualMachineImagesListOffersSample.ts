@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location and publisher.
@@ -20,17 +16,13 @@ dotenv.config();
  * @summary Gets a list of virtual machine image offers for the specified location and publisher.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListOffers_MaximumSet_Gen.json
  */
-async function virtualMachineImageListOffersMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+async function virtualMachineImageListOffersMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaa";
   const publisherName = "aaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineImages.listOffers(
-    location,
-    publisherName,
-  );
+  const result = await client.virtualMachineImages.listOffers(location, publisherName);
   console.log(result);
 }
 
@@ -40,23 +32,19 @@ async function virtualMachineImageListOffersMaximumSetGen() {
  * @summary Gets a list of virtual machine image offers for the specified location and publisher.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineImageExamples/VirtualMachineImage_ListOffers_MinimumSet_Gen.json
  */
-async function virtualMachineImageListOffersMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+async function virtualMachineImageListOffersMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineImages.listOffers(
-    location,
-    publisherName,
-  );
+  const result = await client.virtualMachineImages.listOffers(location, publisherName);
   console.log(result);
 }
 
-async function main() {
-  virtualMachineImageListOffersMaximumSetGen();
-  virtualMachineImageListOffersMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineImageListOffersMaximumSetGen();
+  await virtualMachineImageListOffersMinimumSetGen();
 }
 
 main().catch(console.error);

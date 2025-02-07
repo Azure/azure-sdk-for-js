@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import { ConnectionStringParser } from "../utils/connectionStringParser";
-import { AzureMonitorExporterOptions } from "../config";
+import { ConnectionStringParser } from "../utils/connectionStringParser.js";
+import type { AzureMonitorExporterOptions } from "../config.js";
 import {
   DEFAULT_BREEZE_ENDPOINT,
   ENV_CONNECTION_STRING,
   LEGACY_ENV_DISABLE_STATSBEAT,
-} from "../Declarations/Constants";
+} from "../Declarations/Constants.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.

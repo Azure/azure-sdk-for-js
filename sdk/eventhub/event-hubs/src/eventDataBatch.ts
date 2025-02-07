@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import type { EventData } from "./eventData.js";
 import {
   assertIsEventData,
-  EventData,
   isAmqpAnnotatedMessage,
   populateIdempotentMessageAnnotations,
   toRheaMessage,
 } from "./eventData.js";
-import { ConnectionContext } from "./connectionContext.js";
-import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { MessageAnnotations, Message as RheaMessage } from "rhea-promise";
+import { message } from "rhea-promise";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { OperationTracingOptions, TracingContext } from "@azure/core-tracing";
+import type { OperationTracingOptions, TracingContext } from "@azure/core-tracing";
 import { instrumentEventData } from "./diagnostics/instrumentEventData.js";
 import { throwTypeErrorIfParameterMissing } from "./util/error.js";
-import { PartitionPublishingProperties } from "./models/private.js";
+import type { PartitionPublishingProperties } from "./models/private.js";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.

@@ -8,8 +8,8 @@
 
 import {
   PrivateLinkResourcesListOptionalParams,
-  PrivateLinkResourcesListResponse
-} from "../models";
+  PrivateLinkResourcesListResponse,
+} from "../models/index.js";
 
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {
@@ -22,6 +22,6 @@ export interface PrivateLinkResources {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: PrivateLinkResourcesListOptionalParams
+    options?: PrivateLinkResourcesListOptionalParams,
   ): Promise<PrivateLinkResourcesListResponse>;
 }

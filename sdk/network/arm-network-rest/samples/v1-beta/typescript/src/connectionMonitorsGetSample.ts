@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ConnectionMonitorsGetParameters
+  ConnectionMonitorsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a connection monitor by name.
@@ -25,7 +20,7 @@ async function getConnectionMonitor() {
   const networkWatcherName = "nw1";
   const connectionMonitorName = "cm1";
   const options: ConnectionMonitorsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getConnectionMonitor() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName
+      connectionMonitorName,
     )
     .get(options);
   console.log(result);

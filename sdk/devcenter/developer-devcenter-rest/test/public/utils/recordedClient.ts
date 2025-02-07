@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { type TaskContext } from "vitest";
-import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import "./env";
-import { AzureDeveloperDevCenterClient } from "../../../src/clientDefinitions.js";
-import { ClientOptions } from "@azure-rest/core-client";
+import { type TestContext } from "vitest";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import type { AzureDeveloperDevCenterClient } from "../../../src/clientDefinitions.js";
+import type { ClientOptions } from "@azure-rest/core-client";
 import { AzurePowerShellCredential } from "@azure/identity";
 import createClient from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -36,7 +36,7 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: TaskContext | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestContext | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;

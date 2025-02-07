@@ -2,14 +2,14 @@
 
 [Azure Event Grid](https://azure.microsoft.com/services/event-grid/) is a cloud-based service that provides reliable event delivery at massive scale.
 
-Use the client library to Send events to Event Grid Namespaces 
+Use the client library to Send events to Event Grid Namespaces
 
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventgrid/eventgrid-namespaces/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid-namespaces)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
-- [Product documentation](https://docs.microsoft.com/azure/event-grid/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/eventgrid-namespaces/)
+- [Product documentation](https://learn.microsoft.com/azure/event-grid/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid-namespaces/samples)
 
 ## Getting started
@@ -68,17 +68,24 @@ az eventgrid topic key list --resource-group <your-resource-group-name> --name <
 
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
-```js
-const { EventGridSenderClient, EventGridReceiverClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import {
+  EventGridSenderClient,
+  AzureKeyCredential,
+  EventGridReceiverClient,
+} from "@azure/eventgrid-namespaces";
 
 const eventGridSenderClient = new EventGridSenderClient(
   "<endpoint>",
-  new AzureKeyCredential("<Access Key>")
+  new AzureKeyCredential("<Access Key>"),
+  "<topic-name>",
 );
 
 const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
-  new AzureKeyCredential("<Access Key>")
+  new AzureKeyCredential("<Access Key>"),
+  "<topic-name>",
+  "<subscription-name>",
 );
 ```
 
@@ -90,21 +97,21 @@ With the `@azure/identity` package, you can seamlessly authorize requests in bot
 
 For example, use can use `DefaultAzureCredential` to construct a client which will authenticate using Azure Active Directory:
 
-```js
-const { EventGridSenderClient, EventGridReceiverClient } = require("@azure/eventgrid-namespaces");
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { EventGridSenderClient, EventGridReceiverClient } from "@azure/eventgrid-namespaces";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const eventGridSenderClient = new EventGridSenderClient(
   "<endpoint>",
   new DefaultAzureCredential(),
-  "<topicName>"
+  "<topic-name>",
 );
 
 const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
   new DefaultAzureCredential(),
-  "<topicName>",
-  "<subscriptionName>"
+  "<topic-name>",
+  "<subscription-name>",
 );
 ```
 
@@ -114,22 +121,26 @@ const eventGridReceiverClient = new EventGridReceiverClient(
 
 `EventGridSenderClient` can be used for sending events to an Event Grid. You can initialize it as:
 
-```js
+```ts snippet:ReadmeSample_SenderClient
+import { EventGridSenderClient, AzureKeyCredential } from "@azure/eventgrid-namespaces";
+
 const eventGridSenderClient = new EventGridSenderClient(
   "<endpoint>",
   new AzureKeyCredential("<API Key>"),
-  "<topicName>"
+  "<topic-name>",
 );
 ```
 
 `EventGridReceiverClient` can be used for receiving events from an Event Grid. You can initialize it as:
 
-```js
+```ts snippet:ReadmeSample_ReceiverClient
+import { EventGridReceiverClient, AzureKeyCredential } from "@azure/eventgrid-namespaces";
+
 const eventGridReceiverClient = new EventGridReceiverClient(
   "<endpoint>",
   new AzureKeyCredential("<API Key>"),
   "<topicName>",
-  "<subscriptionName>"
+  "<subscription-name>",
 );
 ```
 
@@ -145,16 +156,16 @@ This library has been tested and validated on [Kubernetes using Azure Arc][event
 
 ### Publish an Event to an Event Grid Topic
 
-```js
-const { EventGridSenderClient, AzureKeyCredential } = require("@azure/eventgrid-namespaces");
+```ts snippet:ReadmeSamplePublishEvent
+import { EventGridSenderClient, AzureKeyCredential } from "@azure/eventgrid-namespaces";
 
 const client = new EventGridSenderClient(
   "<endpoint>",
   new AzureKeyCredential("<API key>"),
-  "<topicName>"
+  "<subscription-name>",
 );
 
-const cloudEvent: CloudEvent = {
+const cloudEvent = {
   type: "example",
   source: "https://example.com",
   id: `singleEventIdV210001`,
@@ -164,6 +175,7 @@ const cloudEvent: CloudEvent = {
   },
   specversion: "1.0",
 };
+
 // Publish the Cloud Event
 await client.sendEvents(cloudEvent);
 ```
@@ -174,8 +186,8 @@ await client.sendEvents(cloudEvent);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -196,12 +208,12 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventgrid%2Feventgrid%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[event_grid]: https://docs.microsoft.com/azure/event-grid
+[event_grid]: https://learn.microsoft.com/azure/event-grid
 [azure_portal]: https://portal.azure.com
 [azure-core-tracing-github]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing
 [cloud-events-distributed-tracing-spec]: https://github.com/cloudevents/spec/blob/v1.0.1/extensions/distributed-tracing.md
-[eventgrid-on-kubernetes-using-azure-arc]: https://docs.microsoft.com/azure/event-grid/kubernetes/
+[eventgrid-on-kubernetes-using-azure-arc]: https://learn.microsoft.com/azure/event-grid/kubernetes/

@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context, Test } from "mocha";
 import * as dotenv from "dotenv";
-
+import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
-  SanitizerOptions,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
+import type { SipTrunk, SipTrunkRoute } from "../../../../src/index.js";
+import { SipRoutingClient } from "../../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { randomUUID } from "@azure/core-util";
-import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 
 if (isNodeLike) {
   dotenv.config();
@@ -70,7 +68,7 @@ const recorderOptions: RecorderStartOptions = {
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("CustomDefaultMatcher", {
@@ -83,9 +81,9 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedClient(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<SipRoutingClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
@@ -111,9 +109,9 @@ export function createMockToken(): TokenCredential {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<SipRoutingClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(

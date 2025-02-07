@@ -13,15 +13,19 @@
  * @summary build a classifier from a training data set
  */
 
-import DocumentIntelligence, { DocumentClassifierBuildOperationDetailsOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import type { DocumentClassifierBuildOperationDetailsOutput } from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" })
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+  );
 
   const random = Date.now().toString();
   const modelId =
@@ -49,20 +53,19 @@ async function main() {
           },
         },
       },
-    }
+    },
   });
 
   if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
   }
-  const poller = await getLongRunningPoller(client, initialResponse);
+  const poller = getLongRunningPoller(client, initialResponse);
   const classifier = (
-    (await (poller).pollUntilDone()).body as DocumentClassifierBuildOperationDetailsOutput
+    (await poller.pollUntilDone()).body as DocumentClassifierBuildOperationDetailsOutput
   ).result;
   if (!classifier) {
     throw new Error("Expected a DocumentClassifierDetailsOutput response.");
   }
-
 
   console.log("Classifier ID:", classifier.classifierId);
   console.log("Description:", classifier.description);

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
-import {
+import type {
   BatchClient,
   BatchTask,
   CreateJobParameters,
   CreatePoolParameters,
   CreateTaskParameters,
-  isUnexpected,
-  paginate,
 } from "../src/index.js";
+import { isUnexpected, paginate, type GetTask200Response } from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName, waitForNotNull } from "./utils/helpers.js";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
@@ -32,7 +32,7 @@ describe("Task Operations Test", () => {
   /**
    * Provision helper resources needed for testing Batch tasks
    */
-  beforeAll(async function () {
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -90,7 +90,7 @@ describe("Task Operations Test", () => {
   /**
    * Unprovision helper resources after all tests ran
    */
-  afterAll(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode()) {
       type resourceDeleteErr = { id: string; error: any };
       const failedDeletedResources: resourceDeleteErr[] = [];
@@ -117,12 +117,12 @@ describe("Task Operations Test", () => {
     }
   });
 
-  beforeEach(async function (ctx: VitestTestContext) {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -458,7 +458,7 @@ describe("Task Operations Test", () => {
     const taskAddResult = await batchClient.path("/jobs/{jobId}/tasks", jobId).post(taskAddParams);
     assert.equal(taskAddResult.status, "201");
 
-    const getExecutedTask = async () => {
+    const getExecutedTask = async (): Promise<GetTask200Response | null> => {
       const getTaskResult = await batchClient
         .path("/jobs/{jobId}/tasks/{taskId}", jobId, taskAddParams.body.id!)
         .get();

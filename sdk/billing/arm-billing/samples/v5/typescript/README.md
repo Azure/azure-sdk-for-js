@@ -236,7 +236,7 @@ node dist/addressValidateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node dist/addressValidateSample.js
+npx dev-tool run vendored cross-env  node dist/addressValidateSample.js
 ```
 
 ## Next Steps
@@ -431,7 +431,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [transfersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billing/arm-billing/samples/v5/typescript/src/transfersGetSample.ts
 [transfersinitiatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billing/arm-billing/samples/v5/typescript/src/transfersInitiateSample.ts
 [transferslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billing/arm-billing/samples/v5/typescript/src/transfersListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-billing?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-billing?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billing/arm-billing/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

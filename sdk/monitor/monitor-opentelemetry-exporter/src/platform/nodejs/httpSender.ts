@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import url from "url";
+
+import url from "node:url";
 import { diag } from "@opentelemetry/api";
-import { FullOperationResponse } from "@azure/core-client";
+import type { FullOperationResponse } from "@azure/core-client";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
-import { SenderResult } from "../../types";
-import {
+import type { SenderResult } from "../../types.js";
+import type {
   TelemetryItem as Envelope,
-  ApplicationInsightsClient,
   ApplicationInsightsClientOptionalParams,
   TrackOptionalParams,
-} from "../../generated";
-import { AzureMonitorExporterOptions } from "../../config";
-import { BaseSender } from "./baseSender";
+} from "../../generated/index.js";
+import { ApplicationInsightsClient } from "../../generated/index.js";
+import type { AzureMonitorExporterOptions } from "../../config.js";
+import { BaseSender } from "./baseSender.js";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
@@ -79,7 +80,6 @@ export class HttpSender extends BaseSender {
    * Shutdown sender
    * @internal
    */
-  // eslint-disable-next-line @typescript-eslint/require-await
   async shutdown(): Promise<void> {
     diag.info("HttpSender shutting down");
   }

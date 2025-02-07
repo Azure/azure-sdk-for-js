@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import {
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type {
   CryptographyClientOptions,
   GetKeyOptions,
   JsonWebKey,
   KeyOperation,
   KeyVaultKey,
-  KnownKeyOperations,
 } from "./keysModels.js";
-import {
+import { KnownKeyOperations } from "./keysModels.js";
+import type {
   AesCbcEncryptParameters,
   AesCbcEncryptionAlgorithm,
   CryptographyClientKey,
@@ -35,7 +35,7 @@ import {
 } from "./cryptographyClientModels.js";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider.js";
 import { randomBytes } from "./cryptography/crypto.js";
-import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models.js";
+import type { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models.js";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider.js";
 import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider.js";
 import { tracingClient } from "./tracing.js";
@@ -260,7 +260,7 @@ export class CryptographyClient {
    * Decrypts the given ciphertext with the specified decryption parameters.
    * Depending on the algorithm used in the decryption parameters, the set of possible decryption parameters will change.
    *
-   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
+   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
    *
    * Example usage:
    * ```ts
@@ -284,7 +284,7 @@ export class CryptographyClient {
    * let result = await client.decrypt("RSA1_5", encryptedBuffer);
    * ```
    *
-   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
+   * Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using, for example, an HMAC. See https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
    *
    * @param algorithm - The algorithm to use.
    * @param ciphertext - The text to decrypt.

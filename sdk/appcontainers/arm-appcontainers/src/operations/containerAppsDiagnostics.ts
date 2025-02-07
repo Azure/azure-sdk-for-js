@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ContainerAppsDiagnostics } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ContainerAppsDiagnostics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ContainerAppsAPIClient } from "../containerAppsAPIClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ContainerAppsAPIClient } from "../containerAppsAPIClient.js";
 import {
   Diagnostics,
   ContainerAppsDiagnosticsListDetectorsNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   ContainerAppsDiagnosticsGetRootResponse,
   ContainerAppsDiagnosticsListDetectorsNextResponse,
   ContainerAppsDiagnosticsListRevisionsNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ContainerAppsDiagnostics operations. */
@@ -468,8 +468,8 @@ const listDetectorsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
     Parameters.nextLink,
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -489,8 +489,8 @@ const listRevisionsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
     Parameters.nextLink,
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

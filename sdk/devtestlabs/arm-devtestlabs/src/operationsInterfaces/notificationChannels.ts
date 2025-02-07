@@ -20,7 +20,7 @@ import {
   NotificationChannelsUpdateResponse,
   NotifyParameters,
   NotificationChannelsNotifyOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NotificationChannels. */

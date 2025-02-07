@@ -3,18 +3,18 @@
 
 import { isNode, isBrowser } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 
-import {
+import type {
   FileStartCopyOptions,
   ShareClient,
   ShareDirectoryClient,
-  ShareFileClient,
   ShareServiceClient,
 } from "../src";
+import { ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
-import { DirectoryCreateResponse } from "../src/generated/src/models";
+import type { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import {

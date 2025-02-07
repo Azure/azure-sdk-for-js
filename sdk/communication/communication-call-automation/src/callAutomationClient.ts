@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions } from "@azure/core-client";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import {
-  parseClientArguments,
-  isKeyCredential,
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
-import { logger } from "./models/logger";
-import {
+import { parseClientArguments, isKeyCredential } from "@azure/communication-common";
+import { logger } from "./models/logger.js";
+import type {
   AnswerCallRequest,
   CallAutomationApiClient,
   CommunicationUserIdentifierModel,
@@ -18,29 +18,41 @@ import {
   RedirectCallRequest,
   RejectCallRequest,
   CustomCallingContextInternal,
-} from "./generated/src";
-import { CallConnection } from "./callConnection";
-import { CallRecording } from "./callRecording";
-import {
+  ConnectRequest,
+} from "./generated/src/index.js";
+import { CallConnection } from "./callConnection.js";
+import { CallRecording } from "./callRecording.js";
+import type {
   AnswerCallOptions,
+  ConnectCallOptions,
   CreateCallOptions,
   RedirectCallOptions,
   RejectCallOptions,
-} from "./models/options";
-import { AnswerCallResult, CreateCallResult } from "./models/responses";
-import { CallConnectionProperties, CallInvite, CustomCallingContext } from "./models/models";
+} from "./models/options.js";
+import type { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses.js";
+import type {
+  CallConnectionProperties,
+  CallInvite,
+  CallLocator,
+  CustomCallingContext,
+} from "./models/models.js";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
   communicationUserIdentifierConverter,
   communicationUserIdentifierModelConverter,
+  microsoftTeamsAppIdentifierModelConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
-} from "./utli/converters";
+} from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
-import { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
+import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor.js";
+import type {
+  AnswerCallEventResult,
+  ConnectCallEventResult,
+  CreateCallEventResult,
+} from "./eventprocessor/eventResponses.js";
 /**
  * Client options used to configure CallAutomation Client API requests.
  */
@@ -173,8 +185,15 @@ export class CallAutomationClient {
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: randomUUID(),
     };
-    const { callConnectionId, answeredBy, targets, sourceCallerIdNumber, source, ...result } =
-      await this.callAutomationApiClient.createCall(request, optionsInternal);
+    const {
+      callConnectionId,
+      answeredBy,
+      targets,
+      sourceCallerIdNumber,
+      source,
+      answeredFor,
+      ...result
+    } = await this.callAutomationApiClient.createCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionPropertiesDto: CallConnectionProperties = {
@@ -182,6 +201,7 @@ export class CallAutomationClient {
         callConnectionId: callConnectionId,
         source: source ? communicationIdentifierConverter(source) : undefined,
         answeredby: communicationUserIdentifierConverter(answeredBy),
+        answeredFor: answeredFor ? phoneNumberIdentifierConverter(answeredFor) : undefined,
         targetParticipants: targets?.map((returnedTarget) =>
           communicationIdentifierConverter(returnedTarget),
         ),
@@ -245,12 +265,13 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       source: this.sourceIdentity,
+      teamsAppSource: microsoftTeamsAppIdentifierModelConverter(options.teamsAppSource),
       targets: [communicationIdentifierModelConverter(targetParticipant.targetParticipant)],
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
-      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
-      transcriptionConfiguration: options.transcriptionConfiguration,
+      mediaStreamingOptions: options.mediaStreamingOptions,
+      transcriptionOptions: options.transcriptionOptions,
       customCallingContext: this.createCustomCallingContextInternal(
         targetParticipant.customCallingContext!,
       ),
@@ -277,11 +298,13 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       source: this.sourceIdentity,
+      teamsAppSource: microsoftTeamsAppIdentifierModelConverter(options.teamsAppSource),
       targets: targetParticipants.map((target) => communicationIdentifierModelConverter(target)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
-      transcriptionConfiguration: options.transcriptionConfiguration,
+      mediaStreamingOptions: options.mediaStreamingOptions,
+      transcriptionOptions: options.transcriptionOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
     };
@@ -302,16 +325,17 @@ export class CallAutomationClient {
   ): Promise<AnswerCallResult> {
     const {
       callIntelligenceOptions,
-      mediaStreamingConfiguration,
-      transcriptionConfiguration,
+      mediaStreamingOptions,
+      transcriptionOptions,
       operationContext,
       ...operationOptions
     } = options;
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
-      mediaStreamingConfiguration: mediaStreamingConfiguration,
-      transcriptionConfiguration: transcriptionConfiguration,
+      mediaStreamingOptions: mediaStreamingOptions,
+      transcriptionOptions: transcriptionOptions,
       callIntelligenceOptions: callIntelligenceOptions,
+      customCallingContext: this.createCustomCallingContextInternal(options.customCallingContext!),
       operationContext: operationContext,
       callbackUri: callbackUrl,
       answeredBy: this.sourceIdentity,
@@ -321,8 +345,15 @@ export class CallAutomationClient {
       repeatabilityFirstSent: new Date(),
       repeatabilityRequestID: randomUUID(),
     };
-    const { callConnectionId, targets, sourceCallerIdNumber, answeredBy, source, ...result } =
-      await this.callAutomationApiClient.answerCall(request, optionsInternal);
+    const {
+      callConnectionId,
+      targets,
+      sourceCallerIdNumber,
+      answeredBy,
+      source,
+      answeredFor,
+      ...result
+    } = await this.callAutomationApiClient.answerCall(request, optionsInternal);
 
     if (callConnectionId) {
       const callConnectionProperties: CallConnectionProperties = {
@@ -330,6 +361,7 @@ export class CallAutomationClient {
         callConnectionId: callConnectionId,
         source: source ? communicationIdentifierConverter(source) : undefined,
         answeredby: communicationUserIdentifierConverter(answeredBy),
+        answeredFor: answeredFor ? phoneNumberIdentifierConverter(answeredFor) : undefined,
         targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
         sourceCallerIdNumber: sourceCallerIdNumber
           ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
@@ -443,5 +475,104 @@ export class CallAutomationClient {
       }
     }
     return { sipHeaders: sipHeaders, voipHeaders: voipHeaders };
+  }
+
+  /**
+   * Create connection to room call.
+   * @param callLocator - Call locator to create connection.
+   * @param callbackUrl - The callback url
+   * @param options - Additional request options contains connect api options.
+   */
+  public async connectCall(
+    callLocator: CallLocator,
+    callbackUrl: string,
+    options: ConnectCallOptions = {},
+  ): Promise<ConnectCallResult> {
+    const connectRequest: ConnectRequest = {
+      callLocator: callLocator,
+      callbackUri: callbackUrl,
+      operationContext: options.operationContext,
+      callIntelligenceOptions: options.callIntelligenceOptions,
+      mediaStreamingOptions: options.mediaStreamingOptions,
+      transcriptionOptions: options.transcriptionOptions,
+    };
+
+    if (callLocator.kind === "groupCallLocator") {
+      connectRequest.callLocator.kind = "groupCallLocator";
+      connectRequest.callLocator.groupCallId = callLocator.id;
+    } else if (callLocator.kind === "roomCallLocator") {
+      connectRequest.callLocator.kind = "roomCallLocator";
+      connectRequest.callLocator.roomId = callLocator.id;
+    } else {
+      connectRequest.callLocator.kind = "serverCallLocator";
+      connectRequest.callLocator.serverCallId = callLocator.id;
+    }
+
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: randomUUID(),
+    };
+
+    const {
+      callConnectionId,
+      targets,
+      sourceCallerIdNumber,
+      answeredBy,
+      source,
+      answeredFor,
+      ...result
+    } = await this.callAutomationApiClient.connect(connectRequest, optionsInternal);
+
+    if (callConnectionId) {
+      const callConnectionProperties: CallConnectionProperties = {
+        ...result,
+        callConnectionId: callConnectionId,
+        source: source ? communicationIdentifierConverter(source) : undefined,
+        answeredby: answeredBy ? communicationUserIdentifierConverter(answeredBy) : undefined,
+        targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
+        answeredFor: answeredFor ? phoneNumberIdentifierConverter(answeredFor) : undefined,
+        sourceCallerIdNumber: sourceCallerIdNumber
+          ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
+          : undefined,
+      };
+      const callConnection = new CallConnection(
+        callConnectionId,
+        this.callAutomationApiClient.endpoint,
+        this.credential,
+        this.callAutomationEventProcessor,
+        this.internalPipelineOptions,
+      );
+      const connectResult: ConnectCallResult = {
+        callConnectionProperties: callConnectionProperties,
+        callConnection: callConnection,
+        waitForEventProcessor: async (abortSignal, timeoutInMs) => {
+          const connectCallEventResult: ConnectCallEventResult = {
+            isSuccess: false,
+          };
+          await this.callAutomationEventProcessor.waitForEventProcessor(
+            (event) => {
+              if (event.callConnectionId === callConnectionId && event.kind === "CallConnected") {
+                connectCallEventResult.isSuccess = true;
+                connectCallEventResult.successResult = event;
+                return true;
+              }
+              if (event.callConnectionId === callConnectionId && event.kind === "ConnectFailed") {
+                connectCallEventResult.isSuccess = false;
+                connectCallEventResult.failureResult = event;
+                return true;
+              } else {
+                return false;
+              }
+            },
+            abortSignal,
+            timeoutInMs,
+          );
+          return connectCallEventResult;
+        },
+      };
+      return connectResult;
+    }
+    throw "callConnectionProperties / callConnectionId is missing in connect result";
   }
 }

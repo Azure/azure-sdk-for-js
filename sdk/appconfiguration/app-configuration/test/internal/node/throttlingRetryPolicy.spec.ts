@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { AppConfigurationClient } from "../../../src/index.js";
-import {
-  createHttpHeaders,
+import type {
   HttpClient,
   PipelineRequest,
   RestError,
   SendRequest,
 } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { randomUUID } from "@azure/core-util";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, beforeEach, expect } from "vitest";

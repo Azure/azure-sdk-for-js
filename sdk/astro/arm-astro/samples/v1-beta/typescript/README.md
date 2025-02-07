@@ -55,7 +55,7 @@ node dist/operationsListSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ASTRO_SUBSCRIPTION_ID="<astro subscription id>" node dist/operationsListSample.js
+npx dev-tool run vendored cross-env ASTRO_SUBSCRIPTION_ID="<astro subscription id>" node dist/operationsListSample.js
 ```
 
 ## Next Steps
@@ -69,7 +69,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [organizationslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/astro/arm-astro/samples/v1-beta/typescript/src/organizationsListByResourceGroupSample.ts
 [organizationslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/astro/arm-astro/samples/v1-beta/typescript/src/organizationsListBySubscriptionSample.ts
 [organizationsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/astro/arm-astro/samples/v1-beta/typescript/src/organizationsUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-astro?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-astro?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/astro/arm-astro/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

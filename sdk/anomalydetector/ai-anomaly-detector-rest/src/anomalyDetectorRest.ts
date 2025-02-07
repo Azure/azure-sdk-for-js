@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { KeyCredential } from "@azure/core-auth";
-import { AnomalyDetectorRestClient } from "./clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { KeyCredential } from "@azure/core-auth";
+import type { AnomalyDetectorRestClient } from "./clientDefinitions.js";
 
 export interface AnomalyDetectorRestClientOptions extends ClientOptions {
   ApiVersion?: string;

@@ -1,11 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Attributes } from "@opentelemetry/api";
-import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
-import { TelemetryItem as Envelope, MetricsData, MetricDataPoint } from "../generated";
-import { createTagsFromResource } from "./common";
-import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types";
+import type { Attributes } from "@opentelemetry/api";
+import type {
+  DataPoint,
+  ExponentialHistogram,
+  Histogram,
+  ResourceMetrics,
+} from "@opentelemetry/sdk-metrics";
+import { DataPointType } from "@opentelemetry/sdk-metrics";
+import type {
+  TelemetryItem as Envelope,
+  MetricsData,
+  MetricDataPoint,
+} from "../generated/index.js";
+import { createTagsFromResource } from "./common.js";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../types.js";
+import {
+  ENV_OTEL_METRICS_EXPORTER,
+  ENV_OTLP_METRICS_ENDPOINT,
+  ENV_AZURE_MONITOR_AUTO_ATTACH,
+  ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED,
+} from "../Declarations/Constants.js";
 
 const breezePerformanceCountersMap = new Map<string, string>([
   [OTelPerformanceCounterNames.PRIVATE_BYTES, BreezePerformanceCounterNames.PRIVATE_BYTES],
@@ -58,6 +74,23 @@ export function resourceMetricsToEnvelope(
           properties: {},
         };
         baseData.properties = createPropertiesFromMetricAttributes(dataPoint.attributes);
+
+        // If we're not exporting statsbeat, the metric is *not* a standard metric and the env var is set to false, we should not send the metric.
+        if (
+          shouldSendToOtlp() &&
+          isAksAttach() &&
+          !isStandardMetric(dataPoint) &&
+          process.env[ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED] === "false" &&
+          !isStatsbeat
+        ) {
+          return;
+        }
+
+        if (shouldSendToOtlp() && isAksAttach() && !isStatsbeat) {
+          baseData.properties["_MS.SentToAMW"] = "True";
+        } else if (isAksAttach() && !isStatsbeat) {
+          baseData.properties["_MS.SentToAMW"] = "False";
+        }
         let perfCounterName;
         if (breezePerformanceCountersMap.has(metric.descriptor.name)) {
           perfCounterName = breezePerformanceCountersMap.get(metric.descriptor.name);
@@ -100,4 +133,23 @@ export function resourceMetricsToEnvelope(
   });
 
   return envelopes;
+}
+
+export function isAksAttach(): boolean {
+  return !!(
+    process.env[ENV_AZURE_MONITOR_AUTO_ATTACH] === "true" && process.env.AKS_ARM_NAMESPACE_ID
+  );
+}
+
+export function shouldSendToOtlp(): boolean {
+  return !!(
+    process.env[ENV_OTLP_METRICS_ENDPOINT] &&
+    process.env[ENV_OTEL_METRICS_EXPORTER]?.includes("otlp")
+  );
+}
+
+export function isStandardMetric(
+  dataPoint: DataPoint<number> | DataPoint<Histogram> | DataPoint<ExponentialHistogram>,
+): boolean {
+  return dataPoint.attributes?.["_MS.IsAutocollected"] === "True";
 }

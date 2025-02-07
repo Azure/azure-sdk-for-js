@@ -158,7 +158,7 @@ node dist/actionsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SECURITYINSIGHT_SUBSCRIPTION_ID="<securityinsight subscription id>" SECURITYINSIGHT_RESOURCE_GROUP="<securityinsight resource group>" node dist/actionsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env SECURITYINSIGHT_SUBSCRIPTION_ID="<securityinsight subscription id>" SECURITYINSIGHT_RESOURCE_GROUP="<securityinsight resource group>" node dist/actionsCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -275,7 +275,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [watchlistsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/securityinsight/arm-securityinsight/samples/v1-beta/typescript/src/watchlistsDeleteSample.ts
 [watchlistsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/securityinsight/arm-securityinsight/samples/v1-beta/typescript/src/watchlistsGetSample.ts
 [watchlistslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/securityinsight/arm-securityinsight/samples/v1-beta/typescript/src/watchlistsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-securityinsight?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-securityinsight?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/securityinsight/arm-securityinsight/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

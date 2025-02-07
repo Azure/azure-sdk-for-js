@@ -10,7 +10,7 @@ import {
   AzureBackupFindRestorableTimeRangesRequest,
   RestorableTimeRangesFindOptionalParams,
   RestorableTimeRangesFindResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RestorableTimeRanges. */
 export interface RestorableTimeRanges {

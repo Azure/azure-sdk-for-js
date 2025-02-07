@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "@azure-tools/test-utils";
-import { DeserializeOptions, JsonSchemaSerializer } from "../../src";
-import { SchemaRegistry } from "@azure/schema-registry";
-import { createTestRegistry } from "./utils/mockedRegistryClient";
-import { createTestSerializer } from "./utils/mockedSerializer";
-import { createContentType, encoder, testGroup } from "./utils/dummies";
+import type { DeserializeOptions, JsonSchemaSerializer } from "../../src/index.js";
+import type { SchemaRegistry } from "@azure/schema-registry";
+import { createTestRegistry } from "./utils/mockedRegistryClient.js";
+import { createTestSerializer } from "./utils/mockedSerializer.js";
+import { createContentType, encoder, testGroup } from "./utils/dummies.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assertError } from "./utils/assertError";
+import { assertError } from "./utils/assertError.js";
 import Ajv from "ajv";
+import { describe, it, assert, beforeEach } from "vitest";
 
-describe("Deserialize Validation", function () {
+describe("Deserialize Validation", () => {
   let serializer: JsonSchemaSerializer;
   let registry: SchemaRegistry;
   let recorder: Recorder;
@@ -19,8 +19,8 @@ describe("Deserialize Validation", function () {
   let validateWithAjvOption: DeserializeOptions;
   let id: string;
 
-  beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     serializer = await createTestSerializer({
       registry,
@@ -36,7 +36,7 @@ describe("Deserialize Validation", function () {
     };
     validateWithAjvOption = {
       validateCallback(message, schema) {
-        const ajv = new Ajv();
+        const ajv = new Ajv.default();
         const validator = ajv.compile(JSON.parse(schema));
         const valid = validator(message);
         if (!valid) {
@@ -66,8 +66,8 @@ describe("Deserialize Validation", function () {
     }));
   });
 
-  describe("Value validation", function () {
-    it("succeeds with incompatible data", async function () {
+  describe("Value validation", () => {
+    it("succeeds with incompatible data", async () => {
       const data = {
         favoriteNumber: "four",
       };
@@ -81,7 +81,7 @@ describe("Deserialize Validation", function () {
       assert.deepEqual(data, deserialedData);
     });
 
-    it("succeeds with validation", async function () {
+    it("succeeds with validation", async () => {
       const data = {
         name: "Alice",
       };
@@ -97,7 +97,7 @@ describe("Deserialize Validation", function () {
       );
     });
 
-    it("validation fails with missing property", async function () {
+    it("validation fails with missing property", async () => {
       const data = {
         favoriteNumber: 4,
       };
@@ -116,7 +116,7 @@ describe("Deserialize Validation", function () {
       );
     });
 
-    it("validation fails with incompatible data", async function () {
+    it("validation fails with incompatible data", async () => {
       const data = {
         name: "Alice",
         favoriteNumber: "four",
@@ -138,14 +138,14 @@ describe("Deserialize Validation", function () {
   });
 });
 
-describe("Validation Error", function () {
+describe("Validation Error", () => {
   let serializer: JsonSchemaSerializer;
   let registry: SchemaRegistry;
   let recorder: Recorder;
   let validateWithAjvOption: DeserializeOptions;
 
-  beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     serializer = await createTestSerializer({
       registry,
@@ -156,7 +156,7 @@ describe("Validation Error", function () {
     });
     validateWithAjvOption = {
       validateCallback(message, schema) {
-        const ajv = new Ajv();
+        const ajv = new Ajv.default();
         const validator = ajv.compile(JSON.parse(schema));
         const valid = validator(message);
         if (!valid) {
@@ -166,8 +166,8 @@ describe("Validation Error", function () {
     };
   });
 
-  describe("Error validation", function () {
-    it("boolean", async function () {
+  describe("Error validation", () => {
+    it("boolean", async () => {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
@@ -193,7 +193,7 @@ describe("Validation Error", function () {
       );
     });
 
-    it("string", async function () {
+    it("string", async () => {
       const testData = 1;
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
@@ -219,7 +219,7 @@ describe("Validation Error", function () {
       );
     });
 
-    it("integer", async function () {
+    it("integer", async () => {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
@@ -245,7 +245,7 @@ describe("Validation Error", function () {
       );
     });
 
-    it("null", async function () {
+    it("null", async () => {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
@@ -271,7 +271,7 @@ describe("Validation Error", function () {
       );
     });
 
-    it("number", async function () {
+    it("number", async () => {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
@@ -297,7 +297,7 @@ describe("Validation Error", function () {
       );
     });
 
-    it("array", async function () {
+    it("array", async () => {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({
@@ -323,7 +323,7 @@ describe("Validation Error", function () {
       );
     });
 
-    it("object", async function () {
+    it("object", async () => {
       const testData = "x";
       const { id } = await registry.registerSchema({
         definition: JSON.stringify({

@@ -61,7 +61,7 @@ node sharedKeyAuth.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node sharedKeyAuth.js
+npx dev-tool run vendored cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node sharedKeyAuth.js
 ```
 
 ## Next Steps
@@ -81,7 +81,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [customizedclientheaders]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/javascript/customizedClientHeaders.js
 [advancedrequestoptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/javascript/advancedRequestOptions.js
 [custompipeline]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob/samples/v12/javascript/customPipeline.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/storage-blob
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurestorageaccount]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
+[createinstance_azurestorageaccount]: https://learn.microsoft.com/azure/storage/common/storage-account-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob/README.md

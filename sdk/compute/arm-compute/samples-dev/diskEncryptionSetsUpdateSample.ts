@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DiskEncryptionSetUpdate,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { DiskEncryptionSetUpdate } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
@@ -23,16 +17,13 @@ dotenv.config();
  * @summary Updates (patches) a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabled.json
  */
-async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSetUpdate = {
     activeKey: {
-      keyUrl:
-        "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
+      keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     identity: { type: "SystemAssigned" },
@@ -54,16 +45,13 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
  * @summary Updates (patches) a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update_WithRotationToLatestKeyVersionEnabledInProgress.json
  */
-async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSetUpdate = {
     activeKey: {
-      keyUrl:
-        "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
+      keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
     },
     encryptionType: "EncryptionAtRestWithCustomerKey",
     identity: { type: "SystemAssigned" },
@@ -85,16 +73,13 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
  * @summary Updates (patches) a disk encryption set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskEncryptionSetExamples/DiskEncryptionSet_Update.json
  */
-async function updateADiskEncryptionSet() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function updateADiskEncryptionSet(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const diskEncryptionSetName = "myDiskEncryptionSet";
   const diskEncryptionSet: DiskEncryptionSetUpdate = {
     activeKey: {
-      keyUrl:
-        "https://myvmvault.vault-int.azure-int.net/keys/keyName/keyVersion",
+      keyUrl: "https://myvmvault.vault-int.azure-int.net/keys/keyName/keyVersion",
       sourceVault: {
         id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
       },
@@ -112,10 +97,10 @@ async function updateADiskEncryptionSet() {
   console.log(result);
 }
 
-async function main() {
-  updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded();
-  updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating();
-  updateADiskEncryptionSet();
+async function main(): Promise<void> {
+  await updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded();
+  await updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating();
+  await updateADiskEncryptionSet();
 }
 
 main().catch(console.error);

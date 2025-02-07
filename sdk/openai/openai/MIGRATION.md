@@ -39,14 +39,14 @@ const azureADTokenProvider = getBearerTokenProvider(credential, scope);
 
 ### (⚠️ Highly Discouraged) API Key
 
-API keys are not recommended for production use because they are less secure than other authentication methods. However, if you are using an API key to authenticate `OpenAIClient` or `AssistantsClient`, an `AzureKeyCredential` object must have been created as follows:
+API keys are not recommended for production use because they are less secure than other authentication methods. Previously, `AzureKeyCredential` objects were created as follows to authenticate `OpenAIClient` or `AssistantsClient`:
 
 ```typescript
 import { AzureKeyCredential } from "@azure/openai";
 const apiKey = new AzureKeyCredential("your API key");
 ```
 
-Authenticating `AzureOpenAI` with an API key is as simple as setting the `AZURE_OPENAI_API_KEY` environment variable or as setting the `apiKey` string property in the options object when creating the `AzureOpenAI` client.
+On the other hand, `AzureOpenAI` can be authenticated with an API key by setting the `AZURE_OPENAI_API_KEY` environment variable or by setting the `apiKey` string property in the options object when creating the `AzureOpenAI` client.
 
 ## Constructing the client
 
@@ -69,7 +69,7 @@ Migrated code:
 ```typescript
 import { AzureOpenAI } from "openai";
 const deployment = "Your Azure OpenAI deployment";
-const apiVersion = "2024-07-01-preview";
+const apiVersion = "2024-11-01-preview";
 const options = { azureADTokenProvider, deployment, apiVersion }
 const client = new AzureOpenAI(options);
 ```
@@ -548,4 +548,4 @@ The following table explores several type names from `@azure/openai` and shows t
 
 ## Azure types
 
-`AzureOpenAI` connects to the Azure OpenAI service and can call all the operations available in the service. However, the types of the requests and responses are inherited from the `OpenAI` and are not yet updated to reflect the additional features supported exclusively by the Azure OpenAI service. TypeScript users will need to import `"@azure/openai/types"` from `@azure/openai@2.0.0-beta.1` which will merge Azure-specific definitions into existing types. Examples in [the Migration examples](#migration-examples) section show how to do this.
+`AzureOpenAI` connects to the Azure OpenAI service and can call all the operations available in the service. However, the types of the requests and responses are inherited from the `OpenAI` and are not yet updated to reflect the additional features supported exclusively by the Azure OpenAI service. TypeScript users will need to import `"@azure/openai/types"` from `@azure/openai@latest` which will merge Azure-specific definitions into existing types. Examples in [the Migration examples](#migration-examples) section show how to do this.

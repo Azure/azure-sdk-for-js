@@ -1,21 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-client";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type {
   CancelCertificateOperationOptions,
   CertificateOperation,
   GetCertificateOptions,
   GetPlainCertificateOperationOptions,
   KeyVaultCertificateWithPolicy,
 } from "../../certificatesModels.js";
-import {
-  cleanState,
-  KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState,
-} from "../keyVaultCertificatePoller.js";
-import { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";
+import { cleanState, KeyVaultCertificatePollOperation } from "../keyVaultCertificatePoller.js";
+import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
 import {
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle,
@@ -43,7 +40,6 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
 > {
   constructor(
     public state: CertificateOperationState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
     private operationOptions: OperationOptions = {},
   ) {
@@ -61,14 +57,12 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
       "CertificateOperationPoller.cancelCertificateOperation",
       options,
       async (updatedOptions) => {
-        let parsedBody: any;
-        await this.client.updateCertificateOperation(this.vaultUrl, certificateName, true, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
+        const response = await this.client.updateCertificateOperation(
+          certificateName,
+          { cancellationRequested: true },
+          updatedOptions,
+        );
+        return getCertificateOperationFromCoreOperation(certificateName, response);
       },
     );
   }
@@ -84,12 +78,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
       "CertificateOperationPoller.getCertificate",
       options,
       async (updatedOptions) => {
-        const result = await this.client.getCertificate(
-          this.vaultUrl,
-          certificateName,
-          "",
-          updatedOptions,
-        );
+        const result = await this.client.getCertificate(certificateName, "", updatedOptions);
         return getCertificateWithPolicyFromCertificateBundle(result);
       },
     );
@@ -106,14 +95,8 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
       "CertificateOperationPoller.getPlainCertificateOperation",
       options,
       async (updatedOptions) => {
-        let parsedBody: any;
-        await this.client.getCertificateOperation(this.vaultUrl, certificateName, {
-          ...updatedOptions,
-          onResponse: (response) => {
-            parsedBody = response.parsedBody;
-          },
-        });
-        return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
+        const response = await this.client.getCertificateOperation(certificateName, updatedOptions);
+        return getCertificateOperationFromCoreOperation(certificateName, response);
       },
     );
   }

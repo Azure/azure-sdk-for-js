@@ -48,7 +48,7 @@ node fabricCapacitiesCheckNameAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node fabricCapacitiesCheckNameAvailabilitySample.js
+npx dev-tool run vendored cross-env  node fabricCapacitiesCheckNameAvailabilitySample.js
 ```
 
 ## Next Steps
@@ -67,6 +67,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [fabriccapacitiessuspendsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesSuspendSample.js
 [fabriccapacitiesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/fabricCapacitiesUpdateSample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/fabric/arm-fabric/samples/v1-beta/javascript/operationsListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-fabric?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-fabric?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/fabric/arm-fabric/README.md

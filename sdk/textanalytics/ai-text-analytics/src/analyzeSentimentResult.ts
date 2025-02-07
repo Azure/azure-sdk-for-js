@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   TextAnalyticsErrorResult,
   TextAnalyticsSuccessResult,
+} from "./textAnalyticsResult.js";
+import {
   makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,
-} from "./textAnalyticsResult";
-import {
+} from "./textAnalyticsResult.js";
+import type {
   DocumentSentiment,
   DocumentSentimentLabel,
   SentenceSentiment as GeneratedSentenceSentiment,
@@ -19,8 +21,9 @@ import {
   TargetConfidenceScoreLabel,
   TargetRelation,
   TextAnalyticsError,
-} from "./generated/models";
-import { AssessmentIndex, parseAssessmentIndex } from "./util";
+} from "./generated/models/index.js";
+import type { AssessmentIndex } from "./util.js";
+import { parseAssessmentIndex } from "./util.js";
 
 /**
  * The result of the analyze sentiment operation on a single document.
@@ -48,7 +51,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 }
 
 /**
- * The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
+ * The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://learn.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
  */
 export interface SentenceSentiment {
   /**

@@ -13,20 +13,22 @@ export default defineConfig({
   },
   plugins: [browserMap()],
   test: {
-    reporters: ["basic", "junit"],
+    reporters: ["verbose", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },
     browser: {
+      instances: [
+        {
+          browser: "chromium",
+          launch: {
+            args: ["--disable-web-security"],
+          },
+        },
+      ],
       enabled: true,
       headless: true,
-      name: "chromium",
       provider: "playwright",
-      providerOptions: {
-        launch: {
-          args: ["--disable-web-security"]
-        }
-      }
     },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],

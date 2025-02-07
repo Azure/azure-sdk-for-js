@@ -5,8 +5,6 @@ const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 const { createWriteStream } = require("fs");
 const dotenv = require("dotenv");
 
-dotenv.config();
-
 const outputPath = "samples-dev/vectors.ts";
 
 const inputs = [
@@ -30,7 +28,7 @@ const inputs = [
 async function main() {
   const client = new OpenAIClient(
     process.env.AZURE_OPENAI_ENDPOINT!,
-    new AzureKeyCredential(process.env.AZURE_OPENAI_KEY!)
+    new AzureKeyCredential(process.env.AZURE_OPENAI_KEY!),
   );
 
   const writeStream = createWriteStream(outputPath, { mode: 0o755 });
@@ -38,7 +36,7 @@ async function main() {
   writeStream.cork();
 
   writeStream.write(
-    "// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\n\n"
+    "// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\n\n",
   );
 
   const expressions = await Promise.all(
@@ -46,7 +44,7 @@ async function main() {
       const result = await client.getEmbeddings(process.env.AZURE_OPENAI_DEPLOYMENT_NAME!, [text]);
       const embedding = result.data[0].embedding;
       return `// ${comment}\nexport const ${ident} = [${embedding.toString()}];\n\n`;
-    })
+    }),
   );
 
   expressions.forEach((expr) => writeStream.write(expr));

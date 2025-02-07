@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
-import { NotificationHubsClientContext, createClientContext } from "../../../src/api/index.js";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import type { NotificationHubsClientContext } from "../../../src/api/index.js";
+import { createClientContext } from "../../../src/api/index.js";
 import { isBrowser } from "@azure/core-util";
 
 const replaceableVariables: { [k: string]: string } = {

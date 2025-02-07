@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkGroupsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the specified network group.
@@ -25,14 +20,14 @@ async function networkGroupsList() {
   const resourceGroupName = "rg1";
   const networkManagerName = "testNetworkManager";
   const options: NetworkGroupsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups",
       subscriptionId,
       resourceGroupName,
-      networkManagerName
+      networkManagerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

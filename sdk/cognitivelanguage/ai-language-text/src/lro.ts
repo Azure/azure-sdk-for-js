@@ -1,34 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as Mappers from "./generated/models/mappers";
-import * as Parameters from "./generated/models/parameters";
-import {
+import * as Mappers from "./generated/models/mappers.js";
+import * as Parameters from "./generated/models/parameters.js";
+import type {
   AnalyzeBatchActionUnion,
   AnalyzeTextJobStatusOptionalParams,
   AnalyzeTextJobStatusResponse,
   GeneratedClient,
   TextDocumentInput,
-} from "./generated";
-import {
+} from "./generated/index.js";
+import type {
   AnalyzeBatchOperationState,
   AnalyzeBatchResult,
   PagedAnalyzeBatchResult,
   PollerLike,
-} from "./models";
-import {
-  FullOperationResponse,
-  OperationOptions,
-  OperationSpec,
-  createSerializer,
-} from "@azure/core-client";
-import { LongRunningOperation, LroResponse, SimplePollerLike } from "@azure/core-lro";
-import { PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
-import { throwError, transformAnalyzeBatchResults } from "./transforms";
-import { HttpMethods } from "@azure/core-rest-pipeline";
-import { TracingClient } from "@azure/core-tracing";
-import { clientName } from "./constants";
-import { logger } from "./logger";
+} from "./models.js";
+import type { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
+import { createSerializer } from "@azure/core-client";
+import type { LongRunningOperation, LroResponse, SimplePollerLike } from "@azure/core-lro";
+import type { PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
+import { throwError, transformAnalyzeBatchResults } from "./transforms.js";
+import type { HttpMethods } from "@azure/core-rest-pipeline";
+import type { TracingClient } from "@azure/core-tracing";
+import { clientName } from "./constants.js";
+import { logger } from "./logger.js";
 
 const serializer = createSerializer(Mappers, /* isXml */ false);
 
@@ -60,7 +57,7 @@ function addOnResponse<TOptions extends OperationOptions>(
   };
 }
 
-function logWarnHeader(rawResponse: FullOperationResponse) {
+function logWarnHeader(rawResponse: FullOperationResponse): void {
   const warnHeader = rawResponse.headers.get("warn-text");
   if (warnHeader) {
     warnHeader.split(";").map((x) => logger.warning(x));

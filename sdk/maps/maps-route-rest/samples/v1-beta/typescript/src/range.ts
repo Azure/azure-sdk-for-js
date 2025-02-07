@@ -12,7 +12,7 @@ import MapsRoute, { isUnexpected } from "@azure-rest/maps-route";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main():Promise<void> {
+async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)
@@ -21,7 +21,7 @@ async function main():Promise<void> {
    * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
    * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
-   * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
+   * More info is available at https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
   /** Microsoft Entra ID authentication */
   const credential = new DefaultAzureCredential();

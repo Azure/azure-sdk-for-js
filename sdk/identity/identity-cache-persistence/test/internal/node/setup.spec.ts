@@ -5,7 +5,8 @@
 
 // We need to set up the plugin for the tests!
 
-import { useIdentityPlugin } from "../../../../identity/src";
+import { useIdentityPlugin } from "@azure/identity";
+import { beforeAll } from "vitest";
 
 // The persistence tests have to run on the same version of Node that's used to
 // install dependencies, currently 16.
@@ -16,18 +17,19 @@ if (!process.versions.node.startsWith("16")) {
     process.version,
   );
   console.warn("Persistence tests are only compatible with Node 16.");
+  // eslint-disable-next-line n/no-process-exit
   process.exit(0);
 }
 
 // This shim is required to defer loading of @azure/msal-node-extensions in environments where
 // it will crash CI with an invalid Node API version.
-export const createPersistence: typeof import("../../../src/provider").createPersistence = (
-  ...args
-) => {
-  const { createPersistence: create } = require("../../../src/provider");
-  return create(...args);
-};
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
+export const createPersistence: typeof import("../../../src/provider.js").createPersistence =
+  async (...args) => {
+    const { createPersistence: create } = await import("../../../src/provider.js");
+    return create(...args);
+  };
 
-before(function () {
+beforeAll(function () {
   useIdentityPlugin(require("../../../src").cachePersistencePlugin);
 });

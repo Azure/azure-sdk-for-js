@@ -17,7 +17,7 @@ import {
   VirtualMachineImagesListPublishersResponse,
   VirtualMachineImagesListSkusOptionalParams,
   VirtualMachineImagesListSkusResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VirtualMachineImages. */
 export interface VirtualMachineImages {

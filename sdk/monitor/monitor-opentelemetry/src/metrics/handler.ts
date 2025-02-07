@@ -2,15 +2,12 @@
 // Licensed under the MIT License.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import {
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
-  View,
-} from "@opentelemetry/sdk-metrics";
-import { InternalConfig } from "../shared/config";
+import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
+import { PeriodicExportingMetricReader, View } from "@opentelemetry/sdk-metrics";
+import type { InternalConfig } from "../shared/config";
 import { StandardMetrics } from "./standardMetrics";
-import { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
-import { LogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
 import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types";
 import { LiveMetrics } from "./quickpulse/liveMetrics";
 

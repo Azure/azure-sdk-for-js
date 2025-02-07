@@ -3,8 +3,8 @@
 
 class CustomerConfig {
   private static instance: CustomerConfig;
-  public globalSetup?: string;
-  public globalTeardown?: string;
+  public globalSetup?: string | string[];
+  public globalTeardown?: string | string[];
 
   public static getInstance(): CustomerConfig {
     if (!CustomerConfig.instance) {

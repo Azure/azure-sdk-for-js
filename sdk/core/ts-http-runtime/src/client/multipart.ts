@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
+import type { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
 import { RestError } from "../restError.js";
 import { createHttpHeaders } from "../httpHeaders.js";
 import { stringToUint8Array } from "../util/bytesEncoding.js";
@@ -105,7 +105,7 @@ function getPartContentType(descriptor: PartDescriptor): HeaderValue | undefined
   }
 
   // arbitrary non-text object -> generic JSON content type by default. We will try to JSON.stringify the body.
-  return "application/json; charset=UTF-8";
+  return "application/json";
 }
 
 /**

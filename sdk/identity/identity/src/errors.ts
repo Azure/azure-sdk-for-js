@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GetTokenOptions } from "@azure/core-auth";
+import type { GetTokenOptions } from "@azure/core-auth";
 
 /**
  * See the official documentation for more details:

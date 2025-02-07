@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor.js";
-import { ConnectionContext, createConnectionContext } from "./connectionContext.js";
-import {
+import type { CheckpointStore, FullEventProcessorOptions } from "./eventProcessor.js";
+import { EventProcessor } from "./eventProcessor.js";
+import type { ConnectionContext } from "./connectionContext.js";
+import { createConnectionContext } from "./connectionContext.js";
+import type {
   EventHubConsumerClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
   LoadBalancingOptions,
 } from "./models/public.js";
-import { EventHubProperties, PartitionProperties } from "./managementClient.js";
-import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import {
+import type { EventHubProperties, PartitionProperties } from "./managementClient.js";
+import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+import type {
   SubscribeOptions,
   Subscription,
   SubscriptionEventHandlers,
@@ -21,7 +23,7 @@ import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balanced
 import { Constants } from "@azure/core-amqp";
 import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy.js";
 import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore.js";
-import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy.js";
+import type { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy.js";
 import { PartitionGate } from "./impl/partitionGate.js";
 import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy.js";
 import { isCredential } from "./util/typeGuards.js";
@@ -422,14 +424,21 @@ export class EventHubConsumerClient {
    * Call close() on the returned object to stop receiving events.
    *
    * Example usage:
-   * ```ts
-   * const client = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
+   * ```ts snippet:EventHubConsumerClient_Subscribe
+   * import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+   *
+   * const client = new EventHubConsumerClient("my-consumer-group", "connectionString", "eventHubName");
+   *
    * const subscription = client.subscribe(
-   *  {
-   *    processEvents: (events, context) => { console.log("Received event count: ", events.length) },
-   *    processError: (err, context) => { console.log("Error: ", err) }
-   *  },
-   *  { startPosition: earliestEventPosition }
+   *   {
+   *     processEvents: async (events, context) => {
+   *       console.log("Received event count: ", events.length);
+   *     },
+   *     processError: async (err, context) => {
+   *       console.log("Error: ", err);
+   *     },
+   *   },
+   *   { startPosition: earliestEventPosition },
    * );
    * ```
    *
@@ -447,15 +456,24 @@ export class EventHubConsumerClient {
    * Call close() on the returned object to stop receiving events.
    *
    * Example usage:
-   * ```ts
-   * const client = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
+   * ```ts snippet:EventHubConsumerClient_SubscribeSinglePartition
+   * import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
+   *
+   * const client = new EventHubConsumerClient("my-consumer-group", "connectionString", "eventHubName");
+   *
+   * const partitionIds = await client.getPartitionIds();
+   *
    * const subscription = client.subscribe(
-   *  partitionId,
-   *  {
-   *    processEvents: (events, context) => { console.log("Received event count: ", events.length) },
-   *    processError: (err, context) => { console.log("Error: ", err) }
-   *  },
-   *  { startPosition: earliestEventPosition }
+   *   partitionIds[0],
+   *   {
+   *     processEvents: async (events, context) => {
+   *       console.log("Received event count: ", events.length);
+   *     },
+   *     processError: async (err, context) => {
+   *       console.log("Error: ", err);
+   *     },
+   *   },
+   *   { startPosition: earliestEventPosition },
    * );
    * ```
    *

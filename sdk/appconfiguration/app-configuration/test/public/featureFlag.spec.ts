@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
   ConfigurationSetting,
-  featureFlagContentType,
-  featureFlagPrefix,
 } from "../../src/index.js";
-import { FeatureFlagValue, isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import { featureFlagContentType, featureFlagPrefix } from "../../src/index.js";
+import type { FeatureFlagValue } from "../../src/featureFlag.js";
+import { isFeatureFlag, parseFeatureFlag } from "../../src/featureFlag.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -20,7 +20,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let baseSetting: ConfigurationSetting<FeatureFlagValue>;
     let addResponse: AddConfigurationSettingResponse;
 
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       recorder = await startRecorder(ctx);
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
       baseSetting = {
@@ -66,7 +66,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       addResponse = await client.addConfigurationSetting(baseSetting);
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.deleteConfigurationSetting({
         key: baseSetting.key,
         label: baseSetting.label,
@@ -192,7 +192,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     let client: AppConfigurationClient;
     let recorder: Recorder;
     let featureFlag: ConfigurationSetting<FeatureFlagValue>;
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       recorder = await startRecorder(ctx);
       client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
       featureFlag = {
@@ -206,7 +206,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       };
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.deleteConfigurationSetting({ key: featureFlag.key });
       await recorder.stop();
     });

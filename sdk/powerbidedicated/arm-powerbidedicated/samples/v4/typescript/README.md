@@ -65,7 +65,7 @@ node dist/autoScaleVCoresCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env POWERBIDEDICATED_SUBSCRIPTION_ID="<powerbidedicated subscription id>" POWERBIDEDICATED_RESOURCE_GROUP="<powerbidedicated resource group>" node dist/autoScaleVCoresCreateSample.js
+npx dev-tool run vendored cross-env POWERBIDEDICATED_SUBSCRIPTION_ID="<powerbidedicated subscription id>" POWERBIDEDICATED_RESOURCE_GROUP="<powerbidedicated resource group>" node dist/autoScaleVCoresCreateSample.js
 ```
 
 ## Next Steps
@@ -89,7 +89,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [capacitiesresumesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/powerbidedicated/arm-powerbidedicated/samples/v4/typescript/src/capacitiesResumeSample.ts
 [capacitiessuspendsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/powerbidedicated/arm-powerbidedicated/samples/v4/typescript/src/capacitiesSuspendSample.ts
 [capacitiesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/powerbidedicated/arm-powerbidedicated/samples/v4/typescript/src/capacitiesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-powerbidedicated?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-powerbidedicated?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/powerbidedicated/arm-powerbidedicated/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

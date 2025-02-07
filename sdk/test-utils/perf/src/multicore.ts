@@ -1,16 +1,19 @@
-import { ChildProcess, fork } from "child_process";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { ChildProcess, fork } from "node:child_process";
 import workerThreads from "worker_threads";
 import {
   ManagerToWorkerMessage,
   WorkerToManagerMessage,
   WorkerToManagerMessageWithId,
-} from "./messages";
+} from "./messages.js";
 import {
   defaultPerfOptions,
   DefaultPerfOptions,
   ParsedPerfOptions,
   parsePerfOption,
-} from "./options";
+} from "./options.js";
 
 export type WorkerLike = workerThreads.Worker | ChildProcess;
 

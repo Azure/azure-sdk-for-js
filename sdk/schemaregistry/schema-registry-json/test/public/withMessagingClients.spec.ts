@@ -14,17 +14,19 @@
  *    to read from corresponding event hubs
  */
 
-import { JsonSchemaSerializer } from "../../src";
-import { EventData, createEventDataAdapter } from "@azure/event-hubs";
-import { MessagingTestClient } from "./clients/models";
-import { assert, matrix } from "@azure-tools/test-utils";
-import { createEventHubsClient } from "./clients/eventHubs";
-import { createMockedMessagingClient } from "./clients/mocked";
-import { createTestSerializer } from "./utils/mockedSerializer";
-import { testGroup } from "./utils/dummies";
+import type { JsonSchemaSerializer } from "../../src/index.js";
+import type { EventData } from "@azure/event-hubs";
+import { createEventDataAdapter } from "@azure/event-hubs";
+import type { MessagingTestClient } from "./clients/models.js";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import { createEventHubsClient } from "./clients/eventHubs.js";
+import { createMockedMessagingClient } from "./clients/mocked.js";
+import { createTestSerializer } from "./utils/mockedSerializer.js";
+import { testGroup } from "./utils/dummies.js";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { SchemaRegistry } from "@azure/schema-registry";
-import { createTestRegistry } from "./utils/mockedRegistryClient";
+import type { SchemaRegistry } from "@azure/schema-registry";
+import { createTestRegistry } from "./utils/mockedRegistryClient.js";
+import { describe, it, assert, beforeEach } from "vitest";
 
 matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
   const eventHubHostName = env.EVENTHUB_JSON_HOST_NAME || "";
@@ -50,7 +52,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
     return client;
   }
 
-  describe(`Event Hub Test With Messaging Client with skipParsingBodyAsJson=${skipParsingJson}`, async function () {
+  describe(`Event Hub Test With Messaging Client with skipParsingBodyAsJson=${skipParsingJson}`, async () => {
     let recorder: Recorder;
     let serializer: JsonSchemaSerializer<any>;
 
@@ -121,8 +123,8 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
     let writerSchema: string;
     let value: object;
 
-    beforeEach(async function () {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
       client = createEventHubsTestClient({
         eventHubName: "scenario_1",
         skipParsingBodyAsJson: skipParsingJson,

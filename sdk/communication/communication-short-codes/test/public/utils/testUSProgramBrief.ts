@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RestError } from "@azure/core-rest-pipeline";
+import type { RestError } from "@azure/core-rest-pipeline";
+import type { ShortCodesClient, USProgramBrief } from "../../../src/index.js";
 import {
   CompanyInformationMapper,
   MessageDetailsMapper,
   ProgramDetailsMapper,
-  ShortCodesClient,
   TrafficDetailsMapper,
-  USProgramBrief,
-} from "../../../src";
-import { assert } from "chai";
-import { CompositeMapper } from "@azure/core-client";
+} from "../../../src/index.js";
+import type { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { v4 as uuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
+import { assert } from "vitest";
 
 const TestCompanyName: string = "Contoso";
 const TestProgramBriefName: string = "Contoso Loyalty Program";
 
 export function getTestUSProgramBrief(): USProgramBrief {
-  const programBriefId = uuid();
+  const programBriefId = randomUUID();
 
   const testUSProgramBrief: USProgramBrief = {
     id: programBriefId,

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SasIPRange, ipRangeToString } from "./SasIPRange";
+import type { SasIPRange } from "./SasIPRange";
+import { ipRangeToString } from "./SasIPRange";
 import { truncatedISO8061Date } from "../utils/utils.common";
-import { UserDelegationKey } from "../BlobServiceClient";
+import type { UserDelegationKey } from "../BlobServiceClient";
 
 /**
  * Protocols for generated SAS.
@@ -59,7 +60,7 @@ export interface SASQueryParametersOptions {
   /**
    * Optional. The signed identifier (only for {@link BlobSASSignatureValues}).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
   /**
@@ -68,7 +69,7 @@ export interface SASQueryParametersOptions {
   encryptionScope?: string;
   /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
-   * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
    */
   resource?: string;
   /**
@@ -162,7 +163,7 @@ export class SASQueryParameters {
   /**
    * Optional. The signed identifier (only for {@link BlobSASSignatureValues}).
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   public readonly identifier?: string;
 
@@ -173,7 +174,7 @@ export class SASQueryParameters {
 
   /**
    * Optional. Specifies which resources are accessible via the SAS (only for {@link BlobSASSignatureValues}).
-   * @see https://docs.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
+   * @see https://learn.microsoft.com/rest/api/storageservices/create-service-sas#specifying-the-signed-resource-blob-service-only
    */
   public readonly resource?: string;
 

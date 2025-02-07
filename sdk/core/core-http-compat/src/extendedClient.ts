@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeepAliveOptions } from "./policies/keepAliveOptions.js";
+import type { KeepAliveOptions } from "./policies/keepAliveOptions.js";
 import {
   createDisableKeepAlivePolicy,
   pipelineContainsDisableKeepAlivePolicy,
 } from "./policies/disableKeepAlivePolicy.js";
-import { RedirectOptions } from "./policies/redirectOptions.js";
+import type { RedirectOptions } from "./policies/redirectOptions.js";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
-import {
+import type {
   CommonClientOptions,
   FullOperationResponse,
   OperationArguments,
   OperationSpec,
   RawResponseCallback,
-  ServiceClient,
   ServiceClientOptions,
 } from "@azure/core-client";
+import { ServiceClient } from "@azure/core-client";
 import { toCompatResponse } from "./response.js";
 
 /**

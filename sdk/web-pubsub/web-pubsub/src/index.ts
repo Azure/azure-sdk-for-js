@@ -26,7 +26,7 @@ export {
   JSONTypes,
   Permission,
   WebPubSubClientProtocol,
-} from "./hubClient";
+} from "./hubClient.js";
 export {
   WebPubSubGroup,
   GroupAddConnectionOptions,
@@ -38,5 +38,5 @@ export {
   GroupRemoveUserOptions,
   GroupSendTextToAllOptions,
   GroupSendToAllOptions,
-} from "./groupClient";
-export { odata } from "./utils";
+} from "./groupClient.js";
+export { odata } from "./utils.js";

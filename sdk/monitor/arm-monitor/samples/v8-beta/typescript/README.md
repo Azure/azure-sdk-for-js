@@ -164,7 +164,7 @@ node dist/actionGroupsCreateNotificationsAtActionGroupResourceLevelSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env MONITOR_SUBSCRIPTION_ID="<monitor subscription id>" MONITOR_RESOURCE_GROUP="<monitor resource group>" node dist/actionGroupsCreateNotificationsAtActionGroupResourceLevelSample.js
+npx dev-tool run vendored cross-env MONITOR_SUBSCRIPTION_ID="<monitor subscription id>" MONITOR_RESOURCE_GROUP="<monitor resource group>" node dist/actionGroupsCreateNotificationsAtActionGroupResourceLevelSample.js
 ```
 
 ## Next Steps
@@ -287,7 +287,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tenantactiongroupsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/samples/v8-beta/typescript/src/tenantActionGroupsUpdateSample.ts
 [tenantactivitylogslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/samples/v8-beta/typescript/src/tenantActivityLogsListSample.ts
 [vminsightsgetonboardingstatussample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/arm-monitor/samples/v8-beta/typescript/src/vmInsightsGetOnboardingStatusSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-monitor?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-monitor?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/arm-monitor/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

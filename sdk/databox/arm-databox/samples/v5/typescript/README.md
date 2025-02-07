@@ -66,7 +66,7 @@ node dist/jobsBookShipmentPickUpSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env DATABOX_SUBSCRIPTION_ID="<databox subscription id>" DATABOX_RESOURCE_GROUP="<databox resource group>" node dist/jobsBookShipmentPickUpSample.js
+npx dev-tool run vendored cross-env DATABOX_SUBSCRIPTION_ID="<databox subscription id>" DATABOX_RESOURCE_GROUP="<databox resource group>" node dist/jobsBookShipmentPickUpSample.js
 ```
 
 ## Next Steps
@@ -91,7 +91,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [servicevalidateaddresssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v5/typescript/src/serviceValidateAddressSample.ts
 [servicevalidateinputsbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v5/typescript/src/serviceValidateInputsByResourceGroupSample.ts
 [servicevalidateinputssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/databox/arm-databox/samples/v5/typescript/src/serviceValidateInputsSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-databox?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-databox?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databox/arm-databox/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

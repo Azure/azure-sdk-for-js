@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  SharedGalleryImageVersionsGetParameters,
-} from "@azure-rest/arm-compute";
+import type { SharedGalleryImageVersionsGetParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a shared gallery image version by subscription id or tenant id.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Get a shared gallery image version by subscription id or tenant id.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/sharedGalleryExamples/SharedGalleryImageVersion_Get.json
  */
-async function getASharedGalleryImageVersion() {
+async function getASharedGalleryImageVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

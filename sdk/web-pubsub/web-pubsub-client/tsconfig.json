@@ -1,14 +1,7 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
-    "rootDir": ".",
-    "importHelpers": true,
-    "lib": ["DOM", "ES2017"],
-    "paths": {
-      "@azure/web-pubsub-client": ["./src/index"]
-    }
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.test.json" }
+  ]
 }

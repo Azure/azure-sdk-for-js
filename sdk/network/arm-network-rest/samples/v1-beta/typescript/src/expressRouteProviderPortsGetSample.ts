@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ExpressRouteProviderPortsGetParameters
+  ExpressRouteProviderPortsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves detail of a provider port.
@@ -23,13 +18,13 @@ async function expressRouteProviderPort() {
   const subscriptionId = "";
   const providerport = "abc";
   const options: ExpressRouteProviderPortsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}",
       subscriptionId,
-      providerport
+      providerport,
     )
     .get(options);
   console.log(result);

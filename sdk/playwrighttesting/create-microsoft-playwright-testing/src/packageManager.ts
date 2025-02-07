@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { existsSync } from "node:fs";
-import { PackageManager } from "./types.js";
+import type { PackageManager } from "./types.js";
 import { cwd } from "node:process";
 import { resolve } from "node:path";
 

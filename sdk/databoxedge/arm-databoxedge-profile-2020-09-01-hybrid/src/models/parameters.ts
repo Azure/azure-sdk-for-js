@@ -25,7 +25,7 @@ import {
   Container as ContainerMapper,
   Trigger as TriggerMapper,
   User as UserMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

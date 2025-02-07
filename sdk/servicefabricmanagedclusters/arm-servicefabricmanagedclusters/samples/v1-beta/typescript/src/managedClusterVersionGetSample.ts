@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about an available Service Fabric managed cluster code version.
  *
  * @summary Gets information about an available Service Fabric managed cluster code version.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ManagedClusterVersionGet_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ManagedClusterVersionGet_example.json
  */
 async function getClusterVersion() {
   const subscriptionId =

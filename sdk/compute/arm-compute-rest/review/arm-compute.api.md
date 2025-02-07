@@ -4,22 +4,22 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { LroEngineOptions } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessUriOutput {
-    accessSAS?: string;
-    securityDataAccessSAS?: string;
+    readonly accessSAS?: string;
+    readonly securityDataAccessSAS?: string;
 }
 
 // @public
@@ -163,7 +163,6 @@ export interface AvailabilitySetProperties {
     platformFaultDomainCount?: number;
     platformUpdateDomainCount?: number;
     proximityPlacementGroup?: SubResource;
-    statuses?: Array<InstanceViewStatus>;
     virtualMachines?: Array<SubResource>;
 }
 
@@ -172,7 +171,7 @@ export interface AvailabilitySetPropertiesOutput {
     platformFaultDomainCount?: number;
     platformUpdateDomainCount?: number;
     proximityPlacementGroup?: SubResourceOutput;
-    statuses?: Array<InstanceViewStatusOutput>;
+    readonly statuses?: Array<InstanceViewStatusOutput>;
     virtualMachines?: Array<SubResourceOutput>;
 }
 
@@ -227,15 +226,11 @@ export interface AvailabilitySetsCreateOrUpdateQueryParamProperties {
 // @public
 export interface AvailabilitySetsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface AvailabilitySetsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -446,26 +441,18 @@ export interface AvailabilitySetUpdate extends UpdateResource {
 
 // @public
 export interface AvailablePatchSummary {
-    assessmentActivityId?: string;
-    criticalAndSecurityPatchCount?: number;
-    error?: ApiError;
-    lastModifiedTime?: Date | string;
-    otherPatchCount?: number;
-    rebootPending?: boolean;
-    startTime?: Date | string;
-    status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
 // @public
 export interface AvailablePatchSummaryOutput {
-    assessmentActivityId?: string;
-    criticalAndSecurityPatchCount?: number;
-    error?: ApiErrorOutput;
-    lastModifiedTime?: string;
-    otherPatchCount?: number;
-    rebootPending?: boolean;
-    startTime?: string;
-    status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
+    readonly assessmentActivityId?: string;
+    readonly criticalAndSecurityPatchCount?: number;
+    readonly error?: ApiErrorOutput;
+    readonly lastModifiedTime?: string;
+    readonly otherPatchCount?: number;
+    readonly rebootPending?: boolean;
+    readonly startTime?: string;
+    readonly status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
 // @public
@@ -486,16 +473,13 @@ export interface BootDiagnostics {
 
 // @public
 export interface BootDiagnosticsInstanceView {
-    consoleScreenshotBlobUri?: string;
-    serialConsoleLogBlobUri?: string;
-    status?: InstanceViewStatus;
 }
 
 // @public
 export interface BootDiagnosticsInstanceViewOutput {
-    consoleScreenshotBlobUri?: string;
-    serialConsoleLogBlobUri?: string;
-    status?: InstanceViewStatusOutput;
+    readonly consoleScreenshotBlobUri?: string;
+    readonly serialConsoleLogBlobUri?: string;
+    readonly status?: InstanceViewStatusOutput;
 }
 
 // @public
@@ -519,12 +503,11 @@ export interface CapacityReservationGroup extends Resource {
 
 // @public (undocumented)
 export interface CapacityReservationGroupInstanceView {
-    capacityReservations?: Array<CapacityReservationInstanceViewWithName>;
 }
 
 // @public (undocumented)
 export interface CapacityReservationGroupInstanceViewOutput {
-    capacityReservations?: Array<CapacityReservationInstanceViewWithNameOutput>;
+    readonly capacityReservations?: Array<CapacityReservationInstanceViewWithNameOutput>;
 }
 
 // @public
@@ -541,16 +524,13 @@ export interface CapacityReservationGroupOutput extends ResourceOutput {
 
 // @public
 export interface CapacityReservationGroupProperties {
-    capacityReservations?: Array<SubResourceReadOnly>;
-    instanceView?: CapacityReservationGroupInstanceView;
-    virtualMachinesAssociated?: Array<SubResourceReadOnly>;
 }
 
 // @public
 export interface CapacityReservationGroupPropertiesOutput {
-    capacityReservations?: Array<SubResourceReadOnlyOutput>;
-    instanceView?: CapacityReservationGroupInstanceViewOutput;
-    virtualMachinesAssociated?: Array<SubResourceReadOnlyOutput>;
+    readonly capacityReservations?: Array<SubResourceReadOnlyOutput>;
+    readonly instanceView?: CapacityReservationGroupInstanceViewOutput;
+    readonly virtualMachinesAssociated?: Array<SubResourceReadOnlyOutput>;
 }
 
 // @public (undocumented)
@@ -612,15 +592,11 @@ export interface CapacityReservationGroupsCreateOrUpdateQueryParamProperties {
 // @public
 export interface CapacityReservationGroupsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CapacityReservationGroupsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -809,12 +785,11 @@ export interface CapacityReservationInstanceViewOutput {
 
 // @public
 export interface CapacityReservationInstanceViewWithName extends CapacityReservationInstanceView {
-    name?: string;
 }
 
 // @public
 export interface CapacityReservationInstanceViewWithNameOutput extends CapacityReservationInstanceViewOutput {
-    name?: string;
+    readonly name?: string;
 }
 
 // @public
@@ -842,24 +817,17 @@ export interface CapacityReservationProfileOutput {
 
 // @public
 export interface CapacityReservationProperties {
-    instanceView?: CapacityReservationInstanceView;
-    platformFaultDomainCount?: number;
-    provisioningState?: string;
-    provisioningTime?: Date | string;
-    reservationId?: string;
-    timeCreated?: Date | string;
-    virtualMachinesAssociated?: Array<SubResourceReadOnly>;
 }
 
 // @public
 export interface CapacityReservationPropertiesOutput {
-    instanceView?: CapacityReservationInstanceViewOutput;
-    platformFaultDomainCount?: number;
-    provisioningState?: string;
-    provisioningTime?: string;
-    reservationId?: string;
-    timeCreated?: string;
-    virtualMachinesAssociated?: Array<SubResourceReadOnlyOutput>;
+    readonly instanceView?: CapacityReservationInstanceViewOutput;
+    readonly platformFaultDomainCount?: number;
+    readonly provisioningState?: string;
+    readonly provisioningTime?: string;
+    readonly reservationId?: string;
+    readonly timeCreated?: string;
+    readonly virtualMachinesAssociated?: Array<SubResourceReadOnlyOutput>;
 }
 
 // @public (undocumented)
@@ -921,23 +889,17 @@ export interface CapacityReservationsCreateOrUpdateQueryParamProperties {
 // @public
 export interface CapacityReservationsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CapacityReservationsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface CapacityReservationsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1041,8 +1003,6 @@ export interface CapacityReservationsUpdate200Response extends HttpResponse {
 // @public
 export interface CapacityReservationsUpdate202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -1086,14 +1046,12 @@ export interface CapacityReservationUpdate extends UpdateResource {
 
 // @public
 export interface CapacityReservationUtilization {
-    currentCapacity?: number;
-    virtualMachinesAllocated?: Array<SubResourceReadOnly>;
 }
 
 // @public
 export interface CapacityReservationUtilizationOutput {
-    currentCapacity?: number;
-    virtualMachinesAllocated?: Array<SubResourceReadOnlyOutput>;
+    readonly currentCapacity?: number;
+    readonly virtualMachinesAllocated?: Array<SubResourceReadOnlyOutput>;
 }
 
 // @public
@@ -1103,13 +1061,10 @@ export interface CloudErrorOutput {
 
 // @public
 export interface CloudService {
-    id?: string;
     location: string;
-    name?: string;
     properties?: CloudServiceProperties;
     systemData?: SystemData;
     tags?: Record<string, string>;
-    type?: string;
 }
 
 // @public
@@ -1128,7 +1083,6 @@ export interface CloudServiceExtensionProperties {
     forceUpdateTag?: string;
     protectedSettings?: any;
     protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
-    provisioningState?: string;
     publisher?: string;
     rolesAppliedTo?: Array<string>;
     settings?: any;
@@ -1142,7 +1096,7 @@ export interface CloudServiceExtensionPropertiesOutput {
     forceUpdateTag?: string;
     protectedSettings?: any;
     protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReferenceOutput;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     publisher?: string;
     rolesAppliedTo?: Array<string>;
     settings?: any;
@@ -1152,11 +1106,11 @@ export interface CloudServiceExtensionPropertiesOutput {
 
 // @public
 export interface CloudServiceInstanceViewOutput {
-    privateIds?: Array<string>;
+    readonly privateIds?: Array<string>;
     roleInstance?: InstanceViewStatusesSummaryOutput;
-    sdkVersion?: string;
+    readonly sdkVersion?: string;
     // (undocumented)
-    statuses?: Array<ResourceInstanceViewStatusOutput>;
+    readonly statuses?: Array<ResourceInstanceViewStatusOutput>;
 }
 
 // @public
@@ -1331,13 +1285,13 @@ export interface CloudServiceOsProfileOutput {
 
 // @public
 export interface CloudServiceOutput {
-    id?: string;
+    readonly id?: string;
     location: string;
-    name?: string;
+    readonly name?: string;
     properties?: CloudServicePropertiesOutput;
     systemData?: SystemDataOutput;
     tags?: Record<string, string>;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1349,10 +1303,8 @@ export interface CloudServiceProperties {
     networkProfile?: CloudServiceNetworkProfile;
     osProfile?: CloudServiceOsProfile;
     packageUrl?: string;
-    provisioningState?: string;
     roleProfile?: CloudServiceRoleProfile;
     startCloudService?: boolean;
-    uniqueId?: string;
     upgradeMode?: "Auto" | "Manual" | "Simultaneous";
 }
 
@@ -1365,10 +1317,10 @@ export interface CloudServicePropertiesOutput {
     networkProfile?: CloudServiceNetworkProfileOutput;
     osProfile?: CloudServiceOsProfileOutput;
     packageUrl?: string;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     roleProfile?: CloudServiceRoleProfileOutput;
     startCloudService?: boolean;
-    uniqueId?: string;
+    readonly uniqueId?: string;
     upgradeMode?: "Auto" | "Manual" | "Simultaneous";
 }
 
@@ -1381,23 +1333,17 @@ export interface CloudServiceRoleInstancesDelete {
 // @public
 export interface CloudServiceRoleInstancesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServiceRoleInstancesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface CloudServiceRoleInstancesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1505,8 +1451,6 @@ export interface CloudServiceRoleInstancesGetRemoteDesktopFile200Response extend
 // @public
 export interface CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: string;
 }
 
@@ -1568,15 +1512,11 @@ export interface CloudServiceRoleInstancesRebuild {
 // @public
 export interface CloudServiceRoleInstancesRebuild200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServiceRoleInstancesRebuild202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -1611,15 +1551,11 @@ export interface CloudServiceRoleInstancesReimage {
 // @public
 export interface CloudServiceRoleInstancesReimage200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServiceRoleInstancesReimage202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -1654,15 +1590,11 @@ export interface CloudServiceRoleInstancesRestart {
 // @public
 export interface CloudServiceRoleInstancesRestart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServiceRoleInstancesRestart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -1697,12 +1629,12 @@ export interface CloudServiceRoleListResultOutput {
 
 // @public
 export interface CloudServiceRoleOutput {
-    id?: string;
-    location?: string;
-    name?: string;
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
     properties?: CloudServiceRolePropertiesOutput;
     sku?: CloudServiceRoleSkuOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1729,7 +1661,7 @@ export interface CloudServiceRoleProfilePropertiesOutput {
 
 // @public
 export interface CloudServiceRolePropertiesOutput {
-    uniqueId?: string;
+    readonly uniqueId?: string;
 }
 
 // @public (undocumented)
@@ -1875,23 +1807,17 @@ export interface CloudServicesCreateOrUpdateQueryParamProperties {
 // @public
 export interface CloudServicesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServicesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface CloudServicesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -1912,15 +1838,11 @@ export interface CloudServicesDeleteInstances {
 // @public
 export interface CloudServicesDeleteInstances200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServicesDeleteInstances202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2114,15 +2036,11 @@ export interface CloudServicesPowerOff {
 // @public
 export interface CloudServicesPowerOff200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServicesPowerOff202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2157,15 +2075,11 @@ export interface CloudServicesRebuild {
 // @public
 export interface CloudServicesRebuild200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServicesRebuild202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2210,15 +2124,11 @@ export interface CloudServicesReimage {
 // @public
 export interface CloudServicesReimage200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServicesReimage202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2263,15 +2173,11 @@ export interface CloudServicesRestart {
 // @public
 export interface CloudServicesRestart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServicesRestart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2316,15 +2222,11 @@ export interface CloudServicesStart {
 // @public
 export interface CloudServicesStart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServicesStart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2446,15 +2348,11 @@ export interface CloudServicesUpdateDomainWalkUpdateDomain {
 // @public
 export interface CloudServicesUpdateDomainWalkUpdateDomain200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface CloudServicesUpdateDomainWalkUpdateDomain202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -2777,20 +2675,18 @@ export interface CommunityGalleryImageVersionsListQueryParamProperties {
 
 // @public
 export interface CommunityGalleryInfo {
-    communityGalleryEnabled?: boolean;
     eula?: string;
     publicNamePrefix?: string;
-    publicNames?: Array<string>;
     publisherContact?: string;
     publisherUri?: string;
 }
 
 // @public
 export interface CommunityGalleryInfoOutput {
-    communityGalleryEnabled?: boolean;
+    readonly communityGalleryEnabled?: boolean;
     eula?: string;
     publicNamePrefix?: string;
-    publicNames?: Array<string>;
+    readonly publicNames?: Array<string>;
     publisherContact?: string;
     publisherUri?: string;
 }
@@ -2805,23 +2701,27 @@ export type ComputeManagementClient = Client & {
 };
 
 // @public
+export interface ComputeManagementClientOptions extends ClientOptions {
+}
+
+// @public
 export interface ComputeOperationListResultOutput {
-    value?: Array<ComputeOperationValueOutput>;
+    readonly value?: Array<ComputeOperationValueOutput>;
 }
 
 // @public
 export interface ComputeOperationValueDisplayOutput {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
+    readonly description?: string;
+    readonly operation?: string;
+    readonly provider?: string;
+    readonly resource?: string;
 }
 
 // @public
 export interface ComputeOperationValueOutput {
     display?: ComputeOperationValueDisplayOutput;
-    name?: string;
-    origin?: string;
+    readonly name?: string;
+    readonly origin?: string;
 }
 
 // @public
@@ -2837,7 +2737,7 @@ export interface CopyCompletionErrorOutput {
 }
 
 // @public
-function createClient(credentials: TokenCredential, options?: ClientOptions): ComputeManagementClient;
+function createClient(credentials: TokenCredential, options?: ComputeManagementClientOptions): ComputeManagementClient;
 export default createClient;
 
 // @public
@@ -2849,7 +2749,6 @@ export interface CreationData {
     performancePlus?: boolean;
     securityDataUri?: string;
     sourceResourceId?: string;
-    sourceUniqueId?: string;
     sourceUri?: string;
     storageAccountId?: string;
     uploadSizeBytes?: number;
@@ -2864,7 +2763,7 @@ export interface CreationDataOutput {
     performancePlus?: boolean;
     securityDataUri?: string;
     sourceResourceId?: string;
-    sourceUniqueId?: string;
+    readonly sourceUniqueId?: string;
     sourceUri?: string;
     storageAccountId?: string;
     uploadSizeBytes?: number;
@@ -2876,8 +2775,6 @@ export interface DataDisk {
     createOption: "FromImage" | "Empty" | "Attach";
     deleteOption?: "Delete" | "Detach";
     detachOption?: "ForceDetach";
-    diskIOPSReadWrite?: number;
-    diskMBpsReadWrite?: number;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     lun: number;
@@ -2890,7 +2787,6 @@ export interface DataDisk {
 
 // @public
 export interface DataDiskImage {
-    lun?: number;
 }
 
 // @public
@@ -2905,7 +2801,7 @@ export interface DataDiskImageEncryptionOutput extends DiskImageEncryptionOutput
 
 // @public
 export interface DataDiskImageOutput {
-    lun?: number;
+    readonly lun?: number;
 }
 
 // @public
@@ -2914,8 +2810,8 @@ export interface DataDiskOutput {
     createOption: "FromImage" | "Empty" | "Attach";
     deleteOption?: "Delete" | "Detach";
     detachOption?: "ForceDetach";
-    diskIOPSReadWrite?: number;
-    diskMBpsReadWrite?: number;
+    readonly diskIOPSReadWrite?: number;
+    readonly diskMBpsReadWrite?: number;
     diskSizeGB?: number;
     image?: VirtualHardDiskOutput;
     lun: number;
@@ -2985,8 +2881,6 @@ export interface DedicatedHostGroupOutput extends ResourceOutput {
 // @public
 export interface DedicatedHostGroupProperties {
     additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
-    hosts?: Array<SubResourceReadOnly>;
-    instanceView?: DedicatedHostGroupInstanceView;
     platformFaultDomainCount: number;
     supportAutomaticPlacement?: boolean;
 }
@@ -3004,8 +2898,8 @@ export interface DedicatedHostGroupPropertiesAdditionalCapabilitiesOutput {
 // @public
 export interface DedicatedHostGroupPropertiesOutput {
     additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilitiesOutput;
-    hosts?: Array<SubResourceReadOnlyOutput>;
-    instanceView?: DedicatedHostGroupInstanceViewOutput;
+    readonly hosts?: Array<SubResourceReadOnlyOutput>;
+    readonly instanceView?: DedicatedHostGroupInstanceViewOutput;
     platformFaultDomainCount: number;
     supportAutomaticPlacement?: boolean;
 }
@@ -3069,15 +2963,11 @@ export interface DedicatedHostGroupsCreateOrUpdateQueryParamProperties {
 // @public
 export interface DedicatedHostGroupsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DedicatedHostGroupsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -3253,26 +3143,24 @@ export interface DedicatedHostGroupUpdate extends UpdateResource {
 
 // @public
 export interface DedicatedHostInstanceView {
-    assetId?: string;
     availableCapacity?: DedicatedHostAvailableCapacity;
     statuses?: Array<InstanceViewStatus>;
 }
 
 // @public
 export interface DedicatedHostInstanceViewOutput {
-    assetId?: string;
+    readonly assetId?: string;
     availableCapacity?: DedicatedHostAvailableCapacityOutput;
     statuses?: Array<InstanceViewStatusOutput>;
 }
 
 // @public
 export interface DedicatedHostInstanceViewWithName extends DedicatedHostInstanceView {
-    name?: string;
 }
 
 // @public
 export interface DedicatedHostInstanceViewWithNameOutput extends DedicatedHostInstanceViewOutput {
-    name?: string;
+    readonly name?: string;
 }
 
 // @public
@@ -3290,27 +3178,21 @@ export interface DedicatedHostOutput extends ResourceOutput {
 // @public
 export interface DedicatedHostProperties {
     autoReplaceOnFailure?: boolean;
-    hostId?: string;
-    instanceView?: DedicatedHostInstanceView;
     licenseType?: "None" | "Windows_Server_Hybrid" | "Windows_Server_Perpetual";
     platformFaultDomain?: number;
-    provisioningState?: string;
-    provisioningTime?: Date | string;
-    timeCreated?: Date | string;
-    virtualMachines?: Array<SubResourceReadOnly>;
 }
 
 // @public
 export interface DedicatedHostPropertiesOutput {
     autoReplaceOnFailure?: boolean;
-    hostId?: string;
-    instanceView?: DedicatedHostInstanceViewOutput;
+    readonly hostId?: string;
+    readonly instanceView?: DedicatedHostInstanceViewOutput;
     licenseType?: "None" | "Windows_Server_Hybrid" | "Windows_Server_Perpetual";
     platformFaultDomain?: number;
-    provisioningState?: string;
-    provisioningTime?: string;
-    timeCreated?: string;
-    virtualMachines?: Array<SubResourceReadOnlyOutput>;
+    readonly provisioningState?: string;
+    readonly provisioningTime?: string;
+    readonly timeCreated?: string;
+    readonly virtualMachines?: Array<SubResourceReadOnlyOutput>;
 }
 
 // @public (undocumented)
@@ -3372,23 +3254,17 @@ export interface DedicatedHostsCreateOrUpdateQueryParamProperties {
 // @public
 export interface DedicatedHostsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DedicatedHostsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface DedicatedHostsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -3488,8 +3364,6 @@ export interface DedicatedHostsRestart {
 
 // @public
 export interface DedicatedHostsRestart200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
@@ -3606,8 +3480,6 @@ export interface DisallowedOutput {
 // @public
 export interface Disk extends Resource {
     extendedLocation?: ExtendedLocation;
-    managedBy?: string;
-    managedByExtended?: Array<string>;
     properties?: DiskProperties;
     sku?: DiskSku;
     zones?: Array<string>;
@@ -3679,15 +3551,11 @@ export interface DiskAccessesCreateOrUpdateQueryParamProperties {
 // @public
 export interface DiskAccessesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DiskAccessesDelete202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -3695,15 +3563,11 @@ export interface DiskAccessesDelete202Response extends HttpResponse {
 // @public
 export interface DiskAccessesDelete204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
 // @public
 export interface DiskAccessesDeleteAPrivateEndpointConnection200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
@@ -3711,15 +3575,11 @@ export interface DiskAccessesDeleteAPrivateEndpointConnection200Response extends
 // @public
 export interface DiskAccessesDeleteAPrivateEndpointConnection202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface DiskAccessesDeleteAPrivateEndpointConnection204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -4078,16 +3938,13 @@ export interface DiskAccessOutput extends ResourceOutput {
 
 // @public (undocumented)
 export interface DiskAccessProperties {
-    privateEndpointConnections?: Array<PrivateEndpointConnection>;
-    provisioningState?: string;
-    timeCreated?: Date | string;
 }
 
 // @public (undocumented)
 export interface DiskAccessPropertiesOutput {
-    privateEndpointConnections?: Array<PrivateEndpointConnectionOutput>;
-    provisioningState?: string;
-    timeCreated?: string;
+    readonly privateEndpointConnections?: Array<PrivateEndpointConnectionOutput>;
+    readonly provisioningState?: string;
+    readonly timeCreated?: string;
 }
 
 // @public
@@ -4182,23 +4039,17 @@ export interface DiskEncryptionSetsCreateOrUpdateQueryParamProperties {
 // @public
 export interface DiskEncryptionSetsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DiskEncryptionSetsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface DiskEncryptionSetsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -4470,8 +4321,8 @@ export interface DiskListOutput {
 // @public
 export interface DiskOutput extends ResourceOutput {
     extendedLocation?: ExtendedLocationOutput;
-    managedBy?: string;
-    managedByExtended?: Array<string>;
+    readonly managedBy?: string;
+    readonly managedByExtended?: Array<string>;
     properties?: DiskPropertiesOutput;
     sku?: DiskSkuOutput;
     zones?: Array<string>;
@@ -4480,7 +4331,6 @@ export interface DiskOutput extends ResourceOutput {
 // @public
 export interface DiskProperties {
     burstingEnabled?: boolean;
-    burstingEnabledTime?: Date | string;
     completionPercent?: number;
     creationData: CreationData;
     dataAccessAuthMode?: "AzureActiveDirectory" | "None";
@@ -4489,9 +4339,7 @@ export interface DiskProperties {
     diskIOPSReadWrite?: number;
     diskMBpsReadOnly?: number;
     diskMBpsReadWrite?: number;
-    diskSizeBytes?: number;
     diskSizeGB?: number;
-    diskState?: "Unattached" | "Attached" | "Reserved" | "Frozen" | "ActiveSAS" | "ActiveSASFrozen" | "ReadyToUpload" | "ActiveUpload";
     encryption?: Encryption;
     encryptionSettingsCollection?: EncryptionSettingsCollection;
     hyperVGeneration?: "V1" | "V2";
@@ -4499,23 +4347,18 @@ export interface DiskProperties {
     networkAccessPolicy?: "AllowAll" | "AllowPrivate" | "DenyAll";
     optimizedForFrequentAttach?: boolean;
     osType?: "Windows" | "Linux";
-    propertyUpdatesInProgress?: PropertyUpdatesInProgress;
-    provisioningState?: string;
     publicNetworkAccess?: "Enabled" | "Disabled";
     purchasePlan?: PurchasePlanAutoGenerated;
     securityProfile?: DiskSecurityProfile;
-    shareInfo?: Array<ShareInfoElement>;
     supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
     tier?: string;
-    timeCreated?: Date | string;
-    uniqueId?: string;
 }
 
 // @public
 export interface DiskPropertiesOutput {
     burstingEnabled?: boolean;
-    burstingEnabledTime?: string;
+    readonly burstingEnabledTime?: string;
     completionPercent?: number;
     creationData: CreationDataOutput;
     dataAccessAuthMode?: "AzureActiveDirectory" | "None";
@@ -4524,9 +4367,9 @@ export interface DiskPropertiesOutput {
     diskIOPSReadWrite?: number;
     diskMBpsReadOnly?: number;
     diskMBpsReadWrite?: number;
-    diskSizeBytes?: number;
+    readonly diskSizeBytes?: number;
     diskSizeGB?: number;
-    diskState?: "Unattached" | "Attached" | "Reserved" | "Frozen" | "ActiveSAS" | "ActiveSASFrozen" | "ReadyToUpload" | "ActiveUpload";
+    readonly diskState?: "Unattached" | "Attached" | "Reserved" | "Frozen" | "ActiveSAS" | "ActiveSASFrozen" | "ReadyToUpload" | "ActiveUpload";
     encryption?: EncryptionOutput;
     encryptionSettingsCollection?: EncryptionSettingsCollectionOutput;
     hyperVGeneration?: "V1" | "V2";
@@ -4534,17 +4377,17 @@ export interface DiskPropertiesOutput {
     networkAccessPolicy?: "AllowAll" | "AllowPrivate" | "DenyAll";
     optimizedForFrequentAttach?: boolean;
     osType?: "Windows" | "Linux";
-    propertyUpdatesInProgress?: PropertyUpdatesInProgressOutput;
-    provisioningState?: string;
+    readonly propertyUpdatesInProgress?: PropertyUpdatesInProgressOutput;
+    readonly provisioningState?: string;
     publicNetworkAccess?: "Enabled" | "Disabled";
     purchasePlan?: PurchasePlanAutoGeneratedOutput;
     securityProfile?: DiskSecurityProfileOutput;
-    shareInfo?: Array<ShareInfoElementOutput>;
+    readonly shareInfo?: Array<ShareInfoElementOutput>;
     supportedCapabilities?: SupportedCapabilitiesOutput;
     supportsHibernation?: boolean;
     tier?: string;
-    timeCreated?: string;
-    uniqueId?: string;
+    readonly timeCreated?: string;
+    readonly uniqueId?: string;
 }
 
 // @public (undocumented)
@@ -4597,8 +4440,6 @@ export interface DiskRestorePointGrantAccess200Response extends HttpResponse {
 
 // @public
 export interface DiskRestorePointGrantAccess202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -4697,21 +4538,21 @@ export interface DiskRestorePointOutput extends ProxyOnlyResourceOutput {
 export interface DiskRestorePointPropertiesOutput {
     completionPercent?: number;
     diskAccessId?: string;
-    encryption?: EncryptionOutput;
-    familyId?: string;
+    readonly encryption?: EncryptionOutput;
+    readonly familyId?: string;
     hyperVGeneration?: "V1" | "V2";
     networkAccessPolicy?: "AllowAll" | "AllowPrivate" | "DenyAll";
-    osType?: "Windows" | "Linux";
+    readonly osType?: "Windows" | "Linux";
     publicNetworkAccess?: "Enabled" | "Disabled";
     purchasePlan?: PurchasePlanAutoGeneratedOutput;
-    replicationState?: string;
+    readonly replicationState?: string;
     securityProfile?: DiskSecurityProfileOutput;
-    sourceResourceId?: string;
-    sourceResourceLocation?: string;
-    sourceUniqueId?: string;
+    readonly sourceResourceId?: string;
+    readonly sourceResourceLocation?: string;
+    readonly sourceUniqueId?: string;
     supportedCapabilities?: SupportedCapabilitiesOutput;
     supportsHibernation?: boolean;
-    timeCreated?: string;
+    readonly timeCreated?: string;
 }
 
 // @public
@@ -4734,15 +4575,11 @@ export interface DiskRestorePointRevokeAccess {
 // @public
 export interface DiskRestorePointRevokeAccess200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DiskRestorePointRevokeAccess202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -4820,23 +4657,17 @@ export interface DisksCreateOrUpdateQueryParamProperties {
 // @public
 export interface DisksDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DisksDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface DisksDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -4905,8 +4736,6 @@ export interface DisksGrantAccess200Response extends HttpResponse {
 // @public
 export interface DisksGrantAccess202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -4937,13 +4766,12 @@ export interface DisksGrantAccessQueryParamProperties {
 // @public
 export interface DiskSku {
     name?: "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS" | "UltraSSD_LRS" | "Premium_ZRS" | "StandardSSD_ZRS" | "PremiumV2_LRS";
-    tier?: string;
 }
 
 // @public
 export interface DiskSkuOutput {
     name?: "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS" | "UltraSSD_LRS" | "Premium_ZRS" | "StandardSSD_ZRS" | "PremiumV2_LRS";
-    tier?: string;
+    readonly tier?: string;
 }
 
 // @public (undocumented)
@@ -5008,15 +4836,11 @@ export interface DisksRevokeAccess {
 // @public
 export interface DisksRevokeAccess200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface DisksRevokeAccess202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -5098,7 +4922,6 @@ export interface DiskUpdateProperties {
     networkAccessPolicy?: "AllowAll" | "AllowPrivate" | "DenyAll";
     optimizedForFrequentAttach?: boolean;
     osType?: "Windows" | "Linux";
-    propertyUpdatesInProgress?: PropertyUpdatesInProgress;
     publicNetworkAccess?: "Enabled" | "Disabled";
     purchasePlan?: PurchasePlanAutoGenerated;
     supportedCapabilities?: SupportedCapabilities;
@@ -5132,16 +4955,14 @@ export interface EncryptionOutput {
 
 // @public
 export interface EncryptionSetIdentity {
-    principalId?: string;
-    tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
 // @public
 export interface EncryptionSetIdentityOutput {
-    principalId?: string;
-    tenantId?: string;
+    readonly principalId?: string;
+    readonly tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValueOutput>;
 }
@@ -5149,24 +4970,20 @@ export interface EncryptionSetIdentityOutput {
 // @public (undocumented)
 export interface EncryptionSetProperties {
     activeKey?: KeyForDiskEncryptionSet;
-    autoKeyRotationError?: ApiError;
     encryptionType?: "EncryptionAtRestWithCustomerKey" | "EncryptionAtRestWithPlatformAndCustomerKeys" | "ConfidentialVmEncryptedWithCustomerKey";
     federatedClientId?: string;
-    lastKeyRotationTimestamp?: Date | string;
-    previousKeys?: Array<KeyForDiskEncryptionSet>;
-    provisioningState?: string;
     rotationToLatestKeyVersionEnabled?: boolean;
 }
 
 // @public (undocumented)
 export interface EncryptionSetPropertiesOutput {
     activeKey?: KeyForDiskEncryptionSetOutput;
-    autoKeyRotationError?: ApiErrorOutput;
+    readonly autoKeyRotationError?: ApiErrorOutput;
     encryptionType?: "EncryptionAtRestWithCustomerKey" | "EncryptionAtRestWithPlatformAndCustomerKeys" | "ConfidentialVmEncryptedWithCustomerKey";
     federatedClientId?: string;
-    lastKeyRotationTimestamp?: string;
-    previousKeys?: Array<KeyForDiskEncryptionSetOutput>;
-    provisioningState?: string;
+    readonly lastKeyRotationTimestamp?: string;
+    readonly previousKeys?: Array<KeyForDiskEncryptionSetOutput>;
+    readonly provisioningState?: string;
     rotationToLatestKeyVersionEnabled?: boolean;
 }
 
@@ -5287,23 +5104,17 @@ export interface GalleriesCreateOrUpdateQueryParamProperties {
 // @public
 export interface GalleriesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface GalleriesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface GalleriesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -5580,23 +5391,17 @@ export interface GalleryApplicationsCreateOrUpdateQueryParamProperties {
 // @public
 export interface GalleryApplicationsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface GalleryApplicationsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface GalleryApplicationsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -5751,16 +5556,14 @@ export interface GalleryApplicationVersionOutput extends ResourceOutput {
 
 // @public
 export interface GalleryApplicationVersionProperties {
-    provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     publishingProfile: GalleryApplicationVersionPublishingProfile;
-    replicationStatus?: ReplicationStatus;
 }
 
 // @public
 export interface GalleryApplicationVersionPropertiesOutput {
-    provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
+    readonly provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     publishingProfile: GalleryApplicationVersionPublishingProfileOutput;
-    replicationStatus?: ReplicationStatusOutput;
+    readonly replicationStatus?: ReplicationStatusOutput;
 }
 
 // @public
@@ -5850,23 +5653,17 @@ export interface GalleryApplicationVersionsCreateOrUpdateQueryParamProperties {
 // @public
 export interface GalleryApplicationVersionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface GalleryApplicationVersionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface GalleryApplicationVersionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -6008,7 +5805,6 @@ export interface GalleryApplicationVersionUpdate extends UpdateResourceDefinitio
 export interface GalleryArtifactPublishingProfileBase {
     endOfLifeDate?: Date | string;
     excludeFromLatest?: boolean;
-    publishedDate?: Date | string;
     replicaCount?: number;
     replicationMode?: "Full" | "Shallow";
     storageAccountType?: "Standard_LRS" | "Standard_ZRS" | "Premium_LRS";
@@ -6020,7 +5816,7 @@ export interface GalleryArtifactPublishingProfileBase {
 export interface GalleryArtifactPublishingProfileBaseOutput {
     endOfLifeDate?: string;
     excludeFromLatest?: boolean;
-    publishedDate?: string;
+    readonly publishedDate?: string;
     replicaCount?: number;
     replicationMode?: "Full" | "Shallow";
     storageAccountType?: "Standard_LRS" | "Standard_ZRS" | "Premium_LRS";
@@ -6053,14 +5849,13 @@ export interface GalleryDataDiskImageOutput extends GalleryDiskImageOutput {
 // @public
 export interface GalleryDiskImage {
     hostCaching?: "None" | "ReadOnly" | "ReadWrite";
-    sizeInGB?: number;
     source?: GalleryArtifactVersionSource;
 }
 
 // @public
 export interface GalleryDiskImageOutput {
     hostCaching?: "None" | "ReadOnly" | "ReadWrite";
-    sizeInGB?: number;
+    readonly sizeInGB?: number;
     source?: GalleryArtifactVersionSourceOutput;
 }
 
@@ -6080,12 +5875,11 @@ export interface GalleryExtendedLocationOutput {
 
 // @public
 export interface GalleryIdentifier {
-    uniqueName?: string;
 }
 
 // @public
 export interface GalleryIdentifierOutput {
-    uniqueName?: string;
+    readonly uniqueName?: string;
 }
 
 // @public
@@ -6143,7 +5937,6 @@ export interface GalleryImageProperties {
     osState: "Generalized" | "Specialized";
     osType: "Windows" | "Linux";
     privacyStatementUri?: string;
-    provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     purchasePlan?: ImagePurchasePlan;
     recommended?: RecommendedMachineConfiguration;
     releaseNoteUri?: string;
@@ -6162,7 +5955,7 @@ export interface GalleryImagePropertiesOutput {
     osState: "Generalized" | "Specialized";
     osType: "Windows" | "Linux";
     privacyStatementUri?: string;
-    provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
+    readonly provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     purchasePlan?: ImagePurchasePlanOutput;
     recommended?: RecommendedMachineConfigurationOutput;
     releaseNoteUri?: string;
@@ -6235,23 +6028,17 @@ export interface GalleryImagesCreateOrUpdateQueryParamProperties {
 // @public
 export interface GalleryImagesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface GalleryImagesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface GalleryImagesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -6406,17 +6193,15 @@ export interface GalleryImageVersionOutput extends ResourceOutput {
 
 // @public
 export interface GalleryImageVersionProperties {
-    provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     publishingProfile?: GalleryImageVersionPublishingProfile;
-    replicationStatus?: ReplicationStatus;
     storageProfile: GalleryImageVersionStorageProfile;
 }
 
 // @public
 export interface GalleryImageVersionPropertiesOutput {
-    provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
+    readonly provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     publishingProfile?: GalleryImageVersionPublishingProfileOutput;
-    replicationStatus?: ReplicationStatusOutput;
+    readonly replicationStatus?: ReplicationStatusOutput;
     storageProfile: GalleryImageVersionStorageProfileOutput;
 }
 
@@ -6495,23 +6280,17 @@ export interface GalleryImageVersionsCreateOrUpdateQueryParamProperties {
 // @public
 export interface GalleryImageVersionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface GalleryImageVersionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface GalleryImageVersionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -6686,9 +6465,7 @@ export interface GalleryOutput extends ResourceOutput {
 export interface GalleryProperties {
     description?: string;
     identifier?: GalleryIdentifier;
-    provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     sharingProfile?: SharingProfile;
-    sharingStatus?: SharingStatus;
     softDeletePolicy?: SoftDeletePolicy;
 }
 
@@ -6696,9 +6473,9 @@ export interface GalleryProperties {
 export interface GalleryPropertiesOutput {
     description?: string;
     identifier?: GalleryIdentifierOutput;
-    provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
+    readonly provisioningState?: "Creating" | "Updating" | "Failed" | "Succeeded" | "Deleting" | "Migrating";
     sharingProfile?: SharingProfileOutput;
-    sharingStatus?: SharingStatusOutput;
+    readonly sharingStatus?: SharingStatusOutput;
     softDeletePolicy?: SoftDeletePolicyOutput;
 }
 
@@ -6782,10 +6559,10 @@ export interface GalleryUpdate extends UpdateResourceDefinition {
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
-export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: LroEngineOptions<TResult, PollOperationState<TResult>>): PollerLike<PollOperationState<TResult>, TResult>;
+export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -6811,10 +6588,11 @@ export interface HardwareProfileOutput {
 }
 
 // @public
-export interface Image extends Resource {
+interface Image_2 extends Resource {
     extendedLocation?: ExtendedLocation;
     properties?: ImageProperties;
 }
+export { Image_2 as Image }
 
 // @public
 export interface ImageDataDisk extends ImageDisk {
@@ -6891,7 +6669,6 @@ export interface ImageOutput extends ResourceOutput {
 // @public
 export interface ImageProperties {
     hyperVGeneration?: "V1" | "V2";
-    provisioningState?: string;
     sourceVirtualMachine?: SubResource;
     storageProfile?: ImageStorageProfile;
 }
@@ -6899,7 +6676,7 @@ export interface ImageProperties {
 // @public
 export interface ImagePropertiesOutput {
     hyperVGeneration?: "V1" | "V2";
-    provisioningState?: string;
+    readonly provisioningState?: string;
     sourceVirtualMachine?: SubResourceOutput;
     storageProfile?: ImageStorageProfileOutput;
 }
@@ -6921,7 +6698,6 @@ export interface ImagePurchasePlanOutput {
 // @public
 export interface ImageReference extends SubResource {
     communityGalleryImageId?: string;
-    exactVersion?: string;
     offer?: string;
     publisher?: string;
     sharedGalleryImageId?: string;
@@ -6932,7 +6708,7 @@ export interface ImageReference extends SubResource {
 // @public
 export interface ImageReferenceOutput extends SubResourceOutput {
     communityGalleryImageId?: string;
-    exactVersion?: string;
+    readonly exactVersion?: string;
     offer?: string;
     publisher?: string;
     sharedGalleryImageId?: string;
@@ -6966,7 +6742,7 @@ export interface ImagesCreateOrUpdate201Response extends HttpResponse {
 
 // @public (undocumented)
 export interface ImagesCreateOrUpdateBodyParam {
-    body: Image;
+    body: Image_2;
 }
 
 // @public
@@ -6999,23 +6775,17 @@ export interface ImagesCreateOrUpdateQueryParamProperties {
 // @public
 export interface ImagesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface ImagesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface ImagesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -7224,8 +6994,8 @@ export interface InnerErrorOutput {
 
 // @public
 export interface InstanceSkuOutput {
-    name?: string;
-    tier?: string;
+    readonly name?: string;
+    readonly tier?: string;
 }
 
 // @public
@@ -7239,7 +7009,7 @@ export interface InstanceViewStatus {
 
 // @public
 export interface InstanceViewStatusesSummaryOutput {
-    statusesSummary?: Array<StatusCodeCountOutput>;
+    readonly statusesSummary?: Array<StatusCodeCountOutput>;
 }
 
 // @public
@@ -8084,32 +7854,21 @@ export interface KeyVaultSecretReferenceOutput {
 
 // @public
 export interface LastPatchInstallationSummary {
-    error?: ApiError;
-    excludedPatchCount?: number;
-    failedPatchCount?: number;
-    installationActivityId?: string;
-    installedPatchCount?: number;
-    lastModifiedTime?: Date | string;
-    maintenanceWindowExceeded?: boolean;
-    notSelectedPatchCount?: number;
-    pendingPatchCount?: number;
-    startTime?: Date | string;
-    status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
 // @public
 export interface LastPatchInstallationSummaryOutput {
-    error?: ApiErrorOutput;
-    excludedPatchCount?: number;
-    failedPatchCount?: number;
-    installationActivityId?: string;
-    installedPatchCount?: number;
-    lastModifiedTime?: string;
-    maintenanceWindowExceeded?: boolean;
-    notSelectedPatchCount?: number;
-    pendingPatchCount?: number;
-    startTime?: string;
-    status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
+    readonly error?: ApiErrorOutput;
+    readonly excludedPatchCount?: number;
+    readonly failedPatchCount?: number;
+    readonly installationActivityId?: string;
+    readonly installedPatchCount?: number;
+    readonly lastModifiedTime?: string;
+    readonly maintenanceWindowExceeded?: boolean;
+    readonly notSelectedPatchCount?: number;
+    readonly pendingPatchCount?: number;
+    readonly startTime?: string;
+    readonly status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
 // @public
@@ -8234,8 +7993,6 @@ export interface LogAnalyticsExportRequestRateByInterval200Response extends Http
 // @public
 export interface LogAnalyticsExportRequestRateByInterval202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -8287,8 +8044,6 @@ export interface LogAnalyticsExportThrottledRequests200Response extends HttpResp
 // @public
 export interface LogAnalyticsExportThrottledRequests202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -8338,12 +8093,12 @@ export interface LogAnalyticsInputBase {
 
 // @public
 export interface LogAnalyticsOperationResultOutput {
-    properties?: LogAnalyticsOutputOutput;
+    readonly properties?: LogAnalyticsOutputOutput;
 }
 
 // @public
 export interface LogAnalyticsOutputOutput {
-    output?: string;
+    readonly output?: string;
 }
 
 // @public
@@ -8461,8 +8216,8 @@ export interface OrchestrationServiceStateInput {
 
 // @public
 export interface OrchestrationServiceSummaryOutput {
-    serviceName?: "AutomaticRepairs";
-    serviceState?: "NotRunning" | "Running" | "Suspended";
+    readonly serviceName?: "AutomaticRepairs";
+    readonly serviceState?: "NotRunning" | "Running" | "Suspended";
 }
 
 // @public
@@ -8537,18 +8292,18 @@ export interface OSFamilyListResultOutput {
 
 // @public
 export interface OSFamilyOutput {
-    id?: string;
-    location?: string;
-    name?: string;
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
     properties?: OSFamilyPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface OSFamilyPropertiesOutput {
-    label?: string;
-    name?: string;
-    versions?: Array<OSVersionPropertiesBaseOutput>;
+    readonly label?: string;
+    readonly name?: string;
+    readonly versions?: Array<OSVersionPropertiesBaseOutput>;
 }
 
 // @public
@@ -8585,29 +8340,41 @@ export interface OSVersionListResultOutput {
 
 // @public
 export interface OSVersionOutput {
-    id?: string;
-    location?: string;
-    name?: string;
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
     properties?: OSVersionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface OSVersionPropertiesBaseOutput {
-    isActive?: boolean;
-    isDefault?: boolean;
-    label?: string;
-    version?: string;
+    readonly isActive?: boolean;
+    readonly isDefault?: boolean;
+    readonly label?: string;
+    readonly version?: string;
 }
 
 // @public
 export interface OSVersionPropertiesOutput {
-    family?: string;
-    familyLabel?: string;
-    isActive?: boolean;
-    isDefault?: boolean;
-    label?: string;
-    version?: string;
+    readonly family?: string;
+    readonly familyLabel?: string;
+    readonly isActive?: boolean;
+    readonly isDefault?: boolean;
+    readonly label?: string;
+    readonly version?: string;
+}
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
 }
 
 // @public
@@ -8627,12 +8394,12 @@ export interface PagingOptions<TResponse> {
 
 // @public
 export interface PatchInstallationDetailOutput {
-    classifications?: Array<string>;
-    installationState?: "Unknown" | "Installed" | "Failed" | "Excluded" | "NotSelected" | "Pending";
-    kbId?: string;
-    name?: string;
-    patchId?: string;
-    version?: string;
+    readonly classifications?: Array<string>;
+    readonly installationState?: "Unknown" | "Installed" | "Failed" | "Excluded" | "NotSelected" | "Pending";
+    readonly kbId?: string;
+    readonly name?: string;
+    readonly patchId?: string;
+    readonly version?: string;
 }
 
 // @public
@@ -8654,15 +8421,15 @@ export interface PatchSettingsOutput {
 // @public
 export interface PirCommunityGalleryResourceOutput {
     identifier?: CommunityGalleryIdentifierOutput;
-    location?: string;
-    name?: string;
-    type?: string;
+    readonly location?: string;
+    readonly name?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface PirResourceOutput {
-    location?: string;
-    name?: string;
+    readonly location?: string;
+    readonly name?: string;
 }
 
 // @public
@@ -8700,15 +8467,11 @@ export interface PriorityMixPolicyOutput {
 
 // @public
 export interface PrivateEndpoint {
-    id?: string;
 }
 
 // @public
 export interface PrivateEndpointConnection {
-    id?: string;
-    name?: string;
     properties?: PrivateEndpointConnectionProperties;
-    type?: string;
 }
 
 // @public
@@ -8719,29 +8482,27 @@ export interface PrivateEndpointConnectionListResultOutput {
 
 // @public
 export interface PrivateEndpointConnectionOutput {
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
     properties?: PrivateEndpointConnectionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface PrivateEndpointConnectionProperties {
-    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-    provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface PrivateEndpointConnectionPropertiesOutput {
-    privateEndpoint?: PrivateEndpointOutput;
+    readonly privateEndpoint?: PrivateEndpointOutput;
     privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateOutput;
-    provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
+    readonly provisioningState?: "Succeeded" | "Creating" | "Deleting" | "Failed";
 }
 
 // @public
 export interface PrivateEndpointOutput {
-    id?: string;
+    readonly id?: string;
 }
 
 // @public
@@ -8751,16 +8512,16 @@ export interface PrivateLinkResourceListResultOutput {
 
 // @public
 export interface PrivateLinkResourceOutput {
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
     properties?: PrivateLinkResourcePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface PrivateLinkResourcePropertiesOutput {
-    groupId?: string;
-    requiredMembers?: Array<string>;
+    readonly groupId?: string;
+    readonly requiredMembers?: Array<string>;
     requiredZoneNames?: Array<string>;
 }
 
@@ -8808,12 +8569,9 @@ export interface ProximityPlacementGroupOutput extends ResourceOutput {
 
 // @public
 export interface ProximityPlacementGroupProperties {
-    availabilitySets?: Array<SubResourceWithColocationStatus>;
     colocationStatus?: InstanceViewStatus;
     intent?: ProximityPlacementGroupPropertiesIntent;
     proximityPlacementGroupType?: "Standard" | "Ultra";
-    virtualMachines?: Array<SubResourceWithColocationStatus>;
-    virtualMachineScaleSets?: Array<SubResourceWithColocationStatus>;
 }
 
 // @public
@@ -8828,12 +8586,12 @@ export interface ProximityPlacementGroupPropertiesIntentOutput {
 
 // @public
 export interface ProximityPlacementGroupPropertiesOutput {
-    availabilitySets?: Array<SubResourceWithColocationStatusOutput>;
+    readonly availabilitySets?: Array<SubResourceWithColocationStatusOutput>;
     colocationStatus?: InstanceViewStatusOutput;
     intent?: ProximityPlacementGroupPropertiesIntentOutput;
     proximityPlacementGroupType?: "Standard" | "Ultra";
-    virtualMachines?: Array<SubResourceWithColocationStatusOutput>;
-    virtualMachineScaleSets?: Array<SubResourceWithColocationStatusOutput>;
+    readonly virtualMachines?: Array<SubResourceWithColocationStatusOutput>;
+    readonly virtualMachineScaleSets?: Array<SubResourceWithColocationStatusOutput>;
 }
 
 // @public (undocumented)
@@ -8894,8 +8652,6 @@ export interface ProximityPlacementGroupsCreateOrUpdateQueryParamProperties {
 
 // @public
 export interface ProximityPlacementGroupsDelete200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
@@ -9069,23 +8825,20 @@ export interface ProximityPlacementGroupUpdate extends UpdateResource {
 
 // @public
 export interface ProxyOnlyResourceOutput {
-    id?: string;
-    name?: string;
-    type?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
 }
 
 // @public
 export interface ProxyResource {
-    id?: string;
-    name?: string;
-    type?: string;
 }
 
 // @public
 export interface ProxyResourceOutput {
-    id?: string;
-    name?: string;
-    type?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -9144,50 +8897,43 @@ export interface RecommendedMachineConfigurationOutput {
 
 // @public
 export interface RecoveryWalkResponseOutput {
-    nextPlatformUpdateDomain?: number;
-    walkPerformed?: boolean;
+    readonly nextPlatformUpdateDomain?: number;
+    readonly walkPerformed?: boolean;
 }
 
 // @public
 export interface RegionalReplicationStatus {
-    details?: string;
-    progress?: number;
-    region?: string;
-    state?: "Unknown" | "Replicating" | "Completed" | "Failed";
 }
 
 // @public
 export interface RegionalReplicationStatusOutput {
-    details?: string;
-    progress?: number;
-    region?: string;
-    state?: "Unknown" | "Replicating" | "Completed" | "Failed";
+    readonly details?: string;
+    readonly progress?: number;
+    readonly region?: string;
+    readonly state?: "Unknown" | "Replicating" | "Completed" | "Failed";
 }
 
 // @public
 export interface RegionalSharingStatus {
     details?: string;
     region?: string;
-    state?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
 }
 
 // @public
 export interface RegionalSharingStatusOutput {
     details?: string;
     region?: string;
-    state?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
+    readonly state?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
 }
 
 // @public
 export interface ReplicationStatus {
-    aggregatedState?: "Unknown" | "InProgress" | "Completed" | "Failed";
-    summary?: Array<RegionalReplicationStatus>;
 }
 
 // @public
 export interface ReplicationStatusOutput {
-    aggregatedState?: "Unknown" | "InProgress" | "Completed" | "Failed";
-    summary?: Array<RegionalReplicationStatusOutput>;
+    readonly aggregatedState?: "Unknown" | "InProgress" | "Completed" | "Failed";
+    readonly summary?: Array<RegionalReplicationStatusOutput>;
 }
 
 // @public
@@ -9197,29 +8943,26 @@ export interface RequestRateByIntervalInput extends LogAnalyticsInputBase {
 
 // @public
 export interface Resource {
-    id?: string;
     location: string;
-    name?: string;
     tags?: Record<string, string>;
-    type?: string;
 }
 
 // @public
 export interface ResourceInstanceViewStatusOutput {
-    code?: string;
-    displayStatus?: string;
+    readonly code?: string;
+    readonly displayStatus?: string;
     level?: "Info" | "Warning" | "Error";
-    message?: string;
-    time?: string;
+    readonly message?: string;
+    readonly time?: string;
 }
 
 // @public
 export interface ResourceOutput {
-    id?: string;
+    readonly id?: string;
     location: string;
-    name?: string;
+    readonly name?: string;
     tags?: Record<string, string>;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -9236,63 +8979,63 @@ export interface ResourceRangeOutput {
 
 // @public
 export interface ResourceSkuCapabilitiesOutput {
-    name?: string;
-    value?: string;
+    readonly name?: string;
+    readonly value?: string;
 }
 
 // @public
 export interface ResourceSkuCapacityOutput {
-    default?: number;
-    maximum?: number;
-    minimum?: number;
-    scaleType?: "Automatic" | "Manual" | "None";
+    readonly default?: number;
+    readonly maximum?: number;
+    readonly minimum?: number;
+    readonly scaleType?: "Automatic" | "Manual" | "None";
 }
 
 // @public
 export interface ResourceSkuCostsOutput {
-    extendedUnit?: string;
-    meterID?: string;
-    quantity?: number;
+    readonly extendedUnit?: string;
+    readonly meterID?: string;
+    readonly quantity?: number;
 }
 
 // @public
 export interface ResourceSkuLocationInfoOutput {
-    extendedLocations?: Array<string>;
-    location?: string;
-    type?: "EdgeZone";
-    zoneDetails?: Array<ResourceSkuZoneDetailsOutput>;
-    zones?: Array<string>;
+    readonly extendedLocations?: Array<string>;
+    readonly location?: string;
+    readonly type?: "EdgeZone";
+    readonly zoneDetails?: Array<ResourceSkuZoneDetailsOutput>;
+    readonly zones?: Array<string>;
 }
 
 // @public
 export interface ResourceSkuOutput {
-    apiVersions?: Array<string>;
-    capabilities?: Array<ResourceSkuCapabilitiesOutput>;
-    capacity?: ResourceSkuCapacityOutput;
-    costs?: Array<ResourceSkuCostsOutput>;
-    family?: string;
-    kind?: string;
-    locationInfo?: Array<ResourceSkuLocationInfoOutput>;
-    locations?: Array<string>;
-    name?: string;
-    resourceType?: string;
-    restrictions?: Array<ResourceSkuRestrictionsOutput>;
-    size?: string;
-    tier?: string;
+    readonly apiVersions?: Array<string>;
+    readonly capabilities?: Array<ResourceSkuCapabilitiesOutput>;
+    readonly capacity?: ResourceSkuCapacityOutput;
+    readonly costs?: Array<ResourceSkuCostsOutput>;
+    readonly family?: string;
+    readonly kind?: string;
+    readonly locationInfo?: Array<ResourceSkuLocationInfoOutput>;
+    readonly locations?: Array<string>;
+    readonly name?: string;
+    readonly resourceType?: string;
+    readonly restrictions?: Array<ResourceSkuRestrictionsOutput>;
+    readonly size?: string;
+    readonly tier?: string;
 }
 
 // @public
 export interface ResourceSkuRestrictionInfoOutput {
-    locations?: Array<string>;
-    zones?: Array<string>;
+    readonly locations?: Array<string>;
+    readonly zones?: Array<string>;
 }
 
 // @public
 export interface ResourceSkuRestrictionsOutput {
-    reasonCode?: "QuotaId" | "NotAvailableForSubscription";
-    restrictionInfo?: ResourceSkuRestrictionInfoOutput;
-    type?: "Location" | "Zone";
-    values?: Array<string>;
+    readonly reasonCode?: "QuotaId" | "NotAvailableForSubscription";
+    readonly restrictionInfo?: ResourceSkuRestrictionInfoOutput;
+    readonly type?: "Location" | "Zone";
+    readonly values?: Array<string>;
 }
 
 // @public (undocumented)
@@ -9332,8 +9075,8 @@ export interface ResourceSkusResultOutput {
 
 // @public
 export interface ResourceSkuZoneDetailsOutput {
-    capabilities?: Array<ResourceSkuCapabilitiesOutput>;
-    name?: Array<string>;
+    readonly capabilities?: Array<ResourceSkuCapabilitiesOutput>;
+    readonly name?: Array<string>;
 }
 
 // @public
@@ -9344,20 +9087,17 @@ export interface ResourceUriListOutput {
 
 // @public
 export interface ResourceWithOptionalLocation {
-    id?: string;
     location?: string;
-    name?: string;
     tags?: Record<string, string>;
-    type?: string;
 }
 
 // @public
 export interface ResourceWithOptionalLocationOutput {
-    id?: string;
+    readonly id?: string;
     location?: string;
-    name?: string;
+    readonly name?: string;
     tags?: Record<string, string>;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -9383,17 +9123,14 @@ export interface RestorePointCollectionOutput extends ResourceOutput {
 
 // @public
 export interface RestorePointCollectionProperties {
-    provisioningState?: string;
-    restorePointCollectionId?: string;
-    restorePoints?: Array<RestorePoint>;
     source?: RestorePointCollectionSourceProperties;
 }
 
 // @public
 export interface RestorePointCollectionPropertiesOutput {
-    provisioningState?: string;
-    restorePointCollectionId?: string;
-    restorePoints?: Array<RestorePointOutput>;
+    readonly provisioningState?: string;
+    readonly restorePointCollectionId?: string;
+    readonly restorePoints?: Array<RestorePointOutput>;
     source?: RestorePointCollectionSourcePropertiesOutput;
 }
 
@@ -9456,23 +9193,17 @@ export interface RestorePointCollectionsCreateOrUpdateQueryParamProperties {
 // @public
 export interface RestorePointCollectionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface RestorePointCollectionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface RestorePointCollectionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -9603,13 +9334,12 @@ export interface RestorePointCollectionsListQueryParamProperties {
 // @public
 export interface RestorePointCollectionSourceProperties {
     id?: string;
-    location?: string;
 }
 
 // @public
 export interface RestorePointCollectionSourcePropertiesOutput {
     id?: string;
-    location?: string;
+    readonly location?: string;
 }
 
 // @public
@@ -9678,9 +9408,6 @@ export interface RestorePointOutput extends ProxyResourceOutput {
 export interface RestorePointProperties {
     consistencyMode?: "CrashConsistent" | "FileSystemConsistent" | "ApplicationConsistent";
     excludeDisks?: Array<ApiEntityReference>;
-    instanceView?: RestorePointInstanceView;
-    provisioningState?: string;
-    sourceMetadata?: RestorePointSourceMetadata;
     sourceRestorePoint?: ApiEntityReference;
     timeCreated?: Date | string;
 }
@@ -9689,9 +9416,9 @@ export interface RestorePointProperties {
 export interface RestorePointPropertiesOutput {
     consistencyMode?: "CrashConsistent" | "FileSystemConsistent" | "ApplicationConsistent";
     excludeDisks?: Array<ApiEntityReferenceOutput>;
-    instanceView?: RestorePointInstanceViewOutput;
-    provisioningState?: string;
-    sourceMetadata?: RestorePointSourceMetadataOutput;
+    readonly instanceView?: RestorePointInstanceViewOutput;
+    readonly provisioningState?: string;
+    readonly sourceMetadata?: RestorePointSourceMetadataOutput;
     sourceRestorePoint?: ApiEntityReferenceOutput;
     timeCreated?: string;
 }
@@ -9746,23 +9473,17 @@ export interface RestorePointsCreateQueryParamProperties {
 // @public
 export interface RestorePointsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface RestorePointsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface RestorePointsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -9900,8 +9621,8 @@ export interface RestorePointSourceVMStorageProfileOutput {
 
 // @public
 export interface RetrieveBootDiagnosticsDataResultOutput {
-    consoleScreenshotBlobUri?: string;
-    serialConsoleLogBlobUri?: string;
+    readonly consoleScreenshotBlobUri?: string;
+    readonly serialConsoleLogBlobUri?: string;
 }
 
 // @public
@@ -9912,18 +9633,18 @@ export interface RoleInstanceListResultOutput {
 
 // @public
 export interface RoleInstanceNetworkProfileOutput {
-    networkInterfaces?: Array<SubResourceOutput>;
+    readonly networkInterfaces?: Array<SubResourceOutput>;
 }
 
 // @public
 export interface RoleInstanceOutput {
-    id?: string;
-    location?: string;
-    name?: string;
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
     properties?: RoleInstancePropertiesOutput;
     sku?: InstanceSkuOutput;
-    tags?: Record<string, string>;
-    type?: string;
+    readonly tags?: Record<string, string>;
+    readonly type?: string;
 }
 
 // @public
@@ -9939,18 +9660,18 @@ export interface RoleInstances {
 
 // @public
 export interface RoleInstanceViewOutput {
-    platformFaultDomain?: number;
-    platformUpdateDomain?: number;
-    privateId?: string;
+    readonly platformFaultDomain?: number;
+    readonly platformUpdateDomain?: number;
+    readonly privateId?: string;
     // (undocumented)
-    statuses?: Array<ResourceInstanceViewStatusOutput>;
+    readonly statuses?: Array<ResourceInstanceViewStatusOutput>;
 }
 
 // @public
 export interface RollbackStatusInfoOutput {
-    failedRolledbackInstanceCount?: number;
-    rollbackError?: ApiErrorOutput;
-    successfullyRolledbackInstanceCount?: number;
+    readonly failedRolledbackInstanceCount?: number;
+    readonly rollbackError?: ApiErrorOutput;
+    readonly successfullyRolledbackInstanceCount?: number;
 }
 
 // @public
@@ -9975,34 +9696,26 @@ export interface RollingUpgradePolicyOutput {
 
 // @public
 export interface RollingUpgradeProgressInfo {
-    failedInstanceCount?: number;
-    inProgressInstanceCount?: number;
-    pendingInstanceCount?: number;
-    successfulInstanceCount?: number;
 }
 
 // @public
 export interface RollingUpgradeProgressInfoOutput {
-    failedInstanceCount?: number;
-    inProgressInstanceCount?: number;
-    pendingInstanceCount?: number;
-    successfulInstanceCount?: number;
+    readonly failedInstanceCount?: number;
+    readonly inProgressInstanceCount?: number;
+    readonly pendingInstanceCount?: number;
+    readonly successfulInstanceCount?: number;
 }
 
 // @public
 export interface RollingUpgradeRunningStatus {
-    code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
-    lastAction?: "Start" | "Cancel";
-    lastActionTime?: Date | string;
-    startTime?: Date | string;
 }
 
 // @public
 export interface RollingUpgradeRunningStatusOutput {
-    code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
-    lastAction?: "Start" | "Cancel";
-    lastActionTime?: string;
-    startTime?: string;
+    readonly code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
+    readonly lastAction?: "Start" | "Cancel";
+    readonly lastActionTime?: string;
+    readonly startTime?: string;
 }
 
 // @public
@@ -10017,18 +9730,14 @@ export interface RollingUpgradeStatusInfoOutput extends ResourceOutput {
 
 // @public
 export interface RollingUpgradeStatusInfoProperties {
-    error?: ApiError;
-    policy?: RollingUpgradePolicy;
-    progress?: RollingUpgradeProgressInfo;
-    runningStatus?: RollingUpgradeRunningStatus;
 }
 
 // @public
 export interface RollingUpgradeStatusInfoPropertiesOutput {
-    error?: ApiErrorOutput;
-    policy?: RollingUpgradePolicyOutput;
-    progress?: RollingUpgradeProgressInfoOutput;
-    runningStatus?: RollingUpgradeRunningStatusOutput;
+    readonly error?: ApiErrorOutput;
+    readonly policy?: RollingUpgradePolicyOutput;
+    readonly progress?: RollingUpgradeProgressInfoOutput;
+    readonly runningStatus?: RollingUpgradeRunningStatusOutput;
 }
 
 // @public (undocumented)
@@ -10395,7 +10104,7 @@ export interface SharedGalleryDataDiskImageOutput extends SharedGalleryDiskImage
 
 // @public
 export interface SharedGalleryDiskImageOutput {
-    diskSizeGB?: number;
+    readonly diskSizeGB?: number;
     hostCaching?: "None" | "ReadOnly" | "ReadWrite";
 }
 
@@ -10612,18 +10321,16 @@ export interface SharedGalleryOutput extends PirSharedGalleryResourceOutput {
 
 // @public (undocumented)
 export interface ShareInfoElement {
-    vmUri?: string;
 }
 
 // @public (undocumented)
 export interface ShareInfoElementOutput {
-    vmUri?: string;
+    readonly vmUri?: string;
 }
 
 // @public
 export interface SharingProfile {
     communityGalleryInfo?: CommunityGalleryInfo;
-    groups?: Array<SharingProfileGroup>;
     permissions?: "Private" | "Groups" | "Community";
 }
 
@@ -10642,19 +10349,18 @@ export interface SharingProfileGroupOutput {
 // @public
 export interface SharingProfileOutput {
     communityGalleryInfo?: CommunityGalleryInfoOutput;
-    groups?: Array<SharingProfileGroupOutput>;
+    readonly groups?: Array<SharingProfileGroupOutput>;
     permissions?: "Private" | "Groups" | "Community";
 }
 
 // @public
 export interface SharingStatus {
-    aggregatedState?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
     summary?: Array<RegionalSharingStatus>;
 }
 
 // @public
 export interface SharingStatusOutput {
-    aggregatedState?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
+    readonly aggregatedState?: "Succeeded" | "InProgress" | "Failed" | "Unknown";
     summary?: Array<RegionalSharingStatusOutput>;
 }
 
@@ -10668,6 +10374,28 @@ export interface SharingUpdate {
 export interface SharingUpdateOutput {
     groups?: Array<SharingProfileGroupOutput>;
     operationType: "Add" | "Remove" | "Reset" | "EnableCommunity";
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -10687,7 +10415,6 @@ export interface SkuOutput {
 // @public
 export interface Snapshot extends Resource {
     extendedLocation?: ExtendedLocation;
-    managedBy?: string;
     properties?: SnapshotProperties;
     sku?: SnapshotSku;
 }
@@ -10701,7 +10428,7 @@ export interface SnapshotListOutput {
 // @public
 export interface SnapshotOutput extends ResourceOutput {
     extendedLocation?: ExtendedLocationOutput;
-    managedBy?: string;
+    readonly managedBy?: string;
     properties?: SnapshotPropertiesOutput;
     sku?: SnapshotSkuOutput;
 }
@@ -10713,24 +10440,18 @@ export interface SnapshotProperties {
     creationData: CreationData;
     dataAccessAuthMode?: "AzureActiveDirectory" | "None";
     diskAccessId?: string;
-    diskSizeBytes?: number;
     diskSizeGB?: number;
-    diskState?: "Unattached" | "Attached" | "Reserved" | "Frozen" | "ActiveSAS" | "ActiveSASFrozen" | "ReadyToUpload" | "ActiveUpload";
     encryption?: Encryption;
     encryptionSettingsCollection?: EncryptionSettingsCollection;
     hyperVGeneration?: "V1" | "V2";
     incremental?: boolean;
-    incrementalSnapshotFamilyId?: string;
     networkAccessPolicy?: "AllowAll" | "AllowPrivate" | "DenyAll";
     osType?: "Windows" | "Linux";
-    provisioningState?: string;
     publicNetworkAccess?: "Enabled" | "Disabled";
     purchasePlan?: PurchasePlanAutoGenerated;
     securityProfile?: DiskSecurityProfile;
     supportedCapabilities?: SupportedCapabilities;
     supportsHibernation?: boolean;
-    timeCreated?: Date | string;
-    uniqueId?: string;
 }
 
 // @public
@@ -10740,24 +10461,24 @@ export interface SnapshotPropertiesOutput {
     creationData: CreationDataOutput;
     dataAccessAuthMode?: "AzureActiveDirectory" | "None";
     diskAccessId?: string;
-    diskSizeBytes?: number;
+    readonly diskSizeBytes?: number;
     diskSizeGB?: number;
-    diskState?: "Unattached" | "Attached" | "Reserved" | "Frozen" | "ActiveSAS" | "ActiveSASFrozen" | "ReadyToUpload" | "ActiveUpload";
+    readonly diskState?: "Unattached" | "Attached" | "Reserved" | "Frozen" | "ActiveSAS" | "ActiveSASFrozen" | "ReadyToUpload" | "ActiveUpload";
     encryption?: EncryptionOutput;
     encryptionSettingsCollection?: EncryptionSettingsCollectionOutput;
     hyperVGeneration?: "V1" | "V2";
     incremental?: boolean;
-    incrementalSnapshotFamilyId?: string;
+    readonly incrementalSnapshotFamilyId?: string;
     networkAccessPolicy?: "AllowAll" | "AllowPrivate" | "DenyAll";
     osType?: "Windows" | "Linux";
-    provisioningState?: string;
+    readonly provisioningState?: string;
     publicNetworkAccess?: "Enabled" | "Disabled";
     purchasePlan?: PurchasePlanAutoGeneratedOutput;
     securityProfile?: DiskSecurityProfileOutput;
     supportedCapabilities?: SupportedCapabilitiesOutput;
     supportsHibernation?: boolean;
-    timeCreated?: string;
-    uniqueId?: string;
+    readonly timeCreated?: string;
+    readonly uniqueId?: string;
 }
 
 // @public (undocumented)
@@ -10811,23 +10532,17 @@ export interface SnapshotsCreateOrUpdateQueryParamProperties {
 // @public
 export interface SnapshotsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface SnapshotsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface SnapshotsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -10884,8 +10599,6 @@ export interface SnapshotsGrantAccess200Response extends HttpResponse {
 // @public
 export interface SnapshotsGrantAccess202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -10916,13 +10629,12 @@ export interface SnapshotsGrantAccessQueryParamProperties {
 // @public
 export interface SnapshotSku {
     name?: "Standard_LRS" | "Premium_LRS" | "Standard_ZRS";
-    tier?: string;
 }
 
 // @public
 export interface SnapshotSkuOutput {
     name?: "Standard_LRS" | "Premium_LRS" | "Standard_ZRS";
-    tier?: string;
+    readonly tier?: string;
 }
 
 // @public (undocumented)
@@ -10987,15 +10699,11 @@ export interface SnapshotsRevokeAccess {
 // @public
 export interface SnapshotsRevokeAccess200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface SnapshotsRevokeAccess202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -11215,15 +10923,11 @@ export interface SshPublicKeysCreateQueryParamProperties {
 // @public
 export interface SshPublicKeysDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface SshPublicKeysDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -11438,8 +11142,8 @@ export interface SshPublicKeyUpdateResource extends UpdateResource {
 
 // @public
 export interface StatusCodeCountOutput {
-    code?: string;
-    count?: number;
+    readonly code?: string;
+    readonly count?: number;
 }
 
 // @public
@@ -11470,12 +11174,11 @@ export interface SubResourceOutput {
 
 // @public (undocumented)
 export interface SubResourceReadOnly {
-    id?: string;
 }
 
 // @public (undocumented)
 export interface SubResourceReadOnlyOutput {
-    id?: string;
+    readonly id?: string;
 }
 
 // @public (undocumented)
@@ -11504,14 +11207,12 @@ export interface SupportedCapabilitiesOutput {
 
 // @public
 export interface SystemData {
-    createdAt?: Date | string;
-    lastModifiedAt?: Date | string;
 }
 
 // @public
 export interface SystemDataOutput {
-    createdAt?: string;
-    lastModifiedAt?: string;
+    readonly createdAt?: string;
+    readonly lastModifiedAt?: string;
 }
 
 // @public
@@ -11560,8 +11261,6 @@ export interface UefiSettingsOutput {
 
 // @public
 export interface UpdateDomain {
-    id?: string;
-    name?: string;
 }
 
 // @public
@@ -11572,8 +11271,8 @@ export interface UpdateDomainListResultOutput {
 
 // @public
 export interface UpdateDomainOutput {
-    id?: string;
-    name?: string;
+    readonly id?: string;
+    readonly name?: string;
 }
 
 // @public
@@ -11583,34 +11282,31 @@ export interface UpdateResource {
 
 // @public
 export interface UpdateResourceDefinition {
-    id?: string;
-    name?: string;
     tags?: Record<string, string>;
-    type?: string;
 }
 
 // @public
 export interface UpgradeOperationHistoricalStatusInfoOutput {
-    location?: string;
-    properties?: UpgradeOperationHistoricalStatusInfoPropertiesOutput;
-    type?: string;
+    readonly location?: string;
+    readonly properties?: UpgradeOperationHistoricalStatusInfoPropertiesOutput;
+    readonly type?: string;
 }
 
 // @public
 export interface UpgradeOperationHistoricalStatusInfoPropertiesOutput {
-    error?: ApiErrorOutput;
-    progress?: RollingUpgradeProgressInfoOutput;
-    rollbackInfo?: RollbackStatusInfoOutput;
-    runningStatus?: UpgradeOperationHistoryStatusOutput;
-    startedBy?: "Unknown" | "User" | "Platform";
-    targetImageReference?: ImageReferenceOutput;
+    readonly error?: ApiErrorOutput;
+    readonly progress?: RollingUpgradeProgressInfoOutput;
+    readonly rollbackInfo?: RollbackStatusInfoOutput;
+    readonly runningStatus?: UpgradeOperationHistoryStatusOutput;
+    readonly startedBy?: "Unknown" | "User" | "Platform";
+    readonly targetImageReference?: ImageReferenceOutput;
 }
 
 // @public
 export interface UpgradeOperationHistoryStatusOutput {
-    code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
-    endTime?: string;
-    startTime?: string;
+    readonly code?: "RollingForward" | "Cancelled" | "Completed" | "Faulted";
+    readonly endTime?: string;
+    readonly startTime?: string;
 }
 
 // @public
@@ -11716,14 +11412,12 @@ export interface UserArtifactSourceOutput {
 
 // @public (undocumented)
 export interface UserAssignedIdentitiesValue {
-    clientId?: string;
-    principalId?: string;
 }
 
 // @public (undocumented)
 export interface UserAssignedIdentitiesValueOutput {
-    clientId?: string;
-    principalId?: string;
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
@@ -11766,7 +11460,6 @@ export interface VirtualMachine extends Resource {
     identity?: VirtualMachineIdentity;
     plan?: Plan;
     properties?: VirtualMachineProperties;
-    resources?: Array<VirtualMachineExtension>;
     zones?: Array<string>;
 }
 
@@ -11786,14 +11479,14 @@ export interface VirtualMachineAgentInstanceViewOutput {
 
 // @public
 export interface VirtualMachineAssessPatchesResultOutput {
-    assessmentActivityId?: string;
-    availablePatches?: Array<VirtualMachineSoftwarePatchPropertiesOutput>;
-    criticalAndSecurityPatchCount?: number;
-    error?: ApiErrorOutput;
-    otherPatchCount?: number;
-    rebootPending?: boolean;
-    startDateTime?: string;
-    status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
+    readonly assessmentActivityId?: string;
+    readonly availablePatches?: Array<VirtualMachineSoftwarePatchPropertiesOutput>;
+    readonly criticalAndSecurityPatchCount?: number;
+    readonly error?: ApiErrorOutput;
+    readonly otherPatchCount?: number;
+    readonly rebootPending?: boolean;
+    readonly startDateTime?: string;
+    readonly status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
 // @public
@@ -11805,18 +11498,14 @@ export interface VirtualMachineCaptureParameters {
 
 // @public
 export interface VirtualMachineCaptureResult extends SubResource {
-    $schema?: string;
-    contentVersion?: string;
-    parameters?: any;
-    resources?: Array<any>;
 }
 
 // @public
 export interface VirtualMachineCaptureResultOutput extends SubResourceOutput {
-    $schema?: string;
-    contentVersion?: string;
-    parameters?: any;
-    resources?: Array<any>;
+    readonly $schema?: string;
+    readonly contentVersion?: string;
+    readonly parameters?: any;
+    readonly resources?: Array<any>;
 }
 
 // @public
@@ -12007,7 +11696,6 @@ export interface VirtualMachineExtensionProperties {
     instanceView?: VirtualMachineExtensionInstanceView;
     protectedSettings?: any;
     protectedSettingsFromKeyVault?: KeyVaultSecretReference;
-    provisioningState?: string;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -12023,7 +11711,7 @@ export interface VirtualMachineExtensionPropertiesOutput {
     instanceView?: VirtualMachineExtensionInstanceViewOutput;
     protectedSettings?: any;
     protectedSettingsFromKeyVault?: KeyVaultSecretReferenceOutput;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -12090,23 +11778,17 @@ export interface VirtualMachineExtensionsCreateOrUpdateQueryParamProperties {
 // @public
 export interface VirtualMachineExtensionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineExtensionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualMachineExtensionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -12280,26 +11962,23 @@ export interface VirtualMachineExtensionUpdatePropertiesOutput {
 
 // @public
 export interface VirtualMachineHealthStatus {
-    status?: InstanceViewStatus;
 }
 
 // @public
 export interface VirtualMachineHealthStatusOutput {
-    status?: InstanceViewStatusOutput;
+    readonly status?: InstanceViewStatusOutput;
 }
 
 // @public
 export interface VirtualMachineIdentity {
-    principalId?: string;
-    tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
 // @public
 export interface VirtualMachineIdentityOutput {
-    principalId?: string;
-    tenantId?: string;
+    readonly principalId?: string;
+    readonly tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValueOutput>;
 }
@@ -12773,23 +12452,22 @@ export interface VirtualMachineInstallPatchesParameters {
 
 // @public
 export interface VirtualMachineInstallPatchesResultOutput {
-    error?: ApiErrorOutput;
-    excludedPatchCount?: number;
-    failedPatchCount?: number;
-    installationActivityId?: string;
-    installedPatchCount?: number;
-    maintenanceWindowExceeded?: boolean;
-    notSelectedPatchCount?: number;
-    patches?: Array<PatchInstallationDetailOutput>;
-    pendingPatchCount?: number;
-    rebootStatus?: "Unknown" | "NotNeeded" | "Required" | "Started" | "Failed" | "Completed";
-    startDateTime?: string;
-    status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
+    readonly error?: ApiErrorOutput;
+    readonly excludedPatchCount?: number;
+    readonly failedPatchCount?: number;
+    readonly installationActivityId?: string;
+    readonly installedPatchCount?: number;
+    readonly maintenanceWindowExceeded?: boolean;
+    readonly notSelectedPatchCount?: number;
+    readonly patches?: Array<PatchInstallationDetailOutput>;
+    readonly pendingPatchCount?: number;
+    readonly rebootStatus?: "Unknown" | "NotNeeded" | "Required" | "Started" | "Failed" | "Completed";
+    readonly startDateTime?: string;
+    readonly status?: "Unknown" | "InProgress" | "Failed" | "Succeeded" | "CompletedWithWarnings";
 }
 
 // @public
 export interface VirtualMachineInstanceView {
-    assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceView;
     computerName?: string;
     disks?: Array<DiskInstanceView>;
@@ -12804,12 +12482,11 @@ export interface VirtualMachineInstanceView {
     rdpThumbPrint?: string;
     statuses?: Array<InstanceViewStatus>;
     vmAgent?: VirtualMachineAgentInstanceView;
-    vmHealth?: VirtualMachineHealthStatus;
 }
 
 // @public
 export interface VirtualMachineInstanceViewOutput {
-    assignedHost?: string;
+    readonly assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceViewOutput;
     computerName?: string;
     disks?: Array<DiskInstanceViewOutput>;
@@ -12824,7 +12501,7 @@ export interface VirtualMachineInstanceViewOutput {
     rdpThumbPrint?: string;
     statuses?: Array<InstanceViewStatusOutput>;
     vmAgent?: VirtualMachineAgentInstanceViewOutput;
-    vmHealth?: VirtualMachineHealthStatusOutput;
+    readonly vmHealth?: VirtualMachineHealthStatusOutput;
 }
 
 // @public
@@ -12937,21 +12614,20 @@ export interface VirtualMachineOutput extends ResourceOutput {
     identity?: VirtualMachineIdentityOutput;
     plan?: PlanOutput;
     properties?: VirtualMachinePropertiesOutput;
-    resources?: Array<VirtualMachineExtensionOutput>;
+    readonly resources?: Array<VirtualMachineExtensionOutput>;
     zones?: Array<string>;
 }
 
 // @public
 export interface VirtualMachinePatchStatus {
     availablePatchSummary?: AvailablePatchSummary;
-    configurationStatuses?: Array<InstanceViewStatus>;
     lastPatchInstallationSummary?: LastPatchInstallationSummary;
 }
 
 // @public
 export interface VirtualMachinePatchStatusOutput {
     availablePatchSummary?: AvailablePatchSummaryOutput;
-    configurationStatuses?: Array<InstanceViewStatusOutput>;
+    readonly configurationStatuses?: Array<InstanceViewStatusOutput>;
     lastPatchInstallationSummary?: LastPatchInstallationSummaryOutput;
 }
 
@@ -12968,21 +12644,17 @@ export interface VirtualMachineProperties {
     hardwareProfile?: HardwareProfile;
     host?: SubResource;
     hostGroup?: SubResource;
-    instanceView?: VirtualMachineInstanceView;
     licenseType?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
     platformFaultDomain?: number;
     priority?: "Regular" | "Low" | "Spot";
-    provisioningState?: string;
     proximityPlacementGroup?: SubResource;
     scheduledEventsProfile?: ScheduledEventsProfile;
     securityProfile?: SecurityProfile;
     storageProfile?: StorageProfile;
-    timeCreated?: Date | string;
     userData?: string;
     virtualMachineScaleSet?: SubResource;
-    vmId?: string;
 }
 
 // @public
@@ -12998,21 +12670,21 @@ export interface VirtualMachinePropertiesOutput {
     hardwareProfile?: HardwareProfileOutput;
     host?: SubResourceOutput;
     hostGroup?: SubResourceOutput;
-    instanceView?: VirtualMachineInstanceViewOutput;
+    readonly instanceView?: VirtualMachineInstanceViewOutput;
     licenseType?: string;
     networkProfile?: NetworkProfileOutput;
     osProfile?: OSProfileOutput;
     platformFaultDomain?: number;
     priority?: "Regular" | "Low" | "Spot";
-    provisioningState?: string;
+    readonly provisioningState?: string;
     proximityPlacementGroup?: SubResourceOutput;
     scheduledEventsProfile?: ScheduledEventsProfileOutput;
     securityProfile?: SecurityProfileOutput;
     storageProfile?: StorageProfileOutput;
-    timeCreated?: string;
+    readonly timeCreated?: string;
     userData?: string;
     virtualMachineScaleSet?: SubResourceOutput;
-    vmId?: string;
+    readonly vmId?: string;
 }
 
 // @public
@@ -13104,11 +12776,9 @@ export interface VirtualMachineRunCommandOutput extends ResourceOutput {
 export interface VirtualMachineRunCommandProperties {
     asyncExecution?: boolean;
     errorBlobUri?: string;
-    instanceView?: VirtualMachineRunCommandInstanceView;
     outputBlobUri?: string;
     parameters?: Array<RunCommandInputParameter>;
     protectedParameters?: Array<RunCommandInputParameter>;
-    provisioningState?: string;
     runAsPassword?: string;
     runAsUser?: string;
     source?: VirtualMachineRunCommandScriptSource;
@@ -13119,11 +12789,11 @@ export interface VirtualMachineRunCommandProperties {
 export interface VirtualMachineRunCommandPropertiesOutput {
     asyncExecution?: boolean;
     errorBlobUri?: string;
-    instanceView?: VirtualMachineRunCommandInstanceViewOutput;
+    readonly instanceView?: VirtualMachineRunCommandInstanceViewOutput;
     outputBlobUri?: string;
     parameters?: Array<RunCommandInputParameterOutput>;
     protectedParameters?: Array<RunCommandInputParameterOutput>;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     runAsPassword?: string;
     runAsUser?: string;
     source?: VirtualMachineRunCommandScriptSourceOutput;
@@ -13203,23 +12873,17 @@ export interface VirtualMachineRunCommandScriptSourceOutput {
 // @public
 export interface VirtualMachineRunCommandsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineRunCommandsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualMachineRunCommandsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -13434,8 +13098,6 @@ export interface VirtualMachinesAssessPatches200Response extends HttpResponse {
 // @public
 export interface VirtualMachinesAssessPatches202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -13503,7 +13165,6 @@ export interface VirtualMachineScaleSetDataDiskOutput {
 export interface VirtualMachineScaleSetExtension extends SubResourceReadOnly {
     name?: string;
     properties?: VirtualMachineScaleSetExtensionProperties;
-    type?: string;
 }
 
 // @public
@@ -13516,7 +13177,7 @@ export interface VirtualMachineScaleSetExtensionListResultOutput {
 export interface VirtualMachineScaleSetExtensionOutput extends SubResourceReadOnlyOutput {
     name?: string;
     properties?: VirtualMachineScaleSetExtensionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -13539,7 +13200,6 @@ export interface VirtualMachineScaleSetExtensionProperties {
     protectedSettings?: any;
     protectedSettingsFromKeyVault?: KeyVaultSecretReference;
     provisionAfterExtensions?: Array<string>;
-    provisioningState?: string;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -13555,7 +13215,7 @@ export interface VirtualMachineScaleSetExtensionPropertiesOutput {
     protectedSettings?: any;
     protectedSettingsFromKeyVault?: KeyVaultSecretReferenceOutput;
     provisionAfterExtensions?: Array<string>;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     publisher?: string;
     settings?: any;
     suppressFailures?: boolean;
@@ -13622,23 +13282,17 @@ export interface VirtualMachineScaleSetExtensionsCreateOrUpdateQueryParamPropert
 // @public
 export interface VirtualMachineScaleSetExtensionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetExtensionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualMachineScaleSetExtensionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -13781,16 +13435,14 @@ export interface VirtualMachineScaleSetExtensionsUpdateQueryParamProperties {
 
 // @public
 export interface VirtualMachineScaleSetExtensionUpdate extends SubResourceReadOnly {
-    name?: string;
     properties?: VirtualMachineScaleSetExtensionProperties;
-    type?: string;
 }
 
 // @public
 export interface VirtualMachineScaleSetExtensionUpdateOutput extends SubResourceReadOnlyOutput {
-    name?: string;
+    readonly name?: string;
     properties?: VirtualMachineScaleSetExtensionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -13805,31 +13457,29 @@ export interface VirtualMachineScaleSetHardwareProfileOutput {
 
 // @public
 export interface VirtualMachineScaleSetIdentity {
-    principalId?: string;
-    tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
 // @public
 export interface VirtualMachineScaleSetIdentityOutput {
-    principalId?: string;
-    tenantId?: string;
+    readonly principalId?: string;
+    readonly tenantId?: string;
     type?: "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
     userAssignedIdentities?: Record<string, UserAssignedIdentitiesValueOutput>;
 }
 
 // @public
 export interface VirtualMachineScaleSetInstanceViewOutput {
-    extensions?: Array<VirtualMachineScaleSetVMExtensionsSummaryOutput>;
-    orchestrationServices?: Array<OrchestrationServiceSummaryOutput>;
+    readonly extensions?: Array<VirtualMachineScaleSetVMExtensionsSummaryOutput>;
+    readonly orchestrationServices?: Array<OrchestrationServiceSummaryOutput>;
     statuses?: Array<InstanceViewStatusOutput>;
-    virtualMachine?: VirtualMachineScaleSetInstanceViewStatusesSummaryOutput;
+    readonly virtualMachine?: VirtualMachineScaleSetInstanceViewStatusesSummaryOutput;
 }
 
 // @public
 export interface VirtualMachineScaleSetInstanceViewStatusesSummaryOutput {
-    statusesSummary?: Array<VirtualMachineStatusCodeCountOutput>;
+    readonly statusesSummary?: Array<VirtualMachineStatusCodeCountOutput>;
 }
 
 // @public
@@ -14054,13 +13704,10 @@ export interface VirtualMachineScaleSetProperties {
     overprovision?: boolean;
     platformFaultDomainCount?: number;
     priorityMixPolicy?: PriorityMixPolicy;
-    provisioningState?: string;
     proximityPlacementGroup?: SubResource;
     scaleInPolicy?: ScaleInPolicy;
     singlePlacementGroup?: boolean;
     spotRestorePolicy?: SpotRestorePolicy;
-    timeCreated?: Date | string;
-    uniqueId?: string;
     upgradePolicy?: UpgradePolicy;
     virtualMachineProfile?: VirtualMachineScaleSetVMProfile;
     zoneBalance?: boolean;
@@ -14076,13 +13723,13 @@ export interface VirtualMachineScaleSetPropertiesOutput {
     overprovision?: boolean;
     platformFaultDomainCount?: number;
     priorityMixPolicy?: PriorityMixPolicyOutput;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     proximityPlacementGroup?: SubResourceOutput;
     scaleInPolicy?: ScaleInPolicyOutput;
     singlePlacementGroup?: boolean;
     spotRestorePolicy?: SpotRestorePolicyOutput;
-    timeCreated?: string;
-    uniqueId?: string;
+    readonly timeCreated?: string;
+    readonly uniqueId?: string;
     upgradePolicy?: UpgradePolicyOutput;
     virtualMachineProfile?: VirtualMachineScaleSetVMProfileOutput;
     zoneBalance?: boolean;
@@ -14145,15 +13792,11 @@ export interface VirtualMachineScaleSetRollingUpgradesCancel {
 // @public
 export interface VirtualMachineScaleSetRollingUpgradesCancel200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetRollingUpgradesCancel202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -14223,15 +13866,11 @@ export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade {
 // @public
 export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -14266,15 +13905,11 @@ export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade {
 // @public
 export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -14308,8 +13943,6 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroup {
 
 // @public
 export interface VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
@@ -14410,15 +14043,11 @@ export interface VirtualMachineScaleSetsDeallocate {
 // @public
 export interface VirtualMachineScaleSetsDeallocate200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsDeallocate202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -14458,23 +14087,17 @@ export interface VirtualMachineScaleSetsDeallocateQueryParamProperties {
 // @public
 export interface VirtualMachineScaleSetsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualMachineScaleSetsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -14495,15 +14118,11 @@ export interface VirtualMachineScaleSetsDeleteInstances {
 // @public
 export interface VirtualMachineScaleSetsDeleteInstances200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsDeleteInstances202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -14697,17 +14316,17 @@ export interface VirtualMachineScaleSetsGetQueryParamProperties {
 
 // @public
 export interface VirtualMachineScaleSetSkuCapacityOutput {
-    defaultCapacity?: number;
-    maximum?: number;
-    minimum?: number;
-    scaleType?: "Automatic" | "None";
+    readonly defaultCapacity?: number;
+    readonly maximum?: number;
+    readonly minimum?: number;
+    readonly scaleType?: "Automatic" | "None";
 }
 
 // @public
 export interface VirtualMachineScaleSetSkuOutput {
-    capacity?: VirtualMachineScaleSetSkuCapacityOutput;
-    resourceType?: string;
-    sku?: SkuOutput;
+    readonly capacity?: VirtualMachineScaleSetSkuCapacityOutput;
+    readonly resourceType?: string;
+    readonly sku?: SkuOutput;
 }
 
 // @public (undocumented)
@@ -14858,15 +14477,11 @@ export interface VirtualMachineScaleSetsPerformMaintenance {
 // @public
 export interface VirtualMachineScaleSetsPerformMaintenance200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsPerformMaintenance202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -14911,15 +14526,11 @@ export interface VirtualMachineScaleSetsPowerOff {
 // @public
 export interface VirtualMachineScaleSetsPowerOff200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsPowerOff202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -14965,15 +14576,11 @@ export interface VirtualMachineScaleSetsRedeploy {
 // @public
 export interface VirtualMachineScaleSetsRedeploy200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsRedeploy202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -15018,15 +14625,11 @@ export interface VirtualMachineScaleSetsReimage {
 // @public
 export interface VirtualMachineScaleSetsReimage200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsReimage202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -15039,15 +14642,11 @@ export interface VirtualMachineScaleSetsReimageAll {
 // @public
 export interface VirtualMachineScaleSetsReimageAll200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsReimageAll202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -15124,15 +14723,11 @@ export interface VirtualMachineScaleSetsRestart {
 // @public
 export interface VirtualMachineScaleSetsRestart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsRestart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -15177,15 +14772,11 @@ export interface VirtualMachineScaleSetsSetOrchestrationServiceState {
 // @public
 export interface VirtualMachineScaleSetsSetOrchestrationServiceState200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsSetOrchestrationServiceState202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -15230,15 +14821,11 @@ export interface VirtualMachineScaleSetsStart {
 // @public
 export interface VirtualMachineScaleSetsStart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsStart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -15322,15 +14909,11 @@ export interface VirtualMachineScaleSetsUpdateInstances {
 // @public
 export interface VirtualMachineScaleSetsUpdateInstances200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetsUpdateInstances202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -15562,26 +15145,20 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
 // @public
 export interface VirtualMachineScaleSetVM extends Resource {
     identity?: VirtualMachineIdentity;
-    instanceId?: string;
     plan?: Plan;
     properties?: VirtualMachineScaleSetVMProperties;
-    resources?: Array<VirtualMachineExtension>;
-    sku?: Sku;
-    zones?: Array<string>;
 }
 
 // @public
 export interface VirtualMachineScaleSetVMExtension extends SubResourceReadOnly {
-    name?: string;
     properties?: VirtualMachineExtensionProperties;
-    type?: string;
 }
 
 // @public
 export interface VirtualMachineScaleSetVMExtensionOutput extends SubResourceReadOnlyOutput {
-    name?: string;
+    readonly name?: string;
     properties?: VirtualMachineExtensionPropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public (undocumented)
@@ -15643,23 +15220,17 @@ export interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateQueryParamPrope
 // @public
 export interface VirtualMachineScaleSetVMExtensionsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMExtensionsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMExtensionsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -15760,8 +15331,8 @@ export interface VirtualMachineScaleSetVMExtensionsListResultOutput {
 
 // @public
 export interface VirtualMachineScaleSetVMExtensionsSummaryOutput {
-    name?: string;
-    statusesSummary?: Array<VirtualMachineStatusCodeCountOutput>;
+    readonly name?: string;
+    readonly statusesSummary?: Array<VirtualMachineStatusCodeCountOutput>;
 }
 
 // @public
@@ -15806,16 +15377,14 @@ export interface VirtualMachineScaleSetVMExtensionsUpdateQueryParamProperties {
 
 // @public
 export interface VirtualMachineScaleSetVMExtensionUpdate extends SubResourceReadOnly {
-    name?: string;
     properties?: VirtualMachineExtensionUpdateProperties;
-    type?: string;
 }
 
 // @public
 export interface VirtualMachineScaleSetVMExtensionUpdateOutput extends SubResourceReadOnlyOutput {
-    name?: string;
+    readonly name?: string;
     properties?: VirtualMachineExtensionUpdatePropertiesOutput;
-    type?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -15830,7 +15399,6 @@ export interface VirtualMachineScaleSetVMInstanceRequiredIDs {
 
 // @public
 export interface VirtualMachineScaleSetVMInstanceView {
-    assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceView;
     disks?: Array<DiskInstanceView>;
     extensions?: Array<VirtualMachineExtensionInstanceView>;
@@ -15841,12 +15409,11 @@ export interface VirtualMachineScaleSetVMInstanceView {
     rdpThumbPrint?: string;
     statuses?: Array<InstanceViewStatus>;
     vmAgent?: VirtualMachineAgentInstanceView;
-    vmHealth?: VirtualMachineHealthStatus;
 }
 
 // @public
 export interface VirtualMachineScaleSetVMInstanceViewOutput {
-    assignedHost?: string;
+    readonly assignedHost?: string;
     bootDiagnostics?: BootDiagnosticsInstanceViewOutput;
     disks?: Array<DiskInstanceViewOutput>;
     extensions?: Array<VirtualMachineExtensionInstanceViewOutput>;
@@ -15857,7 +15424,7 @@ export interface VirtualMachineScaleSetVMInstanceViewOutput {
     rdpThumbPrint?: string;
     statuses?: Array<InstanceViewStatusOutput>;
     vmAgent?: VirtualMachineAgentInstanceViewOutput;
-    vmHealth?: VirtualMachineHealthStatusOutput;
+    readonly vmHealth?: VirtualMachineHealthStatusOutput;
 }
 
 // @public
@@ -15879,12 +15446,12 @@ export interface VirtualMachineScaleSetVMNetworkProfileConfigurationOutput {
 // @public
 export interface VirtualMachineScaleSetVMOutput extends ResourceOutput {
     identity?: VirtualMachineIdentityOutput;
-    instanceId?: string;
+    readonly instanceId?: string;
     plan?: PlanOutput;
     properties?: VirtualMachineScaleSetVMPropertiesOutput;
-    resources?: Array<VirtualMachineExtensionOutput>;
-    sku?: SkuOutput;
-    zones?: Array<string>;
+    readonly resources?: Array<VirtualMachineExtensionOutput>;
+    readonly sku?: SkuOutput;
+    readonly zones?: Array<string>;
 }
 
 // @public
@@ -15931,19 +15498,14 @@ export interface VirtualMachineScaleSetVMProperties {
     availabilitySet?: SubResource;
     diagnosticsProfile?: DiagnosticsProfile;
     hardwareProfile?: HardwareProfile;
-    instanceView?: VirtualMachineScaleSetVMInstanceView;
-    latestModelApplied?: boolean;
     licenseType?: string;
-    modelDefinitionApplied?: string;
     networkProfile?: NetworkProfile;
     networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfiguration;
     osProfile?: OSProfile;
     protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
-    provisioningState?: string;
     securityProfile?: SecurityProfile;
     storageProfile?: StorageProfile;
     userData?: string;
-    vmId?: string;
 }
 
 // @public
@@ -15952,19 +15514,19 @@ export interface VirtualMachineScaleSetVMPropertiesOutput {
     availabilitySet?: SubResourceOutput;
     diagnosticsProfile?: DiagnosticsProfileOutput;
     hardwareProfile?: HardwareProfileOutput;
-    instanceView?: VirtualMachineScaleSetVMInstanceViewOutput;
-    latestModelApplied?: boolean;
+    readonly instanceView?: VirtualMachineScaleSetVMInstanceViewOutput;
+    readonly latestModelApplied?: boolean;
     licenseType?: string;
-    modelDefinitionApplied?: string;
+    readonly modelDefinitionApplied?: string;
     networkProfile?: NetworkProfileOutput;
     networkProfileConfiguration?: VirtualMachineScaleSetVMNetworkProfileConfigurationOutput;
     osProfile?: OSProfileOutput;
     protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicyOutput;
-    provisioningState?: string;
+    readonly provisioningState?: string;
     securityProfile?: SecurityProfileOutput;
     storageProfile?: StorageProfileOutput;
     userData?: string;
-    vmId?: string;
+    readonly vmId?: string;
 }
 
 // @public
@@ -16042,23 +15604,17 @@ export interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateQueryParamProp
 // @public
 export interface VirtualMachineScaleSetVMRunCommandsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMRunCommandsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMRunCommandsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -16200,15 +15756,11 @@ export interface VirtualMachineScaleSetVMsDeallocate {
 // @public
 export interface VirtualMachineScaleSetVMsDeallocate200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMsDeallocate202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -16238,23 +15790,17 @@ export interface VirtualMachineScaleSetVMsDeallocateQueryParamProperties {
 // @public
 export interface VirtualMachineScaleSetVMsDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMsDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMsDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -16394,15 +15940,11 @@ export interface VirtualMachineScaleSetVMsPerformMaintenance {
 // @public
 export interface VirtualMachineScaleSetVMsPerformMaintenance200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMsPerformMaintenance202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -16437,15 +15979,11 @@ export interface VirtualMachineScaleSetVMsPowerOff {
 // @public
 export interface VirtualMachineScaleSetVMsPowerOff200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMsPowerOff202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -16481,15 +16019,11 @@ export interface VirtualMachineScaleSetVMsRedeploy {
 // @public
 export interface VirtualMachineScaleSetVMsRedeploy200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMsRedeploy202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -16524,15 +16058,11 @@ export interface VirtualMachineScaleSetVMsReimage {
 // @public
 export interface VirtualMachineScaleSetVMsReimage200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMsReimage202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -16545,15 +16075,11 @@ export interface VirtualMachineScaleSetVMsReimageAll {
 // @public
 export interface VirtualMachineScaleSetVMsReimageAll200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMsReimageAll202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -16620,15 +16146,11 @@ export interface VirtualMachineScaleSetVMsRestart {
 // @public
 export interface VirtualMachineScaleSetVMsRestart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMsRestart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -16707,8 +16229,6 @@ export interface VirtualMachineScaleSetVMsRunCommand200Response extends HttpResp
 // @public
 export interface VirtualMachineScaleSetVMsRunCommand202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -16744,8 +16264,6 @@ export interface VirtualMachineScaleSetVMsSimulateEviction {
 // @public
 export interface VirtualMachineScaleSetVMsSimulateEviction204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -16779,15 +16297,11 @@ export interface VirtualMachineScaleSetVMsStart {
 // @public
 export interface VirtualMachineScaleSetVMsStart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachineScaleSetVMsStart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -16885,8 +16399,6 @@ export interface VirtualMachinesCapture200Response extends HttpResponse {
 // @public
 export interface VirtualMachinesCapture202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -16930,15 +16442,11 @@ export interface VirtualMachinesConvertToManagedDisks {
 // @public
 export interface VirtualMachinesConvertToManagedDisks200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachinesConvertToManagedDisks202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17029,15 +16537,11 @@ export interface VirtualMachinesDeallocate {
 // @public
 export interface VirtualMachinesDeallocate200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachinesDeallocate202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17068,23 +16572,17 @@ export interface VirtualMachinesDeallocateQueryParamProperties {
 // @public
 export interface VirtualMachinesDelete200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachinesDelete202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
 // @public
 export interface VirtualMachinesDelete204Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "204";
 }
@@ -17119,8 +16617,6 @@ export interface VirtualMachinesGeneralize {
 
 // @public
 export interface VirtualMachinesGeneralize200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
@@ -17193,8 +16689,6 @@ export interface VirtualMachinesInstallPatches200Response extends HttpResponse {
 
 // @public
 export interface VirtualMachinesInstallPatches202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17461,16 +16955,16 @@ export interface VirtualMachinesListQueryParamProperties {
 
 // @public
 export interface VirtualMachineSoftwarePatchPropertiesOutput {
-    activityId?: string;
-    assessmentState?: "Unknown" | "Available";
-    classifications?: Array<string>;
-    kbId?: string;
-    lastModifiedDateTime?: string;
-    name?: string;
-    patchId?: string;
-    publishedDate?: string;
-    rebootBehavior?: "Unknown" | "NeverReboots" | "AlwaysRequiresReboot" | "CanRequestReboot";
-    version?: string;
+    readonly activityId?: string;
+    readonly assessmentState?: "Unknown" | "Available";
+    readonly classifications?: Array<string>;
+    readonly kbId?: string;
+    readonly lastModifiedDateTime?: string;
+    readonly name?: string;
+    readonly patchId?: string;
+    readonly publishedDate?: string;
+    readonly rebootBehavior?: "Unknown" | "NeverReboots" | "AlwaysRequiresReboot" | "CanRequestReboot";
+    readonly version?: string;
 }
 
 // @public (undocumented)
@@ -17481,15 +16975,11 @@ export interface VirtualMachinesPerformMaintenance {
 // @public
 export interface VirtualMachinesPerformMaintenance200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachinesPerformMaintenance202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17524,15 +17014,11 @@ export interface VirtualMachinesPowerOff {
 // @public
 export interface VirtualMachinesPowerOff200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachinesPowerOff202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17568,15 +17054,11 @@ export interface VirtualMachinesReapply {
 // @public
 export interface VirtualMachinesReapply200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachinesReapply202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17611,15 +17093,11 @@ export interface VirtualMachinesRedeploy {
 // @public
 export interface VirtualMachinesRedeploy200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachinesRedeploy202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17654,15 +17132,11 @@ export interface VirtualMachinesReimage {
 // @public
 export interface VirtualMachinesReimage200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachinesReimage202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17707,15 +17181,11 @@ export interface VirtualMachinesRestart {
 // @public
 export interface VirtualMachinesRestart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachinesRestart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17794,8 +17264,6 @@ export interface VirtualMachinesRunCommand200Response extends HttpResponse {
 // @public
 export interface VirtualMachinesRunCommand202Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "202";
 }
 
@@ -17831,8 +17299,6 @@ export interface VirtualMachinesSimulateEviction {
 // @public
 export interface VirtualMachinesSimulateEviction204Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "204";
 }
 
@@ -17866,15 +17332,11 @@ export interface VirtualMachinesStart {
 // @public
 export interface VirtualMachinesStart200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
 // @public
 export interface VirtualMachinesStart202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "202";
 }
@@ -17903,8 +17365,8 @@ export interface VirtualMachinesStartQueryParamProperties {
 
 // @public
 export interface VirtualMachineStatusCodeCountOutput {
-    code?: string;
-    count?: number;
+    readonly code?: string;
+    readonly count?: number;
 }
 
 // @public

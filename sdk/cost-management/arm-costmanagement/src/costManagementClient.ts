@@ -31,7 +31,7 @@ import {
   ScheduledActionsImpl,
   BenefitRecommendationsImpl,
   BenefitUtilizationSummariesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Views,
@@ -49,8 +49,8 @@ import {
   ScheduledActions,
   BenefitRecommendations,
   BenefitUtilizationSummaries
-} from "./operationsInterfaces";
-import { CostManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { CostManagementClientOptionalParams } from "./models/index.js";
 
 export class CostManagementClient extends coreClient.ServiceClient {
   $host: string;

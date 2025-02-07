@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetSchemaById200Response,
   GetSchemaByVersion200Response,
   GetSchemaPropertiesByContent204Response,
   RegisterSchema204Response,
-} from "./responses";
-import { SchemaProperties, Schema, SchemaContentTypeValues } from "./models";
+} from "./responses.js";
+import type { SchemaProperties, Schema, SchemaContentTypeValues } from "./models.js";
 
 const textPlain = "text/plain";
 const charsetutf8 = "charset=utf-8";

@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  CreateTestSerializerOptions,
-  createTestSerializer,
-  registerTestSchema,
-} from "./utils/mockedSerializer.js";
+import type { CreateTestSerializerOptions } from "./utils/mockedSerializer.js";
+import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer.js";
 import { testAvroType, testGroup, testSchema, testValue, testSchemaName } from "./utils/dummies.js";
-import { AvroSerializer, MessageContent } from "../../src/index.js";
+import type { MessageContent } from "../../src/index.js";
+import { AvroSerializer } from "../../src/index.js";
 import {
   createPipelineWithCredential,
   createTestRegistry,
   removeSchemas,
 } from "./utils/mockedRegistryClient.js";
-import { v4 as uuid } from "uuid";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { SchemaRegistry } from "@azure/schema-registry";
-import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
+import type { SchemaRegistry } from "@azure/schema-registry";
+import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
+import { randomUUID } from "@azure/core-util";
 
 describe("AvroSerializer", async function () {
   let noAutoRegisterOptions: CreateTestSerializerOptions<any>;
@@ -27,7 +26,7 @@ describe("AvroSerializer", async function () {
   let client: HttpClient;
   let pipeline: Pipeline;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     client = createDefaultHttpClient();
     pipeline = createPipelineWithCredential();
     recorder = new Recorder(ctx);
@@ -40,7 +39,7 @@ describe("AvroSerializer", async function () {
     schemaNamesList.push(testSchemaName);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await removeSchemas(schemaNamesList, pipeline, client);
   });
 
@@ -192,7 +191,7 @@ describe("AvroSerializer", async function () {
     await expect(
       serializer.deserialize({
         data,
-        contentType: `avro/binary+${uuid()}`,
+        contentType: `avro/binary+${randomUUID()}`,
       }),
     ).rejects.toThrow(/Schema id .* does not exist/);
   });

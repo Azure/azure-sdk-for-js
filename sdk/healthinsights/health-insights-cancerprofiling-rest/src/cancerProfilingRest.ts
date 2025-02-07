@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
-import { KeyCredential } from "@azure/core-auth";
-import { CancerProfilingRestClient } from "./clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import { logger } from "./logger.js";
+import type { KeyCredential } from "@azure/core-auth";
+import type { CancerProfilingRestClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `CancerProfilingRestClient`

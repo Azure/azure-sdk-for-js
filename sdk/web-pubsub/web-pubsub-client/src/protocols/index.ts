@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubMessage } from "../models/messages";
-import { WebPubSubJsonProtocolImpl } from "./webPubSubJsonProtocol";
-import { WebPubSubJsonReliableProtocolImpl } from "./webPubSubJsonReliableProtocol";
+import type { WebPubSubMessage } from "../models/messages.js";
+import { WebPubSubJsonProtocolImpl } from "./webPubSubJsonProtocol.js";
+import { WebPubSubJsonReliableProtocolImpl } from "./webPubSubJsonReliableProtocol.js";
 
 /**
  * The interface to be implemented for a web pubsub subprotocol

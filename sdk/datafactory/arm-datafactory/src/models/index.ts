@@ -160,6 +160,7 @@ export type DatasetUnion =
   | XmlDataset
   | OrcDataset
   | BinaryDataset
+  | IcebergDataset
   | AzureBlobDataset
   | AzureTableDataset
   | AzureSqlTableDataset
@@ -360,7 +361,8 @@ export type FormatWriteSettingsUnion =
   | OrcWriteSettings
   | ParquetWriteSettings
   | DelimitedTextWriteSettings
-  | JsonWriteSettings;
+  | JsonWriteSettings
+  | IcebergWriteSettings;
 export type CopySourceUnion =
   | CopySource
   | AvroSource
@@ -419,6 +421,7 @@ export type CopySinkUnion =
   | AvroSink
   | ParquetSink
   | BinarySink
+  | IcebergSink
   | BlobSink
   | FileSystemSink
   | DocumentDbCollectionSink
@@ -1454,6 +1457,7 @@ export interface Dataset {
     | "Xml"
     | "Orc"
     | "Binary"
+    | "Iceberg"
     | "AzureBlob"
     | "AzureTable"
     | "AzureSqlTable"
@@ -3258,7 +3262,8 @@ export interface FormatWriteSettings {
     | "OrcWriteSettings"
     | "ParquetWriteSettings"
     | "DelimitedTextWriteSettings"
-    | "JsonWriteSettings";
+    | "JsonWriteSettings"
+    | "IcebergWriteSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
 }
@@ -3401,6 +3406,7 @@ export interface CopySink {
     | "AvroSink"
     | "ParquetSink"
     | "BinarySink"
+    | "IcebergSink"
     | "BlobSink"
     | "FileSystemSink"
     | "DocumentDbCollectionSink"
@@ -5142,6 +5148,20 @@ export interface MySqlLinkedService extends LinkedService {
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
+  /** This allows the special “zero” date value 0000-00-00 to be retrieved from the database. Type: boolean. */
+  allowZeroDateTime?: any;
+  /** The length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error. Type: integer. */
+  connectionTimeout?: any;
+  /** True to return DateTime.MinValue for date or datetime columns that have disallowed values. Type: boolean. */
+  convertZeroDateTime?: any;
+  /** Determines which column type (if any) should be read as a GUID. Type: string. None: No column types are automatically read as a Guid; Char36: All CHAR(36) columns are read/written as a Guid using lowercase hex with hyphens, which matches UUID. */
+  guidFormat?: any;
+  /** The path to the client’s SSL certificate file in PEM format. SslKey must also be specified. Type: string. */
+  sslCert?: any;
+  /** The path to the client’s SSL private key in PEM format. SslCert must also be specified. Type: string. */
+  sslKey?: any;
+  /** When set to true, TINYINT(1) values are returned as booleans. Type: bool. */
+  treatTinyAsBoolean?: any;
 }
 
 /** Linked service for PostgreSQL data source. */
@@ -5168,6 +5188,8 @@ export interface PostgreSqlV2LinkedService extends LinkedService {
   username: any;
   /** Database name for connection. Type: string. */
   database: any;
+  /** The authentication type to use. Type: string. */
+  authenticationType: any;
   /** SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3: require, 4: verify-ca, 5: verify-full. Type: integer. */
   sslMode: any;
   /** Sets the schema search path. Type: string. */
@@ -6060,6 +6082,28 @@ export interface AzurePostgreSqlLinkedService extends LinkedService {
   type: "AzurePostgreSql";
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
+  /** Server name for connection. Type: string. */
+  server?: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  username?: any;
+  /** Database name for connection. Type: string. */
+  database?: any;
+  /** SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3: require, 4: verify-ca, 5: verify-full. Type: integer. */
+  sslMode?: any;
+  /** The time to wait (in seconds) while trying to establish a connection before terminating the attempt and generating an error. Type: integer. */
+  timeout?: any;
+  /** The time to wait (in seconds) while trying to execute a command before terminating the attempt and generating an error. Set to zero for infinity. Type: integer. */
+  commandTimeout?: any;
+  /** Whether to trust the server certificate without validating it. Type: boolean. */
+  trustServerCertificate?: any;
+  /** Determines the size of the internal buffer uses when reading. Increasing may improve performance if transferring large values from the database. Type: integer. */
+  readBufferSize?: any;
+  /** Gets or sets the session timezone. Type: string. */
+  timezone?: any;
+  /** Gets or sets the .NET encoding that will be used to encode/decode PostgreSQL string data. Type: string */
+  encoding?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
@@ -6356,7 +6400,7 @@ export interface MagentoLinkedService extends LinkedService {
 export interface MariaDBLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDB";
-  /** The version of the MariaDB driver. Type: string. V1 or empty for legacy driver, V2 for new driver. V1 can support connection string and property bag, V2 can only support connection string. */
+  /** The version of the MariaDB driver. Type: string. V1 or empty for legacy driver, V2 for new driver. V1 can support connection string and property bag, V2 can only support connection string. The legacy driver is scheduled for deprecation by October 2024. */
   driverVersion?: any;
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
@@ -6368,6 +6412,10 @@ export interface MariaDBLinkedService extends LinkedService {
   username?: any;
   /** Database name for connection. Type: string. */
   database?: any;
+  /** This option specifies whether the driver uses TLS encryption and verification when connecting to MariaDB. E.g., SSLMode=<0/1/2/3/4>. Options: DISABLED (0) / PREFERRED (1) (Default) / REQUIRED (2) / VERIFY_CA (3) / VERIFY_IDENTITY (4), REQUIRED (2) is recommended to only allow connections encrypted with SSL/TLS. */
+  sslMode?: any;
+  /** This option specifies whether to use a CA certificate from the system trust store, or from a specified PEM file. E.g. UseSystemTrustStore=<0/1>; Options: Enabled (1) / Disabled (0) (Default) */
+  useSystemTrustStore?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
@@ -7081,6 +7129,8 @@ export interface SnowflakeV2LinkedService extends LinkedService {
   privateKey?: SecretBaseUnion;
   /** The Azure key vault secret reference of private key password for KeyPair auth with encrypted private key. */
   privateKeyPassphrase?: SecretBaseUnion;
+  /** The host name of the Snowflake account. */
+  host?: any;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
 }
@@ -7356,6 +7406,14 @@ export interface BinaryDataset extends Dataset {
   location?: DatasetLocationUnion;
   /** The data compression method used for the binary dataset. */
   compression?: DatasetCompression;
+}
+
+/** Iceberg dataset. */
+export interface IcebergDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Iceberg";
+  /** The location of the iceberg storage. Setting a file name is not allowed for iceberg format. */
+  location?: DatasetLocationUnion;
 }
 
 /** The Azure Blob storage. */
@@ -9482,6 +9540,12 @@ export interface JsonWriteSettings extends FormatWriteSettings {
   filePattern?: any;
 }
 
+/** Iceberg write settings. */
+export interface IcebergWriteSettings extends FormatWriteSettings {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "IcebergWriteSettings";
+}
+
 /** A copy activity Avro source. */
 export interface AvroSource extends CopySource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -10169,6 +10233,16 @@ export interface BinarySink extends CopySink {
   type: "BinarySink";
   /** Binary store settings. */
   storeSettings?: StoreWriteSettingsUnion;
+}
+
+/** A copy activity Iceberg sink. */
+export interface IcebergSink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "IcebergSink";
+  /** Iceberg store settings. */
+  storeSettings?: StoreWriteSettingsUnion;
+  /** Iceberg format settings. */
+  formatSettings?: IcebergWriteSettings;
 }
 
 /** A copy activity Azure Blob sink. */
@@ -12011,6 +12085,8 @@ export interface SalesforceV2Source extends TabularSource {
   query?: any;
   /** This property control whether query result contains Deleted objects. Default is false. Type: boolean (or Expression with resultType boolean). */
   includeDeletedObjects?: any;
+  /** Page size for each http request, too large pageSize will caused timeout, default 300,000. Type: integer (or Expression with resultType integer). */
+  pageSize?: any;
 }
 
 /** A copy activity ServiceNowV2 server source. */
@@ -12019,6 +12095,8 @@ export interface ServiceNowV2Source extends TabularSource {
   type: "ServiceNowV2Source";
   /** Expression to filter data from source. */
   expression?: ExpressionV2;
+  /** Page size of the result. Type: integer (or Expression with resultType integer). */
+  pageSize?: any;
 }
 
 /** Referenced tumbling window trigger dependency. */

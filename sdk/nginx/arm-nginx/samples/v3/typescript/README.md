@@ -63,7 +63,7 @@ node dist/certificatesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env NGINX_SUBSCRIPTION_ID="<nginx subscription id>" NGINX_RESOURCE_GROUP="<nginx resource group>" node dist/certificatesCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env NGINX_SUBSCRIPTION_ID="<nginx subscription id>" NGINX_RESOURCE_GROUP="<nginx resource group>" node dist/certificatesCreateOrUpdateSample.js
 ```
 
 ## Next Steps
@@ -85,7 +85,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deploymentslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v3/typescript/src/deploymentsListSample.ts
 [deploymentsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v3/typescript/src/deploymentsUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/nginx/arm-nginx/samples/v3/typescript/src/operationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-nginx?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-nginx?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/nginx/arm-nginx/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

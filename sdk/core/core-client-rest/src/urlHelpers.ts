@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PathParameterWithOptions, RequestParameters } from "./common.js";
+import type { PathParameterWithOptions, RequestParameters } from "./common.js";
 
 type QueryParameterStyle = "form" | "spaceDelimited" | "pipeDelimited";
 
@@ -198,7 +198,7 @@ function buildRoutePath(
       value = encodeURIComponent(value);
     }
 
-    routePath = routePath.replace(/\{\w+\}/, String(value));
+    routePath = routePath.replace(/\{[\w-]+\}/, String(value));
   }
   return routePath;
 }

@@ -7,30 +7,30 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { AssociateTrafficFilterAssociateOptionalParams } from "../models";
+import { AssociateTrafficFilterAssociateOptionalParams } from "../models/index.js";
 
 /** Interface representing a AssociateTrafficFilter. */
 export interface AssociateTrafficFilter {
   /**
    * Associate traffic filter for the given deployment.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   beginAssociate(
     resourceGroupName: string,
     monitorName: string,
-    options?: AssociateTrafficFilterAssociateOptionalParams
+    options?: AssociateTrafficFilterAssociateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Associate traffic filter for the given deployment.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   beginAssociateAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: AssociateTrafficFilterAssociateOptionalParams
+    options?: AssociateTrafficFilterAssociateOptionalParams,
   ): Promise<void>;
 }

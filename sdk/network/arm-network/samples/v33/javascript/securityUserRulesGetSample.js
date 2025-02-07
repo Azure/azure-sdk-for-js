@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a security user rule.
  *
  * @summary Gets a security user rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerSecurityUserRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityUserRuleGet.json
  */
 async function getsASecurityUserRule() {
   const subscriptionId =

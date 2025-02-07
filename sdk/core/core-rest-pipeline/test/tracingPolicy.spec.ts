@@ -236,6 +236,58 @@ describe("tracingPolicy", function () {
     assert.exists(createdSpan);
   });
 
+  describe("HTTP status codes", () => {
+    const data = [
+      {
+        statusCode: 100,
+        expectedSpanStatus: undefined,
+      },
+      {
+        statusCode: 201,
+        expectedSpanStatus: undefined,
+      },
+      {
+        statusCode: 302,
+        expectedSpanStatus: undefined,
+      },
+      {
+        statusCode: 400,
+        expectedSpanStatus: "error",
+      },
+      {
+        statusCode: 500,
+        expectedSpanStatus: "error",
+      },
+    ];
+
+    for (const { statusCode, expectedSpanStatus } of data) {
+      it(`will set the span status to ${expectedSpanStatus} for a status code of ${statusCode}`, async () => {
+        const request = createPipelineRequest({
+          url: "https://bing.com",
+          tracingOptions: {
+            tracingContext: noopTracingContext,
+          },
+        });
+
+        const response = {
+          headers: createHttpHeaders(),
+          request: request,
+          status: statusCode,
+          bodyAsText: JSON.stringify({}),
+        };
+
+        const policy = tracingPolicy();
+        const next = vi.fn<SendRequest>();
+        next.mockResolvedValue(response);
+
+        await policy.sendRequest(request, next);
+        const createdSpan = activeInstrumenter.lastSpanCreated;
+        assert.exists(createdSpan);
+        assert.equal(createdSpan?.status?.status, expectedSpanStatus);
+      });
+    }
+  });
+
   describe("span errors", () => {
     it("will not fail the request when creating a span throws", async () => {
       vi.spyOn(activeInstrumenter, "startSpan").mockImplementation(() => {

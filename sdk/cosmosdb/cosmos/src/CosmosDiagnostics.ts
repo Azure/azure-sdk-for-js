@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationType, ResourceType } from "./common";
-import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
-import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
-import { ConsistencyLevel } from "./documents";
+import type { OperationType, ResourceType } from "./common";
+import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
+import type { ConsistencyLevel } from "./documents";
 
 /**
  *  * This is a Cosmos Diagnostic type that holds collected diagnostic information during a client operations. ie. Item.read(), Container.create().
@@ -165,6 +165,19 @@ export interface FailedRequestAttemptDiagnostic {
 }
 
 /**
+ * @hidden
+ * Represents the diagnostics information for encryption operations.
+ */
+export interface EncryptionDiagnostics {
+  /** shows start time, duration and properties count for encryption*/
+  encryptContent: { [key: string]: any };
+  /** shows start time, duration and properties count for decryption*/
+  decryptContent: { [key: string]: any };
+  /** represents total processing duration for encryption/decryption*/
+  processingDurationInMs: number;
+}
+
+/**
  * This is enum for Type of Metadata lookups possible.
  */
 export enum MetadataLookUpType {
@@ -211,6 +224,10 @@ export type ClientSideRequestStatistics = {
    * This is the cumulated Response Payload Length n bytes, this includes metadata calls along with the main operation.
    */
   totalResponsePayloadLengthInBytes: number;
+  /**
+   * This field captures diagnostic information for encryption/decryption happened during CRUD operation if encryption is enabled.
+   */
+  encryptionDiagnostics?: EncryptionDiagnostics;
 };
 
 export function getRootNode(node: DiagnosticNodeInternal): DiagnosticNodeInternal {

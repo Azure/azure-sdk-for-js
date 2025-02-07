@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import { OperationTracingOptions, useInstrumenter } from "@azure/core-tracing";
-import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
-
-import { MockInstrumenter } from "./mockInstrumenter";
-import { MockTracingSpan } from "./mockTracingSpan";
+import { SpanGraph, SpanGraphNode } from "./spanGraphModel.js";
+import { MockInstrumenter } from "./mockInstrumenter.js";
+import { MockTracingSpan } from "./mockTracingSpan.js";
 import { assert } from "chai";
 
 const instrumenter = new MockInstrumenter();

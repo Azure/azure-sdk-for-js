@@ -1,26 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  CreateTestSerializerOptions,
-  createTestSerializer,
-  registerTestSchema,
-} from "./utils/mockedSerializer";
-import { assert } from "@azure-tools/test-utils";
-import { createContentType, encoder, testGroup, testSchema, testValue } from "./utils/dummies";
-import { Context } from "mocha";
-import { MessageContent } from "../../src";
-import { createTestRegistry } from "./utils/mockedRegistryClient";
+import type { CreateTestSerializerOptions } from "./utils/mockedSerializer.js";
+import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer.js";
+import { createContentType, encoder, testGroup, testSchema, testValue } from "./utils/dummies.js";
+import type { MessageContent } from "../../src/index.js";
+import { createTestRegistry } from "./utils/mockedRegistryClient.js";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { SchemaRegistry } from "@azure/schema-registry";
+import type { SchemaRegistry } from "@azure/schema-registry";
+import { describe, it, assert, beforeEach } from "vitest";
 
-describe("JsonSchemaSerializer", async function () {
+describe("JsonSchemaSerializer", async () => {
   let serializerOptions: CreateTestSerializerOptions<any>;
   let recorder: Recorder;
   let registry: SchemaRegistry;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     serializerOptions = {
       serializerOptions: { groupName: testGroup },
@@ -112,13 +108,13 @@ describe("JsonSchemaSerializer", async function () {
   });
 
   /** TODO: unskip when we can access internal cache */
-  it.skip("cache size growth is bounded", async function (this: Context) {
+  it.skip("cache size growth is bounded", async (ctx) => {
     /**
      * This test is very expensive to run in live because it registers too many
      * schemas but the standard-tier resource allows for up to 25 schemas only
      */
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     function makeRndStr(length: number): string {
       let result = "";

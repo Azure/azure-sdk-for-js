@@ -1,18 +1,42 @@
 # Release History
 
+## 4.7.0 (2025-02-11)
+
+### Features Added
+
+- Added `subscription` property in `AzureCliCredentialOptions` [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
+
+### Bugs Fixed
+
+- Fixed the logic to return authority without the scheme and tenant ID [#31540](https://github.com/Azure/azure-sdk-for-js/pull/31540)
+- Fixed an issue where an incorrect tenant ID was presented in multi-tenant authentication errors [#32505](https://github.com/Azure/azure-sdk-for-js/pull/32505)
+- `ManagedIdentityCredential` now throws an error when attempting to pass a user-assigned Managed Identity in a ServiceFabric environment instead of silently ignoring it. [#32841](https://github.com/Azure/azure-sdk-for-js/pull/32841)
+
+### Other Changes
+
+- Mark `AzureAuthorityHosts.AZURE_GERMANY` deprecated as the Germany cloud closed in 2021. [#31519](https://github.com/Azure/azure-sdk-for-js/pull/31519)
+- Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31647](https://github.com/Azure/azure-sdk-for-js/pull/31647)
+
+
+## 4.6.0 (2025-01-16)
+
+### Other Changes
+
+- Update `@azure/msal-browser` to 4.x [#32565](https://github.com/Azure/azure-sdk-for-js/pull/32565)
+
 ## 4.5.0 (2024-10-15)
 
 ### Features Added
 
-- Added Proof-of-Possession via Signed HTTP Request (SHR) support to `AccessToken` and `GetTokenOptions` for native broker scenarios in `InteractiveBrowserCredential` to be used with plugin `@azure/identity-broker` #30961.
+- Added Proof-of-Possession via Signed HTTP Request (SHR) support to `AccessToken` and `GetTokenOptions` for native broker scenarios in `InteractiveBrowserCredential` to be used with plugin `@azure/identity-broker` [#30961](https://github.com/Azure/azure-sdk-for-js/pull/30961).
 
 ### Bugs Fixed
 
-- Fixed the request sent in AzurePipelinesCredential so it doesn't result in a redirect response when an invalid system access token is provided #31209.
+- Fixed the request sent in AzurePipelinesCredential so it doesn't result in a redirect response when an invalid system access token is provided [#31209](https://github.com/Azure/azure-sdk-for-js/pull/31209).
 
 ### Other Changes
 
-- Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message #31209.
+- Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message [#31209](https://github.com/Azure/azure-sdk-for-js/pull/31209)
 
 <!-- dev-tool snippets ignore -->
 
@@ -469,7 +493,7 @@ Identity v2 provides a top-level `useIdentityPlugin` function, which allows usin
   - If the `@azure/identity-vscode` plugin isn't used through the `useIdentityPlugin` function, the `VisualStudioCodeCredential` exposed by Identity v2 will throw a `CredentialUnavailableError`.
 - [@azure/identity-cache-persistence](https://www.npmjs.com/package/@azure/identity-cache-persistence), which provides persistent token caching.
 
-Most credentials on Identity v2 now support the persistent token caching feature. Such credentials include the property [tokenCachePersistenceOptions](https://docs.microsoft.com/javascript/api/@azure/identity/tokencachepersistenceoptions) in the constructor options which can be used to enable this feature.
+Most credentials on Identity v2 now support the persistent token caching feature. Such credentials include the property [tokenCachePersistenceOptions](https://learn.microsoft.com/javascript/api/@azure/identity/tokencachepersistenceoptions) in the constructor options which can be used to enable this feature.
 
 The following example showcases how to enable persistence caching by first enabling the `@azure/identity-cache-persistence` plugin with `useIdentityPlugin(cachePersistencePlugin)`, and then passing the `tokenCachePersistenceOptions` through the constructor of the `DeviceCodeCredential`:
 
@@ -505,7 +529,7 @@ Identity v2 enables:
 - Support for multi-tenant authentication on all credentials except `ManagedIdentityCredential`.
   - At the moment, applications needing multi-tenancy support will need to call to the credentials' `getToken` directly, sending the new `tenantId` property.
   - A sample with more context will be provided in a future date.
-  - To disable it, set the environment variable `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH`. For more about multitenancy, see [Identity management in multitenant apps](https://docs.microsoft.com/azure/architecture/multitenant-identity/).
+  - To disable it, set the environment variable `AZURE_IDENTITY_DISABLE_MULTITENANTAUTH`. For more about multitenancy, see [Identity management in multitenant apps](https://learn.microsoft.com/azure/architecture/multitenant-identity/).
 
 #### New features in InteractiveBrowserCredential and DeviceCodeCredential
 

@@ -23,7 +23,7 @@ In order to use Azure Active Directory to run the live tests, you will need to c
 
 ### Using an App Registration (Service Principal)
 
-- Follow [Documentation to register a new application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
+- Follow [Documentation to register a new application](https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
 - Note the Client ID and Tenant ID.
 - In the "Certificates & Secrets" tab, create a secret and note that down.
 - Ensure the following environment variables are set:
@@ -46,5 +46,3 @@ Once you are logged in, the `DefaultAzureCredential` will use the identity of th
   - This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Cognitive Services resource in the Azure portal)<br>_Doing this will allow anyone with your application or user's credentials and/or access token to utilize the endpoint resources._
 
 After configuring your account's permissions and setting up the authenticated environment, you should be able to run the live tests.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftextanalytics%2Fai-text-analytics%2Ftest%2FREADME.png)

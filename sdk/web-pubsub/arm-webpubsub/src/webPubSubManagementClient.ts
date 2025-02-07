@@ -26,7 +26,7 @@ import {
   WebPubSubReplicasImpl,
   WebPubSubReplicaSharedPrivateLinkResourcesImpl,
   WebPubSubSharedPrivateLinkResourcesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   WebPubSub,
@@ -39,8 +39,8 @@ import {
   WebPubSubReplicas,
   WebPubSubReplicaSharedPrivateLinkResources,
   WebPubSubSharedPrivateLinkResources,
-} from "./operationsInterfaces";
-import { WebPubSubManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { WebPubSubManagementClientOptionalParams } from "./models/index.js";
 
 export class WebPubSubManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -74,7 +74,7 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-webpubsub/1.2.0`;
+    const packageDetails = `azsdk-js-arm-webpubsub/1.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

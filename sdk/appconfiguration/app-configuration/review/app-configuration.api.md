@@ -4,13 +4,13 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { CompatResponse } from '@azure/core-http-compat';
-import { OperationOptions } from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { CompatResponse } from '@azure/core-http-compat';
+import type { OperationOptions } from '@azure/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { SimplePollerLike } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AddConfigurationSettingOptions extends OperationOptions {
@@ -47,6 +47,7 @@ export class AppConfigurationClient {
 
 // @public
 export interface AppConfigurationClientOptions extends CommonClientOptions {
+    apiVersion?: string;
 }
 
 // @public

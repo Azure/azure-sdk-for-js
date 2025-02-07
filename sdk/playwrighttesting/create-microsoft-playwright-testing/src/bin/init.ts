@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PlaywrightServiceInitConfig } from "../types.js";
+import type { PlaywrightServiceInitConfig } from "../types.js";
 import { PlaywrightServiceInitialize } from "../initialize.js";
 import {
   getLanguageAndConfigInfoFromConfigurationFile,

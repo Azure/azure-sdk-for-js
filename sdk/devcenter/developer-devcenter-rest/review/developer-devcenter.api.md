@@ -4,22 +4,20 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { CreateHttpPollerOptions } from '@azure/core-lro';
-import { ErrorModel } from '@azure-rest/core-client';
-import { ErrorResponse } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { Paged } from '@azure/core-paging';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { CreateHttpPollerOptions } from '@azure/core-lro';
+import type { ErrorModel } from '@azure-rest/core-client';
+import type { ErrorResponse } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export type AzureDeveloperDevCenterClient = Client & {
@@ -27,12 +25,17 @@ export type AzureDeveloperDevCenterClient = Client & {
 };
 
 // @public
+export interface AzureDeveloperDevCenterClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface CatalogOutput {
     readonly name: string;
 }
 
 // @public
-function createClient(endpointParam: string, credentials: TokenCredential, options?: ClientOptions): AzureDeveloperDevCenterClient;
+function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: AzureDeveloperDevCenterClientOptions): AzureDeveloperDevCenterClient;
 export default createClient;
 
 // @public
@@ -338,7 +341,7 @@ export interface DevBoxActionDelayResultOutput {
 }
 
 // @public
-export type DevBoxActionDelayResultStatusOutput = "Succeeded" | "Failed" | string;
+export type DevBoxActionDelayResultStatusOutput = string;
 
 // @public
 export interface DevBoxActionOutput {
@@ -350,7 +353,7 @@ export interface DevBoxActionOutput {
 }
 
 // @public
-export type DevBoxActionTypeOutput = "Stop" | string;
+export type DevBoxActionTypeOutput = string;
 
 // @public
 export interface DevBoxNextActionOutput {
@@ -379,10 +382,10 @@ export interface DevBoxOutput {
 }
 
 // @public
-export type DevBoxProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Deleting" | "Updating" | "Starting" | "Stopping" | "Provisioning" | "ProvisionedWithWarning" | "InGracePeriod" | "NotProvisioned" | string;
+export type DevBoxProvisioningState = string;
 
 // @public
-export type DevBoxProvisioningStateOutput = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Deleting" | "Updating" | "Starting" | "Stopping" | "Provisioning" | "ProvisionedWithWarning" | "InGracePeriod" | "NotProvisioned" | string;
+export type DevBoxProvisioningStateOutput = string;
 
 // @public
 export interface Environment {
@@ -429,13 +432,13 @@ export interface EnvironmentOutput {
 }
 
 // @public
-export type EnvironmentProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Accepted" | "Deleting" | "Updating" | "Preparing" | "Running" | "Syncing" | "MovingResources" | "TransientFailure" | "StorageProvisioningFailed" | string;
+export type EnvironmentProvisioningState = string;
 
 // @public
-export type EnvironmentProvisioningStateOutput = "Succeeded" | "Failed" | "Canceled" | "Creating" | "Accepted" | "Deleting" | "Updating" | "Preparing" | "Running" | "Syncing" | "MovingResources" | "TransientFailure" | "StorageProvisioningFailed" | string;
+export type EnvironmentProvisioningStateOutput = string;
 
 // @public
-export type EnvironmentTypeEnableStatusOutput = "Enabled" | "Disabled" | string;
+export type EnvironmentTypeEnableStatusOutput = string;
 
 // @public
 export interface EnvironmentTypeOutput {
@@ -656,7 +659,7 @@ export function getLongRunningPoller<TResult extends CreateOrReplaceEnvironmentL
 export function getLongRunningPoller<TResult extends DeleteEnvironmentLogicalResponse | DeleteEnvironmentDefaultResponse>(client: Client, initialResponse: DeleteEnvironment202Response | DeleteEnvironment204Response | DeleteEnvironmentDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -800,10 +803,10 @@ export interface HardwareProfileOutput {
 }
 
 // @public
-export type HibernateSupport = "Enabled" | "Disabled" | "OsUnsupported" | string;
+export type HibernateSupport = string;
 
 // @public
-export type HibernateSupportOutput = "Enabled" | "Disabled" | "OsUnsupported" | string;
+export type HibernateSupportOutput = string;
 
 // @public
 export interface ImageReference {
@@ -1321,13 +1324,13 @@ export interface ListSchedulesByPoolDefaultResponse extends HttpResponse {
 export type ListSchedulesByPoolParameters = RequestParameters;
 
 // @public
-export type LocalAdminStatus = "Enabled" | "Disabled" | string;
+export type LocalAdminStatus = string;
 
 // @public
-export type LocalAdminStatusOutput = "Enabled" | "Disabled" | string;
+export type LocalAdminStatusOutput = string;
 
 // @public
-export type OperationStateOutput = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+export type OperationStateOutput = string;
 
 // @public
 export interface OperationStatusOutput {
@@ -1352,40 +1355,82 @@ export interface OsDiskOutput {
 }
 
 // @public
-export type OsType = "Windows" | string;
+export type OsType = string;
 
 // @public
-export type OsTypeOutput = "Windows" | string;
+export type OsTypeOutput = string;
 
 // @public
-export type PagedCatalogOutput = Paged<CatalogOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export type PagedDevBoxActionDelayResultOutput = Paged<DevBoxActionDelayResultOutput>;
+export interface PagedCatalogOutput {
+    nextLink?: string;
+    value: Array<CatalogOutput>;
+}
 
 // @public
-export type PagedDevBoxActionOutput = Paged<DevBoxActionOutput>;
+export interface PagedDevBoxActionDelayResultOutput {
+    nextLink?: string;
+    value: Array<DevBoxActionDelayResultOutput>;
+}
 
 // @public
-export type PagedDevBoxOutput = Paged<DevBoxOutput>;
+export interface PagedDevBoxActionOutput {
+    nextLink?: string;
+    value: Array<DevBoxActionOutput>;
+}
 
 // @public
-export type PagedEnvironmentDefinitionOutput = Paged<EnvironmentDefinitionOutput>;
+export interface PagedDevBoxOutput {
+    nextLink?: string;
+    value: Array<DevBoxOutput>;
+}
 
 // @public
-export type PagedEnvironmentOutput = Paged<EnvironmentOutput>;
+export interface PagedEnvironmentDefinitionOutput {
+    nextLink?: string;
+    value: Array<EnvironmentDefinitionOutput>;
+}
 
 // @public
-export type PagedEnvironmentTypeOutput = Paged<EnvironmentTypeOutput>;
+export interface PagedEnvironmentOutput {
+    nextLink?: string;
+    value: Array<EnvironmentOutput>;
+}
 
 // @public
-export type PagedPoolOutput = Paged<PoolOutput>;
+export interface PagedEnvironmentTypeOutput {
+    nextLink?: string;
+    value: Array<EnvironmentTypeOutput>;
+}
 
 // @public
-export type PagedProjectOutput = Paged<ProjectOutput>;
+export interface PagedPoolOutput {
+    nextLink?: string;
+    value: Array<PoolOutput>;
+}
 
 // @public
-export type PagedScheduleOutput = Paged<ScheduleOutput>;
+export interface PagedProjectOutput {
+    nextLink?: string;
+    value: Array<ProjectOutput>;
+}
+
+// @public
+export interface PagedScheduleOutput {
+    nextLink?: string;
+    value: Array<ScheduleOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -1403,10 +1448,10 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
-export type ParameterTypeOutput = "array" | "boolean" | "integer" | "number" | "object" | "string" | string;
+export type ParameterTypeOutput = string;
 
 // @public
-export type PoolHealthStatusOutput = "Unknown" | "Pending" | "Healthy" | "Warning" | "Unhealthy" | string;
+export type PoolHealthStatusOutput = string;
 
 // @public
 export interface PoolOutput {
@@ -1423,10 +1468,10 @@ export interface PoolOutput {
 }
 
 // @public
-export type PowerState = "Unknown" | "Running" | "Deallocated" | "PoweredOff" | "Hibernated" | string;
+export type PowerState = string;
 
 // @public
-export type PowerStateOutput = "Unknown" | "Running" | "Deallocated" | "PoweredOff" | "Hibernated" | string;
+export type PowerStateOutput = string;
 
 // @public
 export interface ProjectOutput {
@@ -1521,10 +1566,10 @@ export interface Routes {
 }
 
 // @public
-export type ScheduledFrequencyOutput = "Daily" | string;
+export type ScheduledFrequencyOutput = string;
 
 // @public
-export type ScheduledTypeOutput = "StopDevBox" | string;
+export type ScheduledTypeOutput = string;
 
 // @public
 export interface ScheduleOutput {
@@ -1587,10 +1632,10 @@ export interface SkipActionDefaultResponse extends HttpResponse {
 export type SkipActionParameters = RequestParameters;
 
 // @public
-export type SkuName = "general_i_8c32gb256ssd_v2" | "general_i_8c32gb512ssd_v2" | "general_i_8c32gb1024ssd_v2" | "general_i_8c32gb2048ssd_v2" | "general_i_16c64gb256ssd_v2" | "general_i_16c64gb512ssd_v2" | "general_i_16c64gb1024ssd_v2" | "general_i_16c64gb2048ssd_v2" | "general_i_32c128gb512ssd_v2" | "general_i_32c128gb1024ssd_v2" | "general_i_32c128gb2048ssd_v2" | "general_a_8c32gb256ssd_v2" | "general_a_8c32gb512ssd_v2" | "general_a_8c32gb1024ssd_v2" | "general_a_8c32gb2048ssd_v2" | "general_a_16c64gb256ssd_v2" | "general_a_16c64gb512ssd_v2" | "general_a_16c64gb1024ssd_v2" | "general_a_16c64gb2048ssd_v2" | "general_a_32c128gb512ssd_v2" | "general_a_32c128gb1024ssd_v2" | "general_a_32c128gb2048ssd_v2" | string;
+export type SkuName = string;
 
 // @public
-export type SkuNameOutput = "general_i_8c32gb256ssd_v2" | "general_i_8c32gb512ssd_v2" | "general_i_8c32gb1024ssd_v2" | "general_i_8c32gb2048ssd_v2" | "general_i_16c64gb256ssd_v2" | "general_i_16c64gb512ssd_v2" | "general_i_16c64gb1024ssd_v2" | "general_i_16c64gb2048ssd_v2" | "general_i_32c128gb512ssd_v2" | "general_i_32c128gb1024ssd_v2" | "general_i_32c128gb2048ssd_v2" | "general_a_8c32gb256ssd_v2" | "general_a_8c32gb512ssd_v2" | "general_a_8c32gb1024ssd_v2" | "general_a_8c32gb2048ssd_v2" | "general_a_16c64gb256ssd_v2" | "general_a_16c64gb512ssd_v2" | "general_a_16c64gb1024ssd_v2" | "general_a_16c64gb2048ssd_v2" | "general_a_32c128gb512ssd_v2" | "general_a_32c128gb1024ssd_v2" | "general_a_32c128gb2048ssd_v2" | string;
+export type SkuNameOutput = string;
 
 // @public (undocumented)
 export interface StartDevBox {
@@ -1702,7 +1747,7 @@ export interface StopOnDisconnectConfigurationOutput {
 }
 
 // @public
-export type StopOnDisconnectEnableStatusOutput = "Enabled" | "Disabled" | string;
+export type StopOnDisconnectEnableStatusOutput = string;
 
 // @public
 export interface StorageProfile {

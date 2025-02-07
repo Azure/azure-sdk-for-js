@@ -56,7 +56,7 @@ node checkUpdateForAnOperationalizationCluster.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env  node checkUpdateForAnOperationalizationCluster.js
+npx dev-tool run vendored cross-env  node checkUpdateForAnOperationalizationCluster.js
 ```
 
 ## Next Steps
@@ -83,6 +83,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [patchoperationalizationcluster]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningcompute/arm-machinelearningcompute/samples/v3-beta/javascript/patchOperationalizationCluster.js
 [putoperationalizationcluster]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningcompute/arm-machinelearningcompute/samples/v3-beta/javascript/putOperationalizationCluster.js
 [updatesystemservicesinanoperationalizationcluster]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/machinelearningcompute/arm-machinelearningcompute/samples/v3-beta/javascript/updateSystemServicesInAnOperationalizationCluster.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-machinelearningcompute?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-machinelearningcompute?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/machinelearningcompute/arm-machinelearningcompute/README.md

@@ -1,4 +1,120 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
+
+## 1.0.0 (2024-12-16)
+
+### Features Added
+
+- Adds `streamToUint8Array`, a convenience function that buffers a `NodeJS.ReadableStream` in a `Uint8Array`. It can be used to read the pdf and png responses from the results of an analysis.
+
+  ```ts
+  import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
+  import { streamToUint8Array } from "@azure-rest/ai-document-intelligence";
+
+  const client = DocumentIntelligence("<DOCUMENT_INTELLIGENCE_ENDPOINT>", {
+    key: "<DOCUMENT_INTELLIGENCE_API_KEY>",
+  });
+
+  // Do analysis on you document and get the resultId, figureId
+
+  // Example for the figures api that provides an image output
+  const output = await client
+    .path(
+      "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
+      "prebuilt-layout",
+      resultId,
+      figureId,
+    )
+    .get()
+    .asNodeStream(); // output.body would be NodeJS.ReadableStream
+
+  if (output.status !== "200" || !output.body) {
+    throw new Error("The response was unexpected, expected NodeJS.ReadableStream in the body.");
+  }
+
+  const imageData = await streamToUint8Array(output.body);
+  fs.promises.writeFile(`./figures/${figureId}.png`, imageData); // Or you can consume the NodeJS.ReadableStream directly
+  ```
+
+- Adds `parseResultIdFromResponse`, a convenience function that extracts the `operationId` from the batch analysis response.
+
+  ```js
+  // Example
+  const initialResponse = await client
+    .path("/documentModels/{modelId}:analyzeBatch", "prebuilt-layout")
+    .post({
+      contentType: "application/json",
+      body: {
+        azureBlobSource: {
+          containerUrl: batchTrainingFilesContainerUrl(),
+        },
+        resultContainerUrl: batchTrainingFilesResultContainerUrl(),
+        resultPrefix: "result",
+      },
+    });
+
+  if (isUnexpected(initialResponse)) {
+    throw initialResponse.body.error;
+  }
+  const batchResultId = parseResultIdFromResponse(initialResponse);
+
+  const response = await client
+    .path(
+      "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
+      "prebuilt-layout",
+      batchResultId,
+    )
+    .get();
+  ```
+
+- Changes the following interfaces as follows:
+
+  - `AnalyzeBatchDocumentsBodyParam`:
+    - Updates `body` to be required.
+  - `AnalyzeBatchOperationOutput`:
+    - Adds `resultId`.
+  - `AnalyzeDocumentBodyParam`:
+    - Changes `body` from optional to required.
+  - `DocumentClassifierDetailsOutput`:
+    - Adds `modifiedDateTime`.
+  - `DocumentModelDetailsOutput`:
+    - Adds `modifiedDateTime`.
+
+- Introduces new interfaces to define query parameters for document analysis requests, allowing customizable `style` and `explode` options:
+  - **AnalyzeBatchDocumentsFeaturesQueryParam**: Accepts DocumentAnalysisFeature[] values.
+  - **AnalyzeBatchDocumentsOutputQueryParam**: Accepts AnalyzeOutputOption[] values.
+  - **AnalyzeBatchDocumentsQueryFieldsQueryParam**: Accepts string[] values.
+  - **AnalyzeDocumentFeaturesQueryParam**: Accepts DocumentAnalysisFeature[] values.
+  - **AnalyzeDocumentFromStreamFeaturesQueryParam**: Accepts DocumentAnalysisFeature[] values.
+
+### Breaking Changes
+
+- Removes the `poller.getOperationId()` for a given polling operation. Use `parseResultIdFromResponse` to extract the `operationId` directly.
+- `getLongRunningPoller` function is not async anymore, do not `await` on it.
+
+### Other Changes
+
+The following types are renamed
+
+- `CopyAuthorization` to `ModelCopyAuthorization`
+- `ErrorResponseOutput` to `DocumentIntelligenceErrorResponseOutput`
+- `ErrorModelOutput` to `DocumentIntelligenceErrorOutput`
+- `InnerErrorOutput` to `DocumentIntelligenceInnerErrorOutput`
+- `WarningOutput` to `DocumentIntelligenceWarningOutput`
+- `ContentFormat` to `DocumentContentFormat`
+- `ContentFormatOutput` to `DocumentContentFormatOutput`
+- `OperationDetailsOutputParent` to `DocumentIntelligenceOperationDetailsOutputParent`
+- `OperationDetailsOutput` to `DocumentIntelligenceOperationDetailsOutput`
+- `OperationStatusOutput` to `DocumentIntelligenceOperationStatusOutput`
+- `ResourceDetailsOutput` to `DocumentIntelligenceResourceDetailsOutput`
+- `PagedOperationDetailsOutput` to `PagedDocumentIntelligenceOperationDetailsOutput`
+- `GetResourceInfo` to `GetResourceDetails`
+- `AnalyzeResultOperationOutput` to `AnalyzeOperationOutput`
+- `FontWeightOutput` to `DocumentFontWeightOutput`
+- `FontStyleOutput` to `DocumentFontStyleOutput`
+- `DocumentOutput` to `AnalyzedDocumentOutput`
+- `CopyAuthorizationOutput` to `ModelCopyAuthorizationOutput`
 
 ## 1.0.0-beta.3 (2024-08-20)
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 22.1.1 (Unreleased)
+## 22.3.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,99 @@
 
 ### Other Changes
 
+## 22.3.0 (2025-01-09)
+    
+### Features Added
+
+  - Interface CloudServiceVaultCertificate has a new optional parameter isBootstrapCertificate
+    
+    
+## 22.2.0 (2024-12-11)
+    
+### Features Added
+
+  - Added operation group GalleryInVMAccessControlProfiles
+  - Added operation group GalleryInVMAccessControlProfileVersions
+  - Added operation group SoftDeletedResource
+  - Added Interface AccessControlRules
+  - Added Interface AccessControlRulesIdentity
+  - Added Interface AccessControlRulesPrivilege
+  - Added Interface AccessControlRulesRole
+  - Added Interface AccessControlRulesRoleAssignment
+  - Added Interface AdditionalReplicaSet
+  - Added Interface ExecutedValidation
+  - Added Interface GalleryIdentity
+  - Added Interface GalleryInVMAccessControlProfile
+  - Added Interface GalleryInVMAccessControlProfileList
+  - Added Interface GalleryInVMAccessControlProfileProperties
+  - Added Interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesDeleteHeaders
+  - Added Interface GalleryInVMAccessControlProfilesDeleteOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesGetOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesListByGalleryNextOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileUpdate
+  - Added Interface GalleryInVMAccessControlProfileVersion
+  - Added Interface GalleryInVMAccessControlProfileVersionList
+  - Added Interface GalleryInVMAccessControlProfileVersionProperties
+  - Added Interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsDeleteHeaders
+  - Added Interface GalleryInVMAccessControlProfileVersionsDeleteOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsGetOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionUpdate
+  - Added Interface GalleryResourceProfilePropertiesBase
+  - Added Interface GalleryResourceProfileVersionPropertiesBase
+  - Added Interface GallerySoftDeletedResource
+  - Added Interface GallerySoftDeletedResourceList
+  - Added Interface PlatformAttribute
+  - Added Interface SoftDeletedResourceListByArtifactNameNextOptionalParams
+  - Added Interface SoftDeletedResourceListByArtifactNameOptionalParams
+  - Added Interface ValidationsProfile
+  - Added Type Alias AccessControlRulesMode
+  - Added Type Alias EndpointAccess
+  - Added Type Alias EndpointTypes
+  - Added Type Alias GalleryApplicationScriptRebootBehavior
+  - Added Type Alias GalleryInVMAccessControlProfilesCreateOrUpdateResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesDeleteResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesGetResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesListByGalleryNextResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesListByGalleryResponse
+  - Added Type Alias GalleryInVMAccessControlProfilesUpdateResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsDeleteResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsGetResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse
+  - Added Type Alias GalleryInVMAccessControlProfileVersionsUpdateResponse
+  - Added Type Alias SoftDeletedArtifactTypes
+  - Added Type Alias SoftDeletedResourceListByArtifactNameNextResponse
+  - Added Type Alias SoftDeletedResourceListByArtifactNameResponse
+  - Added Type Alias ValidationStatus
+  - Interface Gallery has a new optional parameter identity
+  - Interface GalleryImage has a new optional parameter allowUpdateImage
+  - Interface GalleryImageFeature has a new optional parameter startsAtVersion
+  - Interface GalleryImageUpdate has a new optional parameter allowUpdateImage
+  - Interface GalleryImageVersion has a new optional parameter restore
+  - Interface GalleryImageVersion has a new optional parameter validationsProfile
+  - Interface GalleryImageVersionSafetyProfile has a new optional parameter blockDeletionBeforeEndOfLife
+  - Interface GalleryImageVersionUpdate has a new optional parameter restore
+  - Interface GalleryImageVersionUpdate has a new optional parameter validationsProfile
+  - Interface GalleryList has a new optional parameter securityProfile
+  - Interface GalleryUpdate has a new optional parameter identity
+  - Interface TargetRegion has a new optional parameter additionalReplicaSets
+  - Interface UserArtifactSettings has a new optional parameter scriptBehaviorAfterReboot
+  - Added Enum KnownAccessControlRulesMode
+  - Added Enum KnownEndpointAccess
+  - Added Enum KnownGalleryApplicationScriptRebootBehavior
+  - Added Enum KnownSoftDeletedArtifactTypes
+  - Added Enum KnownValidationStatus
+  - Enum KnownStorageAccountType has a new value PremiumV2LRS
+    
+    
 ## 22.1.0 (2024-08-12)
     
 ### Features Added
@@ -579,7 +672,7 @@
     
 ## 17.3.1 (2022-04-06)
 
-### Features Added
+**features**
 
   -  Bug fix
 

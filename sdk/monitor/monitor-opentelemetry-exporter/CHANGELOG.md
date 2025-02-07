@@ -1,13 +1,45 @@
 # Release History
 
+## 1.0.0-beta.29 ()
+
+### Features Added
+
+- Support the AMW de-duping flag in AKS auto-attach scenarios.
+
+### Other Changes
+
+- Removed faulty span exception exporting logic.
+
+## 1.0.0-beta.28 (2025-01-28)
+
+### Features Added
+
+- Added support for operation name on dependencies and logs.
+
+### Bugs Fixed
+
+- Fixed usage of environment variable to disable resource metric creation.
+
+### Other Changes
+
+- Fix setting statsbeat custom dimensions.
+- EAI_AGAIN REST errors are considered retriable.
+- Add 15 second warmup before export of long interval statsbeat.
+
+## 1.0.0-beta.27 (2024-10-23)
+
+### Other Changes
+
+- Update Statsbeat shutdown logic to include more status codes for shutdown.
+- Add non-essential statsbeat metrics.
+- Update logic for when to emit exceptions.
+
 ## 1.0.0-beta.26 (2024-09-13)
 
 ### Other Changes
 
 - Enforce property length limits on telemetry using truncation.
 - Updated OTel dependencies.
-- Update Statsbeat shutdown logic to include more status codes for shutdown.
-- Add non-essential statsbeat metrics.
 
 ## 1.0.0-beta.25 (2024-08-14)
 

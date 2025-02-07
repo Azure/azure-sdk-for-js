@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as dotenv from "dotenv";
 
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+import type { TokenCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { RecipientVerificationClient } from "../../../src";
+import { RecipientVerificationClient } from "../../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 
@@ -51,9 +51,9 @@ export const recorderOptions: RecorderStartOptions = {
 };
 
 export async function createRecordedClient(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<RecipientVerificationClient>> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: [
@@ -83,9 +83,9 @@ export function createMockToken(): {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<RecipientVerificationClient> | undefined> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
 
   let credential: TokenCredential;

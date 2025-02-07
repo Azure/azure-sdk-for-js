@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CommunicationIdentifier,
   CommunicationIdentifierKind,
   SerializedCommunicationIdentifier,
+} from "../../src/index.js";
+import {
   deserializeCommunicationIdentifier,
   serializeCommunicationIdentifier,
 } from "../../src/index.js";
