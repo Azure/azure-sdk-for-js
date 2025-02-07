@@ -25,7 +25,7 @@ import {
   ArtifactManifestUpdateState,
   ArtifactManifestsUpdateStateOptionalParams,
   ArtifactManifestsUpdateStateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ArtifactManifests. */
