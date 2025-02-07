@@ -5,7 +5,6 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, beforeEach, it, assert } from "vitest";
 import { createClient } from "../utils/createClient.js";
 import { APIVersion, withDeployments } from "../utils/utils.js";
-import { ttsModelsToSkip } from "../utils/models.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
 describe("Text to speech", function () {
@@ -14,7 +13,11 @@ describe("Text to speech", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        clientsAndDeployments = createClient(apiVersion, { audio: "true" });
+        clientsAndDeployments = createClient(
+          apiVersion,
+          { audio: "true" },
+          { modelsToSkip: [{ name: "whisper" }] },
+        );
       });
 
       describe("audio.speech.create", function () {
@@ -31,8 +34,6 @@ describe("Text to speech", function () {
               const buffer = await audio.arrayBuffer();
               assert.isNotNull(buffer);
             },
-            // Skip Whisper model for text to speech test because of server unexpected response error
-            ttsModelsToSkip,
           );
         });
       });

@@ -13,7 +13,6 @@ import {
 } from "../../utils/utils.js";
 import { assertAudioResult } from "../../utils/asserts.js";
 import type { AudioResultFormat } from "../../utils/audioTypes.js";
-import { o1ModelsToSkip } from "../../utils/models.js";
 import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
 
 describe("Whisper", function () {
@@ -41,7 +40,6 @@ describe("Whisper", function () {
               );
             },
             (audio) => assertAudioResult("json", audio),
-            o1ModelsToSkip,
           );
         });
       });
@@ -58,7 +56,6 @@ describe("Whisper", function () {
               );
             },
             (audio) => assertAudioResult("json", audio),
-            o1ModelsToSkip,
           );
         });
       });
@@ -85,7 +82,6 @@ describe("Whisper", function () {
                   );
                 },
                 (audio) => assertAudioResult(format, audio),
-                o1ModelsToSkip,
               );
             });
           });
@@ -106,7 +102,6 @@ describe("Whisper", function () {
                   );
                 },
                 (audio) => assertAudioResult(format, audio),
-                o1ModelsToSkip,
               );
             });
           });

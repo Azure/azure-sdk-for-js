@@ -47,15 +47,15 @@ export async function withDeployments<T>(
   const succeeded = [];
   assert.isNotEmpty(clientsAndDeployments, "No deployments found");
   let i = 0;
-  for (const { client, deployments: models } of clientsAndDeployments) {
-    for (const deployment of models) {
+  for (const { client, deployments } of clientsAndDeployments) {
+    for (const deployment of deployments) {
       try {
         logger.info(
-          `[${++i}/${count}] testing with deployment: ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
+          `[${++i}/${count}] testing with deployment: ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
         );
         if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
           logger.info(
-            `Skipping deployment ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
+            `Skipping deployment ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
           );
           continue;
         }
@@ -82,16 +82,16 @@ export async function withDeployments<T>(
           errorStr.includes("toolCalls") ||
           error.status === 404
         ) {
-          logger.info(`Handled error: ${errorStr}`);
+          logger.info("Handled error: ", error);
           continue;
         }
-        logger.info(`Error in deployment ${deployment.deploymentName}: ${errorStr}`);
-        errors.push(errorStr);
+        logger.info(`Error in deployment ${deployment.deploymentName}: `, error);
+        errors.push(e);
       }
     }
   }
   if (errors.length > 0) {
-    throw new Error(`Errors list: ${errors.join("\n")}`);
+    throw new AggregateError(errors);
   }
   assert.isNotEmpty(succeeded, "No deployments succeeded");
   logger.info(
@@ -105,15 +105,29 @@ export function filterDeployments(
     capabilities?: ModelCapabilities;
     sku?: Partial<Sku>;
     deploymentsToSkip?: string[];
+    modelsToSkip?: Partial<ModelInfo>[];
   },
 ): ResourceInfo[] {
   const filtered: ResourceInfo[] = [];
-  const { capabilities = {}, sku = {}, deploymentsToSkip = [] } = filters;
+  const { capabilities = {}, sku = {}, deploymentsToSkip = [], modelsToSkip = [] } = filters;
   const deploymentsToSkipSet = new Set(deploymentsToSkip);
+  const modelsAndVersionsToSkipSet = new Set();
+  const modelsToSkipSet = new Set();
+  for (const { name, version } of modelsToSkip) {
+    if (name && version) {
+      modelsAndVersionsToSkipSet.add(`${name}:${version}`);
+    } else if (name) {
+      modelsToSkipSet.add(name);
+    } else {
+      throw new Error("name must be defined");
+    }
+  }
   for (const { deployments, endpoint } of resourcesInfo) {
     const filteredDeployments = deployments.filter(
       (deployment) =>
         !deploymentsToSkipSet.has(deployment.deploymentName) &&
+        !modelsToSkipSet.has(deployment.model.name) &&
+        !modelsAndVersionsToSkipSet.has(`${deployment.model.name}:${deployment.model.version}`) &&
         (Object.keys(capabilities) as (keyof ModelCapabilities)[]).every(
           (key) =>
             capabilities[key] === undefined || deployment.capabilities[key] === capabilities[key],

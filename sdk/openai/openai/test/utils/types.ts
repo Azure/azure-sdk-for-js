@@ -58,4 +58,5 @@ export interface CreateClientOptions {
   clientOptions?: AzureClientOptions;
   sku?: Partial<Sku>;
   deploymentsToSkip?: string[];
+  modelsToSkip?: Partial<ModelInfo>[];
 }

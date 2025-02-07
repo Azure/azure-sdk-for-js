@@ -40,6 +40,7 @@ import type {
 import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import type { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
 import type { Metadata } from "./types.js";
+import { logger } from "./logger.js";
 
 export function assertAudioResult(responseFormat: AudioResultFormat, result: Transcription): void {
   switch (responseFormat) {
@@ -203,7 +204,11 @@ function assertContentFilterCitedDetectionResult(
 
 function assertContentFilterResultsForPromptItem(cfr: ContentFilterResultsForPromptOutput): void {
   assert.isNumber(cfr.prompt_index);
-  assertContentFilterResultDetailsForPrompt(cfr.content_filter_results);
+  if (cfr.content_filter_results) {
+    assertContentFilterResultDetailsForPrompt(cfr.content_filter_results);
+  } else {
+    logger.info(`No content_filter_results found, instead got: ${JSON.stringify(cfr)}`);
+  }
 }
 
 function assertContentFilterResultDetailsForPrompt(

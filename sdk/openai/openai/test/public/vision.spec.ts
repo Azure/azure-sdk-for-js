@@ -7,7 +7,6 @@ import { createClient } from "../utils/createClient.js";
 import { assertChatCompletions } from "../utils/asserts.js";
 import { APIMatrix, type APIVersion, withDeployments } from "../utils/utils.js";
 import { RestError } from "@azure/core-rest-pipeline";
-import { incompatibleAudioModels, o1ModelsToSkip, visionModelsToSkip } from "../utils/models.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 import { logger } from "../utils/logger.js";
 
@@ -17,7 +16,13 @@ describe("Vision", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        clientsAndDeployments = createClient(apiVersion, { chatCompletion: "true" });
+        clientsAndDeployments = createClient(
+          apiVersion,
+          { chatCompletion: "true" },
+          {
+            modelsToSkip: [{ name: "gpt-4o-audio-preview" }],
+          },
+        );
       });
 
       describe("chat.completions.create", function () {
@@ -63,7 +68,6 @@ describe("Vision", function () {
                 }
               }
             },
-            [...visionModelsToSkip, ...o1ModelsToSkip, ...incompatibleAudioModels],
           );
         });
       });

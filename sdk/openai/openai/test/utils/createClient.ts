@@ -15,7 +15,7 @@ export function createClient(
   capabilities: ModelCapabilities,
   options: CreateClientOptions = {},
 ): ClientsAndDeploymentsInfo {
-  const { clientOptions, sku, deploymentsToSkip } = options;
+  const { clientOptions, sku, deploymentsToSkip, modelsToSkip } = options;
   const { resourcesInfo } = getResourcesInfo();
   switch (apiVersion) {
     case APIVersion.Preview:
@@ -27,6 +27,7 @@ export function createClient(
         capabilities,
         sku,
         deploymentsToSkip,
+        modelsToSkip,
       }).map(({ deployments, endpoint }) => {
         count += deployments.length;
         return {

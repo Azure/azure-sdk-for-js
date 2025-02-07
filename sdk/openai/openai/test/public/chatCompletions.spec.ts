@@ -27,10 +27,8 @@ describe("Chat Completions", function () {
           apiVersion,
           { chatCompletion: "true" },
           {
-            deploymentsToSkip: [
-              "o1" /** It gets stuck and never returns */,
-              "gpt-4o-audio-preview" /** It doesn't support text chat completions */,
-            ],
+            deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
+            modelsToSkip: [{ name: "gpt-4o-audio-preview" }],
           },
         );
       });
