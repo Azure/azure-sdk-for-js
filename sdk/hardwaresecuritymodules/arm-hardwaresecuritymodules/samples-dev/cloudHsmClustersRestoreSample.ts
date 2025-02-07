@@ -8,9 +8,7 @@
 import type { RestoreRequestProperties } from "@azure/arm-hardwaresecuritymodules";
 import { AzureHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Restores all key materials of a specified Cloud HSM Cluster
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Restores all key materials of a specified Cloud HSM Cluster
  * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmCluster_RequestOrValidate_Restore_MaximumSet_Gen.json
  */
-async function cloudHsmClusterRestoreMaximumSetGen() {
+async function cloudHsmClusterRestoreMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function cloudHsmClusterRestoreMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await cloudHsmClusterRestoreMaximumSetGen();
 }
 

@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./clusterPools";
-export * from "./clusterPoolAvailableUpgrades";
-export * from "./clusterPoolUpgradeHistories";
-export * from "./clusters";
-export * from "./clusterAvailableUpgrades";
-export * from "./clusterUpgradeHistories";
-export * from "./clusterJobs";
-export * from "./locations";
-export * from "./operations";
-export * from "./availableClusterPoolVersions";
-export * from "./availableClusterVersions";
-export * from "./clusterLibraries";
+export * from "./clusterPools.js";
+export * from "./clusterPoolAvailableUpgrades.js";
+export * from "./clusterPoolUpgradeHistories.js";
+export * from "./clusters.js";
+export * from "./clusterAvailableUpgrades.js";
+export * from "./clusterUpgradeHistories.js";
+export * from "./clusterJobs.js";
+export * from "./locations.js";
+export * from "./operations.js";
+export * from "./availableClusterPoolVersions.js";
+export * from "./availableClusterVersions.js";
+export * from "./clusterLibraries.js";

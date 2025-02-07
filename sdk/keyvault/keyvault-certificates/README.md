@@ -664,5 +664,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [managed_identity]: https://learn.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
 [azure_identity]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest
 [composition-of-a-certificate]: https://learn.microsoft.com/azure/key-vault/certificates/about-certificates#composition-of-a-certificate
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-certificates%2FREADME.png)
