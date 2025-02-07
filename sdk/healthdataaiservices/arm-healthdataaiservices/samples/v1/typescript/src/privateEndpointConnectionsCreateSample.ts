@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a Private endpoint connection
  * x-ms-original-file: 2024-09-20/PrivateEndpointConnections_Create_MaximumSet_Gen.json
  */
-async function privateEndpointConnectionsCreateGeneratedByMaximumSetRuleStable() {
+async function privateEndpointConnectionsCreateGeneratedByMaximumSetRuleStable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F21BB31B-C214-42C0-ACF0-DACCA05D3011";
   const client = new HealthDataAIServicesClient(credential, subscriptionId);
@@ -32,7 +32,7 @@ async function privateEndpointConnectionsCreateGeneratedByMaximumSetRuleStable()
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionsCreateGeneratedByMaximumSetRuleStable();
 }
 

@@ -236,5 +236,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_communication-phone-numbers_readme]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-phone-numbers/README.md
 [handle_sms_events]: https://learn.microsoft.com/azure/communication-services/quickstarts/telephony-sms/handle-sms-events
 [next_steps]: https://learn.microsoft.com/azure/communication-services/quickstarts/telephony-sms/send?pivots=programming-language-javascript
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-sms%2FREADME.png)

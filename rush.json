@@ -578,8 +578,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/eventgrid-system-events",
-      "projectFolder": "sdk/eventgrid/eventgrid-system-events",
+      "packageName": "@azure/eventgrid-systemevents",
+      "projectFolder": "sdk/eventgrid/eventgrid-systemevents",
       "versionPolicyName": "client"
     },
     {

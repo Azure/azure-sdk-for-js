@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get a HealthBot.
  * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/ResourceInfoGet.json
  */
-async function resourceInfoGet() {
+async function resourceInfoGet(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "healthbotClient";
   const botName = "samplebotname";
