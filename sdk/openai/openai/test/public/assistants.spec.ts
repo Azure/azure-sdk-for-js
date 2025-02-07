@@ -36,6 +36,7 @@ describe("Assistants", () => {
               "gpt-4o-mini-2",
               "gpt-4o-mini-global-batch",
               "gpt-35-turbo",
+              "gpt-4-turbo",
             ],
           },
         );

@@ -41,7 +41,7 @@ export async function withDeployments<T>(
   { clientsAndDeployments, count }: ClientsAndDeploymentsInfo,
   run: (client: OpenAI, model: string) => Promise<T>,
   validate?: (result: T) => void,
-  modelsListToSkip?: ModelInfo[],
+  modelsListToSkip?: Partial<ModelInfo>[],
 ): Promise<void> {
   const errors = [];
   const succeeded = [];
@@ -129,6 +129,11 @@ export function filterDeployments(
 
   for (const { deployments, endpoint } of resourcesInfo) {
     const filteredDeployments = deployments.filter((deployment) => {
+      // Ignore all custom models, longest standard model name so far is gpt-4o-realtime-preview
+      if (deployment.model.name.length > 25) {
+        return false;
+      }
+
       if (seenModelNames.has(`${deployment.model.name}:${deployment.model.version}`)) {
         return false;
       }
@@ -175,9 +180,15 @@ export async function sendRequest(request: PipelineRequest): Promise<PipelineRes
   return pipeline.sendRequest(client, request);
 }
 
-function isModelInList(expectedModel: ModelInfo, modelsList: ModelInfo[]): boolean {
+function isModelInList(
+  expectedModel: Partial<ModelInfo>,
+  modelsList: Partial<ModelInfo>[],
+): boolean {
   for (const model of modelsList) {
-    if (expectedModel.name === model.name && expectedModel.version === model.version) {
+    if (
+      expectedModel.name === model.name &&
+      (!expectedModel.version || expectedModel.version === model.version)
+    ) {
       return true;
     }
   }
