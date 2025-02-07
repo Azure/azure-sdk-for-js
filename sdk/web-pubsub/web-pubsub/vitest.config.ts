@@ -10,6 +10,9 @@ export default mergeConfig(
     test: {
       hookTimeout: 500000,
       testTimeout: 500000,
+      typecheck: {
+        enabled: false,
+      },
     },
   }),
 );
