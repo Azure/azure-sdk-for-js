@@ -1,6 +1,6 @@
-# Azure ServiceNetworking client library for JavaScript
+# Azure ServiceNetworkingManagement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ServiceNetworking client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ServiceNetworkingManagement client.
 
 Traffic Controller Provider management API.
 
