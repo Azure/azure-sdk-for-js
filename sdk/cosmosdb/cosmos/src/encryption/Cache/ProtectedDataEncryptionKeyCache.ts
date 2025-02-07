@@ -81,7 +81,7 @@ export class ProtectedDataEncryptionKeyCache {
     forceRefresh?: boolean,
   ): Promise<ProtectedDataEncryptionKey> {
     if (this.cacheTimeToLive === 0 || forceRefresh) {
-      return await this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
+      return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
     }
     if (encryptedValue) {
       const key = JSON.stringify([
@@ -95,7 +95,7 @@ export class ProtectedDataEncryptionKeyCache {
         return protectedDataEncryptionKey;
       }
     }
-    return await this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
+    return this.createProtectedDataEncryptionKey(name, keyEncryptionKey, encryptedValue);
   }
 
   private generateColumnEncryptionKey(): Buffer {
