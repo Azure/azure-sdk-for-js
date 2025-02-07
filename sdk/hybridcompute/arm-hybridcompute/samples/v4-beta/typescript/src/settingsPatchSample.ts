@@ -13,9 +13,7 @@ import {
   HybridComputeManagementClient,
 } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the base Settings of the target resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update the base Settings of the target resource.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/settings/SettingsPatch.json
  */
-async function networkConfigurationsPatch() {
+async function networkConfigurationsPatch(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -50,7 +48,7 @@ async function networkConfigurationsPatch() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkConfigurationsPatch();
 }
 
