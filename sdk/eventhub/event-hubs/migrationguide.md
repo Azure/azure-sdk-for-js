@@ -370,5 +370,3 @@ More information about configuring and tuning retries can be found [here](https:
 ## Additional samples
 
 More examples can be found at [samples for @azure/event-hubs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples).
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2FMIGRATIONGUIDE.png)
