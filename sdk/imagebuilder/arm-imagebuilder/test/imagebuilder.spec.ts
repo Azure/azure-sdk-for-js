@@ -10,9 +10,7 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ImageBuilderClient } from "../src/imageBuilderClient.js";
-import { ComputeManagementClient } from "@azure/arm-compute";
-import { ManagedServiceIdentityClient } from "@azure/arm-msi";
-import { assert } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -37,15 +35,8 @@ describe("ImageBuilder test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ImageBuilderClient;
-  let compute_client: ComputeManagementClient;
-  let msi_client: ManagedServiceIdentityClient;
-  let location: string;
   let resourceGroup: string;
   let imageTemplateName: string;
-  let diskName: string;
-  let snapshotName: string;
-  let imagesName: string;
-  let msiName: string;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -58,30 +49,15 @@ describe("ImageBuilder test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    compute_client = new ComputeManagementClient(
-      credential,
-      subscriptionId,
-      recorder.configureClientOptions({}),
-    );
-    msi_client = new ManagedServiceIdentityClient(
-      credential,
-      subscriptionId,
-      recorder.configureClientOptions({}),
-    );
-    location = "eastus";
     resourceGroup = "myjstest";
     imageTemplateName = "myimageTemplatexxxz";
-    diskName = "mydiskaaa";
-    snapshotName = "mysnapshotaaa";
-    imagesName = "myimagesaaa";
-    msiName = "mymsiaaa";
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
 
-  it("operations list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
@@ -89,26 +65,12 @@ describe("ImageBuilder test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("create parameter for virtualMachineImageTemplates test", async function () {
-    // create a userAssignedIdentities
-    // create a disk
-    // create a snapshots
-    // create a images
-  });
-
-  it("virtualMachineImageTemplates create test", async function () {
-    if (isPlaybackMode()) {
-      ctx.skip();
-    }
-    // before create ,we need add msi owner authority for images in portal
-  }).timeout(3600000);
-
-  it("virtualMachineImageTemplates get test", async function () {
+  it("virtualMachineImageTemplates get test", async () => {
     const res = await client.virtualMachineImageTemplates.get(resourceGroup, imageTemplateName);
     assert.equal(res.name, imageTemplateName);
   });
 
-  it("virtualMachineImageTemplates list test", async function () {
+  it("virtualMachineImageTemplates list test", async () => {
     const resArray = new Array();
     for await (const item of client.virtualMachineImageTemplates.list()) {
       resArray.push(item);
@@ -116,13 +78,11 @@ describe("ImageBuilder test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("virtualMachineImageTemplates delete test", async function () {
+  it("virtualMachineImageTemplates delete test", async () => {
     const resArray = new Array();
     for await (const item of client.virtualMachineImageTemplates.list()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-
-  it("delete parameter for virtualMachineImageTemplates test", async function () {});
 });
