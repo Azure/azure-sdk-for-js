@@ -123,6 +123,7 @@ function isModelInList(expectedModel: ModelInfo, modelsList: ModelInfo[]): boole
   }
   return false;
 }
+
 async function listDeployments(
   subId: string,
   rgName: string,

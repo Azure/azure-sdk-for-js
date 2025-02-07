@@ -473,7 +473,7 @@ export function assertAssistantEquality(
   assert.equal(response.name, assistant.name);
   assert.equal(response.instructions, assistant.instructions);
   assert.equal(response.description, assistant.description);
-  assert.equal((response.metadata as Metadata).foo, "bar");
+  assert.equal((response.metadata as unknown as Metadata).foo, "bar");
   assert.isNotNull(response.tools[0]);
   const tools = assistant.tools || [];
   assert.equal(response.tools[0].type, tools[0].type);
