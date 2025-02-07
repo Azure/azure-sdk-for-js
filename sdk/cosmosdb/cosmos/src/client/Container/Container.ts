@@ -426,7 +426,7 @@ export class Container {
     } else {
       await withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
         const readResponse = await this.readInternal(diagnosticNode);
-        if (!readResponse.resource) {
+        if (!readResponse || !readResponse.resource) {
           throw new ErrorResponse(
             "Failed to initialize encryption: The container's resource definition could not be retrieved.",
           );
@@ -436,9 +436,13 @@ export class Container {
         const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
         if (!clientEncryptionPolicy) return;
         const partitionKeyPaths = readResponse.resource.partitionKey.paths;
-        const { resource: databaseDefinition } = await this.database.read();
-        this.database._rid = databaseDefinition._rid;
-
+        const databaseResponse = await this.database.readInternal(diagnosticNode);
+        if (!databaseResponse || !databaseResponse.resource) {
+          throw new ErrorResponse(
+            "Failed to initialize encryption: The database's resource definition could not be retrieved.",
+          );
+        }
+        this.database._rid = databaseResponse.resource._rid;
         const encryptionSettingKey = this.database._rid + "/" + this._rid;
 
         await this.encryptionManager.encryptionSettingsCache.create(
@@ -455,6 +459,11 @@ export class Container {
         // fetch and set clientEncryptionKeys in the cache
         for (const clientEncryptionKeyId of clientEncryptionKeyIds) {
           const res = await this.database.readClientEncryptionKey(clientEncryptionKeyId);
+          if (!res || !res.clientEncryptionKeyProperties) {
+            throw new ErrorResponse(
+              `Failed to initialize encryption: The client encryption key ${clientEncryptionKeyId} could not be retrieved.`,
+            );
+          }
           const encryptionKeyProperties = res.clientEncryptionKeyProperties;
           const key = this.database._rid + "/" + clientEncryptionKeyId;
 

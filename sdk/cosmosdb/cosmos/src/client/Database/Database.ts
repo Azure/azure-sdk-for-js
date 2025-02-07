@@ -3,7 +3,7 @@
 import type { ClientContext } from "../../ClientContext";
 import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
 import type { CosmosClient } from "../../CosmosClient";
-import type { RequestOptions } from "../../request";
+import { ErrorResponse, type RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
 import { User, Users } from "../User";
 import type { DatabaseDefinition } from "./DatabaseDefinition";
@@ -285,9 +285,16 @@ export class Database {
    */
   public async readClientEncryptionKey(id: string): Promise<ClientEncryptionKeyResponse> {
     if (id == null || !id.trim()) {
-      throw new Error("encryption key id cannot be null or empty");
+      throw new ErrorResponse("encryption key id cannot be null or empty");
     }
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      if (!this._rid) {
+        const databaseResponse = await this.readInternal(diagnosticNode);
+        if (!databaseResponse || !databaseResponse.resource) {
+          throw new ErrorResponse(`Error reading database with id ${id}`);
+        }
+        this._rid = databaseResponse.resource._rid;
+      }
       const path = getPathFromLink(this.url, ResourceType.clientencryptionkey);
       const resourceid = getIdFromLink(this.url);
       const response = await this.clientContext.read<ClientEncryptionKeyRequest>({
@@ -297,6 +304,9 @@ export class Database {
         options: { databaseRid: this._rid },
         diagnosticNode,
       });
+      if (!response || !response.result) {
+        throw new ErrorResponse(`Error reading client encryption key with id ${id}`);
+      }
       const ref: ClientEncryptionKeyProperties = {
         id: response.result.id,
         encryptionAlgorithm: response.result.encryptionAlgorithm,
@@ -324,16 +334,18 @@ export class Database {
     newKeyWrapMetadata: EncryptionKeyWrapMetadata,
   ): Promise<ClientEncryptionKeyResponse> {
     if (id == null || !id.trim()) {
-      throw new Error("encryption key id cannot be null or empty");
+      throw new ErrorResponse("encryption key id cannot be null or empty");
     }
     if (!newKeyWrapMetadata) {
-      throw new Error("encryptionKeyWrapMetadata cannot be null.");
+      throw new ErrorResponse("encryptionKeyWrapMetadata cannot be null.");
     }
     if (newKeyWrapMetadata.algorithm !== KeyEncryptionAlgorithm.RSA_OAEP) {
-      throw new Error(`Invalid key wrap algorithm '${newKeyWrapMetadata.algorithm}' passed.`);
+      throw new ErrorResponse(
+        `Invalid key wrap algorithm '${newKeyWrapMetadata.algorithm}' passed.`,
+      );
     }
     if (!this.clientContext.enableEncryption) {
-      throw new Error(
+      throw new ErrorResponse(
         "Creating a client encryption key requires the use of an encryption-enabled client.",
       );
     }
@@ -347,6 +359,9 @@ export class Database {
     }
 
     const res = await this.readClientEncryptionKey(id);
+    if (!res || !res.clientEncryptionKeyProperties) {
+      throw new ErrorResponse(`Error reading client encryption key with id ${id}`);
+    }
     let clientEncryptionKeyProperties = res.clientEncryptionKeyProperties;
 
     let keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreate(
@@ -357,6 +372,7 @@ export class Database {
     const unwrappedKey = await keyEncryptionKey.unwrapEncryptionKey(
       clientEncryptionKeyProperties.wrappedDataEncryptionKey,
     );
+
     keyEncryptionKey = this.encryptionManager.keyEncryptionKeyCache.getOrCreate(
       newKeyWrapMetadata.name,
       newKeyWrapMetadata.value,
@@ -390,6 +406,10 @@ export class Database {
         options,
         diagnosticNode,
       });
+
+      if (!response || !response.result) {
+        throw new ErrorResponse(`Error rewrapping client encryption key with id ${id}`);
+      }
 
       const ref: ClientEncryptionKeyProperties = {
         id: response.result.id,

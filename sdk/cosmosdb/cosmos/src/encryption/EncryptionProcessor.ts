@@ -327,6 +327,9 @@ export class EncryptionProcessor {
           resourceId: id,
           diagnosticNode,
         });
+        if (!response || !response.result) {
+          throw new ErrorResponse("Failed to fetch container definition");
+        }
         const containerRid = response.result._rid;
         const clientEncryptionPolicy = response.result.clientEncryptionPolicy;
         const partitionKeyPaths = response.result.partitionKey.paths;
@@ -414,6 +417,9 @@ export class EncryptionProcessor {
         options: options,
         diagnosticNode,
       });
+      if (!response) {
+        throw new ErrorResponse(`Failed to fetch client encryption key ${cekId}`);
+      }
       if (response.code === StatusCodes.NotModified) {
         throw new ErrorResponse(
           `The Client Encryption Key with key id: ${cekId} on database: ${this.database.id} needs to be rewrapped with a valid Key Encryption Key using rewrapClientEncryptionKey. The Key Encryption Key used to wrap the Client Encryption Key has been revoked`,

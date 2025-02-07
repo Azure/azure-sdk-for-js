@@ -165,6 +165,7 @@ export interface FailedRequestAttemptDiagnostic {
 }
 
 /**
+ * @hidden
  * Represents the diagnostics information for encryption operations.
  */
 export interface EncryptionDiagnostics {

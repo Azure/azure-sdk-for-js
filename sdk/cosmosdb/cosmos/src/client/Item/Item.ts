@@ -85,8 +85,8 @@ export class Item {
         this.container,
         this.partitionKey,
       );
-      let path = getPathFromLink(this.url);
-      let id = getIdFromLink(this.url);
+      let url = this.url;
+      let path, id;
 
       if (this.clientContext.enableEncryption) {
         if (!this.container.isEncryptionInitialized) {
@@ -96,10 +96,10 @@ export class Item {
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
-        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
-        path = getPathFromLink(url);
-        id = getIdFromLink(url);
+        url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
       }
+      path = getPathFromLink(url);
+      id = getIdFromLink(url);
 
       let response: Response<T & Resource>;
       try {
@@ -178,9 +178,8 @@ export class Item {
       if (!isItemResourceValid(body, err)) {
         throw err;
       }
-
-      let path = getPathFromLink(this.url);
-      let id = getIdFromLink(this.url);
+      let url = this.url;
+      let path, id;
 
       if (this.clientContext.enableEncryption) {
         // returns copy to avoid encryption of original body passed
@@ -194,10 +193,10 @@ export class Item {
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
-        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
-        path = getPathFromLink(url);
-        id = getIdFromLink(url);
+        url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
       }
+      path = getPathFromLink(url);
+      id = getIdFromLink(url);
       let response: Response<T & Resource>;
       try {
         response = await this.clientContext.replace<T>({
@@ -250,9 +249,8 @@ export class Item {
         this.container,
         this.partitionKey,
       );
-
-      let path = getPathFromLink(this.url);
-      let id = getIdFromLink(this.url);
+      let url = this.url;
+      let path, id;
 
       if (this.clientContext.enableEncryption) {
         if (!this.container.isEncryptionInitialized) {
@@ -262,10 +260,10 @@ export class Item {
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
-        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
-        path = getPathFromLink(url);
-        id = getIdFromLink(url);
+        url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
       }
+      path = getPathFromLink(url);
+      id = getIdFromLink(url);
       let response: Response<T & Resource>;
       try {
         response = await this.clientContext.delete<T>({
@@ -319,9 +317,8 @@ export class Item {
         this.container,
         this.partitionKey,
       );
-
-      let path = getPathFromLink(this.url);
-      let id = getIdFromLink(this.url);
+      let url = this.url;
+      let path, id;
 
       if (this.clientContext.enableEncryption) {
         if (!this.container.isEncryptionInitialized) {
@@ -363,10 +360,10 @@ export class Item {
         this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
           this.partitionKey,
         );
-        const url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
-        path = getPathFromLink(url);
-        id = getIdFromLink(url);
+        url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
       }
+      path = getPathFromLink(url);
+      id = getIdFromLink(url);
       let response: Response<T & Resource>;
       try {
         response = await this.clientContext.patch<T>({

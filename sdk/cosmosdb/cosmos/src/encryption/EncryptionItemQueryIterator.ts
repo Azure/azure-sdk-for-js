@@ -45,7 +45,6 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
     );
     try {
       response = yield* super.getAsyncIteratorInternal(diagnosticNode);
-      console.log(response.diagnostics);
     } catch (error) {
       await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
     }
@@ -68,7 +67,7 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
       } catch (error) {
         await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
       }
-      if (response.resources && response.resources.length > 0) {
+      if (response && response.resources && response.resources.length > 0) {
         for (let resource of response.resources) {
           resource = await this.container.encryptionProcessor.decrypt(resource, diagnosticNode);
         }

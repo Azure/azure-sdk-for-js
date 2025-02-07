@@ -36,6 +36,9 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
         keyVersion: keyVersion,
       });
       const res = await cryptographyClient.wrapKey(algorithm as KeyWrapAlgorithm, unwrappedKey);
+      if (!res || !res.result) {
+        throw new ErrorResponse(`Failed to wrap key: ${res}`);
+      }
       return Buffer.from(res.result);
     } catch (e) {
       throw new ErrorResponse(`Failed to wrap key: ${e.message}`);
@@ -61,6 +64,9 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
         keyVersion: keyVersion ? keyVersion : "",
       });
       const res = await cryptographyClient.unwrapKey(algorithm as KeyWrapAlgorithm, wrappedKey);
+      if (!res || !res.result) {
+        throw new ErrorResponse(`Failed to wrap key: ${res}`);
+      }
       return Buffer.from(res.result);
     } catch (e) {
       throw new ErrorResponse(`Failed to unwrap key: ${e.message}`);
