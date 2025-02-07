@@ -130,11 +130,9 @@ export function filterDeployments(
 
   for (const { deployments, endpoint } of resourcesInfo) {
     const filteredDeployments = deployments.filter((deployment) => {
-      // Skip duplicate model names
       if (seenModelNames.has(`${deployment.model.name}:${deployment.model.version}`)) {
         return false;
       }
-      // Check against other skip criteria:
       if (deploymentsToSkipSet.has(deployment.deploymentName)) {
         return false;
       }
@@ -144,7 +142,6 @@ export function filterDeployments(
       if (modelsAndVersionsToSkipSet.has(`${deployment.model.name}:${deployment.model.version}`)) {
         return false;
       }
-      // Check that deployment matches all capabilities if specified
       if (
         !(Object.keys(capabilities) as (keyof ModelCapabilities)[]).every(
           (key) =>
@@ -153,7 +150,6 @@ export function filterDeployments(
       ) {
         return false;
       }
-      // Check that deployment matches all sku filters if specified
       if (
         !(Object.keys(sku) as (keyof Sku)[]).every(
           (key) => sku[key] === undefined || deployment.sku[key] === sku[key],
@@ -162,7 +158,6 @@ export function filterDeployments(
         return false;
       }
 
-      // Mark this model as seen
       seenModelNames.add(`${deployment.model.name}:${deployment.model.version}`);
       return true;
     });
