@@ -111,8 +111,10 @@ export function filterDeployments(
   const filtered: ResourceInfo[] = [];
   const { capabilities = {}, sku = {}, deploymentsToSkip = [], modelsToSkip = [] } = filters;
   const deploymentsToSkipSet = new Set(deploymentsToSkip);
-  const modelsAndVersionsToSkipSet = new Set();
-  const modelsToSkipSet = new Set();
+  const modelsAndVersionsToSkipSet = new Set<string>();
+  const modelsToSkipSet = new Set<string>();
+
+  // Build sets of models (or model:version) to skip
   for (const { name, version } of modelsToSkip) {
     if (name && version) {
       modelsAndVersionsToSkipSet.add(`${name}:${version}`);
@@ -122,24 +124,54 @@ export function filterDeployments(
       throw new Error("name must be defined");
     }
   }
+
+  // Set to track duplicate model names
+  const seenModelNames = new Set<string>();
+
   for (const { deployments, endpoint } of resourcesInfo) {
-    const filteredDeployments = deployments.filter(
-      (deployment) =>
-        !deploymentsToSkipSet.has(deployment.deploymentName) &&
-        !modelsToSkipSet.has(deployment.model.name) &&
-        !modelsAndVersionsToSkipSet.has(`${deployment.model.name}:${deployment.model.version}`) &&
-        (Object.keys(capabilities) as (keyof ModelCapabilities)[]).every(
+    const filteredDeployments = deployments.filter((deployment) => {
+      // Skip duplicate model names
+      if (seenModelNames.has(`${deployment.model.name}:${deployment.model.version}`)) {
+        return false;
+      }
+      // Check against other skip criteria:
+      if (deploymentsToSkipSet.has(deployment.deploymentName)) {
+        return false;
+      }
+      if (modelsToSkipSet.has(deployment.model.name)) {
+        return false;
+      }
+      if (modelsAndVersionsToSkipSet.has(`${deployment.model.name}:${deployment.model.version}`)) {
+        return false;
+      }
+      // Check that deployment matches all capabilities if specified
+      if (
+        !(Object.keys(capabilities) as (keyof ModelCapabilities)[]).every(
           (key) =>
             capabilities[key] === undefined || deployment.capabilities[key] === capabilities[key],
-        ) &&
-        (Object.keys(sku) as (keyof Sku)[]).every(
+        )
+      ) {
+        return false;
+      }
+      // Check that deployment matches all sku filters if specified
+      if (
+        !(Object.keys(sku) as (keyof Sku)[]).every(
           (key) => sku[key] === undefined || deployment.sku[key] === sku[key],
-        ),
-    );
+        )
+      ) {
+        return false;
+      }
+
+      // Mark this model as seen
+      seenModelNames.add(`${deployment.model.name}:${deployment.model.version}`);
+      return true;
+    });
+
     if (filteredDeployments.length > 0) {
       filtered.push({ deployments: filteredDeployments, endpoint });
     }
   }
+
   return filtered;
 }
 
