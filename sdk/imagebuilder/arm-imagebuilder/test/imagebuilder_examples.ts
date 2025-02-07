@@ -13,10 +13,10 @@ import {
   RecorderStartOptions,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { ImageBuilderClient } from "../src/imageBuilderClient.js";
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { ManagedServiceIdentityClient } from "@azure/arm-msi";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -93,7 +93,6 @@ describe("ImageBuilder test", () => {
     if (isPlaybackMode()) {
       ctx.skip();
     }
-    const vmidentity = "/subscriptions/" + subscriptionId + "/resourcegroups/myjstest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mymsiaaa";
     //before create ,we need add msi owner authority for images in portal
   }).timeout(3600000);;
 
