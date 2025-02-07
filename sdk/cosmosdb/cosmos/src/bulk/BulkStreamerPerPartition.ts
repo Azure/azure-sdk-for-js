@@ -130,7 +130,6 @@ export class BulkStreamerPerPartition {
     }, this.congestionControlDelayInMs);
   }
 
-
   /**
    * Dispose the active timers after bulk is complete.
    */

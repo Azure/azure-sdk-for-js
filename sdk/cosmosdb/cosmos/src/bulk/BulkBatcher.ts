@@ -88,7 +88,6 @@ export class BulkBatcher {
     const startTime = getCurrentTimestampInMs();
     const diagnosticNode = new DiagnosticNodeInternal(
       this.diagnosticLevel,
-      // ASK: what type should this be?
       DiagnosticNodeType.BATCH_REQUEST,
       null,
     );

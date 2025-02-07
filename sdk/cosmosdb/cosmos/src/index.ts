@@ -24,7 +24,7 @@ export {
   DeleteOperationInput,
   PatchOperationInput,
   BulkPatchOperation,
-  BulkOperationResult
+  BulkOperationResult,
 } from "./utils/batch";
 export {
   PatchOperation,
@@ -138,4 +138,4 @@ export { SasTokenPermissionKind } from "./common/constants";
 export { createAuthorizationSasToken } from "./utils/SasToken";
 export { RestError } from "@azure/core-rest-pipeline";
 export { AbortError } from "@azure/abort-controller";
-export { BulkStreamer } from "./bulk/BulkStreamer";
+export { BulkStreamer, BulkOperations, ItemOperation } from "./bulk";

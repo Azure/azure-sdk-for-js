@@ -36,18 +36,22 @@ export type BulkOperationResponse = OperationResponse[] & {
 
 // @public
 export interface BulkOperationResult extends OperationResponse {
-    // (undocumented)
     activityId?: string;
-    // (undocumented)
     diagnostics?: CosmosDiagnostics;
-    // (undocumented)
-    operationInput?: OperationInput;
-    // (undocumented)
+    operationInput?: ItemOperation;
     retryAfter?: number;
-    // (undocumented)
     sessionToken?: string;
-    // (undocumented)
     subStatusCode?: number;
+}
+
+// @public
+export class BulkOperations {
+    static getCreateItemOperation(partitionKey: PartitionKey, resourceBody: JSONObject): ItemOperation;
+    static getDeleteItemOperation(id: string, partitionKey: PartitionKey): ItemOperation;
+    static getPatchItemOperation(id: string, partitionKey: PartitionKey, resourceBody: PatchRequestBody): ItemOperation;
+    static getReadItemOperation(id: string, partitionKey: PartitionKey): ItemOperation;
+    static getReplaceItemOperation(id: string, partitionKey: PartitionKey, resourceBody: JSONObject): ItemOperation;
+    static getUpsertItemOperation(partitionKey: PartitionKey, resourceBody: JSONObject): ItemOperation;
 }
 
 // @public (undocumented)
@@ -75,7 +79,7 @@ export type BulkPatchOperation = OperationBase & {
 // @public
 export class BulkStreamer {
     dispose(): void;
-    execute(operationInput: OperationInput[]): Promise<BulkOperationResult>[];
+    execute(operationInput: ItemOperation[]): Promise<BulkOperationResult>[];
 }
 
 // @public
@@ -1288,6 +1292,14 @@ export interface ItemDefinition {
     [key: string]: any;
     id?: string;
     ttl?: number;
+}
+
+// @public
+export interface ItemOperation {
+    id?: string;
+    operationType: string;
+    partitionKey: PartitionKey;
+    resourceBody?: JSONObject | PatchRequestBody;
 }
 
 // @public (undocumented)

@@ -16,7 +16,6 @@ export class ItemBulkOperationContext {
   diagnosticNode: DiagnosticNodeInternal;
   private readonly taskCompletionSource: TaskCompletionSource<BulkOperationResult>;
 
-
   constructor(pkRangeId: string, retryPolicy: RetryPolicy, diagnosticNode: DiagnosticNodeInternal) {
     this.pkRangeId = pkRangeId;
     this.retryPolicy = retryPolicy;

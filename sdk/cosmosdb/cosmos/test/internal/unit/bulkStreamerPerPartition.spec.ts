@@ -12,7 +12,7 @@ describe("BulkStreamerPerPartition", () => {
   const mockExecutor: ExecuteCallback = async () => {
     return {} as BulkResponse;
   };
-  const mockRetrier: RetryCallback = async () => { };
+  const mockRetrier: RetryCallback = async () => {};
   const limiter = new Limiter(50);
   let streamerPerPartition: BulkStreamerPerPartition;
 

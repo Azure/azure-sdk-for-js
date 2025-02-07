@@ -4,16 +4,12 @@
 import { readPartitionKeyDefinition } from "../client/ClientUtils";
 import type { Container } from "../client/Container";
 import type { ClientContext } from "../ClientContext";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
-import type {
-  BulkOperationResult,
-  Operation,
-  OperationInput,
-} from "../utils/batch";
-import { isKeyInRange, prepareOperations } from "../utils/batch";
+import type { BulkOperationResult, Operation } from "../utils/batch";
+import { isKeyInRange } from "../utils/batch";
 import { hashPartitionKey } from "../utils/hashing/hash";
 import { ResourceThrottleRetryPolicy } from "../retry";
 import { BulkStreamerPerPartition } from "./BulkStreamerPerPartition";
@@ -25,7 +21,8 @@ import { addDignosticChild, withDiagnostics } from "../utils/diagnostics";
 import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
 import type { RetryPolicy } from "../retry/RetryPolicy";
 import { Limiter } from "./Limiter";
-import type { PartitionKeyDefinition } from "../documents";
+import { convertToInternalPartitionKey, type PartitionKeyDefinition } from "../documents";
+import type { ItemOperation } from "./ItemOperation";
 
 /**
  * BulkStreamer for bulk operations in a container.
@@ -54,7 +51,6 @@ export class BulkStreamer {
     clientContext: ClientContext,
     partitionKeyRangeCache: PartitionKeyRangeCache,
     options: RequestOptions,
-
   ) {
     this.container = container;
     this.clientContext = clientContext;
@@ -70,12 +66,9 @@ export class BulkStreamer {
    * adds operation(s) to the streamer
    * @param operationInput - bulk operation or list of bulk operations
    */
-  execute(
-    operationInput: OperationInput[]
-  ): Promise<BulkOperationResult>[] {
-    return operationInput.map(operation => this.addOperation(operation));
+  execute(operationInput: ItemOperation[]): Promise<BulkOperationResult>[] {
+    return operationInput.map((operation) => this.addOperation(operation));
   }
-
 
   /**
    * dispose all the timers, streamers, and limiters
@@ -89,49 +82,63 @@ export class BulkStreamer {
     this.limitersByPartitionKeyRangeId.clear();
   }
 
-  private async addOperation(operation: OperationInput): Promise<BulkOperationResult> {
+  private async addOperation(operation: ItemOperation): Promise<BulkOperationResult> {
     if (!operation) {
       throw new ErrorResponse("Operation is required.");
     }
-    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      if (!this.partitionKeyDefinition) {
-        if (!this.partitionKeyDefinitionPromise) {
-          this.partitionKeyDefinitionPromise = (async () => {
-            try {
-              const partitionKeyDefinition = await readPartitionKeyDefinition(diagnosticNode, this.container);
-              this.partitionKeyDefinition = partitionKeyDefinition;
-              return partitionKeyDefinition;
-            } finally {
-              this.partitionKeyDefinitionPromise = null;
-            }
-          })();
+    return withDiagnostics(
+      async (diagnosticNode: DiagnosticNodeInternal) => {
+        if (!this.partitionKeyDefinition) {
+          if (!this.partitionKeyDefinitionPromise) {
+            this.partitionKeyDefinitionPromise = (async () => {
+              try {
+                const partitionKeyDefinition = await readPartitionKeyDefinition(
+                  diagnosticNode,
+                  this.container,
+                );
+                this.partitionKeyDefinition = partitionKeyDefinition;
+                return partitionKeyDefinition;
+              } finally {
+                this.partitionKeyDefinitionPromise = null;
+              }
+            })();
+          }
+          await this.partitionKeyDefinitionPromise;
         }
-        await this.partitionKeyDefinitionPromise;
-      }
-      const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
-      const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
-      // TODO: change implementation to add just retry context instead of retry policy in operation context
-      const retryPolicy = this.getRetryPolicy();
-      const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy, diagnosticNode);
-      const itemOperation: ItemBulkOperation = {
-        operationInput: operation,
-        operationContext: context,
-      };
-      streamerForPartition.add(itemOperation);
-      return context.operationPromise;
-    }, this.clientContext, DiagnosticNodeType.CLIENT_REQUEST_NODE);
+        const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(
+          operation,
+          diagnosticNode,
+        );
+        const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
+        // TODO: change implementation to add just retry context instead of retry policy in operation context
+        const retryPolicy = this.getRetryPolicy();
+        const context = new ItemBulkOperationContext(
+          partitionKeyRangeId,
+          retryPolicy,
+          diagnosticNode,
+        );
+        const itemOperation: ItemBulkOperation = {
+          operationInput: operation,
+          operationContext: context,
+        };
+        streamerForPartition.add(itemOperation);
+        return context.operationPromise;
+      },
+      this.clientContext,
+      DiagnosticNodeType.CLIENT_REQUEST_NODE,
+    );
   }
 
-  private async resolvePartitionKeyRangeId(operation: OperationInput, diagnosticNode: DiagnosticNodeInternal): Promise<string> {
+  private async resolvePartitionKeyRangeId(
+    operation: ItemOperation,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<string> {
     try {
       const partitionKeyRanges = (
-        await this.partitionKeyRangeCache.onCollectionRoutingMap(
-          this.container.url,
-          diagnosticNode,
-        )
+        await this.partitionKeyRangeCache.onCollectionRoutingMap(this.container.url, diagnosticNode)
       ).getOrderedParitionKeyRanges();
 
-      const { partitionKey } = prepareOperations(operation, this.partitionKeyDefinition, this.options);
+      const partitionKey = convertToInternalPartitionKey(operation.partitionKey);
 
       const hashedKey = hashPartitionKey(partitionKey, this.partitionKeyDefinition);
 
@@ -168,11 +175,8 @@ export class BulkStreamer {
     const limiter = this.getLimiterForPKRange(pkRangeId);
     const path = getPathFromLink(this.container.url, ResourceType.item);
     const requestBody: Operation[] = [];
-    const partitionDefinition = await readPartitionKeyDefinition(diagnosticNode, this.container);
     for (const itemBulkOperation of operations) {
-      const operationInput = itemBulkOperation.operationInput;
-      const { operation } = prepareOperations(operationInput, partitionDefinition, options);
-      requestBody.push(operation);
+      requestBody.push(this.prepareOperation(itemBulkOperation.operationInput));
     }
     return new Promise<BulkResponse>((resolve, _reject) => {
       limiter.take(async () => {
@@ -211,8 +215,22 @@ export class BulkStreamer {
     });
   }
 
-  private async reBatchOperation(operation: ItemBulkOperation, diagnosticNode: DiagnosticNodeInternal): Promise<void> {
-    const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation.operationInput, diagnosticNode);
+  private prepareOperation(operationInput: ItemOperation): Operation {
+    operationInput.partitionKey = convertToInternalPartitionKey(operationInput.partitionKey);
+    return {
+      ...operationInput,
+      partitionKey: JSON.stringify(operationInput.partitionKey),
+    } as Operation;
+  }
+
+  private async reBatchOperation(
+    operation: ItemBulkOperation,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<void> {
+    const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(
+      operation.operationInput,
+      diagnosticNode,
+    );
     operation.operationContext.updatePKRangeId(partitionKeyRangeId);
     const streamer = this.getStreamerForPKRange(partitionKeyRangeId);
     streamer.add(operation);
@@ -224,7 +242,7 @@ export class BulkStreamer {
       limiter = new Limiter(Constants.BulkMaxDegreeOfConcurrency);
       // starting with degree of concurrency as 1
       for (let i = 1; i < Constants.BulkMaxDegreeOfConcurrency; ++i) {
-        limiter.take(() => { });
+        limiter.take(() => {});
       }
       this.limitersByPartitionKeyRangeId.set(pkRangeId, limiter);
     }

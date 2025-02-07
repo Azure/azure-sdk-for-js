@@ -46,17 +46,13 @@ export class BulkCongestionAlgorithm {
 
       this.oldPartitionMetric.add(changeItemsCount, elapsedTimeInMs, diffThrottle);
       // if the number of throttles increased, decrease the degree of concurrency.
-      // console.log(`diffThrottle: ${diffThrottle}, changeItemsCount: ${changeItemsCount}, currentDegreeOfConcurrency: ${this.currentDegreeOfConcurrency}, limiter.current(): ${this.limiter.current()}`);
       if (diffThrottle > 0) {
-        // console.log(`decreaseConcurrency`);
         this.decreaseConcurrency();
       }
       // if there's no throttling and the number of items processed increased, increase the degree of concurrency.
       if (changeItemsCount > 0 && diffThrottle === 0) {
-        // console.log(`increaseConcurrency`);
         this.increaseConcurrency();
       }
-      // console.log(`currentDegreeOfConcurrency: ${this.currentDegreeOfConcurrency}, limiter.current(): ${this.limiter.current()}`);
     }
   }
 
@@ -68,7 +64,7 @@ export class BulkCongestionAlgorithm {
     );
     // block permits
     for (let i = 0; i < decreaseCount; i++) {
-      this.limiter.take(() => { });
+      this.limiter.take(() => {});
     }
 
     this.currentDegreeOfConcurrency -= decreaseCount;
