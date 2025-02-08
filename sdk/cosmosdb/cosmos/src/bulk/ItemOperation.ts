@@ -14,13 +14,13 @@ export interface ItemOperation {
    */
   operationType: string;
   /**
-   * The ID of the resource.
-   */
-  id?: string;
-  /**
    * The partition key associated with the resource.
    */
   partitionKey: PartitionKey;
+  /**
+   * The ID of the resource.
+   */
+  id?: string;
   /**
    * The resource body.
    */

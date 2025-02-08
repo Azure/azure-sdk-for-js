@@ -9,12 +9,12 @@ import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
 import type { BulkOperationResult, Operation } from "../utils/batch";
-import { isKeyInRange } from "../utils/batch";
+import { BulkOperationType, isKeyInRange } from "../utils/batch";
 import { hashPartitionKey } from "../utils/hashing/hash";
 import { ResourceThrottleRetryPolicy } from "../retry";
 import { BulkStreamerPerPartition } from "./BulkStreamerPerPartition";
 import { ItemBulkOperationContext } from "./ItemBulkOperationContext";
-import { Constants, getPathFromLink, ResourceType } from "../common";
+import { Constants, copyObject, getPathFromLink, ResourceType } from "../common";
 import { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
 import { addDignosticChild, withDiagnostics } from "../utils/diagnostics";
@@ -23,6 +23,7 @@ import type { RetryPolicy } from "../retry/RetryPolicy";
 import { Limiter } from "./Limiter";
 import { convertToInternalPartitionKey, type PartitionKeyDefinition } from "../documents";
 import type { ItemOperation } from "./ItemOperation";
+import type { PatchOperation } from "../utils/patch";
 
 /**
  * BulkStreamer for bulk operations in a container.
@@ -42,6 +43,7 @@ export class BulkStreamer {
   private options: RequestOptions;
   private partitionKeyDefinition: PartitionKeyDefinition;
   private partitionKeyDefinitionPromise: Promise<PartitionKeyDefinition>;
+  private isCancelled: boolean;
 
   /**
    * @internal
@@ -60,6 +62,7 @@ export class BulkStreamer {
     this.options = options;
     this.executeRequest = this.executeRequest.bind(this);
     this.reBatchOperation = this.reBatchOperation.bind(this);
+    this.isCancelled = false;
   }
 
   /**
@@ -67,6 +70,9 @@ export class BulkStreamer {
    * @param operationInput - bulk operation or list of bulk operations
    */
   execute(operationInput: ItemOperation[]): Promise<BulkOperationResult>[] {
+    if (this.isCancelled) {
+      throw new ErrorResponse("Bulk execution cancelled due to a previous error.");
+    }
     return operationInput.map((operation) => this.addOperation(operation));
   }
 
@@ -83,6 +89,9 @@ export class BulkStreamer {
   }
 
   private async addOperation(operation: ItemOperation): Promise<BulkOperationResult> {
+    if (this.isCancelled) {
+      throw new ErrorResponse("Bulk execution cancelled due to a previous error.");
+    }
     if (!operation) {
       throw new ErrorResponse("Operation is required.");
     }
@@ -105,6 +114,16 @@ export class BulkStreamer {
           }
           await this.partitionKeyDefinitionPromise;
         }
+        const plainTextOperation = copyObject(operation);
+        // encrypt operations if encryption is enabled
+        if (this.clientContext.enableEncryption) {
+          operation = copyObject(operation);
+          if (!this.container.isEncryptionInitialized) {
+            await this.container.initializeEncryption();
+          }
+          this.options.containerRid = this.container._rid;
+          operation = await this.encryptionHelper(operation, diagnosticNode);
+        }
         const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(
           operation,
           diagnosticNode,
@@ -118,6 +137,7 @@ export class BulkStreamer {
           diagnosticNode,
         );
         const itemOperation: ItemBulkOperation = {
+          plainTextOperationInput: plainTextOperation,
           operationInput: operation,
           operationContext: context,
         };
@@ -127,6 +147,50 @@ export class BulkStreamer {
       this.clientContext,
       DiagnosticNodeType.CLIENT_REQUEST_NODE,
     );
+  }
+
+  private async encryptionHelper(
+    operation: ItemOperation,
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<ItemOperation> {
+    const partitionKeyInternal = convertToInternalPartitionKey(operation.partitionKey);
+    operation.partitionKey =
+      await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+    switch (operation.operationType) {
+      case BulkOperationType.Create:
+      case BulkOperationType.Upsert:
+        operation.resourceBody = await this.container.encryptionProcessor.encrypt(
+          operation.resourceBody,
+          diagnosticNode,
+        );
+        break;
+      case BulkOperationType.Read:
+      case BulkOperationType.Delete:
+        operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+        break;
+      case BulkOperationType.Replace:
+        operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+        operation.resourceBody = await this.container.encryptionProcessor.encrypt(
+          operation.resourceBody,
+          diagnosticNode,
+        );
+        break;
+      case BulkOperationType.Patch: {
+        operation.id = await this.container.encryptionProcessor.getEncryptedId(operation.id);
+        const body = operation.resourceBody;
+        const patchRequestBody = (Array.isArray(body) ? body : body.operations) as PatchOperation[];
+        for (const patchOperation of patchRequestBody) {
+          if ("value" in patchOperation) {
+            patchOperation.value = await this.container.encryptionProcessor.encryptProperty(
+              patchOperation.path,
+              patchOperation.value,
+            );
+          }
+        }
+        break;
+      }
+    }
+    return operation;
   }
 
   private async resolvePartitionKeyRangeId(
@@ -170,6 +234,9 @@ export class BulkStreamer {
     options: RequestOptions,
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<BulkResponse> {
+    if (this.isCancelled) {
+      throw new ErrorResponse("Bulk execution cancelled due to a previous error.");
+    }
     if (!operations.length) return;
     const pkRangeId = operations[0].operationContext.pkRangeId;
     const limiter = this.getLimiterForPKRange(pkRangeId);
@@ -178,7 +245,7 @@ export class BulkStreamer {
     for (const itemBulkOperation of operations) {
       requestBody.push(this.prepareOperation(itemBulkOperation.operationInput));
     }
-    return new Promise<BulkResponse>((resolve, _reject) => {
+    return new Promise<BulkResponse>((resolve, reject) => {
       limiter.take(async () => {
         try {
           // Check if any split/merge has happened on other batches belonging to same partition.
@@ -204,9 +271,16 @@ export class BulkStreamer {
             diagnosticNode,
             DiagnosticNodeType.BATCH_REQUEST,
           );
-
           resolve(BulkResponse.fromResponseMessage(response, operations, this.clientContext));
         } catch (error) {
+          if (this.clientContext.enableEncryption) {
+            try {
+              await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
+            } catch (err) {
+              this.cancelExecution();
+              return reject(err);
+            }
+          }
           resolve(BulkResponse.fromResponseMessage(error, operations, this.clientContext));
         } finally {
           limiter.leave();
@@ -249,6 +323,11 @@ export class BulkStreamer {
     return limiter;
   }
 
+  private cancelExecution(): void {
+    this.isCancelled = true;
+    this.dispose();
+  }
+
   private getStreamerForPKRange(pkRangeId: string): BulkStreamerPerPartition {
     if (this.streamersByPartitionKeyRangeId.has(pkRangeId)) {
       return this.streamersByPartitionKeyRangeId.get(pkRangeId);
@@ -260,6 +339,8 @@ export class BulkStreamer {
       limiter,
       this.options,
       this.clientContext.diagnosticLevel,
+      this.clientContext.enableEncryption,
+      this.container.encryptionProcessor,
     );
     this.streamersByPartitionKeyRangeId.set(pkRangeId, newStreamer);
     return newStreamer;

@@ -10,6 +10,8 @@ import type { ItemOperation } from "./ItemOperation";
  */
 
 export interface ItemBulkOperation {
+  // stores unenecrypted operationInput to avoid decryption of operationInput in bulk response.
+  plainTextOperationInput: ItemOperation;
   operationInput: ItemOperation;
   operationContext: ItemBulkOperationContext;
 }

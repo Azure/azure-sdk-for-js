@@ -105,7 +105,7 @@ export class BulkResponse {
           sessionToken: responseMessage.headers?.[Constants.HttpHeaders.SessionToken],
           requestCharge: itemResponse?.requestCharge,
           resourceBody: itemResponse?.resourceBody,
-          operationInput: operations[i].operationInput,
+          operationInput: operations[i].plainTextOperationInput,
           diagnostics: operations[i].operationContext.diagnosticNode.toDiagnostic(
             clientContext.getClientConfig(),
           ),
@@ -154,7 +154,7 @@ export class BulkResponse {
         sessionToken: this.headers?.[Constants.HttpHeaders.SessionToken],
         requestCharge: this.headers?.[Constants.HttpHeaders.RequestCharge],
         resourceBody: undefined,
-        operationInput: operation.operationInput,
+        operationInput: operation.plainTextOperationInput,
         diagnostics: clientContext
           ? operation.operationContext.diagnosticNode.toDiagnostic(clientContext.getClientConfig())
           : undefined,

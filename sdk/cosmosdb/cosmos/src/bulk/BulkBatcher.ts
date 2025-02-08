@@ -13,6 +13,7 @@ import type { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { getCurrentTimestampInMs } from "../utils/time";
 import type { Limiter } from "./Limiter";
 import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
+import type { EncryptionProcessor } from "../encryption/EncryptionProcessor";
 
 /**
  * Maintains a batch of operations and dispatches it as a unit of work.
@@ -28,6 +29,8 @@ export class BulkBatcher {
   private readonly retrier: RetryCallback;
   private readonly options: RequestOptions;
   private readonly diagnosticLevel: CosmosDbDiagnosticLevel;
+  private readonly encryptionEnabled: boolean;
+  private readonly encryptionProcessor: EncryptionProcessor;
 
   constructor(
     private limiter: Limiter,
@@ -35,12 +38,16 @@ export class BulkBatcher {
     retrier: RetryCallback,
     options: RequestOptions,
     diagnosticLevel: CosmosDbDiagnosticLevel,
+    encryptionEnabled: boolean,
+    encryptionProcessor: EncryptionProcessor,
   ) {
     this.batchOperationsList = [];
     this.executor = executor;
     this.retrier = retrier;
     this.options = options;
     this.diagnosticLevel = diagnosticLevel;
+    this.encryptionEnabled = encryptionEnabled;
+    this.encryptionProcessor = encryptionProcessor;
     this.currentSize = 0;
     this.toBeDispatched = false;
   }
@@ -141,6 +148,17 @@ export class BulkBatcher {
           }
         }
         operation.operationContext.addDiagnosticChild(diagnosticNode);
+        if (this.encryptionEnabled) {
+          operation.operationContext.diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+          bulkOperationResult.resourceBody = await this.encryptionProcessor.decrypt(
+            bulkOperationResult.resourceBody,
+          );
+          operation.operationContext.diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+        }
         operation.operationContext.complete(bulkOperationResult);
       }
     } catch (error) {

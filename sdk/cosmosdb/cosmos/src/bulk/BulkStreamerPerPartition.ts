@@ -11,6 +11,7 @@ import { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm";
 import type { Limiter } from "./Limiter";
 import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
+import type { EncryptionProcessor } from "../encryption";
 
 /**
  * Handles operation queueing and dispatching. Fills batches efficiently and maintains a timer for early dispatching in case of partially-filled batches and to optimize for throughput.
@@ -31,10 +32,12 @@ export class BulkStreamerPerPartition {
 
   private readonly oldPartitionMetric: BulkPartitionMetric;
   private readonly partitionMetric: BulkPartitionMetric;
-  private congestionControlAlgorithm: BulkCongestionAlgorithm;
+  private readonly congestionControlAlgorithm: BulkCongestionAlgorithm;
   private congestionControlTimer: NodeJS.Timeout;
-  private congestionControlDelayInMs: number = 100;
-  private diagnosticLevel: CosmosDbDiagnosticLevel;
+  private readonly congestionControlDelayInMs: number = 100;
+  private readonly diagnosticLevel: CosmosDbDiagnosticLevel;
+  private readonly encryptionEnabled: boolean;
+  private readonly encryptionProcessor: EncryptionProcessor;
 
   constructor(
     executor: ExecuteCallback,
@@ -42,12 +45,16 @@ export class BulkStreamerPerPartition {
     limiter: Limiter,
     options: RequestOptions,
     diagnosticLevel: CosmosDbDiagnosticLevel,
+    encryptionEnabled: boolean,
+    encryptionProcessor: EncryptionProcessor,
   ) {
     this.executor = executor;
     this.retrier = retrier;
     this.limiterSemaphore = limiter;
     this.options = options;
     this.diagnosticLevel = diagnosticLevel;
+    this.encryptionEnabled = encryptionEnabled;
+    this.encryptionProcessor = encryptionProcessor;
     this.oldPartitionMetric = new BulkPartitionMetric();
     this.partitionMetric = new BulkPartitionMetric();
     this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
@@ -102,6 +109,8 @@ export class BulkStreamerPerPartition {
       this.retrier,
       this.options,
       this.diagnosticLevel,
+      this.encryptionEnabled,
+      this.encryptionProcessor,
     );
   }
 

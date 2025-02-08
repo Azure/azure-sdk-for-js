@@ -23,6 +23,8 @@ describe("BulkStreamerPerPartition", () => {
       limiter,
       {},
       CosmosDbDiagnosticLevel.info,
+      false,
+      undefined,
     );
   });
   afterEach(() => {
