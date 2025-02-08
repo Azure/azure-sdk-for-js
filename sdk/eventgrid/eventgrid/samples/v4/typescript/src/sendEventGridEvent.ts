@@ -6,11 +6,9 @@
  */
 
 import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
-import * as dotenv from "dotenv";
+import "dotenv/config";
 
 // Load the .env file if it exists
-dotenv.config();
-
 // The URL of the endpoint of the Event Grid topic.
 const endpoint = process.env["EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT"] || "";
 

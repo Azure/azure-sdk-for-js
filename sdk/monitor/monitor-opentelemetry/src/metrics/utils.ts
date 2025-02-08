@@ -154,6 +154,7 @@ export function isTraceTelemetry(logRecord: LogRecord): boolean {
 }
 
 export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const userAgent = String(record.attributes[SEMATTRS_HTTP_USER_AGENT]);
   return userAgent !== null && userAgent.includes("AlwaysOn") ? true : false;
 }

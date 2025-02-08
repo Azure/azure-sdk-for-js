@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->"
+
 # Release History
 
 ## 2.0.0 (Unreleased)

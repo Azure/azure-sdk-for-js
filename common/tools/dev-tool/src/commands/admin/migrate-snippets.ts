@@ -11,6 +11,7 @@ import { existsSync } from "node:fs";
 import { run } from "../../util/run";
 import { isWindows } from "../../util/platform";
 import vendored from "../run/vendored";
+import { Project, SourceFile } from "ts-morph";
 
 const log = createPrinter("migrate-source");
 
@@ -84,15 +85,53 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
   await upgradePackageJson(resolve(projectFolder, "package.json"));
   await updateReadme(resolve(projectFolder, "README.md"));
   await addSnippetFiles(projectFolder);
-  if (!(await runCleanup())) {
+  await cleanupCode(projectFolder);
+  if (!(await runCleanup(projectFolder))) {
     return false;
   }
 
   return true;
 });
 
-async function runCleanup(): Promise<boolean> {
-  const lintCommand = await vendored(
+async function cleanupCode(projectFolder: string): Promise<void> {
+  const project = new Project({ tsConfigFilePath: resolve(projectFolder, "tsconfig.json") });
+  for (const sourceFile of project.getSourceFiles()) {
+    if (!sourceFile.getFilePath().endsWith(".spec.ts")) {
+      continue;
+    }
+
+    fixLegacyStatements(sourceFile);
+
+    // Clean up source file after applying the codemod
+    if (!sourceFile.getBaseName().includes("snippets.spec.ts")) {
+      sourceFile.fixUnusedIdentifiers();
+    }
+
+    await sourceFile.save();
+  }
+}
+
+function fixLegacyStatements(sourceFile: SourceFile): void {
+  for (const statement of sourceFile.getStatements()) {
+    const patternsToReplace = [
+      { pattern: /it\("([^"]+)", async function \(\) \{/g, replace: 'it("$1", async () => {' },
+      { pattern: /it\("([^"]+)", function \(\) \{/g, replace: 'it("$1", () => {' },
+    ];
+
+    // Replace the patterns in the source file
+    for (const { pattern, replace } of patternsToReplace) {
+      if (pattern.test(statement.getText())) {
+        statement.replaceWithText(statement.getText().replace(pattern, replace));
+      }
+    }
+  }
+}
+
+async function runCleanup(projectFolder: string): Promise<boolean> {
+  const samplesDevPath = resolve(projectFolder, "samples-dev");
+  const hasSamplesDev = existsSync(samplesDevPath);
+
+  const lintCommandArgs = [
     "eslint",
     "--no-inline-config",
     "--rule",
@@ -101,28 +140,47 @@ async function runCleanup(): Promise<boolean> {
     "@typescript-eslint/explicit-function-return-type: error",
     "--rule",
     "@azure/azure-sdk/github-source-headers: off",
+    "--rule",
+    "@azure/azure-sdk/ts-package-json-name: off",
     "*.json",
-    "samples-dev",
     "test",
     "--fix",
-  );
+  ];
+
+  if (hasSamplesDev) {
+    const testIndex = lintCommandArgs.indexOf("test");
+    if (testIndex !== -1) {
+      lintCommandArgs.splice(testIndex + 1, 0, "samples-dev");
+    }
+  }
+
+  const lintCommand = await vendored(...lintCommandArgs);
 
   if (!lintCommand) {
     return false;
   }
 
-  const prettierCommand = await vendored(
+  const prettierCommandArgs = [
     "prettier",
     "--write",
     "--config",
     "../../../.prettierrc.json",
     "--ignore-path",
     "../../../.prettierignore",
-    "samples-dev/**/*.ts",
     "test/**/*.ts",
     "*.json",
     "*.ts",
-  );
+  ];
+
+  if (hasSamplesDev) {
+    const testIndex = prettierCommandArgs.indexOf("test/**/*.ts");
+    if (testIndex !== -1) {
+      prettierCommandArgs.splice(testIndex + 1, 0, "samples-dev/**/*.ts");
+    }
+  }
+
+  const prettierCommand = await vendored(...prettierCommandArgs);
+
   if (!prettierCommand) {
     return false;
   }

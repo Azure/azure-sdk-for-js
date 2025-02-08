@@ -3,17 +3,18 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
-import { type OpenAI, type AzureOpenAI, toFile } from "openai";
-import { createClient } from "../utils/createClient.js";
-import { APIVersion } from "../utils/utils.js";
+import { type OpenAI, toFile } from "openai";
+import { createClientsAndDeployments } from "../../utils/createClients.js";
+import { APIVersion } from "../../utils/utils.js";
 
-describe("OpenAIAssistants", () => {
+describe("Assistants", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let client: AzureOpenAI | OpenAI;
+      let client: OpenAI;
 
       beforeEach(async function () {
-        client = createClient(apiVersion, "vision");
+        client = createClientsAndDeployments(apiVersion, { assistants: "true" })
+          .clientsAndDeployments[0].client;
       });
 
       describe("all CRUD APIs", function () {

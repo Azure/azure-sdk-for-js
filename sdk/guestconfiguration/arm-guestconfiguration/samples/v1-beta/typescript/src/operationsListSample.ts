@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the available GuestConfiguration REST API operations.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all of the available GuestConfiguration REST API operations.
  * x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/listOperations.json
  */
-async function listsAllOfTheAvailableGuestConfigurationRestApiOperations() {
+async function listsAllOfTheAvailableGuestConfigurationRestApiOperations(): Promise<void> {
   const subscriptionId =
     process.env["GUESTCONFIGURATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function listsAllOfTheAvailableGuestConfigurationRestApiOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsAllOfTheAvailableGuestConfigurationRestApiOperations();
 }
 

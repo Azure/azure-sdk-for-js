@@ -1,6 +1,8 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
-## 6.0.0-beta.1 (Unreleased)
+## 6.0.0-beta.1 (2025-02-11)
 
 ### Features Added
 
@@ -9,10 +11,6 @@
 ### Breaking Changes
 
 - `offset` type is updated from `number` to `string`.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 5.12.2 (2024-10-11)
 

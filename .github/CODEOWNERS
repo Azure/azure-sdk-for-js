@@ -132,9 +132,9 @@
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/ @sarangan12
+/sdk/eventgrid/ @jeremymeng
 
-# AzureSdkOwners: @sarangan12
+# AzureSdkOwners: @jeremymeng
 # ServiceLabel: %Event Grid
 # ServiceOwners: @robece
 
@@ -255,6 +255,12 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %AI Model Inference
 # ServiceOwners: @glharper @dargilco
+
+# PRLLabel: %AI Projects
+sdk/ai/ai-projects @ganeshyb @GraceBrigham
+
+# ServiceLabel: %AI Projects
+# ServiceOwners: @ganeshyb @GraceBrigham
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
@@ -642,6 +648,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/links/arm-links/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/locks/arm-locks/ @qiaozha @MaryGao
@@ -1252,7 +1261,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @madhurinms
 
 # ServiceLabel: %KeyVault %Service Attention
-#/<NotInRepo>/          @RandalliLama @schaabs @jlichwa
+#/<NotInRepo>/          @cheathamb36 @chen-karen @lgonsoulin @vickm
 
 # ServiceLabel: %Kubernetes Configuration %Service Attention
 #/<NotInRepo>/          @NarayanThiru

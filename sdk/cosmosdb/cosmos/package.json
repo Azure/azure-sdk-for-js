@@ -23,7 +23,10 @@
     "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
     "./dist-esm/src/utils/digest.js": "./dist-esm/src/utils/digest.browser.js",
     "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
-    "./dist-esm/src/utils/envUtils.js": "./dist-esm/src/utils/envUtils.browser.js"
+    "./dist-esm/src/utils/envUtils.js": "./dist-esm/src/utils/envUtils.browser.js",
+    "./dist-esm/src/encryption/Cache/ProtectedDataEncryptionKeyCache.js": "./dist-esm/src/encryption/Cache/ProtectedDataEncryptionKeyCache.browser.js",
+    "./dist-esm/src/encryption/EncryptionKey/DataEncryptionKey.js": "./dist-esm/src/encryption/EncryptionKey/DataEncryptionKey.browser.js",
+    "./dist-esm/src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm.js": "./dist-esm/src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm.browser.js"
   },
   "files": [
     "changelog.md",
@@ -93,7 +96,8 @@
     "jsbi": "^4.3.0",
     "priorityqueuejs": "^2.0.0",
     "semaphore": "^1.1.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "@azure/keyvault-keys": "^4.8.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -115,7 +119,7 @@
     "eslint": "^9.9.0",
     "execa": "^5.0.0",
     "mocha": "^11.0.2",
-    "nock": "^14.0.0",
+    "nock": "^13.5.4",
     "requirejs": "^2.3.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
@@ -143,7 +147,8 @@
       "ChangeFeedIteratorAllVersionsAndDeletes.ts",
       "Diagnostics.ts",
       "HierarchicalPartitioning.ts",
-      "FullTextSearch.ts"
+      "FullTextSearch.ts",
+      "ClientSideEncryption.ts"
     ],
     "productName": "Azure Cosmos DB",
     "productSlugs": [

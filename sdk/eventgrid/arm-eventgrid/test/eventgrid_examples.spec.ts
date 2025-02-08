@@ -6,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { EventGridManagementClient } from "../src/eventGridManagementClient.js";
+import type { TokenCredential } from "@azure/identity";
 import { DefaultAzureCredential } from "@azure/identity";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -35,7 +32,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-export function createTestCredential() {
+export function createTestCredential(): TokenCredential {
   return isPlaybackMode() ? new NoOpCredential() : new DefaultAzureCredential();
 }
 
@@ -73,7 +70,7 @@ describe("Eventgrid test", () => {
     await recorder.stop();
   });
 
-  it("topics create test", async function () {
+  it("topics create test", async () => {
     const res = await client.topics.beginCreateOrUpdateAndWait(
       resourceGroupName,
       topicName,
@@ -83,15 +80,15 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, topicName);
   });
 
-  it("topics listByResourceGroup test", async function () {
+  it("topics listByResourceGroup test", async () => {
     const resArray = new Array();
-    for await (let item of client.topics.listByResourceGroup(resourceGroupName)) {
+    for await (const item of client.topics.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("domains create test", async function () {
+  it("domains create test", async () => {
     const res = await client.domains.beginCreateOrUpdateAndWait(
       resourceGroupName,
       domainName,
@@ -101,7 +98,7 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, domainName);
   });
 
-  it("domains update test", async function () {
+  it("domains update test", async () => {
     await client.domains.beginUpdateAndWait(
       resourceGroupName,
       domainName,
@@ -113,23 +110,23 @@ describe("Eventgrid test", () => {
       },
       testPollingOptions,
     );
-    //It's void response
+    // It's void response
   });
 
-  it("domains get test", async function () {
+  it("domains get test", async () => {
     const res = await client.domains.get(resourceGroupName, domainName);
     assert.equal(res.name, domainName);
   });
 
-  it("domains listByResourceGroup test", async function () {
+  it("domains listByResourceGroup test", async () => {
     const resArray = new Array();
-    for await (let item of client.domains.listByResourceGroup(resourceGroupName)) {
+    for await (const item of client.domains.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("domaintopics create test", async function () {
+  it("domaintopics create test", async () => {
     const res = await client.topics.beginCreateOrUpdateAndWait(
       resourceGroupName,
       domaintopicName,
@@ -139,8 +136,8 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, domaintopicName);
   });
 
-  it("domainTopicEventSubscriptions create test", async function () {
-    //before test this case please create an eventhub namespace "czweventhub" and an eventhub "czweh"
+  it("domainTopicEventSubscriptions create test", async () => {
+    // before test this case please create an eventhub namespace "czweventhub" and an eventhub "czweh"
     const res = await client.domainTopicEventSubscriptions.beginCreateOrUpdateAndWait(
       resourceGroupName,
       domainName,
@@ -170,9 +167,9 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, eventSubscriptionName);
   });
 
-  it("domainTopicEventSubscriptions listByResourceGroup test", async function () {
+  it("domainTopicEventSubscriptions listByResourceGroup test", async () => {
     const resArray = new Array();
-    for await (let item of client.domainTopicEventSubscriptions.list(
+    for await (const item of client.domainTopicEventSubscriptions.list(
       resourceGroupName,
       domainName,
       domaintopicName,
@@ -183,7 +180,7 @@ describe("Eventgrid test", () => {
     console.log("********************************");
   });
 
-  it("domainTopicEventSubscriptions get test", async function () {
+  it("domainTopicEventSubscriptions get test", async () => {
     const res = await client.domainTopicEventSubscriptions.get(
       resourceGroupName,
       domainName,
@@ -193,7 +190,7 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, eventSubscriptionName);
   });
 
-  it("domainTopicEventSubscriptions update test", async function () {
+  it("domainTopicEventSubscriptions update test", async () => {
     const res = await client.domainTopicEventSubscriptions.beginUpdateAndWait(
       resourceGroupName,
       domainName,
@@ -219,7 +216,7 @@ describe("Eventgrid test", () => {
     assert.equal(res.name, eventSubscriptionName);
   });
 
-  it("domainTopicEventSubscriptions delete test", async function () {
+  it("domainTopicEventSubscriptions delete test", async () => {
     await client.domainTopicEventSubscriptions.beginDeleteAndWait(
       resourceGroupName,
       domainName,
@@ -228,7 +225,7 @@ describe("Eventgrid test", () => {
       testPollingOptions,
     );
     const resArray = new Array();
-    for await (let item of client.domainTopicEventSubscriptions.list(
+    for await (const item of client.domainTopicEventSubscriptions.list(
       resourceGroupName,
       domainName,
       topicName,
@@ -238,7 +235,7 @@ describe("Eventgrid test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("domaintopics delete test", async function () {
+  it("domaintopics delete test", async () => {
     await client.domainTopics.beginDeleteAndWait(
       resourceGroupName,
       domainName,
@@ -246,38 +243,26 @@ describe("Eventgrid test", () => {
       testPollingOptions,
     );
     const resArray = new Array();
-    for await (let item of client.domainTopics.listByDomain(resourceGroupName, domainName)) {
+    for await (const item of client.domainTopics.listByDomain(resourceGroupName, domainName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("topics delete test", async function () {
-    await client.topics.beginDeleteAndWait(
-      resourceGroupName,
-      topicName,
-      testPollingOptions,
-    );
-    await client.topics.beginDeleteAndWait(
-      resourceGroupName,
-      domaintopicName,
-      testPollingOptions,
-    ); // when create a domaintopic, it will create a topic with the same name, so we also need to delete that resource to make test pass.
+  it("topics delete test", async () => {
+    await client.topics.beginDeleteAndWait(resourceGroupName, topicName, testPollingOptions);
+    await client.topics.beginDeleteAndWait(resourceGroupName, domaintopicName, testPollingOptions); // when create a domaintopic, it will create a topic with the same name, so we also need to delete that resource to make test pass.
     const resArray = new Array();
-    for await (let item of client.topics.listByResourceGroup(resourceGroupName)) {
+    for await (const item of client.topics.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("domains delete test", async function () {
-    await client.domains.beginDeleteAndWait(
-      resourceGroupName,
-      domainName,
-      testPollingOptions,
-    );
+  it("domains delete test", async () => {
+    await client.domains.beginDeleteAndWait(resourceGroupName, domainName, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.domains.listByResourceGroup(resourceGroupName)) {
+    for await (const item of client.domains.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

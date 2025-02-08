@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary (INTERNAL - DO NOT USE) Creates or updates the specified private endpoint connection proxy resource associated with the device update account.
  * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_CreateOrUpdate.json
  */
-async function privateEndpointConnectionProxyCreateOrUpdate() {
+async function privateEndpointConnectionProxyCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEUPDATE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -61,7 +61,7 @@ async function privateEndpointConnectionProxyCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionProxyCreateOrUpdate();
 }
 
