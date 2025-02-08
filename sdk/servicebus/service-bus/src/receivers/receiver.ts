@@ -33,7 +33,6 @@ import {
   deadLetterMessage,
   deferMessage,
   getMessageIterator,
-  getSessions,
 } from "./receiverCommon.js";
 import type Long from "long";
 import type { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage.js";
@@ -46,12 +45,6 @@ import { ensureValidIdentifier } from "../util/utils.js";
 import { toSpanOptions, tracingClient } from "../diagnostics/tracing.js";
 import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage.js";
 import type { TracingSpanLink } from "@azure/core-tracing";
-import {
-  getPagedAsyncIterator,
-  type PagedAsyncIterableIterator,
-  type PagedResult,
-} from "@azure/core-paging";
-import { OperationOptions } from "@azure/core-client";
 
 /**
  * The default time to wait for messages _after_ the first message
@@ -305,15 +298,6 @@ export interface ServiceBusReceiver {
    * @throws ServiceBusError if the service returns an error while renewing message lock.
    */
   renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date>;
-
-  /**
-   * Returns an async iterable iterator to list all the sessions in a messaging entity.
-   *
-   * .byPage() returns an async iterable iterator to list the session id's in pages.
-   *
-   * @returns An asyncIterableIterator that supports paging.
-   */
-  listSessions(options?: OperationOptions): PagedAsyncIterableIterator<string>;
 }
 
 /**
@@ -736,44 +720,6 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         ),
       },
     );
-  }
-
-  /**
-   * Returns an async iterable iterator to list all the sessions in a messaging entity.
-   *
-   * .byPage() returns an async iterable iterator to list the session id's in pages.
-   *
-   * @returns An asyncIterableIterator that supports paging.
-   */
-  listSessions(
-    options?: OperationOptions,
-  ): PagedAsyncIterableIterator<string, string[], { maxPageSize?: number }> {
-    logger.verbose(`Performing operation - listSessions() with options: %j`, options);
-    const pagedResult: PagedResult<string[], { maxPageSize?: number }, number> = {
-      firstPageLink: 0,
-      getPage: async (pageLink, maxPageSize) => {
-        const top = maxPageSize ?? 100;
-        const sessions = await getSessions(
-          this._context,
-          this.entityPath,
-          this._getAssociatedReceiverName(),
-          this._retryOptions,
-          {
-            skip: pageLink,
-            maxCount: top,
-            ...options,
-          },
-        );
-        return sessions.length
-          ? {
-              page: sessions,
-              nextPageLink: sessions.length > 0 ? pageLink + sessions.length : undefined,
-            }
-          : undefined;
-      },
-    };
-
-    return getPagedAsyncIterator(pagedResult);
   }
 
   async close(): Promise<void> {

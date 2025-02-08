@@ -1559,7 +1559,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async getSessions(
     options?: ListRequestOptions & OperationOptionsBase & SendManagementRequestOptions,
-  ): Promise<string[]> {
+  ): Promise<{ skip?: number; "sessions-ids": string[] }> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const updatedOptions = (await this.initWithUniqueReplyTo(options)) as ListRequestOptions &
@@ -1597,10 +1597,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         !response.body ||
         !Array.isArray(response.body["sessions-ids"])
       ) {
-        return [];
+        return {
+          skip: updatedOptions?.skip,
+          "sessions-ids": [],
+        };
       }
-
-      return response.body["sessions-ids"];
+      return response.body as { skip?: number; "sessions-ids": string[] };
     } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(

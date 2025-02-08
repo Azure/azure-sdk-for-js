@@ -345,6 +345,8 @@ export class ServiceBusClient {
     createSender(queueOrTopicName: string, options?: ServiceBusSenderOptions): ServiceBusSender;
     fullyQualifiedNamespace: string;
     identifier: string;
+    listSessions(queueName: string, options?: OperationOptions): PagedAsyncIterableIterator<string>;
+    listSessions(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<string>;
 }
 
 // @public
@@ -498,7 +500,6 @@ export interface ServiceBusReceiver {
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ServiceBusReceivedMessage>;
     identifier: string;
     isClosed: boolean;
-    listSessions(options?: OperationOptions): PagedAsyncIterableIterator<string>;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ServiceBusReceivedMessage[]>;
     purgeMessages(options?: PurgeMessagesOptions): Promise<number>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ServiceBusReceivedMessage[]>;

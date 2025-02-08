@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectionConfig } from "@azure/core-amqp";
+import type { RetryOptions } from "@azure/core-amqp";
+import {
+  retry,
+  RetryOperationType,
+  type ConnectionConfig,
+  type RetryConfig,
+} from "@azure/core-amqp";
 import type { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import type { ServiceBusClientOptions } from "./constructorHelpers.js";
 import {
@@ -28,6 +34,12 @@ import { MessageSession } from "./session/messageSession.js";
 import { isDefined } from "@azure/core-util";
 import { isCredential } from "./util/typeGuards.js";
 import { ensureValidIdentifier } from "./util/utils.js";
+import type { OperationOptions } from "@azure/core-client";
+import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
+import { tracingClient } from "./diagnostics/tracing.js";
+import type { ListRequestOptions } from "./serviceBusAtomManagementClient.js";
+import { logger } from "./log.js";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -472,6 +484,75 @@ export class ServiceBusClient {
   }
 
   /**
+   * Returns an async iterable iterator to list all the sessions in a messaging entity.
+   * More information about how peekLock and message settlement works here:
+   * https://learn.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-8
+   *
+   * .byPage() returns an async iterable iterator to list the session id's in pages.
+   *
+   * @param queueName - The name of the queue to receive from.
+   * @param options - Options include receiveMode(defaulted to peekLock), options to create session receiver.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  listSessions(queueName: string, options?: OperationOptions): PagedAsyncIterableIterator<string>;
+  /**
+   * Returns an async iterable iterator to list all the sessions in a messaging entity.
+   * More information about how peekLock and message settlement works here:
+   * https://learn.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-8
+   *
+   * .byPage() returns an async iterable iterator to list the session id's in pages.
+   *
+   * @param topicName - Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName - Name of the subscription (under the `topic`) that we want to receive from.
+   * @param options - Options include receiveMode(defaulted to peekLock), options to create session receiver.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  listSessions(
+    topicName: string,
+    subscriptionName: string,
+    options?: OperationOptions,
+  ): PagedAsyncIterableIterator<string>;
+  listSessions(
+    queueOrTopicName1: string,
+    optionsOrSubscriptionName2?: ServiceBusSessionReceiverOptions | string,
+    options3?: OperationOptions,
+  ): PagedAsyncIterableIterator<string> {
+    validateEntityPath(this._connectionContext.config, queueOrTopicName1);
+
+    const { entityPath, options } = extractReceiverArguments(
+      queueOrTopicName1,
+      optionsOrSubscriptionName2,
+      options3,
+    );
+
+    logger.verbose(`Performing operation - listSessions() with options: %j`, options);
+    const pagedResult: PagedResult<string[], { maxPageSize?: number }, number> = {
+      firstPageLink: 0,
+      getPage: async (pageLink, maxPageSize) => {
+        const top = maxPageSize ?? 100;
+        const { skip: lastSkip, "sessions-ids": sessions } = await getSessions(
+          this._connectionContext,
+          entityPath,
+          this._clientOptions.retryOptions ?? {},
+          {
+            skip: pageLink,
+            maxCount: top,
+            ...options,
+          },
+        );
+        return sessions.length
+          ? {
+              page: sessions,
+              nextPageLink: lastSkip,
+            }
+          : undefined;
+      },
+    };
+
+    return getPagedAsyncIterator(pagedResult);
+  }
+
+  /**
    * Creates a Sender which can be used to send messages, schedule messages to be
    * sent at a later time and cancel such scheduled messages. No connection is made
    * to the service until one of the methods on the sender is called.
@@ -556,4 +637,39 @@ function validateEntityPath(connectionConfig: ConnectionConfig, queueOrTopicName
   if (connectionConfig.entityPath && connectionConfig.entityPath !== queueOrTopicName) {
     throw new Error(entityPathMisMatchError);
   }
+}
+
+/**
+ * @internal
+ *
+ * Get all sessions associated with an entity.
+ */
+export async function getSessions(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  context: ConnectionContext,
+  entityPath: string,
+  retryOptions: RetryOptions,
+  options?: ListRequestOptions & OperationOptions,
+): Promise<{ skip?: number; "sessions-ids": string[] }> {
+  return tracingClient.withSpan(
+    "ServiceBusClient.getSessions",
+    options ?? {},
+    async (updatedOptions) => {
+      const operationPromise = async (): Promise<{ skip?: number; "sessions-ids": string[] }> => {
+        return context.getManagementClient(entityPath).getSessions({
+          ...updatedOptions,
+          requestName: "getSessions",
+          timeoutInMs: retryOptions.timeoutInMs,
+        });
+      };
+      const config: RetryConfig<{ skip?: number; "sessions-ids": string[] }> = {
+        operation: operationPromise,
+        connectionId: context.connectionId,
+        operationType: RetryOperationType.management,
+        retryOptions: retryOptions,
+        abortSignal: updatedOptions?.abortSignal,
+      };
+      return retry<{ skip?: number; "sessions-ids": string[] }>(config);
+    },
+  );
 }
