@@ -183,7 +183,6 @@ export class Containers {
         paths: [DEFAULT_PARTITION_KEY_PATH],
       };
     }
-
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
@@ -192,7 +191,13 @@ export class Containers {
       diagnosticNode,
       options,
     });
-    const ref = new Container(this.database, response.result.id, this.clientContext);
+    let containerId = response.result.id;
+    // for AAD containers we need to extract the containerId from result.body
+    if (!containerId && "body" in response.result && response.result.body) {
+      containerId = (response.result as any).body.id;
+    }
+    const ref = new Container(this.database, containerId, this.clientContext);
+    this.clientContext.partitionKeyDefinitionCache[ref.url] = response.result.partitionKey;
     return new ContainerResponse(
       response.result,
       response.headers,
