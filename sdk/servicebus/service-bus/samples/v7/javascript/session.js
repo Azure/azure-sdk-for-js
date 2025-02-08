@@ -131,16 +131,11 @@ async function receiveMessages(sbClient, sessionId) {
 }
 
 async function listSessions(sbClient) {
-  const receiver = sbClient.createReceiver(queueName);
-  // also available on session receivers
-  // const receiver = await sbClient.acceptNextSession(queueName);
-
-  const sessionIterator = receiver.listSessions();
+  const sessionIterator = sbClient.listSessions();
   console.log(`Listing sessions:`);
   for await (const id of sessionIterator) {
     console.log(`    ${id}`);
   }
-  await receiver.close();
 }
 
 main().catch((err) => {

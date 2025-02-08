@@ -39,7 +39,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" },
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const sbClient = new ServiceBusClient(fqdn, credential);
 
@@ -131,17 +131,12 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
   }
 }
 
-async function listSessions(sbClient: ServiceBusClient) {
-  const receiver = sbClient.createReceiver(queueName);
-  // also available on session receivers
-  // const receiver = await sbClient.acceptNextSession(queueName);
-
-  const sessionIterator = receiver.listSessions();
+async function listSessions(sbClient: ServiceBusClient): Promise<void> {
+  const sessionIterator = sbClient.listSessions();
   console.log(`Listing sessions:`);
   for await (const id of sessionIterator) {
     console.log(`    ${id}`);
   }
-  await receiver.close();
 }
 
 main().catch((err) => {
