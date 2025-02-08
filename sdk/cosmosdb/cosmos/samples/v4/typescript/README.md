@@ -15,7 +15,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | --------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | [AlterQueryThroughput.ts][alterquerythroughput]                                                                             | Updates a container offer to change query throughput.                                                                 |
 | [Bulk.ts][bulk]                                                                                                             | Shows a simple bulk call with each BulkOperation type.                                                                |
-| [BulkStreamer.ts][bulkstreamer]                                                                                             | Demonstrates example of bulk stream operations.                                                                       |
+| [BulkStreamer.ts][bulkstreamer]                                                                                             | Demonstrates an example of streamable bulk operation.                                                                 |
 | [BulkUpdateWithSproc.ts][bulkupdatewithsproc]                                                                               | Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.                   |
 | [ChangeFeed.ts][changefeed]                                                                                                 | Demonstrates using a ChangeFeed.                                                                                      |
 | [ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.ts][changefeediterator_changefeedhierarchicalpartitionkey]           | Demonstrates using a ChangeFeed for a partition key                                                                   |
@@ -94,6 +94,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [changefeediterator_changefeedhierarchicalpartitionkey]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedHierarchicalPartitionKey.ts
 [changefeediterator_changefeediteratorallversionsanddeletes]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedIteratorAllVersionsAndDeletes.ts
 [changefeediterator_changefeediteratorlatestversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ChangeFeedIterator/ChangeFeedIteratorLatestVersion.ts
+[clientsideencryption]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ClientSideEncryption.ts
 [containermanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/ContainerManagement.ts
 [databasemanagement]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/DatabaseManagement.ts
 [diagnostics]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/typescript/src/Diagnostics.ts

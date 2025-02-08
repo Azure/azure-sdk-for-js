@@ -49,7 +49,7 @@ async function run() {
       // We can set encryption key time to live in hours (EncryptionTimeToLive.FromHours),
       //  minutes (EncryptionTimeToLive.FromMinutes), and with no ttl (EncryptiontimeToLive.NoTTL)
       encryptionKeyTimeToLive: EncryptionTimeToLive.FromMinutes(10),
-    }
+    },
   });
 
   logStep("Create database and client encryption key");
