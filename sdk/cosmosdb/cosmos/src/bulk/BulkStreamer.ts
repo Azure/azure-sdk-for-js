@@ -251,7 +251,6 @@ export class BulkStreamer {
           // Check if any split/merge has happened on other batches belonging to same partition.
           // If so, don't send this request, and re-batch the operations.
           const stopDispatch = await limiter.isStopped();
-          console.log(`dispatch stopped is ${stopDispatch} for pkRangeId ${pkRangeId}`);
           if (stopDispatch) {
             operations.map((operation) => {
               this.reBatchOperation(operation, diagnosticNode);
@@ -259,7 +258,6 @@ export class BulkStreamer {
             // Return empty response as the request is not sent.
             return resolve(BulkResponse.createEmptyResponse(operations, 0, 0, {}));
           }
-          console.log(`dispatching for pkRangeId ${pkRangeId} with stopDispatch ${stopDispatch}`);
           const response = await addDignosticChild(
             async (childNode: DiagnosticNodeInternal) =>
               this.clientContext.bulk({
