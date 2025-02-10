@@ -3,7 +3,8 @@
  * Licensed under the MIT License.
  */
 
-import { env, Recorder, isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { MongoClusterManagementClient } from "../../../src/mongoClusterManagementClient.js";
@@ -132,7 +133,7 @@ describe("MongoCluster test", () => {
 
   // need create a mongocluster first then create a private endpoint named testPEC with the mongocluster.
   it("private endpoint connection create test", async function () {
-    for await (let item of client.privateEndpointConnections.listByMongoCluster(
+    for await (const item of client.privateEndpointConnections.listByMongoCluster(
       resourceGroup,
       resourcename,
     )) {
@@ -166,7 +167,7 @@ describe("MongoCluster test", () => {
   });
   it("private endpoint connection list test", async function () {
     const resArray = new Array();
-    for await (let item of client.privateEndpointConnections.listByMongoCluster(
+    for await (const item of client.privateEndpointConnections.listByMongoCluster(
       resourceGroup,
       resourcename,
     )) {
@@ -176,7 +177,7 @@ describe("MongoCluster test", () => {
   });
 
   it("private endpoint connection delete test", async function () {
-    for await (let item of client.privateEndpointConnections.listByMongoCluster(
+    for await (const item of client.privateEndpointConnections.listByMongoCluster(
       resourceGroup,
       resourcename,
     )) {
@@ -184,7 +185,7 @@ describe("MongoCluster test", () => {
     }
     const resArray = new Array();
     await client.privateEndpointConnections.delete(resourceGroup, resourcename, connectionName);
-    for await (let item of client.privateEndpointConnections.listByMongoCluster(
+    for await (const item of client.privateEndpointConnections.listByMongoCluster(
       resourceGroup,
       resourcename,
     )) {
@@ -196,7 +197,7 @@ describe("MongoCluster test", () => {
   it("private endpoint delete test", async function () {
     const resArray = new Array();
     await networkClient.privateEndpoints.beginDeleteAndWait(resourceGroup, privateEndpointName);
-    for await (let item of networkClient.privateEndpoints.list(resourceGroup)) {
+    for await (const item of networkClient.privateEndpoints.list(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -205,7 +206,7 @@ describe("MongoCluster test", () => {
   it("virtual network delete test", async function () {
     const resArray = new Array();
     await networkClient.virtualNetworks.beginDeleteAndWait(resourceGroup, virtualNetworkName);
-    for await (let item of networkClient.virtualNetworks.list(resourceGroup)) {
+    for await (const item of networkClient.virtualNetworks.list(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -214,7 +215,7 @@ describe("MongoCluster test", () => {
   it("mongoClusters for private endpoint delete test", async function () {
     const resArray = new Array();
     await client.mongoClusters.delete(resourceGroup, resourcename);
-    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

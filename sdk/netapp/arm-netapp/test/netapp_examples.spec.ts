@@ -6,20 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { NetAppManagementClient } from "../src/netAppManagementClient";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -45,10 +40,14 @@ describe("netapp test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new NetAppManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new NetAppManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     accountName = "accounttest";
@@ -87,7 +86,7 @@ describe("netapp test", () => {
           },
         ],
       },
-      testPollingOptions
+      testPollingOptions,
     );
     assert.equal(res.name, accountName);
   });
@@ -99,7 +98,7 @@ describe("netapp test", () => {
 
   it("accounts list test", async function () {
     const resArray = new Array();
-    for await (let item of client.accounts.list(resourceGroup)) {
+    for await (const item of client.accounts.list(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -107,8 +106,12 @@ describe("netapp test", () => {
 
   it("accounts delete test", async function () {
     const resArray = new Array();
-    const res = await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions)
-    for await (let item of client.accounts.list(resourceGroup)) {
+    const res = await client.accounts.beginDeleteAndWait(
+      resourceGroup,
+      accountName,
+      testPollingOptions,
+    );
+    for await (const item of client.accounts.list(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -122,8 +125,8 @@ describe("netapp test", () => {
       location,
       name,
       typeParam,
-      resourceGroup
+      resourceGroup,
     );
     console.log(result);
   });
-})
+});

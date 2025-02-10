@@ -21,7 +21,8 @@
 import api from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { SimpleSpanProcessor, Tracer } from "@opentelemetry/sdk-trace-base";
+import type { Tracer } from "@opentelemetry/sdk-trace-base";
+import { SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 
@@ -29,7 +30,7 @@ import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-/*********************************************************************
+/** *******************************************************************
  *  OPEN TELEMETRY SETUP
  **********************************************************************/
 let serverTracer: Tracer;
@@ -39,7 +40,7 @@ setupOpenTelemetry();
 // Open Telemetry setup need to happen before http library is loaded
 import http from "node:http";
 
-/*********************************************************************
+/** *******************************************************************
  *  HTTP SERVER SETUP
  **********************************************************************/
 /** Starts a HTTP server that receives requests on sample server port. */
@@ -85,7 +86,7 @@ function handleRequest(request: any, response: any) {
 
 startServer(8080);
 
-/*********************************************************************
+/** *******************************************************************
  *  HTTP CLIENT SETUP
  **********************************************************************/
 /** A function which makes requests and handles response. */

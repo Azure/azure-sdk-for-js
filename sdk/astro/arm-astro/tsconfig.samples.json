@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-astro": [
-        "./dist/esm"
-      ]
+      "@azure/arm-astro": ["./dist/esm"]
     }
   }
 }

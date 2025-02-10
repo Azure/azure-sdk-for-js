@@ -10,12 +10,8 @@
  * @azsdk-weight 65
  */
 
-import {
-  CorrelationRuleFilter,
-  ServiceBusAdministrationClient,
-  ServiceBusClient,
-  SqlRuleFilter,
-} from "@azure/service-bus";
+import type { CorrelationRuleFilter, SqlRuleFilter } from "@azure/service-bus";
+import { ServiceBusAdministrationClient, ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";

@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   ClientConfigDiagnostic,
-  ClientContext,
-  ConsistencyLevel,
-  Constants,
   CosmosClientOptions,
-  CosmosDbDiagnosticLevel,
   DiagnosticNodeInternal,
   FeedOptions,
-  GlobalEndpointManager,
   QueryInfo,
   RequestOptions,
   QueryIterator,
   PartitionKeyRange,
   Resource,
+} from "../../../src";
+import {
+  ClientContext,
+  ConsistencyLevel,
+  Constants,
+  CosmosDbDiagnosticLevel,
+  GlobalEndpointManager,
   StatusCodes,
 } from "../../../src";
 import { expect, assert } from "chai";

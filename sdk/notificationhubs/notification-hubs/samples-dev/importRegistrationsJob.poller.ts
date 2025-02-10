@@ -15,7 +15,7 @@
 
 import "dotenv/config";
 import { beginSubmitNotificationHubJob, createClientContext } from "@azure/notification-hubs/api";
-import { NotificationHubJob } from "@azure/notification-hubs/models";
+import type { NotificationHubJob } from "@azure/notification-hubs/models";
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

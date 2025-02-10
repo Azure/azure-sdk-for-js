@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-billing": [
-        "./dist/esm"
-      ]
+      "@azure/arm-billing": ["./dist/esm"]
     }
   }
 }

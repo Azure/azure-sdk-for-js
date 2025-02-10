@@ -63,9 +63,9 @@ export async function main() {
     console.log(`  Found label for development: ${label.name}`);
   }
 
-  ////////////////////////////////////////////////////////
-  ///////////////  Example for .byPage()  ////////////////
-  ////////////////////////////////////////////////////////
+  /// /////////////////////////////////////////////////////
+  /// ////////////  Example for .byPage()  ////////////////
+  /// /////////////////////////////////////////////////////
 
   // Passing marker as an argument
   let iterator = client.listLabels().byPage();
@@ -76,7 +76,7 @@ export async function main() {
     }
   }
   // Gets next marker
-  let marker = response.value.continuationToken;
+  const marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = client.listLabels().byPage({
     continuationToken: marker,

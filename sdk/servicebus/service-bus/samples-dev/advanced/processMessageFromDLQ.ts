@@ -13,7 +13,8 @@
  * @azsdk-weight 45
  */
 
-import { ServiceBusMessage, ServiceBusClient } from "@azure/service-bus";
+import type { ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists

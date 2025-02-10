@@ -9,11 +9,8 @@
  * @summary Basic use of Metrics in Node.js application.
  */
 
-import {
-  MeterProvider,
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics";
+import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { Resource } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
@@ -41,7 +38,7 @@ export async function main() {
   await provider.addMetricReader(metricReader);
   const meter = provider.getMeter("example-meter-node");
   // Create Counter instrument with the meter
-  let counter = meter.createCounter("counter");
+  const counter = meter.createCounter("counter");
   await counter.add(1);
 }
 

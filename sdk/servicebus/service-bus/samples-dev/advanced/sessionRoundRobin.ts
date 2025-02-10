@@ -11,13 +11,8 @@
  * @azsdk-weight 60
  */
 
-import {
-  ServiceBusClient,
-  delay,
-  ServiceBusSessionReceiver,
-  ServiceBusReceivedMessage,
-  isServiceBusError,
-} from "@azure/service-bus";
+import type { ServiceBusSessionReceiver, ServiceBusReceivedMessage } from "@azure/service-bus";
+import { ServiceBusClient, delay, isServiceBusError } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";

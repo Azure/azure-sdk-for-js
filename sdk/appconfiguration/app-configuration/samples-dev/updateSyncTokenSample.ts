@@ -11,7 +11,8 @@
  */
 
 import { AppConfigurationClient } from "@azure/app-configuration";
-import { isSystemEvent, EventGridEvent, EventGridDeserializer } from "@azure/eventgrid";
+import type { EventGridEvent } from "@azure/eventgrid";
+import { isSystemEvent, EventGridDeserializer } from "@azure/eventgrid";
 import { appConfigTestEvent } from "./testData.js";
 
 // Load the .env file if it exists

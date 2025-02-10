@@ -23,7 +23,7 @@
   },
   "sideEffects": false,
   "main": "dist/index.js",
-  "module": "dist/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "types/microsoft-playwright-testing.d.ts",
   "exports": {
     ".": {

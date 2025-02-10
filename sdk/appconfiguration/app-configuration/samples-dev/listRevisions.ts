@@ -51,9 +51,9 @@ export async function main() {
     console.log(`At ${revision.lastModified}, the value was ${revision.value}`);
   }
 
-  ////////////////////////////////////////////////////////
-  ///////////////  Example for .byPage()  ////////////////
-  ////////////////////////////////////////////////////////
+  /// /////////////////////////////////////////////////////
+  /// ////////////  Example for .byPage()  ////////////////
+  /// /////////////////////////////////////////////////////
 
   // If you want to see the pagination
   // for (let index = 0; index < 135; index++) {
@@ -70,7 +70,7 @@ export async function main() {
     }
   }
   // Gets next marker
-  let marker = response.value.continuationToken;
+  const marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = client.listRevisions({ keyFilter: "keyWithRevisions-1626819906487" }).byPage({
     continuationToken: marker,

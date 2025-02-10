@@ -5,10 +5,8 @@
  * @summary Authenticates using Interactive Browser Credential
  */
 
-import {
-  InteractiveBrowserCredential,
-  InteractiveBrowserCredentialNodeOptions,
-} from "@azure/identity";
+import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
+import { InteractiveBrowserCredential } from "@azure/identity";
 
 import dotenv from "dotenv";
 

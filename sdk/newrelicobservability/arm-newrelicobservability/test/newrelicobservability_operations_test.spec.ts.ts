@@ -6,16 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
-import { CreateTestCredentialOptions, createTestCredential } from "@azure-tools/test-credential";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { CreateTestCredentialOptions } from "@azure-tools/test-credential";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { NewRelicObservability } from "../src/newRelicObservability";
 
 const replaceableVariables: Record<string, string> = {
@@ -72,7 +68,7 @@ describe("NewRelicObservability test", () => {
 
   it("operations list test", async function () {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
   });
@@ -109,7 +105,7 @@ describe("NewRelicObservability test", () => {
 
   it("monitors list test", async function () {
     const resArray = new Array();
-    for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 2);
@@ -117,9 +113,13 @@ describe("NewRelicObservability test", () => {
 
   it("monitors delete test", async function () {
     const resArray = new Array();
-    const res = await client.monitors.beginDeleteAndWait(resourceGroup, "v-ziweichen@microsoft.com", resourcename, testPollingOptions
-    )
-    for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
+    const res = await client.monitors.beginDeleteAndWait(
+      resourceGroup,
+      "v-ziweichen@microsoft.com",
+      resourcename,
+      testPollingOptions,
+    );
+    for await (const item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);

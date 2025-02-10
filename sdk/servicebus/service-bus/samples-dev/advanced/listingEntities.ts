@@ -64,9 +64,9 @@ export async function main() {
     queueItem = await queues.next();
   }
 
-  ////////////////////////////////////////////////////////
-  ///////////////  Examples for .byPage()  ///////////////
-  ////////////////////////////////////////////////////////
+  /// /////////////////////////////////////////////////////
+  /// ////////////  Examples for .byPage()  ///////////////
+  /// /////////////////////////////////////////////////////
 
   // 4. list queues by page
   i = 1;
@@ -111,7 +111,7 @@ export async function main() {
   }
 
   // lists next marker
-  let marker = queuesPage.value.continuationToken;
+  const marker = queuesPage.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = serviceBusAdministrationClient.listQueues().byPage({
     continuationToken: marker,

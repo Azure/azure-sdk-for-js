@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -11,9 +10,7 @@ export default mergeConfig(
     test: {
       fileParallelism: false,
       testTimeout: 60000,
-      include: [
-        "dist-test/browser/test/**/*.spec.js",
-      ],
+      include: ["dist-test/browser/test/**/*.spec.js"],
     },
   }),
 );

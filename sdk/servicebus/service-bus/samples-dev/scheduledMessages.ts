@@ -12,13 +12,12 @@
  * @azsdk-weight 70
  */
 
-import {
-  delay,
+import type {
   ProcessErrorArgs,
-  ServiceBusClient,
   ServiceBusMessage,
   ServiceBusReceivedMessage,
 } from "@azure/service-bus";
+import { delay, ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists

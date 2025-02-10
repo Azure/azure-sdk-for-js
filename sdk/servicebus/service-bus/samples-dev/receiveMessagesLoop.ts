@@ -33,7 +33,7 @@ export async function main() {
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.ts file
   try {
-    let allMessages = [];
+    const allMessages = [];
 
     console.log(`Receiving 10 messages...`);
 
@@ -52,7 +52,7 @@ export async function main() {
       console.log(`Received ${messages.length} messages`);
       allMessages.push(...messages);
 
-      for (let message of messages) {
+      for (const message of messages) {
         console.log(`  Message: '${message.body}'`);
 
         // completing the message will remove it from the remote queue or subscription.

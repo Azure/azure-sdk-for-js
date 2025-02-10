@@ -5,9 +5,9 @@
  * @summary Uses an AccessControlClient to list, create, and assign roles to users.
  */
 
+import type { KeyVaultPermission } from "@azure/keyvault-admin";
 import {
   KeyVaultAccessControlClient,
-  KeyVaultPermission,
   KnownKeyVaultDataAction,
   KnownKeyVaultRoleScope,
 } from "@azure/keyvault-admin";
@@ -43,7 +43,7 @@ export async function main(): Promise<void> {
       ],
     },
   ];
-  let roleDefinition = await client.setRoleDefinition(globalScope, {
+  const roleDefinition = await client.setRoleDefinition(globalScope, {
     roleDefinitionName,
     roleName: "Backup Manager",
     permissions,

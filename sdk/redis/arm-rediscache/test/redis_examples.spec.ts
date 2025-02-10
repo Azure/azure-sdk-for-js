@@ -6,20 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { RedisManagementClient } from "../src/redisManagementClient.js";
-import { NetworkManagementClient, VirtualNetwork } from "@azure/arm-network";
+import type { VirtualNetwork } from "@azure/arm-network";
+import { NetworkManagementClient } from "@azure/arm-network";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -46,29 +42,37 @@ describe("Redis test", () => {
   let name: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || "";
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new RedisManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroupName = "myjstest";
-      networkName = "networknamex";
-      subnetName = "subnetworknamex";
-      name = "myrediscachexxx111";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new RedisManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    network_client = new NetworkManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "eastus";
+    resourceGroupName = "myjstest";
+    networkName = "networknamex";
+    subnetName = "subnetworknamex";
+    name = "myrediscachexxx111";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   async function createVirtualNetwork(
     groupName: any,
     location: any,
     networkName: any,
-    subnetName: any
+    subnetName: any,
   ): Promise<void> {
     const parameter: VirtualNetwork = {
       location: location,
@@ -76,10 +80,21 @@ describe("Redis test", () => {
         addressPrefixes: ["10.0.0.0/16"],
       },
     };
-    //network create
-    await network_client.virtualNetworks.beginCreateOrUpdateAndWait(groupName, networkName, parameter, testPollingOptions);
-    //subnet create
-    await network_client.subnets.beginCreateOrUpdateAndWait(groupName, networkName, subnetName, { addressPrefix: "10.0.0.0/24" }, testPollingOptions);
+    // network create
+    await network_client.virtualNetworks.beginCreateOrUpdateAndWait(
+      groupName,
+      networkName,
+      parameter,
+      testPollingOptions,
+    );
+    // subnet create
+    await network_client.subnets.beginCreateOrUpdateAndWait(
+      groupName,
+      networkName,
+      subnetName,
+      { addressPrefix: "10.0.0.0/24" },
+      testPollingOptions,
+    );
   }
 
   it("operations list test", async function () {
@@ -91,27 +106,38 @@ describe("Redis test", () => {
   });
 
   it("Redis create test", async function () {
-    //create network resource
+    // create network resource
     await createVirtualNetwork(resourceGroupName, location, networkName, subnetName);
-    const res = await client.redis.beginCreateAndWait(resourceGroupName, name, {
-      location: location,
-      zones: [
-        "1"
-      ],
-      sku: {
-        name: "Premium",
-        family: "P",
-        capacity: 1
+    const res = await client.redis.beginCreateAndWait(
+      resourceGroupName,
+      name,
+      {
+        location: location,
+        zones: ["1"],
+        sku: {
+          name: "Premium",
+          family: "P",
+          capacity: 1,
+        },
+        enableNonSslPort: true,
+        shardCount: 2,
+        redisConfiguration: {
+          maxmemoryPolicy: "allkeys-lru",
+        },
+        subnetId:
+          "/subscriptions/" +
+          subscriptionId +
+          "/resourceGroups/" +
+          resourceGroupName +
+          "/providers/Microsoft.Network/virtualNetworks/" +
+          networkName +
+          "/subnets/" +
+          subnetName,
+        staticIP: "10.0.0.5",
+        minimumTlsVersion: "1.2",
       },
-      enableNonSslPort: true,
-      shardCount: 2,
-      redisConfiguration: {
-        maxmemoryPolicy: "allkeys-lru"
-      },
-      subnetId: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroupName + "/providers/Microsoft.Network/virtualNetworks/" + networkName + "/subnets/" + subnetName,
-      staticIP: "10.0.0.5",
-      minimumTlsVersion: "1.2"
-    }, testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, name);
   });
 
@@ -126,20 +152,20 @@ describe("Redis test", () => {
         {
           dayOfWeek: "Monday",
           startHourUtc: 12,
-          maintenanceWindow: "PT5H"
+          maintenanceWindow: "PT5H",
         },
         {
           dayOfWeek: "Tuesday",
-          startHourUtc: 12
-        }
-      ]
+          startHourUtc: 12,
+        },
+      ],
     });
     assert.equal(res.type, "Microsoft.Cache/Redis/PatchSchedules");
   });
 
   it("patchSchedules listByRedisResource for redis test", async function () {
     const resArray = new Array();
-    for await (let item of client.patchSchedules.listByRedisResource(resourceGroupName, name)) {
+    for await (const item of client.patchSchedules.listByRedisResource(resourceGroupName, name)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -147,7 +173,7 @@ describe("Redis test", () => {
 
   it("redis listByResourceGroup test", async function () {
     const resArray = new Array();
-    for await (let item of client.redis.listByResourceGroup(resourceGroupName)) {
+    for await (const item of client.redis.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -159,7 +185,12 @@ describe("Redis test", () => {
       count++;
       const res = await client.redis.get(resourceGroupName, name);
       if (res.provisioningState == "Succeeded") {
-        const res = await client.redis.beginUpdateAndWait(resourceGroupName, name, { enableNonSslPort: true }, testPollingOptions);
+        const res = await client.redis.beginUpdateAndWait(
+          resourceGroupName,
+          name,
+          { enableNonSslPort: true },
+          testPollingOptions,
+        );
         assert.equal(res.enableNonSslPort, true);
         break;
       } else {
@@ -177,7 +208,7 @@ describe("Redis test", () => {
   it("redis delete test", async function () {
     await client.redis.beginDeleteAndWait(resourceGroupName, name, testPollingOptions);
     const resArray = new Array();
-    for await (let item of client.redis.listByResourceGroup(resourceGroupName)) {
+    for await (const item of client.redis.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

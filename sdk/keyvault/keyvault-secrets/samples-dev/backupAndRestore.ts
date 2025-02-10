@@ -59,7 +59,7 @@ export async function main(): Promise<void> {
 
   // Delete the secret
   console.log("about to delete");
-  let deletePoller = await client.beginDeleteSecret(secretName);
+  const deletePoller = await client.beginDeleteSecret(secretName);
   await deletePoller.pollUntilDone();
 
   // Purge the deleted secret

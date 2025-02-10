@@ -14,13 +14,12 @@
  * @summary use the "prebuilt-receipt" model ID to extract data from a receipt document (weakly-typed)
  */
 
-import {
-  AzureKeyCredential,
-  DocumentAnalysisClient,
+import type {
   DocumentArrayField,
   DocumentObjectField,
   DocumentStringField,
 } from "@azure/ai-form-recognizer";
+import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";
 dotenv.config();

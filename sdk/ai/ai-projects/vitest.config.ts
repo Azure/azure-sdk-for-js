@@ -11,5 +11,5 @@ export default mergeConfig(
       testTimeout: 100000,
       hookTimeout: 50000,
     },
-  })
+  }),
 );

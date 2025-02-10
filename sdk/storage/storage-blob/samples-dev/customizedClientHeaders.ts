@@ -13,14 +13,12 @@
  * @azsdk-weight 10
  **/
 
+import type { WebResource, RequestPolicy, RequestPolicyOptions } from "@azure/storage-blob";
 import {
   newPipeline,
   AnonymousCredential,
   BlobServiceClient,
   BaseRequestPolicy,
-  WebResource,
-  RequestPolicy,
-  RequestPolicyOptions,
 } from "@azure/storage-blob";
 
 // Load the .env file if it exists
