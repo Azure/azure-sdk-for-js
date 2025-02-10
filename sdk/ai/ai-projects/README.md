@@ -69,7 +69,7 @@ Use the AI Projects client library (in preview) to:
 ### Install the package
 
 ```bash
-npm install @azure/ai-projects
+npm install @azure/ai-projects @azure/identity
 ```
 
 ## Key concepts
