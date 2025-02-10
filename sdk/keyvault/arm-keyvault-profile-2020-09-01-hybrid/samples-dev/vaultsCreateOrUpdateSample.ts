@@ -8,9 +8,7 @@
 import type { VaultCreateOrUpdateParameters } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
 import { KeyVaultManagementClient } from "@azure/arm-keyvault-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a key vault in the specified subscription.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a key vault in the specified subscription.
  * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2019-09-01/examples/createVault.json
  */
-async function createANewVaultOrUpdateAnExistingVault() {
+async function createANewVaultOrUpdateAnExistingVault(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-resource-group";
@@ -92,7 +90,7 @@ async function createANewVaultOrUpdateAnExistingVault() {
  * @summary Create or update a key vault in the specified subscription.
  * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2019-09-01/examples/createVaultWithNetworkAcls.json
  */
-async function createOrUpdateAVaultWithNetworkAcls() {
+async function createOrUpdateAVaultWithNetworkAcls(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["KEYVAULT_RESOURCE_GROUP"] || "sample-resource-group";
@@ -127,7 +125,7 @@ async function createOrUpdateAVaultWithNetworkAcls() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createANewVaultOrUpdateAnExistingVault();
   await createOrUpdateAVaultWithNetworkAcls();
 }
