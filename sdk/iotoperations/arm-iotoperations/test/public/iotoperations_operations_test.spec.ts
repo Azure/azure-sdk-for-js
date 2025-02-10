@@ -34,8 +34,8 @@ describe("IoTOperations test", () => {
   });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
   it("operations list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
