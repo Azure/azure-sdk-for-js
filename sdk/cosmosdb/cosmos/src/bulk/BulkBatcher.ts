@@ -148,16 +148,22 @@ export class BulkBatcher {
           }
         }
         operation.operationContext.addDiagnosticChild(diagnosticNode);
-        if (this.encryptionEnabled) {
-          operation.operationContext.diagnosticNode.beginEncryptionDiagnostics(
-            Constants.Encryption.DiagnosticsDecryptOperation,
-          );
-          bulkOperationResult.resourceBody = await this.encryptionProcessor.decrypt(
-            bulkOperationResult.resourceBody,
-          );
-          operation.operationContext.diagnosticNode.endEncryptionDiagnostics(
-            Constants.Encryption.DiagnosticsDecryptOperation,
-          );
+        try {
+          if (this.encryptionEnabled && bulkOperationResult.resourceBody) {
+            bulkOperationResult.resourceBody = await this.encryptionProcessor.decrypt(
+              bulkOperationResult.resourceBody,
+              operation.operationContext.diagnosticNode,
+            );
+          }
+        } catch (error) {
+          // if decryption fails after successful write operation, fail the operation with internal server error
+          if (
+            bulkOperationResult.operationInput.operationType !== "Read" &&
+            bulkOperationResult.operationInput.operationType !== "Delete"
+          ) {
+            const errorResponse = new ErrorResponse(error.message, StatusCodes.InternalServerError);
+            operation.operationContext.fail(errorResponse);
+          }
         }
         operation.operationContext.complete(bulkOperationResult);
       }

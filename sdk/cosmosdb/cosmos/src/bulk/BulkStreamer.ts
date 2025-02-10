@@ -116,18 +116,21 @@ export class BulkStreamer {
         }
         const plainTextOperation = copyObject(operation);
         // encrypt operations if encryption is enabled
-        if (this.clientContext.enableEncryption) {
-          operation = copyObject(operation);
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
+        let operationError: Error;
+        let partitionKeyRangeId: string;
+        try {
+          if (this.clientContext.enableEncryption) {
+            operation = copyObject(operation);
+            if (!this.container.isEncryptionInitialized) {
+              await this.container.initializeEncryption();
+            }
+            this.options.containerRid = this.container._rid;
+            operation = await this.encryptionHelper(operation, diagnosticNode);
           }
-          this.options.containerRid = this.container._rid;
-          operation = await this.encryptionHelper(operation, diagnosticNode);
+          partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
+        } catch (error) {
+          operationError = error;
         }
-        const partitionKeyRangeId = await this.resolvePartitionKeyRangeId(
-          operation,
-          diagnosticNode,
-        );
         const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
         // TODO: change implementation to add just retry context instead of retry policy in operation context
         const retryPolicy = this.getRetryPolicy();
@@ -141,7 +144,12 @@ export class BulkStreamer {
           operationInput: operation,
           operationContext: context,
         };
-        streamerForPartition.add(itemOperation);
+        // if there was an error during encryption or resolving pkRangeId, reject the operation
+        if (operationError) {
+          context.fail(operationError);
+        } else {
+          streamerForPartition.add(itemOperation);
+        }
         return context.operationPromise;
       },
       this.clientContext,

@@ -234,6 +234,9 @@ export class Containers {
       diagnosticNode,
       options,
     });
+    if (!response || response.result) {
+      throw new ErrorResponse("Failed to create container with id: " + body.id);
+    }
     let containerId = response.result.id;
     // for AAD containers we need to extract the containerId from result.body
     if (!containerId && "body" in response.result && response.result.body) {
