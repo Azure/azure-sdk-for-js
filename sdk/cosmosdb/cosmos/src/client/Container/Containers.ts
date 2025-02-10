@@ -234,7 +234,7 @@ export class Containers {
       diagnosticNode,
       options,
     });
-    if (!response || response.result) {
+    if (!response || !response.result) {
       throw new ErrorResponse("Failed to create container with id: " + body.id);
     }
     let containerId = response.result.id;

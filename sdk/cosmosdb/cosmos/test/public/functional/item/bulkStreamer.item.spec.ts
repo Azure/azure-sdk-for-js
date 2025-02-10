@@ -130,65 +130,6 @@ describe("BulkStreamer", async function () {
           await container.database.delete();
         }
       });
-      it("multi partition container handles create, upsert, replace, delete with bulk", async function () {
-        readItemId = addEntropy("item1");
-        await container.items.create({
-          id: readItemId,
-          key: "A",
-          class: "2010",
-        });
-        deleteItemId = addEntropy("item2");
-        await container.items.create({
-          id: deleteItemId,
-          key: "A",
-          class: "2010",
-        });
-        replaceItemId = addEntropy("item3");
-        await container.items.create({
-          id: replaceItemId,
-          key: 5,
-          class: "2010",
-        });
-
-        const operations = [
-          BulkOperations.getCreateItemOperation("A", {
-            id: addEntropy("doc1"),
-            name: "sample",
-            key: "A",
-          }),
-          BulkOperations.getUpsertItemOperation("A", {
-            id: addEntropy("doc2"),
-            name: "other",
-            key: "A",
-          }),
-          BulkOperations.getReadItemOperation(readItemId, "A"),
-          BulkOperations.getDeleteItemOperation(deleteItemId, "A"),
-          BulkOperations.getReplaceItemOperation(replaceItemId, 5, {
-            id: replaceItemId,
-            name: "nice",
-            key: 5,
-          }),
-        ];
-        const bulkStreamer = container.items.getBulkStreamer();
-        const promises = bulkStreamer.execute(operations);
-        const response = await Promise.all(promises);
-        bulkStreamer.dispose();
-        assert.equal(response.length, 5);
-        // Create
-        assert.equal(response[0].resourceBody.name, "sample");
-        assert.equal(response[0].statusCode, 201);
-        // Upsert
-        assert.equal(response[1].resourceBody.name, "other");
-        assert.equal(response[1].statusCode, 201);
-        // Read
-        assert.equal(response[2].resourceBody.class, "2010");
-        assert.equal(response[2].statusCode, 200);
-        // Delete
-        assert.equal(response[3].statusCode, 204);
-        // Replace
-        assert.equal(response[4].resourceBody.name, "nice");
-        assert.equal(response[4].statusCode, 200);
-      });
 
       it("handles bulk CRUD operations with BulkOperations utility class", async function () {
         readItemId = addEntropy("item1");
