@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { randomUUID } from "crypto";
-import { readFileSync } from "fs";
+import { randomUUID } from "node:crypto";
+import { readFileSync } from "node:fs";
 
 import { createRecorder, createClient } from "../utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";

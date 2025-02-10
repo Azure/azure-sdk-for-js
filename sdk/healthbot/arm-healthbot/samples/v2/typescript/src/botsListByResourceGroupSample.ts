@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns all the resources of a particular type belonging to a resource group
  * x-ms-original-file: specification/healthbot/resource-manager/Microsoft.HealthBot/stable/2021-06-10/examples/ListBotsByResourceGroup.json
  */
-async function listBotsByResourceGroup() {
+async function listBotsByResourceGroup(): Promise<void> {
   const subscriptionId = "subscription-id";
   const resourceGroupName = "OneResourceGroupName";
   const credential = new DefaultAzureCredential();

@@ -16,5 +16,3 @@ To run the live tests, you will also need to set the below environment variables
 - `ENDPOINT`: The endpoint of your Azure Search account.
 
 The live tests in this project will create, populate and search over search indexes inside of the provided Azure Cognitive Search account.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fsearch%2Fsearch-documents%2Ftest%2FREADME.png)

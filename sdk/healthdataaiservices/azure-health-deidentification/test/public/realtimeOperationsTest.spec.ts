@@ -19,7 +19,7 @@ describe("Realtime", () => {
   let recorder: Recorder;
   let client: DeidentificationClient;
 
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     recorder = await createRecorder(context);
     await recorder.start({
       envSetupForPlayback: replaceableVariables,
@@ -33,11 +33,11 @@ describe("Realtime", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("surrogate returns expected", async function () {
+  it("surrogate returns expected", async () => {
     const content: DeidentificationContent = {
       dataType: "Plaintext",
       inputText: "Hello, my name is John Smith.",
@@ -65,7 +65,7 @@ describe("Realtime", () => {
     );
   }, 10000);
 
-  it("tag returns expected", async function () {
+  it("tag returns expected", async () => {
     const content: DeidentificationContent = {
       dataType: "Plaintext",
       inputText: "Hello, my name is John Smith.",

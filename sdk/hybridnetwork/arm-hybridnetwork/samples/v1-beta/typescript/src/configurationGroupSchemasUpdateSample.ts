@@ -13,9 +13,7 @@ import {
   HybridNetworkManagementClient
 } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a configuration group schema resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates a configuration group schema resource.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/ConfigurationGroupSchemaUpdateTags.json
  */
-async function createOrUpdateTheConfigurationGroupSchemaResource() {
+async function createOrUpdateTheConfigurationGroupSchemaResource(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -42,7 +40,7 @@ async function createOrUpdateTheConfigurationGroupSchemaResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateTheConfigurationGroupSchemaResource();
 }
 
