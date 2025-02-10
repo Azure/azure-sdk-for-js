@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { KeyVaultManagementClient } from "../src/keyVaultManagementClient";
+import { KeyVaultManagementClient } from "../src/keyVaultManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -46,22 +44,22 @@ describe("Keyvault test", () => {
   let vaultName: string;
   let tenantId: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    tenantId = env.AZURE_TENANT_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new KeyVaultManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    vaultName = "myvaultzzzz" + "231019";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      tenantId = env.AZURE_TENANT_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new KeyVaultManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      vaultName = "myvaultzzzz" + "231019";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("vaults create test", async function () {
     const res = await client.vaults.beginCreateOrUpdateAndWait(resourceGroup, vaultName, {
@@ -221,7 +219,6 @@ describe("Keyvault test", () => {
   });
 
   it("vaults delete test", async function () {
-    const res = await client.vaults.delete(resourceGroup, vaultName);
     const resArray = new Array();
     for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item)
