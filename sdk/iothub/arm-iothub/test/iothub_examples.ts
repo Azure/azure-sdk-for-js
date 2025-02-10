@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { IotHubClient } from "../src/iotHubClient";
+import { IotHubClient } from "../src/iotHubClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,21 +43,21 @@ describe("Iothub test", () => {
   let resourceGroup: string;
   let iothubName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new IotHubClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    iothubName = "myiothubxxxxyyyjjrr";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new IotHubClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      iothubName = "myiothubxxxxyyyjjrr";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("iotHubResource create test", async function () {
     const res = await client.iotHubResource.beginCreateOrUpdateAndWait(resourceGroup, iothubName, {
@@ -148,7 +146,6 @@ describe("Iothub test", () => {
   });
 
   it("iotHubResource delete test", async function () {
-    const res = await client.iotHubResource.beginDeleteAndWait(resourceGroup, iothubName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.iotHubResource.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
