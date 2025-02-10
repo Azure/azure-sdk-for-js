@@ -10,8 +10,9 @@
  */
 
 import { AppConfigurationClient } from "@azure/app-configuration";
-import { isSystemEvent, EventGridEvent, EventGridDeserializer } from "@azure/eventgrid";
-import { appConfigTestEvent } from "./testData";
+import type { EventGridEvent } from "@azure/eventgrid";
+import { isSystemEvent, EventGridDeserializer } from "@azure/eventgrid";
+import { appConfigTestEvent } from "./testData.js";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -49,7 +50,7 @@ export async function main() {
   const events = await processEvent();
 
   // Iterate through events and log updated key-value pairs.
-  events.forEach(async (eventData) => {
+  await events.forEach(async (eventData) => {
     if (isSystemEvent("Microsoft.AppConfiguration.KeyValueModified", eventData)) {
       client.updateSyncToken(eventData.data.syncToken);
       const newSetting = await client.getConfigurationSetting({

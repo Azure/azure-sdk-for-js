@@ -57,9 +57,9 @@ export async function main() {
     console.log(`  Found key: ${setting.key}, label: ${setting.label}`);
   }
 
-  ////////////////////////////////////////////////////////
-  ///////////////  Example for .byPage()  ////////////////
-  ////////////////////////////////////////////////////////
+  /*
+   * Example for .byPage()
+   */
 
   // Passing marker as an argument
   let iterator = client.listConfigurationSettings({ keyFilter: "sample*" }).byPage();

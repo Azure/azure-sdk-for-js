@@ -36,10 +36,10 @@ async function main() {
   console.log("Starting Alpha and Beta updates");
 
   // Alpha is preparing to do an update - to do this properly they retrieve the setting from the server
-  let alphaSetting = await client.getConfigurationSetting({ key: key });
+  const alphaSetting = await client.getConfigurationSetting({ key: key });
 
   // Beta would also like to do an update and will do the same thing as Alpha
-  let betaSetting = await client.getConfigurationSetting({ key: key });
+  const betaSetting = await client.getConfigurationSetting({ key: key });
 
   console.log(`Alpha retrieves the setting and has etag ${alphaSetting.etag}`);
   console.log(`Beta retrieves the setting and has etag ${betaSetting.etag}`);
