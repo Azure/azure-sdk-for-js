@@ -49,16 +49,16 @@ export async function withDeployments<T>(
   let i = 0;
   for (const { client, deployments } of clientsAndDeployments) {
     for (const deployment of deployments) {
-      try {
-        logger.info(
+      logger.info(
           `[${++i}/${count}] testing with deployment: ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
-        );
-        if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
-          logger.info(
+      );
+      if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
+        logger.info(
             `Skipping deployment ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
-          );
-          continue;
-        }
+        );
+        continue;
+      }
+      try {
         const res = await run(client, deployment.deploymentName);
         validate?.(res);
         succeeded.push(deployment);
@@ -74,18 +74,23 @@ export async function withDeployments<T>(
             "ModelDeprecated",
             "429",
             "UserError",
-            400,
           ].includes(error.code) ||
           error.type === "invalid_request_error" ||
           error.name === "AbortError" ||
           errorStr.includes("Connection error") ||
           errorStr.includes("toolCalls") ||
+          ["ManagedIdentityIsNotEnabled",
+            "Rate limit is exceeded",
+            "Invalid AzureCognitiveSearch configuration detected",
+            "Unsupported Model",
+            "does not support 'system' with this model",
+          ].some(match => error.message.includes(match)) ||
           error.status === 404
         ) {
-          logger.info("Handled error: ", error);
+          logger.warning("Handled error: ", error);
           continue;
         }
-        logger.info(`Error in deployment ${deployment.deploymentName}: `, error);
+        logger.error(`Error in deployment ${deployment.deploymentName}: `, error);
         errors.push(e);
       }
     }
