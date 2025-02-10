@@ -63,9 +63,9 @@ export async function main() {
     console.log(`  Found label for development: ${label.name}`);
   }
 
-  /// /////////////////////////////////////////////////////
-  /// ////////////  Example for .byPage()  ////////////////
-  /// /////////////////////////////////////////////////////
+  /*
+   * Example for .byPage()
+   */
 
   // Passing marker as an argument
   let iterator = client.listLabels().byPage();
