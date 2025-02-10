@@ -8,7 +8,7 @@
 
 import {
   ComponentFeatureCapabilitiesGetOptionalParams,
-  ComponentFeatureCapabilitiesGetResponse
+  ComponentFeatureCapabilitiesGetResponse,
 } from "../models/index.js";
 
 /** Interface representing a ComponentFeatureCapabilities. */
@@ -22,6 +22,6 @@ export interface ComponentFeatureCapabilities {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentFeatureCapabilitiesGetOptionalParams
+    options?: ComponentFeatureCapabilitiesGetOptionalParams,
   ): Promise<ComponentFeatureCapabilitiesGetResponse>;
 }

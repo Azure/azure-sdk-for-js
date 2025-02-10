@@ -16,7 +16,7 @@ import {
   ComponentLinkedStorageAccountsPatch,
   ComponentLinkedStorageAccountsUpdateOptionalParams,
   ComponentLinkedStorageAccountsUpdateResponse,
-  ComponentLinkedStorageAccountsDeleteOptionalParams
+  ComponentLinkedStorageAccountsDeleteOptionalParams,
 } from "../models/index.js";
 
 /** Interface representing a ComponentLinkedStorageAccountsOperations. */
@@ -33,7 +33,7 @@ export interface ComponentLinkedStorageAccountsOperations {
     resourceGroupName: string,
     resourceName: string,
     storageType: StorageType,
-    options?: ComponentLinkedStorageAccountsGetOptionalParams
+    options?: ComponentLinkedStorageAccountsGetOptionalParams,
   ): Promise<ComponentLinkedStorageAccountsGetResponse>;
   /**
    * Replace current linked storage account for an Application Insights component.
@@ -50,7 +50,7 @@ export interface ComponentLinkedStorageAccountsOperations {
     resourceName: string,
     storageType: StorageType,
     linkedStorageAccountsProperties: ComponentLinkedStorageAccounts,
-    options?: ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams
+    options?: ComponentLinkedStorageAccountsCreateAndUpdateOptionalParams,
   ): Promise<ComponentLinkedStorageAccountsCreateAndUpdateResponse>;
   /**
    * Update linked storage accounts for an Application Insights component.
@@ -67,7 +67,7 @@ export interface ComponentLinkedStorageAccountsOperations {
     resourceName: string,
     storageType: StorageType,
     linkedStorageAccountsProperties: ComponentLinkedStorageAccountsPatch,
-    options?: ComponentLinkedStorageAccountsUpdateOptionalParams
+    options?: ComponentLinkedStorageAccountsUpdateOptionalParams,
   ): Promise<ComponentLinkedStorageAccountsUpdateResponse>;
   /**
    * Delete linked storage accounts for an Application Insights component.
@@ -81,6 +81,6 @@ export interface ComponentLinkedStorageAccountsOperations {
     resourceGroupName: string,
     resourceName: string,
     storageType: StorageType,
-    options?: ComponentLinkedStorageAccountsDeleteOptionalParams
+    options?: ComponentLinkedStorageAccountsDeleteOptionalParams,
   ): Promise<void>;
 }

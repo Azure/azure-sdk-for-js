@@ -17,6 +17,6 @@ export interface LiveToken {
    */
   get(
     resourceUri: string,
-    options?: LiveTokenGetOptionalParams
+    options?: LiveTokenGetOptionalParams,
   ): Promise<LiveTokenGetResponse>;
 }

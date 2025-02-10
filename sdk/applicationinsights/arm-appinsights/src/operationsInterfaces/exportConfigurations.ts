@@ -17,7 +17,7 @@ import {
   ExportConfigurationsGetOptionalParams,
   ExportConfigurationsGetResponse,
   ExportConfigurationsUpdateOptionalParams,
-  ExportConfigurationsUpdateResponse
+  ExportConfigurationsUpdateResponse,
 } from "../models/index.js";
 
 /** Interface representing a ExportConfigurations. */
@@ -31,7 +31,7 @@ export interface ExportConfigurations {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: ExportConfigurationsListOptionalParams
+    options?: ExportConfigurationsListOptionalParams,
   ): Promise<ExportConfigurationsListResponse>;
   /**
    * Create a Continuous Export configuration of an Application Insights component.
@@ -45,7 +45,7 @@ export interface ExportConfigurations {
     resourceGroupName: string,
     resourceName: string,
     exportProperties: ApplicationInsightsComponentExportRequest,
-    options?: ExportConfigurationsCreateOptionalParams
+    options?: ExportConfigurationsCreateOptionalParams,
   ): Promise<ExportConfigurationsCreateResponse>;
   /**
    * Delete a Continuous Export configuration of an Application Insights component.
@@ -59,7 +59,7 @@ export interface ExportConfigurations {
     resourceGroupName: string,
     resourceName: string,
     exportId: string,
-    options?: ExportConfigurationsDeleteOptionalParams
+    options?: ExportConfigurationsDeleteOptionalParams,
   ): Promise<ExportConfigurationsDeleteResponse>;
   /**
    * Get the Continuous Export configuration for this export id.
@@ -73,7 +73,7 @@ export interface ExportConfigurations {
     resourceGroupName: string,
     resourceName: string,
     exportId: string,
-    options?: ExportConfigurationsGetOptionalParams
+    options?: ExportConfigurationsGetOptionalParams,
   ): Promise<ExportConfigurationsGetResponse>;
   /**
    * Update the Continuous Export configuration for this export id.
@@ -90,6 +90,6 @@ export interface ExportConfigurations {
     resourceName: string,
     exportId: string,
     exportProperties: ApplicationInsightsComponentExportRequest,
-    options?: ExportConfigurationsUpdateOptionalParams
+    options?: ExportConfigurationsUpdateOptionalParams,
   ): Promise<ExportConfigurationsUpdateResponse>;
 }

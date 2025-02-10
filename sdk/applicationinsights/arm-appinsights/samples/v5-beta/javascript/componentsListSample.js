@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a list of all Application Insights components within a subscription.
@@ -18,7 +19,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2020-02-02/examples/ComponentsList.json
  */
 async function componentsListJson() {
-  const subscriptionId = "subid";
+  const subscriptionId = process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function componentsListJson() {
   console.log(resArray);
 }
 
-componentsListJson().catch(console.error);
+async function main() {
+  await componentsListJson();
+}
+
+main().catch(console.error);

@@ -10,6 +10,7 @@
 // Licensed under the MIT License.
 const { ApplicationInsightsManagementClient } = require("@azure/arm-appinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a list of ProactiveDetection configurations of an Application Insights component.
@@ -18,16 +19,21 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/ProactiveDetectionConfigurationsList.json
  */
 async function proactiveDetectionConfigurationsList() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "my-resource-group";
+  const subscriptionId = process.env["APPLICATIONINSIGHTS_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName =
+    process.env["APPLICATIONINSIGHTS_RESOURCE_GROUP"] || "my-resource-group";
   const resourceName = "my-component";
   const credential = new DefaultAzureCredential();
   const client = new ApplicationInsightsManagementClient(credential, subscriptionId);
   const result = await client.proactiveDetectionConfigurations.list(
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }
 
-proactiveDetectionConfigurationsList().catch(console.error);
+async function main() {
+  await proactiveDetectionConfigurationsList();
+}
+
+main().catch(console.error);

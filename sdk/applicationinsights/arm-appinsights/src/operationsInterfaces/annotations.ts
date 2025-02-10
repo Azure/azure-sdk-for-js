@@ -14,7 +14,7 @@ import {
   AnnotationsCreateResponse,
   AnnotationsDeleteOptionalParams,
   AnnotationsGetOptionalParams,
-  AnnotationsGetResponse
+  AnnotationsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Annotations {
     resourceName: string,
     start: string,
     end: string,
-    options?: AnnotationsListOptionalParams
+    options?: AnnotationsListOptionalParams,
   ): PagedAsyncIterableIterator<Annotation>;
   /**
    * Create an Annotation of an Application Insights component.
@@ -48,7 +48,7 @@ export interface Annotations {
     resourceGroupName: string,
     resourceName: string,
     annotationProperties: Annotation,
-    options?: AnnotationsCreateOptionalParams
+    options?: AnnotationsCreateOptionalParams,
   ): Promise<AnnotationsCreateResponse>;
   /**
    * Delete an Annotation of an Application Insights component.
@@ -62,7 +62,7 @@ export interface Annotations {
     resourceGroupName: string,
     resourceName: string,
     annotationId: string,
-    options?: AnnotationsDeleteOptionalParams
+    options?: AnnotationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get the annotation for given id.
@@ -76,6 +76,6 @@ export interface Annotations {
     resourceGroupName: string,
     resourceName: string,
     annotationId: string,
-    options?: AnnotationsGetOptionalParams
+    options?: AnnotationsGetOptionalParams,
   ): Promise<AnnotationsGetResponse>;
 }

@@ -34,7 +34,7 @@ import {
   WebTestsDeleteOptionalParams,
   WebTestsListByResourceGroupNextResponse,
   WebTestsListNextResponse,
-  WebTestsListByComponentNextResponse
+  WebTestsListByComponentNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,13 +51,13 @@ export class WebTestsImpl implements WebTests {
   }
 
   /**
-   * Get all Application Insights web tests defined within a specified resource group.
+   * Get all Application Insights web tests defined for the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: WebTestsListByResourceGroupOptionalParams
+    options?: WebTestsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<WebTest> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -74,16 +74,16 @@ export class WebTestsImpl implements WebTests {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: WebTestsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WebTest[]> {
     let result: WebTestsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class WebTestsImpl implements WebTests {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,22 +109,22 @@ export class WebTestsImpl implements WebTests {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: WebTestsListByResourceGroupOptionalParams
+    options?: WebTestsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<WebTest> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Get all Application Insights web test alerts definitions within a subscription.
+   * Get all Application Insights web test definitions for the specified subscription.
    * @param options The options parameters.
    */
   public list(
-    options?: WebTestsListOptionalParams
+    options?: WebTestsListOptionalParams,
   ): PagedAsyncIterableIterator<WebTest> {
     const iter = this.listPagingAll(options);
     return {
@@ -139,13 +139,13 @@ export class WebTestsImpl implements WebTests {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: WebTestsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WebTest[]> {
     let result: WebTestsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -166,7 +166,7 @@ export class WebTestsImpl implements WebTests {
   }
 
   private async *listPagingAll(
-    options?: WebTestsListOptionalParams
+    options?: WebTestsListOptionalParams,
   ): AsyncIterableIterator<WebTest> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -182,12 +182,12 @@ export class WebTestsImpl implements WebTests {
   public listByComponent(
     componentName: string,
     resourceGroupName: string,
-    options?: WebTestsListByComponentOptionalParams
+    options?: WebTestsListByComponentOptionalParams,
   ): PagedAsyncIterableIterator<WebTest> {
     const iter = this.listByComponentPagingAll(
       componentName,
       resourceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -204,9 +204,9 @@ export class WebTestsImpl implements WebTests {
           componentName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -214,7 +214,7 @@ export class WebTestsImpl implements WebTests {
     componentName: string,
     resourceGroupName: string,
     options?: WebTestsListByComponentOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<WebTest[]> {
     let result: WebTestsListByComponentResponse;
     let continuationToken = settings?.continuationToken;
@@ -222,7 +222,7 @@ export class WebTestsImpl implements WebTests {
       result = await this._listByComponent(
         componentName,
         resourceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -234,7 +234,7 @@ export class WebTestsImpl implements WebTests {
         componentName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -246,53 +246,53 @@ export class WebTestsImpl implements WebTests {
   private async *listByComponentPagingAll(
     componentName: string,
     resourceGroupName: string,
-    options?: WebTestsListByComponentOptionalParams
+    options?: WebTestsListByComponentOptionalParams,
   ): AsyncIterableIterator<WebTest> {
     for await (const page of this.listByComponentPagingPage(
       componentName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Get all Application Insights web tests defined within a specified resource group.
+   * Get all Application Insights web tests defined for the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: WebTestsListByResourceGroupOptionalParams
+    options?: WebTestsListByResourceGroupOptionalParams,
   ): Promise<WebTestsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
   /**
    * Get a specific Application Insights web test definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
+   * @param webTestName The name of the Application Insights WebTest resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     webTestName: string,
-    options?: WebTestsGetOptionalParams
+    options?: WebTestsGetOptionalParams,
   ): Promise<WebTestsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, webTestName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
   /**
    * Creates or updates an Application Insights web test definition.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
+   * @param webTestName The name of the Application Insights WebTest resource.
    * @param webTestDefinition Properties that need to be specified to create or update an Application
    *                          Insights web test definition.
    * @param options The options parameters.
@@ -301,56 +301,56 @@ export class WebTestsImpl implements WebTests {
     resourceGroupName: string,
     webTestName: string,
     webTestDefinition: WebTest,
-    options?: WebTestsCreateOrUpdateOptionalParams
+    options?: WebTestsCreateOrUpdateOptionalParams,
   ): Promise<WebTestsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, webTestName, webTestDefinition, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
   /**
-   * Creates or updates an Application Insights web test definition.
+   * Updates the tags associated with an Application Insights web test.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
-   * @param webTestTags Updated tag information to set into the web test instance.
+   * @param webTestName The name of the Application Insights WebTest resource.
+   * @param webTestTags Updated tag information to associate with the web test resource.
    * @param options The options parameters.
    */
   updateTags(
     resourceGroupName: string,
     webTestName: string,
     webTestTags: TagsResource,
-    options?: WebTestsUpdateTagsOptionalParams
+    options?: WebTestsUpdateTagsOptionalParams,
   ): Promise<WebTestsUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, webTestName, webTestTags, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
   /**
    * Deletes an Application Insights web test.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param webTestName The name of the Application Insights webtest resource.
+   * @param webTestName The name of the Application Insights WebTest resource.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     webTestName: string,
-    options?: WebTestsDeleteOptionalParams
+    options?: WebTestsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, webTestName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
   /**
-   * Get all Application Insights web test alerts definitions within a subscription.
+   * Get all Application Insights web test definitions for the specified subscription.
    * @param options The options parameters.
    */
   private _list(
-    options?: WebTestsListOptionalParams
+    options?: WebTestsListOptionalParams,
   ): Promise<WebTestsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -364,11 +364,11 @@ export class WebTestsImpl implements WebTests {
   private _listByComponent(
     componentName: string,
     resourceGroupName: string,
-    options?: WebTestsListByComponentOptionalParams
+    options?: WebTestsListByComponentOptionalParams,
   ): Promise<WebTestsListByComponentResponse> {
     return this.client.sendOperationRequest(
       { componentName, resourceGroupName, options },
-      listByComponentOperationSpec
+      listByComponentOperationSpec,
     );
   }
 
@@ -381,11 +381,11 @@ export class WebTestsImpl implements WebTests {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: WebTestsListByResourceGroupNextOptionalParams
+    options?: WebTestsListByResourceGroupNextOptionalParams,
   ): Promise<WebTestsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -396,11 +396,11 @@ export class WebTestsImpl implements WebTests {
    */
   private _listNext(
     nextLink: string,
-    options?: WebTestsListNextOptionalParams
+    options?: WebTestsListNextOptionalParams,
   ): Promise<WebTestsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -415,11 +415,11 @@ export class WebTestsImpl implements WebTests {
     componentName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: WebTestsListByComponentNextOptionalParams
+    options?: WebTestsListByComponentNextOptionalParams,
   ): Promise<WebTestsListByComponentNextResponse> {
     return this.client.sendOperationRequest(
       { componentName, resourceGroupName, nextLink, options },
-      listByComponentNextOperationSpec
+      listByComponentNextOperationSpec,
     );
   }
 }
@@ -427,181 +427,172 @@ export class WebTestsImpl implements WebTests {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebTestListResult
-    }
+      bodyMapper: Mappers.WebTestListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebTest
-    }
+      bodyMapper: Mappers.WebTest,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.webTestName
+    Parameters.resourceGroupName,
+    Parameters.webTestName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.WebTest
-    }
+      bodyMapper: Mappers.WebTest,
+    },
   },
   requestBody: Parameters.webTestDefinition,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.webTestName
+    Parameters.resourceGroupName,
+    Parameters.webTestName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.WebTest
-    }
+      bodyMapper: Mappers.WebTest,
+    },
   },
   requestBody: Parameters.webTestTags,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.webTestName
+    Parameters.resourceGroupName,
+    Parameters.webTestName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/webtests/{webTestName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.webTestName
+    Parameters.resourceGroupName,
+    Parameters.webTestName,
   ],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/webtests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebTestListResult
-    }
+      bodyMapper: Mappers.WebTestListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByComponentOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{componentName}/webtests",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{componentName}/webtests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebTestListResult
-    }
+      bodyMapper: Mappers.WebTestListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.componentName
+    Parameters.resourceGroupName,
+    Parameters.componentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebTestListResult
-    }
+      bodyMapper: Mappers.WebTestListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebTestListResult
-    }
+      bodyMapper: Mappers.WebTestListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByComponentNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WebTestListResult
-    }
+      bodyMapper: Mappers.WebTestListResult,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
     Parameters.componentName,
-    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

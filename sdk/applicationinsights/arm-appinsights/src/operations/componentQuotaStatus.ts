@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters.js";
 import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient.js";
 import {
   ComponentQuotaStatusGetOptionalParams,
-  ComponentQuotaStatusGetResponse
+  ComponentQuotaStatusGetResponse,
 } from "../models/index.js";
 
 /** Class containing ComponentQuotaStatus operations. */
@@ -37,11 +37,11 @@ export class ComponentQuotaStatusImpl implements ComponentQuotaStatus {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ComponentQuotaStatusGetOptionalParams
+    options?: ComponentQuotaStatusGetOptionalParams,
   ): Promise<ComponentQuotaStatusGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -49,21 +49,20 @@ export class ComponentQuotaStatusImpl implements ComponentQuotaStatus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/quotastatus",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/components/{resourceName}/quotastatus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ApplicationInsightsComponentQuotaStatus
-    }
+      bodyMapper: Mappers.ApplicationInsightsComponentQuotaStatus,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

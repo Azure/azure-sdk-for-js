@@ -21,7 +21,7 @@ import {
   WorkbooksUpdateOptionalParams,
   WorkbooksUpdateResponse,
   WorkbooksRevisionGetOptionalParams,
-  WorkbooksRevisionGetResponse
+  WorkbooksRevisionGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Workbooks {
    */
   listBySubscription(
     category: CategoryType,
-    options?: WorkbooksListBySubscriptionOptionalParams
+    options?: WorkbooksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Workbook>;
   /**
    * Get all Workbooks defined within a specified resource group and category.
@@ -45,45 +45,45 @@ export interface Workbooks {
   listByResourceGroup(
     resourceGroupName: string,
     category: CategoryType,
-    options?: WorkbooksListByResourceGroupOptionalParams
+    options?: WorkbooksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Workbook>;
   /**
    * Get the revisions for the workbook defined by its resourceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the workbook resource. The value must be an UUID.
    * @param options The options parameters.
    */
   listRevisionsList(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbooksRevisionsListOptionalParams
+    options?: WorkbooksRevisionsListOptionalParams,
   ): PagedAsyncIterableIterator<Workbook>;
   /**
    * Get a single workbook by its resourceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the workbook resource. The value must be an UUID.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbooksGetOptionalParams
+    options?: WorkbooksGetOptionalParams,
   ): Promise<WorkbooksGetResponse>;
   /**
    * Delete a workbook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the workbook resource. The value must be an UUID.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbooksDeleteOptionalParams
+    options?: WorkbooksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Create a new workbook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the workbook resource. The value must be an UUID.
    * @param workbookProperties Properties that need to be specified to create a new workbook.
    * @param options The options parameters.
    */
@@ -91,23 +91,23 @@ export interface Workbooks {
     resourceGroupName: string,
     resourceName: string,
     workbookProperties: Workbook,
-    options?: WorkbooksCreateOrUpdateOptionalParams
+    options?: WorkbooksCreateOrUpdateOptionalParams,
   ): Promise<WorkbooksCreateOrUpdateResponse>;
   /**
    * Updates a workbook that has already been added.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the workbook resource. The value must be an UUID.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     resourceName: string,
-    options?: WorkbooksUpdateOptionalParams
+    options?: WorkbooksUpdateOptionalParams,
   ): Promise<WorkbooksUpdateResponse>;
   /**
    * Get a single workbook revision defined by its revisionId.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the resource.
+   * @param resourceName The name of the workbook resource. The value must be an UUID.
    * @param revisionId The id of the workbook's revision.
    * @param options The options parameters.
    */
@@ -115,6 +115,6 @@ export interface Workbooks {
     resourceGroupName: string,
     resourceName: string,
     revisionId: string,
-    options?: WorkbooksRevisionGetOptionalParams
+    options?: WorkbooksRevisionGetOptionalParams,
   ): Promise<WorkbooksRevisionGetResponse>;
 }
