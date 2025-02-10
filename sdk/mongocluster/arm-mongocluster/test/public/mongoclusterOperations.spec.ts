@@ -3,7 +3,8 @@
  * Licensed under the MIT License.
  */
 
-import { env, Recorder, isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { MongoClusterManagementClient } from "../../src/mongoClusterManagementClient.js";
@@ -47,7 +48,7 @@ describe("MongoCluster test", () => {
 
   it("operations list test", async function () {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
@@ -107,7 +108,7 @@ describe("MongoCluster test", () => {
 
   it("mongoClusters list test", async function () {
     const resArray = new Array();
-    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -115,7 +116,7 @@ describe("MongoCluster test", () => {
 
   it("firewallRules list test", async function () {
     const resArray = new Array();
-    for await (let item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
+    for await (const item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -132,7 +133,7 @@ describe("MongoCluster test", () => {
   it("firewallRules delete test", async function () {
     const resArray = new Array();
     await client.firewallRules.delete(resourceGroup, resourcename, fireWallName);
-    for await (let item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
+    for await (const item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -141,7 +142,7 @@ describe("MongoCluster test", () => {
   it("mongoClusters delete test", async function () {
     const resArray = new Array();
     await client.mongoClusters.delete(resourceGroup, resourcename);
-    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

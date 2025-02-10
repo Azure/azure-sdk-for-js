@@ -3,7 +3,7 @@
 import assert from "assert";
 import { Constants } from "../../../src/common/constants";
 import { getHeaders } from "../../../src/request/request";
-import { CosmosHeaders, FeedOptions } from "../../../src";
+import type { CosmosHeaders, FeedOptions } from "../../../src";
 
 describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value", function () {
   const mockedEndpoint = "https://localhost:8081";

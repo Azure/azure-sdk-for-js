@@ -5,7 +5,8 @@
  * @summary Send an SMS message to 1 or more recipients
  */
 
-import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
+import type { SmsSendRequest } from "@azure/communication-sms";
+import { SmsClient } from "@azure/communication-sms";
 
 // Load the .env file if it exists
 import "dotenv/config";

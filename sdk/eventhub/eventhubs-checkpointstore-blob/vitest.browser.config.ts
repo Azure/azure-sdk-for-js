@@ -25,11 +25,11 @@ export default mergeConfig(
       hookTimeout: 60000,
       fileParallelism: false,
       include: ["dist-test/browser/**/*.spec.js"],
-      setupFiles: !process.env["AZURE_LOG_LEVEL"] ? [] : ['./test/activate-browser-logging.ts'],
+      setupFiles: !process.env["AZURE_LOG_LEVEL"] ? [] : ["./test/activate-browser-logging.ts"],
       alias: {
         "../../../src": resolve("./dist/browser"),
         "../../src": resolve("./dist/browser"),
       },
     },
-  })
+  }),
 );

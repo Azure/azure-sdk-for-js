@@ -8,7 +8,8 @@
  * @azsdk-weight 40
  */
 
-import { getPagedAsyncIterator, PagedResult, PageSettings } from "@azure/core-paging";
+import type { PagedResult, PageSettings } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
 
 export async function main() {
   const totalElementsCount = 100;

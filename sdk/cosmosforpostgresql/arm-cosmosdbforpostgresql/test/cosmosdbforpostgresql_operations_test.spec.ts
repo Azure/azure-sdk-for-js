@@ -6,13 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
-  RecorderStartOptions} from "@azure-tools/test-recorder";
-import {
-  env,
-  Recorder,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { CosmosDBForPostgreSQL } from "../src/cosmosDBForPostgreSQL.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -21,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -45,28 +40,31 @@ describe("CosmosDBForPostgreSQL test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new CosmosDBForPostgreSQL(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest";
-
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new CosmosDBForPostgreSQL(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "eastus";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("clusters create test", async function () {
     const res = await client.clusters.beginCreateAndWait(
       resourceGroup,
       resourcename,
       {
-        administratorLoginPassword: "********",// need replace password value to ******** after testing.
+        administratorLoginPassword: "********", // need replace password value to ******** after testing.
         citusVersion: "11.1",
         coordinatorEnablePublicIpAccess: true,
         coordinatorServerEdition: "GeneralPurpose",
@@ -82,15 +80,15 @@ describe("CosmosDBForPostgreSQL test", () => {
         nodeVCores: 8,
         postgresqlVersion: "15",
         // preferredPrimaryZone: "1",
-        tags: {}
+        tags: {},
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, resourcename);
   });
 
   it("clusters get test", async function () {
-    const res = await client.clusters.get(resourceGroup,
-      resourcename);
+    const res = await client.clusters.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
@@ -111,4 +109,4 @@ describe("CosmosDBForPostgreSQL test", () => {
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

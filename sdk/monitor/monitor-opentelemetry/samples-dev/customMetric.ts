@@ -5,7 +5,8 @@
  * @summary Demonstrates how to run generate custom metrics that will be sent to Azure Monitor
  */
 
-import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import type { AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import { useAzureMonitor } from "@azure/monitor-opentelemetry";
 import { metrics } from "@opentelemetry/api";
 
 // Load the .env file if it exists

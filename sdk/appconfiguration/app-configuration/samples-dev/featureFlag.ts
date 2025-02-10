@@ -6,11 +6,10 @@
  *
  * @azsdk-weight 20
  */
+import type { ConfigurationSetting, FeatureFlagValue } from "@azure/app-configuration";
 import {
   AppConfigurationClient,
-  ConfigurationSetting,
   featureFlagContentType,
-  FeatureFlagValue,
   parseFeatureFlag,
 } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";

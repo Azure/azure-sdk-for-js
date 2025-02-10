@@ -6,13 +6,8 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  Durations,
-  LogsQueryClient,
-  LogsTable,
-  LogsQueryOptions,
-  LogsQueryResultStatus,
-} from "@azure/monitor-query";
+import type { LogsTable, LogsQueryOptions } from "@azure/monitor-query";
+import { Durations, LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
 

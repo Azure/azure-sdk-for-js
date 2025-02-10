@@ -6,22 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { SecurityCenter } from "../src/securityCenter";
-import { SecurityContact } from "../src/models";
+import type { SecurityContact } from "../src/models";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -37,11 +32,7 @@ export const testPollingOptions = {
 };
 
 export function createTestCredential() {
-  return isPlaybackMode()
-    ? new NoOpCredential()
-    : new
-      DefaultAzureCredential()
-    ;
+  return isPlaybackMode() ? new NoOpCredential() : new DefaultAzureCredential();
 }
 
 describe("security test", () => {
@@ -56,7 +47,7 @@ describe("security test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new SecurityCenter(credential, subscriptionId, recorder.configureClientOptions({}));
@@ -67,38 +58,33 @@ describe("security test", () => {
       notificationsSources: [
         {
           minimalSeverity: "Low",
-          sourceType: "Alert"
-        }
+          sourceType: "Alert",
+        },
       ],
       emails: "john@contoso.com;jane@contoso.com",
       notificationsByRole: { roles: ["Owner"], state: "On" },
-      phone: "+214-2754038"
+      phone: "+214-2754038",
     };
-  })
+  });
 
   afterEach(async function () {
     await recorder.stop();
   });
 
   it("SecurityContact create test", async function () {
-    const res = await client.securityContacts.create(
-      securityContactName,
-      securityContact
-    );
+    const res = await client.securityContacts.create(securityContactName, securityContact);
     assert.equal(res.name, securityContactName);
   });
 
   it("SecurityContact get test", async function () {
-    const res = await client.securityContacts.get(
-      securityContactName
-    );
+    const res = await client.securityContacts.get(securityContactName);
     assert.equal(res.name, securityContactName);
   });
 
   it("SecurityContact list test", async function () {
     const resArray = new Array();
-    const res = client.securityContacts.list()
-    for await (let item of res.byPage()) {
+    const res = client.securityContacts.list();
+    for await (const item of res.byPage()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -106,10 +92,10 @@ describe("security test", () => {
 
   it("SecurityContact delete test", async function () {
     const resArray = new Array();
-    const res = await client.securityContacts.delete(securityContactName)
-    for await (let item of client.securityContacts.list()) {
+    const res = await client.securityContacts.delete(securityContactName);
+    for await (const item of client.securityContacts.list()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

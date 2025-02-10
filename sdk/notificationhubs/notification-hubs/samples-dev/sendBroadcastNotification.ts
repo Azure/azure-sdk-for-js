@@ -15,17 +15,17 @@
  */
 
 import "dotenv/config";
+import type { NotificationHubsClientContext } from "@azure/notification-hubs/api";
 import {
-  NotificationHubsClientContext,
   createClientContext,
   getNotificationOutcomeDetails,
   sendBroadcastNotification,
 } from "@azure/notification-hubs/api";
-import {
-  createAppleNotification,
+import type {
   NotificationDetails,
   NotificationOutcomeState,
 } from "@azure/notification-hubs/models";
+import { createAppleNotification } from "@azure/notification-hubs/models";
 import { delay } from "@azure/core-util";
 
 // Define connection string and hub name

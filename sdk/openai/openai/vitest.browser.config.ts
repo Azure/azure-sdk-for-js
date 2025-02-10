@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -15,9 +14,7 @@ export default mergeConfig(
       fileParallelism: false,
       globalSetup: [resolve(__dirname, "test/utils/setup.ts")],
       setupFiles: [resolve(__dirname, "test/utils/logging.ts")],
-      include: [
-        "dist-test/browser/test/**/*.spec.js",
-      ],
+      include: ["dist-test/browser/test/**/*.spec.js"],
     },
   }),
 );

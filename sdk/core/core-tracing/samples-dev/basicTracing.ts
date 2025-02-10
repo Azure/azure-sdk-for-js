@@ -5,7 +5,8 @@
  * @summary Uses `@azure/core-tracing` APIs to instrument method calls for a fake Azure client library.
  */
 
-import { createTracingClient, OperationTracingOptions, TracingClient } from "@azure/core-tracing";
+import type { OperationTracingOptions, TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 
 /**
  * Represents common operation options

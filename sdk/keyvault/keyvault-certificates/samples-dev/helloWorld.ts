@@ -8,12 +8,8 @@
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 
-import {
-  CertificateClient,
-  CertificatePolicy,
-  DefaultCertificatePolicy,
-  UpdateCertificateOptions,
-} from "@azure/keyvault-certificates";
+import type { CertificatePolicy, UpdateCertificateOptions } from "@azure/keyvault-certificates";
+import { CertificateClient, DefaultCertificatePolicy } from "@azure/keyvault-certificates";
 
 import { DefaultAzureCredential } from "@azure/identity";
 

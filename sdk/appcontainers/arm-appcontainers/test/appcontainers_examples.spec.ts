@@ -6,19 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ContainerAppsAPIClient } from "../src/containerAppsAPIClient.js";
-import { ContainerApp, ManagedEnvironment } from "../src/models/index.js";
+import type { ContainerApp, ManagedEnvironment } from "../src/models/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -47,10 +43,14 @@ describe("AppContainer test", () => {
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ContainerAppsAPIClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new ContainerAppsAPIClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "westus";
     resourceGroup = "myjstest";
     containerAppName = "mycontainerappxxx";
@@ -72,21 +72,27 @@ describe("AppContainer test", () => {
   it("managedEnvironments create test", async function () {
     environmentEnvelope = {
       location,
-      zoneRedundant: false
+      zoneRedundant: false,
     };
     const res = await client.managedEnvironments.beginCreateOrUpdateAndWait(
       resourceGroup,
       environmentName,
       environmentEnvelope,
-      testPollingOptions
+      testPollingOptions,
     );
     assert.equal(res.name, environmentName);
-  })
+  });
 
   it("containerApp create test", async function () {
     containerAppEnvelope = {
-      "location": location,
-      "managedEnvironmentId": "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.App/managedEnvironments/" + environmentName,
+      location: location,
+      managedEnvironmentId:
+        "/subscriptions/" +
+        subscriptionId +
+        "/resourceGroups/" +
+        resourceGroup +
+        "/providers/Microsoft.App/managedEnvironments/" +
+        environmentName,
       template: {
         containers: [
           {
@@ -94,39 +100,49 @@ describe("AppContainer test", () => {
             image: "mcr.microsoft.com/azuredocs/containerapps-helloworld",
             resources: {
               cpu: 0.25,
-              memory: "0.5Gi"
-            }
-          }
-        ]
-      }
-    }
-    const res = await client.containerApps.beginCreateOrUpdateAndWait(resourceGroup, containerAppName, containerAppEnvelope, testPollingOptions);
+              memory: "0.5Gi",
+            },
+          },
+        ],
+      },
+    };
+    const res = await client.containerApps.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      containerAppName,
+      containerAppEnvelope,
+      testPollingOptions,
+    );
     assert.equal(res.name, containerAppName);
   });
 
   it("containerapp list Secrets test", async function () {
-    const res = await client.containerApps.listSecrets(
-      resourceGroup,
-      containerAppName
-    );
+    const res = await client.containerApps.listSecrets(resourceGroup, containerAppName);
     console.log(res);
   });
 
   it("containerapp delete test", async function () {
-    await client.containerApps.beginDeleteAndWait(resourceGroup, containerAppName, testPollingOptions);
+    await client.containerApps.beginDeleteAndWait(
+      resourceGroup,
+      containerAppName,
+      testPollingOptions,
+    );
     const resArray = new Array();
-    for await (let item of client.containerApps.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.containerApps.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
-  })
+  });
 
   it("managedEnvironments delete test", async function () {
-    await client.managedEnvironments.beginDeleteAndWait(resourceGroup, environmentName, testPollingOptions);
+    await client.managedEnvironments.beginDeleteAndWait(
+      resourceGroup,
+      environmentName,
+      testPollingOptions,
+    );
     const resArray = new Array();
-    for await (let item of client.managedEnvironments.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.managedEnvironments.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
-  })
-})
+  });
+});

@@ -6,23 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { IotHubClient } from "../src/iotHubClient";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -48,7 +43,7 @@ describe("Iothub test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new IotHubClient(credential, subscriptionId, recorder.configureClientOptions({}));
@@ -62,70 +57,75 @@ describe("Iothub test", () => {
   });
 
   it("iotHubResource create test", async function () {
-    const res = await client.iotHubResource.beginCreateOrUpdateAndWait(resourceGroup, iothubName, {
-      location: location,
-      tags: { key: "value1" },
-      etag: "AAAAAAFD6M4=",
-      properties: {
-        ipFilterRules: [],
-        networkRuleSets: {
-          defaultAction: "Deny",
-          applyToBuiltInEventHubEndpoint: true,
-          ipRules: [
-            {
-              filterName: "rule1",
-              action: "Allow",
-              ipMask: "131.117.159.53"
-            }
-          ]
-        },
-        eventHubEndpoints: {
-          events: {
-            retentionTimeInDays: 1,
-            partitionCount: 2
-          }
-        },
-        routing: {
-          endpoints: {
-            serviceBusQueues: [],
-            serviceBusTopics: [],
-            eventHubs: [],
-            storageContainers: []
+    const res = await client.iotHubResource.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      iothubName,
+      {
+        location: location,
+        tags: { key: "value1" },
+        etag: "AAAAAAFD6M4=",
+        properties: {
+          ipFilterRules: [],
+          networkRuleSets: {
+            defaultAction: "Deny",
+            applyToBuiltInEventHubEndpoint: true,
+            ipRules: [
+              {
+                filterName: "rule1",
+                action: "Allow",
+                ipMask: "131.117.159.53",
+              },
+            ],
           },
-          routes: [],
+          eventHubEndpoints: {
+            events: {
+              retentionTimeInDays: 1,
+              partitionCount: 2,
+            },
+          },
+          routing: {
+            endpoints: {
+              serviceBusQueues: [],
+              serviceBusTopics: [],
+              eventHubs: [],
+              storageContainers: [],
+            },
+            routes: [],
+          },
+          storageEndpoints: {
+            $default: {
+              sasTtlAsIso8601: "PT1H",
+              connectionString: "",
+              containerName: "",
+            },
+          },
+          messagingEndpoints: {
+            fileNotifications: {
+              lockDurationAsIso8601: "PT1M",
+              ttlAsIso8601: "PT1H",
+              maxDeliveryCount: 10,
+            },
+          },
+          enableFileUploadNotifications: false,
+          cloudToDevice: {
+            maxDeliveryCount: 10,
+            defaultTtlAsIso8601: "PT1H",
+            feedback: {
+              lockDurationAsIso8601: "PT1M",
+              ttlAsIso8601: "PT1H",
+              maxDeliveryCount: 10,
+            },
+          },
+          features: "None",
+          minTlsVersion: "1.2",
         },
-        storageEndpoints: {
-          $default: {
-            sasTtlAsIso8601: "PT1H",
-            connectionString: "",
-            containerName: ""
-          }
+        sku: {
+          name: "S1",
+          capacity: 1,
         },
-        messagingEndpoints: {
-          fileNotifications: {
-            lockDurationAsIso8601: "PT1M",
-            ttlAsIso8601: "PT1H",
-            maxDeliveryCount: 10
-          }
-        },
-        enableFileUploadNotifications: false,
-        cloudToDevice: {
-          maxDeliveryCount: 10,
-          defaultTtlAsIso8601: "PT1H",
-          feedback: {
-            lockDurationAsIso8601: "PT1M",
-            ttlAsIso8601: "PT1H",
-            maxDeliveryCount: 10
-          }
-        },
-        features: "None",
-        minTlsVersion: "1.2"
       },
-      sku: {
-        name: "S1",
-        capacity: 1
-      }
-    }, testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, iothubName);
   });
 
@@ -136,21 +136,30 @@ describe("Iothub test", () => {
 
   it("iotHubResource list test", async function () {
     const resArray = new Array();
-    for await (let item of client.iotHubResource.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.iotHubResource.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
   it("iotHubResource update test", async function () {
-    const res = await client.iotHubResource.beginUpdateAndWait(resourceGroup, iothubName, { tags: { tag1: "value1" } }, testPollingOptions);
+    const res = await client.iotHubResource.beginUpdateAndWait(
+      resourceGroup,
+      iothubName,
+      { tags: { tag1: "value1" } },
+      testPollingOptions,
+    );
     assert.equal(res.name, iothubName);
   });
 
   it("iotHubResource delete test", async function () {
-    const res = await client.iotHubResource.beginDeleteAndWait(resourceGroup, iothubName, testPollingOptions);
+    const res = await client.iotHubResource.beginDeleteAndWait(
+      resourceGroup,
+      iothubName,
+      testPollingOptions,
+    );
     const resArray = new Array();
-    for await (let item of client.iotHubResource.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.iotHubResource.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

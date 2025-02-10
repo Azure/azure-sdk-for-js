@@ -6,22 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  RecorderStartOptions,
-  Recorder
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { LoadTestClient } from "../src/loadTestClient";
 import { createTestCredential } from "@azure-tools/test-credential";
-import {
-  QuotaBucketRequest,
-  QuotaBucketRequestPropertiesDimensions
-} from "../src/models";
+import type { QuotaBucketRequest, QuotaBucketRequestPropertiesDimensions } from "../src/models";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000"
+  SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -45,18 +39,18 @@ describe("Load Testing Quota Operations", () => {
     // Quota bucket request payload
     quotaBucketRequestDimensions = {
       location: location,
-      subscriptionId: subscriptionId
+      subscriptionId: subscriptionId,
     };
 
     // Set the global variables to be used in the tests
     location = env.LOCATION || "westus2";
     quotaBucketName = "maxEngineInstancesPerTestRun";
-  })
+  });
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '00000000-0000-0000-0000-000000000000';
+    subscriptionId = env.SUBSCRIPTION_ID || "00000000-0000-0000-0000-000000000000";
     const credential = createTestCredential();
     client = new LoadTestClient(credential, subscriptionId, recorder.configureClientOptions({}));
   });
@@ -107,11 +101,15 @@ describe("Load Testing Quota Operations", () => {
       currentQuota: result.limit,
       currentUsage: result.usage,
       newQuota: result.limit,
-      dimensions: quotaBucketRequestDimensions
+      dimensions: quotaBucketRequestDimensions,
     };
 
     // Check the quota bucket availability
-    const availability = await client.quotas.checkAvailability(location, quotaBucketName, quotaBucketRequestPayload);
+    const availability = await client.quotas.checkAvailability(
+      location,
+      quotaBucketName,
+      quotaBucketRequestPayload,
+    );
 
     // Verify the response
     assert.equal(availability.name, quotaBucketName);

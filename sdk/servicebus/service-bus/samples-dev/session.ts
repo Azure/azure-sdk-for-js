@@ -15,7 +15,8 @@
  * @azsdk-weight 75
  */
 
-import { delay, ProcessErrorArgs, ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import type { ProcessErrorArgs, ServiceBusMessage } from "@azure/service-bus";
+import { delay, ServiceBusClient } from "@azure/service-bus";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -111,7 +112,7 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
       endDate = now + 20000;
     }
 
-    let remainingTime: number = endDate - now;
+    const remainingTime: number = endDate - now;
 
     console.log(`Waiting for ${remainingTime} milliseconds for messages to arrive.`);
 

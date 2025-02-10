@@ -19,7 +19,8 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/index.js",
@@ -39,10 +40,7 @@
     "typescript": "~5.7.2"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/arm-mixedreality",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -55,7 +53,6 @@
     "dist-esm/**/*.js.map",
     "dist-esm/**/*.d.ts",
     "dist-esm/**/*.d.ts.map",
-    "src/**/*.ts",
     "README.md",
     "LICENSE",
     "tsconfig.json",

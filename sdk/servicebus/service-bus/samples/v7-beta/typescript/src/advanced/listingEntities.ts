@@ -61,9 +61,9 @@ export async function main() {
     queueItem = await queues.next();
   }
 
-  ////////////////////////////////////////////////////////
-  ///////////////  Examples for .byPage()  ///////////////
-  ////////////////////////////////////////////////////////
+  /*
+   * Example for .byPage()
+   */
 
   // 4. list queues by page
   i = 1;

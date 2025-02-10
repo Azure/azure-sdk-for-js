@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-appinsights": [
-        "./dist/esm"
-      ]
+      "@azure/arm-appinsights": ["./dist/esm"]
     }
   }
 }

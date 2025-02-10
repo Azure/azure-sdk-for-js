@@ -6,41 +6,39 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { SearchManagementClient } from "../src/searchManagementClient";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   sanitizerOptions: {
-    bodySanitizers: [{
-      regex: true,
-      value: `fakeKey`,
-      target: `[a-z0-9_A-z]{40,100}`
-    }],
-    uriSanitizers: [{
-      regex: true,
-      value: `fakeKey`,
-      target: `[a-z0-9_A-z]{40,100}`
-    }]
+    bodySanitizers: [
+      {
+        regex: true,
+        value: `fakeKey`,
+        target: `[a-z0-9_A-z]{40,100}`,
+      },
+    ],
+    uriSanitizers: [
+      {
+        regex: true,
+        value: `fakeKey`,
+        target: `[a-z0-9_A-z]{40,100}`,
+      },
+    ],
   },
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
   ],
-
 };
 
 export const testPollingOptions = {
@@ -60,13 +58,20 @@ describe("Search test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new SearchManagementClient(credential, subscriptionId, recorder.configureClientOptions({ endpoint: "https://eastus2euap.management.azure.com/", credentialScopes: "https://management.azure.com/.default" }));
+    client = new SearchManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({
+        endpoint: "https://eastus2euap.management.azure.com/",
+        credentialScopes: "https://management.azure.com/.default",
+      }),
+    );
     location = "eastus2euap";
     resourceGroup = "myjstest";
-    searchServiceName = "myjssearchservicexxx"
+    searchServiceName = "myjssearchservicexxx";
     keyname = "testjskey";
   });
 
@@ -83,15 +88,20 @@ describe("Search test", () => {
   });
 
   it("services create test", async function () {
-    const res = await client.services.beginCreateOrUpdateAndWait(resourceGroup, searchServiceName, {
-      location: location,
-      replicaCount: 1,
-      partitionCount: 1,
-      hostingMode: "default",
-      sku: {
-        name: "standard"
-      }
-    }, testPollingOptions);
+    const res = await client.services.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      searchServiceName,
+      {
+        location: location,
+        replicaCount: 1,
+        partitionCount: 1,
+        hostingMode: "default",
+        sku: {
+          name: "standard",
+        },
+      },
+      testPollingOptions,
+    );
     assert.equal(res.name, searchServiceName);
   }).timeout(3600000);
 
@@ -102,7 +112,7 @@ describe("Search test", () => {
 
   it("services list test", async function () {
     const resArray = new Array();
-    for await (let item of client.services.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.services.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -116,16 +126,22 @@ describe("Search test", () => {
 
   it("queryKeys list test", async function () {
     const resArray = new Array();
-    for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
+    for await (const item of client.queryKeys.listBySearchService(
+      resourceGroup,
+      searchServiceName,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 2);
   });
 
-  //skip this case as Internal Server Error (HTTP Status Code: 500).
+  // skip this case as Internal Server Error (HTTP Status Code: 500).
   it.skip("queryKeys delete test", async function () {
     let resArray = new Array();
-    for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
+    for await (const item of client.queryKeys.listBySearchService(
+      resourceGroup,
+      searchServiceName,
+    )) {
       resArray.push(item);
     }
     const len = resArray.length;
@@ -134,7 +150,10 @@ describe("Search test", () => {
     // Delete the query key by key not by keyname
     await client.queryKeys.delete(resourceGroup, searchServiceName, keyvalue);
     resArray = new Array();
-    for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
+    for await (const item of client.queryKeys.listBySearchService(
+      resourceGroup,
+      searchServiceName,
+    )) {
       resArray.push(item);
     }
     // The key number is reduced to len - 1
@@ -144,7 +163,7 @@ describe("Search test", () => {
   it("services delete test", async function () {
     await client.services.delete(resourceGroup, searchServiceName);
     const resArray = new Array();
-    for await (let item of client.services.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.services.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

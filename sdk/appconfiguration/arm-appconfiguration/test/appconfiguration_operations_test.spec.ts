@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AppConfigurationManagementClient } from "../src/appConfigurationManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -43,14 +39,17 @@ describe("AppConfiguration test", () => {
   beforeEach(async function (ctx) {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AppConfigurationManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new AppConfigurationManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {
@@ -59,12 +58,11 @@ describe("AppConfiguration test", () => {
 
   it("operations list test", async function () {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
-
 
   it("configurationStores create test", async function () {
     const res = await client.configurationStores.beginCreateAndWait(
@@ -78,21 +76,19 @@ describe("AppConfiguration test", () => {
         location,
         sku: { name: "Standard" },
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, resourcename);
   });
 
   it("configurationStores get test", async function () {
-    const res = await client.configurationStores.get(
-      resourceGroup,
-      resourcename
-    );
+    const res = await client.configurationStores.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
   it("configurationStores list test", async function () {
     const resArray = new Array();
-    for await (let item of client.configurationStores.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.configurationStores.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -101,9 +97,9 @@ describe("AppConfiguration test", () => {
   it("configurationStores delete test", async function () {
     const resArray = new Array();
     await client.configurationStores.beginDeleteAndWait(resourceGroup, resourcename);
-    for await (let item of client.configurationStores.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.configurationStores.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

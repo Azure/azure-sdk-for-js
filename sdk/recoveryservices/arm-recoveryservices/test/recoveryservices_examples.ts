@@ -6,23 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { RecoveryServicesClient } from "../src/recoveryServicesClient";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -49,10 +44,14 @@ describe("Recoveryservices test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new RecoveryServicesClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new RecoveryServicesClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     vaultsName = "myvaultxxx";
@@ -63,16 +62,21 @@ describe("Recoveryservices test", () => {
   });
 
   it("vaults create test", async function () {
-    const res = await client.vaults.beginCreateOrUpdateAndWait(resourceGroup, vaultsName, {
-      location: location,
-      properties: { publicNetworkAccess: "Enabled" },
-      sku: {
-        name: "Standard"
+    const res = await client.vaults.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      vaultsName,
+      {
+        location: location,
+        properties: { publicNetworkAccess: "Enabled" },
+        sku: {
+          name: "Standard",
+        },
+        identity: {
+          type: "SystemAssigned",
+        },
       },
-      identity: {
-        type: "SystemAssigned"
-      }
-    }, testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, vaultsName);
   });
 
@@ -83,7 +87,7 @@ describe("Recoveryservices test", () => {
 
   it("vaults list test", async function () {
     const resArray = new Array();
-    for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -91,20 +95,20 @@ describe("Recoveryservices test", () => {
 
   it("vaultExtendedInfo create test", async function () {
     const res = await client.vaultExtendedInfo.createOrUpdate(resourceGroup, vaultsName, {
-      algorithm: "None"
+      algorithm: "None",
     });
     assert.equal(res.algorithm, "None");
   });
 
   it("vaultExtendedInfo get test", async function () {
     const res = await client.vaultExtendedInfo.get(resourceGroup, vaultsName);
-    assert.equal(res.type, "Microsoft.RecoveryServices/vaults/extendedInformation")
+    assert.equal(res.type, "Microsoft.RecoveryServices/vaults/extendedInformation");
   });
 
   it("vaults delete test", async function () {
     const res = await client.vaults.beginDeleteAndWait(resourceGroup, vaultsName);
     const resArray = new Array();
-    for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

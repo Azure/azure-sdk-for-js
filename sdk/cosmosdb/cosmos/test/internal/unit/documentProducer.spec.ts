@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 // import assert from "assert";
-import { DocumentProducer, FetchResult, SqlQuerySpec } from "../../../src/queryExecutionContext";
+import type { SqlQuerySpec } from "../../../src/queryExecutionContext";
+import { DocumentProducer, FetchResult } from "../../../src/queryExecutionContext";
 import { MockedClientContext } from "../../public/common/MockClientContext";
-import { ClientContext, PartitionKeyRange } from "../../../src";
+import type { ClientContext, PartitionKeyRange } from "../../../src";
 import assert from "assert";
 
 describe("Test DocumentProducer", function () {

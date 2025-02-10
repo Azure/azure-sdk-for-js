@@ -5,12 +5,10 @@
  * @summary Demonstrates how to run generate custom traces that will be sent to Azure Monitor
  */
 
-import { context, trace, Span } from "@opentelemetry/api";
-import {
-  useAzureMonitor,
-  shutdownAzureMonitor,
-  AzureMonitorOpenTelemetryOptions,
-} from "@azure/monitor-opentelemetry";
+import type { Span } from "@opentelemetry/api";
+import { context, trace } from "@opentelemetry/api";
+import type { AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
+import { useAzureMonitor, shutdownAzureMonitor } from "@azure/monitor-opentelemetry";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

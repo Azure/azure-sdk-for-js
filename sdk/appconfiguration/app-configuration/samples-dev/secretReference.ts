@@ -6,11 +6,10 @@
  *
  * @azsdk-weight 30
  */
+import type { SecretReferenceValue, ConfigurationSetting } from "@azure/app-configuration";
 import {
   AppConfigurationClient,
-  SecretReferenceValue,
   secretReferenceContentType,
-  ConfigurationSetting,
   parseSecretReference,
 } from "@azure/app-configuration";
 import { parseKeyVaultSecretIdentifier, SecretClient } from "@azure/keyvault-secrets";

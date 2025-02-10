@@ -16,7 +16,7 @@
 
 import "dotenv/config";
 import { createClientContext, updateInstallation } from "@azure/notification-hubs/api";
-import { JsonPatch } from "@azure/notification-hubs/models";
+import type { JsonPatch } from "@azure/notification-hubs/models";
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

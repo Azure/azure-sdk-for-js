@@ -37,10 +37,10 @@ export async function main(): Promise<void> {
 
   // Sign and Verify
   const signatureValue = "MySignature";
-  let hash = createHash("sha256");
+  const hash = createHash("sha256");
 
   await hash.update(signatureValue);
-  let digest = hash.digest();
+  const digest = hash.digest();
   console.log("digest: ", digest);
 
   const signature = await cryptoClient.sign("RS256", digest);

@@ -5,7 +5,8 @@
  * @summary parses server-sent events.
  */
 import { createSseStream } from "@azure/core-sse";
-import { Client, getClient } from "@azure-rest/core-client";
+import type { Client } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import type { IncomingMessage } from "http";
 
 async function sendRequest(client: Client, path: string): Promise<IncomingMessage> {

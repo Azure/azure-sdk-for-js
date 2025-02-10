@@ -6,23 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { StreamAnalyticsManagementClient } from "../src/streamAnalyticsManagementClient";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -48,14 +43,17 @@ describe("StreamAnalytics test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new StreamAnalyticsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new StreamAnalyticsManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {
@@ -69,22 +67,21 @@ describe("StreamAnalytics test", () => {
       {
         location,
         sku: { name: "Default", capacity: 36 },
-        tags: { key: "value" }
+        tags: { key: "value" },
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, resourcename);
   }).timeout(7200000);
 
   it("clusters get test", async function () {
-    const res = await client.clusters.get(
-      resourceGroup,
-      resourcename);
+    const res = await client.clusters.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
   it("clusters list test", async function () {
     const resArray = new Array();
-    for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -92,11 +89,10 @@ describe("StreamAnalytics test", () => {
 
   it("clusters delete test", async function () {
     const resArray = new Array();
-    const res = await client.clusters.beginDeleteAndWait(resourceGroup, resourcename
-    )
-    for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
+    const res = await client.clusters.beginDeleteAndWait(resourceGroup, resourcename);
+    for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

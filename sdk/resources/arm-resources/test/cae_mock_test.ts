@@ -1,8 +1,8 @@
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import { ResourceManagementClient } from "../src/resourceManagementClient";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { OperationRequest } from "@azure/core-client";
+import type { OperationRequest } from "@azure/core-client";
 
 describe("Mock test for CAE with ResourceManagementClient", () => {
   // this is not a real token, does not contain any sensitive info, just for test.
@@ -31,17 +31,21 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
           request = req;
           getRequestCount++;
           if (getRequestCount === 1) {
-            return { request: req, status: 401, headers: createHttpHeaders({ "www-authenticate": caeChallenge }) };
+            return {
+              request: req,
+              status: 401,
+              headers: createHttpHeaders({ "www-authenticate": caeChallenge }),
+            };
           }
           return { request: req, status: 200, headers: createHttpHeaders() };
         },
       },
-      credential
+      credential,
     });
 
     const result = await client.operations.list();
     const items = [];
-    for await (let item of result) {
+    for await (const item of result) {
       items.push(item);
     }
     assert.equal(items.length, 0);
@@ -71,17 +75,21 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
           request = req;
           getRequestCount++;
           if (getRequestCount === 1) {
-            return { request: req, status: 401, headers: createHttpHeaders({ "www-authenticate": invalidCAEChallenge }) };
+            return {
+              request: req,
+              status: 401,
+              headers: createHttpHeaders({ "www-authenticate": invalidCAEChallenge }),
+            };
           }
           return { request: req, status: 200, headers: createHttpHeaders() };
         },
       },
-      credential
+      credential,
     });
     try {
       const result = await client.operations.list();
       const items = [];
-      for await (let item of result) {
+      for await (const item of result) {
         items.push(item);
       }
       assert.fail("Should not reach here and throw 401 exception");

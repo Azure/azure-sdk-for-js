@@ -76,9 +76,9 @@ export async function main() {
     console.log(`  Found key: ${setting.key}, label: ${setting.label}, tags: ${setting.tags}`);
   }
 
-  ////////////////////////////////////////////////////////
-  ///////////////  Example for .byPage()  ////////////////
-  ////////////////////////////////////////////////////////
+  /*
+   * Example for .byPage()
+   */
 
   // Passing marker as an argument
   let iterator = client.listConfigurationSettings({ keyFilter: "sample*" }).byPage();
@@ -89,7 +89,7 @@ export async function main() {
     }
   }
   // Gets next marker
-  let marker = response.value.continuationToken;
+  const marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = client.listConfigurationSettings({ keyFilter: "sample*" }).byPage({
     continuationToken: marker,

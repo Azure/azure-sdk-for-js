@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  DocumentProducer,
-  ExecutionContext,
-  ParallelQueryExecutionContextBase,
-} from "../../../../src/queryExecutionContext";
-import { Response } from "../../../../src/request";
-import { DiagnosticNodeInternal } from "../../../../src/diagnostics/DiagnosticNodeInternal";
+import type { DocumentProducer, ExecutionContext } from "../../../../src/queryExecutionContext";
+import { ParallelQueryExecutionContextBase } from "../../../../src/queryExecutionContext";
+import type { Response } from "../../../../src/request";
+import type { DiagnosticNodeInternal } from "../../../../src/diagnostics/DiagnosticNodeInternal";
 
 export class TestParallelQueryExecutionContext
   extends ParallelQueryExecutionContextBase

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
 import assert from "assert";
 import { GlobalStatisticsAggregator } from "../../../src/queryExecutionContext/Aggregators/GlobalStatisticsAggregator";
-import { GlobalStatistics } from "../../../src/request/globalStatistics";
+import type { GlobalStatistics } from "../../../src/request/globalStatistics";
 
 describe("global statistics aggregator", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);

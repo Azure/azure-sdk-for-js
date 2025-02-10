@@ -46,9 +46,9 @@ async function main() {
     console.log(`At ${revision.lastModified}, the value was ${revision.value}`);
   }
 
-  ////////////////////////////////////////////////////////
-  ///////////////  Example for .byPage()  ////////////////
-  ////////////////////////////////////////////////////////
+  /*
+   * Example for .byPage()
+   */
 
   // If you want to see the pagination
   // for (let index = 0; index < 135; index++) {

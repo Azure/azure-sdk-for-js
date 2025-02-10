@@ -6,20 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { MaintenanceManagementClient } from "../src/maintenanceManagementClient";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -45,14 +40,17 @@ describe("MaintenanceManagement test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new MaintenanceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new MaintenanceManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {
@@ -60,32 +58,28 @@ describe("MaintenanceManagement test", () => {
   });
 
   it("maintenanceConfigurations create test", async function () {
-    const res = await client.maintenanceConfigurations.createOrUpdate(
-      resourceGroup,
-      resourcename,
-      {
-        duration: "05:00",
-        expirationDateTime: "2024-06-12 00:00",
-        location: "westus2",
-        maintenanceScope: "OSImage",
-        namespace: "Microsoft.Maintenance",
-        recurEvery: "Day",
-        startDateTime: "2024-05-12 08:00",
-        timeZone: "Pacific Standard Time",
-        visibility: "Custom"
-      });
+    const res = await client.maintenanceConfigurations.createOrUpdate(resourceGroup, resourcename, {
+      duration: "05:00",
+      expirationDateTime: "2024-06-12 00:00",
+      location: "westus2",
+      maintenanceScope: "OSImage",
+      namespace: "Microsoft.Maintenance",
+      recurEvery: "Day",
+      startDateTime: "2024-05-12 08:00",
+      timeZone: "Pacific Standard Time",
+      visibility: "Custom",
+    });
     assert.equal(res.name, resourcename);
   });
 
   it("maintenanceConfigurations get test", async function () {
-    const res = await client.maintenanceConfigurations.get(resourceGroup,
-      resourcename);
+    const res = await client.maintenanceConfigurations.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
   it("maintenanceConfigurations list test", async function () {
     const resArray = new Array();
-    for await (let item of client.maintenanceConfigurations.list()) {
+    for await (const item of client.maintenanceConfigurations.list()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -93,11 +87,10 @@ describe("MaintenanceManagement test", () => {
 
   it("maintenanceConfigurations delete test", async function () {
     const resArray = new Array();
-    const res = await client.maintenanceConfigurations.delete(resourceGroup, resourcename
-    )
-    for await (let item of client.maintenanceConfigurations.list()) {
+    const res = await client.maintenanceConfigurations.delete(resourceGroup, resourcename);
+    for await (const item of client.maintenanceConfigurations.list()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

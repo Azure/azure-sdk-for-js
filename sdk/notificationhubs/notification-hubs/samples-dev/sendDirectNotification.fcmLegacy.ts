@@ -15,13 +15,13 @@
  */
 
 import "dotenv/config";
-import {
+import type {
   NotificationDetails,
   NotificationOutcomeState,
-  createFcmLegacyNotification,
 } from "@azure/notification-hubs/models";
+import { createFcmLegacyNotification } from "@azure/notification-hubs/models";
+import type { NotificationHubsClientContext } from "@azure/notification-hubs/api";
 import {
-  NotificationHubsClientContext,
   createClientContext,
   getNotificationOutcomeDetails,
   sendNotification,
