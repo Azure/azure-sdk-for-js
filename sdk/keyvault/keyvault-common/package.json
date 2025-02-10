@@ -30,7 +30,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -58,9 +58,9 @@
     "@azure/core-client": "^1.5.0",
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/core-tracing": "^1.0.0",
+    "@azure/core-util": "^1.10.0",
     "@azure/logger": "^1.1.4",
-    "tslib": "^2.2.0",
-    "@azure/core-util": "^1.10.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "^1.0.0",
