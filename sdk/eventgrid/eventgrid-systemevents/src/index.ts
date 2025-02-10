@@ -308,7 +308,7 @@ export {
   ResourceNotificationsResourceDeletedEventData,
   ResourceNotificationsResourceDeletedDetails,
   ResourceNotificationsResourceManagementDeletedEventData,
-  KnownServiceApiVersions
+  KnownServiceApiVersions,
 } from "./generated/index.js";
 
 export {
