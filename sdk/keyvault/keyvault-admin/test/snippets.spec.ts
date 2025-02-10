@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyVaultAccessControlClient, KeyVaultBackupClient, KeyVaultSettingsClient, KnownKeyVaultDataAction, KnownKeyVaultRoleScope } from "../src/index.js";
+import {
+  KeyVaultAccessControlClient,
+  KeyVaultBackupClient,
+  KeyVaultSettingsClient,
+  KnownKeyVaultDataAction,
+  KnownKeyVaultRoleScope,
+} from "../src/index.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
@@ -30,7 +36,7 @@ describe("snippets", () => {
     const credentials = new DefaultAzureCredential();
     const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
     // @ts-preserve-whitespace
-    const  { value: roleDefinition } = await client.listRoleDefinitions("/").next();
+    const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
     // @ts-preserve-whitespace
     const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
     const result = await client.createRoleAssignment(
@@ -46,7 +52,7 @@ describe("snippets", () => {
     const credentials = new DefaultAzureCredential();
     const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
     // @ts-preserve-whitespace
-    const  { value: roleDefinition } = await client.listRoleDefinitions("/").next();
+    const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
     const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
     // @ts-preserve-whitespace
     const roleAssignment = await client.createRoleAssignment(
@@ -64,7 +70,7 @@ describe("snippets", () => {
     const credentials = new DefaultAzureCredential();
     const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
     // @ts-preserve-whitespace
-    const  { value: roleDefinition } = await client.listRoleDefinitions("/").next();
+    const { value: roleDefinition } = await client.listRoleDefinitions("/").next();
     const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
     // @ts-preserve-whitespace
     let roleAssignment = await client.createRoleAssignment(
@@ -73,9 +79,12 @@ describe("snippets", () => {
       roleDefinition.id,
       principalId,
     );
-   // @ts-preserve-whitespace
-   roleAssignment = await client.getRoleAssignment(roleAssignment.properties.scope, roleAssignment.name);
-   console.log(roleAssignment);
+    // @ts-preserve-whitespace
+    roleAssignment = await client.getRoleAssignment(
+      roleAssignment.properties.scope,
+      roleAssignment.name,
+    );
+    console.log(roleAssignment);
   });
 
   it("ReadmeSampleListRoleAssignments", async () => {
@@ -103,7 +112,10 @@ describe("snippets", () => {
     const credentials = new DefaultAzureCredential();
     const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
     // @ts-preserve-whitespace
-    const roleDefinition = await client.getRoleDefinition("/", "b86a8fe4-44ce-4948-aee5-eccb2c155cd7");
+    const roleDefinition = await client.getRoleDefinition(
+      "/",
+      "b86a8fe4-44ce-4948-aee5-eccb2c155cd7",
+    );
     console.log(roleDefinition);
   });
 
@@ -114,7 +126,10 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
     const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
-    const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, { permissions, roleDefinitionName });
+    const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
+      permissions,
+      roleDefinitionName,
+    });
     console.log(roleDefinition);
   });
 
@@ -125,7 +140,10 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const permissions = [{ dataActions: [KnownKeyVaultDataAction.BackupHsmKeys] }];
     const roleDefinitionName = "23b8bb1a-39c0-4c89-a85b-dd3c99273a8a";
-    const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, { permissions, roleDefinitionName });
+    const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
+      permissions,
+      roleDefinitionName,
+    });
     // @ts-preserve-whitespace
     await client.deleteRoleDefinition("/", roleDefinition.name);
   });
@@ -222,7 +240,9 @@ describe("snippets", () => {
     const serialized = poller.toString();
     // @ts-preserve-whitespace
     // A new poller can be created with:
-    await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken, { resumeFrom: serialized });
+    await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken, {
+      resumeFrom: serialized,
+    });
     // @ts-preserve-whitespace
     // Waiting until it's done
     await poller.pollUntilDone();
