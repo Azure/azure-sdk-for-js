@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { KeyVaultManagementClient } from "../src/keyVaultManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -20,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -39,118 +35,109 @@ describe("Keyvault test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: KeyVaultManagementClient;
-  let location: string;
   let resourceGroup: string;
   let vaultName: string;
   let tenantId: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      tenantId = env.AZURE_TENANT_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new KeyVaultManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      vaultName = "myvaultzzzz" + "231019";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    tenantId = env.AZURE_TENANT_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new KeyVaultManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    resourceGroup = "myjstest";
+    vaultName = "myvaultzzzz" + "231019";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("vaults create test", async function () {
-    const res = await client.vaults.beginCreateOrUpdateAndWait(resourceGroup, vaultName, {
-      location: "eastus",
-      properties: {
-        tenantId: tenantId,
-        sku: {
-          family: "A",
-          name: "standard",
-        },
-        accessPolicies: [
-          {
-            tenantId: tenantId,
-            objectId: "00000000-0000-0000-0000-000000000000",
-            permissions: {
-              keys: [
-                "encrypt",
-                "decrypt",
-                "wrapKey",
-                "unwrapKey",
-                "sign",
-                "verify",
-                "get",
-                "list",
-                "create",
-                "update",
-                "import",
-                "delete",
-                "backup",
-                "restore",
-                "recover",
-                "purge",
-              ],
-              secrets: [
-                "get",
-                "list",
-                "set",
-                "delete",
-                "backup",
-                "restore",
-                "recover",
-                "purge",
-              ],
-              certificates: [
-                "get",
-                "list",
-                "delete",
-                "create",
-                "import",
-                "update",
-                "managecontacts",
-                "getissuers",
-                "listissuers",
-                "setissuers",
-                "deleteissuers",
-                "manageissuers",
-                "recover",
-                "purge",
-              ],
-            },
+  it("vaults create test", async () => {
+    const res = await client.vaults.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      vaultName,
+      {
+        location: "eastus",
+        properties: {
+          tenantId: tenantId,
+          sku: {
+            family: "A",
+            name: "standard",
           },
-        ],
-        enabledForDeployment: true,
-        enabledForDiskEncryption: true,
-        enabledForTemplateDeployment: true,
-      }
-    }, testPollingOptions)
+          accessPolicies: [
+            {
+              tenantId: tenantId,
+              objectId: "00000000-0000-0000-0000-000000000000",
+              permissions: {
+                keys: [
+                  "encrypt",
+                  "decrypt",
+                  "wrapKey",
+                  "unwrapKey",
+                  "sign",
+                  "verify",
+                  "get",
+                  "list",
+                  "create",
+                  "update",
+                  "import",
+                  "delete",
+                  "backup",
+                  "restore",
+                  "recover",
+                  "purge",
+                ],
+                secrets: ["get", "list", "set", "delete", "backup", "restore", "recover", "purge"],
+                certificates: [
+                  "get",
+                  "list",
+                  "delete",
+                  "create",
+                  "import",
+                  "update",
+                  "managecontacts",
+                  "getissuers",
+                  "listissuers",
+                  "setissuers",
+                  "deleteissuers",
+                  "manageissuers",
+                  "recover",
+                  "purge",
+                ],
+              },
+            },
+          ],
+          enabledForDeployment: true,
+          enabledForDiskEncryption: true,
+          enabledForTemplateDeployment: true,
+        },
+      },
+      testPollingOptions,
+    );
     assert.equal(res.name, vaultName);
   });
 
-  it("vaults get test", async function () {
-    if (isPlaybackMode()) {
-      this.skip()
-    }
-
+  it("vaults get test", { skip: isPlaybackMode() }, async () => {
     const res = await client.vaults.get(resourceGroup, vaultName);
     assert.equal(res.name, vaultName);
   });
 
-  it("vaults list test", async function () {
-    if (isPlaybackMode()) {
-      this.skip()
-    }
+  it("vaults list test", { skip: isPlaybackMode() }, async () => {
     const resArray = new Array();
-    for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
-      resArray.push(item)
+    for await (const item of client.vaults.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("vaults update test", async function () {
+  it("vaults update test", async () => {
     const res = await client.vaults.update(resourceGroup, vaultName, {
       properties: {
         tenantId: tenantId,
@@ -181,16 +168,7 @@ describe("Keyvault test", () => {
                 "recover",
                 "purge",
               ],
-              secrets: [
-                "get",
-                "list",
-                "set",
-                "delete",
-                "backup",
-                "restore",
-                "recover",
-                "purge",
-              ],
+              secrets: ["get", "list", "set", "delete", "backup", "restore", "recover", "purge"],
               certificates: [
                 "get",
                 "list",
@@ -213,15 +191,15 @@ describe("Keyvault test", () => {
         enabledForDeployment: true,
         enabledForDiskEncryption: true,
         enabledForTemplateDeployment: true,
-      }
-    })
+      },
+    });
     assert.equal(res.type, "Microsoft.KeyVault/vaults");
   });
 
-  it("vaults delete test", async function () {
+  it("vaults delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
-      resArray.push(item)
+    for await (const item of client.vaults.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
