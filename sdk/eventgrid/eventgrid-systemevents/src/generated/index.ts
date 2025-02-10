@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+export { SystemEventsClient } from "./systemEventsClient.js";
 export {
   ApiCenterApiDefinitionAddedEventData,
   ApiCenterApiSpecification,
@@ -152,6 +153,7 @@ export {
   AcsMessageChannelKind,
   AcsMessageReceivedEventData,
   AcsMessageMediaContent,
+  AcsMessageReactionContent,
   AcsMessageContext,
   AcsMessageButtonContent,
   AcsMessageInteractiveContent,
@@ -321,6 +323,6 @@ export {
   ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
-  ServiceApiVersions,
-} from "./models.js";
-// export * from "./options.js";
+  KnownServiceApiVersions,
+} from "./models/index.js";
+export { SystemEventsClientOptionalParams } from "./api/index.js";
