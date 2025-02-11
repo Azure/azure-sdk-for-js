@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-loadtesting": [
-        "./dist/esm"
-      ]
+      "@azure/arm-loadtesting": ["./dist/esm"]
     }
   }
 }
