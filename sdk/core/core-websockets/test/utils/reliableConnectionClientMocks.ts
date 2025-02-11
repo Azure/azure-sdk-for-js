@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TestContext } from "vitest";
 import { type WebSocketCloseDetails } from "../../src/index.js";
 import { createFullRetryOptions } from "./mockRretryOptions.js";
 import { assert } from "./vitest.js";
@@ -120,12 +119,4 @@ export function createMockClient(options: CreateMockClientOptions = {}): ClientW
     messageHandlers,
     openHandlers,
   };
-}
-
-export function createIdentifier(test: TestContext): string {
-  let name = test.task.name;
-  for (let parent = test.task.suite; parent; parent = parent.suite?.suite) {
-    name = `${parent.name}/${name}`;
-  }
-  return name;
 }

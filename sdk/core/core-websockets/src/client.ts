@@ -90,14 +90,26 @@ function buildClientWrapper<WebSocketT>(
   }
 
   return {
-    asWs: () =>
-      withConnectionManager(createWs(urlObj, { protocols, wsOptions }), restOptions) as ReturnType<
-        WebsocketClientWrapper<unknown>["asWs"]
-      >,
-    asWebSocket: () =>
-      withConnectionManager(createWebSocket(urlObj, { protocols }), restOptions) as ReturnType<
-        WebsocketClientWrapper<unknown>["asWebSocket"]
-      >,
+    asWs: () => {
+      try {
+        return withConnectionManager(
+          createWs(urlObj, { protocols, wsOptions }),
+          restOptions,
+        ) as ReturnType<WebsocketClientWrapper<unknown>["asWs"]>;
+      } catch (err) {
+        return Promise.reject(err);
+      }
+    },
+    asWebSocket: () => {
+      try {
+        return withConnectionManager(
+          createWebSocket(urlObj, { protocols }),
+          restOptions,
+        ) as ReturnType<WebsocketClientWrapper<unknown>["asWebSocket"]>;
+      } catch (err) {
+        return Promise.reject(err);
+      }
+    },
     then: (onfulfilled, onrejected) => buildPromise().then(onfulfilled, onrejected),
     catch: (onrejected) => buildPromise().catch(onrejected),
     finally: (onfinally) => buildPromise().finally(onfinally),

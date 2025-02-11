@@ -5,7 +5,7 @@ import { describe, it, beforeEach, afterEach, type SuiteCollector } from "vitest
 import { assert } from "../utils/vitest.js";
 import type { WebSocketClientOptions, WebSocketClient } from "../../src/index.js";
 import { delay } from "@azure/core-util";
-import { createIdentifier } from "../utils/reliableConnectionClientMocks.js";
+import { createIdentifier } from "../utils/utils.js";
 import { getInsecureServerAddress, getSecureServerAddress } from "../utils/injectables.js";
 
 const waitBeforeReceive = 200;

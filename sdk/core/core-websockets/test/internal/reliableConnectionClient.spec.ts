@@ -5,9 +5,9 @@ import { afterEach, beforeEach, describe, it } from "vitest";
 import { assert } from "../utils/vitest.js";
 import {
   type ClientWithHandlers,
-  createIdentifier,
   createMockClient,
 } from "../utils/reliableConnectionClientMocks.js";
+import { createIdentifier } from "../utils/utils.js";
 import { delay } from "@azure/core-util";
 import { createFullRetryOptions } from "../utils/mockRretryOptions.js";
 

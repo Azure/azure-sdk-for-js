@@ -12,6 +12,10 @@ export function createWebSocket(
   url: URL,
   options: Omit<WebSocketImplOptions, "wsOptions"> = {},
 ): WithSocket<WebSocket, WebSocketData, WebSocketData> {
+  // Check if the WebSocket Web API is available in the current runtime.
+  if (typeof WebSocket !== "function") {
+    throw new Error("The WebSocket Web API is not available in this runtime environment");
+  }
   logger.verbose("Using native WebSocket");
   const { protocols } = options;
   const listenerMap = new Map<

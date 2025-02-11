@@ -14,6 +14,10 @@ export function createWs(
   url: URL,
   options: WebSocketImplOptions = {},
 ): WithSocket<WS.WebSocket, WebSocketData, WebSocketData> {
+  // Check if the 'ws' module is available in the current runtime.
+  if (!WS || typeof WS.WebSocket !== "function") {
+    throw new Error("The 'ws' module is not available in this runtime environment");
+  }
   logger.verbose("Using ws WebSocket");
   const { protocols, wsOptions } = options;
   const listenerMap = new Map<keyof WebSocketEventMap, Map<PublicListener, InternalListner>>();
