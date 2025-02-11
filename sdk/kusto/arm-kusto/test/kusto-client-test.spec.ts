@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { KustoManagementClient } from "../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -42,10 +38,14 @@ describe("KustoManagementClient", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new KustoManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new KustoManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     resourceGroup = "myjstest";
     clusterName_1 = "mytestclustername5";
   });
@@ -54,14 +54,16 @@ describe("KustoManagementClient", () => {
     await recorder.stop();
   });
 
-  //kusto_client.clusters.beginCreateOrUpdateAndWait
-  it("could create clusters", async function () {
-    let res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_1,
+  // kusto_client.clusters.beginCreateOrUpdateAndWait
+  it("could create clusters", async () => {
+    const res = await client.clusters.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      clusterName_1,
       {
         location: "eastus",
         sku: { name: "Standard_L16as_v3", capacity: 2, tier: "Standard" },
         identity: {
-          type: "SystemAssigned"
+          type: "SystemAssigned",
         },
         languageExtensions: {
           value: [
@@ -71,11 +73,13 @@ describe("KustoManagementClient", () => {
             },
           ],
         },
-      }, testPollingOptions);
+      },
+      testPollingOptions,
+    );
     assert.strictEqual(res.name, clusterName_1);
   });
 
-  //kusto_client.clusters.beginUpdateAndWait
+  // kusto_client.clusters.beginUpdateAndWait
   // it("could update tags in cluster", async () => {
   //   const updateParams: ClusterUpdate = {
   //     tags: {
@@ -90,13 +94,13 @@ describe("KustoManagementClient", () => {
   //   assert.equal(res.name, clusterName_2);
   // });
 
-  //kusto_client.clusters.get
+  // kusto_client.clusters.get
   it("could get cluster", async () => {
     const res = await client.clusters.get(resourceGroup, clusterName_1);
     assert.strictEqual(res.name, clusterName_1);
   });
 
-  //kusto_client.clusters.list
+  // kusto_client.clusters.list
   it("could list cluster filtered by resource group", async () => {
     const resArray = new Array();
     for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
@@ -105,7 +109,7 @@ describe("KustoManagementClient", () => {
     assert.equal(resArray.length, 1);
   });
 
-  //kusto_client.clusters.beginDeleteAndWait
+  // kusto_client.clusters.beginDeleteAndWait
   it("could delete clusters", async () => {
     const resArray = new Array();
     await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_1, testPollingOptions);
@@ -114,5 +118,4 @@ describe("KustoManagementClient", () => {
     }
     assert.equal(resArray.length, 0);
   });
-
 });
