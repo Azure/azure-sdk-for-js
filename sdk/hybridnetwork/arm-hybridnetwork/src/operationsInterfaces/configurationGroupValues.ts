@@ -21,7 +21,7 @@ import {
   TagsObject,
   ConfigurationGroupValuesUpdateTagsOptionalParams,
   ConfigurationGroupValuesUpdateTagsResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ConfigurationGroupValues. */

@@ -143,7 +143,7 @@ export interface CheckpointStore {
  * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
  *
  * Example usage with default values:
- * ```ts
+ * ```ts snippet:ignore
  * {
  *     maxBatchSize: 1,
  *     maxWaitTimeInSeconds: 60,

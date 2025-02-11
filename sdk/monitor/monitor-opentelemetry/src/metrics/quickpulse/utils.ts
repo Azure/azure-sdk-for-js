@@ -366,12 +366,15 @@ export function getLogData(log: LogRecord): ExceptionData | TraceData {
   const customDims = createCustomDimsFromAttributes(log.attributes);
   if (isExceptionTelemetry(log)) {
     return {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       Message: String(log.attributes[SEMATTRS_EXCEPTION_MESSAGE]),
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       StackTrace: String(log.attributes[SEMATTRS_EXCEPTION_STACKTRACE]),
       CustomDimensions: customDims,
     };
   } else {
     return {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       Message: String(log.body),
       CustomDimensions: customDims,
     };
@@ -460,6 +463,7 @@ function createCustomDimsFromAttributes(
           key === SEMATTRS_EXCEPTION_STACKTRACE
         )
       ) {
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         customDims.set(key, String(attributes[key]));
       }
     }

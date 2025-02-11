@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (2024-12-16)
+## 1.0.0-beta.3 (2025-02-10)
 
 ### Features Added
 - Refresh @azure-rest/agrifood-farming SDK

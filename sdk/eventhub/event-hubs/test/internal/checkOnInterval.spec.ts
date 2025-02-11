@@ -6,8 +6,8 @@ import { describe, it, vi } from "vitest";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import { expect } from "../utils/chai.js";
 
-describe("checkOnInterval", function () {
-  it("should resolve when the check function returns true", async function () {
+describe("checkOnInterval", () => {
+  it("should resolve when the check function returns true", async () => {
     vi.useFakeTimers();
     const delayTime = 2500;
     const callCount = 3;
@@ -22,7 +22,7 @@ describe("checkOnInterval", function () {
     vi.useRealTimers();
   });
 
-  it("should return when the abort signal is called", async function () {
+  it("should return when the abort signal is called", async () => {
     const delayTime = 2500;
     const aborter = new AbortController();
     let callCount = 3;
