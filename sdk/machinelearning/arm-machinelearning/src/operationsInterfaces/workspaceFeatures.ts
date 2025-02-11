@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AmlUserFeature, WorkspaceFeaturesListOptionalParams } from "../models";
+import { AmlUserFeature, WorkspaceFeaturesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkspaceFeatures. */
