@@ -13,9 +13,9 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { ManagementLinkClient } from "../src/managementLinkClient.js";
 import { ResourceManagementClient } from "@azure/arm-resources";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -102,7 +102,6 @@ describe("Links test", () => {
   });
 
   it("resourceLinks delete test", async function () {
-    const linkId = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Compute/availabilitySets/" + resourceName + "/providers/Microsoft.Resources/links/" + linksName
     const resArray = new Array();
     for await (const item of client.resourceLinks.listAtSubscription()) {
       resArray.push(item);
