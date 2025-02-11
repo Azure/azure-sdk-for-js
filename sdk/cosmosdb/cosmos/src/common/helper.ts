@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { CosmosClientOptions } from "../CosmosClientOptions";
-import type { ResourceType } from "./constants";
-import { OperationType } from "./constants";
+import { CosmosClientOptions } from "../CosmosClientOptions";
+import {
+  Serializer,
+  NumberSerializer,
+  FloatSerializer,
+  StringSerializer,
+  BooleanSerializer,
+} from "../encryption/Serializers";
+import { TypeMarker } from "../encryption/enums/TypeMarker";
+import { OperationType, ResourceType } from "./constants";
 
 const trimLeftSlashes = new RegExp("^[/]+");
 const trimRightSlashes = new RegExp("[/]+$");
@@ -360,4 +367,105 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
     endpoint: AccountEndpoint,
     key: AccountKey,
   };
+}
+
+/**
+ * utility function to return copy of object to avoid encryption of original object passed
+ * in the CRUD methods.
+ * @hidden
+ */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-shadow, no-prototype-builtins */
+export function copyObject(obj: any): any {
+  function deepCopyRecursive(obj: any): any {
+    if (obj === null || typeof obj !== "object") {
+      return obj;
+    }
+    if (obj instanceof Date) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+    if (Array.isArray(obj)) {
+      const arrCopy = [];
+      for (const item of obj) {
+        arrCopy.push(deepCopyRecursive(item));
+      }
+      return arrCopy;
+    }
+
+    const objCopy = {} as any;
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        objCopy[key] = deepCopyRecursive(obj[key]);
+      }
+    }
+    return objCopy;
+  }
+  return deepCopyRecursive(obj);
+}
+
+/**
+ * @hidden
+ */
+export function createDeserializer(typeMarker: TypeMarker): Serializer {
+  switch (typeMarker) {
+    case TypeMarker.Long: {
+      // return instance
+      return new NumberSerializer();
+    }
+    case TypeMarker.Double:
+      return new FloatSerializer();
+    case TypeMarker.String:
+      return new StringSerializer();
+    case TypeMarker.Boolean:
+      return new BooleanSerializer();
+    default:
+      throw new Error("Invalid or Unsupported data type passed.");
+  }
+}
+
+/**
+ * @hidden
+ * extracts the top-level path
+ */
+export function extractPath(path: string): string {
+  const secondSlashIndex = path.indexOf("/", path.indexOf("/") + 1);
+  return secondSlashIndex === -1 ? path : path.substring(0, secondSlashIndex);
+}
+
+export function createSerializer(
+  propertyValue: boolean | string | number | Date,
+  type?: TypeMarker,
+): [TypeMarker, Serializer] {
+  if (type) {
+    if (type === TypeMarker.Long) {
+      return [TypeMarker.Long, new NumberSerializer()];
+    } else if (type === TypeMarker.Double) {
+      return [TypeMarker.Double, new FloatSerializer()];
+    } else if (type === TypeMarker.String) {
+      return [TypeMarker.String, new StringSerializer()];
+    } else if (type === TypeMarker.Boolean) {
+      return [TypeMarker.Boolean, new BooleanSerializer()];
+    } else {
+      throw new Error("Invalid or Unsupported data type passed.");
+    }
+  } else {
+    switch (typeof propertyValue) {
+      case "boolean":
+        return [TypeMarker.Boolean, new BooleanSerializer()];
+      case "string":
+        return [TypeMarker.String, new StringSerializer()];
+      case "object":
+        if (propertyValue.constructor === Date) {
+          return [TypeMarker.String, new StringSerializer()];
+        }
+        throw new Error("Invalid or Unsupported data type passed.");
+      case "number":
+        if (!Number.isInteger(propertyValue)) {
+          return [TypeMarker.Double, new FloatSerializer()];
+        } else {
+          return [TypeMarker.Long, new NumberSerializer()];
+        }
+      default:
+        throw new Error("Invalid or Unsupported data type passed.");
+    }
+  }
 }

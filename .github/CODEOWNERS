@@ -650,6 +650,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/links/arm-links/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/pineconevectordb/arm-pineconevectordb/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/locks/arm-locks/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -1258,7 +1261,7 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 #/<NotInRepo>/          @madhurinms
 
 # ServiceLabel: %KeyVault %Service Attention
-#/<NotInRepo>/          @RandalliLama @schaabs @jlichwa
+#/<NotInRepo>/          @cheathamb36 @chen-karen @lgonsoulin @vickm
 
 # ServiceLabel: %Kubernetes Configuration %Service Attention
 #/<NotInRepo>/          @NarayanThiru

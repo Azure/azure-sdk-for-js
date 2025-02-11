@@ -449,11 +449,6 @@ async function addNewPackages(packageJson: any, options: { browser: boolean }): 
   }
 
   // Freeze these packages until we have a chance to update them
-  packageJson.devDependencies["vitest"] = "^3.0.3";
-  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.3";
-  if (options.browser) {
-    packageJson.devDependencies["@vitest/browser"] = "^3.0.3";
-  }
   const packagesToUpdate = [
     { package: "@azure-tools/test-credential", version: "2.0.0" },
     { package: "@azure-tools/test-recorder", version: "4.1.0" },
