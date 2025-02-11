@@ -1,9 +1,9 @@
 param baseName string = resourceGroup().name
 param location string = resourceGroup().location
 param testApplicationOid string
+param supportsSafeSecretStandard bool = false
 
 var eventHubApiVersion = '2024-01-01'
-var storageApiVersion = '2023-05-01'
 var iotHubApiVersion = '2023-06-30'
 var storageAccountName = 'storage${baseName}'
 var containerName = 'container'
@@ -32,6 +32,7 @@ resource eventHubNamespace 'Microsoft.EventHub/namespaces@2024-01-01' = {
     zoneRedundant: false
     isAutoInflateEnabled: false
     maximumThroughputUnits: 0
+    disableLocalAuth: supportsSafeSecretStandard
   }
 }
 
@@ -69,6 +70,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2023-05-01' = {
   }
   kind: 'StorageV2'
   properties: {
+    allowSharedKeyAccess: false
     networkAcls: {
       bypass: 'AzureServices'
       virtualNetworkRules: []
@@ -105,7 +107,11 @@ resource iotHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
     name: 'S1'
     capacity: 1
   }
+  identity: {
+    type: 'SystemAssigned'
+  }
   properties: {
+    disableLocalAuth: supportsSafeSecretStandard
     ipFilterRules: []
     eventHubEndpoints: {
       events: {
@@ -134,7 +140,7 @@ resource iotHub 'Microsoft.Devices/IotHubs@2023-06-30' = {
     storageEndpoints: {
       '$default': {
         sasTtlAsIso8601: 'PT1H'
-        connectionString: 'DefaultEndpointsProtocol=https;AccountName=${storageAccountName};AccountKey=${listKeys(storageAccount.id, storageApiVersion).keys[0].value};EndpointSuffix=${environment().suffixes.storage}'
+        authenticationType: 'identityBased'
         containerName: containerName
       }
     }
@@ -222,6 +228,15 @@ resource iotHubDataContributorRoleAssignment 'Microsoft.Authorization/roleAssign
   properties: {
     roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', iotHubDataContributorRoleId)
     principalId: testApplicationOid
+  }
+}
+
+resource iotHubStorageRoleAssignment 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+  name: guid(iotHub.id, 'Storage Blob Data Contributor')
+  scope: storageAccount
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', blobDataContributorRoleId)
+    principalId: iotHub.identity.principalId
   }
 }
 

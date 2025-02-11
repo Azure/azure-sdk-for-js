@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list InstanceResource resources by resource group
  * x-ms-original-file: 2024-11-01/Instance_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function instanceListByResourceGroup() {
+async function instanceListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function instanceListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await instanceListByResourceGroup();
 }
 

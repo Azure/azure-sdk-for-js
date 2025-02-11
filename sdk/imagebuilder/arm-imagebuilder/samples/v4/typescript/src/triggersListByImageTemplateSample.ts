@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all triggers for the specified Image Template resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all triggers for the specified Image Template resource
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2024-02-01/examples/ListTriggers.json
  */
-async function listTriggersByImageTemplate() {
+async function listTriggersByImageTemplate(): Promise<void> {
   const subscriptionId =
     process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function listTriggersByImageTemplate() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listTriggersByImageTemplate();
 }
 

@@ -782,7 +782,6 @@ export const OperatorDetails: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
-        required: true,
         type: {
           name: "String",
         },
