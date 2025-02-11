@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /**
  * @summary Authenticates using persistent token caching with Interactive Browser Credential
  */
