@@ -79,8 +79,6 @@ export function createWebSocket(
             addListener(obj.socket, type, fn, fn as InternalListener);
             break;
           }
-          default:
-            throw new Error(`Unknown event: ${type}`);
         }
       },
       off: (type, fn) => {

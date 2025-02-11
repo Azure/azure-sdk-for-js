@@ -86,8 +86,6 @@ export function createWs(
             obj.socket.addEventListener(type, fn as InternalListner);
             break;
           }
-          default:
-            throw new Error(`Unknown event: ${type}`);
         }
       },
       off: (type, fn) => {
