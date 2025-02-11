@@ -13,9 +13,7 @@ import {
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List versions.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List versions.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/EnvironmentVersion/list.json
  */
-async function listWorkspaceEnvironmentVersion() {
+async function listWorkspaceEnvironmentVersion(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -51,7 +49,7 @@ async function listWorkspaceEnvironmentVersion() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listWorkspaceEnvironmentVersion();
 }
 
