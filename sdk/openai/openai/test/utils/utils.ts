@@ -50,11 +50,11 @@ export async function withDeployments<T>(
   for (const { client, deployments } of clientsAndDeployments) {
     for (const deployment of deployments) {
       logger.info(
-          `[${++i}/${count}] testing with deployment: ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
+        `[${++i}/${count}] testing with deployment: ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
       );
       if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
         logger.info(
-            `Skipping deployment ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
+          `Skipping deployment ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
         );
         continue;
       }
@@ -79,15 +79,17 @@ export async function withDeployments<T>(
           error.name === "AbortError" ||
           errorStr.includes("Connection error") ||
           errorStr.includes("toolCalls") ||
-          ["ManagedIdentityIsNotEnabled",
+          [
+            "ManagedIdentityIsNotEnabled",
             "Rate limit is exceeded",
             "Invalid AzureCognitiveSearch configuration detected",
             "Unsupported Model",
             "does not support 'system' with this model",
-          ].some(match => error.message.includes(match)) ||
+            "Cannot cancel run with status 'completed'",
+          ].some((match) => error.message.includes(match)) ||
           error.status === 404
         ) {
-          logger.warning("Handled error: ", error);
+          logger.warning("WARNING: Handled error: ", error);
           continue;
         }
         logger.error(`Error in deployment ${deployment.deploymentName}: `, error);
