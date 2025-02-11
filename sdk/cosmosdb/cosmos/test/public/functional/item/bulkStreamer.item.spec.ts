@@ -190,6 +190,10 @@ describe("BulkStreamer", async function () {
         const response = await Promise.all(promises);
         bulkStreamer.dispose();
         assert.equal(response.length, 6);
+        // verify diagnostics
+        response.forEach((res, index) => {
+          assert.ok(res.diagnostics, `Diagnostics should be present for operation ${index}`);
+        });
         // Create
         assert.equal(response[0].resourceBody.name, "sample");
         assert.equal(response[0].statusCode, 201);
@@ -207,6 +211,23 @@ describe("BulkStreamer", async function () {
         // Patch
         assert.equal(response[5].resourceBody.great, "goodValue");
         assert.equal(response[5].statusCode, 200);
+      });
+
+      it("content Response should be disabled when contentResponseOnWriteEnabled false", async function () {
+        const createOperation = BulkOperations.getCreateItemOperation("A", {
+          id: addEntropy("doc1"),
+          name: "sample",
+          key: "A",
+        });
+        const bulkStreamer = container.items.getBulkStreamer({
+          contentResponseOnWriteEnabled: false,
+        });
+        const promises = bulkStreamer.execute([createOperation]);
+        const response = await Promise.all(promises);
+        bulkStreamer.dispose();
+        assert.equal(response.length, 1);
+        assert.ok(response[0].resourceBody === undefined);
+        assert.equal(response[0].statusCode, 201);
       });
       it("handle different batch sizes", async function () {
         container = await getTestContainer("bulk container", undefined, {

@@ -1890,7 +1890,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     otherClient.dispose();
   });
 
-  it("encryptionvalidatepolicyrefreshpostcontainerdeletewithbulkstreamer", async () => {
+  it("encryption validate policy refresh post container delete with bulk streamer", async () => {
     // create a container with 1st client
     let paths = [
       "/sensitive_IntArray",
