@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-commitmentplans": [
-        "./dist/esm"
-      ]
+      "@azure/arm-commitmentplans": ["./dist/esm"]
     }
   }
 }
