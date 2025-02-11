@@ -11,13 +11,13 @@ import {
   RecorderStartOptions,
   Recorder
 } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { LoadTestClient } from "../src/loadTestClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import {
   QuotaBucketRequest,
   QuotaBucketRequestPropertiesDimensions
 } from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000"
