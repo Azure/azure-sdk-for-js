@@ -62,7 +62,7 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
   }
 
   $changedServices = @()
-  foreach ($file in $targetedFiless) {
+  foreach ($file in $targetedFiles) {
     $pathComponents = $file -split "/"
     # handle changes only in sdk/<service>/<file>/<extension>
     if ($pathComponents.Length -eq 3 -and $pathComponents[0] -eq "sdk") {
