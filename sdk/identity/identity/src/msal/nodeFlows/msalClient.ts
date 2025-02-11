@@ -446,7 +446,6 @@ export function createMsalClient(
       silentRequest.resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
       silentRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
     }
-    await app.getTokenCache().getAllAccounts();
     state.logger.getToken.info("Attempting to acquire token silently");
     return app.acquireTokenSilent(silentRequest);
   }
@@ -817,7 +816,7 @@ export function createMsalClient(
         loginHint: options?.loginHint,
         errorTemplate: options?.browserCustomizationOptions?.errorMessage,
         successTemplate: options?.browserCustomizationOptions?.successMessage,
-        //prompt: options?.loginHint ? "login" : "select_account",
+        prompt: options?.loginHint ? "login" : "select_account",
       };
     }
 
