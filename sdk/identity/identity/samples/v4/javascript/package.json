@@ -32,7 +32,6 @@
     "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/identity": "^4.2.1",
     "@azure/keyvault-keys": "latest",
-    "@azure/logger": "^1.0.0",
     "dotenv": "latest"
   }
 }
