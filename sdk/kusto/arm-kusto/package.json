@@ -13,7 +13,7 @@
     "@azure/core-client": "^1.9.2",
     "@azure/core-lro": "^2.5.4",
     "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.2",
+    "@azure/core-rest-pipeline": "^1.19.0",
     "tslib": "^2.8.1"
   },
   "keywords": [
@@ -34,12 +34,12 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.6.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.5",
+    "@vitest/coverage-istanbul": "^3.0.5",
     "dotenv": "^16.0.0",
-    "playwright": "^1.50.0",
+    "playwright": "^1.50.1",
     "typescript": "~5.6.2",
-    "vitest": "^3.0.3"
+    "vitest": "^3.0.5"
   },
   "repository": {
     "type": "git",
