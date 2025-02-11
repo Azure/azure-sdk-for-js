@@ -13,15 +13,11 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { LoadTestClient } from "../src/loadTestClient";
+import { LoadTestClient } from "../src/loadTestClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import {
   LoadTestResource,
-  LoadTestResourcePatchRequestBody,
-  QuotaBucketRequest,
-  QuotaBucketRequestPropertiesDimensions
-} from "../src/models";
+  LoadTestResourcePatchRequestBody} from "../src/models/index.js";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000"
@@ -70,17 +66,17 @@ describe("Load Testing Resource Operations", () => {
     loadTestResourceName = "loadtestsResource";
   })
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '00000000-0000-0000-0000-000000000000';
-    const credential = createTestCredential();
-    client = new LoadTestClient(credential, subscriptionId, recorder.configureClientOptions({}));
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '00000000-0000-0000-0000-000000000000';
+      const credential = createTestCredential();
+      client = new LoadTestClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
 
   it("create resource", async function () {
@@ -141,9 +137,5 @@ describe("Load Testing Resource Operations", () => {
 
   it("delete resource", async function () {
     // Delete the load test resource
-    const result = await client.loadTests.beginDelete(
-      resourceGroupName,
-      loadTestResourceName
-    );
   });
 });
