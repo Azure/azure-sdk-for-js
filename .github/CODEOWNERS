@@ -73,7 +73,7 @@
 
 # PRLabel: %Communication - Call Automation
 # ServiceLabel: %Communication - Call Automation
-/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas @cochi2
+/sdk/communication/communication-call-automation/ @minwoolee-msft @juntuchen-msft @khannavikas
 
 # PRLabel: %Communication - Identity
 # ServiceLabel: %Communication - Identity
@@ -155,7 +155,7 @@
 
 # ServiceLabel: %Health Deidentification
 # PRLabel: %Health Deidentification
-/sdk/healthdataaiservices/ @GrahamMThomas @alexathomases @Azure/healthdatadeidentification
+/sdk/healthdataaiservices/ @alexathomases @Azure/healthdatadeidentification
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @schaabs @Azure/azure-sdk-write-identity
