@@ -480,6 +480,10 @@ export interface CertificateProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   recoverableDays?: number;
+  /**
+   * Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0.
+   */
+  preserveCertificateOrder?: boolean;
 }
 
 /**
