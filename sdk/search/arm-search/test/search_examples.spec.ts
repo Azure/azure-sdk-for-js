@@ -14,7 +14,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { SearchManagementClient } from "../src/searchManagementClient.js";
-import { assert } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -56,21 +56,21 @@ describe("Search test", () => {
   let keyvalue: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new SearchManagementClient(credential, subscriptionId, recorder.configureClientOptions({ endpoint: "https://eastus2euap.management.azure.com/", credentialScopes: "https://management.azure.com/.default" }));
-      location = "eastus2euap";
-      resourceGroup = "myjstest";
-      searchServiceName = "myjssearchservicexxx"
-      keyname = "testjskey";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new SearchManagementClient(credential, subscriptionId, recorder.configureClientOptions({ endpoint: "https://eastus2euap.management.azure.com/", credentialScopes: "https://management.azure.com/.default" }));
+    location = "eastus2euap";
+    resourceGroup = "myjstest";
+    searchServiceName = "myjssearchservicexxx"
+    keyname = "testjskey";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("operations list test", async function () {
     const resArray = new Array();
@@ -91,7 +91,7 @@ describe("Search test", () => {
       }
     }, testPollingOptions);
     assert.equal(res.name, searchServiceName);
-  }).timeout(3600000);
+  });
 
   it("services get test", async function () {
     const res = await client.services.get(resourceGroup, searchServiceName);
