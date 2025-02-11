@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { LogicManagementClient } from "../src/logicManagementClient";
+import { LogicManagementClient } from "../src/logicManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,21 +43,21 @@ describe("Logic test", () => {
   let resourceGroupName: string;
   let workflowName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || "";
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new LogicManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroupName = "myjstest";
-    workflowName = "myworkflowxxx";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || "";
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new LogicManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroupName = "myjstest";
+      workflowName = "myworkflowxxx";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("workflows create test", async function () {
     const res = await client.workflows.createOrUpdate(resourceGroupName, workflowName, {
@@ -90,7 +88,6 @@ describe("Logic test", () => {
   });
 
   it("workflows delete test", async function () {
-    const res = await client.workflows.delete(resourceGroupName, workflowName);
     const resArray = new Array();
     for await (let item of client.workflows.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
