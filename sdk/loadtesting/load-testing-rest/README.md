@@ -45,11 +45,12 @@ can be used to authenticate the client.
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
-```javascript
-import AzureLoadTesting, { AzureLoadTestingClient } from "@azure-rest/load-testing";
+```ts snippet:ReadmeSampleCreateClient_Node
+import AzureLoadTesting from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const Client: AzureLoadTestingClient = AzureLoadTesting(Endpoint, new DefaultAzureCredential());
+const endpoint = "https://<endpoint>";
+const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -98,15 +99,15 @@ In the above example, `eus` represents the Azure region `East US`.
 
 ### Creating a load test
 
-```javascript
-import { AzureLoadTestingClient } from "@azure-rest/load-testing";
+```ts snippet:ReadmeSampleCreateLoadTest
 import AzureLoadTesting from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 
-var TEST_ID = "some-test-id";
-var DISPLAY_NAME = "my-load-test";
+const endpoint = "https://<endpoint>";
+const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
-const client: AzureLoadTestingClient = AzureLoadTesting("<Endpoint>", new DefaultAzureCredential());
+const TEST_ID = "some-test-id";
+const DISPLAY_NAME = "my-load-test";
 
 await client.path("/tests/{testId}", TEST_ID).patch({
   contentType: "application/merge-patch+json",
@@ -126,15 +127,15 @@ await client.path("/tests/{testId}", TEST_ID).patch({
 
 ### Uploading .jmx file to a Test
 
-```javascript
-import { AzureLoadTestingClient, getLongRunningPoller, isUnexpected } from "@azure-rest/load-testing";
-import AzureLoadTesting from "@azure-rest/load-testing";
+```ts snippet:ReadmeSampleUploadJmxFile
+import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
-import { createReadStream } from "fs";
+import { createReadStream } from "node:fs";
 
-const client: AzureLoadTestingClient = AzureLoadTesting("<Endpoint>", new DefaultAzureCredential());
+const endpoint = "https://<endpoint>";
+const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
-var TEST_ID = "some-test-id";
+const TEST_ID = "some-test-id";
 const readStream = createReadStream("./sample.jmx");
 
 const fileUploadResult = await client
@@ -148,34 +149,22 @@ if (isUnexpected(fileUploadResult)) {
   throw fileUploadResult.body.error;
 }
 
-let fileValidateResult;
 const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
-try{
-fileValidateResult = await fileValidatePoller.pollUntilDone({
-  abortSignal: AbortSignal.timeout(120*1000), // timeout of 120 seconds
-});} catch (ex: any) {
-new Error("Error in polling file Validation" + ex.message); //polling timed out
-}
-
-if (fileValidatePoller.getOperationState().status != "succeeded" && fileValidateResult)
-  throw new Error(
-    "There is some issue in validation, please make sure uploaded file is a valid JMX." +
-      fileValidateResult.body.validationFailureDetails
-  );
+const fileValidateResult = await fileValidatePoller.pollUntilDone();
 ```
 
 ### Running a Test and fetching Metrics
 
-```javascript
-import { AzureLoadTestingClient, getLongRunningPoller, isUnexpected } from "@azure-rest/load-testing";
-import AzureLoadTesting from "@azure-rest/load-testing";
+```ts snippet:ReadmeSampleRunTest
+import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const client: AzureLoadTestingClient = AzureLoadTesting("<Endpoint>", new DefaultAzureCredential());
+const endpoint = "https://<endpoint>";
+const client = AzureLoadTesting(endpoint, new DefaultAzureCredential());
 
-var TEST_ID = "some-test-id";
-var DISPLAY_NAME = "my-load-test";
-var TEST_RUN_ID = "some-test-run-id";
+const TEST_ID = "some-test-id";
+const DISPLAY_NAME = "my-load-test";
+const TEST_RUN_ID = "some-test-run-id";
 
 // Creating/Updating the test run
 const testRunCreationResult = await client.path("/test-runs/{testRunId}", TEST_RUN_ID).patch({
@@ -190,72 +179,61 @@ if (isUnexpected(testRunCreationResult)) {
   throw testRunCreationResult.body.error;
 }
 
-if (testRunCreationResult.body.testRunId === undefined)
-  throw new Error("Test Run ID returned as undefined.");
-
 const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
-  let testRunResult;
+const testRunResult = await testRunPoller.pollUntilDone();
 
-  try {
-    testRunResult = await testRunPoller.pollUntilDone({
-      abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
-    });
-  } catch (ex: any) {
-    new Error("Error in polling test run completion" + ex.message); //polling timed out
-  }
+const testRunStarttime = testRunResult.body.startDateTime;
+const testRunEndTime = testRunResult.body.endDateTime;
 
-  if (testRunPoller.getOperationState().status != "succeeded")
-    throw new Error("There is some issue in running the test, Error Response : " + testRunResult);
+// get list of all metric namespaces and pick the first one
+const metricNamespaces = await client
+  .path("/test-runs/{testRunId}/metric-namespaces", TEST_RUN_ID)
+  .get();
 
-  if (testRunResult) {
-    let testRunStarttime = testRunResult.body.startDateTime;
-    let testRunEndTime = testRunResult.body.endDateTime;
+if (isUnexpected(metricNamespaces)) {
+  throw metricNamespaces.body.error;
+}
 
-    // get list of all metric namespaces and pick the first one
-    const metricNamespaces = await client
-      .path("/test-runs/{testRunId}/metric-namespaces", TEST_RUN_ID)
-      .get();
+const metricNamespace = metricNamespaces.body.value[0];
 
-    if (isUnexpected(metricNamespaces)) {
-      throw metricNamespaces.body.error;
-    }
+if (metricNamespace.name === undefined) {
+  throw "No Metric Namespace name is defined.";
+}
 
-    const metricNamespace = metricNamespaces.body.value[0];
+// get list of all metric definitions and pick the first one
+const metricDefinitions = await client
+  .path("/test-runs/{testRunId}/metric-definitions", TEST_RUN_ID)
+  .get({
+    queryParameters: {
+      metricNamespace: metricNamespace.name,
+    },
+  });
 
-    if (metricNamespace.name === undefined) {
-      throw "No Metric Namespace name is defined.";
-    }
+if (isUnexpected(metricDefinitions)) {
+  throw metricDefinitions.body.error;
+}
 
-    // get list of all metric definitions and pick the first one
-    const metricDefinitions = await client
-      .path("/test-runs/{testRunId}/metric-definitions", TEST_RUN_ID)
-      .get({
-        queryParameters: {
-          metricNamespace: metricNamespace.name,
-        },
-      });
+const metricDefinition = metricDefinitions.body.value[0];
 
-    if (isUnexpected(metricDefinitions)) {
-      throw metricDefinitions.body.error;
-    }
+if (metricDefinition.name === undefined) {
+  throw "No Metric Namespace name is defined.";
+}
 
-    const metricDefinition = metricDefinitions.body.value[0];
+// fetch client metrics using metric namespace and metric name
+const metricsResult = await client.path("/test-runs/{testRunId}/metrics", TEST_RUN_ID).post({
+  queryParameters: {
+    metricname: metricDefinition.name,
+    metricNamespace: metricNamespace.name,
+    timespan: testRunStarttime + "/" + testRunEndTime,
+  },
+});
 
-    if (metricDefinition.name === undefined) {
-      throw "No Metric Namespace name is defined.";
-    }
+if (isUnexpected(metricsResult)) {
+  throw metricsResult.body.error;
+}
 
-    // fetch client metrics using metric namespace and metric name
-    const metricsResult = await client.path("/test-runs/{testRunId}/metrics", TEST_RUN_ID).post({
-      queryParameters: {
-        metricname: metricDefinition.name,
-        metricNamespace: metricNamespace.name,
-        timespan: testRunStarttime + "/" + testRunEndTime,
-      },
-    });
-
-    console.log(metricsResult);
-    console.log(testRunResult);
+for (const timeSeries of metricsResult.body.timeseries) {
+  console.log(timeSeries);
 }
 ```
 
@@ -265,7 +243,7 @@ const testRunPoller = await getLongRunningPoller(client, testRunCreationResult);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

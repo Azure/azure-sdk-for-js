@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, QuotasImpl, LoadTestsImpl } from "./operations";
-import { Operations, Quotas, LoadTests } from "./operationsInterfaces";
-import { LoadTestClientOptionalParams } from "./models";
+import { OperationsImpl, QuotasImpl, LoadTestsImpl } from "./operations/index.js";
+import { Operations, Quotas, LoadTests } from "./operationsInterfaces/index.js";
+import { LoadTestClientOptionalParams } from "./models/index.js";
 
 export class LoadTestClient extends coreClient.ServiceClient {
   $host: string;
