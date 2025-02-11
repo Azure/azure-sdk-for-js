@@ -474,7 +474,7 @@ importers:
         version: file:projects/arm-machinelearningexperimentation.tgz
       '@rush-temp/arm-maintenance':
         specifier: file:./projects/arm-maintenance.tgz
-        version: file:projects/arm-maintenance.tgz
+        version: file:projects/arm-maintenance.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-managedapplications':
         specifier: file:./projects/arm-managedapplications.tgz
         version: file:projects/arm-managedapplications.tgz
@@ -2869,7 +2869,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-devhub@file:projects/arm-devhub.tgz':
-    resolution: {integrity: sha512-61purhRtr/O9qnzjcYLwauaMHn47Jf/2w6Fyh2kQlJP4F4mV6GbDSTCfZroVgPL/FHKLlZdrpG3D3p5cIYrRXg==, tarball: file:projects/arm-devhub.tgz}
+    resolution: {integrity: sha512-rbid8SZPEFXQxdH3ZjVqi95HJmO3oHvRKU6myPdqOxK5STWQR46d4XetqBrh1pPWfKQNgvrAfkMHZHth9greew==, tarball: file:projects/arm-devhub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-deviceprovisioningservices@file:projects/arm-deviceprovisioningservices.tgz':
@@ -3109,7 +3109,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-maintenance@file:projects/arm-maintenance.tgz':
-    resolution: {integrity: sha512-2E6lcc3tKURk94ePQgvxjurGUd5P2JHRcbcJg+FDSKq8sF844d+jJhxMB1GmiS2ZIzWQ1HBhRtkNwkT78ILQkQ==, tarball: file:projects/arm-maintenance.tgz}
+    resolution: {integrity: sha512-bozgL+tR74TLPB/+fqAn+EwAK2pBXx1qFrtJv5PmR/V5TRXUqb62hb1YQo+ry6/BfYa3MiD8UENM/iRmQ13gIQ==, tarball: file:projects/arm-maintenance.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-managedapplications@file:projects/arm-managedapplications.tgz':
@@ -3821,7 +3821,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/load-testing@file:projects/load-testing.tgz':
-    resolution: {integrity: sha512-Ae1mPj/4ALhxK7OtfB8yQbGeq57KjyaLnSc206y/b63j1lfNOYNqXLEOEkIKoPVD2a+U44LYQiiGBvTuBm5kHw==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-YzlhyIxbSAUU4ossIrwS1E2JMi8QCNRTIcjE+Yk6NDHz9e84iYfjX3vBW71HEkjgMViWRzYywxJbETLT9sJ41w==, tarball: file:projects/load-testing.tgz}
     version: 0.0.0
 
   '@rush-temp/logger@file:projects/logger.tgz':
@@ -15001,23 +15001,39 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
-  '@rush-temp/arm-maintenance@file:projects/arm-maintenance.tgz':
+  '@rush-temp/arm-maintenance@file:projects/arm-maintenance.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.75
-      chai: 4.5.0
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.75)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/arm-managedapplications@file:projects/arm-managedapplications.tgz':
     dependencies:
