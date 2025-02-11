@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-largeinstance": [
-        "./dist/esm"
-      ]
+      "@azure/arm-largeinstance": ["./dist/esm"]
     }
   }
 }

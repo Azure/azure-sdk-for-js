@@ -48,7 +48,9 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
-```javascript
+Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
+
+```ts snippet:ReadmeSampleCreateClient_Node
 const { LabServicesClient } = require("@azure/arm-labservices");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
@@ -62,6 +64,12 @@ const client = new LabServicesClient(new DefaultAzureCredential(), subscriptionI
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
 // const client = new LabServicesClient(credential, subscriptionId);
+```
+
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts snippet:ReadmeSampleCreateClient_Browser
+
 ```
 
 ### JavaScript Bundle
@@ -98,8 +106,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-
-
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
