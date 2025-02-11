@@ -13,29 +13,26 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Disconnects the private endpoint connection and deletes it from the search service.
+ * This sample demonstrates how to Upgrades the Azure AI Search service to the latest version available.
  *
- * @summary Disconnects the private endpoint connection and deletes it from the search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/DeletePrivateEndpointConnection.json
+ * @summary Upgrades the Azure AI Search service to the latest version available.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/UpgradeSearchServiceToLatestVersion.json
  */
-async function privateEndpointConnectionDelete(): Promise<void> {
+async function upgradeSearchServiceToLatestVersion(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
-  const privateEndpointConnectionName =
-    "testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546";
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
-  const result = await client.privateEndpointConnections.delete(
+  const result = await client.service.beginUpgradeAndWait(
     resourceGroupName,
     searchServiceName,
-    privateEndpointConnectionName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await privateEndpointConnectionDelete();
+  await upgradeSearchServiceToLatestVersion();
 }
 
 main().catch(console.error);

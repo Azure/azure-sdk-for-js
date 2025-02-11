@@ -7,6 +7,7 @@
  */
 
 export * from "./operations";
+export * from "./offerings";
 export * from "./adminKeys";
 export * from "./queryKeys";
 export * from "./services";
@@ -15,3 +16,4 @@ export * from "./privateEndpointConnections";
 export * from "./sharedPrivateLinkResources";
 export * from "./usages";
 export * from "./networkSecurityPerimeterConfigurations";
+export * from "./service";
