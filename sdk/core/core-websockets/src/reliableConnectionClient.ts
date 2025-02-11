@@ -10,10 +10,12 @@ import type {
   CreateReliableConnectionOptions,
   ReliableConnectionOptions,
   ReliableConnectionClient,
-  OpenOptions,
-  CloseOptions,
-  SendOptions,
-  CloseInfo,
+} from "./models/internal.js";
+import type {
+  WebSocketOpenOptions,
+  WebSocketCloseOptions,
+  WebSocketSendOptions,
+  WebSocketCloseDetails,
   WebSocketEventListeners,
 } from "./models/public.js";
 import { DEFAULT_HIGH_WATER_MARK } from "./constants.js";
@@ -93,8 +95,10 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
       };
     }
 
-    function closeHandler(reliableConnectionClient: WritableClient): (info: CloseInfo) => void {
-      return (info: CloseInfo) => {
+    function closeHandler(
+      reliableConnectionClient: WritableClient,
+    ): (info: WebSocketCloseDetails) => void {
+      return (info: WebSocketCloseDetails) => {
         const { code, reason } = info;
         const errMsg = `Disconnected${reason ? `: ${reason} with code: ${code}` : ""}`;
         logger.info(`[${connectionId}] ${errMsg}`);
@@ -145,7 +149,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
     const reliableConnectionClient: WritableClient = {
       identifier: connectionId,
       status: "disconnected",
-      open: async (openOpts: OpenOptions = {}) => {
+      open: async (openOpts: WebSocketOpenOptions = {}) => {
         switch (reliableConnectionClient.status) {
           case "connecting":
           case "connected": {
@@ -226,7 +230,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           }
         }
       },
-      close: async (closeOpts: CloseOptions = {}) => {
+      close: async (closeOpts: WebSocketCloseOptions = {}) => {
         switch (reliableConnectionClient.status) {
           case "disconnecting":
           case "disconnected": {
@@ -266,7 +270,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           reliableConnectionClient.status = "disconnected";
         }
       },
-      send: async (data: SendDataT, sendOpts: SendOptions = {}) => {
+      send: async (data: SendDataT, sendOpts: WebSocketSendOptions = {}) => {
         const { abortSignal } = sendOpts;
         if (reliableConnectionClient.status !== "connected") {
           logger.info(`[${connectionId}] Connection is not open, opening now to send data...`);

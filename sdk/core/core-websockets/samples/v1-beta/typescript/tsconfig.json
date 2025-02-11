@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "commonjs",
+    "lib": [
+      "DOM"
+    ],
+    "importHelpers": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node10",
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "resolveJsonModule": true
+  },
+  "include": [
+    "./src"
+  ]
+}

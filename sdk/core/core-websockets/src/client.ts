@@ -3,10 +3,9 @@
 
 import { createConnectionManager } from "./connectionManager.js";
 import { WEBSOCKET_CLIENT_TAG } from "./constants.js";
-import type { WithSocket } from "./models/internal.js";
+import type { ReliableConnectionClient, WithSocket } from "./models/internal.js";
 import type {
-  Data,
-  ReliableConnectionClient,
+  WebSocketData,
   WebSocketClient,
   WebSocketClientOptions,
   WebsocketClientWrapper,
@@ -17,11 +16,11 @@ import { createWebSocket } from "./webSocket.js";
 import { createWs } from "./ws.js";
 
 async function withConnectionManager<WebSocketT>(
-  connectionManager: WithSocket<WebSocketT, Data, Data>,
+  connectionManager: WithSocket<WebSocketT, WebSocketData, WebSocketData>,
   options: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols" | "wsOptions"> = {},
 ): Promise<WebSocketClient<WebSocketT>> {
   const { identifier, retryOptions, highWaterMark, abortSignal, on } = options;
-  const reliableClientFactory = createReliableConnectionClient<Data, Data>(
+  const reliableClientFactory = createReliableConnectionClient<WebSocketData, WebSocketData>(
     connectionManager.connectionManager,
     {
       // Always retry on any error.
@@ -35,14 +34,14 @@ async function withConnectionManager<WebSocketT>(
     send: async (data, opts) => reliableClient.send(data, opts),
     on(event, listener) {
       reliableClient.on(
-        event as Parameters<ReliableConnectionClient<Data, Data>["on"]>[0],
-        listener as Parameters<ReliableConnectionClient<Data, Data>["on"]>[1],
+        event as Parameters<ReliableConnectionClient<WebSocketData, WebSocketData>["on"]>[0],
+        listener as Parameters<ReliableConnectionClient<WebSocketData, WebSocketData>["on"]>[1],
       );
     },
     off(event, listener) {
       reliableClient.off(
-        event as Parameters<ReliableConnectionClient<Data, Data>["off"]>[0],
-        listener as Parameters<ReliableConnectionClient<Data, Data>["off"]>[1],
+        event as Parameters<ReliableConnectionClient<WebSocketData, WebSocketData>["off"]>[0],
+        listener as Parameters<ReliableConnectionClient<WebSocketData, WebSocketData>["off"]>[1],
       );
     },
     close: async (opts) => {

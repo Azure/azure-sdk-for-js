@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Data, WebSocketEventListeners } from "./models/public.js";
+import type { WebSocketData, WebSocketEventListeners } from "./models/public.js";
 import type { WebSocketImplOptions, WithSocket } from "./models/internal.js";
-import { WebSocket } from "ws";
+import * as WS from "ws";
 import { createAbortablePromise } from "@azure/core-util";
 import { logger } from "./logger.js";
 
 type InternalListner = (event: any) => void;
-type PublicListener = WebSocketEventListeners<Data>[keyof WebSocketEventListeners];
+type PublicListener = WebSocketEventListeners<WebSocketData>[keyof WebSocketEventListeners];
 
 export function createWs(
   url: URL,
   options: WebSocketImplOptions = {},
-): WithSocket<WebSocket, Data, Data> {
+): WithSocket<WS.WebSocket, WebSocketData, WebSocketData> {
   logger.verbose("Using ws WebSocket");
   const { protocols, wsOptions } = options;
   const listenerMap = new Map<keyof WebSocketEventMap, Map<PublicListener, InternalListner>>();
 
   function addListener(
-    socket: WebSocket,
+    socket: WS.WebSocket,
     type: keyof WebSocketEventMap,
     fn: PublicListener,
     wrapper: InternalListner,
@@ -34,12 +34,12 @@ export function createWs(
     );
   }
 
-  const obj: WithSocket<WebSocket, Data, Data> = {
+  const obj: WithSocket<WS.WebSocket, WebSocketData, WebSocketData> = {
     // the socket will be initialized in the open method
     socket: undefined as any,
     connectionManager: {
       open: () => {
-        obj.socket = new WebSocket(url, protocols, wsOptions);
+        obj.socket = new WS.WebSocket(url, protocols, wsOptions);
         obj.socket.binaryType = "arraybuffer";
       },
       send: (data, sendOptions = {}) => {
@@ -64,13 +64,15 @@ export function createWs(
       on: (type, fn) => {
         switch (type) {
           case "message": {
-            const wrapper = (event: MessageEvent): void =>
-              (fn as WebSocketEventListeners<Data>["message"])(event.data as Data);
+            const wrapper = (event: WS.MessageEvent): void =>
+              (fn as WebSocketEventListeners<WebSocketData>["message"])(
+                event.data as WebSocketData,
+              );
             addListener(obj.socket, type, fn, wrapper);
             break;
           }
           case "close": {
-            const wrapper = ({ code, reason }: CloseEvent): void =>
+            const wrapper = ({ code, reason }: WS.CloseEvent): void =>
               (fn as WebSocketEventListeners["close"])({ code: `${code}`, reason });
             addListener(obj.socket, type, fn, wrapper);
             break;

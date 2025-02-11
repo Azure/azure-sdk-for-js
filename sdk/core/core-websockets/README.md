@@ -19,7 +19,40 @@ This package is primarily used in generated code and not meant to be consumed di
 
 ## Key concepts
 
-UNDER CONSTRUCTION
+## createWebSocketClient
+
+The `createWebSocketClient` function is the primary entry point for establishing a new WebSocket connection in this library. It abstracts the complexity of creating a connection and managing events.
+
+### What It Does
+
+- **URL Validation:**  
+  The function first processes the provided WebSocket URL. It validates the URL and enforces secure connection policies, rejecting the Promise if the URL is invalid or an insecure connection is not permitted (unless explicitly allowed).
+
+- **Connection Initialization:**  
+  It sets up a connection manager that handles the process of opening the underlying WebSocket connection. This includes managing retries, abort signals, and internal status transitions.
+
+- **Event Handling:**  
+  The client supports event registration (using methods like `on` and `off`) and provides a Promise-like interface. This allows consumers to either:
+
+  - Register callbacks for events such as **open**, **message**, **close**, and **error**, or  
+  - Await the connection to be established by using the Promise-like behavior.
+
+- **Underlying Implementations:**  
+  Depending on the environment and options provided, it returns access to different underlying WebSocket implementations (for example, ws, Node.js native WebSocket, or browser WebSocket via `asWs` and `asWebSocket` methods).
+
+### What It Returns
+
+The function returns an object conforming to the `WebsocketClientWrapper` interface that includes:
+
+- **Event-based Methods:**  
+  - `asWs()`: Returns a Promise for a WebSocket client using a specific underlying implementation.
+  - `asWebSocket()`: Returns a Promise for the native WebSocket (when available).
+
+- **Promise Methods:**  
+  The client object is "thenable" meaning you can call `.then()`, `.catch()`, and `.finally()` on it. This allows you to conveniently wait for the connection to open or handle an error if one occurs.
+
+- **Status and Metadata:**  
+  Read-only properties such as `status` and `identifier` provide runtime information about the connection.
 
 ## Examples
 

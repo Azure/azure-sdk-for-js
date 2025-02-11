@@ -3,7 +3,7 @@
 
 import type { TestContext } from "vitest";
 import {
-  type CloseInfo,
+  type WebSocketCloseDetails,
   type ConnectionManager,
   createReliableConnectionClient,
   type CreateReliableConnectionOptions,
@@ -26,7 +26,7 @@ interface CreateMockClientOptions
 export interface ClientWithHandlers {
   client: ReliableConnectionClient<testSendT, testReceiveT>;
   messageHandlers: ((data: testReceiveT) => void)[];
-  closeHandlers: ((info: CloseInfo) => void)[];
+  closeHandlers: ((info: WebSocketCloseDetails) => void)[];
   openHandlers: (() => void)[];
   errorHandlers: ((error: Error) => void)[];
 }
@@ -48,7 +48,7 @@ export function createMockClient(options: CreateMockClientOptions = {}): ClientW
   } = options;
   const retryOptions = createFullRetryOptions(inputRetryOptions);
   const openHandlers: (() => void)[] = [];
-  const closeHandlers: ((info: CloseInfo) => void)[] = [];
+  const closeHandlers: ((info: WebSocketCloseDetails) => void)[] = [];
   const messageHandlers: ((data: testReceiveT) => void)[] = [];
   const errorHandlers: ((error: Error) => void)[] = [];
 
@@ -93,7 +93,7 @@ export function createMockClient(options: CreateMockClientOptions = {}): ClientW
             messageHandlers.push(fn as (data: testReceiveT) => void);
             break;
           case "close":
-            closeHandlers.push(fn as (info: CloseInfo) => void);
+            closeHandlers.push(fn as (info: WebSocketCloseDetails) => void);
             break;
           case "open":
             openHandlers.push(fn as () => void);

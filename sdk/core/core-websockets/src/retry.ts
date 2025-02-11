@@ -43,7 +43,7 @@ export interface RetryOptions {
    */
   timeoutInMs?: number;
   /**
-   * Denotes which retry mode to apply. If undefined, defaults to `Fixed`
+   * Denotes which retry mode to apply. If undefined, defaults to `Exponential`
    */
   mode?: RetryMode;
   /**
@@ -92,7 +92,7 @@ export function createFullRetryOptions(options: RetryOptions = {}): Required<Ret
   const {
     maxRetries = Constants.defaultMaxRetries,
     maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs,
-    mode = "Fixed",
+    mode = "Exponential",
     retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs,
     timeoutInMs = Constants.defaultOperationTimeoutInMs,
   } = options;

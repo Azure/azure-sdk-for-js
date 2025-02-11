@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Data, WebSocketEventListeners } from "./models/public.js";
+import type { WebSocketData, WebSocketEventListeners } from "./models/public.js";
 import type { WebSocketImplOptions, WithSocket } from "./models/internal.js";
 import { logger } from "./logger.js";
 
 type InternalListener = EventListener;
-type PublicListener = WebSocketEventListeners<Data>[keyof WebSocketEventListeners];
+type PublicListener = WebSocketEventListeners<WebSocketData>[keyof WebSocketEventListeners];
 
 export function createWebSocket(
   url: URL,
   options: Omit<WebSocketImplOptions, "wsOptions"> = {},
-): WithSocket<WebSocket, Data, Data> {
+): WithSocket<WebSocket, WebSocketData, WebSocketData> {
   logger.verbose("Using native WebSocket");
   const { protocols } = options;
   const listenerMap = new Map<
@@ -35,7 +35,7 @@ export function createWebSocket(
     );
   }
 
-  const obj: WithSocket<WebSocket, Data, Data> = {
+  const obj: WithSocket<WebSocket, WebSocketData, WebSocketData> = {
     // the socket will be initialized in the open method
     socket: undefined as any,
     connectionManager: {
@@ -55,7 +55,9 @@ export function createWebSocket(
         switch (type) {
           case "message": {
             const wrapper = (event: MessageEvent): void =>
-              (fn as WebSocketEventListeners<Data>["message"])(event.data as Data);
+              (fn as WebSocketEventListeners<WebSocketData>["message"])(
+                event.data as WebSocketData,
+              );
             addListener(obj.socket, type, fn, wrapper as InternalListener);
             break;
           }
