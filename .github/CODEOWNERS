@@ -91,6 +91,10 @@
 # ServiceLabel: %Communication - Job Router
 /sdk/communication/communication-job-router-rest/ @marche0133
 
+# PRLabel: %Communication - Messages
+# ServiceLabel: %Communication - Messages
+/sdk/communication/communication-messages-rest/ @arifibrahim4 @juancamilor @glorialimicrosoft @Shamkh
+
 # PRLabel: %Communication - Phone Numbers
 # ServiceLabel: %Communication - Phone Numbers
 /sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @danielav7
