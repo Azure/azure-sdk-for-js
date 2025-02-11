@@ -432,10 +432,10 @@ importers:
         version: file:projects/arm-iotoperations.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-keyvault':
         specifier: file:./projects/arm-keyvault.tgz
-        version: file:projects/arm-keyvault.tgz
+        version: file:projects/arm-keyvault.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid':
         specifier: file:./projects/arm-keyvault-profile-2020-09-01-hybrid.tgz
-        version: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz
+        version: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-kubernetesconfiguration':
         specifier: file:./projects/arm-kubernetesconfiguration.tgz
         version: file:projects/arm-kubernetesconfiguration.tgz
@@ -1307,14 +1307,6 @@ packages:
 
   '@azure/arm-recoveryservices@5.4.0':
     resolution: {integrity: sha512-+BsxHcFzJH28hMAsyI+bbAYVw79d12WagttmFvoidXXq76/5KpNCA2NWTGSV0AlJ+QaCF6+7I7P91PRYnJsr+w==}
-    engines: {node: '>=14.0.0'}
-
-  '@azure/communication-common@2.3.1':
-    resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
-    engines: {node: '>=18.0.0'}
-
-  '@azure/communication-phone-numbers@1.2.0':
-    resolution: {integrity: sha512-fuCtFFSJb8fZohEJmy3rdD6yohCCirlVzSiebJ8JIX2wrzw44/JEP0jd9V+vtGZUCyDk5Xj2ackb4FI/kH7wUQ==}
     engines: {node: '>=14.0.0'}
 
   '@azure/communication-signaling@1.0.0-beta.29':
@@ -3065,11 +3057,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid@file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-bW8BDRZAzMLhXASzv5N8O8KzH5WQAK4RWNPvUm6E1uf9itdgXuhyst//opTJPsCJ0Rn31q/A2DsBjgIDzc2Hvw==, tarball: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-TwX6DsWjB9k+HvW9Vui5Wf4XdNw2neAJZcaKw2oKlhZUyJH2Z+obDC52sGe4B6zoZkR6bJO5Mvy9YVBoLCFH6g==, tarball: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz':
-    resolution: {integrity: sha512-2Q/FImXfCKzvA6UphwQ5xnbvEN7Sqcjw6iYHyQ8WE4Yc1BcJA0IIsMuffcX0lbL90fmf01Z89LBAiTEmrcepRA==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-5qSE73Yeutn3GBcgxz64kx7N0rTzhYZB8wUG51Tm+b49+pzuss4iFHWT7UbNBrKFGiqAXoX2tTyyJi89OX/0oQ==, tarball: file:projects/arm-keyvault.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
@@ -3601,7 +3593,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-call-automation@file:projects/communication-call-automation.tgz':
-    resolution: {integrity: sha512-+LJZpqSkAR7NncS7j33jsZyJTgyZ3ksCzsZhgKT9Lb7EURkIsAxkCAgtXufE+0x7X90W/B3fBBvDaDPM+79JzA==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-5zDzMtmUwT5VvXGb2wt6lqUco2K3uW1llbQOkIBZ9YnXa7IquYvGTRF0o/sv1A302rQNWiy2oWt6IHADkeX/Pg==, tarball: file:projects/communication-call-automation.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz':
@@ -3813,23 +3805,23 @@ packages:
     version: 0.0.0
 
   '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz':
-    resolution: {integrity: sha512-T5W1kgnXD/Gx2zg/+aH6GZPJ4/KXBBRaK7qp60z1KVxTASwIsyJTtGfHafxA42wpfH54T8tZp9GEuixR4/Diyw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-XDSiv/NzBuTwVd6IEU2guGNubo3cgnwnq+jDoDSSBOXaGLWKQn+zL86Z/LHrl8kImGJrxZXcBqfGM/cU2n962A==, tarball: file:projects/keyvault-admin.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz':
-    resolution: {integrity: sha512-8OE+nYaDcBz+iS+deskqBFnM1JU48tq1v2i1nJnt4HYhh9P7YozBlLee27hYrdlgFxZ+vRD8i67DipdenPG8qA==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-3oOHuMcLpICbzKrVRFIeYVa7Ba4LsTbUkuxkHPhf+FniNuB3RX5jlqLuAGpkHeHxsInE7bbx0RUBKWLgjJXyVw==, tarball: file:projects/keyvault-certificates.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-common@file:projects/keyvault-common.tgz':
-    resolution: {integrity: sha512-mGtZI5pQiceQni/mNDvZGYXpoM2R1arjcSKcs8q+zH3Kc1R4M4tBlzW+RF1uH8e7FAKkJin7stSCiq9ic9EzLA==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-lBIQH8Xq0cB4h3Ir6/c4G7CCKQbxbIRMQZ8O/Mx9DPcXhZ9zcc1G87HtSriJ8QMYlCDFVRLB2H1LoV/KIqZoug==, tarball: file:projects/keyvault-common.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-keys@file:projects/keyvault-keys.tgz':
-    resolution: {integrity: sha512-+LFfNsp2Md64QjSfa5aTZe0XW0mRQkPfmxXMbJ1maWf8+tC7YurnTyOULnrP3vqXxN9ztb5zOFnmsMa3Bzd9jw==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-yrDGGeZYkeqRZ17PKybmBKyHaTRWyQGGYr0K8t6Je0Ykbw8W8O5PqbR+M1ljTWISjkYoZf+URQY+Vxk/UNQUXw==, tarball: file:projects/keyvault-keys.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-secrets@file:projects/keyvault-secrets.tgz':
-    resolution: {integrity: sha512-bOeuPAh75MY4m1HGSvRxY0hxXzdoTscfWYp+WOkbQGNShjWGYgKpQAWbT9bK0jHBiICtIXBbH4uyadCslk3cJw==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-U+xKVk7VI4Wh0RwXbCLpu4T/wSXDwoEQ71/AE2O36SxOOqx0k9+DaJwM/qh0GLw7Xj9OvfdmyvB1p0ODf94TFg==, tarball: file:projects/keyvault-secrets.tgz}
     version: 0.0.0
 
   '@rush-temp/load-testing@file:projects/load-testing.tgz':
@@ -5140,9 +5132,6 @@ packages:
   date-format@4.0.14:
     resolution: {integrity: sha512-39BOQLs9ZjKh0/patS9nrT8wc3ioX3/eA/zgbKNopnF2wCqJEoxywwwElATYvRsXdnOxA/OQeQoFZ3rFjVajhg==}
     engines: {node: '>=4.0'}
-
-  dayjs@1.11.13:
-    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -8387,36 +8376,6 @@ snapshots:
       '@azure/core-paging': 1.6.2
       '@azure/core-rest-pipeline': 1.19.0
       tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/communication-common@2.3.1':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.9.0
-      '@azure/core-rest-pipeline': 1.19.0
-      '@azure/core-tracing': 1.2.0
-      '@azure/core-util': 1.11.0
-      events: 3.3.0
-      jwt-decode: 4.0.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/communication-phone-numbers@1.2.0':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/communication-common': 2.3.1
-      '@azure/core-auth': 1.9.0
-      '@azure/core-client': 1.9.2
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.19.0
-      '@azure/core-tracing': 1.2.0
-      '@azure/logger': 1.1.4
-      events: 3.3.0
-      tslib: 2.8.1
-      uuid: 8.3.2
     transitivePeerDependencies:
       - supports-color
 
@@ -14532,45 +14491,75 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid@file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz':
+  '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid@file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.75
-      chai: 4.5.0
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.75)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
-  '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz':
+  '@rush-temp/arm-keyvault@file:projects/arm-keyvault.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.75
-      chai: 4.5.0
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.75)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/arm-kubernetesconfiguration@file:projects/arm-kubernetesconfiguration.tgz':
     dependencies:
@@ -17533,7 +17522,6 @@ snapshots:
 
   '@rush-temp/communication-call-automation@file:projects/communication-call-automation.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure/communication-phone-numbers': 1.2.0
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
@@ -19634,7 +19622,6 @@ snapshots:
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
-      dayjs: 1.11.13
       dotenv: 16.4.7
       eslint: 9.20.0
       playwright: 1.50.1
@@ -23167,8 +23154,6 @@ snapshots:
       '@babel/runtime': 7.26.7
 
   date-format@4.0.14: {}
-
-  dayjs@1.11.13: {}
 
   debug@2.6.9:
     dependencies:
