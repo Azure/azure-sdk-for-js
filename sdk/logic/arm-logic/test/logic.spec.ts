@@ -59,7 +59,7 @@ describe("Logic test", () => {
     await recorder.stop();
   });
 
-  it("workflows create test", async function () {
+  it("workflows create test", async () => {
     const res = await client.workflows.createOrUpdate(resourceGroupName, workflowName, {
       location: location,
       definition: {
@@ -75,12 +75,12 @@ describe("Logic test", () => {
     assert.equal(res.name, workflowName);
   });
 
-  it("workflows get test", async function () {
+  it("workflows get test", async () => {
     const res = await client.workflows.get(resourceGroupName, workflowName);
     assert.equal(res.name, workflowName);
   });
 
-  it("workflows listByResourceGroup test", async function () {
+  it("workflows listByResourceGroup test", async () => {
     const resArray = new Array();
     for await (const item of client.workflows.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
@@ -88,7 +88,7 @@ describe("Logic test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("workflows delete test", async function () {
+  it("workflows delete test", async () => {
     const resArray = new Array();
     for await (const item of client.workflows.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
