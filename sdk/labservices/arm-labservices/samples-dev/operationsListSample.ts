@@ -7,9 +7,7 @@
  */
 import { LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a list of all operations.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns a list of all operations.
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/LabServices/listOperations.json
  */
-async function listOperations() {
+async function listOperations(): Promise<void> {
   const subscriptionId =
     process.env["LABSERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listOperations();
 }
 

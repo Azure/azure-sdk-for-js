@@ -444,7 +444,7 @@ importers:
         version: file:projects/arm-kusto.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-labservices':
         specifier: file:./projects/arm-labservices.tgz
-        version: file:projects/arm-labservices.tgz
+        version: file:projects/arm-labservices.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-largeinstance':
         specifier: file:./projects/arm-largeinstance.tgz
         version: file:projects/arm-largeinstance.tgz
@@ -3069,7 +3069,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-labservices@file:projects/arm-labservices.tgz':
-    resolution: {integrity: sha512-+odxjSvU3tYEN/noFSVHXcZDg0wctbqbOvs6KVYiaFgNshSQqhxq6xh00/R0/pamCz+jWckyFaj8zT8kPbQObQ==, tarball: file:projects/arm-labservices.tgz}
+    resolution: {integrity: sha512-wyMtBXwBeU4di5TVE/U1Krd8EayUYud5ITTniTLw+g/TKS/eq7WpwDddQ0P3dj24zDtrrgUQXT3NlSnNkkc4Bg==, tarball: file:projects/arm-labservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-largeinstance@file:projects/arm-largeinstance.tgz':
@@ -14703,25 +14703,40 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-labservices@file:projects/arm-labservices.tgz':
+  '@rush-temp/arm-labservices@file:projects/arm-labservices.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.75
-      chai: 4.5.0
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.75)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/arm-largeinstance@file:projects/arm-largeinstance.tgz':
     dependencies:
