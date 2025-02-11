@@ -35,7 +35,7 @@ describe("KeyVaultBackupClient", () => {
   });
 
   describe("beginBackup", function () {
-    it("returns the correct backup result when successful", async function () {
+    it("returns the correct backup result when successful", async () => {
       const backupPoller = await client.beginBackup(blobStorageUri, testPollerProperties);
       await backupPoller.poll();
 
@@ -58,7 +58,7 @@ describe("KeyVaultBackupClient", () => {
       expect(backupResult.folderUri!).toMatch(new RegExp(blobStorageUri));
     });
 
-    it("throws when polling errors", async function () {
+    it("throws when polling errors", async () => {
       await expect(
         client.beginBackup(blobStorageUri, "invalid_sas_token", testPollerProperties),
       ).rejects.toThrow(/SAS token/);
@@ -66,7 +66,7 @@ describe("KeyVaultBackupClient", () => {
   });
 
   describe("beginRestore", function () {
-    it("full restore completes successfully", async function () {
+    it("full restore completes successfully", async () => {
       const backupPoller = await client.beginBackup(blobStorageUri, testPollerProperties);
       const backupResult = await backupPoller.pollUntilDone();
       expect(backupResult.folderUri).toBeDefined();
@@ -101,7 +101,7 @@ describe("KeyVaultBackupClient", () => {
       }
     });
 
-    it("selectiveKeyRestore completes successfully", async function () {
+    it("selectiveKeyRestore completes successfully", async () => {
       const keyName = "rsa1";
       await keyClient.createRsaKey(keyName);
       const backupPoller = await client.beginBackup(blobStorageUri, testPollerProperties);
@@ -142,7 +142,7 @@ describe("KeyVaultBackupClient", () => {
       await keyClient.getKey(keyName);
     });
 
-    it("throws when polling errors", async function () {
+    it("throws when polling errors", async () => {
       await expect(
         client.beginRestore(blobStorageUri, "bad_token", testPollerProperties),
       ).rejects.toThrow(/SAS token is malformed/);

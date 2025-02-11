@@ -8,9 +8,7 @@
 import type { InviteBody } from "@azure/arm-labservices";
 import { LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to invite a user to a lab.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Operation to invite a user to a lab.
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Users/inviteUser.json
  */
-async function inviteUser() {
+async function inviteUser(): Promise<void> {
   const subscriptionId =
     process.env["LABSERVICES_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["LABSERVICES_RESOURCE_GROUP"] || "testrg123";
@@ -31,7 +29,7 @@ async function inviteUser() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await inviteUser();
 }
 

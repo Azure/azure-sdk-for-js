@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Creates or updates a workflow
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_CreateOrUpdate.json
  */
-async function createWorkflow() {
+async function createWorkflow(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const resourceGroupName =
@@ -64,7 +64,7 @@ async function createWorkflow() {
  * @summary Creates or updates a workflow
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_CreateOrUpdate_WithArtifactGen.json
  */
-async function createWorkflowWithArtifactGeneration() {
+async function createWorkflowWithArtifactGeneration(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const resourceGroupName =
@@ -118,7 +118,7 @@ async function createWorkflowWithArtifactGeneration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createWorkflow();
   createWorkflowWithArtifactGeneration();
 }

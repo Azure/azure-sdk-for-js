@@ -13,7 +13,7 @@ import {
   VirtualMachinesRestartHostsOptionalParams,
   VirtualMachinesGetAsyncOperationStatusOptionalParams,
   VirtualMachinesGetAsyncOperationStatusResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VirtualMachines. */
 export interface VirtualMachines {

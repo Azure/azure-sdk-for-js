@@ -8,9 +8,7 @@
 import type { AutoscaleConfigurationUpdateParameter } from "@azure/arm-hdinsight";
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the Autoscale Configuration for HDInsight cluster.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates the Autoscale Configuration for HDInsight cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/DisableClusterAutoScale.json
  */
-async function disableAutoscaleForTheHdInsightCluster() {
+async function disableAutoscaleForTheHdInsightCluster(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -41,7 +39,7 @@ async function disableAutoscaleForTheHdInsightCluster() {
  * @summary Updates the Autoscale Configuration for HDInsight cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/EnableOrUpdateAutoScaleWithLoadBasedConfiguration.json
  */
-async function enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightCluster() {
+async function enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightCluster(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -66,7 +64,7 @@ async function enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightC
  * @summary Updates the Autoscale Configuration for HDInsight cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/EnableOrUpdateAutoScaleWithScheduleBasedConfiguration.json
  */
-async function enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsightCluster() {
+async function enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsightCluster(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -99,7 +97,7 @@ async function enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsi
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await disableAutoscaleForTheHdInsightCluster();
   await enableOrUpdateAutoscaleWithTheLoadBasedConfigurationForHdInsightCluster();
   await enableOrUpdateAutoscaleWithTheScheduleBasedConfigurationForHdInsightCluster();

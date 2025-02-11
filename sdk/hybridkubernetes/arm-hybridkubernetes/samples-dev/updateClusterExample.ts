@@ -15,7 +15,7 @@ import type { ConnectedClusterPatch } from "@azure/arm-hybridkubernetes";
 import { ConnectedKubernetesClient } from "@azure/arm-hybridkubernetes";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function updateClusterExample() {
+async function updateClusterExample(): Promise<void> {
   const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
   const resourceGroupName = "k8sc-rg";
   const clusterName = "testCluster";
