@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import type { TestContext } from "vitest";
-import {
-  type WebSocketCloseDetails,
-  type ConnectionManager,
-  createReliableConnectionClient,
-  type CreateReliableConnectionOptions,
-  type ReliableConnectionClient,
-  type ReliableConnectionOptions,
-} from "../../src/index.js";
+import { type WebSocketCloseDetails } from "../../src/index.js";
 import { createFullRetryOptions } from "./mockRretryOptions.js";
 import { assert } from "./vitest.js";
+import type {
+  ConnectionManager,
+  CreateReliableConnectionOptions,
+  ReliableConnectionClient,
+  ReliableConnectionOptions,
+} from "../../src/models/internal.js";
+import { createReliableConnectionClient } from "../../src/reliableConnectionClient.js";
 
 export type testSendT = string;
 export type testReceiveT = string;

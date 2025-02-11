@@ -173,7 +173,7 @@ export interface WebSocketClientOptions {
   identifier?: string;
 
   /**
-   * Listeners for various events.
+   * Use this option to install listeners for various events.
    */
   on?: Partial<WebSocketEventListeners<WebSocketData>>;
 }

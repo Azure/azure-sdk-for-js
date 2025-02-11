@@ -15,7 +15,12 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Installation
 
-This package is primarily used in generated code and not meant to be consumed directly by end users.
+
+Install the Azure Core WebSockets library with `npm`:
+
+```bash
+npm install @azure/core-websockets
+```
 
 ## Key concepts
 

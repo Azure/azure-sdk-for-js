@@ -77,7 +77,7 @@ async function createServer(): Promise<{
   const secureServerPort = await getAvailablePort();
   const insecureServerPort = await getAvailablePort();
 
-  generateCertificates();
+  await generateCertificates();
 
   const httpsServer = https.createServer({
     key: await fs.readFile(path.resolve(__dirname, "key.pem")),
