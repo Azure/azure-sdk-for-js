@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-managementgroups": [
-        "./dist/esm"
-      ]
+      "@azure/arm-managementgroups": ["./dist/esm"]
     }
   }
 }
