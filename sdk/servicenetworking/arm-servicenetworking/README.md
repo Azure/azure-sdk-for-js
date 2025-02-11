@@ -26,7 +26,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-servicenetworking` package
 
-Install the Azure ServiceNetworking client library for JavaScript with `npm`:
+Install the Azure ServiceNetworkingManagement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-servicenetworking
@@ -34,8 +34,8 @@ npm install @azure/arm-servicenetworking
 
 ### Create and authenticate a `ServiceNetworkingManagementClient`
 
-To create a client object to access the Azure ServiceNetworking API, you will need the `endpoint` of your Azure ServiceNetworking resource and a `credential`. The Azure ServiceNetworking client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure ServiceNetworking resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure ServiceNetworkingManagement API, you will need the `endpoint` of your Azure ServiceNetworkingManagement resource and a `credential`. The Azure ServiceNetworkingManagement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure ServiceNetworkingManagement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
