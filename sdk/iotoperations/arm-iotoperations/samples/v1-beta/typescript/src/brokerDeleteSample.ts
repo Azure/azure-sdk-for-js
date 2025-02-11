@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a BrokerResource
  * x-ms-original-file: 2024-11-01/Broker_Delete_MaximumSet_Gen.json
  */
-async function brokerDelete() {
+async function brokerDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function brokerDelete() {
   );
 }
 
-async function main() {
+async function main(): Promise<void> {
   brokerDelete();
 }
 
