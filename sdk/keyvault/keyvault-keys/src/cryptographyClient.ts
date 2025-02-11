@@ -734,7 +734,7 @@ export class CryptographyClient {
 
   /**
    * Retrieves the {@link JsonWebKey} from the Key Vault, if possible. Returns undefined if the key could not be retrieved due to insufficient permissions.
-    * @param options - The additional options.  
+   * @param options - The additional options.
    */
   private async getKeyMaterial(options: GetKeyOptions): Promise<JsonWebKey | undefined> {
     const key = await this.fetchKey(options);
