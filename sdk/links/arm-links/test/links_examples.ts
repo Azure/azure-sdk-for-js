@@ -14,8 +14,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ManagementLinkClient } from "../src/managementLinkClient";
+import { ManagementLinkClient } from "../src/managementLinkClient.js";
 import { ResourceManagementClient } from "@azure/arm-resources";
 
 const replaceableVariables: Record<string, string> = {
@@ -46,31 +45,31 @@ describe("Links test", () => {
   let linksName: string;
   let resourceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new ManagementLinkClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    resources_client = new ResourceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    linksName = "myLink";
-    resourceName = "myresourcezzz";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new ManagementLinkClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      resources_client = new ResourceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      linksName = "myLink";
+      resourceName = "myresourcezzz";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
-  async function create_resourceId() {
+  async function create_resourceId(): Promise<void> {
     const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup, "Microsoft.Compute", "", "availabilitySets", resourceName, "2019-07-01", { location: "eastus" }, testPollingOptions);
     console.log(result)
     return result;
   }
 
-  async function create_resourceId2() {
+  async function create_resourceId2(): Promise<void> {
     const result = await resources_client.resources.beginCreateOrUpdateAndWait(resourceGroup, "Microsoft.Compute", "", "availabilitySets", resourceName + "2", "2019-07-01", { location: "eastus" }, testPollingOptions);
     console.log(result)
     return result;
@@ -104,7 +103,6 @@ describe("Links test", () => {
 
   it("resourceLinks delete test", async function () {
     const linkId = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Compute/availabilitySets/" + resourceName + "/providers/Microsoft.Resources/links/" + linksName
-    const res = await client.resourceLinks.delete(linkId);
     const resArray = new Array();
     for await (const item of client.resourceLinks.listAtSubscription()) {
       resArray.push(item);
