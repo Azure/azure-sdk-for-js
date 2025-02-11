@@ -19,14 +19,14 @@ import {
   AccountsImpl,
   WorkspacesImpl,
   ProjectsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Accounts,
   Workspaces,
   Projects
-} from "./operationsInterfaces";
-import { MLTeamAccountManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MLTeamAccountManagementClientOptionalParams } from "./models/index.js";
 
 export class MLTeamAccountManagementClient extends coreClient.ServiceClient {
   $host: string;
