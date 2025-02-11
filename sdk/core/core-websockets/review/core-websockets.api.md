@@ -20,19 +20,16 @@ export interface CloseOptions {
 }
 
 // @public
-export interface ConnectionManager<SendDataT, ReceiveDataT> {
+export interface ConnectionManager<SendDataT, ReceiveDataT> extends Listeners<ReceiveDataT> {
     canReconnect(info: CloseInfo): boolean;
     close(opts?: Omit<CloseOptions, "abortSignal">): void;
-    onClose: (fn: (info: CloseInfo) => void) => void;
-    onError: (fn: (error: unknown) => void) => void;
-    onMessage: (fn: (data: ReceiveDataT) => void) => void;
-    onOpen: (fn: () => void) => void;
+    destroy(): void;
     open(): void;
     send(data: SendDataT, opts?: SendOptions): Promise<number>;
 }
 
 // @public
-export function createReliableConnectionClient<SendDataT, ReceiveDataT>(client: ConnectionManager<SendDataT, ReceiveDataT>, createOptions?: CreateReliableConnectionOptions): (opts?: ReliableConnectionOptions) => ReliableConnectionClient<SendDataT, ReceiveDataT>;
+export function createReliableConnectionClient<SendDataT, ReceiveDataT>(client: ConnectionManager<SendDataT, ReceiveDataT>, createOptions?: CreateReliableConnectionOptions): (opts?: ReliableConnectionOptions<ReceiveDataT>) => ReliableConnectionClient<SendDataT, ReceiveDataT>;
 
 // @public
 export interface CreateReliableConnectionOptions {
@@ -41,7 +38,7 @@ export interface CreateReliableConnectionOptions {
 }
 
 // @public
-export function createWebSocketClient(url: string, options?: WebSocketClientOptions): WebsocketClientWrapper;
+export function createWebSocketClient<WebSocketT>(url: string, options?: WebSocketClientOptions): WebsocketClientWrapper<WebSocketT>;
 
 // @public
 export type Data = string | ArrayBuffer | ArrayBufferView;
@@ -52,26 +49,37 @@ export interface IsOpenOptions {
 }
 
 // @public
+export interface Listeners<ReceiveDataT> {
+    off(event: "message", listener: (data: ReceiveDataT) => void): void;
+    off(event: "open", listener: () => void): void;
+    off(event: "close", listener: (info: CloseInfo) => void): void;
+    off(event: "error", listener: (err: unknown) => void): void;
+    on(event: "message", listener: (data: ReceiveDataT) => void): void;
+    on(event: "open", listener: () => void): void;
+    on(event: "close", listener: (info: CloseInfo) => void): void;
+    on(event: "error", listener: (err: unknown) => void): void;
+}
+
+// @public
 export interface OpenOptions {
     abortSignal?: AbortSignal;
 }
 
 // @public
-export interface ReliableConnectionClient<SendDataT, ReceiveDataT> {
+export interface ReliableConnectionClient<SendDataT, ReceiveDataT> extends Listeners<ReceiveDataT> {
     close(opts?: CloseOptions): Promise<void>;
-    onClose: (fn: (info: CloseInfo) => void) => void;
-    onError: (fn: (error: unknown) => void) => void;
-    onMessage: (fn: (data: ReceiveDataT) => void) => void;
-    onOpen: (fn: () => void) => void;
+    destroy(): void;
+    readonly identifier: string;
     open(opts?: OpenOptions): Promise<void>;
     send(data: SendDataT, opts?: SendOptions): Promise<boolean>;
     readonly status: Status;
 }
 
 // @public
-export interface ReliableConnectionOptions {
+export interface ReliableConnectionOptions<ReceiveDataT> {
     highWaterMark?: number;
     identifier?: string;
+    on?: Partial<WebSocketEventListeners<ReceiveDataT>>;
     retryOptions?: RetryOptions;
 }
 
@@ -96,14 +104,12 @@ export interface SendOptions {
 export type Status = "connecting" | "connected" | "disconnecting" | "disconnected";
 
 // @public
-export interface WebSocketClient {
+export interface WebSocketClient<WebSocketT> extends Listeners<Data> {
     close(opts?: CloseOptions): Promise<void>;
-    on(event: "message", listener: (data: Data) => void): void;
-    on(event: "reconnect", listener: () => void): void;
-    on(event: "close", listener: () => void): void;
-    on(event: "error", listener: (error: Error) => void): void;
+    readonly identifier: string;
     send(data: Data, opts?: SendOptions): Promise<boolean>;
     readonly status: Status;
+    readonly websocket: WebSocketT;
 }
 
 // @public
@@ -112,19 +118,28 @@ export interface WebSocketClientOptions {
     allowInsecureConnection?: boolean;
     highWaterMark?: number;
     identifier?: string;
+    on?: Partial<WebSocketEventListeners<Data>>;
     protocols?: string | string[];
     retryOptions?: RetryOptions;
     wsOptions?: WS.ClientOptions | ClientRequestArgs;
 }
 
 // @public
-export interface WebsocketClientWrapper extends Promise<WebSocketClient> {
-    asWebSocket: () => Promise<WebSocketClient & {
-        websocket: WebSocket;
-    }>;
-    asWs: () => Promise<WebSocketClient & {
-        websocket: WS.WebSocket;
-    }>;
+export interface WebsocketClientWrapper<WebSocketT> extends Promise<WebSocketClient<WebSocketT>> {
+    asWebSocket: () => Promise<WebSocketClient<WebSocket>>;
+    asWs: () => Promise<WebSocketClient<WS.WebSocket>>;
+}
+
+// @public (undocumented)
+export interface WebSocketEventListeners<ReceiveDataT = unknown> {
+    // (undocumented)
+    close: (info: CloseInfo) => void;
+    // (undocumented)
+    error: (err: unknown) => void;
+    // (undocumented)
+    message: (data: ReceiveDataT) => void;
+    // (undocumented)
+    open: () => void;
 }
 
 // (No @packageDocumentation comment for this package)

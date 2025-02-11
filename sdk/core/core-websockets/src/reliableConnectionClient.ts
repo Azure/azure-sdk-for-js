@@ -14,6 +14,7 @@ import type {
   CloseOptions,
   SendOptions,
   CloseInfo,
+  WebSocketEventListeners,
 } from "./models/public.js";
 import { DEFAULT_HIGH_WATER_MARK } from "./constants.js";
 
@@ -23,14 +24,20 @@ import { DEFAULT_HIGH_WATER_MARK } from "./constants.js";
 export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
   client: ConnectionManager<SendDataT, ReceiveDataT>,
   createOptions: CreateReliableConnectionOptions = {},
-): (opts?: ReliableConnectionOptions) => ReliableConnectionClient<SendDataT, ReceiveDataT> {
+): (
+  opts?: ReliableConnectionOptions<ReceiveDataT>,
+) => ReliableConnectionClient<SendDataT, ReceiveDataT> {
   const { isRetryable, resolveOnUnsuccessful } = createOptions || {};
   type WritableClient = Writable<ReliableConnectionClient<SendDataT, ReceiveDataT>>;
   return ({
     retryOptions: inputRetryOptions,
     identifier,
     highWaterMark = DEFAULT_HIGH_WATER_MARK,
-  }: ReliableConnectionOptions = {}): ReliableConnectionClient<SendDataT, ReceiveDataT> => {
+    on: listeners,
+  }: ReliableConnectionOptions<ReceiveDataT> = {}): ReliableConnectionClient<
+    SendDataT,
+    ReceiveDataT
+  > => {
     const connectionId = identifier || getRandomName();
     const retryOptions = createFullRetryOptions(inputRetryOptions);
     /**
@@ -57,7 +64,86 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
       openOrClosePromiseResolve?.();
       clearResolvers();
     }
+
+    let handlers: {
+      [K in keyof WebSocketEventListeners<ReceiveDataT>]: [
+        WebSocketEventListeners<ReceiveDataT>[K],
+        WebSocketEventListeners<ReceiveDataT>[K] | undefined,
+      ];
+    };
+
+    function openHandler(reliableConnectionClient: WritableClient): () => void {
+      return () => {
+        switch (reliableConnectionClient.status) {
+          case "connecting": {
+            resolveAndReset();
+            reliableConnectionClient.status = "connected";
+            logger.info(`[${connectionId}] Connected`);
+            break;
+          }
+          case "connected":
+          case "disconnected":
+          case "disconnecting": {
+            const errMsg = `[${connectionId}] Unexpected open event when the client is ${reliableConnectionClient.status}`;
+            logger.warning(errMsg);
+            rejectAndReset(createError(errMsg));
+            break;
+          }
+        }
+      };
+    }
+
+    function closeHandler(reliableConnectionClient: WritableClient): (info: CloseInfo) => void {
+      return (info: CloseInfo) => {
+        const { code, reason } = info;
+        const errMsg = `Disconnected${reason ? `: ${reason} with code: ${code}` : ""}`;
+        logger.info(`[${connectionId}] ${errMsg}`);
+        const status = reliableConnectionClient.status;
+        reliableConnectionClient.status = "disconnected";
+        switch (status) {
+          case "disconnected":
+          case "disconnecting": {
+            /** The client is closing the connection */
+            resolveAndReset();
+            break;
+          }
+          case "connecting": {
+            /** The server is refusing to connect */
+            logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
+            rejectAndReset(createError(errMsg));
+            canReconnect = client.canReconnect(info);
+            break;
+          }
+          case "connected": {
+            /** The server closed the connection */
+            logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
+            canReconnect = client.canReconnect(info);
+            if (canReconnect) {
+              reliableConnectionClient.open({ abortSignal: openAbortSignal }).catch(() => {
+                /** nothing else to do, give up */
+              });
+            }
+            break;
+          }
+        }
+      };
+    }
+
+    function errorHandler(): (err: unknown) => void {
+      return (error: unknown) => {
+        logger.error(`[${connectionId}] Error received:`, error);
+        rejectAndReset(error);
+      };
+    }
+
+    function messageHandler(): (data: ReceiveDataT) => void {
+      return () => {
+        logger.info(`[${connectionId}] Message received`);
+      };
+    }
+
     const reliableConnectionClient: WritableClient = {
+      identifier: connectionId,
       status: "disconnected",
       open: async (openOpts: OpenOptions = {}) => {
         switch (reliableConnectionClient.status) {
@@ -86,19 +172,36 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
         ): Promise<void> {
           logger.verbose(`[${connectionId}] Opening connection`);
           client.open();
-          /**
-           * Installs dummy handlers to start listening for events from the server.
-           * Resolves the promise when the connection is open, or rejects it when
-           * the connection is closed or an error occurs. The client must have
-           * handlers for open, close, error, and message events.
-           */
-          const emptyHandler = (): void => {};
-          reliableConnectionClient.onOpen(emptyHandler);
-          reliableConnectionClient.onClose(emptyHandler);
-          reliableConnectionClient.onError(emptyHandler);
-          reliableConnectionClient.onMessage(emptyHandler);
+
+          handlers = {
+            open: [openHandler(reliableConnectionClient), listeners?.open],
+            close: [closeHandler(reliableConnectionClient), listeners?.close],
+            error: [errorHandler(), listeners?.error],
+            message: [messageHandler(), listeners?.message],
+          } as const;
+
+          Object.entries(handlers).forEach(([event, [internalHandler, userHandler]]) => {
+            if (internalHandler) {
+              reliableConnectionClient.on(
+                event as Parameters<ReliableConnectionClient<SendDataT, ReceiveDataT>["on"]>[0],
+                internalHandler as Parameters<
+                  ReliableConnectionClient<SendDataT, ReceiveDataT>["on"]
+                >[1],
+              );
+            }
+            if (userHandler) {
+              reliableConnectionClient.on(
+                event as Parameters<ReliableConnectionClient<SendDataT, ReceiveDataT>["on"]>[0],
+                userHandler as Parameters<
+                  ReliableConnectionClient<SendDataT, ReceiveDataT>["on"]
+                >[1],
+              );
+            }
+          });
+
           reliableConnectionClient.status = "connecting";
           logger.verbose(`[${connectionId}] Connecting...`);
+
           await createAbortablePromise<void>((resolve, reject) => {
             openOrClosePromiseResolve = resolve;
             openOrClosePromiseReject = reject;
@@ -184,79 +287,45 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           abortSignal,
         });
       },
-      onOpen: (fn: () => void) => {
-        function wrapper(): void {
-          switch (reliableConnectionClient.status) {
-            case "connecting": {
-              resolveAndReset();
-              reliableConnectionClient.status = "connected";
-              logger.info(`[${connectionId}] Connected`);
-              break;
-            }
-            case "connected":
-            case "disconnected":
-            case "disconnecting": {
-              const errMsg = `[${connectionId}] Unexpected open event when the client is ${reliableConnectionClient.status}`;
-              logger.warning(errMsg);
-              rejectAndReset(createError(errMsg));
-              break;
-            }
-          }
-          fn();
-        }
-        client.onOpen(wrapper);
+      on(type, fn) {
+        client.on(
+          type as Parameters<ConnectionManager<SendDataT, ReceiveDataT>["on"]>[0],
+          fn as Parameters<ConnectionManager<SendDataT, ReceiveDataT>["on"]>[1],
+        );
       },
-      onClose: (fn: (info: CloseInfo) => void) => {
-        function wrapper(info: CloseInfo): void {
-          const { code, reason } = info;
-          const errMsg = `Disconnected${reason ? `: ${reason} with code: ${code}` : ""}`;
-          logger.info(`[${connectionId}] ${errMsg}`);
-          const status = reliableConnectionClient.status;
-          reliableConnectionClient.status = "disconnected";
-          switch (status) {
-            case "disconnected":
-            case "disconnecting": {
-              /** The client is closing the connection */
-              resolveAndReset();
-              break;
-            }
-            case "connecting": {
-              /** The server is refusing to connect */
-              logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
-              rejectAndReset(createError(errMsg));
-              canReconnect = client.canReconnect(info);
-              break;
-            }
-            case "connected": {
-              /** The server closed the connection */
-              logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
-              canReconnect = client.canReconnect(info);
-              if (canReconnect) {
-                reliableConnectionClient.open({ abortSignal: openAbortSignal }).catch(() => {
-                  /** nothing else to do, give up */
-                });
-              }
-              break;
-            }
-          }
-          fn(info);
-        }
-        client.onClose(wrapper);
+      off(type, fn) {
+        client.off(
+          type as Parameters<ConnectionManager<SendDataT, ReceiveDataT>["off"]>[0],
+          fn as Parameters<ConnectionManager<SendDataT, ReceiveDataT>["off"]>[1],
+        );
       },
-      onError: (fn: (error: unknown) => void) => {
-        function wrapper(error: unknown): void {
-          logger.error(`[${connectionId}] Error received:`, error);
-          rejectAndReset(error);
-          fn(error);
-        }
-        client.onError(wrapper);
-      },
-      onMessage: (fn: (data: ReceiveDataT) => void) => {
-        function wrapper(data: ReceiveDataT): void {
-          logger.info(`[${connectionId}] Message received`);
-          fn(data);
-        }
-        client.onMessage(wrapper);
+      destroy: () => {
+        client.destroy();
+
+        const events = ["open", "close", "error", "message"] as const;
+
+        Object.values(handlers)
+          .map(([x, _]) => x)
+          .forEach((handler, index) => {
+            if (handler) {
+              reliableConnectionClient.off(
+                events[index] as Parameters<
+                  ReliableConnectionClient<SendDataT, ReceiveDataT>["off"]
+                >[0],
+                handler as Parameters<ReliableConnectionClient<SendDataT, ReceiveDataT>["off"]>[1],
+              );
+            }
+          });
+
+        const methods = ["open", "close", "send", "on", "off", "destroy"] as const;
+        methods.forEach((method) => {
+          reliableConnectionClient[method] = async () => {
+            throw createError(`Cannot call "${method}" from a destroyed client`);
+          };
+        });
+
+        reliableConnectionClient.status = "disconnected";
+        logger.info(`[${connectionId}] Client destroyed`);
       },
     };
     return reliableConnectionClient;

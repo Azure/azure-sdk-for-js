@@ -2,111 +2,134 @@
 // Licensed under the MIT License.
 
 import { createConnectionManager } from "./connectionManager.js";
+import { WEBSOCKET_CLIENT_TAG } from "./constants.js";
+import type { WithSocket } from "./models/internal.js";
 import type {
-  ConnectionManager,
   Data,
+  ReliableConnectionClient,
   WebSocketClient,
   WebSocketClientOptions,
   WebsocketClientWrapper,
 } from "./models/public.js";
 import { createReliableConnectionClient } from "./reliableConnectionClient.js";
-import { createError, createUrl } from "./utils.js";
+import { createUrl } from "./utils.js";
 import { createWebSocket } from "./webSocket.js";
-import { createWS } from "./ws.js";
+import { createWs } from "./ws.js";
 
-async function withConnectionManager(
-  connectionManager: ConnectionManager<Data, Data>,
+async function withConnectionManager<WebSocketT>(
+  connectionManager: WithSocket<WebSocketT, Data, Data>,
   options: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols" | "wsOptions"> = {},
-): Promise<WebSocketClient> {
-  const { identifier, retryOptions, highWaterMark, abortSignal } = options;
-  const reliableClientFactory = createReliableConnectionClient<Data, Data>(connectionManager, {
-    isRetryable: () => true,
-    resolveOnUnsuccessful: true,
-  });
-  const reliableClient = reliableClientFactory({ identifier, retryOptions, highWaterMark });
+): Promise<WebSocketClient<WebSocketT>> {
+  const { identifier, retryOptions, highWaterMark, abortSignal, on } = options;
+  const reliableClientFactory = createReliableConnectionClient<Data, Data>(
+    connectionManager.connectionManager,
+    {
+      // Always retry on any error.
+      isRetryable: () => true,
+    },
+  );
+  const reliableClient = reliableClientFactory({ identifier, retryOptions, highWaterMark, on });
   await reliableClient.open({ abortSignal });
-  const obj: Omit<WebSocketClient, "status"> = {
+
+  const obj: Omit<WebSocketClient<WebSocketT>, "status" | "websocket" | "identifier"> = {
     send: async (data, opts) => reliableClient.send(data, opts),
     on(event, listener) {
-      switch (event) {
-        case "message":
-          reliableClient.onMessage(listener as (data: Data) => void);
-          break;
-        case "reconnect":
-          reliableClient.onOpen(listener as () => void);
-          break;
-        case "close":
-          reliableClient.onClose(listener as () => void);
-          break;
-        case "error":
-          reliableClient.onError(listener as (error: unknown) => void);
-          break;
-        default:
-          throw createError(`Unknown event: ${event}`);
-      }
+      reliableClient.on(
+        event as Parameters<ReliableConnectionClient<Data, Data>["on"]>[0],
+        listener as Parameters<ReliableConnectionClient<Data, Data>["on"]>[1],
+      );
     },
-    close: async (opts) => reliableClient.close(opts),
+    off(event, listener) {
+      reliableClient.off(
+        event as Parameters<ReliableConnectionClient<Data, Data>["off"]>[0],
+        listener as Parameters<ReliableConnectionClient<Data, Data>["off"]>[1],
+      );
+    },
+    close: async (opts) => {
+      await reliableClient.close(opts);
+      reliableClient.destroy();
+    },
   };
-  return Object.defineProperty(obj, "status", {
-    get() {
-      return reliableClient.status;
+
+  return Object.defineProperties(obj, {
+    status: {
+      get() {
+        return reliableClient.status;
+      },
+      enumerable: true,
     },
-    enumerable: true,
-  }) as WebSocketClient;
+    websocket: {
+      get() {
+        return connectionManager.socket;
+      },
+      enumerable: true,
+    },
+    identifier: {
+      get() {
+        return reliableClient.identifier;
+      },
+      enumerable: true,
+    },
+  }) as WebSocketClient<WebSocketT>;
+}
+
+/**
+ * Create a wrapper that builds a promise-based client on demand.
+ */
+function buildClientWrapper<WebSocketT>(
+  urlObj: URL,
+  protocols: string | string[] | undefined,
+  wsOptions: WebSocketClientOptions["wsOptions"],
+  restOptions: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols" | "wsOptions">,
+  fullOptions: WebSocketClientOptions,
+): WebsocketClientWrapper<WebSocketT> {
+  function buildPromise(): Promise<WebSocketClient<WebSocketT>> {
+    return withConnectionManager<WebSocketT>(
+      createConnectionManager<WebSocketT>(urlObj, { protocols, wsOptions }),
+      fullOptions,
+    );
+  }
+
+  return {
+    asWs: () =>
+      withConnectionManager(createWs(urlObj, { protocols, wsOptions }), restOptions) as ReturnType<
+        WebsocketClientWrapper<unknown>["asWs"]
+      >,
+    asWebSocket: () =>
+      withConnectionManager(createWebSocket(urlObj, { protocols }), restOptions) as ReturnType<
+        WebsocketClientWrapper<unknown>["asWebSocket"]
+      >,
+    then: (onfulfilled, onrejected) => buildPromise().then(onfulfilled, onrejected),
+    catch: (onrejected) => buildPromise().catch(onrejected),
+    finally: (onfinally) => buildPromise().finally(onfinally),
+    [Symbol.toStringTag]: WEBSOCKET_CLIENT_TAG,
+  };
 }
 
 /**
  * Creates a WebSocket client
- * @param url - The websocket connection URL
+ * @param url - The WebSocket connection URL
  * @param options - Options for createWebSocketClient
  *
  * @returns a WebSocket client
  */
-export function createWebSocketClient(
+export function createWebSocketClient<WebSocketT>(
   url: string,
   options: WebSocketClientOptions = {},
-): WebsocketClientWrapper {
-  const { protocols, allowInsecureConnection, wsOptions } = options;
-  const urlObj = createUrl(url, { allowInsecureConnection });
-  function buildPromise(): Promise<WebSocketClient> {
-    const connManager = createConnectionManager(urlObj, { protocols, wsOptions });
-    return withConnectionManager(connManager.connectionManager, options);
+): WebsocketClientWrapper<WebSocketT> {
+  const { protocols, allowInsecureConnection, wsOptions, ...restOptions } = options;
+  try {
+    const urlObj = createUrl(url, { allowInsecureConnection });
+    return buildClientWrapper<WebSocketT>(urlObj, protocols, wsOptions, restOptions, options);
+  } catch (err) {
+    const rejectOnDemand = (): Promise<never> => Promise.reject(err);
+    return {
+      asWs: rejectOnDemand,
+      asWebSocket: rejectOnDemand,
+      then: (onfulfilled, onrejected) => rejectOnDemand().then(onfulfilled, onrejected),
+      catch: (onrejected) => rejectOnDemand().catch(onrejected),
+      finally: (onfinally) => rejectOnDemand().finally(onfinally),
+      [Symbol.toStringTag]: WEBSOCKET_CLIENT_TAG,
+    } as WebsocketClientWrapper<WebSocketT>;
   }
-  return {
-    asWs: async () => {
-      const wsConnManager = createWS(urlObj, { protocols, wsOptions });
-      const wsClient = await withConnectionManager(wsConnManager.connectionManager, options);
-      return Object.defineProperty(wsClient, "websocket", {
-        get() {
-          return wsConnManager.socket;
-        },
-        enumerable: true,
-      }) as ReturnType<WebsocketClientWrapper["asWs"]> extends Promise<infer WS> ? WS : never;
-    },
-    asWebSocket: async () => {
-      const webSocketConnManager = createWebSocket(urlObj, { protocols, wsOptions });
-      const webSocketClient = await withConnectionManager(
-        webSocketConnManager.connectionManager,
-        options,
-      );
-      return Object.defineProperty(webSocketClient, "websocket", {
-        get() {
-          return webSocketConnManager.socket;
-        },
-        enumerable: true,
-      }) as ReturnType<WebsocketClientWrapper["asWebSocket"]> extends Promise<infer WS>
-        ? WS
-        : never;
-    },
-    then(onfulfilled, onrejected) {
-      return buildPromise().then(onfulfilled, onrejected);
-    },
-    catch(onrejected) {
-      return buildPromise().catch(onrejected);
-    },
-    finally(onfinally) {
-      return buildPromise().finally(onfinally);
-    },
-    [Symbol.toStringTag]: "WebSocketClient",
-  };
 }

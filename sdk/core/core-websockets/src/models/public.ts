@@ -66,7 +66,7 @@ export interface IsOpenOptions {
 /**
  * The group of methods needed to implement a client over a reliable connection.
  */
-export interface ConnectionManager<SendDataT, ReceiveDataT> {
+export interface ConnectionManager<SendDataT, ReceiveDataT> extends Listeners<ReceiveDataT> {
   /**
    * Opens the connection. The client must be able to listen to events.
    * after this method is called.
@@ -85,21 +85,9 @@ export interface ConnectionManager<SendDataT, ReceiveDataT> {
    */
   canReconnect(info: CloseInfo): boolean;
   /**
-   * Sets the callback function to be called when a message is received.
+   * Destroys the connection and it can't be opened again.
    */
-  onMessage: (fn: (data: ReceiveDataT) => void) => void;
-  /**
-   * Sets the callback function to be called when the connection is opened.
-   */
-  onOpen: (fn: () => void) => void;
-  /**
-   * Sets the callback function to be called when the connection is closed.
-   */
-  onClose: (fn: (info: CloseInfo) => void) => void;
-  /**
-   * Sets the callback function to be called when an error is received.
-   */
-  onError: (fn: (error: unknown) => void) => void;
+  destroy(): void;
 }
 
 /**
@@ -108,13 +96,55 @@ export interface ConnectionManager<SendDataT, ReceiveDataT> {
 export type Status = "connecting" | "connected" | "disconnecting" | "disconnected";
 
 /**
+ * Listeners for various events.
+ */
+export interface Listeners<ReceiveDataT> {
+  /**
+   * Sets the callback function to be called when a message is received.
+   */
+  on(event: "message", listener: (data: ReceiveDataT) => void): void;
+  /**
+   * Sets the callback function to be called when the connection is opened.
+   */
+  on(event: "open", listener: () => void): void;
+  /**
+   * Sets the callback function to be called when the connection is closed.
+   */
+  on(event: "close", listener: (info: CloseInfo) => void): void;
+  /**
+   * Sets the callback function to be called when an error is received.
+   */
+  on(event: "error", listener: (err: unknown) => void): void;
+  /**
+   * Removes the callback function to be called when a message is received.
+   */
+  off(event: "message", listener: (data: ReceiveDataT) => void): void;
+  /**
+   * Removes the callback function to be called when the connection is opened.
+   */
+  off(event: "open", listener: () => void): void;
+  /**
+   * Removes the callback function to be called when the connection is closed.
+   */
+  off(event: "close", listener: (info: CloseInfo) => void): void;
+  /**
+   * Removes the callback function to be called when an error is received.
+   */
+  off(event: "error", listener: (err: unknown) => void): void;
+}
+
+/**
  * The reliable connection client.
  */
-export interface ReliableConnectionClient<SendDataT, ReceiveDataT> {
+export interface ReliableConnectionClient<SendDataT, ReceiveDataT> extends Listeners<ReceiveDataT> {
   /**
    * The status of the connection.
    */
   readonly status: Status;
+  /**
+   * The identifier of the connection.
+   */
+  readonly identifier: string;
   /**
    * Opens the connection.
    */
@@ -128,21 +158,9 @@ export interface ReliableConnectionClient<SendDataT, ReceiveDataT> {
    */
   send(data: SendDataT, opts?: SendOptions): Promise<boolean>;
   /**
-   * Sets the callback function to be called when a message is received.
+   * Destroys the connection and it can't be opened again.
    */
-  onMessage: (fn: (data: ReceiveDataT) => void) => void;
-  /**
-   * Sets the callback function to be called when the connection is opened.
-   */
-  onOpen: (fn: () => void) => void;
-  /**
-   * Sets the callback function to be called when the connection is closed.
-   */
-  onClose: (fn: (info: CloseInfo) => void) => void;
-  /**
-   * Sets the callback function to be called when an error is received.
-   */
-  onError: (fn: (error: unknown) => void) => void;
+  destroy(): void;
 }
 
 /**
@@ -162,7 +180,7 @@ export interface CreateReliableConnectionOptions {
 /**
  * Options to create a reliable connection client.
  */
-export interface ReliableConnectionOptions {
+export interface ReliableConnectionOptions<ReceiveDataT> {
   /**
    * The options to retry an operation.
    */
@@ -171,11 +189,14 @@ export interface ReliableConnectionOptions {
    * The identifier of the connection.
    */
   identifier?: string;
-
   /**
    * The high water mark for the send queue.
    */
   highWaterMark?: number;
+  /**
+   * Listeners for various events.
+   */
+  on?: Partial<WebSocketEventListeners<ReceiveDataT>>;
 }
 
 /**
@@ -186,7 +207,19 @@ export type Data = string | ArrayBuffer | ArrayBufferView;
 /**
  * The WebSocket client.
  */
-export interface WebSocketClient {
+export interface WebSocketClient<WebSocketT> extends Listeners<Data> {
+  /**
+   * The status of the connection.
+   */
+  readonly status: Status;
+  /**
+   * The identifier of the connection.
+   */
+  readonly identifier: string;
+  /**
+   * The WebSocket instance.
+   */
+  readonly websocket: WebSocketT;
   /**
    * Send a message to the WebSocket server.
    * @param data - The message to send.
@@ -194,28 +227,10 @@ export interface WebSocketClient {
    * @returns false if the send buffer is full
    */
   send(data: Data, opts?: SendOptions): Promise<boolean>;
-
-  /** Registers a callback to be called when a message is received */
-  on(event: "message", listener: (data: Data) => void): void;
-
-  /** Registers a callback to be called when an open event is received */
-  on(event: "reconnect", listener: () => void): void;
-
-  /** Registers a callback to be called when a close event is received */
-  on(event: "close", listener: () => void): void;
-
-  /** Registers a callback to be called when an error event is received */
-  on(event: "error", listener: (error: Error) => void): void;
-
   /**
    * Close the WebSocket connection.
    */
   close(opts?: CloseOptions): Promise<void>;
-
-  /**
-   * The status of the connection.
-   */
-  readonly status: Status;
 }
 
 /**
@@ -259,6 +274,11 @@ export interface WebSocketClientOptions {
    * A unique identifier for the WebSocket client.
    */
   identifier?: string;
+
+  /**
+   * Listeners for various events.
+   */
+  on?: Partial<WebSocketEventListeners<Data>>;
 }
 
 /**
@@ -266,15 +286,23 @@ export interface WebSocketClientOptions {
  * It also has methods to get the WebSocket client as a ws WebSocket client or as a Web API WebSocket client.
  * This is useful when the client needs to access the underlying WebSocket.
  */
-export interface WebsocketClientWrapper extends Promise<WebSocketClient> {
+export interface WebsocketClientWrapper<WebSocketT> extends Promise<WebSocketClient<WebSocketT>> {
   /**
    * Returns the WebSocket client as a ws WebSocket client.
    * @returns The ws WebSocket client.
    */
-  asWs: () => Promise<WebSocketClient & { websocket: WS.WebSocket }>;
+  asWs: () => Promise<WebSocketClient<WS.WebSocket>>;
   /**
    * Returns the WebSocket client as a Web API WebSocket client.
    * @returns The Web API WebSocket client.
    */
-  asWebSocket: () => Promise<WebSocketClient & { websocket: WebSocket }>;
+  asWebSocket: () => Promise<WebSocketClient<WebSocket>>;
+}
+
+// A typed mapping from event name to the listener function signature
+export interface WebSocketEventListeners<ReceiveDataT = unknown> {
+  message: (data: ReceiveDataT) => void;
+  open: () => void;
+  close: (info: CloseInfo) => void;
+  error: (err: unknown) => void;
 }

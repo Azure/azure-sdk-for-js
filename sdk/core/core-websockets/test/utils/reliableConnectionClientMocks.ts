@@ -6,8 +6,9 @@ import {
   type CloseInfo,
   type ConnectionManager,
   createReliableConnectionClient,
+  type CreateReliableConnectionOptions,
   type ReliableConnectionClient,
-  type RetryOptions,
+  type ReliableConnectionOptions,
 } from "../../src/index.js";
 import { createFullRetryOptions } from "./mockRretryOptions.js";
 import { assert } from "./vitest.js";
@@ -15,90 +16,110 @@ import { assert } from "./vitest.js";
 export type testSendT = string;
 export type testReceiveT = string;
 
-export function createMockClient(
-  options: {
-    retryOptions?: RetryOptions;
-    isRetryable?: (error: unknown) => boolean;
-    resolveOnUnsuccessful?: boolean;
-    identifier?: string;
-    open?: () => void;
-    onOpen?: (fn: () => void) => void;
-    close?: () => void;
-    onClose?: (fn: (info: CloseInfo) => void) => void;
-    canReconnect?: () => boolean;
-    send?: (data: testSendT) => Promise<number>;
-    onError?: (fn: (error: unknown) => void) => void;
-    onMessage?: (fn: (data: testReceiveT) => void) => void;
-  } = {},
-): ReliableConnectionClient<testSendT, testReceiveT> {
+interface CreateMockClientOptions
+  extends Omit<Partial<ConnectionManager<testReceiveT, testSendT>>, "off">,
+    CreateReliableConnectionOptions,
+    Omit<ReliableConnectionOptions<testReceiveT>, "on"> {
+  listeners?: ReliableConnectionOptions<testReceiveT>["on"];
+}
+
+export interface ClientWithHandlers {
+  client: ReliableConnectionClient<testSendT, testReceiveT>;
+  messageHandlers: ((data: testReceiveT) => void)[];
+  closeHandlers: ((info: CloseInfo) => void)[];
+  openHandlers: (() => void)[];
+  errorHandlers: ((error: Error) => void)[];
+}
+
+export function createMockClient(options: CreateMockClientOptions = {}): ClientWithHandlers {
   const {
-    retryOptions: inputRetryOptions,
     isRetryable,
     resolveOnUnsuccessful,
-    identifier = "test",
     open,
-    onOpen,
-    onClose,
     canReconnect,
     close,
-    onError,
-    onMessage,
     send,
+    on,
+    highWaterMark,
+    identifier,
+    retryOptions: inputRetryOptions,
+    listeners,
+    destroy,
   } = options;
   const retryOptions = createFullRetryOptions(inputRetryOptions);
-  let openHandler: (() => void) | undefined;
-  let closeHandler: ((info: CloseInfo) => void) | undefined;
-  let onMessageHandler: ((data: testReceiveT) => void) | undefined;
+  const openHandlers: (() => void)[] = [];
+  const closeHandlers: ((info: CloseInfo) => void)[] = [];
+  const messageHandlers: ((data: testReceiveT) => void)[] = [];
+  const errorHandlers: ((error: Error) => void)[] = [];
+
   const connection: ConnectionManager<testSendT, testReceiveT> = {
     open:
       open ??
       (() => {
         setTimeout(() => {
-          if (!openHandler) {
+          if (openHandlers.length === 0) {
             assert.fail("open handler not set");
           }
-          openHandler();
+          for (const handler of openHandlers) {
+            handler();
+          }
         }, 0);
       }),
     close:
       close ??
       (() => {
         setTimeout(() => {
-          if (!closeHandler) {
+          if (closeHandlers.length === 0) {
             assert.fail("close handler not set");
           }
-          closeHandler({ code: "1000", reason: "normal closure" });
+          for (const handler of closeHandlers) {
+            handler({ code: "1000", reason: "normal closure" });
+          }
         }, 0);
       }),
     send:
       send ??
       (async (item) => {
-        onMessageHandler?.(item);
+        for (const handler of messageHandlers) {
+          handler(item);
+        }
         return 0;
       }),
-    onClose:
-      onClose ??
-      ((fn) => {
-        closeHandler = fn;
+    on:
+      on ??
+      ((event, fn) => {
+        switch (event) {
+          case "message":
+            messageHandlers.push(fn as (data: testReceiveT) => void);
+            break;
+          case "close":
+            closeHandlers.push(fn as (info: CloseInfo) => void);
+            break;
+          case "open":
+            openHandlers.push(fn as () => void);
+            break;
+          case "error":
+            errorHandlers.push(fn as (error: Error) => void);
+            break;
+          default:
+            throw new Error(`Unknown event: ${event}`);
+        }
       }),
-    onError: onError ?? (() => {}),
-    onMessage:
-      onMessage ??
-      ((fn) => {
-        onMessageHandler = fn;
-      }),
-    onOpen:
-      onOpen ??
-      ((fn) => {
-        openHandler = fn;
-      }),
+    off: () => {},
+    destroy: destroy ?? (() => {}),
     canReconnect: canReconnect ?? (() => false),
   };
   const clientFactory = createReliableConnectionClient<testSendT, testReceiveT>(connection, {
     isRetryable,
     resolveOnUnsuccessful,
   });
-  return clientFactory({ retryOptions, identifier });
+  return {
+    client: clientFactory({ identifier, retryOptions, highWaterMark, on: listeners }),
+    closeHandlers,
+    errorHandlers,
+    messageHandlers,
+    openHandlers,
+  };
 }
 
 export function createIdentifier(test: TestContext): string {
