@@ -101,7 +101,7 @@ export class SecretClient {
    *
    * // Build the URL to reach your key vault
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * // Lastly, create our keys client and connect to the service
    * const client = new SecretClient(url, credential);
@@ -165,7 +165,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -214,7 +214,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -254,7 +254,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -302,7 +302,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -346,7 +346,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -385,7 +385,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -427,7 +427,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -472,7 +472,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -507,7 +507,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -547,7 +547,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -591,7 +591,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *
@@ -634,7 +634,7 @@ export class SecretClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+   * const url = `https://${vaultName}.vault.azure.net`;
    *
    * const client = new SecretClient(url, credential);
    *

@@ -12,7 +12,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // Build the URL to reach your key vault
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     // Lastly, create our keys client and connect to the service
     const client = new SecretClient(url, credential);
@@ -23,7 +23,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // Build the URL to reach your key vault
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     // Change the Azure Key Vault service API version being used via the `serviceVersion` option
     const client = new SecretClient(url, credential, {
@@ -35,7 +35,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -49,7 +49,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -58,15 +58,20 @@ describe("snippets", () => {
     const latestSecret = await client.getSecret(secretName);
     console.log(`Latest version of the secret ${secretName}: `, latestSecret);
     // @ts-preserve-whitespace
-    const specificSecret = await client.getSecret(secretName, { version: latestSecret.properties.version! });
-    console.log(`The secret ${secretName} at the version ${latestSecret.properties.version!}: `, specificSecret);
+    const specificSecret = await client.getSecret(secretName, {
+      version: latestSecret.properties.version!,
+    });
+    console.log(
+      `The secret ${secretName} at the version ${latestSecret.properties.version!}: `,
+      specificSecret,
+    );
   });
 
   it("ReadmeSampleCreateSecretWithAttributes", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -81,7 +86,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -95,7 +100,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -108,7 +113,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -121,7 +126,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -137,7 +142,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -155,7 +160,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -168,7 +173,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -183,7 +188,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -214,7 +219,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -234,7 +239,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -255,7 +260,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
@@ -278,7 +283,7 @@ describe("snippets", () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace
     const vaultName = "<YOUR KEYVAULT NAME>";
-    const url = `https://${vaultName}.vault.azure.net`; // or `https://${vaultName}.managedhsm.azure.net` for managed HSM.
+    const url = `https://${vaultName}.vault.azure.net`;
     // @ts-preserve-whitespace
     const client = new SecretClient(url, credential);
     // @ts-preserve-whitespace
