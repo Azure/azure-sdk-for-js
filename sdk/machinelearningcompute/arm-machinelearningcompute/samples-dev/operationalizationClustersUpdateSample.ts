@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The PATCH operation can be used to update only the tags for a cluster. Use PUT operation to update other properties.
  * x-ms-original-file: specification/machinelearningcompute/resource-manager/Microsoft.MachineLearningCompute/preview/2017-08-01-preview/examples/OperationalizationClusters_Update.json
  */
-async function patchOperationalizationCluster() {
+async function patchOperationalizationCluster(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const clusterName = "myCluster";

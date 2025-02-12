@@ -9,7 +9,7 @@
 import {
   ScheduledEventAcknowledgeOptionalParams,
   ScheduledEventAcknowledgeResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ScheduledEvent. */
 export interface ScheduledEvent {
