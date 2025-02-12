@@ -5,7 +5,12 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it } from "vitest";
 import { createClientsAndDeployments } from "../utils/createClients.js";
 import type { APIVersion } from "../utils/utils.js";
-import { assertChatCompletions, assertChatCompletionsList } from "../utils/asserts.js";
+import {
+  assertChatCompletions,
+  assertChatCompletionsList,
+  assertParsedChatCompletion,
+} from "../utils/asserts.js";
+import { zodResponseFormat } from "openai/helpers/zod";
 import {
   APIMatrix,
   bufferAsyncIterable,
@@ -16,6 +21,7 @@ import { type ChatCompletionMessageParam } from "openai/resources/chat/completio
 import { functionCallModelsToSkip, jsonResponseModelsToSkip } from "../utils/models.js";
 import "../../src/types/index.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
+import { MathResponse, assertMathResponseOutput } from "../utils/structuredOutputUtils.js";
 
 describe("Chat Completions", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
@@ -356,6 +362,43 @@ describe("Chat Completions", function () {
               [{ name: "gpt-4", version: "vision-preview" }],
             );
           });
+        });
+      });
+
+      describe("chat.completions.parse", function () {
+        it("structured output for chat completions", async function () {
+          await withDeployments(
+            clientsAndDeployments,
+            async (client, deploymentName) => {
+              const step = z.object({
+                explanation: z.string(),
+                output: z.string(),
+              });
+
+              const mathResponse = z.object({
+                steps: z.array(step),
+                final_answer: z.string(),
+              });
+
+              return client.beta.chat.completions.parse({
+                model: deploymentName,
+                messages: [
+                  {
+                    role: "system",
+                    content:
+                      "You are a helpful math tutor. Only use the schema for math responses.",
+                  },
+                  { role: "user", content: "solve 8x + 3 = 21" },
+                ],
+                response_format: zodResponseFormat(mathResponse, "mathResponse"),
+              });
+            },
+            (result) => {
+              assertParsedChatCompletion<MathResponse>(result, assertMathResponseOutput, {
+                allowEmptyChoices: true,
+              });
+            },
+          );
         });
       });
     });

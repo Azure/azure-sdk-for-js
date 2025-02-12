@@ -37,6 +37,12 @@ import type {
   ChatCompletion,
   ChatCompletionMessageToolCall,
 } from "openai/resources/chat/completions.mjs";
+import {
+  ParsedChatCompletion,
+  ParsedChatCompletionMessage,
+  ParsedChoice,
+  ParsedFunctionToolCall,
+} from "openai/resources/beta/chat/completions.mjs";
 import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import type { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
 import type { Metadata } from "./types.js";
@@ -531,6 +537,45 @@ function assertBatchErrorData(error: BatchError): void {
   ifDefined(error.message, assert.isString);
   ifDefined(error.param, assert.isString);
   ifDefined(error.line, assert.isNumber);
+}
+
+export function assertParsedChatCompletion<ParsedT>(
+  completions: ParsedChatCompletion<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void,
+  { allowEmptyChoices, ...opts }: ChatCompletionTestOptions = {},
+): void {
+  assertChatCompletions(completions, opts);
+  if (!allowEmptyChoices || completions.choices.length > 0) {
+    assertNonEmptyArray(completions.choices, (choice) =>
+      assertParsedChoice(choice, validateParsedResponse),
+    );
+  }
+}
+
+function assertParsedChoice<ParsedT>(
+  choice: ParsedChoice<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void,
+): void {
+  assert.isDefined(choice.message);
+  assertParsedMessage<ParsedT>(choice.message, validateParsedResponse);
+}
+
+function assertParsedMessage<ParsedT>(
+  message: ParsedChatCompletionMessage<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void,
+): void {
+  assert.isDefined(message);
+  ifDefined(message.parsed, validateParsedResponse);
+  if (message.content && message.parsed) {
+    assert.deepEqual(message.content, JSON.stringify(message.parsed));
+  }
+  for (const item of message.tool_calls) {
+    assertParsedFunctionToolCall(item);
+  }
+}
+
+function assertParsedFunctionToolCall(parsedFunction: ParsedFunctionToolCall): void {
+  assert.isDefined(parsedFunction.function);
 }
 
 export function assertResponseTextDoneEvent(event: ResponseTextDoneEvent): void {
