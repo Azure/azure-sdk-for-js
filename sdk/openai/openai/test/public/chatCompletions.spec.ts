@@ -10,6 +10,7 @@ import {
   assertChatCompletionsList,
   assertParsedChatCompletion,
 } from "../utils/asserts.js";
+import { z } from "zod";
 import { zodResponseFormat } from "openai/helpers/zod";
 import {
   APIMatrix,
