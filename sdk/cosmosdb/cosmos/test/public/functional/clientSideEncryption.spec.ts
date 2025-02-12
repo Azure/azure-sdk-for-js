@@ -428,7 +428,6 @@ describe("ClientSideEncryption", function (this: Suite) {
     const { resource: docToPatch } = await testCreateItem(encryptionContainer);
     const stringToReplace = randomUUID();
 
-
     // doc not created before
     const docToUpsert2 = TestDoc.create();
 
@@ -467,9 +466,14 @@ describe("ClientSideEncryption", function (this: Suite) {
       ),
       BulkOperations.getDeleteItemOperation(docToDelete.id, docToDelete.PK),
       BulkOperations.getPatchItemOperation(docToPatch.id, docToPatch.PK, {
-        operations: [{ op: PatchOperationType.replace, path: "/sensitive_StringFormat", value: stringToReplace }],
-      })
-
+        operations: [
+          {
+            op: PatchOperationType.replace,
+            path: "/sensitive_StringFormat",
+            value: stringToReplace,
+          },
+        ],
+      }),
     ];
     let bulkStreamer: BulkStreamer;
     let response: BulkOperationResult[];
@@ -643,9 +647,9 @@ describe("ClientSideEncryption", function (this: Suite) {
 
     const queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where c.sensitive_StringFormat = @sensitive_StringFormat AND c.sensitive_ArrayFormat = @sensitive_ArrayFormat" +
-      " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
-      " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
-      " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
+        " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
+        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
+        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
     );
     // null parameters should also work with other add methods
     queryBuilder.addStringParameter(
