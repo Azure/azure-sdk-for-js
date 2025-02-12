@@ -521,9 +521,11 @@ describe("XML serializer", function () {
     });
 
     it("should handling leading and trailing spaces", function () {
-      const xml = stringifyXML({ name: "   leadingspace"});
-      assert.equal(xml,
-                   `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root><name>   leadingspace</name></root>`);
+      const xml = stringifyXML({ name: "   leadingspace" });
+      assert.equal(
+        xml,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root><name>   leadingspace</name></root>`,
+      );
     });
 
     it("should handle CDATA sections with default value", function () {
@@ -610,12 +612,12 @@ describe("XML serializer", function () {
     const parsed = await parseXML(input);
     assert.isDefined(parsed.Name);
     assert.deepEqual(parsed.Name, "  leadingspace.txt");
-  })
+  });
 
   it("should keep trailing spaces", async function () {
     const input = `<Blob><Name>trailingspace   </Name></Blob>`;
     const parsed = await parseXML(input);
     assert.isDefined(parsed.Name);
     assert.deepEqual(parsed.Name, "trailingspace   ");
-  })
+  });
 });
