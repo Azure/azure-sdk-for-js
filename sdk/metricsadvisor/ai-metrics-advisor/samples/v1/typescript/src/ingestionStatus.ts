@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * @summary This sample demonstrates operations related to ingestion status.
+ */
+
 import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient
+  MetricsAdvisorAdministrationClient,
 } from "@azure/ai-metrics-advisor";
 
 export async function main(): Promise<void> {
@@ -32,7 +36,7 @@ async function listIngestionStatus(
   adminClient: MetricsAdvisorAdministrationClient,
   dataFeedId: string,
   startTime: Date,
-  endTime: Date
+  endTime: Date,
 ): Promise<void> {
   console.log("Listing ingestion status...");
   // iterate through all ingestions using for-await-of
@@ -68,7 +72,7 @@ async function listIngestionStatus(
 
 async function getIngestionProgress(
   adminClient: MetricsAdvisorAdministrationClient,
-  dataFeedId: string
+  dataFeedId: string,
 ): Promise<void> {
   console.log("Getting ingestion progress...");
   const result = await adminClient.getDataFeedIngestionProgress(dataFeedId);
@@ -79,7 +83,7 @@ async function refreshIngestion(
   adminClient: MetricsAdvisorAdministrationClient,
   dataFeedId: string,
   startTime: Date,
-  endTime: Date
+  endTime: Date,
 ): Promise<void> {
   console.log("Resetting ingestion status...");
   await adminClient.refreshDataFeedIngestion(dataFeedId, startTime, endTime);

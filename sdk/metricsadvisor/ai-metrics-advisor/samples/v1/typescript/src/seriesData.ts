@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ *  @summary This sample demonstrates how to retrieve time series data.
+ */
+
 import "dotenv/config";
 import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
@@ -23,17 +27,20 @@ export async function main(): Promise<void> {
 }
 
 // get enriched series data for a detection configuration
-async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConfigId: string): Promise<void> {
+async function getEnrichedSeriesData(
+  client: MetricsAdvisorClient,
+  detectionConfigId: string,
+): Promise<void> {
   console.log("Retrieving metric enriched series data...");
   try {
     const result = await client.getMetricEnrichedSeriesData(
       detectionConfigId,
       [
         { city: "Manila", category: "Handmade" },
-        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
+        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" },
       ],
       new Date("09/01/2020"),
-      new Date("09/12/2020")
+      new Date("09/12/2020"),
     );
 
     for (const enriched of result) {
@@ -65,10 +72,10 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
       metricId,
       [
         { city: "Manila", category: "Handmade" },
-        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
+        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" },
       ],
       new Date("09/01/2020"),
-      new Date("09/12/2020")
+      new Date("09/12/2020"),
     );
 
     for (const series of result) {

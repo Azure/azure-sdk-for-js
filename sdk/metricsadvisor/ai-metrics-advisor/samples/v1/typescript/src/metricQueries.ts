@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ *  @summary This sample demonstrates querying methods related to metric.
+ */
+
 import "dotenv/config";
 import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
@@ -20,7 +24,10 @@ export async function main(): Promise<void> {
   await listEnrichmentStatus(client, metricId);
 }
 
-async function listMetricSeriesDefinitions(client: MetricsAdvisorClient, metricId: string): Promise<void> {
+async function listMetricSeriesDefinitions(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<void> {
   console.log("Listing metric series definitions...");
   console.log("  with for-await-of loop");
   const listIterator = client.listMetricSeriesDefinitions(metricId, new Date("08/05/2020"));
@@ -53,7 +60,7 @@ async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: stri
   const listIterator = client.listMetricEnrichmentStatus(
     metricId,
     new Date("10/22/2020"),
-    new Date("10/24/2020")
+    new Date("10/24/2020"),
   );
   for await (const status of listIterator) {
     console.log("  Enrichment status");
@@ -63,7 +70,10 @@ async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: stri
   }
 }
 
-async function listMetricDimensionValues(client: MetricsAdvisorClient, metricId: string): Promise<void> {
+async function listMetricDimensionValues(
+  client: MetricsAdvisorClient,
+  metricId: string,
+): Promise<void> {
   console.log("Listing metric dimension values...");
   const listIterator = client.listMetricDimensionValues(metricId, "city");
   for await (const dv of listIterator) {
