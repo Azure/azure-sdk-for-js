@@ -8,8 +8,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/documenttranslator/ci.mgmt.yml
-      - sdk/documenttranslator/ai-document-translator-rest/
+      - sdk/documenttranslator/
 pr:
   branches:
     include:
@@ -21,7 +20,6 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/documenttranslator/ci.mgmt.yml
       - sdk/documenttranslator/ai-document-translator-rest/
 
 extends:
@@ -30,4 +28,4 @@ extends:
     ServiceDirectory: documenttranslator
     Artifacts:
       - name: azure-rest-ai-document-translator
-        safeName: azurerestaidocumenttranslator      
+        safeName: azurerestaidocumenttranslator
