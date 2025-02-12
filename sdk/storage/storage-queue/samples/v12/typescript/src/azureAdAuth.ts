@@ -51,7 +51,7 @@ export async function main() {
     !process.env.AZURE_CLIENT_SECRET
   ) {
     console.warn(
-      "Azure AD authentication information not provided, but it is required to run this sample. Exiting."
+      "Azure AD authentication information not provided, but it is required to run this sample. Exiting.",
     );
     return;
   }
@@ -72,7 +72,7 @@ export async function main() {
 
   const queueServiceClient = new QueueServiceClient(
     `https://${account}.queue.core.windows.net`,
-    defaultAzureCredential
+    defaultAzureCredential,
   );
 
   console.log("Queues:");

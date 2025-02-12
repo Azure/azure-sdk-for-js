@@ -45,7 +45,7 @@ export async function main() {
   const queueServiceClient = new QueueServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log(`Queues`);
@@ -58,7 +58,7 @@ export async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`
+    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`,
   );
 
   // Send three messages into the queue using the sendMessage method.
@@ -66,7 +66,7 @@ export async function main() {
   for (let i = 0; i < messages.length; i++) {
     const enqueueQueueResponse = await queueClient.sendMessage(messages[i]);
     console.log(
-      `Sent message successfully, service assigned message ID: ${enqueueQueueResponse.messageId}, service assigned request ID: ${enqueueQueueResponse.requestId}`
+      `Sent message successfully, service assigned message ID: ${enqueueQueueResponse.messageId}, service assigned request ID: ${enqueueQueueResponse.requestId}`,
     );
   }
 
@@ -84,10 +84,10 @@ export async function main() {
     console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
     const deleteMessageResponse = await queueClient.deleteMessage(
       dequeueMessageItem.messageId,
-      dequeueMessageItem.popReceipt
+      dequeueMessageItem.popReceipt,
     );
     console.log(
-      `Deleted message successfully, service assigned request ID: ${deleteMessageResponse.requestId}`
+      `Deleted message successfully, service assigned request ID: ${deleteMessageResponse.requestId}`,
     );
   }
 
@@ -99,10 +99,10 @@ export async function main() {
       console.log(`Processing & deleting message with content: ${dequeueMessageItem.messageText}`);
       const deleteMessageResponse = await queueClient.deleteMessage(
         dequeueMessageItem.messageId,
-        dequeueMessageItem.popReceipt
+        dequeueMessageItem.popReceipt,
       );
       console.log(
-        `Deleted message successfully, service assigned request ID: ${deleteMessageResponse.requestId}`
+        `Deleted message successfully, service assigned request ID: ${deleteMessageResponse.requestId}`,
       );
     }
   }
@@ -110,7 +110,7 @@ export async function main() {
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`
+    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`,
   );
 }
 
