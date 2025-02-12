@@ -61,7 +61,7 @@ describe("MediaServices test", () => {
       await recorder.stop();
     });
 
-  it("mediaservices create test", async function () {
+  it("mediaservices create test", async () => {
     const res = await client.mediaservices.beginCreateOrUpdateAndWait(resourceGroup, mediaName, {
       location: location,
       storageAccounts: [
@@ -74,12 +74,12 @@ describe("MediaServices test", () => {
     assert.equal(res.name, mediaName);
   });
 
-  it("mediaservices get test", async function () {
+  it("mediaservices get test", async () => {
     const res = await client.mediaservices.get(resourceGroup, mediaName);
     assert.equal(res.name, mediaName);
   });
 
-  it("mediaservices list test", async function () {
+  it("mediaservices list test", async () => {
     const resArray = new Array();
     for await (let item of client.mediaservices.list(resourceGroup)) {
       resArray.push(item);
@@ -87,7 +87,7 @@ describe("MediaServices test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("mediaservices delete test", async function () {
+  it("mediaservices delete test", async () => {
     const resArray = new Array();
     for await (let item of client.mediaservices.list(resourceGroup)) {
       resArray.push(item);
