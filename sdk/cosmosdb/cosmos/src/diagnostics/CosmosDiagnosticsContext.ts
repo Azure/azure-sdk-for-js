@@ -90,12 +90,32 @@ export class CosmosDiagnosticContext {
         metaDataType: metadataType,
       }),
     );
+  }
 
-    // Copy child nodes's metadata lookups to parent's metadata lookups.
+  /**
+   * Merge given DiagnosticContext to current node's DiagnosticContext for bulk streamer
+   */
+  public mergeBulkDiagnostics(childDiagnostics: CosmosDiagnosticContext): void {
+    // Copy Location endpoints contacted.
+    childDiagnostics.locationEndpointsContacted.forEach((endpoint) =>
+      this.locationEndpointsContacted.add(endpoint),
+    );
+
+    // Copy child nodes's GatewayStatistics to parent's gateway statistics.
+    childDiagnostics.gatewayStatistics.forEach((gateway) => this.gatewayStatistics.push(gateway));
+    // merge metadata lookups and failed attempts
     childDiagnostics.metadataLookups.forEach((lookup) => this.metadataLookups.push(lookup));
-
-    // Copy child nodes's failed attempts to parent's failed attempts.
     childDiagnostics.failedAttempts.forEach((lookup) => this.failedAttempts.push(lookup));
+
+    if (!this.encryptionDiagnostics) {
+      this.encryptionDiagnostics = childDiagnostics.encryptionDiagnostics;
+    } else if (childDiagnostics.encryptionDiagnostics) {
+      this.encryptionDiagnostics.decryptContent =
+        childDiagnostics.encryptionDiagnostics.decryptContent;
+      this.encryptionDiagnostics.processingDurationInMs =
+        (this.encryptionDiagnostics.processingDurationInMs || 0) +
+        (childDiagnostics.encryptionDiagnostics.processingDurationInMs || 0);
+    }
   }
 
   public getClientSideStats(

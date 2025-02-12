@@ -151,7 +151,6 @@ export class BulkBatcher {
             continue;
           }
         }
-        operation.operationContext.addDiagnosticChild(diagnosticNode);
         try {
           if (this.encryptionEnabled && bulkOperationResult.resourceBody) {
             bulkOperationResult.resourceBody = await this.encryptionProcessor.decrypt(
@@ -165,10 +164,14 @@ export class BulkBatcher {
             bulkOperationResult.operationInput.operationType !== "Read" &&
             bulkOperationResult.operationInput.operationType !== "Delete"
           ) {
-            const errorResponse = new ErrorResponse(error.message, StatusCodes.InternalServerError);
-            operation.operationContext.fail(errorResponse);
+            const decryptionError = new ErrorResponse(
+              `Item ${bulkOperationResult.operationInput.operationType} operation was successful but response decryption failed: + ${error.message}`,
+            );
+            decryptionError.code = StatusCodes.ServiceUnavailable;
+            operation.operationContext.fail(decryptionError);
           }
         }
+        operation.operationContext.addDiagnosticChild(diagnosticNode);
         bulkOperationResult.diagnostics = operation.operationContext.diagnosticNode.toDiagnostic(
           this.clientConfigDiagnostics,
         );
@@ -177,7 +180,6 @@ export class BulkBatcher {
     } catch (error) {
       // Mark all operations in the batch as failed
       for (const operation of this.batchOperationsList) {
-        operation.operationContext.addDiagnosticChild(diagnosticNode);
         operation.operationContext.fail(error);
       }
     } finally {

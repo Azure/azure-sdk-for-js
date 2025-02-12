@@ -8,7 +8,7 @@ import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import type { Response } from "../request";
 import type { RequestContext } from "../request/RequestContext";
 import { TimeoutErrorCode } from "../request/TimeoutError";
-import { addDignosticChild } from "../utils/diagnostics";
+import { addDiagnosticChild } from "../utils/diagnostics";
 import { getCurrentTimestampInMs } from "../utils/time";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
 import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy";
@@ -54,7 +54,7 @@ export async function execute({
   executeRequest,
 }: ExecuteArgs): Promise<Response<any>> {
   // TODO: any response
-  return addDignosticChild(
+  return addDiagnosticChild(
     async (localDiagnosticNode: DiagnosticNodeInternal) => {
       localDiagnosticNode.addData({ requestAttempNumber: retryContext.retryCount });
       if (!retryPolicies) {

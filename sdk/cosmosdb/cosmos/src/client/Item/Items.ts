@@ -47,12 +47,12 @@ import type {
   ChangeFeedIteratorOptions,
 } from "../../client/ChangeFeed";
 import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
-  addDignosticChild,
+  addDiagnosticChild,
 } from "../../utils/diagnostics";
 import { randomUUID } from "@azure/core-util";
 import { readPartitionKeyDefinition } from "../ClientUtils";
@@ -694,7 +694,7 @@ export class Items {
         throw new Error("Cannot run bulk request with more than 100 operations per partition");
       }
       try {
-        const response = await addDignosticChild(
+        const response = await addDiagnosticChild(
           async (childNode: DiagnosticNodeInternal) =>
             this.clientContext.bulk({
               body: batch.operations,

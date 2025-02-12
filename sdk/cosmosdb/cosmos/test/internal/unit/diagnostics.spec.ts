@@ -3,7 +3,7 @@
 
 import type { Suite } from "mocha";
 import {
-  addDignosticChild,
+  addDiagnosticChild,
   getEmptyCosmosDiagnostics,
   withDiagnostics,
 } from "../../../src/utils/diagnostics";
@@ -67,7 +67,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
     });
   });
 
-  describe("Test addDignosticChild utility function", async function () {
+  describe("Test addDiagnosticChild utility function", async function () {
     it("Test in case of exception, exception Diagnostic Node is marked failed and exception is rethrown.", async function () {
       const diagnosticNode = new DiagnosticNodeInternal(
         CosmosDbDiagnosticLevel.debug,
@@ -75,9 +75,9 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
         null,
       );
       const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
-      // Ensure that addDignosticChild throws an exception by wrapping it in a function
+      // Ensure that addDiagnosticChild throws an exception by wrapping it in a function
       const wrapperFunction = async () => {
-        await addDignosticChild(
+        await addDiagnosticChild(
           async (childNode) => {
             expect(childNode).to.exist; // eslint-disable-line no-unused-expressions
             throw new ErrorResponse("Testing error handling in diagnostic child.");
@@ -97,7 +97,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
     });
     it("Test in case debug and debug-unsafe diagnostic level child diagnostic nodes are added.", async function () {
       const testValue = "testValue";
-      // Ensure that addDignosticChild throws an exception by wrapping it in a function
+      // Ensure that addDiagnosticChild throws an exception by wrapping it in a function
       await Promise.all(
         [CosmosDbDiagnosticLevel.debug, CosmosDbDiagnosticLevel.debugUnsafe].map(
           async (diagnosticLevel) => {
@@ -107,7 +107,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
               null,
             );
             const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
-            const testResponse = await addDignosticChild(
+            const testResponse = await addDiagnosticChild(
               async (childNode) => {
                 expect(childNode).to.exist; // eslint-disable-line no-unused-expressions
                 return testValue;
@@ -133,8 +133,8 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
         null,
       );
       const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
-      // Ensure that addDignosticChild throws an exception by wrapping it in a function
-      await addDignosticChild(
+      // Ensure that addDiagnosticChild throws an exception by wrapping it in a function
+      await addDiagnosticChild(
         async (childNode) => {
           expect(childNode).to.exist; // eslint-disable-line no-unused-expressions
         },

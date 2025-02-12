@@ -491,21 +491,23 @@ describe("ClientSideEncryption", function (this: Suite) {
         `Expected operationInput at index ${index} to match the original operation`,
       );
     });
-    response.forEach((opResult) => {
-      verifyDiagnostics(opResult.diagnostics, true, false, undefined, 12);
-    });
     assert.equal(StatusCodes.Created, response[0].statusCode);
     verifyExpectedDocResponse(docToCreate, response[0].resourceBody);
+    verifyDiagnostics(response[0].diagnostics, true, true, 12, 12);
     assert.equal(StatusCodes.Created, response[1].statusCode);
     verifyExpectedDocResponse(docToUpsert2, response[1].resourceBody);
+    verifyDiagnostics(response[1].diagnostics, true, true, 12, 12);
     assert.equal(StatusCodes.Ok, response[2].statusCode);
     verifyExpectedDocResponse(new TestDoc(docToReplace), response[2].resourceBody);
+    verifyDiagnostics(response[2].diagnostics, true, true, 12, 12);
     assert.equal(StatusCodes.Ok, response[3].statusCode);
     verifyExpectedDocResponse(new TestDoc(docToUpsert), response[3].resourceBody);
+    verifyDiagnostics(response[3].diagnostics, true, true, 12, 12);
     assert.equal(StatusCodes.NoContent, response[4].statusCode);
     assert.isNotObject(response[4].resourceBody);
     assert.equal(StatusCodes.Ok, response[5].statusCode);
     assert.equal(stringToReplace, response[5].resourceBody.sensitive_StringFormat);
+    verifyDiagnostics(response[5].diagnostics, false, true, undefined, 12);
     clientWithBulk.dispose();
   });
 

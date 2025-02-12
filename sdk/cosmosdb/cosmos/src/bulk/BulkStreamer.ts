@@ -17,7 +17,7 @@ import { ItemBulkOperationContext } from "./ItemBulkOperationContext";
 import { Constants, copyObject, getPathFromLink, ResourceType } from "../common";
 import { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
-import { addDignosticChild } from "../utils/diagnostics";
+import { addDiagnosticChild } from "../utils/diagnostics";
 import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
 import type { RetryPolicy } from "../retry/RetryPolicy";
 import { Limiter } from "./Limiter";
@@ -261,7 +261,7 @@ export class BulkStreamer {
             // Return empty response as the request is not sent.
             return resolve(BulkResponse.createEmptyResponse(operations, 0, 0, {}));
           }
-          const response = await addDignosticChild(
+          const response = await addDiagnosticChild(
             async (childNode: DiagnosticNodeInternal) =>
               this.clientContext.bulk({
                 body: requestBody,
