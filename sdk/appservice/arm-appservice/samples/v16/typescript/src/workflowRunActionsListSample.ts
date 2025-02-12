@@ -17,17 +17,15 @@ import "dotenv/config";
  */
 async function listAWorkflowRunActions(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "test-resource-group";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-resource-group";
   const name = "test-name";
   const workflowName = "test-workflow";
   const runName = "08586676746934337772206998657CU22";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.workflowRunActions.list(
+  for await (const item of client.workflowRunActions.list(
     resourceGroupName,
     name,
     workflowName,

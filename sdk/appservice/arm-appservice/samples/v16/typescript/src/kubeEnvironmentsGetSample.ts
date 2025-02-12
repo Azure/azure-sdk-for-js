@@ -17,10 +17,8 @@ import "dotenv/config";
  */
 async function getKubeEnvironmentsByName(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "examplerg";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "8efdecc5-919e-44eb-b179-915dca89ebf9";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "examplerg";
   const name = "jlaw-demo1";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);

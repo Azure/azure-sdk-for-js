@@ -17,10 +17,8 @@ import "dotenv/config";
  */
 async function getTheCallbackUrlForATrigger(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "test-resource-group";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-resource-group";
   const name = "test-name";
   const workflowName = "test-workflow";
   const triggerName = "manual";

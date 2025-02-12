@@ -17,16 +17,14 @@ import "dotenv/config";
  */
 async function getMetricDefinitionsForASpecificInstanceOfAMultiRolePoolOfAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
   const name = "test-ase";
   const instance = "10.7.1.8";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.listMultiRolePoolInstanceMetricDefinitions(
+  for await (const item of client.appServiceEnvironments.listMultiRolePoolInstanceMetricDefinitions(
     resourceGroupName,
     name,
     instance,

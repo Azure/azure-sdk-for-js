@@ -17,8 +17,7 @@ import "dotenv/config";
  */
 async function getScmAllowed(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
   const name = "testSite";
   const credential = new DefaultAzureCredential();

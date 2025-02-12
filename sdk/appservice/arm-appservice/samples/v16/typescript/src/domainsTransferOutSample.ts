@@ -17,17 +17,12 @@ import "dotenv/config";
  */
 async function transferOutDomain(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
   const domainName = "example.com";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.domains.transferOut(
-    resourceGroupName,
-    domainName,
-  );
+  const result = await client.domains.transferOut(resourceGroupName, domainName);
   console.log(result);
 }
 

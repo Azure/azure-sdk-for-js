@@ -17,15 +17,14 @@ import "dotenv/config";
  */
 async function listResourceHealthMetadataForASite(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "4adb32ad-8327-4cbb-b775-b84b4465bb38";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "4adb32ad-8327-4cbb-b775-b84b4465bb38";
   const resourceGroupName =
     process.env["APPSERVICE_RESOURCE_GROUP"] || "Default-Web-NorthCentralUS";
   const name = "newsiteinnewASE-NCUS";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceHealthMetadataOperations.listBySite(
+  for await (const item of client.resourceHealthMetadataOperations.listBySite(
     resourceGroupName,
     name,
   )) {

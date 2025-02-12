@@ -17,17 +17,12 @@ import "dotenv/config";
  */
 async function getPropertiesOfAMultiRolePool(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
   const name = "test-ase";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.appServiceEnvironments.getMultiRolePool(
-    resourceGroupName,
-    name,
-  );
+  const result = await client.appServiceEnvironments.getMultiRolePool(resourceGroupName, name);
   console.log(result);
 }
 

@@ -17,15 +17,14 @@ import "dotenv/config";
  */
 async function listAppServiceCertificateDetectorResponse(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "5700fc96-77b4-4f8d-afce-c353d8c443bd";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "5700fc96-77b4-4f8d-afce-c353d8c443bd";
   const resourceGroupName =
     process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
   const certificateOrderName = "SampleCertificateOrderName";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificateOrdersDiagnostics.listAppServiceCertificateOrderDetectorResponse(
+  for await (const item of client.certificateOrdersDiagnostics.listAppServiceCertificateOrderDetectorResponse(
     resourceGroupName,
     certificateOrderName,
   )) {

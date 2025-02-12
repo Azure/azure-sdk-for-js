@@ -17,10 +17,8 @@ import "dotenv/config";
  */
 async function getTheCurrentStatusOfANetworkTraceOperationForASite(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
   const name = "SampleApp";
   const operationId = "c291433b-53ad-4c49-8cae-0a293eae1c6d";
   const slot = "Production";

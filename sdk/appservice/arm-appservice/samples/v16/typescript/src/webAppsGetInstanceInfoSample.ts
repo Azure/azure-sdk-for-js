@@ -17,19 +17,13 @@ import "dotenv/config";
  */
 async function getSiteInstanceInfo(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
   const name = "tests346";
   const instanceId = "134987120";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.webApps.getInstanceInfo(
-    resourceGroupName,
-    name,
-    instanceId,
-  );
+  const result = await client.webApps.getInstanceInfo(resourceGroupName, name, instanceId);
   console.log(result);
 }
 

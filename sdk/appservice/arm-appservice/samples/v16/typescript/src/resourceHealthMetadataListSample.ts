@@ -17,12 +17,11 @@ import "dotenv/config";
  */
 async function listResourceHealthMetadataForASubscription(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "4adb32ad-8327-4cbb-b775-b84b4465bb38";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "4adb32ad-8327-4cbb-b775-b84b4465bb38";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.resourceHealthMetadataOperations.list()) {
+  for await (const item of client.resourceHealthMetadataOperations.list()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -17,16 +17,14 @@ import "dotenv/config";
  */
 async function listPublishingCredentialsPolicies(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "3fb8d758-2e2c-42e9-a528-a8acdfe87237";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "3fb8d758-2e2c-42e9-a528-a8acdfe87237";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
   const name = "testsite";
   const slot = "staging";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webApps.listBasicPublishingCredentialsPoliciesSlot(
+  for await (const item of client.webApps.listBasicPublishingCredentialsPoliciesSlot(
     resourceGroupName,
     name,
     slot,

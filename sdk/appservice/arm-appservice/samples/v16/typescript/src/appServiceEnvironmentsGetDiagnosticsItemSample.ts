@@ -17,10 +17,8 @@ import "dotenv/config";
  */
 async function getADiagnosticsItemForAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
   const name = "test-ase";
   const diagnosticsName = "test-diagnostic";
   const credential = new DefaultAzureCredential();

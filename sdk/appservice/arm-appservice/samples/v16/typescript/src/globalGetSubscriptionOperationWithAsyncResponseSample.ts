@@ -17,8 +17,7 @@ import "dotenv/config";
  */
 async function getsAnOperationInASubscriptionAndGivenRegion(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const location = "West US";
   const operationId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab5d5";
   const credential = new DefaultAzureCredential();

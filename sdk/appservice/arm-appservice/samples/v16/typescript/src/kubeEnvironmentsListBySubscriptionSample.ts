@@ -17,12 +17,11 @@ import "dotenv/config";
  */
 async function listKubeEnvironmentsBySubscription(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "8efdecc5-919e-44eb-b179-915dca89ebf9";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "8efdecc5-919e-44eb-b179-915dca89ebf9";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.kubeEnvironments.listBySubscription()) {
+  for await (const item of client.kubeEnvironments.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

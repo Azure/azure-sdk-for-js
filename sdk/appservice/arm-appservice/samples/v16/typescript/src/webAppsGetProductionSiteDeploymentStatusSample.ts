@@ -17,19 +17,17 @@ import "dotenv/config";
  */
 async function getDeploymentStatus(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
   const name = "testSite";
   const deploymentStatusId = "eacfd68b-3bbd-4ad9-99c5-98614d89c8e5";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result =
-    await client.webApps.beginGetProductionSiteDeploymentStatusAndWait(
-      resourceGroupName,
-      name,
-      deploymentStatusId,
-    );
+  const result = await client.webApps.beginGetProductionSiteDeploymentStatusAndWait(
+    resourceGroupName,
+    name,
+    deploymentStatusId,
+  );
   console.log(result);
 }
 

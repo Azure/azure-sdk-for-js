@@ -17,18 +17,13 @@ import "dotenv/config";
  */
 async function listDomainOwnershipIdentifiers(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
   const domainName = "example.com";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.domains.listOwnershipIdentifiers(
-    resourceGroupName,
-    domainName,
-  )) {
+  for await (const item of client.domains.listOwnershipIdentifiers(resourceGroupName, domainName)) {
     resArray.push(item);
   }
   console.log(resArray);

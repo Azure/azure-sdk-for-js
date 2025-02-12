@@ -17,12 +17,11 @@ import "dotenv/config";
  */
 async function listAppServiceCertificateOrdersBySubscription(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceCertificateOrders.list()) {
+  for await (const item of client.appServiceCertificateOrders.list()) {
     resArray.push(item);
   }
   console.log(resArray);

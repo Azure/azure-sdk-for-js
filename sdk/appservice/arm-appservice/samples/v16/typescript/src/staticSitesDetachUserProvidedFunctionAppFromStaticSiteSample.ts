@@ -17,19 +17,17 @@ import "dotenv/config";
  */
 async function detachTheUserProvidedFunctionAppFromTheStaticSite(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
   const name = "testStaticSite0";
   const functionAppName = "testFunctionApp";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result =
-    await client.staticSites.detachUserProvidedFunctionAppFromStaticSite(
-      resourceGroupName,
-      name,
-      functionAppName,
-    );
+  const result = await client.staticSites.detachUserProvidedFunctionAppFromStaticSite(
+    resourceGroupName,
+    name,
+    functionAppName,
+  );
   console.log(result);
 }
 

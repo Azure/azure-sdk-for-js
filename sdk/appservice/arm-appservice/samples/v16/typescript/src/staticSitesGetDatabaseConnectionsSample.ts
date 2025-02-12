@@ -17,17 +17,13 @@ import "dotenv/config";
  */
 async function listOverviewsOfDatabaseConnectionsForTheStaticSite(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
   const name = "testStaticSite0";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.staticSites.listDatabaseConnections(
-    resourceGroupName,
-    name,
-  )) {
+  for await (const item of client.staticSites.listDatabaseConnections(resourceGroupName, name)) {
     resArray.push(item);
   }
   console.log(resArray);

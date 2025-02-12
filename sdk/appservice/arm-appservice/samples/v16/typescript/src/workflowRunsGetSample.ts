@@ -17,21 +17,14 @@ import "dotenv/config";
  */
 async function getARunForAWorkflow(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "test-resource-group";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-resource-group";
   const name = "test-name";
   const workflowName = "test-workflow";
   const runName = "08586676746934337772206998657CU22";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
-  const result = await client.workflowRuns.get(
-    resourceGroupName,
-    name,
-    workflowName,
-    runName,
-  );
+  const result = await client.workflowRuns.get(resourceGroupName, name, workflowName, runName);
   console.log(result);
 }
 

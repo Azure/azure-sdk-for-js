@@ -17,20 +17,14 @@ import "dotenv/config";
  */
 async function listBackups(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "testrg123";
   const name = "tests346";
   const slot = "staging";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.webApps.listSiteBackupsSlot(
-    resourceGroupName,
-    name,
-    slot,
-  )) {
+  for await (const item of client.webApps.listSiteBackupsSlot(resourceGroupName, name, slot)) {
     resArray.push(item);
   }
   console.log(resArray);

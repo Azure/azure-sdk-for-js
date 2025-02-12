@@ -17,8 +17,7 @@ import "dotenv/config";
  */
 async function listAppDetectors(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName =
     process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
   const siteName = "SampleApp";
@@ -26,7 +25,7 @@ async function listAppDetectors(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diagnostics.listSiteDetectors(
+  for await (const item of client.diagnostics.listSiteDetectors(
     resourceGroupName,
     siteName,
     diagnosticCategory,
@@ -44,8 +43,7 @@ async function listAppDetectors(): Promise<void> {
  */
 async function listAppSlotDetectors(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName =
     process.env["APPSERVICE_RESOURCE_GROUP"] || "Sample-WestUSResourceGroup";
   const siteName = "SampleApp";
@@ -53,7 +51,7 @@ async function listAppSlotDetectors(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.diagnostics.listSiteDetectors(
+  for await (const item of client.diagnostics.listSiteDetectors(
     resourceGroupName,
     siteName,
     diagnosticCategory,

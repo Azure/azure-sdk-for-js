@@ -17,17 +17,15 @@ import "dotenv/config";
  */
 async function getMetricDefinitionsForASpecificInstanceOfAWorkerPoolOfAnAppServiceEnvironment(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName =
-    process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "test-rg";
   const name = "test-ase";
   const workerPoolName = "0";
   const instance = "10.8.0.7";
   const credential = new DefaultAzureCredential();
   const client = new WebSiteManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.appServiceEnvironments.listWorkerPoolInstanceMetricDefinitions(
+  for await (const item of client.appServiceEnvironments.listWorkerPoolInstanceMetricDefinitions(
     resourceGroupName,
     name,
     workerPoolName,

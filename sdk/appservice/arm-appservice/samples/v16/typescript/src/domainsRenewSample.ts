@@ -17,8 +17,7 @@ import "dotenv/config";
  */
 async function renewAnExistingDomain(): Promise<void> {
   const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "3dddfa4f-cedf-4dc0-ba29-b6d1a69ab545";
+    process.env["APPSERVICE_SUBSCRIPTION_ID"] || "3dddfa4f-cedf-4dc0-ba29-b6d1a69ab545";
   const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "RG";
   const domainName = "example.com";
   const credential = new DefaultAzureCredential();
