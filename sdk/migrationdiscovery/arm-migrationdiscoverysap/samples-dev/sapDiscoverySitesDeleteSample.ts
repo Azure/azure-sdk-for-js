@@ -7,9 +7,7 @@
  */
 import { WorkloadsClient } from "@azure/arm-migrationdiscoverysap";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a SAP Migration discovery site resource and its child resources, that is the associated SAP Instances and Server Instances.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes a SAP Migration discovery site resource and its child resources, that is the associated SAP Instances and Server Instances.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPDiscoverySites/preview/2023-10-01-preview/examples/SAPDiscoverySites_Delete.json
  */
-async function deletesASapMigrationDiscoverySiteResource() {
+async function deletesASapMigrationDiscoverySiteResource(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATIONDISCOVERY_SUBSCRIPTION_ID"] || "6d875e77-e412-4d7d-9af4-8895278b4443";
   const resourceGroupName = process.env["MIGRATIONDISCOVERY_RESOURCE_GROUP"] || "test-rg";
@@ -31,7 +29,7 @@ async function deletesASapMigrationDiscoverySiteResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deletesASapMigrationDiscoverySiteResource();
 }
 
