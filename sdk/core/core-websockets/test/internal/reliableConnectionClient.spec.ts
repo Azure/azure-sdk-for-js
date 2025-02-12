@@ -7,7 +7,7 @@ import {
   type ClientWithHandlers,
   createMockClient,
 } from "../utils/reliableConnectionClientMocks.js";
-import { createIdentifier } from "@azure-tools/test-utils-vitest";
+import { createTestFullName } from "@azure-tools/test-utils-vitest";
 import { delay } from "@azure/core-util";
 import { createFullRetryOptions } from "../utils/mockRretryOptions.js";
 
@@ -17,7 +17,7 @@ describe("ReliableConnectionClient", () => {
   let skipClose = false;
 
   beforeEach(async (test) => {
-    identifier = createIdentifier(test);
+    identifier = createTestFullName(test);
   });
 
   afterEach(async () => {

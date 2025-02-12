@@ -5,7 +5,7 @@ import { describe, it, beforeEach, afterEach, type SuiteCollector } from "vitest
 import { assert } from "../utils/vitest.js";
 import type { WebSocketClientOptions, WebSocketClient } from "../../src/index.js";
 import { delay } from "@azure/core-util";
-import { createIdentifier } from "@azure-tools/test-utils-vitest";
+import { createTestFullName } from "@azure-tools/test-utils-vitest";
 import { getInsecureServerAddress, getSecureServerAddress } from "../utils/injectables.js";
 
 const waitBeforeReceive = 200;
@@ -26,7 +26,7 @@ export function buildWebSocketClientTests<WebSocket extends { url: string; binar
     let skipClose = false;
 
     beforeEach(async (test) => {
-      identifier = createIdentifier(test);
+      identifier = createTestFullName(test);
     });
 
     afterEach(async () => {

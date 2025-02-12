@@ -6,7 +6,7 @@ import { assert } from "../../utils/vitest.js";
 import { createWebSocketClient } from "../../../src/index.js";
 import { buildWebSocketClientTests } from "../webSocketClient.js";
 import { getSecureServerAddress } from "../../utils/injectables.js";
-import { createIdentifier } from "@azure-tools/test-utils-vitest";
+import { createTestFullName } from "@azure-tools/test-utils-vitest";
 
 buildWebSocketClientTests("Web API", (url, options) =>
   createWebSocketClient(url, options).asWebSocket(),
@@ -16,7 +16,7 @@ describe("[asWs] Is not available in the browser", () => {
   const secureServerUrl = getSecureServerAddress();
   let identifier: string;
   beforeEach(async (test) => {
-    identifier = createIdentifier(test);
+    identifier = createTestFullName(test);
   });
   it("should throw an error", async () => {
     await assert.isRejected(
