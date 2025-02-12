@@ -50,7 +50,7 @@ For more information about how to create an Azure AD Application check out [this
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { SearchManagementClient } from "../src/index.js";
+import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
