@@ -8,9 +8,7 @@
 import type { GenerateUploadUrlRequest } from "@azure/arm-iotfirmwaredefense";
 import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to get a url for file upload.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary The operation to get a url for file upload.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_GenerateUploadUrl_MaximumSet_Gen.json
  */
-async function workspacesGenerateUploadUrlMaximumSetGen() {
+async function workspacesGenerateUploadUrlMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "5443A01A-5242-4950-AC1A-2DD362180254";
   const resourceGroupName = process.env["IOTFIRMWAREDEFENSE_RESOURCE_GROUP"] || "rgworkspaces";
@@ -42,7 +40,7 @@ async function workspacesGenerateUploadUrlMaximumSetGen() {
  * @summary The operation to get a url for file upload.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_GenerateUploadUrl_MinimumSet_Gen.json
  */
-async function workspacesGenerateUploadUrlMinimumSetGen() {
+async function workspacesGenerateUploadUrlMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "5443A01A-5242-4950-AC1A-2DD362180254";
   const resourceGroupName = process.env["IOTFIRMWAREDEFENSE_RESOURCE_GROUP"] || "rgworkspaces";
@@ -58,7 +56,7 @@ async function workspacesGenerateUploadUrlMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await workspacesGenerateUploadUrlMaximumSetGen();
   await workspacesGenerateUploadUrlMinimumSetGen();
 }

@@ -7,9 +7,7 @@
  */
 import { KustoManagementClient } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns operation results.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns operation results.
  * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoOperationResultsOperationResultResponseTypeGet.json
  */
-async function kustoOperationsResultsLocationGet() {
+async function kustoOperationsResultsLocationGet(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const location = "westus";
@@ -28,7 +26,7 @@ async function kustoOperationsResultsLocationGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await kustoOperationsResultsLocationGet();
 }
 

@@ -65,18 +65,11 @@ In order to interact with the Azure Key Vault service, you will need to create a
 
 You can find more information on different ways of authenticating and their corresponding credential types in the [Azure Identity documentation][azure_identity].
 
-Here's a quick example. First, import `DefaultAzureCredential` and `CertificateClient`:
+Here's a quick example. First, import `DefaultAzureCredential` and `CertificateClient`. Once these are imported, we can next connect to the key vault service:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
-```
-
-Once these are imported, we can next connect to the key vault service:
-
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleCreateClient
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
@@ -110,9 +103,9 @@ const client = new CertificateClient(url, credential);
 
 By default, this package uses the latest Azure Key Vault service version which is `7.1`. The only other version that is supported is `7.0`. You can change the service version being used by setting the option `serviceVersion` in the client constructor as shown below:
 
-```typescript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleCreateClientWithVersion
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
@@ -121,7 +114,7 @@ const url = `https://${vaultName}.vault.azure.net`;
 
 // Change the Azure Key Vault service API version being used via the `serviceVersion` option
 const client = new CertificateClient(url, credential, {
-  serviceVersion: "7.0",
+  serviceVersion: "7.5",
 });
 ```
 
@@ -145,9 +138,9 @@ tasks using Azure Key Vault Certificates. The scenarios that are covered here co
 a certificate with the same name already exists, a new version of the
 certificate is created.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleCreateCertificate
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
@@ -158,15 +151,11 @@ const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 
-async function main() {
-  // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
-  await client.beginCreateCertificate(certificateName, {
-    issuerName: "Self",
-    subject: "cn=MyCert",
-  });
-}
-
-main();
+// Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
+await client.beginCreateCertificate(certificateName, {
+  issuerName: "Self",
+  subject: "cn=MyCert",
+});
 ```
 
 Besides the name of the certificate and the policy, you can also pass the following properties in a third argument with optional values:
@@ -174,9 +163,9 @@ Besides the name of the certificate and the policy, you can also pass the follow
 - `enabled`: A boolean value that determines whether the certificate can be used or not.
 - `tags`: Any set of key-values that can be used to search and filter certificates.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleCreateCertificateWithOptions
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
@@ -197,14 +186,10 @@ const tags = {
   myCustomTag: "myCustomTagsValue",
 };
 
-async function main() {
-  await client.beginCreateCertificate(certificateName, certificatePolicy, {
-    enabled,
-    tags,
-  });
-}
-
-main();
+await client.beginCreateCertificate(certificateName, certificatePolicy, {
+  enabled,
+  tags,
+});
 ```
 
 Calling to `beginCreateCertificate` with the same name will create a new version of
@@ -219,9 +204,9 @@ The received poller will allow you to get the created certificate by calling to 
 You can also wait until the deletion finishes, either by running individual service
 calls until the certificate is created, or by waiting until the process is done:
 
-```typescript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleCreateCertificatePoller
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
@@ -236,26 +221,21 @@ const certificatePolicy = {
   subject: "cn=MyCert",
 };
 
-async function main() {
-  const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
+const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
 
-  // You can use the pending certificate immediately:
-  const pendingCertificate = poller.getResult();
+// You can use the pending certificate immediately:
+const pendingCertificate = poller.getResult();
 
-  // Or you can wait until the certificate finishes being signed:
-  const keyVaultCertificate = await poller.pollUntilDone();
-  console.log(keyVaultCertificate);
-}
-
-main();
+// Or you can wait until the certificate finishes being signed:
+const keyVaultCertificate = await poller.pollUntilDone();
+console.log(keyVaultCertificate);
 ```
 
 Another way to wait until the certificate is signed is to do individual calls, as follows:
 
-```typescript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
-const { delay } = require("@azure/core-util");
+```ts snippet:ReadmeSampleCreateCertificatePollerIndividualCalls
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
@@ -270,18 +250,16 @@ const certificatePolicy = {
   subject: "cn=MyCert",
 };
 
-async function main() {
-  const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  while (!poller.isDone()) {
-    await poller.poll();
-    await delay(5000);
-  }
+const poller = await client.beginCreateCertificate(certificateName, certificatePolicy);
 
-  console.log(`The certificate ${certificateName} is fully created`);
+while (!poller.isDone()) {
+  await poller.poll();
+  await delay(5000);
 }
 
-main();
+console.log(`The certificate ${certificateName} is fully created`);
 ```
 
 ### Getting a Key Vault certificate
@@ -293,9 +271,9 @@ optionally get a different version of the certificate by calling
 `getCertificateVersion` if you specify the version. `getCertificateVersion` does not return
 the certificate's policy.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleGetCertificate
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
@@ -306,20 +284,16 @@ const client = new CertificateClient(url, credential);
 
 const certificateName = "MyCertificateName";
 
-async function main() {
-  const latestCertificate = await client.getCertificate(certificateName);
-  console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
-  const specificCertificate = await client.getCertificateVersion(
-    certificateName,
-    latestCertificate.properties.version,
-  );
-  console.log(
-    `The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `,
-    specificCertificate,
-  );
-}
-
-main();
+const latestCertificate = await client.getCertificate(certificateName);
+console.log(`Latest version of the certificate ${certificateName}: `, latestCertificate);
+const specificCertificate = await client.getCertificateVersion(
+  certificateName,
+  latestCertificate.properties.version,
+);
+console.log(
+  `The certificate ${certificateName} at the version ${latestCertificate.properties.version}: `,
+  specificCertificate,
+);
 ```
 
 ### Getting the full information of a certificate
@@ -340,13 +314,19 @@ Knowing that the private key is stored in a Key Vault Secret,
 with the public certificate included, we can retrieve it
 by using the Key Vault Secrets client.
 
-```ts
-// Using the same credential object we used before,
-// and the same keyVaultUrl,
-// let's create a SecretClient
+```ts snippet:ReadmeSampleGetCertificateFullInfo
+import { DefaultAzureCredential } from "@azure/identity";
 import { SecretClient } from "@azure/keyvault-secrets";
+import { writeFileSync } from "node:fs";
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
 
 const secretClient = new SecretClient(keyVaultUrl, credential);
+
+const certificateName = "MyCertificateName";
 
 // Assuming you've already created a Key Vault certificate,
 // and that certificateName contains the name of your certificate
@@ -356,7 +336,7 @@ const certificateSecret = await secretClient.getSecret(certificateName);
 const PKCS12Certificate = certificateSecret.value!;
 
 // You can write this into a file:
-fs.writeFileSync("myCertificate.p12", PKCS12Certificate);
+writeFileSync("myCertificate.p12", PKCS12Certificate);
 ```
 
 Note that, by default, the content type of the certificates
@@ -395,7 +375,18 @@ The following example shows how to create and retrieve
 the public and the private parts of a PEM formatted certificate
 using the Key Vault clients for Certificates and Secrets:
 
-```ts
+```ts snippet:ReadmeSampleCreateCertificatePEM
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
+import { SecretClient } from "@azure/keyvault-secrets";
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
+
+const client = new CertificateClient(keyVaultUrl, credential);
+const secretClient = new SecretClient(keyVaultUrl, credential);
 // Creating the certificate
 const certificateName = "MyCertificate";
 const createPoller = await client.beginCreateCertificate(certificateName, {
@@ -403,7 +394,7 @@ const createPoller = await client.beginCreateCertificate(certificateName, {
   subject: "cn=MyCert",
   contentType: "application/x-pem-file", // Here you specify you want to work with PEM certificates.
 });
-const keyVaultCertificate = await createPoller.pollUntilDone();
+await createPoller.pollUntilDone();
 
 // Getting the PEM formatted private key and public certificate:
 const certificateSecret = await secretClient.getSecret(certificateName);
@@ -420,24 +411,30 @@ You can use the PEM headers to extract them accordingly.
 
 `listPropertiesOfCertificates` will list all certificates in the Key Vault.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleListCertificates
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificateClient(url, credential);
+const client = new CertificateClient(keyVaultUrl, credential);
 
-async function main() {
-  for await (let certificateProperties of client.listPropertiesOfCertificates()) {
-    console.log("Certificate properties: ", certificateProperties);
-  }
+const certificateName = "MyCertificate";
+
+for await (const certificateProperties of client.listPropertiesOfCertificates()) {
+  console.log("Certificate properties: ", certificateProperties);
 }
-
-main();
+for await (const deletedCertificate of client.listDeletedCertificates()) {
+  console.log("Deleted certificate: ", deletedCertificate);
+}
+for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
+  certificateName,
+)) {
+  console.log("Certificate properties: ", certificateProperties);
+}
 ```
 
 ### Updating a certificate
@@ -445,57 +442,49 @@ main();
 The certificate attributes can be updated to an existing certificate version with
 `updateCertificate`, as follows:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleUpdateCertificate
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificateClient(url, credential);
+const client = new CertificateClient(keyVaultUrl, credential);
 
-const certificateName = "MyCertificateName";
+const certificateName = "MyCertificate";
 
-async function main() {
-  const result = await client.getCertificate(certificateName);
-  await client.updateCertificateProperties(certificateName, result.properties.version, {
-    enabled: false,
-    tags: {
-      myCustomTag: "myCustomTagsValue",
-    },
-  });
-}
-
-main();
+const result = await client.getCertificate(certificateName);
+await client.updateCertificateProperties(certificateName, result.properties.version, {
+  enabled: false,
+  tags: {
+    myCustomTag: "myCustomTagsValue",
+  },
+});
 ```
 
 The certificate's policy can also be updated individually with `updateCertificatePolicy`, as follows:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleUpdateCertificatePolicy
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificateClient(url, credential);
+const client = new CertificateClient(keyVaultUrl, credential);
 
-const certificateName = "MyCertificateName";
+const certificateName = "MyCertificate";
 
-async function main() {
-  const result = client.getCertificate(certificateName);
-  // Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
-  await client.updateCertificatePolicy(certificateName, {
-    issuerName: "Self",
-    subject: "cn=MyCert",
-  });
-}
-
-main();
+const result = client.getCertificate(certificateName);
+// Note: Sending `Self` as the `issuerName` of the certificate's policy will create a self-signed certificate.
+await client.updateCertificatePolicy(certificateName, {
+  issuerName: "Self",
+  subject: "cn=MyCert",
+});
 ```
 
 ### Deleting a certificate
@@ -508,42 +497,38 @@ is enabled for the Key Vault, this operation will only label the certificate as 
 _deleted_ certificate. A deleted certificate can't be updated. They can only be either
 read, recovered or purged.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleDeleteCertificate
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificateClient(url, credential);
+const client = new CertificateClient(keyVaultUrl, credential);
 
-const certificateName = "MyCertificateName";
+const certificateName = "MyCertificate";
 
-async function main() {
-  const poller = await client.beginDeleteCertificate(certificateName);
+const poller = await client.beginDeleteCertificate(certificateName);
 
-  // You can use the deleted certificate immediately:
-  const deletedCertificate = poller.getResult();
+// You can use the deleted certificate immediately:
+const deletedCertificate = poller.getResult();
 
-  // The certificate is being deleted. Only wait for it if you want to restore it or purge it.
-  await poller.pollUntilDone();
+// The certificate is being deleted. Only wait for it if you want to restore it or purge it.
+await poller.pollUntilDone();
 
-  // You can also get the deleted certificate this way:
-  await client.getDeletedCertificate(certificateName);
+// You can also get the deleted certificate this way:
+await client.getDeletedCertificate(certificateName);
 
-  // Deleted certificates can also be recovered or purged.
+// Deleted certificates can also be recovered or purged.
 
-  // recoverDeletedCertificate returns a poller, just like beginDeleteCertificate.
-  // const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
-  // await recoverPoller.pollUntilDone();
+// recoverDeletedCertificate returns a poller, just like beginDeleteCertificate.
+// const recoverPoller = await client.beginRecoverDeletedCertificate(certificateName);
+// await recoverPoller.pollUntilDone();
 
-  // If a certificate is done and the Key Vault has soft-delete enabled, the certificate can be purged with:
-  await client.purgeDeletedCertificate(certificateName);
-}
-
-main();
+// If a certificate is done and the Key Vault has soft-delete enabled, the certificate can be purged with:
+await client.purgeDeletedCertificate(certificateName);
 ```
 
 Since the deletion of a certificate won't happen instantly, some time is needed
@@ -565,79 +550,71 @@ versions of a specific certificate. The following API methods are available:
 
 Which can be used as follows:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleListCertificates
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificateClient(url, credential);
+const client = new CertificateClient(keyVaultUrl, credential);
 
-const certificateName = "MyCertificateName";
+const certificateName = "MyCertificate";
 
-async function main() {
-  for await (let certificateProperties of client.listPropertiesOfCertificates()) {
-    console.log("Certificate properties: ", certificateProperties);
-  }
-  for await (let deletedCertificate of client.listDeletedCertificates()) {
-    console.log("Deleted certificate: ", deletedCertificate);
-  }
-  for await (let certificateProperties of client.listPropertiesOfCertificateVersions(
-    certificateName,
-  )) {
-    console.log("Certificate properties: ", certificateProperties);
-  }
+for await (const certificateProperties of client.listPropertiesOfCertificates()) {
+  console.log("Certificate properties: ", certificateProperties);
 }
-
-main();
+for await (const deletedCertificate of client.listDeletedCertificates()) {
+  console.log("Deleted certificate: ", deletedCertificate);
+}
+for await (const certificateProperties of client.listPropertiesOfCertificateVersions(
+  certificateName,
+)) {
+  console.log("Certificate properties: ", certificateProperties);
+}
 ```
 
 All of these methods will return **all of the available results** at once. To
 retrieve them by pages, add `.byPage()` right after invoking the API method you
 want to use, as follows:
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { CertificateClient } = require("@azure/keyvault-certificates");
+```ts snippet:ReadmeSampleListCertificatesByPage
+import { DefaultAzureCredential } from "@azure/identity";
+import { CertificateClient } from "@azure/keyvault-certificates";
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
-const url = `https://${vaultName}.vault.azure.net`;
+const keyVaultUrl = `https://${vaultName}.vault.azure.net`;
 
-const client = new CertificateClient(url, credential);
+const client = new CertificateClient(keyVaultUrl, credential);
 
-const certificateName = "MyCertificateName";
+const certificateName = "MyCertificate";
 
-async function main() {
-  for await (let page of client.listPropertiesOfCertificates().byPage()) {
-    for (let certificateProperties of page) {
-      console.log("Certificate properties: ", certificateProperties);
-    }
-  }
-  for await (let page of client.listDeletedCertificates().byPage()) {
-    for (let deletedCertificate of page) {
-      console.log("Deleted certificate: ", deletedCertificate);
-    }
-  }
-  for await (let page of client.listPropertiesOfCertificateVersions(certificateName).byPage()) {
-    for (let certificateProperties of page) {
-      console.log("Properties of certificate: ", certificateProperties);
-    }
+for await (const page of client.listPropertiesOfCertificates().byPage()) {
+  for (const certificateProperties of page) {
+    console.log("Certificate properties: ", certificateProperties);
   }
 }
-
-main();
+for await (const page of client.listDeletedCertificates().byPage()) {
+  for (const deletedCertificate of page) {
+    console.log("Deleted certificate: ", deletedCertificate);
+  }
+}
+for await (const page of client.listPropertiesOfCertificateVersions(certificateName).byPage()) {
+  for (const certificateProperties of page) {
+    console.log("Properties of certificate: ", certificateProperties);
+  }
+}
 ```
 
 ## Troubleshooting
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

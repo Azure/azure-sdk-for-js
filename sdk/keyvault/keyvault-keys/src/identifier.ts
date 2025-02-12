@@ -37,7 +37,7 @@ export interface KeyVaultKeyIdentifier {
  *   https://<keyvault-name>.vault.azure.net/keys/<key-name>/<unique-version-id>
  *
  * On parsing the above Id, this function returns:
- *```ts
+ *```ts snippet:ignore
  *   {
  *      sourceId: "https://<keyvault-name>.vault.azure.net/keys/<key-name>/<unique-version-id>",
  *      vaultUrl: "https://<keyvault-name>.vault.azure.net",

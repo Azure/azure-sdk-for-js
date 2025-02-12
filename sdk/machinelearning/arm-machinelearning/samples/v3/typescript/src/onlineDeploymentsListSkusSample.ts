@@ -13,9 +13,7 @@ import {
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List Inference Endpoint Deployment Skus.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List Inference Endpoint Deployment Skus.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/KubernetesOnlineDeployment/listSkus.json
  */
-async function listKubernetesOnlineDeploymentSkus() {
+async function listKubernetesOnlineDeploymentSkus(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -58,7 +56,7 @@ async function listKubernetesOnlineDeploymentSkus() {
  * @summary List Inference Endpoint Deployment Skus.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/OnlineDeployment/ManagedOnlineDeployment/listSkus.json
  */
-async function listManagedOnlineDeploymentSkus() {
+async function listManagedOnlineDeploymentSkus(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -87,7 +85,7 @@ async function listManagedOnlineDeploymentSkus() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listKubernetesOnlineDeploymentSkus();
   listManagedOnlineDeploymentSkus();
 }

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MaintenanceManagementClient } from "@azure/arm-maintenance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the available operations supported by the Microsoft.Maintenance resource provider
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List the available operations supported by the Microsoft.Maintenance resource provider
  * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/Operations_List.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const subscriptionId =
     process.env["MAINTENANCE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function operationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operationsList();
 }
 

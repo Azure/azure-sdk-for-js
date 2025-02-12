@@ -4,7 +4,7 @@
 import OpenAI, { AzureOpenAI } from "openai";
 import { getBearerTokenProvider } from "@azure/identity";
 import { APIVersion, filterDeployments } from "./utils.js";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { createLiveCredential } from "@azure-tools/test-credential";
 import { getResourcesInfo } from "./injectables.js";
 import type { ClientsAndDeploymentsInfo, CreateClientOptions, ModelCapabilities } from "./types.js";
 
@@ -20,7 +20,7 @@ export function createClientsAndDeployments(
   switch (apiVersion) {
     case APIVersion.Preview:
     case APIVersion.Stable: {
-      const credential = createTestCredential();
+      const credential = createLiveCredential();
       const azureADTokenProvider = getBearerTokenProvider(credential, scope);
       let count = 0;
       const clientsAndDeployments = filterDeployments(resourcesInfo, {

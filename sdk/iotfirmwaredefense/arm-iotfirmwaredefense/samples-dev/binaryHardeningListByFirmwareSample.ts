@@ -7,9 +7,7 @@
  */
 import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists binary hardening analysis results of a firmware.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists binary hardening analysis results of a firmware.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/BinaryHardening_ListByFirmware_MaximumSet_Gen.json
  */
-async function binaryHardeningListByFirmwareMaximumSetGen() {
+async function binaryHardeningListByFirmwareMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
@@ -43,7 +41,7 @@ async function binaryHardeningListByFirmwareMaximumSetGen() {
  * @summary Lists binary hardening analysis results of a firmware.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/BinaryHardening_ListByFirmware_MinimumSet_Gen.json
  */
-async function binaryHardeningListByFirmwareMinimumSetGen() {
+async function binaryHardeningListByFirmwareMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
@@ -63,7 +61,7 @@ async function binaryHardeningListByFirmwareMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await binaryHardeningListByFirmwareMaximumSetGen();
   await binaryHardeningListByFirmwareMinimumSetGen();
 }
