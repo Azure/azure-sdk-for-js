@@ -2950,7 +2950,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-eventhub@file:projects/arm-eventhub.tgz':
-    resolution: {integrity: sha512-ETFGnk2WJJn5oWzDxhCTT82IdTjkz21YQ2eKpkuvS0dU9MZn3VmqIcnmv0XX9XUooRUd4/NgPmheirCfBtxB6A==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-3fJgQzGoZAn4+X8anAyZFIZprUFY6aAbMsOr5S+4OGgfOR1F91VVSD25bofE2DWnNVcJ9ctFf1KP44nISdsJxg==, tarball: file:projects/arm-eventhub.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
@@ -13680,7 +13680,6 @@ snapshots:
 
   '@rush-temp/arm-eventhub@file:projects/arm-eventhub.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.6.3)(vite@6.0.11(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
