@@ -9,37 +9,20 @@
  */
 
 import { createWebSocketClient } from "@azure/core-websockets";
-import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
-// Load the .env file if it exists
 import "dotenv/config";
-
-async function createUrl(
-  client: Pick<AzureOpenAI, "baseURL" | "apiVersion" | "deploymentName" | "_getAzureADToken">,
-): Promise<string> {
-  const url = new URL(client.baseURL + "/realtime");
-  url.searchParams.set("api-version", client.apiVersion);
-  url.searchParams.set("deployment", client.deploymentName!);
-  url.searchParams.set("Authorization", `Bearer ${await client._getAzureADToken()}`);
-  return url.toString();
-}
 
 async function main(): Promise<void> {
   const deploymentName = "gpt-4o-realtime-preview-1001";
-  const url = await createUrl(
-    new AzureOpenAI({
-      azureADTokenProvider: getBearerTokenProvider(
-        new DefaultAzureCredential(),
-        "https://cognitiveservices.azure.com/.default",
-      ),
-      apiVersion: "2024-10-01-preview",
-      deployment: deploymentName,
-    }),
+  const url = new URL(process.env.AZURE_OPENAI_ENDPOINT + "/openai/realtime");
+  url.searchParams.set("api-version", "2024-10-01-preview");
+  url.searchParams.set("deployment", deploymentName);
+  const getAzureADToken = getBearerTokenProvider(
+    new DefaultAzureCredential(),
+    "https://cognitiveservices.azure.com/.default",
   );
-  const webSocketClient = await createWebSocketClient(url, {
+  url.searchParams.set("Authorization", `Bearer ${await getAzureADToken()}`);
+  const webSocketClient = await createWebSocketClient(url.toString(), {
     on: {
       message: async (data) => {
         let event;
