@@ -8,9 +8,7 @@
 import type { AccountFilter } from "@azure/arm-mediaservices";
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an Account Filter in the Media Services account.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates an Account Filter in the Media Services account.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/accountFilters-create.json
  */
-async function createAnAccountFilter() {
+async function createAnAccountFilter(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -61,7 +59,7 @@ async function createAnAccountFilter() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createAnAccountFilter();
 }
 

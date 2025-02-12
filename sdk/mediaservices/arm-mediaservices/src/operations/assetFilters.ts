@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AssetFilters } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AssetFilters } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMediaServices } from "../azureMediaServices";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMediaServices } from "../azureMediaServices.js";
 import {
   AssetFilter,
   AssetFiltersListNextOptionalParams,
@@ -26,7 +26,7 @@ import {
   AssetFiltersUpdateOptionalParams,
   AssetFiltersUpdateResponse,
   AssetFiltersListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AssetFilters operations. */
