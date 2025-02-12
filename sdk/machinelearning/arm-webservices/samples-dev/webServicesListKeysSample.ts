@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the access keys for the specified web service.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2017-01-01/examples/getWebServiceKeys.json
  */
-async function getWebServiceKeys() {
+async function getWebServiceKeys(): Promise<void> {
   const subscriptionId = "subscription-id";
   const resourceGroupName = "OneResourceGroupName";
   const webServiceName = "TargetWebServiceName";

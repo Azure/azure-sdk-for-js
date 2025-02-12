@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all the available machine learning workspaces under the specified resource group.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2019-10-01/examples/ListWorkspaceResourceGroup.json
  */
-async function workspaceListResourceGroup() {
+async function workspaceListResourceGroup(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "myResourceGroup";
   const credential = new DefaultAzureCredential();

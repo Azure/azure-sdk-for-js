@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the operations for this resource provider
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the operations for this resource provider
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListMaximumSetGen() {
+async function operationsListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function operationsListMaximumSetGen() {
  * @summary Lists the operations for this resource provider
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumSetGen() {
+async function operationsListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -52,7 +50,7 @@ async function operationsListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operationsListMaximumSetGen();
   operationsListMinimumSetGen();
 }

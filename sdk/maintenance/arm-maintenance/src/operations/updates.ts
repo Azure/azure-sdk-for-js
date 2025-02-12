@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Updates } from "../operationsInterfaces";
+import { Updates } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MaintenanceManagementClient } from "../maintenanceManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MaintenanceManagementClient } from "../maintenanceManagementClient.js";
 import {
   Update,
   UpdatesListParentOptionalParams,
   UpdatesListParentResponse,
   UpdatesListOptionalParams,
   UpdatesListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Updates operations. */

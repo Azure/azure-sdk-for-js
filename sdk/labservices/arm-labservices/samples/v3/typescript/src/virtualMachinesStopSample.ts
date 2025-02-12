@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Action to stop a lab virtual machine.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Action to stop a lab virtual machine.
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/VirtualMachines/stopVirtualMachine.json
  */
-async function stopVirtualMachine() {
+async function stopVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["LABSERVICES_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -38,7 +36,7 @@ async function stopVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   stopVirtualMachine();
 }
 
