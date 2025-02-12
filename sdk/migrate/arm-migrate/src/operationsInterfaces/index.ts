@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./projects";
-export * from "./machines";
-export * from "./groups";
-export * from "./assessments";
-export * from "./assessedMachines";
-export * from "./hyperVCollectors";
-export * from "./serverCollectors";
-export * from "./vMwareCollectors";
-export * from "./importCollectors";
-export * from "./privateEndpointConnectionOperations";
-export * from "./privateLinkResourceOperations";
-export * from "./operations";
+export * from "./projects.js";
+export * from "./machines.js";
+export * from "./groups.js";
+export * from "./assessments.js";
+export * from "./assessedMachines.js";
+export * from "./hyperVCollectors.js";
+export * from "./serverCollectors.js";
+export * from "./vMwareCollectors.js";
+export * from "./importCollectors.js";
+export * from "./privateEndpointConnectionOperations.js";
+export * from "./privateLinkResourceOperations.js";
+export * from "./operations.js";
