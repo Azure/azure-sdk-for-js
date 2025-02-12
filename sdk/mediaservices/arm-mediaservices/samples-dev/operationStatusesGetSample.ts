@@ -7,9 +7,7 @@
  */
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get asset track operation status.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get asset track operation status.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/asset-tracks-operation-status-by-id-terminal-state-failed.json
  */
-async function getStatusOfAsynchronousOperationWhenItIsCompletedWithError() {
+async function getStatusOfAsynchronousOperationWhenItIsCompletedWithError(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -43,7 +41,7 @@ async function getStatusOfAsynchronousOperationWhenItIsCompletedWithError() {
  * @summary Get asset track operation status.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/asset-tracks-operation-status-by-id-terminal-state.json
  */
-async function getStatusOfAsynchronousOperationWhenItIsCompleted() {
+async function getStatusOfAsynchronousOperationWhenItIsCompleted(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -69,7 +67,7 @@ async function getStatusOfAsynchronousOperationWhenItIsCompleted() {
  * @summary Get asset track operation status.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/asset-tracks-operation-status-by-id-non-terminal-state.json
  */
-async function getStatusOfAsynchronousOperationWhenItIsOngoing() {
+async function getStatusOfAsynchronousOperationWhenItIsOngoing(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -89,7 +87,7 @@ async function getStatusOfAsynchronousOperationWhenItIsOngoing() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getStatusOfAsynchronousOperationWhenItIsCompletedWithError();
   await getStatusOfAsynchronousOperationWhenItIsCompleted();
   await getStatusOfAsynchronousOperationWhenItIsOngoing();

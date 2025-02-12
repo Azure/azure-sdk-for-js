@@ -498,7 +498,7 @@ importers:
         version: file:projects/arm-marketplaceordering.tgz
       '@rush-temp/arm-mediaservices':
         specifier: file:./projects/arm-mediaservices.tgz
-        version: file:projects/arm-mediaservices.tgz
+        version: file:projects/arm-mediaservices.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-migrate':
         specifier: file:./projects/arm-migrate.tgz
         version: file:projects/arm-migrate.tgz
@@ -2868,7 +2868,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-devopsinfrastructure@file:projects/arm-devopsinfrastructure.tgz':
-    resolution: {integrity: sha512-Iy/7aAxYpe2xFF5psPxZbQTSuEN+Sh/ZalkAfRljSW+UfebHbOv7UsxKO8odtuOAVyZ2bAiRDNDonmk/umX/Bw==, tarball: file:projects/arm-devopsinfrastructure.tgz}
+    resolution: {integrity: sha512-pDFA6zsuqhdVNQdIouseb0dol2Y/czVx13rLE7SCDxXLZZOmjRIXZ+5yUNK8iCEZ11l1L57kOccm7nsJxJE4Ew==, tarball: file:projects/arm-devopsinfrastructure.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-devspaces@file:projects/arm-devspaces.tgz':
@@ -3124,7 +3124,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-mediaservices@file:projects/arm-mediaservices.tgz':
-    resolution: {integrity: sha512-1FVu8PRCGKH2QqyiQ42d3SCxjcSpBtgEpT6y2G0HPd9MqMwmWx+GZqKCEWWN0sTzzmHrZOO9GEAuv0dRxuL4Ug==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-um8p+eF9gOfsorfVXdGXujqGOYBEtuKi+nb6x8v3UhZ/TwmSmZ23yZ7yCQGoCTmupFvYkAncCvtedRSaj3BS7Q==, tarball: file:projects/arm-mediaservices.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-migrate@file:projects/arm-migrate.tgz':
@@ -3168,7 +3168,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-neonpostgres@file:projects/arm-neonpostgres.tgz':
-    resolution: {integrity: sha512-UqAQAyJJgxi4ZNyMp3w0eM65+kfYi+9dNo+NUb2eHVGEWRLTowzcHgfnzQaGh1GxNop9aYCJ7j09rczZkaMgkw==, tarball: file:projects/arm-neonpostgres.tgz}
+    resolution: {integrity: sha512-l+3RQBZBI2MLTPl1TX267Zu9DtpZ/qRcPTgmNP3RYaM1KEoK+l2nVWj6CX5aCjrLbPixbohb0+GNO4Qx5G5z0g==, tarball: file:projects/arm-neonpostgres.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-netapp@file:projects/arm-netapp.tgz':
@@ -3512,7 +3512,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-terraform@file:projects/arm-terraform.tgz':
-    resolution: {integrity: sha512-Udi07A8LFSNyH1sbRt2fM4H2pRZSi6KdiJwV63OUhcKkKhN5hogEdY40PJ+z59qEff+ewDkx2w1xUP43oryJww==, tarball: file:projects/arm-terraform.tgz}
+    resolution: {integrity: sha512-9/E7RqlJQGWEGQGjpv7mQoCepxQw26i16iBdi4+vL9jUiPokJ4Jw5IId6xiNpAuQULp72p7SOTwVzHkmsQhX9Q==, tarball: file:projects/arm-terraform.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-timeseriesinsights@file:projects/arm-timeseriesinsights.tgz':
@@ -13037,7 +13037,6 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.20.0
       playwright: 1.50.1
-      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
@@ -15170,25 +15169,40 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
-  '@rush-temp/arm-mediaservices@file:projects/arm-mediaservices.tgz':
+  '@rush-temp/arm-mediaservices@file:projects/arm-mediaservices.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.75
-      chai: 4.5.0
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.75)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/arm-migrate@file:projects/arm-migrate.tgz':
     dependencies:
@@ -15406,7 +15420,6 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.20.0
       playwright: 1.50.1
-      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
@@ -17308,7 +17321,6 @@ snapshots:
       dotenv: 16.4.7
       eslint: 9.20.0
       playwright: 1.50.1
-      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
