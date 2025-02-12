@@ -57,7 +57,7 @@ describe("MicrosoftSupport test", () => {
       await recorder.stop();
     });
 
-  it("operation list test", async function () {
+  it("operation list test", async () => {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
