@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a list of network security perimeter configurations for a search service.
  *
  * @summary Gets a list of network security perimeter configurations for a search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/NetworkSecurityPerimeterConfigurationsListByService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/NetworkSecurityPerimeterConfigurationsListByService.json
  */
 async function listNspConfigsBySearchService(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -35,7 +35,7 @@ async function listNspConfigsBySearchService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listNspConfigsBySearchService();
+  await listNspConfigsBySearchService();
 }
 
 main().catch(console.error);

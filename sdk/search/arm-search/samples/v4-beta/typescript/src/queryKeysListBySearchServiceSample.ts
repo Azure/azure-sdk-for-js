@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Returns the list of query API keys for the given Azure AI Search service.
  *
  * @summary Returns the list of query API keys for the given Azure AI Search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchListQueryKeysBySearchService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchListQueryKeysBySearchService.json
  */
 async function searchListQueryKeysBySearchService(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -35,7 +35,7 @@ async function searchListQueryKeysBySearchService(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  searchListQueryKeysBySearchService();
+  await searchListQueryKeysBySearchService();
 }
 
 main().catch(console.error);

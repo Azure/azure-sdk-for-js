@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Disconnects the private endpoint connection and deletes it from the search service.
  *
  * @summary Disconnects the private endpoint connection and deletes it from the search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/DeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/DeletePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionDelete() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function privateEndpointConnectionDelete() {
 }
 
 async function main() {
-  privateEndpointConnectionDelete();
+  await privateEndpointConnectionDelete();
 }
 
 main().catch(console.error);

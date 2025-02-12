@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets a network security perimeter configuration.
  *
  * @summary Gets a network security perimeter configuration.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/NetworkSecurityPerimeterConfigurationsGet.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/NetworkSecurityPerimeterConfigurationsGet.json
  */
 async function getAnNspConfigByName(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function getAnNspConfigByName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getAnNspConfigByName();
+  await getAnNspConfigByName();
 }
 
 main().catch(console.error);

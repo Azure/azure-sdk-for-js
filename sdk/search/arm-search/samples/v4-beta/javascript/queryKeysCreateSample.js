@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Generates a new query key for the specified search service. You can create up to 50 query keys per service.
  *
  * @summary Generates a new query key for the specified search service. You can create up to 50 query keys per service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateQueryKey.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchCreateQueryKey.json
  */
 async function searchCreateQueryKey() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function searchCreateQueryKey() {
 }
 
 async function main() {
-  searchCreateQueryKey();
+  await searchCreateQueryKey();
 }
 
 main().catch(console.error);

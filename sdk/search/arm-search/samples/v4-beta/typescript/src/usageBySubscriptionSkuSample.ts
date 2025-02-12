@@ -13,10 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the quota usage for a search sku in the given subscription.
+ * This sample demonstrates how to Gets the quota usage for a search SKU in the given subscription.
  *
- * @summary Gets the quota usage for a search sku in the given subscription.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/GetQuotaUsage.json
+ * @summary Gets the quota usage for a search SKU in the given subscription.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/GetQuotaUsage.json
  */
 async function getQuotaUsage(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function getQuotaUsage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getQuotaUsage();
+  await getQuotaUsage();
 }
 
 main().catch(console.error);

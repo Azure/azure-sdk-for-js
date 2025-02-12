@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
  *
  * @summary Initiates the creation or update of a shared private link resource managed by the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/CreateOrUpdateSharedPrivateLinkResource.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/CreateOrUpdateSharedPrivateLinkResource.json
  */
 async function sharedPrivateLinkResourceCreateOrUpdate() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -44,7 +44,7 @@ async function sharedPrivateLinkResourceCreateOrUpdate() {
 }
 
 async function main() {
-  sharedPrivateLinkResourceCreateOrUpdate();
+  await sharedPrivateLinkResourceCreateOrUpdate();
 }
 
 main().catch(console.error);

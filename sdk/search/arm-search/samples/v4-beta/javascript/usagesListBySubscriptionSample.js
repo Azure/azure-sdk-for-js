@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get a list of all Azure AI Search quota usages across the subscription.
  *
  * @summary Get a list of all Azure AI Search quota usages across the subscription.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/GetQuotaUsagesList.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/GetQuotaUsagesList.json
  */
 async function getQuotaUsagesList() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function getQuotaUsagesList() {
 }
 
 async function main() {
-  getQuotaUsagesList();
+  await getQuotaUsagesList();
 }
 
 main().catch(console.error);

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.
  *
  * @summary Reconcile network security perimeter configuration for the Azure AI Search resource provider. This triggers a manual resync with network security perimeter configurations by ensuring the search service carries the latest configuration.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/NetworkSecurityPerimeterConfigurationsReconcile.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/NetworkSecurityPerimeterConfigurationsReconcile.json
  */
 async function reconcileNspConfig(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -35,7 +35,7 @@ async function reconcileNspConfig(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reconcileNspConfig();
+  await reconcileNspConfig();
 }
 
 main().catch(console.error);

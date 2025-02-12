@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the details of the shared private link resource managed by the search service in the given resource group.
  *
  * @summary Gets the details of the shared private link resource managed by the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/GetSharedPrivateLinkResource.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/GetSharedPrivateLinkResource.json
  */
 async function sharedPrivateLinkResourceGet(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function sharedPrivateLinkResourceGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  sharedPrivateLinkResourceGet();
+  await sharedPrivateLinkResourceGet();
 }
 
 main().catch(console.error);

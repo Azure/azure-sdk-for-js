@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a private endpoint connection to the search service in the given resource group.
  *
  * @summary Updates a private endpoint connection to the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/UpdatePrivateEndpointConnection.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/UpdatePrivateEndpointConnection.json
  */
 async function privateEndpointConnectionUpdate(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -47,7 +47,7 @@ async function privateEndpointConnectionUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  privateEndpointConnectionUpdate();
+  await privateEndpointConnectionUpdate();
 }
 
 main().catch(console.error);

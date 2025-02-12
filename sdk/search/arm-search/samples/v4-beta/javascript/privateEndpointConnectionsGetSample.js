@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the details of the private endpoint connection to the search service in the given resource group.
  *
  * @summary Gets the details of the private endpoint connection to the search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/GetPrivateEndpointConnection.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/GetPrivateEndpointConnection.json
  */
 async function privateEndpointConnectionGet() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function privateEndpointConnectionGet() {
 }
 
 async function main() {
-  privateEndpointConnectionGet();
+  await privateEndpointConnectionGet();
 }
 
 main().catch(console.error);

@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateService.json
  */
 async function searchUpdateService() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -36,7 +36,7 @@ async function searchUpdateService() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateServiceAuthOptions.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateServiceAuthOptions.json
  */
 async function searchUpdateServiceAuthOptions() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -59,7 +59,7 @@ async function searchUpdateServiceAuthOptions() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateServiceDisableLocalAuth.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateServiceDisableLocalAuth.json
  */
 async function searchUpdateServiceDisableLocalAuth() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -80,7 +80,7 @@ async function searchUpdateServiceDisableLocalAuth() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateServiceToAllowAccessFromPrivateEndpoints.json
  */
 async function searchUpdateServiceToAllowAccessFromPrivateEndpoints() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -101,7 +101,7 @@ async function searchUpdateServiceToAllowAccessFromPrivateEndpoints() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPs.json
  */
 async function searchUpdateServiceToAllowAccessFromPublicCustomIPs() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -125,7 +125,7 @@ async function searchUpdateServiceToAllowAccessFromPublicCustomIPs() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
  */
 async function searchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -150,7 +150,7 @@ async function searchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateServiceToRemoveIdentity.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateServiceToRemoveIdentity.json
  */
 async function searchUpdateServiceToRemoveIdentity() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -170,7 +170,7 @@ async function searchUpdateServiceToRemoveIdentity() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateServiceWithCmkEnforcement.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateServiceWithCmkEnforcement.json
  */
 async function searchUpdateServiceWithCmkEnforcement() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -191,7 +191,7 @@ async function searchUpdateServiceWithCmkEnforcement() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateServiceWithDataExfiltration.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateServiceWithDataExfiltration.json
  */
 async function searchUpdateServiceWithDataExfiltration() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -212,7 +212,7 @@ async function searchUpdateServiceWithDataExfiltration() {
  * This sample demonstrates how to Updates an existing search service in the given resource group.
  *
  * @summary Updates an existing search service in the given resource group.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateServiceWithSemanticSearch.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateServiceWithSemanticSearch.json
  */
 async function searchUpdateServiceWithSemanticSearch() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -229,17 +229,38 @@ async function searchUpdateServiceWithSemanticSearch() {
   console.log(result);
 }
 
+/**
+ * This sample demonstrates how to Updates an existing search service in the given resource group.
+ *
+ * @summary Updates an existing search service in the given resource group.
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchUpdateServiceWithSku.json
+ */
+async function searchUpdateServiceWithSku() {
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
+  const searchServiceName = "mysearchservice";
+  const service = {
+    sku: { name: "standard2" },
+    tags: { appName: "My e-commerce app", newTag: "Adding a new tag" },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new SearchManagementClient(credential, subscriptionId);
+  const result = await client.services.update(resourceGroupName, searchServiceName, service);
+  console.log(result);
+}
+
 async function main() {
-  searchUpdateService();
-  searchUpdateServiceAuthOptions();
-  searchUpdateServiceDisableLocalAuth();
-  searchUpdateServiceToAllowAccessFromPrivateEndpoints();
-  searchUpdateServiceToAllowAccessFromPublicCustomIPs();
-  searchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass();
-  searchUpdateServiceToRemoveIdentity();
-  searchUpdateServiceWithCmkEnforcement();
-  searchUpdateServiceWithDataExfiltration();
-  searchUpdateServiceWithSemanticSearch();
+  await searchUpdateService();
+  await searchUpdateServiceAuthOptions();
+  await searchUpdateServiceDisableLocalAuth();
+  await searchUpdateServiceToAllowAccessFromPrivateEndpoints();
+  await searchUpdateServiceToAllowAccessFromPublicCustomIPs();
+  await searchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass();
+  await searchUpdateServiceToRemoveIdentity();
+  await searchUpdateServiceWithCmkEnforcement();
+  await searchUpdateServiceWithDataExfiltration();
+  await searchUpdateServiceWithSemanticSearch();
+  await searchUpdateServiceWithSku();
 }
 
 main().catch(console.error);

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the primary and secondary admin API keys for the specified Azure AI Search service.
  *
  * @summary Gets the primary and secondary admin API keys for the specified Azure AI Search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchGetAdminKeys.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchGetAdminKeys.json
  */
 async function searchGetAdminKeys(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function searchGetAdminKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  searchGetAdminKeys();
+  await searchGetAdminKeys();
 }
 
 main().catch(console.error);
