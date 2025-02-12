@@ -83,8 +83,6 @@ describe("FileClient", () => {
     dirClient = shareClient.getDirectoryClient(dirName);
 
     defaultDirCreateResp = await dirClient.create();
-    // const res = await dirClient.getProperties();
-    // res;
 
     fileName = recorder.variable("file", getUniqueName("file"));
     fileClient = dirClient.getFileClient(fileName);

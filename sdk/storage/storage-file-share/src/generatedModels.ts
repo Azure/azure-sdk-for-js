@@ -646,7 +646,7 @@ export {
 export {
   FileDownloadResponse as RawFileDownloadResponse,
   FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders,
-} from "./models"
+} from "./models";
 /** Known values of {@link ShareTokenIntent} that the service accepts. */
 export enum KnownShareTokenIntent {
   Backup = "backup",
