@@ -13,9 +13,7 @@ import {
   AzureMachineLearningServicesManagementClient,
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates and executes a Job.
@@ -25,7 +23,7 @@ For update case, the Tags in the definition passed in will replace Tags in the e
 For update case, the Tags in the definition passed in will replace Tags in the existing job.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/AutoMLJob/createOrUpdate.json
  */
-async function createOrUpdateAutoMlJob() {
+async function createOrUpdateAutoMlJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -101,7 +99,7 @@ For update case, the Tags in the definition passed in will replace Tags in the e
 For update case, the Tags in the definition passed in will replace Tags in the existing job.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/CommandJob/createOrUpdate.json
  */
-async function createOrUpdateCommandJob() {
+async function createOrUpdateCommandJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -183,7 +181,7 @@ For update case, the Tags in the definition passed in will replace Tags in the e
 For update case, the Tags in the definition passed in will replace Tags in the existing job.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/PipelineJob/createOrUpdate.json
  */
-async function createOrUpdatePipelineJob() {
+async function createOrUpdatePipelineJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -248,7 +246,7 @@ For update case, the Tags in the definition passed in will replace Tags in the e
 For update case, the Tags in the definition passed in will replace Tags in the existing job.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Job/SweepJob/createOrUpdate.json
  */
-async function createOrUpdateSweepJob() {
+async function createOrUpdateSweepJob(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -317,7 +315,7 @@ async function createOrUpdateSweepJob() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAutoMlJob();
   createOrUpdateCommandJob();
   createOrUpdatePipelineJob();

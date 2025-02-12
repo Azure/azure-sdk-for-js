@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Callback URL to hit once authenticated with GitHub App to have the service store the OAuth token.
  * x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/GitHubOAuth_List.json
  */
-async function listGitHubOAuth() {
+async function listGitHubOAuth(): Promise<void> {
   const subscriptionId =
     process.env["DEVHUB_SUBSCRIPTION_ID"] || "subscriptionId1";
   const location = "eastus2euap";
@@ -25,7 +25,7 @@ async function listGitHubOAuth() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listGitHubOAuth();
 }
 

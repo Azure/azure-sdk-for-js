@@ -27,7 +27,7 @@ import {
   ConfigurationAssignmentsForResourceGroupImpl,
   OperationsImpl,
   UpdatesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   ScheduledEvent,
   PublicMaintenanceConfigurations,
@@ -41,8 +41,8 @@ import {
   ConfigurationAssignmentsForResourceGroup,
   Operations,
   Updates,
-} from "./operationsInterfaces";
-import { MaintenanceManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MaintenanceManagementClientOptionalParams } from "./models/index.js";
 
 export class MaintenanceManagementClient extends coreClient.ServiceClient {
   $host: string;

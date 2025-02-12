@@ -5,7 +5,7 @@ import { parseKeyVaultSecretIdentifier } from "../../src/identifier.js";
 import { describe, it, assert } from "vitest";
 
 describe("Key Vault Secrets Identifier", () => {
-  it("It should work with a URI of a secret before it gets a version", async function () {
+  it("It should work with a URI of a secret before it gets a version", async () => {
     const uri = "https://keyvault-name.vault.azure.net/secrets/secret-name/pending";
     const identifier = parseKeyVaultSecretIdentifier(uri);
 
@@ -17,7 +17,7 @@ describe("Key Vault Secrets Identifier", () => {
     });
   });
 
-  it("It should work with a URI of a secret with a specific version", async function () {
+  it("It should work with a URI of a secret with a specific version", async () => {
     const uri = "https://keyvault-name.vault.azure.net/secrets/secret-name/version";
     const identifier = parseKeyVaultSecretIdentifier(uri);
 
@@ -29,7 +29,7 @@ describe("Key Vault Secrets Identifier", () => {
     });
   });
 
-  it("It should work with a deleted secret recovery ID", async function () {
+  it("It should work with a deleted secret recovery ID", async () => {
     const uri = "https://keyvault-name.vault.azure.net/deletedsecrets/deleted-secret";
     const identifier = parseKeyVaultSecretIdentifier(uri);
 
