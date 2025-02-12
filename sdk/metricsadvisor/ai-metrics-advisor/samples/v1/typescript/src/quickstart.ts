@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- *  @summary This sample demonstrates how to get started by creating a data feed, checking ingestion status,
- * creating detection and alerting configurations, and querying for alerts and anomalies.
- */
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
@@ -22,7 +14,7 @@ import {
   AnomalyDetectionConfiguration
 } from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -150,7 +142,7 @@ async function checkIngestionStatus(
   datafeedId: string,
   startTime: Date,
   endTime: Date
-) {
+): Promise<void> {
   // This shows how to use for-await-of syntax to list status
   console.log("Checking ingestion status...");
   const listIterator = adminClient.listDataFeedIngestionStatus(datafeedId, startTime, endTime);
@@ -162,7 +154,7 @@ async function checkIngestionStatus(
 async function configureAnomalyDetectionConfiguration(
   adminClient: MetricsAdvisorAdministrationClient,
   metricId: string
-) {
+): Promise<void> {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
   const anomalyConfig: Omit<AnomalyDetectionConfiguration, "id"> = {
     name: "test_detection_configuration" + new Date().getTime().toString(),
@@ -182,7 +174,7 @@ async function configureAnomalyDetectionConfiguration(
   return await adminClient.createDetectionConfig(anomalyConfig);
 }
 
-async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient) {
+async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient): Promise<void> {
   console.log("Creating a webhook hook");
   const hook: WebNotificationHook = {
     hookType: "Webhook",
@@ -204,7 +196,7 @@ async function configureAlertConfiguration(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string,
   hookIds: string[]
-) {
+): Promise<void> {
   console.log("Creating a new alerting configuration...");
   const anomalyAlert: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "test_alert_config_" + new Date().getTime().toString(),
@@ -239,7 +231,7 @@ async function queryAlerts(
   alertConfigId: string,
   startTime: Date,
   endTime: Date
-) {
+): Promise<void> {
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   // This shows how to use `for-await-of` syntax to list alerts
   console.log("  using for-await-of syntax");
@@ -272,7 +264,7 @@ async function queryAlerts(
   return alerts;
 }
 
-async function queryAnomaliesByAlert(client: MetricsAdvisorClient, alert: AnomalyAlert) {
+async function queryAnomaliesByAlert(client: MetricsAdvisorClient, alert: AnomalyAlert): Promise<void> {
   console.log(
     `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
   );
@@ -284,7 +276,7 @@ async function queryAnomaliesByAlert(client: MetricsAdvisorClient, alert: Anomal
   }
 }
 
-async function delay(milliseconds: number) {
+async function delay(milliseconds: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 

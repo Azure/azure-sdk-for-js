@@ -1,14 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary This sample demonstrates Detection Configuration CRUD operations.
- */
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
@@ -27,7 +20,7 @@ main()
     console.log(err);
   });
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -54,7 +47,7 @@ export async function main() {
 async function getDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string
-) {
+): Promise<void> {
   console.log("Retrieving an existing detection configuration...");
   const result = await adminClient.getDetectionConfig(detectionConfigId);
   console.log(result);
@@ -65,7 +58,7 @@ async function getDetectionConfig(
 async function createDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   metricId: string
-) {
+): Promise<void> {
   const wholeSeriesDetectionCondition: MetricDetectionCondition = {
     conditionOperator: "AND",
     smartDetectionCondition: {
@@ -130,7 +123,7 @@ async function createDetectionConfig(
 async function updateDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   configId: string
-) {
+): Promise<void> {
   const patch: Omit<AnomalyDetectionConfiguration, "id" | "metricId"> = {
     name: "new Name",
     description: "new description",
@@ -183,7 +176,7 @@ async function updateDetectionConfig(
 async function deleteDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string
-) {
+): Promise<void> {
   console.log(`Deleting detection configuration '${detectionConfigId}'`);
   await adminClient.deleteDetectionConfig(detectionConfigId);
 }
@@ -191,7 +184,7 @@ async function deleteDetectionConfig(
 async function listDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   metricId: string
-) {
+): Promise<void> {
   console.log(`Listing detection configurations for metric '${metricId}'...`);
   let i = 1;
   const iterator = adminClient.listDetectionConfigs(metricId);

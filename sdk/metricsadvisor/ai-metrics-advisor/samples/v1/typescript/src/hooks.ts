@@ -1,14 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary This sample demonstrates Metrics Advisor Hooks CRUD operations.
- */
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
@@ -17,7 +10,7 @@ import {
   EmailNotificationHookPatch
 } from "@azure/ai-metrics-advisor";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -40,7 +33,7 @@ export async function main() {
   await deleteHook(adminClient, createdWebHook.id!);
 }
 
-async function createWebHook(client: MetricsAdvisorAdministrationClient) {
+async function createWebHook(client: MetricsAdvisorAdministrationClient): Promise<void> {
   console.log("Creating a new web hook...");
   const hook: WebNotificationHook = {
     hookType: "Webhook",
@@ -63,7 +56,7 @@ async function createWebHook(client: MetricsAdvisorAdministrationClient) {
   return created;
 }
 
-async function createEmailHook(client: MetricsAdvisorAdministrationClient) {
+async function createEmailHook(client: MetricsAdvisorAdministrationClient): Promise<void> {
   console.log("Creating a new email hook...");
   const hook: EmailNotificationHook = {
     hookType: "Email",
@@ -76,7 +69,7 @@ async function createEmailHook(client: MetricsAdvisorAdministrationClient) {
   return created;
 }
 
-async function getHook(client: MetricsAdvisorAdministrationClient, hookId: string) {
+async function getHook(client: MetricsAdvisorAdministrationClient, hookId: string): Promise<void> {
   console.log(`Retrieving an existing hook for id ${hookId}...`);
   const result = await client.getHook(hookId);
   console.log(result.name);
@@ -84,7 +77,7 @@ async function getHook(client: MetricsAdvisorAdministrationClient, hookId: strin
   console.log(result.admins);
 }
 
-async function updateEmailHook(client: MetricsAdvisorAdministrationClient, hookId: string) {
+async function updateEmailHook(client: MetricsAdvisorAdministrationClient, hookId: string): Promise<void> {
   console.log(`Updating hook ${hookId}`);
   const emailPatch: EmailNotificationHookPatch = {
     hookType: "Email",
@@ -97,7 +90,7 @@ async function updateEmailHook(client: MetricsAdvisorAdministrationClient, hookI
   return response;
 }
 
-async function listHooks(client: MetricsAdvisorAdministrationClient) {
+async function listHooks(client: MetricsAdvisorAdministrationClient): Promise<void> {
   console.log("Listing existing hooks");
   console.log("  using for-await-of syntax");
   let i = 1;
@@ -162,7 +155,7 @@ async function listHooks(client: MetricsAdvisorAdministrationClient) {
   }
 }
 
-async function deleteHook(client: MetricsAdvisorAdministrationClient, hookId: string) {
+async function deleteHook(client: MetricsAdvisorAdministrationClient, hookId: string): Promise<void> {
   console.log(`Deleting hook ${hookId}`);
   await client.deleteHook(hookId);
 }

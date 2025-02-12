@@ -1,14 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary This sample demonstrates Alerting Configuration CRUD operations.
- */
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
@@ -24,7 +17,7 @@ main()
     console.log(err);
   });
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -49,7 +42,7 @@ export async function main() {
 async function createAlertConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string
-) {
+): Promise<void> {
   console.log("Creating a new alerting configuration...");
   const alertConfig: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "js alerting config name " + new Date().getTime().toString(),
@@ -83,7 +76,7 @@ async function updateAlertConfig(
   alertConfigId: string,
   detectionConfigId: string,
   hookIds: string[]
-) {
+): Promise<void> {
   const patch: Omit<AnomalyAlertConfiguration, "id"> = {
     name: "new Name",
     //description: "new description",
@@ -116,7 +109,7 @@ async function updateAlertConfig(
 async function deleteAlertConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   alertConfigId: string
-) {
+): Promise<void> {
   console.log(`Deleting alerting configuration ${alertConfigId}`);
   await adminClient.deleteAlertConfig(alertConfigId);
 }
@@ -124,7 +117,7 @@ async function deleteAlertConfig(
 async function listAlertConfig(
   adminClient: MetricsAdvisorAdministrationClient,
   detectdionConfigId: string
-) {
+): Promise<void> {
   console.log(`Listing alert configurations for detection configuration ${detectdionConfigId}`);
   let i = 1;
   const iterator = adminClient.listAlertConfigs(detectdionConfigId);
