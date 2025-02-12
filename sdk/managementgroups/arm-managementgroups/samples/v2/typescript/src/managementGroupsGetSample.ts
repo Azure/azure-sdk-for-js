@@ -22,7 +22,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroup.json
  */
-async function getManagementGroup() {
+async function getManagementGroup(): Promise<void> {
   const groupId = "20000000-0001-0000-0000-000000000000";
   const cacheControl = "no-cache";
   const options: ManagementGroupsGetOptionalParams = { cacheControl };
@@ -42,7 +42,7 @@ getManagementGroup().catch(console.error);
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroupWithAncestors.json
  */
-async function getManagementGroupWithAncestors() {
+async function getManagementGroupWithAncestors(): Promise<void> {
   const groupId = "20000000-0001-0000-0000-00000000000";
   const expand = "ancestors";
   const cacheControl = "no-cache";
@@ -63,7 +63,7 @@ getManagementGroupWithAncestors().catch(console.error);
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroupWithExpand.json
  */
-async function getManagementGroupWithExpand() {
+async function getManagementGroupWithExpand(): Promise<void> {
   const groupId = "20000000-0001-0000-0000-000000000000";
   const expand = "children";
   const cacheControl = "no-cache";
@@ -84,7 +84,7 @@ getManagementGroupWithExpand().catch(console.error);
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroupWithPath.json
  */
-async function getManagementGroupWithPath() {
+async function getManagementGroupWithPath(): Promise<void> {
   const groupId = "20000000-0001-0000-0000-000000000000";
   const expand = "path";
   const cacheControl = "no-cache";
@@ -105,7 +105,7 @@ getManagementGroupWithPath().catch(console.error);
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/GetManagementGroupWithExpandAndRecurse.json
  */
-async function getManagementGroupsWithExpandAndRecurse() {
+async function getManagementGroupsWithExpandAndRecurse(): Promise<void> {
   const groupId = "20000000-0001-0000-0000-000000000000";
   const expand = "children";
   const recurse = true;

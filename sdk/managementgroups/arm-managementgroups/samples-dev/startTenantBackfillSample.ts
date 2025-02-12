@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Starts backfilling subscriptions for the Tenant.
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/StartTenantBackfillRequest.json
  */
-async function startTenantBackfill() {
+async function startTenantBackfill(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);
   const result = await client.startTenantBackfill();
