@@ -69,7 +69,7 @@ Use the AI Projects client library (in preview) to:
 ### Install the package
 
 ```bash
-npm install @azure/ai-projects
+npm install @azure/ai-projects @azure/identity
 ```
 
 ## Key concepts
@@ -440,7 +440,7 @@ const agent = await client.agents.createAgent("gpt-4-1106-preview", {
 });
 console.log(`Created agent, agent ID: ${agent.id}`);
 
-const thread = client.agents.createThread();
+const thread = await client.agents.createThread();
 console.log(`Created thread, thread ID: ${thread.id}`);
 
 const message = await client.agents.createMessage(thread.id, {
@@ -479,7 +479,16 @@ To have the SDK poll on your behalf, use the `createThreadAndRun` method.
 Here is an example:
 
 ```javascript
-const run = await client.agents.createThreadAndRun(thread.id, agent.id);
+const run = await client.agents.createThreadAndRun(agent.id, {
+  thread: {
+    messages: [
+      {
+        role: "user",
+        content: "hello, world!"
+      }
+    ]
+  }
+});
 ```
 
 With streaming, polling also need not be considered.
@@ -530,6 +539,12 @@ To retrieve messages from agents, use the following example:
 
 ```javascript
 const messages = await client.agents.listMessages(thread.id);
+while (messages.hasMore) {
+  const nextMessages = await client.agents.listMessages(currentRun.threadId, { after: messages.lastId });
+  messages.data = messages.data.concat(nextMessages.data);
+  messages.hasMore = nextMessages.hasMore;
+  messages.lastId = nextMessages.lastId;
+}
 
 // The messages are following in the reverse order,
 // we will iterate them and output only text contents.

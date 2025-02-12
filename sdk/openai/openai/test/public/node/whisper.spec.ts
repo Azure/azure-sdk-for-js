@@ -3,53 +3,57 @@
 
 import { createReadStream } from "fs";
 import { matrix } from "@azure-tools/test-utils-vitest";
-import { describe, it, beforeAll } from "vitest";
-import { createClient } from "../utils/createClient.js";
-import type { OpenAI, AzureOpenAI } from "openai";
+import { describe, it, beforeEach } from "vitest";
+import { createClientsAndDeployments } from "../../utils/createClients.js";
 import {
   APIMatrix,
   type APIVersion,
-  type DeploymentInfo,
-  getDeployments,
   maxRetriesOption,
   withDeployments,
-} from "../utils/utils.js";
-import { assertAudioResult } from "../utils/asserts.js";
-import type { AudioResultFormat } from "../utils/audioTypes.js";
+} from "../../utils/utils.js";
+import { assertAudioResult } from "../../utils/asserts.js";
+import type { AudioResultFormat } from "../../utils/audioTypes.js";
+import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
 
-describe("OpenAI", function () {
+describe("Whisper", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let client: AzureOpenAI | OpenAI;
-      let deployments: DeploymentInfo[] = [];
+      let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
-      // TODO: Change to "audio" deployments once retry behavior is fixed
-      beforeAll(async function () {
-        deployments = await getDeployments("vision");
+      beforeEach(async function () {
+        clientsAndDeployments = createClientsAndDeployments(
+          apiVersion,
+          { audio: "true" },
+          { sku: { capacity: 30 } },
+        );
       });
 
-      describe("getAudioTranscription", function () {
+      describe("audio.transcriptions.create", function () {
         it(`returns json transcription if responseFormat wasn't specified`, async function () {
           await withDeployments(
-            deployments,
-            (deployment) => {
+            clientsAndDeployments,
+            (client, deployment) => {
               const file = createReadStream(`./assets/audio/countdown.mp3`);
-              client = createClient(apiVersion, "vision", { deployment });
-              return client.audio.transcriptions.create({ model: "", file }, maxRetriesOption);
+              return client.audio.transcriptions.create(
+                { model: deployment, file },
+                maxRetriesOption,
+              );
             },
             (audio) => assertAudioResult("json", audio),
           );
         });
       });
 
-      describe("getAudioTranslation", function () {
+      describe("audio.translations.create", function () {
         it(`returns json translation if responseFormat wasn't specified`, async function () {
           await withDeployments(
-            deployments,
-            (deployment) => {
+            clientsAndDeployments,
+            (client, deployment) => {
               const file = createReadStream(`./assets/audio/countdown.mp3`);
-              client = createClient(apiVersion, "vision", { deployment });
-              return client.audio.translations.create({ model: "", file }, maxRetriesOption);
+              return client.audio.translations.create(
+                { model: deployment, file },
+                maxRetriesOption,
+              );
             },
             (audio) => assertAudioResult("json", audio),
           );
@@ -62,16 +66,15 @@ describe("OpenAI", function () {
           ["mp3", "mp4"],
         ] as const,
         async function (format: AudioResultFormat, extension: string) {
-          describe("getAudioTranscription", function () {
+          describe("audio.transcriptions.create", function () {
             it(`returns ${format} transcription for ${extension} files`, async function () {
               await withDeployments(
-                deployments,
-                (deployment) => {
+                clientsAndDeployments,
+                (client, deployment) => {
                   const file = createReadStream(`./assets/audio/countdown.${extension}`);
-                  client = createClient(apiVersion, "vision", { deployment });
                   return client.audio.transcriptions.create(
                     {
-                      model: "",
+                      model: deployment,
                       file,
                       response_format: format,
                     },
@@ -83,16 +86,15 @@ describe("OpenAI", function () {
             });
           });
 
-          describe("getAudioTranslation", function () {
+          describe("audio.translations.create", function () {
             it(`returns ${format} translation for ${extension} files`, async function () {
               await withDeployments(
-                deployments,
-                (deployment) => {
+                clientsAndDeployments,
+                (client, deployment) => {
                   const file = createReadStream(`./assets/audio/countdown.${extension}`);
-                  client = createClient(apiVersion, "vision", { deployment });
                   return client.audio.translations.create(
                     {
-                      model: "",
+                      model: deployment,
                       file,
                       response_format: format,
                     },

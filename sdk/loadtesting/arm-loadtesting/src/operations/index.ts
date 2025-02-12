@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./quotas";
-export * from "./loadTests";
+export * from "./operations.js";
+export * from "./quotas.js";
+export * from "./loadTests.js";

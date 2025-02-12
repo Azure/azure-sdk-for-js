@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Expands and Lists MSIX packages in an Image, given the Image Path.
  * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/MsixImage_Expand_Post.json
  */
-async function msixImageExpand() {
+async function msixImageExpand(): Promise<void> {
   const subscriptionId =
     process.env["DESKTOPVIRTUALIZATION_SUBSCRIPTION_ID"] ||
     "daefabc0-95b4-48b3-b645-8a753a63c4fa";
@@ -39,7 +39,7 @@ async function msixImageExpand() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   msixImageExpand();
 }
 

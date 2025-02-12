@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { DefaultAzureCredential } from "@azure/identity";
 import type {
   ProjectOutput,
@@ -6,13 +9,12 @@ import type {
 } from "@azure-rest/developer-devcenter";
 import { isUnexpected, getLongRunningPoller } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 /**
  * @summary Demonstrates creating, accessing, and deleting a Dev Box
  */
-async function createDevBox() {
+async function createDevBox(): Promise<void> {
   // Build client and fetch required parameters
   const endpoint = process.env.DEVCENTER_ENDPOINT || "<devcenter name>";
   const client = createClient(endpoint, new DefaultAzureCredential());
@@ -101,4 +103,4 @@ async function createDevBox() {
   console.log(`Cleaned up dev box successfully.`);
 }
 
-createDevBox();
+createDevBox().catch(console.error);

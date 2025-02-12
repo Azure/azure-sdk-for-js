@@ -12,7 +12,7 @@ import envPaths from "env-paths";
 import { promisify } from "node:util";
 import { PassThrough } from "node:stream";
 import { pipeline } from "node:stream/promises";
-import { checkWithTimeout, delay } from "./checkWithTimeout";
+import { delay } from "./checkWithTimeout";
 
 const log = createPrinter("test-proxy");
 const downloadLocation = path.join(envPaths("azsdk-dev-tool").cache, "test-proxy");
@@ -192,30 +192,6 @@ export async function runTestProxyCommand(argv: string[]): Promise<void> {
   }).result;
   if (await fs.pathExists("assets.json")) {
     await linkRecordingsDirectory();
-  }
-}
-
-export async function runTestProxyCommandWithRetry(
-  argv: string[],
-  delayBetweenRetriesInMilliseconds = 1000,
-  maxWaitTimeInMilliseconds = 10000,
-) {
-  const success = await checkWithTimeout(
-    async () => {
-      try {
-        await runTestProxyCommand(argv);
-        return true;
-      } catch (error) {
-        console.error("runTestProxyCommand failed, retrying...", error);
-        return false;
-      }
-    },
-    delayBetweenRetriesInMilliseconds,
-    maxWaitTimeInMilliseconds,
-  );
-
-  if (!success) {
-    console.error("runTestProxyCommand failed after multiple retries");
   }
 }
 

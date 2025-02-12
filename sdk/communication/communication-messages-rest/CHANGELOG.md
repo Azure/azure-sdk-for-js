@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,14 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.1.0-beta.1 (2025-02-11)
+
+### Features Added
+
+- Added Interactive Message.
+- Added Reaction Message.
+- Added Sticker Message.
 
 ## 2.0.0 (2024-10-23)
 

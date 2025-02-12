@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a Azure Arc PrivateLinkScope.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a Azure Arc PrivateLinkScope.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateLinkScope/PrivateLinkScopes_Get.json
  */
-async function privateLinkScopeGet() {
+async function privateLinkScopeGet(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
     "86dc51d3-92ed-4d7e-947a-775ea79b4919";
@@ -36,7 +34,7 @@ async function privateLinkScopeGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateLinkScopeGet();
 }
 

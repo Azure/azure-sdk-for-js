@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Get all the certificates tied to the provisioning service.
  * x-ms-original-file: specification/deviceprovisioningservices/resource-manager/Microsoft.Devices/preview/2023-03-01-preview/examples/DPSGetCertificates.json
  */
-async function dpsGetCertificates() {
+async function dpsGetCertificates(): Promise<void> {
   const subscriptionId =
     process.env["DEVICEPROVISIONINGSERVICES_SUBSCRIPTION_ID"] ||
     "91d12660-3dec-467a-be2a-213b5544ddc0";
@@ -32,7 +32,7 @@ async function dpsGetCertificates() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dpsGetCertificates();
 }
 

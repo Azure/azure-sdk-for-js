@@ -174,7 +174,6 @@ describe("Library/TraceHandler", () => {
                 `http://localhost:${mockHttpServerPort}/test`,
               );
               assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
-              assert.deepStrictEqual(spans[1].attributes["net.peer.port"], mockHttpServerPort);
 
               assert.deepStrictEqual(
                 spans[0]["_spanContext"]["traceId"],

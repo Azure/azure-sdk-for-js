@@ -63,7 +63,7 @@ import {
   ServerlessEndpointsImpl,
   RegistriesImpl,
   WorkspaceFeaturesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Workspaces,
@@ -113,8 +113,8 @@ import {
   ServerlessEndpoints,
   Registries,
   WorkspaceFeatures,
-} from "./operationsInterfaces";
-import { AzureMachineLearningServicesManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureMachineLearningServicesManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureMachineLearningServicesManagementClient extends coreClient.ServiceClient {
   $host: string;

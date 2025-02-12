@@ -28,13 +28,14 @@ modelerfour.lenient-model-deduplication: true
 package-name: "@azure-rest/purview-administration"
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
-package-version: 1.0.0-beta.2
+package-version: 1.0.0-beta.3
 rest-level-client: true
 add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 batch:
   - purview-metadata: true
   - purview-account: true
+module-kind: esm
 ```

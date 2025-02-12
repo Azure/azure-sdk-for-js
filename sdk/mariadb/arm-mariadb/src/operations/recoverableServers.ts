@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { RecoverableServers } from "../operationsInterfaces";
+import { RecoverableServers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MariaDBManagementClient } from "../mariaDBManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MariaDBManagementClient } from "../mariaDBManagementClient.js";
 import {
   RecoverableServersGetOptionalParams,
   RecoverableServersGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing RecoverableServers operations. */
 export class RecoverableServersImpl implements RecoverableServers {

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DedicatedHsmOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DedicatedHsmOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureHSMResourceProvider } from "../azureHSMResourceProvider";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureHSMResourceProvider } from "../azureHSMResourceProvider.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   DedicatedHsm,
   DedicatedHsmListByResourceGroupNextOptionalParams,
@@ -42,7 +42,7 @@ import {
   DedicatedHsmListByResourceGroupNextResponse,
   DedicatedHsmListBySubscriptionNextResponse,
   DedicatedHsmListOutboundNetworkDependenciesEndpointsNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DedicatedHsmOperations operations. */

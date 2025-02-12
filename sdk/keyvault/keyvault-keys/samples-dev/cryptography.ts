@@ -6,13 +6,10 @@
  */
 
 import { createHash } from "node:crypto";
-
 import { CryptographyClient, KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
-
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
@@ -37,10 +34,10 @@ export async function main(): Promise<void> {
 
   // Sign and Verify
   const signatureValue = "MySignature";
-  let hash = createHash("sha256");
+  const hash = createHash("sha256");
 
-  await hash.update(signatureValue);
-  let digest = hash.digest();
+  hash.update(signatureValue);
+  const digest = hash.digest();
   console.log("digest: ", digest);
 
   const signature = await cryptoClient.sign("RS256", digest);
@@ -56,14 +53,17 @@ export async function main(): Promise<void> {
   });
   console.log("encrypt result: ", encrypt);
 
-  const decrypt = await cryptoClient.decrypt({ algorithm: "RSA1_5", ciphertext: encrypt.result });
+  const decrypt = await cryptoClient.decrypt({
+    algorithm: "RSA-OAEP-256",
+    ciphertext: encrypt.result,
+  });
   console.log("decrypt: ", decrypt.result.toString());
 
   // Wrap and unwrap
-  const wrapped = await cryptoClient.wrapKey("RSA-OAEP", Buffer.from("My Message"));
+  const wrapped = await cryptoClient.wrapKey("RSA-OAEP-256", Buffer.from("My Message"));
   console.log("wrap result: ", wrapped);
 
-  const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
+  const unwrapped = await cryptoClient.unwrapKey("RSA-OAEP-256", wrapped.result);
   console.log("unwrap result: ", unwrapped);
 }
 

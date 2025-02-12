@@ -115,6 +115,7 @@ export {
   type AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
 } from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
+export { agentPolicy, agentPolicyName } from "./policies/agentPolicy.js";
 export {
   createFile,
   createFileFromStream,

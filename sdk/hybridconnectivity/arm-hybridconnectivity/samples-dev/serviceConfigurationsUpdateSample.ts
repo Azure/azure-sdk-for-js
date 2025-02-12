@@ -8,9 +8,7 @@
 import type { ServiceConfigurationResourcePatch } from "@azure/arm-hybridconnectivity";
 import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the service details in the service configurations of the target resource.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update the service details in the service configurations of the target resource.
  * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsPatchSSH.json
  */
-async function serviceConfigurationsPatchSsh() {
+async function serviceConfigurationsPatchSsh(): Promise<void> {
   const resourceUri =
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine/providers/Microsoft.HybridConnectivity/endpoints/default";
   const endpointName = "default";
@@ -37,7 +35,7 @@ async function serviceConfigurationsPatchSsh() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await serviceConfigurationsPatchSsh();
 }
 

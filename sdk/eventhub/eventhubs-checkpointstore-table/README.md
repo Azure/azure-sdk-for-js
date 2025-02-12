@@ -70,9 +70,9 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 Use the below code snippet to create a `CheckpointStore`. You will need to provide the connection string to your storage account.
 
-```javascript
-const { TableClient } = require("@azure/data-tables");
-const { TableCheckpointStore } = require("@azure/eventhubs-checkpointstore-table");
+```ts snippet:CreateCheckpointStore
+import { TableClient } from "@azure/data-tables";
+import { TableCheckpointStore } from "@azure/eventhubs-checkpointstore-table";
 
 const tableClient = new TableClient("storage-connection-string", "table-name");
 
@@ -91,10 +91,10 @@ interface along with code to call the `updateCheckpoint()` method.
 
 In this example, `SubscriptionHandlers` implements [SubscriptionEventHandlers](https://learn.microsoft.com/javascript/api/@azure/event-hubs/subscriptioneventhandlers) and also handles checkpointing.
 
-```javascript
-const { EventHubConsumerClient } = require("@azure/event-hubs");
-const { TableClient } = require("@azure/data-tables");
-const { TableCheckpointStore } = require("@azure/eventhubs-checkpointstore-table");
+```ts snippet:CheckpointEvents
+import { TableClient } from "@azure/data-tables";
+import { TableCheckpointStore } from "@azure/eventhubs-checkpointstore-table";
+import { EventHubConsumerClient } from "@azure/event-hubs";
 
 const storageAccountConnectionString = "storage-account-connection-string";
 const tableName = "table-name";
@@ -102,53 +102,48 @@ const eventHubConnectionString = "eventhub-connection-string";
 const consumerGroup = "my-consumer-group";
 const eventHubName = "eventHubName";
 
-async function main() {
-  const tableClient = new TableClient(storageAccountConnectionString, tableName);
+const tableClient = new TableClient(storageAccountConnectionString, tableName);
 
-  if (!(await tableClient.exists())) {
-    await tableClient.create();
-  }
-
-  const checkpointStore = new TableCheckpointStore(tableClient);
-  const consumerClient = new EventHubConsumerClient(
-    consumerGroup,
-    eventHubConnectionString,
-    eventHubName,
-    checkpointStore,
-  );
-
-  const subscription = consumerClient.subscribe({
-    processEvents: async (events, context) => {
-      // event processing code goes here
-      if (events.length === 0) {
-        // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
-        // will pass you an empty array.
-        return;
-      }
-
-      // Checkpointing will allow your service to pick up from
-      // where it left off when restarting.
-      //
-      // You'll want to balance how often you checkpoint with the
-      // performance of your underlying checkpoint store.
-      await context.updateCheckpoint(events[events.length - 1]);
-    },
-    processError: async (err, context) => {
-      // handle any errors that occur during the course of
-      // this subscription
-      console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
-    },
-  });
-
-  // Wait for a few seconds to receive events before closing
-  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
-
-  await subscription.close();
-  await consumerClient.close();
-  console.log(`Exiting sample`);
+if (!(await tableClient.exists())) {
+  await tableClient.create();
 }
 
-main();
+const checkpointStore = new TableCheckpointStore(tableClient);
+const consumerClient = new EventHubConsumerClient(
+  consumerGroup,
+  eventHubConnectionString,
+  eventHubName,
+  checkpointStore,
+);
+
+const subscription = consumerClient.subscribe({
+  processEvents: async (events, context) => {
+    // event processing code goes here
+    if (events.length === 0) {
+      // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
+      // will pass you an empty array.
+      return;
+    }
+
+    // Checkpointing will allow your service to pick up from
+    // where it left off when restarting.
+    //
+    // You'll want to balance how often you checkpoint with the
+    // performance of your underlying checkpoint store.
+    await context.updateCheckpoint(events[events.length - 1]);
+  },
+  processError: async (err, context) => {
+    // handle any errors that occur during the course of
+    // this subscription
+    console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
+  },
+});
+
+// Wait for a few seconds to receive events before closing
+await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+
+await subscription.close();
+await consumerClient.close();
 ```
 
 ## Troubleshooting
@@ -165,6 +160,12 @@ You can set the `AZURE_LOG_LEVEL` environment variable to one of the following v
 You can also set the log level programatically by importing the
 [@azure/logger](https://www.npmjs.com/package/@azure/logger) package and calling the
 `setLogLevel` function with one of the log level values.
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+```
 
 When setting a log level either programatically or via the `AZURE_LOG_LEVEL` environment variable,
 any logs that are written using a log level equal to or less than the one you choose will be emitted.
@@ -214,5 +215,3 @@ directory for detailed example.
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md)to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Feventhubs-checkpointstore-table%2FREADME.png)
