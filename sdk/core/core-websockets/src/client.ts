@@ -8,8 +8,9 @@ import type {
   WebSocketData,
   WebSocketClient,
   WebSocketClientOptions,
-  WebsocketClientWrapper,
+  WebsocketClientAdapter,
 } from "./models/public.js";
+import type { WebSocketClientAsWsOptions } from "./runtimes/ws/models.js";
 import { createReliableConnectionClient } from "./reliableConnectionClient.js";
 import { createUrl } from "./utils.js";
 import { createWebSocket } from "./webSocket.js";
@@ -17,7 +18,7 @@ import { createWs } from "./ws.js";
 
 async function withConnectionManager<WebSocketT>(
   connectionManager: WithSocket<WebSocketT, WebSocketData, WebSocketData>,
-  options: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols" | "wsOptions"> = {},
+  options: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols"> = {},
 ): Promise<WebSocketClient<WebSocketT>> {
   const { identifier, retryOptions, highWaterMark, abortSignal, on } = options;
   const reliableClientFactory = createReliableConnectionClient<WebSocketData, WebSocketData>(
@@ -78,24 +79,24 @@ async function withConnectionManager<WebSocketT>(
 function buildClientWrapper<WebSocketT>(
   urlObj: URL,
   protocols: string | string[] | undefined,
-  wsOptions: WebSocketClientOptions["wsOptions"],
-  restOptions: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols" | "wsOptions">,
+  restOptions: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols">,
   fullOptions: WebSocketClientOptions,
-): WebsocketClientWrapper<WebSocketT> {
+): WebsocketClientAdapter<WebSocketT> {
   function buildPromise(): Promise<WebSocketClient<WebSocketT>> {
     return withConnectionManager<WebSocketT>(
-      createConnectionManager<WebSocketT>(urlObj, { protocols, wsOptions }),
+      createConnectionManager<WebSocketT>(urlObj, { protocols }),
       fullOptions,
     );
   }
 
   return {
-    asWs: () => {
+    asWs: (options: WebSocketClientAsWsOptions = {}) => {
+      const { wsOptions } = options;
       try {
         return withConnectionManager(
           createWs(urlObj, { protocols, wsOptions }),
           restOptions,
-        ) as ReturnType<WebsocketClientWrapper<unknown>["asWs"]>;
+        ) as ReturnType<WebsocketClientAdapter<unknown>["asWs"]>;
       } catch (err) {
         return Promise.reject(err);
       }
@@ -105,7 +106,7 @@ function buildClientWrapper<WebSocketT>(
         return withConnectionManager(
           createWebSocket(urlObj, { protocols }),
           restOptions,
-        ) as ReturnType<WebsocketClientWrapper<unknown>["asWebSocket"]>;
+        ) as ReturnType<WebsocketClientAdapter<unknown>["asWebSocket"]>;
       } catch (err) {
         return Promise.reject(err);
       }
@@ -127,11 +128,11 @@ function buildClientWrapper<WebSocketT>(
 export function createWebSocketClient<WebSocketT>(
   url: string,
   options: WebSocketClientOptions = {},
-): WebsocketClientWrapper<WebSocketT> {
-  const { protocols, allowInsecureConnection, wsOptions, ...restOptions } = options;
+): WebsocketClientAdapter<WebSocketT> {
+  const { protocols, allowInsecureConnection, ...restOptions } = options;
   try {
     const urlObj = createUrl(url, { allowInsecureConnection });
-    return buildClientWrapper<WebSocketT>(urlObj, protocols, wsOptions, restOptions, options);
+    return buildClientWrapper<WebSocketT>(urlObj, protocols, restOptions, options);
   } catch (err) {
     const rejectOnDemand = (): Promise<never> => Promise.reject(err);
     return {
@@ -141,6 +142,6 @@ export function createWebSocketClient<WebSocketT>(
       catch: (onrejected) => rejectOnDemand().catch(onrejected),
       finally: (onfinally) => rejectOnDemand().finally(onfinally),
       [Symbol.toStringTag]: WEBSOCKET_CLIENT_TAG,
-    } as WebsocketClientWrapper<WebSocketT>;
+    } as WebsocketClientAdapter<WebSocketT>;
   }
 }

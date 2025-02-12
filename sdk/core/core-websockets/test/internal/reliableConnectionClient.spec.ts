@@ -7,7 +7,7 @@ import {
   type ClientWithHandlers,
   createMockClient,
 } from "../utils/reliableConnectionClientMocks.js";
-import { createIdentifier } from "../utils/utils.js";
+import { createIdentifier } from "@azure-tools/test-utils-vitest";
 import { delay } from "@azure/core-util";
 import { createFullRetryOptions } from "../utils/mockRretryOptions.js";
 

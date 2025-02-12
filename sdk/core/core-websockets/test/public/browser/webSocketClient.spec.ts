@@ -6,7 +6,7 @@ import { assert } from "../../utils/vitest.js";
 import { createWebSocketClient } from "../../../src/index.js";
 import { buildWebSocketClientTests } from "../webSocketClient.js";
 import { getSecureServerAddress } from "../../utils/injectables.js";
-import { createIdentifier } from "../../utils/utils.js";
+import { createIdentifier } from "@azure-tools/test-utils-vitest";
 
 buildWebSocketClientTests("Web API", (url, options) =>
   createWebSocketClient(url, options).asWebSocket(),

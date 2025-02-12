@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type * as WS from "ws";
 import type { RetryOptions } from "../retry.js";
-import type { ClientRequestArgs } from "node:http";
 
 /**
  * The close information.
@@ -141,13 +139,6 @@ export interface WebSocketClientOptions {
   protocols?: string | string[];
 
   /**
-   * NODEJS ONLY and WS ONLY
-   *
-   * The options to create the WS client.
-   */
-  wsOptions?: WS.ClientOptions | ClientRequestArgs;
-
-  /**
    * The high water mark for the send queue.
    */
   highWaterMark?: number;
@@ -182,12 +173,7 @@ export interface WebSocketClientOptions {
  * The WebSocket client wrapper. It is a promise that resolves to a WebSocket client.
  * It also has methods to get the WebSocket client as a ws WebSocket client or as a Web API WebSocket client.
  */
-export interface WebsocketClientWrapper<WebSocketT> extends Promise<WebSocketClient<WebSocketT>> {
-  /**
-   * Returns the WebSocket client as a ws WebSocket client.
-   * @returns The ws WebSocket client.
-   */
-  asWs: () => Promise<WebSocketClient<WS.WebSocket>>;
+export interface WebsocketClientAdapter<WebSocketT> extends Promise<WebSocketClient<WebSocketT>> {
   /**
    * Returns the WebSocket client as a Web API WebSocket client.
    * @returns The Web API WebSocket client.

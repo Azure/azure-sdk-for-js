@@ -10,7 +10,7 @@ type PublicListener = WebSocketEventListeners<WebSocketData>[keyof WebSocketEven
 
 export function createWebSocket(
   url: URL,
-  options: Omit<WebSocketImplOptions, "wsOptions"> = {},
+  options: WebSocketImplOptions = {},
 ): WithSocket<WebSocket, WebSocketData, WebSocketData> {
   // Check if the WebSocket Web API is available in the current runtime.
   if (typeof WebSocket !== "function") {

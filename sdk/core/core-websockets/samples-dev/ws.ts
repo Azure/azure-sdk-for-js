@@ -6,6 +6,7 @@
  */
 import { delay } from "@azure/core-util";
 import { createWebSocketClient } from "@azure/core-websockets";
+import "@azure/core-websockets/runtimes/ws";
 
 async function main(): Promise<void> {
   const client = await createWebSocketClient("wss://echo.websocket.org").asWs();

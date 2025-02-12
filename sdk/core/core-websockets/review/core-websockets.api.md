@@ -4,11 +4,8 @@
 
 ```ts
 
-import type { ClientRequestArgs } from 'node:http';
-import type * as WS from 'ws';
-
 // @public
-export function createWebSocketClient<WebSocketT>(url: string, options?: WebSocketClientOptions): WebsocketClientWrapper<WebSocketT>;
+export function createWebSocketClient<WebSocketT>(url: string, options?: WebSocketClientOptions): WebsocketClientAdapter<WebSocketT>;
 
 // @public
 export type RetryMode = "Exponential" | "Fixed";
@@ -32,6 +29,11 @@ export interface WebSocketClient<WebSocketT> extends WebSocketEventRegistrar<Web
 }
 
 // @public
+export interface WebsocketClientAdapter<WebSocketT> extends Promise<WebSocketClient<WebSocketT>> {
+    asWebSocket: () => Promise<WebSocketClient<WebSocket>>;
+}
+
+// @public
 export interface WebSocketClientOptions {
     abortSignal?: AbortSignal;
     allowInsecureConnection?: boolean;
@@ -40,17 +42,10 @@ export interface WebSocketClientOptions {
     on?: Partial<WebSocketEventListeners<WebSocketData>>;
     protocols?: string | string[];
     retryOptions?: RetryOptions;
-    wsOptions?: WS.ClientOptions | ClientRequestArgs;
 }
 
 // @public
 export type WebSocketClientStatus = "connecting" | "connected" | "disconnecting" | "disconnected";
-
-// @public
-export interface WebsocketClientWrapper<WebSocketT> extends Promise<WebSocketClient<WebSocketT>> {
-    asWebSocket: () => Promise<WebSocketClient<WebSocket>>;
-    asWs: () => Promise<WebSocketClient<WS.WebSocket>>;
-}
 
 // @public
 export interface WebSocketCloseDetails {

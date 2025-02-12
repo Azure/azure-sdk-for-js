@@ -3,6 +3,7 @@
 
 import type { WebSocketData, WebSocketEventListeners } from "./models/public.js";
 import type { WebSocketImplOptions, WithSocket } from "./models/internal.js";
+import type { WebSocketClientAsWsOptions } from "./runtimes/ws/models.js";
 import * as WS from "ws";
 import { createAbortablePromise } from "@azure/core-util";
 import { logger } from "./logger.js";
@@ -12,7 +13,7 @@ type PublicListener = WebSocketEventListeners<WebSocketData>[keyof WebSocketEven
 
 export function createWs(
   url: URL,
-  options: WebSocketImplOptions = {},
+  options: WebSocketImplOptions & WebSocketClientAsWsOptions = {},
 ): WithSocket<WS.WebSocket, WebSocketData, WebSocketData> {
   // Check if the 'ws' module is available in the current runtime.
   if (!WS || typeof WS.WebSocket !== "function") {
