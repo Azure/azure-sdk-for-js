@@ -11,7 +11,7 @@ import {
   ConfigurationListResult,
   ServerParametersListUpdateConfigurationsOptionalParams,
   ServerParametersListUpdateConfigurationsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ServerParameters. */
 export interface ServerParameters {
