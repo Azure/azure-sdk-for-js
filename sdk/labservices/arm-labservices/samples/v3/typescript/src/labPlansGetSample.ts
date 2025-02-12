@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the properties of a Lab Plan.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieves the properties of a Lab Plan.
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/LabPlans/getLabPlan.json
  */
-async function getLabPlan() {
+async function getLabPlan(): Promise<void> {
   const subscriptionId =
     process.env["LABSERVICES_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -33,7 +31,7 @@ async function getLabPlan() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getLabPlan();
 }
 

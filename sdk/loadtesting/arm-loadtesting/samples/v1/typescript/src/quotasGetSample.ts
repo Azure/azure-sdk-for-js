@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LoadTestClient } from "@azure/arm-loadtesting";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the available quota for a quota bucket per region per subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the available quota for a quota bucket per region per subscription.
  * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/Quotas_Get.json
  */
-async function quotasGet() {
+async function quotasGet(): Promise<void> {
   const subscriptionId =
     process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -32,7 +30,7 @@ async function quotasGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   quotasGet();
 }
 
