@@ -4,16 +4,15 @@ import sinon from "sinon";
 
 describe("CIInfoProvider", () => {
   let sandbox: sinon.SinonSandbox;
-  let environmentVariables: NodeJS.ProcessEnv;
-
   beforeEach(() => {
     sandbox = sinon.createSandbox();
-    environmentVariables = process.env;
   });
 
   afterEach(() => {
     sandbox.restore();
-    process.env = { ...environmentVariables };
+    for (const key in process.env) {
+      delete process.env[key];
+    }
   });
 
   it("should return GitHub CIInfo when  GitHub environment variables are set", () => {
