@@ -236,7 +236,7 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     accessMode: "Private",
     admins: ["xyz@example.com"],
   };
-  return await adminClient.createDataFeed(dataFeed);
+  return adminClient.createDataFeed(dataFeed);
 }
 ```
 
