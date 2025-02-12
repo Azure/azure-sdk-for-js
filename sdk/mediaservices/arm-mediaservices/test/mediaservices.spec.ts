@@ -6,19 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AzureMediaServices } from "../src/azureMediaServices.js";
-import { StorageManagementClient } from "@azure/arm-storage";
-import { assert } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -41,36 +36,49 @@ describe("MediaServices test", () => {
   let resourceGroup: string;
   let mediaName: string;
   let storageAccountName: string;
-  let storage_client: StorageManagementClient;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new AzureMediaServices(credential, subscriptionId, recorder.configureClientOptions({}));
-      storage_client = new StorageManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      mediaName = "mymediaxxx";
-      storageAccountName = "mystorageaccountxxx111";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new AzureMediaServices(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "eastus";
+    resourceGroup = "myjstest";
+    mediaName = "mymediaxxx";
+    storageAccountName = "mystorageaccountxxx111";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("mediaservices create test", async () => {
-    const res = await client.mediaservices.beginCreateOrUpdateAndWait(resourceGroup, mediaName, {
-      location: location,
-      storageAccounts: [
-        {
-          id: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/" + storageAccountName,
-          type: "Primary"
-        }
-      ]
-    }, testPollingOptions);
+    const res = await client.mediaservices.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      mediaName,
+      {
+        location: location,
+        storageAccounts: [
+          {
+            id:
+              "/subscriptions/" +
+              subscriptionId +
+              "/resourceGroups/" +
+              resourceGroup +
+              "/providers/Microsoft.Storage/storageAccounts/" +
+              storageAccountName,
+            type: "Primary",
+          },
+        ],
+      },
+      testPollingOptions,
+    );
     assert.equal(res.name, mediaName);
   });
 
@@ -81,7 +89,7 @@ describe("MediaServices test", () => {
 
   it("mediaservices list test", async () => {
     const resArray = new Array();
-    for await (let item of client.mediaservices.list(resourceGroup)) {
+    for await (const item of client.mediaservices.list(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -89,7 +97,7 @@ describe("MediaServices test", () => {
 
   it("mediaservices delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.mediaservices.list(resourceGroup)) {
+    for await (const item of client.mediaservices.list(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
