@@ -22,7 +22,7 @@ import { type ChatCompletionMessageParam } from "openai/resources/chat/completio
 import { functionCallModelsToSkip, jsonResponseModelsToSkip } from "../utils/models.js";
 import "../../src/types/index.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
-import { MathResponse, assertMathResponseOutput } from "../utils/structuredOutputUtils.js";
+import { type MathResponse, assertMathResponseOutput } from "../utils/structuredOutputUtils.js";
 
 describe("Chat Completions", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {

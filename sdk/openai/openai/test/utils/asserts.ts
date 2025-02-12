@@ -37,7 +37,7 @@ import type {
   ChatCompletion,
   ChatCompletionMessageToolCall,
 } from "openai/resources/chat/completions.mjs";
-import {
+import type {
   ParsedChatCompletion,
   ParsedChatCompletionMessage,
   ParsedChoice,
@@ -47,7 +47,7 @@ import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import type { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
 import type { Metadata } from "./types.js";
 import { logger } from "./logger.js";
-import {
+import type {
   ResponseTextDeltaEvent,
   ResponseTextDoneEvent,
   SessionCreatedEvent,

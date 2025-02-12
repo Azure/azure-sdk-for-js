@@ -11,7 +11,7 @@ import {
   assertSessionCreatedEvent,
 } from "../../utils/asserts.js";
 import { createClientsAndDeployments } from "../../utils/createClients.js";
-import OpenAI from "openai";
+import type { OpenAI } from "openai";
 
 describe("Realtime", () => {
   matrix([[APIVersion.Realtime]] as const, async function (apiVersion: APIVersion) {
