@@ -50,12 +50,12 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure-rest/core-client": "^2.3.1",
+    "@azure-rest/core-client": "^2.3.3",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.19.0",
     "@azure/logger": "^1.1.4",

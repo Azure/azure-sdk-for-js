@@ -13,12 +13,12 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  * Creates an instance of MapsRouteClient from a subscription key.
  *
  * @example
- * ```ts
- * import MapsRoute from "@azure-rest/maps-route";
+ * ```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
  * import { AzureKeyCredential } from "@azure/core-auth";
+ * import MapRoute from "@azure-rest/maps-route";
  *
  * const credential = new AzureKeyCredential("<subscription-key>");
- * const client = MapsRoute(credential);
+ * const client = MapRoute(credential);
  *```
  *
  * @param credential - An AzureKeyCredential instance used to authenticate requests to the service
@@ -32,12 +32,12 @@ export default function MapsRoute(
  * Creates an instance of MapsRoute from an Azure Identity `TokenCredential`.
  *
  * @example
- * ```ts
- * import MapsRoute from "@azure-rest/maps-route";
+ * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import MapRoute from "@azure-rest/maps-route";
  *
  * const credential = new DefaultAzureCredential();
- * const client = MapsRoute(credential, "<maps-account-client-id>");
+ * const client = MapRoute(credential, "<maps-account-client-id>");
  *```
  *
  * @param credential - An TokenCredential instance used to authenticate requests to the service
@@ -53,12 +53,12 @@ export default function MapsRoute(
  * Creates an instance of MapsRoute from an Azure Identity `AzureSASCredential`.
  *
  * @example
- * ```ts
- * import MapsRoute from "@azure-rest/maps-route";
+ * ```ts snippet:ReadmeSampleCreateClient_SASToken
  * import { AzureSASCredential } from "@azure/core-auth";
+ * import MapRoute from "@azure-rest/maps-route";
  *
  * const credential = new AzureSASCredential("<SAS Token>");
- * const client = MapsRoute(credential);
+ * const client = MapRoute(credential);
  * ```
  *
  * @param credential - An AzureSASCredential instance used to authenticate requests to the service
