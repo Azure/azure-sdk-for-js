@@ -231,14 +231,9 @@ describe("XML serializer", function () {
       assert.deepStrictEqual(json, { fruit: `` });
     });
 
-    it("with atribute namespace", async () => {
+    it("with attribute namespace", async () => {
       const json = await parseXML(
-        `<h:table xmlns:h="http://www.w3.org/TR/html4/">
-          <h:tr>
-            <h:td>Apples</h:td>
-            <h:td>Bananas</h:td>
-          </h:tr>
-        </h:table>`,
+        `<h:table xmlns:h="http://www.w3.org/TR/html4/"><h:tr><h:td>Apples</h:td><h:td>Bananas</h:td></h:tr></h:table>`,
         { includeRoot: true },
       );
 
@@ -617,7 +612,7 @@ describe("XML serializer", function () {
     assert.deepEqual(parsed.Name, "  leadingspace.txt");
   })
 
-  it.only("should keep trailing spaces", async function () {
+  it("should keep trailing spaces", async function () {
     const input = `<Blob><Name>trailingspace   </Name></Blob>`;
     const parsed = await parseXML(input);
     assert.isDefined(parsed.Name);
