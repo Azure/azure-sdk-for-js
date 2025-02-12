@@ -4192,6 +4192,7 @@ export class ShareFileClient extends StorageClient {
         fileAttributes: fileAttributesToString(updatedOptions.fileAttributes!),
         owner: updatedOptions.posixProperties?.owner,
         group: updatedOptions.posixProperties?.group,
+        fileMode: toOctalFileMode(options.posixProperties?.fileMode),
         ...this.shareClientConfig,
       });
       return assertResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>({

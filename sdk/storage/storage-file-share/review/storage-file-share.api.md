@@ -661,15 +661,7 @@ export interface FileDownloadOptions extends CommonOptions {
 }
 
 // @public
-type FileDownloadResponse = FileDownloadHeaders & {
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
-};
-export { FileDownloadResponse }
-export { FileDownloadResponse as RawFileDownloadResponse }
-
-// @public
-export type FileDownloadResponseModel = WithResponse<FileDownloadResponse, FileDownloadHeaders>;
+export type FileDownloadResponseModel = WithResponse<RawFileDownloadResponse, FileDownloadHeaders>;
 
 // @public
 export interface FileDownloadToBufferOptions extends CommonOptions {
@@ -977,7 +969,7 @@ export interface FileServiceProperties {
 }
 
 // @public
-interface FileSetHttpHeadersHeaders {
+export interface FileSetHTTPHeadersHeaders {
     date?: Date;
     errorCode?: string;
     etag?: string;
@@ -997,8 +989,6 @@ interface FileSetHttpHeadersHeaders {
     requestId?: string;
     version?: string;
 }
-export { FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders }
-export { FileSetHttpHeadersHeaders }
 
 // @public
 export interface FileSetHttpHeadersOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -1007,7 +997,7 @@ export interface FileSetHttpHeadersOptions extends FileAndDirectorySetProperties
 }
 
 // @public
-export type FileSetHTTPHeadersResponse = WithResponse<FileSetHttpHeadersHeaders, FileSetHttpHeadersHeaders>;
+export type FileSetHTTPHeadersResponse = WithResponse<FileSetHTTPHeadersHeaders, FileSetHTTPHeadersHeaders>;
 
 // @public
 export interface FileSetMetadataHeaders {
@@ -1389,6 +1379,12 @@ export interface RangeModel {
     end: number;
     start: number;
 }
+
+// @public
+export type RawFileDownloadResponse = FileDownloadHeaders & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+};
 
 export { RequestPolicy as IHttpClient }
 export { RequestPolicy }

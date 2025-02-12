@@ -3136,6 +3136,28 @@ describe("FileClient - NFS", () => {
     assert.deepEqual(result.linkCount, 1);
   });
 
+  it("resize with all parameters set", async function () {
+    const posixProperties: FilePosixProperties = {
+      owner: "123",
+      group: "654",
+      fileMode: parseSymbolicFileMode("rwxr-xr-x"),
+      fileType: "Regular",
+    };
+
+    await fileClient.create(content.length);
+
+    await fileClient.resize(1, {
+      posixProperties: posixProperties,
+    });
+    const result = await fileClient.getProperties();
+    assert.ok(result.lastModified);
+    assert.deepEqual(result.owner, posixProperties.owner);
+    assert.deepEqual(result.group, posixProperties.group);
+    assert.deepEqual(result.fileMode, posixProperties.fileMode);
+    assert.deepEqual(result.contentLength, 1);
+    assert.deepEqual(result.linkCount, 1);
+  });
+
   it("startCopy - with NFS properties", async function () {
     const posixProperties: FilePosixProperties = {
       owner: "123",
