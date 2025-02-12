@@ -47,6 +47,7 @@ export interface ResourcesInfo {
 export interface ClientAndDeploymentsInfo {
   client: OpenAI;
   deployments: DeploymentInfo[];
+  clientsWithDeployment?: OpenAI[];
 }
 
 export interface ClientsAndDeploymentsInfo {
@@ -59,4 +60,5 @@ export interface CreateClientOptions {
   sku?: Partial<Sku>;
   deploymentsToSkip?: string[];
   modelsToSkip?: Partial<ModelInfo>[];
+  createClientWithDeployment?: boolean;
 }

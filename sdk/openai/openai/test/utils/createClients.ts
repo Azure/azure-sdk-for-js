@@ -15,9 +15,11 @@ export function createClientsAndDeployments(
   capabilities: ModelCapabilities,
   options: CreateClientOptions = {},
 ): ClientsAndDeploymentsInfo {
-  const { clientOptions, sku, deploymentsToSkip, modelsToSkip } = options;
+  const { clientOptions, sku, deploymentsToSkip, modelsToSkip, createClientWithDeployment } =
+    options;
   const { resourcesInfo } = getResourcesInfo();
   switch (apiVersion) {
+    case APIVersion.Realtime:
     case APIVersion.Preview:
     case APIVersion.Stable: {
       const credential = createTestCredential();
@@ -30,6 +32,21 @@ export function createClientsAndDeployments(
         modelsToSkip,
       }).map(({ deployments, endpoint }) => {
         count += deployments.length;
+        // Create a list of client that is bind to a deployment if createClientWithDeployment is true
+        const clientsWithDeployment: OpenAI[] = [];
+        if (createClientWithDeployment) {
+          for (const deployment of deployments) {
+            clientsWithDeployment.push(
+              new AzureOpenAI({
+                azureADTokenProvider,
+                apiVersion,
+                endpoint,
+                deployment: deployment.deploymentName,
+                ...clientOptions,
+              }),
+            );
+          }
+        }
         return {
           client: new AzureOpenAI({
             azureADTokenProvider,
@@ -38,6 +55,7 @@ export function createClientsAndDeployments(
             ...clientOptions,
           }),
           deployments,
+          clientsWithDeployment,
         };
       });
       return { clientsAndDeployments, count };
