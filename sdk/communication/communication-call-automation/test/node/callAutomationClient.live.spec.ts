@@ -118,7 +118,9 @@ describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => 
         ? `${ctx.task.suite.name} ${ctx.task.name}`
         : undefined;
 
-    testName = fullTitle ? fullTitle.replace(/ /g, "_") : "answer_call_with_custom_context_and_hang_up";
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_")
+      : "answer_call_with_custom_context_and_hang_up";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };
@@ -140,7 +142,7 @@ describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => 
     if (incomingCallContext) {
       const answerCallOptions: AnswerCallOptions = {
         operationContext: "operationContextAnswerCall",
-        customCallingContext : [{ kind: "voip", key: "foo", value: "bar" }]
+        customCallingContext: [{ kind: "voip", key: "foo", value: "bar" }],
       };
       await receiverCallAutomationClient.answerCall(
         incomingCallContext,
