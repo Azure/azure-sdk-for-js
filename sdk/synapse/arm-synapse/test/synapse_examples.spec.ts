@@ -59,6 +59,6 @@ describe("Synapse test", () => {
       await recorder.stop();
     });
 
-  it("operations checkNameAvailability test", async function () {
+  it("operations checkNameAvailability test", async () => {
   });
 });
