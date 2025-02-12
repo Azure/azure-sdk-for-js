@@ -50,7 +50,6 @@ describe("Realtime", () => {
               });
 
               rt.on("error", (err) => {
-                console.log("Realtime test ran into an error", JSON.stringify(err));
                 reject(err);
               });
 

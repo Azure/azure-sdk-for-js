@@ -49,7 +49,6 @@ describe("Realtime", () => {
               });
 
               rt.on("error", (err) => {
-                console.log("Realtime test ran into an error", JSON.stringify(err));
                 reject(err);
               });
 
@@ -58,12 +57,10 @@ describe("Realtime", () => {
               });
 
               rt.on("response.text.delta", (event) => {
-                console.log(event.delta);
                 assertResponseTextDeltaEvent(event);
               });
 
               rt.on("response.text.done", (event) => {
-                console.log(event);
                 assertResponseTextDoneEvent(event);
               });
 
