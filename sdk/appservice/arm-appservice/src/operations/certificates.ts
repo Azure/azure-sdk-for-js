@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Certificates } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Certificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { WebSiteManagementClient } from "../webSiteManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { WebSiteManagementClient } from "../webSiteManagementClient";
 import {
   Certificate,
   CertificatesListNextOptionalParams,
@@ -31,7 +31,7 @@ import {
   CertificatesUpdateResponse,
   CertificatesListNextResponse,
   CertificatesListByResourceGroupNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Certificates operations. */

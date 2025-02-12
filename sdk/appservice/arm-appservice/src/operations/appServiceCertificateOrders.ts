@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { AppServiceCertificateOrders } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { AppServiceCertificateOrders } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { WebSiteManagementClient } from "../webSiteManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { WebSiteManagementClient } from "../webSiteManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   AppServiceCertificateOrder,
   AppServiceCertificateOrdersListNextOptionalParams,
@@ -66,7 +66,7 @@ import {
   AppServiceCertificateOrdersListNextResponse,
   AppServiceCertificateOrdersListByResourceGroupNextResponse,
   AppServiceCertificateOrdersListCertificatesNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AppServiceCertificateOrders operations. */

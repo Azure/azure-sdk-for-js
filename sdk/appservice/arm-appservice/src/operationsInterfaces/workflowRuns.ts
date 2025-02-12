@@ -13,7 +13,7 @@ import {
   WorkflowRunsGetOptionalParams,
   WorkflowRunsGetResponse,
   WorkflowRunsCancelOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkflowRuns. */

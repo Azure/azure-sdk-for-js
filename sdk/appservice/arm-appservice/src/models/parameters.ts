@@ -98,7 +98,7 @@ import {
   WorkflowArtifacts as WorkflowArtifactsMapper,
   RegenerateActionParameter as RegenerateActionParameterMapper,
   Workflow as WorkflowMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
