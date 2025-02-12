@@ -62,6 +62,7 @@ import type { EncryptionSqlParameter } from "../../encryption/EncryptionQueryBui
 import type { Resource } from "../Resource";
 import { TypeMarker } from "../../encryption/enums/TypeMarker";
 import { EncryptionItemQueryIterator } from "../../encryption/EncryptionItemQueryIterator";
+import { ErrorResponse } from "../../request";
 
 /**
  * @hidden
@@ -390,24 +391,24 @@ export class Items {
         this.container,
       );
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
-      if (this.clientContext.enableEncryption) {
-        if (!this.container.isEncryptionInitialized) {
-          await this.container.initializeEncryption();
-        }
-        // returns copy to avoid encryption of original body passed
-        body = copyObject(body);
-        body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
-        options.containerRid = this.container._rid;
-        partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
-      }
-      const err = {};
-      if (!isItemResourceValid(body, err)) {
-        throw err;
-      }
-      const path = getPathFromLink(this.container.url, ResourceType.item);
-      const id = getIdFromLink(this.container.url);
       let response: Response<T & Resource>;
       try {
+        if (this.clientContext.enableEncryption) {
+          if (!this.container.isEncryptionInitialized) {
+            await this.container.initializeEncryption();
+          }
+          // returns copy to avoid encryption of original body passed
+          body = copyObject(body);
+          body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
+          options.containerRid = this.container._rid;
+          partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+        }
+        const err = {};
+        if (!isItemResourceValid(body, err)) {
+          throw err;
+        }
+        const path = getPathFromLink(this.container.url, ResourceType.item);
+        const id = getIdFromLink(this.container.url);
         response = await this.clientContext.create<T>({
           body,
           path,
@@ -426,11 +427,20 @@ export class Items {
       }
 
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(
-          response.result,
-          diagnosticNode,
-        );
-        partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+        // try block for decrypting response. This is done so that we can throw special error message in case of decryption failure
+        try {
+          response.result = await this.container.encryptionProcessor.decrypt(
+            response.result,
+            diagnosticNode,
+          );
+          partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Item creation was successful but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
+        }
       }
       const ref = new Item(
         this.container,
@@ -492,28 +502,27 @@ export class Items {
         this.container,
       );
       let partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
-
-      if (this.clientContext.enableEncryption) {
-        // returns copy to avoid encryption of original body passed
-        body = copyObject(body);
-        options = options || {};
-        if (!this.container.isEncryptionInitialized) {
-          await this.container.initializeEncryption();
-        }
-        options.containerRid = this.container._rid;
-        body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
-        partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
-      }
-
-      const err = {};
-      if (!isItemResourceValid(body, err)) {
-        throw err;
-      }
-
-      const path = getPathFromLink(this.container.url, ResourceType.item);
-      const id = getIdFromLink(this.container.url);
       let response: Response<T & Resource>;
       try {
+        if (this.clientContext.enableEncryption) {
+          // returns copy to avoid encryption of original body passed
+          body = copyObject(body);
+          options = options || {};
+          if (!this.container.isEncryptionInitialized) {
+            await this.container.initializeEncryption();
+          }
+          options.containerRid = this.container._rid;
+          body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
+          partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
+        }
+
+        const err = {};
+        if (!isItemResourceValid(body, err)) {
+          throw err;
+        }
+
+        const path = getPathFromLink(this.container.url, ResourceType.item);
+        const id = getIdFromLink(this.container.url);
         response = await this.clientContext.upsert<T>({
           body,
           path,
@@ -530,11 +539,20 @@ export class Items {
         throw error;
       }
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(
-          response.result,
-          diagnosticNode,
-        );
-        partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+        try {
+          // try block for decrypting response. This is done so that we can throw special error message in case of decryption failure
+          response.result = await this.container.encryptionProcessor.decrypt(
+            response.result,
+            diagnosticNode,
+          );
+          partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Item upsert was successful but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
+        }
       }
 
       const ref = new Item(
@@ -865,27 +883,27 @@ export class Items {
       if (operations.length > 100) {
         throw new Error("Cannot run batch request with more than 100 operations per partition");
       }
-
-      if (this.clientContext.enableEncryption) {
-        // returns copy to avoid encryption of original operations body passed
-        operations = copyObject(operations);
-        options = options || {};
-        if (!this.container.isEncryptionInitialized) {
-          await this.container.initializeEncryption();
-        }
-        options.containerRid = this.container._rid;
-        if (partitionKey) {
-          const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
-          partitionKey =
-            await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
-              partitionKeyInternal,
-            );
-        }
-        operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
-      }
-
+      let response: Response<OperationResponse[]>;
       try {
-        const response: Response<OperationResponse[]> = await this.clientContext.batch({
+        if (this.clientContext.enableEncryption) {
+          // returns copy to avoid encryption of original operations body passed
+          operations = copyObject(operations);
+          options = options || {};
+          if (!this.container.isEncryptionInitialized) {
+            await this.container.initializeEncryption();
+          }
+          options.containerRid = this.container._rid;
+          if (partitionKey) {
+            const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
+            partitionKey =
+              await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
+                partitionKeyInternal,
+              );
+          }
+          operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
+        }
+
+        response = await this.clientContext.batch({
           body: operations,
           partitionKey,
           path,
@@ -893,8 +911,14 @@ export class Items {
           options,
           diagnosticNode,
         });
-
+      } catch (err: any) {
         if (this.clientContext.enableEncryption) {
+          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(err);
+        }
+        throw new Error(`Batch request error: ${err.message}`);
+      }
+      if (this.clientContext.enableEncryption) {
+        try {
           diagnosticNode.beginEncryptionDiagnostics(
             Constants.Encryption.DiagnosticsDecryptOperation,
           );
@@ -906,15 +930,15 @@ export class Items {
             }
           }
           diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Batch response was received but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
         }
-
-        return response;
-      } catch (err: any) {
-        if (this.clientContext.enableEncryption) {
-          await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(err);
-        }
-        throw new Error(`Batch request error: ${err.message}`);
       }
+      return response;
     }, this.clientContext);
   }
 

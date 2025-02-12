@@ -486,6 +486,9 @@ export class Container {
   async throwIfRequestNeedsARetryPostPolicyRefresh(errorResponse: ErrorResponse): Promise<void> {
     const key = this.database._rid + "/" + this._rid;
     const encryptionSetting = this.encryptionManager.encryptionSettingsCache.get(key);
+    if (!errorResponse?.code || !errorResponse?.headers?.[Constants.HttpHeaders.SubStatus]) {
+      return;
+    }
     const subStatusCode = errorResponse.headers[Constants.HttpHeaders.SubStatus];
     const isPartitionKeyMismatch = Number(subStatusCode) === SubStatusCodes.PartitionKeyMismatch;
     const isIncorrectContainerRidSubstatus =
