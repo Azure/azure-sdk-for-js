@@ -21,7 +21,7 @@
     "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript --use=@autorest/modelerfour@4.15.452 swagger/README.md && dev-tool admin migrate-source && rushx format",
+    "generate:client": "autorest --typescript --use=@autorest/modelerfour@4.15.452 swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:vitest --esm",

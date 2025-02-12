@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import DocumentTranslationClient from "./documentTranslationClient";
 
 export * from "./documentTranslationClient";

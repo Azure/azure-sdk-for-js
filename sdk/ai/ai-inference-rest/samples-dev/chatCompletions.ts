@@ -12,15 +12,13 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Chat Completions Sample ==");
 
   const client = createModelClient();
@@ -48,7 +46,7 @@ export async function main() {
 /*
  * This function creates a model client.
  */
-function createModelClient() {
+function createModelClient(): ModelClient {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
   // (Do not use for Serverless API or Managed Computer Endpoints)

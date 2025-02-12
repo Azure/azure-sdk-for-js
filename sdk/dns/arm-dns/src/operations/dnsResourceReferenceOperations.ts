@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DnsResourceReferenceOperations } from "../operationsInterfaces";
+import { DnsResourceReferenceOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DnsManagementClient } from "../dnsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DnsManagementClient } from "../dnsManagementClient.js";
 import {
   DnsResourceReferenceRequest,
   DnsResourceReferenceGetByTargetResourcesOptionalParams,
   DnsResourceReferenceGetByTargetResourcesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing DnsResourceReferenceOperations operations. */
 export class DnsResourceReferenceOperationsImpl

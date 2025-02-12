@@ -18,8 +18,8 @@ import {
   DatabasePrincipalAssignmentsGetResponse,
   DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams,
   DatabasePrincipalAssignmentsCreateOrUpdateResponse,
-  DatabasePrincipalAssignmentsDeleteOptionalParams
-} from "../models";
+  DatabasePrincipalAssignmentsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatabasePrincipalAssignments. */
@@ -35,7 +35,7 @@ export interface DatabasePrincipalAssignments {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DatabasePrincipalAssignmentsListOptionalParams
+    options?: DatabasePrincipalAssignmentsListOptionalParams,
   ): PagedAsyncIterableIterator<DatabasePrincipalAssignment>;
   /**
    * Checks that the database principal assignment is valid and is not already in use.
@@ -50,7 +50,7 @@ export interface DatabasePrincipalAssignments {
     clusterName: string,
     databaseName: string,
     principalAssignmentName: DatabasePrincipalAssignmentCheckNameRequest,
-    options?: DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams
+    options?: DatabasePrincipalAssignmentsCheckNameAvailabilityOptionalParams,
   ): Promise<DatabasePrincipalAssignmentsCheckNameAvailabilityResponse>;
   /**
    * Gets a Kusto cluster database principalAssignment.
@@ -65,7 +65,7 @@ export interface DatabasePrincipalAssignments {
     clusterName: string,
     databaseName: string,
     principalAssignmentName: string,
-    options?: DatabasePrincipalAssignmentsGetOptionalParams
+    options?: DatabasePrincipalAssignmentsGetOptionalParams,
   ): Promise<DatabasePrincipalAssignmentsGetResponse>;
   /**
    * Creates a Kusto cluster database principalAssignment.
@@ -82,7 +82,7 @@ export interface DatabasePrincipalAssignments {
     databaseName: string,
     principalAssignmentName: string,
     parameters: DatabasePrincipalAssignment,
-    options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>,
@@ -104,7 +104,7 @@ export interface DatabasePrincipalAssignments {
     databaseName: string,
     principalAssignmentName: string,
     parameters: DatabasePrincipalAssignment,
-    options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams
+    options?: DatabasePrincipalAssignmentsCreateOrUpdateOptionalParams,
   ): Promise<DatabasePrincipalAssignmentsCreateOrUpdateResponse>;
   /**
    * Deletes a Kusto principalAssignment.
@@ -119,7 +119,7 @@ export interface DatabasePrincipalAssignments {
     clusterName: string,
     databaseName: string,
     principalAssignmentName: string,
-    options?: DatabasePrincipalAssignmentsDeleteOptionalParams
+    options?: DatabasePrincipalAssignmentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Kusto principalAssignment.
@@ -134,6 +134,6 @@ export interface DatabasePrincipalAssignments {
     clusterName: string,
     databaseName: string,
     principalAssignmentName: string,
-    options?: DatabasePrincipalAssignmentsDeleteOptionalParams
+    options?: DatabasePrincipalAssignmentsDeleteOptionalParams,
   ): Promise<void>;
 }

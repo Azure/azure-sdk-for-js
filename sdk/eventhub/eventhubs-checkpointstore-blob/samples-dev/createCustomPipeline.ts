@@ -13,7 +13,8 @@
  * @azsdk-util true
  */
 
-import { Pipeline, RequestPolicyFactory, newPipeline } from "@azure/storage-blob";
+import type { Pipeline, RequestPolicyFactory } from "@azure/storage-blob";
+import { newPipeline } from "@azure/storage-blob";
 
 // In this example, we assume you are running Event Hubs on Azure Stack Hub
 // version 2002 that supports up to version 2017-11-09 of the Azure Storage service.

@@ -19,8 +19,9 @@ source-code-folder-path: ./src/generated
 typescript: true
 hide-clients: true
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.4"
+  "@autorest/typescript": "6.0.34"
 v3: true
+module-kind: esm
 ```
 
 ## Customizations

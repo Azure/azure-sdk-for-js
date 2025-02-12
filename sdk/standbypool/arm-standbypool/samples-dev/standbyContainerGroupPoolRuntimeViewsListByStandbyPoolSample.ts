@@ -15,7 +15,7 @@ async function standbyContainerGroupPoolRuntimeViewsListByStandbyPool() {
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.standbyContainerGroupPoolRuntimeViews.listByStandbyPool(
+  for await (const item of client.standbyContainerGroupPoolRuntimeViews.listByStandbyPool(
     "rgstandbypool",
     "pool",
   )) {

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -24,15 +22,12 @@ async function connectorMappingsDelete(): Promise<void> {
   const connectorName = "testConnector8858";
   const mappingName = "testMapping12491";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.connectorMappings.delete(
     resourceGroupName,
     hubName,
     connectorName,
-    mappingName
+    mappingName,
   );
   console.log(result);
 }

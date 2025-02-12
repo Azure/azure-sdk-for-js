@@ -2,43 +2,36 @@
 // Licensed under the MIT License.
 
 import { matrix } from "@azure-tools/test-utils-vitest";
-import { assert, describe, beforeEach, it, beforeAll } from "vitest";
-import { createClient } from "./utils/createClient.js";
-import { assertChatCompletions } from "./utils/asserts.js";
-import {
-  APIMatrix,
-  type APIVersion,
-  type DeploymentInfo,
-  getDeployments,
-  withDeployments,
-} from "./utils/utils.js";
-import type { OpenAI, AzureOpenAI } from "openai";
-import { logger } from "@azure/identity";
+import { assert, describe, beforeEach, it } from "vitest";
+import { createClientsAndDeployments } from "../utils/createClients.js";
+import { assertChatCompletions } from "../utils/asserts.js";
+import { APIMatrix, type APIVersion, withDeployments } from "../utils/utils.js";
 import { RestError } from "@azure/core-rest-pipeline";
-import { visionModelsToSkip } from "./utils/models.js";
+import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
+import { logger } from "../utils/logger.js";
 
-describe("OpenAI", function () {
-  let deployments: DeploymentInfo[] = [];
-
-  beforeAll(async function () {
-    deployments = await getDeployments("vision");
-  });
-
+describe("Vision", function () {
   matrix([APIMatrix] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let client: AzureOpenAI | OpenAI;
+      let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        client = createClient(apiVersion, "vision");
+        clientsAndDeployments = createClientsAndDeployments(
+          apiVersion,
+          { chatCompletion: "true" },
+          {
+            modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "o1" }],
+          },
+        );
       });
 
-      describe("getChatCompletions", function () {
+      describe("chat.completions.create", function () {
         it("Describes an image", async function () {
           const url =
             "https://www.nasa.gov/wp-content/uploads/2023/11/53296469002-a92ea42cb9-o.jpg";
           await withDeployments(
-            deployments,
-            (deploymentName) =>
+            clientsAndDeployments,
+            (client, deploymentName) =>
               client.chat.completions.create({
                 model: deploymentName,
                 messages: [
@@ -75,7 +68,6 @@ describe("OpenAI", function () {
                 }
               }
             },
-            visionModelsToSkip,
           );
         });
       });

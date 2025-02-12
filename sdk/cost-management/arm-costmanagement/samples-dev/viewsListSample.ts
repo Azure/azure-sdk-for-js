@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -22,7 +20,7 @@ async function privateViewList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.views.list()) {
+  for await (const item of client.views.list()) {
     resArray.push(item);
   }
   console.log(resArray);

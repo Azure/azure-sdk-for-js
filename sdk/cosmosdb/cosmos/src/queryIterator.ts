@@ -5,7 +5,7 @@
 import type { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
-import type {
+import {
   CosmosHeaders,
   ExecutionContext,
   FetchFunctionCallback,
@@ -47,11 +47,9 @@ export class QueryIterator<T> {
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
   private correlatedActivityId: string;
-  private nonStreamingOrderBy: boolean = false;
   private partitionKeyRangeCache: PartitionKeyRangeCache;
-
   /**
-   * @hidden
+   * @internal
    */
   constructor(
     private clientContext: ClientContext,
@@ -94,12 +92,20 @@ export class QueryIterator<T> {
    * ```
    */
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
-    this.reset();
-    let diagnosticNode = new DiagnosticNodeInternal(
+    const diagnosticNode = new DiagnosticNodeInternal(
       this.clientContext.diagnosticLevel,
       DiagnosticNodeType.CLIENT_REQUEST_NODE,
       null,
     );
+    yield* this.getAsyncIteratorInternal(diagnosticNode);
+  }
+  /**
+   * @internal
+   */
+  protected async *getAsyncIteratorInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): AsyncIterable<FeedResponse<T>> {
+    this.reset();
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
@@ -177,38 +183,46 @@ export class QueryIterator<T> {
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      this.queryPlanPromise = withMetadataDiagnostics(
-        async (metadataNode: DiagnosticNodeInternal) => {
-          return this.fetchQueryPlan(metadataNode);
-        },
-        diagnosticNode,
-        MetadataLookUpType.QueryPlanLookUp,
-      );
-      if (!this.isInitialized) {
-        await this.init(diagnosticNode);
-      }
-      let response: Response<any>;
-      try {
-        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
-      } catch (error: any) {
-        if (this.needsQueryPlan(error)) {
-          await this.createExecutionContext(diagnosticNode);
-          try {
-            response = await this.queryExecutionContext.fetchMore(diagnosticNode);
-          } catch (queryError: any) {
-            this.handleSplitError(queryError);
-          }
-        } else {
-          throw error;
-        }
-      }
-      return new FeedResponse<T>(
-        response.result,
-        response.headers,
-        this.queryExecutionContext.hasMoreResults(),
-        getEmptyCosmosDiagnostics(),
-      );
+      return this.fetchNextInternal(diagnosticNode);
     }, this.clientContext);
+  }
+  /**
+   * @internal
+   */
+  protected async fetchNextInternal(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<FeedResponse<T>> {
+    this.queryPlanPromise = withMetadataDiagnostics(
+      async (metadataNode: DiagnosticNodeInternal) => {
+        return this.fetchQueryPlan(metadataNode);
+      },
+      diagnosticNode,
+      MetadataLookUpType.QueryPlanLookUp,
+    );
+    if (!this.isInitialized) {
+      await this.init(diagnosticNode);
+    }
+    let response: Response<any>;
+    try {
+      response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+    } catch (error: any) {
+      if (this.needsQueryPlan(error)) {
+        await this.createExecutionContext(diagnosticNode);
+        try {
+          response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+        } catch (queryError: any) {
+          this.handleSplitError(queryError);
+        }
+      } else {
+        throw error;
+      }
+    }
+    return new FeedResponse<T>(
+      response.result,
+      response.headers,
+      this.queryExecutionContext.hasMoreResults(),
+      getEmptyCosmosDiagnostics(),
+    );
   }
 
   /**
@@ -244,11 +258,11 @@ export class QueryIterator<T> {
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.nextItem(diagnosticNode);
+        response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createExecutionContext(diagnosticNode);
-          response = await this.queryExecutionContext.nextItem(diagnosticNode);
+          response = await this.queryExecutionContext.fetchMore(diagnosticNode);
         } else {
           throw error;
         }
@@ -256,16 +270,8 @@ export class QueryIterator<T> {
       const { result, headers } = response;
       // concatenate the results and fetch more
       mergeHeaders(this.fetchAllLastResHeaders, headers);
-      if (result !== undefined) {
-        if (
-          this.nonStreamingOrderBy &&
-          typeof result === "object" &&
-          Object.keys(result).length === 0
-        ) {
-          // ignore empty results from NonStreamingOrderBy Endpoint components.
-        } else {
-          this.fetchAllTempResources.push(result);
-        }
+      if (result) {
+        this.fetchAllTempResources.push(...result);
       }
     }
     return new FeedResponse(
@@ -324,7 +330,6 @@ export class QueryIterator<T> {
     queryPlan: PartitionedQueryExecutionInfo,
   ): Promise<void> {
     const queryInfo = queryPlan.queryInfo;
-    this.nonStreamingOrderBy = queryInfo.hasNonStreamingOrderBy ? true : false;
     if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
       throw new Error("Aggregate queries must use the VALUE keyword");
     }
@@ -367,7 +372,10 @@ export class QueryIterator<T> {
   }
 
   private initPromise: Promise<void>;
-  private async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+  /**
+   * @internal
+   */
+  protected async init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     if (this.isInitialized === true) {
       return;
     }

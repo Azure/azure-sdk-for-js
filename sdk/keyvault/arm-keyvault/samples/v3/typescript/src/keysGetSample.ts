@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { KeyVaultManagementClient } from "@azure/arm-keyvault";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the current version of the specified key from the specified key vault.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the current version of the specified key from the specified key vault.
  * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/getKey.json
  */
-async function getAKey() {
+async function getAKey(): Promise<void> {
   const subscriptionId =
     process.env["KEYVAULT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +32,7 @@ async function getAKey() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAKey();
 }
 

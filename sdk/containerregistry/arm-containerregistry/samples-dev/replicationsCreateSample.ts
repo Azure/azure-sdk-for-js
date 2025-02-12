@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  Replication,
-  ContainerRegistryManagementClient
-} from "@azure/arm-containerregistry";
+import type { Replication } from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,26 +19,21 @@ import "dotenv/config";
  */
 async function replicationCreate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const replicationName = "myReplication";
   const replication: Replication = {
     location: "eastus",
-    tags: { key: "value" }
+    tags: { key: "value" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.replications.beginCreateAndWait(
     resourceGroupName,
     registryName,
     replicationName,
-    replication
+    replication,
   );
   console.log(result);
 }
@@ -55,28 +46,23 @@ async function replicationCreate(): Promise<void> {
  */
 async function replicationCreateZoneRedundant(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const replicationName = "myReplication";
   const replication: Replication = {
     location: "eastus",
     regionEndpointEnabled: true,
     tags: { key: "value" },
-    zoneRedundancy: "Enabled"
+    zoneRedundancy: "Enabled",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.replications.beginCreateAndWait(
     resourceGroupName,
     registryName,
     replicationName,
-    replication
+    replication,
   );
   console.log(result);
 }

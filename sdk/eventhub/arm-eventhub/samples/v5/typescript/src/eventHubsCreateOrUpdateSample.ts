@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Eventhub, EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a new Event Hub as a nested resource within a Namespace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a new Event Hub as a nested resource within a Namespace.
  * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/EventHubs/EHEventHubCreate.json
  */
-async function eventHubCreate() {
+async function eventHubCreate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -70,7 +68,7 @@ async function eventHubCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   eventHubCreate();
 }
 

@@ -65,7 +65,7 @@ In the future, you'll find additional code samples here.
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fsynapse%2Faccess-control-rest%2FREADME.png)
+
 
 [synapse_product_documentation]: https://learn.microsoft.com/rest/api/synapse/data-plane/role-assignments/create-role-assignment
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md

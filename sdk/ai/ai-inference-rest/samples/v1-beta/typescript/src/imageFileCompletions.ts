@@ -9,13 +9,11 @@
 
 import ModelClient, { isUnexpected } from "@azure-rest/ai-inference";
 import { DefaultAzureCredential } from "@azure/identity";
-import fs from "fs";
+import fs from "node:fs";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import { AzureKeyCredential } from "@azure/core-auth";
-dotenv.config();
-
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const key = process.env["KEY"];
@@ -24,7 +22,7 @@ const modelName = process.env["MODEL_NAME"];
 const imageFilePath = "sample1.png";
 const imageFormat = "png"; //"jpeg", "png", etc.
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Image File Completions Sample ==");
 
   const client = createModelClient();

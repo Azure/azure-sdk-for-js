@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ScopeMap,
-  ContainerRegistryManagementClient
-} from "@azure/arm-containerregistry";
+import type { ScopeMap } from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,29 +19,21 @@ import "dotenv/config";
  */
 async function scopeMapCreate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const scopeMapName = "myScopeMap";
   const scopeMapCreateParameters: ScopeMap = {
     description: "Developer Scopes",
-    actions: [
-      "repositories/myrepository/contentWrite",
-      "repositories/myrepository/delete"
-    ]
+    actions: ["repositories/myrepository/contentWrite", "repositories/myrepository/delete"],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.scopeMaps.beginCreateAndWait(
     resourceGroupName,
     registryName,
     scopeMapName,
-    scopeMapCreateParameters
+    scopeMapCreateParameters,
   );
   console.log(result);
 }

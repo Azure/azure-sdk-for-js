@@ -137,5 +137,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_powershell]: https://learn.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 [invalid_token_sdk]: https://learn.microsoft.com/javascript/api/@azure/communication-identity/communicationaccesstoken#@azure-communication-identity-communicationaccesstoken-token
 [invalid_token_rest]: https://learn.microsoft.com/rest/api/communication/communication-identity/issue-access-token#communicationidentityaccesstoken
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-sms%2FREADME.png)

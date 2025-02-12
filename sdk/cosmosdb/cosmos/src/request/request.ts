@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { setAuthorizationHeader } from "../auth";
-import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
+import {
+  Constants,
+  HTTPMethod,
+  jsonStringifyAndEscapeNonASCII,
+  ResourceType,
+  SDKSupportedCapabilities,
+} from "../common";
 import type { CosmosClientOptions } from "../CosmosClientOptions";
 import type { PartitionKeyInternal } from "../documents";
 import type { CosmosHeaders } from "../queryExecutionContext";
@@ -83,6 +89,9 @@ export async function getHeaders({
     [Constants.HttpHeaders.EnableCrossPartitionQuery]: true,
     ...defaultHeaders,
   };
+
+  // Adding SDKSupportedCapabilities header to hint that SDK supports partition merge
+  headers[Constants.HttpHeaders.SDKSupportedCapabilities] = SDKSupportedCapabilities.PartitionMerge;
 
   if (useMultipleWriteLocations) {
     headers[Constants.HttpHeaders.ALLOW_MULTIPLE_WRITES] = true;
@@ -236,6 +245,13 @@ export async function getHeaders({
 
   if (options.populateIndexMetrics) {
     headers[Constants.HttpHeaders.PopulateIndexMetrics] = options.populateIndexMetrics;
+  }
+
+  if (clientOptions.encryptionPolicy?.enableEncryption) {
+    headers[Constants.HttpHeaders.IsClientEncryptedHeader] = true;
+    if (options.containerRid) {
+      headers[Constants.HttpHeaders.IntendedCollectionHeader] = options.containerRid;
+    }
   }
 
   if (

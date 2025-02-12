@@ -7,7 +7,7 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { FailoverInput, IotHubManualFailoverOptionalParams } from "../models";
+import { FailoverInput, IotHubManualFailoverOptionalParams } from "../models/index.js";
 
 /** Interface representing a IotHub. */
 export interface IotHub {

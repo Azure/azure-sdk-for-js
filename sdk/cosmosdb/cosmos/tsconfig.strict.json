@@ -69,6 +69,7 @@
     "src/queryExecutionContext/EndpointComponent/UnorderedDistinctEndpointComponent.ts",
     "src/queryExecutionContext/defaultQueryExecutionContext.ts",
     "src/queryExecutionContext/documentProducer.ts",
+    "src/queryExecutionContext/documentProducer2.ts",
     "src/queryExecutionContext/ExecutionContext.ts",
     "src/queryExecutionContext/headerUtils.ts",
     "src/queryExecutionContext/orderByDocumentProducerComparator.ts",
@@ -157,10 +158,11 @@
     "src/queryExecutionContext/hybridQueryExecutionContext.ts",
     "src/request/globalStatistics.ts",
     "src/request/hybridSearchQueryResult.ts",
+    "src/encryption/*",
     "test/public/common/TestHelpers.ts",
+    "test/public/common/encryptionTestHelpers.ts",
     "test/public/integration/session.spec.ts",
     "test/internal/unit/auth.spec.ts",
-    "test/internal/unit/defaultQueryExecutionContext.spec.ts",
     "test/internal/unit/helper.spec.ts",
     "test/internal/unit/inMemoryCollectionRoutingMap.spec.ts",
     "test/internal/unit/platform.spec.ts",
@@ -182,6 +184,8 @@
     "test/internal/unit/nonStreamingOrderByMap.spec.ts",
     "test/internal/unit/utils/supportedQueryFeaturesBuilder.spec.ts",
     "test/internal/unit/getHeader.spec.ts",
+    "test/internal/unit/encryption/*",
+    "test/internal/unit/partitionMerge.spec.ts",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",
     "test/public/common/setup.ts",
@@ -210,6 +214,7 @@
     "test/public/functional/udf.spec.ts",
     "test/public/functional/user.spec.ts",
     "test/public/functional/queryIterator.spec.ts",
+    "test/public/functional/clientSideEncryption.spec.ts",
     "test/public/integration/aggregateQuery.spec.ts",
     "test/public/integration/authorization.spec.ts",
     "test/public/integration/changeFeed.spec.ts",
@@ -234,6 +239,9 @@
     "test/public/functional/NonStreamingQueryPolicy.spec.ts",
     "test/public/functional/computedProperties.spec.ts",
     "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts",
-    "test/internal/unit/globalStatisticsAggregator.spec.ts"
+    "test/internal/unit/globalStatisticsAggregator.spec.ts",
+    "test/internal/unit/common/*.ts",
+    "test/internal/unit/query/*.ts",
+    "test/internal/unit/documentProducer.spec.ts"
   ]
 }

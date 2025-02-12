@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,16 +18,12 @@ import "dotenv/config";
  */
 async function getAMeshRevisionProfileForAMeshMode(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const location = "location1";
   const mode = "istio";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.managedClusters.getMeshRevisionProfile(
-    location,
-    mode,
-  );
+  const result = await client.managedClusters.getMeshRevisionProfile(location, mode);
   console.log(result);
 }
 
