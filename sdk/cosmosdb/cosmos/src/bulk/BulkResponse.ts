@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientContext } from "../ClientContext";
 import { Constants, StatusCodes, SubStatusCodes } from "../common";
 import type { CosmosDiagnostics } from "../CosmosDiagnostics";
 import type { CosmosHeaders } from "../queryExecutionContext";
@@ -55,10 +54,9 @@ export class BulkResponse {
   static fromResponseMessage(
     responseMessage: Response<any>,
     operations: ItemBulkOperation[],
-    clientContext: ClientContext,
   ): BulkResponse {
     // Create and populate the response object
-    let bulkResponse = this.populateFromResponse(responseMessage, operations, clientContext);
+    let bulkResponse = this.populateFromResponse(responseMessage, operations);
 
     if (!bulkResponse.results || bulkResponse.results.length !== operations.length) {
       // Server should be guaranteeing number of results equal to operations when
@@ -80,7 +78,7 @@ export class BulkResponse {
         retryAfterMilliseconds = !retryAfter || isNaN(Number(retryAfter)) ? 0 : Number(retryAfter);
       }
 
-      bulkResponse.createAndPopulateResults(operations, retryAfterMilliseconds, clientContext);
+      bulkResponse.createAndPopulateResults(operations, retryAfterMilliseconds);
     }
 
     return bulkResponse;
@@ -89,7 +87,6 @@ export class BulkResponse {
   private static populateFromResponse(
     responseMessage: Response<any>,
     operations: ItemBulkOperation[],
-    clientContext: ClientContext,
   ): BulkResponse {
     const results: BulkOperationResult[] = [];
 
@@ -106,9 +103,6 @@ export class BulkResponse {
           requestCharge: itemResponse?.requestCharge,
           resourceBody: itemResponse?.resourceBody,
           operationInput: operations[i].plainTextOperationInput,
-          diagnostics: operations[i].operationContext.diagnosticNode.toDiagnostic(
-            clientContext.getClientConfig(),
-          ),
         };
         results.push(result);
       }
@@ -139,11 +133,7 @@ export class BulkResponse {
     return bulkResponse;
   }
 
-  private createAndPopulateResults(
-    operations: ItemBulkOperation[],
-    retryAfterInMs: number,
-    clientContext?: ClientContext,
-  ): void {
+  private createAndPopulateResults(operations: ItemBulkOperation[], retryAfterInMs: number): void {
     this.results = operations.map(
       (operation): BulkOperationResult => ({
         statusCode: this.statusCode,
@@ -155,9 +145,6 @@ export class BulkResponse {
         requestCharge: this.headers?.[Constants.HttpHeaders.RequestCharge],
         resourceBody: undefined,
         operationInput: operation.plainTextOperationInput,
-        diagnostics: clientContext
-          ? operation.operationContext.diagnosticNode.toDiagnostic(clientContext.getClientConfig())
-          : undefined,
       }),
     );
   }

@@ -425,6 +425,10 @@ describe("ClientSideEncryption", function (this: Suite) {
     docToUpsert.nonsensitive = randomUUID();
     docToUpsert.sensitive_StringFormat = randomUUID();
 
+    const { resource: docToPatch } = await testCreateItem(encryptionContainer);
+    const stringToReplace = randomUUID();
+
+
     // doc not created before
     const docToUpsert2 = TestDoc.create();
 
@@ -461,11 +465,11 @@ describe("ClientSideEncryption", function (this: Suite) {
         docToUpsert.PK,
         JSON.parse(JSON.stringify(docToUpsert)),
       ),
-      {
-        operationType: BulkOperationType.Delete,
-        id: docToDelete.id,
-        partitionKey: docToDelete.PK,
-      },
+      BulkOperations.getDeleteItemOperation(docToDelete.id, docToDelete.PK),
+      BulkOperations.getPatchItemOperation(docToPatch.id, docToPatch.PK, {
+        operations: [{ op: PatchOperationType.replace, path: "/sensitive_StringFormat", value: stringToReplace }],
+      })
+
     ];
     let bulkStreamer: BulkStreamer;
     let response: BulkOperationResult[];
@@ -483,6 +487,9 @@ describe("ClientSideEncryption", function (this: Suite) {
         `Expected operationInput at index ${index} to match the original operation`,
       );
     });
+    response.forEach((opResult) => {
+      verifyDiagnostics(opResult.diagnostics, true, false, undefined, 12);
+    });
     assert.equal(StatusCodes.Created, response[0].statusCode);
     verifyExpectedDocResponse(docToCreate, response[0].resourceBody);
     assert.equal(StatusCodes.Created, response[1].statusCode);
@@ -493,6 +500,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     verifyExpectedDocResponse(new TestDoc(docToUpsert), response[3].resourceBody);
     assert.equal(StatusCodes.NoContent, response[4].statusCode);
     assert.isNotObject(response[4].resourceBody);
+    assert.equal(StatusCodes.Ok, response[5].statusCode);
+    assert.equal(stringToReplace, response[5].resourceBody.sensitive_StringFormat);
     clientWithBulk.dispose();
   });
 
@@ -634,9 +643,9 @@ describe("ClientSideEncryption", function (this: Suite) {
 
     const queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where c.sensitive_StringFormat = @sensitive_StringFormat AND c.sensitive_ArrayFormat = @sensitive_ArrayFormat" +
-        " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
-        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
-        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
+      " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
+      " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
+      " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
     );
     // null parameters should also work with other add methods
     queryBuilder.addStringParameter(

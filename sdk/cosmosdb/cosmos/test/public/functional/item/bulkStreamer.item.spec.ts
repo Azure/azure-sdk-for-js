@@ -19,7 +19,13 @@ import {
   ResourceType,
   BulkOperations,
 } from "../../../../src";
-import { addEntropy, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
+import type { CosmosDiagnosticsTestSpec } from "../../common/TestHelpers";
+import {
+  addEntropy,
+  getTestContainer,
+  removeAllDatabases,
+  validateDiagnostics,
+} from "../../common/TestHelpers";
 import { BulkOperationType } from "../../../../src";
 import type { PartitionKey } from "../../../../src/documents";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents";
@@ -29,6 +35,7 @@ import type { Response } from "../../../../src/request/Response";
 import type { ItemOperation } from "../../../../src/bulk/ItemOperation";
 import { calculateObjectSizeInBytes } from "../../../../src/utils/batch";
 import { randomUUID } from "@azure/core-util";
+import { getCurrentTimestampInMs } from "../../../../src/utils/time";
 
 const operationSkeleton = {
   operationType: BulkOperationType.Create,
@@ -211,6 +218,51 @@ describe("BulkStreamer", async function () {
         // Patch
         assert.equal(response[5].resourceBody.great, "goodValue");
         assert.equal(response[5].statusCode, 200);
+      });
+      it("test diagnostics for bulk streamer", async function () {
+        const newContainer = await getTestContainer("bulk container for diagnostics", undefined, {
+          partitionKey: {
+            paths: ["/key"],
+            version: undefined,
+          },
+          throughput: 12000,
+        });
+        const operations = [
+          BulkOperations.getCreateItemOperation("A", {
+            id: addEntropy("doc1"),
+            name: "sample",
+            key: "A",
+          }),
+          BulkOperations.getUpsertItemOperation("A", {
+            id: addEntropy("doc2"),
+            name: "other",
+            key: "A",
+          }),
+          BulkOperations.getReadItemOperation("A", "A"),
+          BulkOperations.getDeleteItemOperation("A", "A"),
+          BulkOperations.getReplaceItemOperation("A", 5, {
+            id: "A",
+            name: "nice",
+            key: 5,
+          }),
+        ];
+        const startTimestamp = getCurrentTimestampInMs();
+        const bulkStreamer = newContainer.items.getBulkStreamer();
+        const promises = bulkStreamer.execute(operations);
+        const response = await Promise.all(promises);
+        bulkStreamer.dispose();
+        const spec: CosmosDiagnosticsTestSpec = {
+          requestStartTimeUTCInMsLowerLimit: startTimestamp,
+          requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
+          retryCount: 0,
+          locationEndpointsContacted: 1,
+          gatewayStatisticsTestSpec: [{}],
+        };
+        response.forEach((res, index) => {
+          assert.ok(res.diagnostics, `Diagnostics should be present for operation ${index}`);
+          validateDiagnostics(res.diagnostics, spec, true);
+        });
+        await newContainer.database.delete();
       });
 
       it("content Response should be disabled when contentResponseOnWriteEnabled false", async function () {

@@ -4,7 +4,7 @@
 import { readPartitionKeyDefinition } from "../client/ClientUtils";
 import type { Container } from "../client/Container";
 import type { ClientContext } from "../ClientContext";
-import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { ErrorResponse, type RequestOptions } from "../request";
 import type { PartitionKeyRangeCache } from "../routing";
@@ -17,7 +17,7 @@ import { ItemBulkOperationContext } from "./ItemBulkOperationContext";
 import { Constants, copyObject, getPathFromLink, ResourceType } from "../common";
 import { BulkResponse } from "./BulkResponse";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
-import { addDignosticChild, withDiagnostics } from "../utils/diagnostics";
+import { addDignosticChild } from "../utils/diagnostics";
 import { BulkExecutionRetryPolicy } from "../retry/bulkExecutionRetryPolicy";
 import type { RetryPolicy } from "../retry/RetryPolicy";
 import { Limiter } from "./Limiter";
@@ -95,66 +95,61 @@ export class BulkStreamer {
     if (!operation) {
       throw new ErrorResponse("Operation is required.");
     }
-    return withDiagnostics(
-      async (diagnosticNode: DiagnosticNodeInternal) => {
-        if (!this.partitionKeyDefinition) {
-          if (!this.partitionKeyDefinitionPromise) {
-            this.partitionKeyDefinitionPromise = (async () => {
-              try {
-                const partitionKeyDefinition = await readPartitionKeyDefinition(
-                  diagnosticNode,
-                  this.container,
-                );
-                this.partitionKeyDefinition = partitionKeyDefinition;
-                return partitionKeyDefinition;
-              } finally {
-                this.partitionKeyDefinitionPromise = null;
-              }
-            })();
-          }
-          await this.partitionKeyDefinitionPromise;
-        }
-        const plainTextOperation = copyObject(operation);
-        // encrypt operations if encryption is enabled
-        let operationError: Error;
-        let partitionKeyRangeId: string;
-        try {
-          if (this.clientContext.enableEncryption) {
-            operation = copyObject(operation);
-            if (!this.container.isEncryptionInitialized) {
-              await this.container.initializeEncryption();
-            }
-            this.options.containerRid = this.container._rid;
-            operation = await this.encryptionHelper(operation, diagnosticNode);
-          }
-          partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
-        } catch (error) {
-          operationError = error;
-        }
-        const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
-        // TODO: change implementation to add just retry context instead of retry policy in operation context
-        const retryPolicy = this.getRetryPolicy();
-        const context = new ItemBulkOperationContext(
-          partitionKeyRangeId,
-          retryPolicy,
-          diagnosticNode,
-        );
-        const itemOperation: ItemBulkOperation = {
-          plainTextOperationInput: plainTextOperation,
-          operationInput: operation,
-          operationContext: context,
-        };
-        // if there was an error during encryption or resolving pkRangeId, reject the operation
-        if (operationError) {
-          context.fail(operationError);
-        } else {
-          streamerForPartition.add(itemOperation);
-        }
-        return context.operationPromise;
-      },
-      this.clientContext,
+    const diagnosticNode = new DiagnosticNodeInternal(
+      this.clientContext.diagnosticLevel,
       DiagnosticNodeType.CLIENT_REQUEST_NODE,
+      null,
     );
+    if (!this.partitionKeyDefinition) {
+      if (!this.partitionKeyDefinitionPromise) {
+        this.partitionKeyDefinitionPromise = (async () => {
+          try {
+            const partitionKeyDefinition = await readPartitionKeyDefinition(
+              diagnosticNode,
+              this.container,
+            );
+            this.partitionKeyDefinition = partitionKeyDefinition;
+            return partitionKeyDefinition;
+          } finally {
+            this.partitionKeyDefinitionPromise = null;
+          }
+        })();
+      }
+      await this.partitionKeyDefinitionPromise;
+    }
+    const plainTextOperation = copyObject(operation);
+    // encrypt operations if encryption is enabled
+    let operationError: Error;
+    let partitionKeyRangeId: string;
+    try {
+      if (this.clientContext.enableEncryption) {
+        operation = copyObject(operation);
+        if (!this.container.isEncryptionInitialized) {
+          await this.container.initializeEncryption();
+        }
+        this.options.containerRid = this.container._rid;
+        operation = await this.encryptionHelper(operation, diagnosticNode);
+      }
+      partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
+    } catch (error) {
+      operationError = error;
+    }
+    const streamerForPartition = this.getStreamerForPKRange(partitionKeyRangeId);
+    // TODO: change implementation to add just retry context instead of retry policy in operation context
+    const retryPolicy = this.getRetryPolicy();
+    const context = new ItemBulkOperationContext(partitionKeyRangeId, retryPolicy, diagnosticNode);
+    const itemOperation: ItemBulkOperation = {
+      plainTextOperationInput: plainTextOperation,
+      operationInput: operation,
+      operationContext: context,
+    };
+    // if there was an error during encryption or resolving pkRangeId, reject the operation
+    if (operationError) {
+      context.fail(operationError);
+    } else {
+      streamerForPartition.add(itemOperation);
+    }
+    return context.operationPromise;
   }
 
   private async encryptionHelper(
@@ -279,9 +274,7 @@ export class BulkStreamer {
             diagnosticNode,
             DiagnosticNodeType.BATCH_REQUEST,
           );
-          return resolve(
-            BulkResponse.fromResponseMessage(response, operations, this.clientContext),
-          );
+          return resolve(BulkResponse.fromResponseMessage(response, operations));
         } catch (error) {
           if (this.clientContext.enableEncryption) {
             try {
@@ -291,7 +284,7 @@ export class BulkStreamer {
               return reject(err);
             }
           }
-          return resolve(BulkResponse.fromResponseMessage(error, operations, this.clientContext));
+          return resolve(BulkResponse.fromResponseMessage(error, operations));
         } finally {
           limiter.leave();
         }
@@ -350,6 +343,7 @@ export class BulkStreamer {
       this.options,
       this.clientContext.diagnosticLevel,
       this.clientContext.enableEncryption,
+      this.clientContext.getClientConfig(),
       this.container.encryptionProcessor,
     );
     this.streamersByPartitionKeyRangeId.set(pkRangeId, newStreamer);

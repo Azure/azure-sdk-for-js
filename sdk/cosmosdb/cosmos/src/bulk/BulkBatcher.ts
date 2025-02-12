@@ -14,6 +14,7 @@ import { getCurrentTimestampInMs } from "../utils/time";
 import type { Limiter } from "./Limiter";
 import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 import type { EncryptionProcessor } from "../encryption/EncryptionProcessor";
+import type { ClientConfigDiagnostic } from "../CosmosDiagnostics";
 
 /**
  * Maintains a batch of operations and dispatches it as a unit of work.
@@ -31,6 +32,7 @@ export class BulkBatcher {
   private readonly diagnosticLevel: CosmosDbDiagnosticLevel;
   private readonly encryptionEnabled: boolean;
   private readonly encryptionProcessor: EncryptionProcessor;
+  private readonly clientConfigDiagnostics: ClientConfigDiagnostic;
 
   constructor(
     private limiter: Limiter,
@@ -39,6 +41,7 @@ export class BulkBatcher {
     options: RequestOptions,
     diagnosticLevel: CosmosDbDiagnosticLevel,
     encryptionEnabled: boolean,
+    clientConfig: ClientConfigDiagnostic,
     encryptionProcessor: EncryptionProcessor,
   ) {
     this.batchOperationsList = [];
@@ -48,6 +51,7 @@ export class BulkBatcher {
     this.diagnosticLevel = diagnosticLevel;
     this.encryptionEnabled = encryptionEnabled;
     this.encryptionProcessor = encryptionProcessor;
+    this.clientConfigDiagnostics = clientConfig;
     this.currentSize = 0;
     this.toBeDispatched = false;
   }
@@ -165,6 +169,9 @@ export class BulkBatcher {
             operation.operationContext.fail(errorResponse);
           }
         }
+        bulkOperationResult.diagnostics = operation.operationContext.diagnosticNode.toDiagnostic(
+          this.clientConfigDiagnostics,
+        );
         operation.operationContext.complete(bulkOperationResult);
       }
     } catch (error) {

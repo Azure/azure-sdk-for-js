@@ -24,6 +24,7 @@ describe("BulkStreamerPerPartition", () => {
       {},
       CosmosDbDiagnosticLevel.info,
       false,
+      {} as any,
       undefined,
     );
   });

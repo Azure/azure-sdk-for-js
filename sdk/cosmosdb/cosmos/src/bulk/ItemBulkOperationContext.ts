@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import type { RetryPolicy } from "../retry/RetryPolicy";
 import type { BulkOperationResult } from "../utils/batch";
 import { TaskCompletionSource } from "../utils/batch";
@@ -28,7 +28,11 @@ export class ItemBulkOperationContext {
   }
 
   addDiagnosticChild(diagnosticNode: DiagnosticNodeInternal): void {
-    this.diagnosticNode.children.push(diagnosticNode);
+    this.diagnosticNode = this.diagnosticNode.addChildNode(
+      diagnosticNode,
+      diagnosticNode.diagnosticLevel,
+    );
+    diagnosticNode.updateTimestamp();
   }
 
   updatePKRangeId(pkRangeId: string): void {

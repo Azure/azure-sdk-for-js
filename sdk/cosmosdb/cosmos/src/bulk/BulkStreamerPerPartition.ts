@@ -10,8 +10,9 @@ import type { RequestOptions } from "../request/RequestOptions";
 import { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm";
 import type { Limiter } from "./Limiter";
-import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 import type { EncryptionProcessor } from "../encryption";
+import type { ClientConfigDiagnostic } from "../CosmosDiagnostics";
+import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 
 /**
  * Handles operation queueing and dispatching. Fills batches efficiently and maintains a timer for early dispatching in case of partially-filled batches and to optimize for throughput.
@@ -38,6 +39,7 @@ export class BulkStreamerPerPartition {
   private readonly diagnosticLevel: CosmosDbDiagnosticLevel;
   private readonly encryptionEnabled: boolean;
   private readonly encryptionProcessor: EncryptionProcessor;
+  private readonly clientConfigDiagnostics: ClientConfigDiagnostic;
 
   constructor(
     executor: ExecuteCallback,
@@ -46,6 +48,7 @@ export class BulkStreamerPerPartition {
     options: RequestOptions,
     diagnosticLevel: CosmosDbDiagnosticLevel,
     encryptionEnabled: boolean,
+    clientConfig: ClientConfigDiagnostic,
     encryptionProcessor: EncryptionProcessor,
   ) {
     this.executor = executor;
@@ -55,6 +58,7 @@ export class BulkStreamerPerPartition {
     this.diagnosticLevel = diagnosticLevel;
     this.encryptionEnabled = encryptionEnabled;
     this.encryptionProcessor = encryptionProcessor;
+    this.clientConfigDiagnostics = clientConfig;
     this.oldPartitionMetric = new BulkPartitionMetric();
     this.partitionMetric = new BulkPartitionMetric();
     this.congestionControlAlgorithm = new BulkCongestionAlgorithm(
@@ -110,6 +114,7 @@ export class BulkStreamerPerPartition {
       this.options,
       this.diagnosticLevel,
       this.encryptionEnabled,
+      this.clientConfigDiagnostics,
       this.encryptionProcessor,
     );
   }

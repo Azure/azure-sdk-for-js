@@ -24,7 +24,7 @@ export class CosmosDiagnosticContext {
   private requestStartTimeUTCinMs: number;
   private failedAttempts: FailedRequestAttemptDiagnostic[] = [];
   private metadataLookups: MetadataLookUpDiagnostic[] = [];
-  private gaterwayStatistics: GatewayStatistics[] = [];
+  private gatewayStatistics: GatewayStatistics[] = [];
   public locationEndpointsContacted: Set<string> = new Set();
   encryptionDiagnostics: EncryptionDiagnostics;
 
@@ -33,26 +33,26 @@ export class CosmosDiagnosticContext {
   }
 
   public recordFailedAttempt(
-    gaterwayStatistics: GatewayStatistics,
+    gatewayStatistics: GatewayStatistics,
     retryAttemptNumber: number,
   ): void {
     const attempt: FailedRequestAttemptDiagnostic = {
       attemptNumber: retryAttemptNumber,
-      startTimeUTCInMs: gaterwayStatistics.startTimeUTCInMs,
-      durationInMs: gaterwayStatistics.durationInMs,
-      statusCode: gaterwayStatistics.statusCode,
-      substatusCode: gaterwayStatistics.subStatusCode,
-      requestPayloadLengthInBytes: gaterwayStatistics.requestPayloadLengthInBytes,
-      responsePayloadLengthInBytes: gaterwayStatistics.responsePayloadLengthInBytes,
-      activityId: gaterwayStatistics.activityId,
-      operationType: gaterwayStatistics.operationType,
-      resourceType: gaterwayStatistics.resourceType,
+      startTimeUTCInMs: gatewayStatistics.startTimeUTCInMs,
+      durationInMs: gatewayStatistics.durationInMs,
+      statusCode: gatewayStatistics.statusCode,
+      substatusCode: gatewayStatistics.subStatusCode,
+      requestPayloadLengthInBytes: gatewayStatistics.requestPayloadLengthInBytes,
+      responsePayloadLengthInBytes: gatewayStatistics.responsePayloadLengthInBytes,
+      activityId: gatewayStatistics.activityId,
+      operationType: gatewayStatistics.operationType,
+      resourceType: gatewayStatistics.resourceType,
     };
     this.failedAttempts.push(attempt);
   }
 
-  public recordNetworkCall(gaterwayStatistics: GatewayStatistics): void {
-    this.gaterwayStatistics.push(gaterwayStatistics);
+  public recordNetworkCall(gatewayStatistics: GatewayStatistics): void {
+    this.gatewayStatistics.push(gatewayStatistics);
   }
 
   public recordEncryptionDiagnostics(encryptionDiagnostics: EncryptionDiagnostics): void {
@@ -78,7 +78,7 @@ export class CosmosDiagnosticContext {
     );
 
     // Copy child nodes's GatewayStatistics to parent's metadata lookups.
-    childDiagnostics.gaterwayStatistics.forEach((gateway) =>
+    childDiagnostics.gatewayStatistics.forEach((gateway) =>
       this.metadataLookups.push({
         activityId: gateway.activityId,
         requestPayloadLengthInBytes: gateway.requestPayloadLengthInBytes,
@@ -113,14 +113,14 @@ export class CosmosDiagnosticContext {
       retryDiagnostics: {
         failedAttempts: [...this.failedAttempts],
       },
-      gatewayStatistics: this.gaterwayStatistics,
+      gatewayStatistics: this.gatewayStatistics,
       encryptionDiagnostics: this.encryptionDiagnostics,
     };
   }
 
   public getTotalRequestPayloadLength(): number {
     let totalRequestPayloadLength = 0;
-    this.gaterwayStatistics.forEach(
+    this.gatewayStatistics.forEach(
       (req) => (totalRequestPayloadLength += req.requestPayloadLengthInBytes),
     );
     this.metadataLookups.forEach(
@@ -134,7 +134,7 @@ export class CosmosDiagnosticContext {
 
   public getTotalResponsePayloadLength(): number {
     let totalResponsePayloadLength = 0;
-    this.gaterwayStatistics.forEach(
+    this.gatewayStatistics.forEach(
       (req) => (totalResponsePayloadLength += req.responsePayloadLengthInBytes),
     );
     this.metadataLookups.forEach(
