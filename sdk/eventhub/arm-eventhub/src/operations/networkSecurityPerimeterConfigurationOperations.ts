@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { NetworkSecurityPerimeterConfigurationOperations } from "../operationsInterfaces/index.js";
+import { NetworkSecurityPerimeterConfigurationOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { EventHubManagementClient } from "../eventHubManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { EventHubManagementClient } from "../eventHubManagementClient";
 import {
   NetworkSecurityPerimeterConfigurationListOptionalParams,
   NetworkSecurityPerimeterConfigurationListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing NetworkSecurityPerimeterConfigurationOperations operations. */
 export class NetworkSecurityPerimeterConfigurationOperationsImpl

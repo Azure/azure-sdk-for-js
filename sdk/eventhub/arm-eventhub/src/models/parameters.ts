@@ -26,7 +26,7 @@ import {
   ConsumerGroup as ConsumerGroupMapper,
   SchemaGroup as SchemaGroupMapper,
   ApplicationGroup as ApplicationGroupMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
