@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/ai-metrics-advisor": ["./dist/esm"]
+      "@azure/ai-metrics-advisor": [
+        "./dist/esm"
+      ]
     }
   }
 }
