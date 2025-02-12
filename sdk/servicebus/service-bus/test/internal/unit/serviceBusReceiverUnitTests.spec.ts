@@ -55,7 +55,7 @@ describe("ServiceBusReceiver unit tests", () => {
 
     await assertThrows(
       subscribeFn,
-      expectedError,
+      expectedError as { name: string; message: string },
       "Trying to receive a separate way, in parallel, should throw",
     );
   });
@@ -83,7 +83,7 @@ describe("ServiceBusReceiver unit tests", () => {
 
     await assertThrows(
       () => receiver.receiveMessages(1),
-      expectedError,
+      expectedError as { name: string; message: string },
       "Trying to receive a separate way, in parallel, should throw",
     );
   });
