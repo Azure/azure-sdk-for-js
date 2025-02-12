@@ -13,13 +13,13 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 describe("Authentication", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(ctx);
-  });
+  beforeEach(async (ctx) => {
+      recorder = await createRecorder(ctx);
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("should work with Microsoft Entra ID authentication", async function (ctx) {
     /**
@@ -44,13 +44,13 @@ describe("Authentication", function () {
 describe("Endpoint can be overwritten", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(ctx);
-  });
+  beforeEach(async (ctx) => {
+      recorder = await createRecorder(ctx);
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("should be executed without specifying baseUrl", async function () {
     const client = createClient(recorder.configureClientOptions({}));
@@ -77,14 +77,14 @@ describe("MapsTimeZone", () => {
   let recorder: Recorder;
   let client: ReturnType<typeof MapsTimeZone>;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(ctx);
-    client = createClient(recorder.configureClientOptions({}));
-  });
+  beforeEach(async (ctx) => {
+      recorder = await createRecorder(ctx);
+      client = createClient(recorder.configureClientOptions({}));
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("can get timezone by ID", async function () {
     const response = await client.path("/timezone/byId/{format}", "json").get({
