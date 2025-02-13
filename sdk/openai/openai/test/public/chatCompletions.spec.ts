@@ -17,7 +17,7 @@ import { functionCallModelsToSkip, jsonResponseModelsToSkip } from "../utils/mod
 import "../../src/types/index.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
-describe.each(APIMatrix)("Chat Completions [%s]", function (apiVersion: APIVersion) {
+describe.concurrent.shuffle.each(APIMatrix)("Chat Completions [%s]", function (apiVersion: APIVersion) {
   let clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo;
 
   clientsAndDeploymentsInfo = createClientsAndDeployments(
@@ -272,7 +272,6 @@ describe.each(APIMatrix)("Chat Completions [%s]", function (apiVersion: APIVersi
         ],
         acceptableErrors: {
           messageSubstring: [
-            "Rate limit is exceeded",
             "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
           ],
         },

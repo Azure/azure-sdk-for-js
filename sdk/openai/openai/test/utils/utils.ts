@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert, test } from "vitest";
+import { assert, test, describe } from "vitest";
 import {
   type PipelineRequest,
   type PipelineResponse,
@@ -22,6 +22,10 @@ import type { Sku } from "@azure/arm-cognitiveservices";
 export type AcceptableErrors = {
   messageSubstring: string[];
 };
+
+const GlobalAcceptedErrors: AcceptableErrors = {
+  messageSubstring: ["Rate limit is exceeded"],
+}
 
 export const maxRetriesOption = { maxRetries: 0 };
 
@@ -88,7 +92,7 @@ export async function withDeployments<T>(
             "Cannot cancel run with status 'completed'",
           ].some((match) => error.message.includes(match))
         ) {
-          logger.warning("WARNING: Handled error: ", error);
+          logger.warning("WARNING: Handled error: ", error.message);
           continue;
         }
         logger.error(`Error in deployment ${deployment.deploymentName}: `, error);
@@ -120,23 +124,24 @@ export async function testWithDeployments<T>({
   acceptableErrors,
 }: DeploymentTestingParameters<T>): Promise<void> {
   assert.isNotEmpty(clientsAndDeployments, "No deployments found");
-  for (const { client, deployments } of clientsAndDeployments.clientsAndDeployments) {
+  describe.each(clientsAndDeployments.clientsAndDeployments)(
+    "$client.baseURL", async function({ client, deployments }) {
     for (const deployment of deployments) {
-      test(deployment.model.name, async (done) => {
+      test.concurrent(deployment.model.name, async (done) => {
         if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
-          done.skip(
-            `Skipping ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
-          );
-          return;
+          done.skip(`Skipping ${deployment.model.name} : ${deployment.model.version}`);
         }
+
         let result;
         try {
           result = await run(client, deployment.deploymentName);
         } catch (e) {
           const error = e as any;
           if (acceptableErrors?.messageSubstring.some((match) => error.message.includes(match))) {
-            done.skip(`WARNING: Handled error: ${error}`);
-            return;
+            done.skip(`Skipping due to acceptable error: ${error}`);
+          }
+          if (GlobalAcceptedErrors.messageSubstring.some((match) => error.message.includes(match))) {
+            done.skip(`Skipping due to global acceptable error: ${error}`);
           }
           throw e;
         }
@@ -144,7 +149,7 @@ export async function testWithDeployments<T>({
         return;
       });
     }
-  }
+  });
 }
 
 export function filterDeployments(
