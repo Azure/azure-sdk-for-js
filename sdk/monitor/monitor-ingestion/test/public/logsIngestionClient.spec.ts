@@ -37,18 +37,18 @@ describe("LogsIngestionClient live tests", function () {
   let recorder: Recorder;
   let recordedClient: RecorderAndLogsClient;
   let client: LogsIngestionClient;
-  beforeEach(async function (ctx) {
-    loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(ctx);
-    recordedClient = await createClientAndStartRecorder(recorder);
-    client = recordedClient.client;
-  });
-  afterEach(async function () {
-    if (recorder) {
-      loggerForTest.verbose("Recorder: stopping");
-      await recorder.stop();
-    }
-  });
+  beforeEach(async (ctx) => {
+      loggerForTest.verbose(`Recorder: starting...`);
+      recorder = new Recorder(ctx);
+      recordedClient = await createClientAndStartRecorder(recorder);
+      client = recordedClient.client;
+    });
+  afterEach(async () => {
+      if (recorder) {
+        loggerForTest.verbose("Recorder: stopping");
+        await recorder.stop();
+      }
+    });
 
   it("sends empty data", async function () {
     await client.upload(getDcrId(), "Custom-MyTableRawData", []);
