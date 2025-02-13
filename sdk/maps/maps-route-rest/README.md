@@ -54,10 +54,10 @@ The Azure Maps resource client id can be found in the Authentication sections in
 
 ```ts snippet:ReadmeSampleCreateClient_TokenCredential
 import { DefaultAzureCredential } from "@azure/identity";
-import MapRoute from "@azure-rest/maps-route";
+import MapsRoute from "@azure-rest/maps-route";
 
 const credential = new DefaultAzureCredential();
-const client = MapRoute(credential, "<maps-account-client-id>");
+const client = MapsRoute(credential, "<maps-account-client-id>");
 ```
 
 #### Using a Subscription Key Credential
@@ -66,10 +66,10 @@ You can authenticate with your Azure Maps Subscription Key.
 
 ```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
 import { AzureKeyCredential } from "@azure/core-auth";
-import MapRoute from "@azure-rest/maps-route";
+import MapsRoute from "@azure-rest/maps-route";
 
 const credential = new AzureKeyCredential("<subscription-key>");
-const client = MapRoute(credential);
+const client = MapsRoute(credential);
 ```
 
 #### Using a Shared Access Signature (SAS) Token Credential
@@ -92,7 +92,7 @@ Finally, you can use the SAS token to authenticate the client:
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { AzureSASCredential } from "@azure/core-auth";
-import MapRoute from "@azure-rest/maps-route";
+import MapsRoute from "@azure-rest/maps-route";
 
 const subscriptionId = "<subscription ID of the map account>";
 const resourceGroupName = "<resource group name of the map account>";
@@ -118,7 +118,7 @@ if (accountSasToken === undefined) {
 }
 
 const sasCredential = new AzureSASCredential(accountSasToken);
-const client = MapRoute(sasCredential);
+const client = MapsRoute(sasCredential);
 ```
 
 ## Examples
@@ -139,10 +139,10 @@ By default, the Route service will return an array of coordinates. The response 
 
 ```ts snippet:ReadmeSampleRouteDirections
 import { DefaultAzureCredential } from "@azure/identity";
-import MapRoute, { toColonDelimitedLatLonString, isUnexpected } from "@azure-rest/maps-route";
+import MapsRoute, { toColonDelimitedLatLonString, isUnexpected } from "@azure-rest/maps-route";
 
 const credential = new DefaultAzureCredential();
-const client = MapRoute(credential, "<maps-account-client-id>");
+const client = MapsRoute(credential, "<maps-account-client-id>");
 
 const routeDirectionsResult1 = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
@@ -190,10 +190,10 @@ The service supports commercial vehicle routing, covering commercial trucks rout
 
 ```ts snippet:ReadmeSampleRouteDirectionsCommercialVehicle
 import { DefaultAzureCredential } from "@azure/identity";
-import MapRoute, { toColonDelimitedLatLonString, isUnexpected } from "@azure-rest/maps-route";
+import MapsRoute, { toColonDelimitedLatLonString, isUnexpected } from "@azure-rest/maps-route";
 
 const credential = new DefaultAzureCredential();
-const client = MapRoute(credential, "<maps-account-client-id>");
+const client = MapsRoute(credential, "<maps-account-client-id>");
 
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
@@ -245,10 +245,10 @@ If you want to optimize the best order to visit the given waypoints, then you ne
 
 ```ts snippet:ReadmeSampleRouteDirectionsOptimize
 import { DefaultAzureCredential } from "@azure/identity";
-import MapRoute, { toColonDelimitedLatLonString, isUnexpected } from "@azure-rest/maps-route";
+import MapsRoute, { toColonDelimitedLatLonString, isUnexpected } from "@azure-rest/maps-route";
 
 const credential = new DefaultAzureCredential();
-const client = MapRoute(credential, "<maps-account-client-id>");
+const client = MapsRoute(credential, "<maps-account-client-id>");
 
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {

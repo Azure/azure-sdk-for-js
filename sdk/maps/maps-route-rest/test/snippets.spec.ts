@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import MapRoute, { isUnexpected, toColonDelimitedLatLonString } from "../src/index.js";
+import MapsRoute, { isUnexpected, toColonDelimitedLatLonString } from "../src/index.js";
 import { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 // @ts-ignore
@@ -12,17 +12,17 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_TokenCredential", async () => {
     const credential = new DefaultAzureCredential();
-    const client = MapRoute(credential, "<maps-account-client-id>");
+    const client = MapsRoute(credential, "<maps-account-client-id>");
   });
 
   it("ReadmeSampleCreateClient_SubscriptionKey", async () => {
     const credential = new AzureKeyCredential("<subscription-key>");
-    const client = MapRoute(credential);
+    const client = MapsRoute(credential);
   });
 
   it("ReadmeSampleCreateClient_SASToken", async () => {
     const credential = new AzureSASCredential("<SAS Token>");
-    const client = MapRoute(credential);
+    const client = MapsRoute(credential);
   });
 
   it("ReadmeSampleCreateClient_SAS", async () => {
@@ -50,12 +50,12 @@ describe("snippets", () => {
     }
     // @ts-preserve-whitespace
     const sasCredential = new AzureSASCredential(accountSasToken);
-    const client = MapRoute(sasCredential);
+    const client = MapsRoute(sasCredential);
   });
 
   it("ReadmeSampleRouteDirections", async () => {
     const credential = new DefaultAzureCredential();
-    const client = MapRoute(credential, "<maps-account-client-id>");
+    const client = MapsRoute(credential, "<maps-account-client-id>");
     // @ts-preserve-whitespace
     const routeDirectionsResult1 = await client.path("/route/directions/{format}", "json").get({
       queryParameters: {
@@ -101,7 +101,7 @@ describe("snippets", () => {
 
   it("ReadmeSampleRouteDirectionsCommercialVehicle", async () => {
     const credential = new DefaultAzureCredential();
-    const client = MapRoute(credential, "<maps-account-client-id>");
+    const client = MapsRoute(credential, "<maps-account-client-id>");
     // @ts-preserve-whitespace
     const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
       queryParameters: {
@@ -144,7 +144,7 @@ describe("snippets", () => {
 
   it("ReadmeSampleRouteDirectionsOptimize", async () => {
     const credential = new DefaultAzureCredential();
-    const client = MapRoute(credential, "<maps-account-client-id>");
+    const client = MapsRoute(credential, "<maps-account-client-id>");
     // @ts-preserve-whitespace
     const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
       queryParameters: {
