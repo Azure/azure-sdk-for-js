@@ -235,7 +235,9 @@ class NodeHttpClient implements HttpClient {
       });
 
       abortController.signal.addEventListener("abort", () => {
-        const abortError = new AbortError("The operation was aborted. Rejecting from abort signal callback while making request");
+        const abortError = new AbortError(
+          "The operation was aborted. Rejecting from abort signal callback while making request",
+        );
         req.destroy(abortError);
         reject(abortError);
       });
