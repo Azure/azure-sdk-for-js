@@ -45,6 +45,9 @@ Param (
 . (Join-Path $PSScriptRoot common.ps1)
 Write-Host "addDevVersion: $addDevVersion"
 
+Write-Host "Environment SetDevVersion: $env:SetDevVersion"
+Write-Host "Environment SETDEVVERSION: $env:SETDEVVERSION"
+
 function SetOutput($outputPath, $incomingPackageSpec)
 {
 
