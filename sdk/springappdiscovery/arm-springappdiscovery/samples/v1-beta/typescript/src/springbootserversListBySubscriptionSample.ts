@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List springbootservers resource by subscription
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List springbootservers resource by subscription
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootservers_ListBySubscription_MaximumSet_Gen.json
  */
-async function springbootserversListBySubscriptionMaximumSetGen() {
+async function springbootserversListBySubscriptionMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "etmdxomjncqvygm";
   const siteName = "hlkrzldhyobavtabgpubtjbhlslnjmsvkthwcfboriwyxndacjypzbj";
@@ -44,7 +42,7 @@ async function springbootserversListBySubscriptionMaximumSetGen() {
  * @summary List springbootservers resource by subscription
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootservers_ListBySubscription_MinimumSet_Gen.json
  */
-async function springbootserversListBySubscriptionMinimumSetGen() {
+async function springbootserversListBySubscriptionMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "etmdxomjncqvygm";
   const siteName = "hlkrzldhyobavtabgpubtjbhlslnjmsvkthwcfboriwyxndacjypzbj";
@@ -62,7 +60,7 @@ async function springbootserversListBySubscriptionMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   springbootserversListBySubscriptionMaximumSetGen();
   springbootserversListBySubscriptionMinimumSetGen();
 }
