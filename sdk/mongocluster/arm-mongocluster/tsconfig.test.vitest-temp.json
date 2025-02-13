@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "module": "nodenext",
+    "lib": [],
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "importHelpers": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "composite": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "strictBuiltinIteratorReturn": true,
+    "alwaysStrict": true,
+    "useUnknownInCatchVariables": true,
+    "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleDetection": "force",
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
+    "emitDeclarationOnly": false,
+    "incremental": true,
+    "tsBuildInfoFile": "/Users/matthewp/git/azure-sdk-for-js-copy/common/temp/node_modules/.pnpm/vitest@3.0.5_@types+debug@4.1.12_@types+node@18.19.75_@vitest+browser@3.0.5_msw@2.7.0_@types+_b4yqemz7mcu4lnzknvfanjnwf4/node_modules/vitest/dist/chunks/tsconfig.test.tmp.tsbuildinfo"
+  },
+  "include": [
+    "/Users/matthewp/git/azure-sdk-for-js-copy/sdk/mongocluster/arm-mongocluster/test",
+    "/Users/matthewp/git/azure-sdk-for-js-copy/sdk/mongocluster/arm-mongocluster/src"
+  ],
+  "exclude": [
+    "/Users/matthewp/git/azure-sdk-for-js-copy/sdk/mongocluster/arm-mongocluster/test/stress",
+    "/Users/matthewp/git/azure-sdk-for-js-copy/sdk/mongocluster/arm-mongocluster/test/snippets.spec.ts"
+  ]
+}
