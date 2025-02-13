@@ -13,12 +13,10 @@ import {
   LogsQueryOptions,
   LogsQueryResultStatus,
 } from "@azure/monitor-query";
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const monitorWorkspaceId = process.env.MONITOR_WORKSPACE_ID;
 
-export async function main() {
+export async function main(): Promise<void> {
   const tokenCredential = new DefaultAzureCredential();
   const logsQueryClient = new LogsQueryClient(tokenCredential);
 
@@ -74,7 +72,7 @@ export async function main() {
   }
 }
 
-async function processTables(tablesFromResult: LogsTable[]) {
+async function processTables(tablesFromResult: LogsTable[]): Promise<void> {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)

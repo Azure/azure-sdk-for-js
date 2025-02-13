@@ -7,13 +7,10 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
+import "dotenv/config";
 const metricsResourceId = process.env.METRICS_RESOURCE_ID;
 
-export async function main() {
+export async function main(): Promise<void> {
   const tokenCredential = new DefaultAzureCredential();
   const metricsQueryClient = new MetricsQueryClient(tokenCredential);
 

@@ -20,20 +20,20 @@ describe("LogsQueryClient live tests", function () {
 
   let testRunId: string;
 
-  beforeEach(async function (ctx) {
-    loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(ctx);
-    const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder);
-    logsResourceId = getLogsArmResourceId();
-    monitorWorkspaceId = getMonitorWorkspaceId();
-    logsClient = recordedClient.client;
-  });
-  afterEach(async function () {
-    if (recorder) {
-      loggerForTest.verbose("Recorder: stopping");
-      await recorder.stop();
-    }
-  });
+  beforeEach(async (ctx) => {
+      loggerForTest.verbose(`Recorder: starting...`);
+      recorder = new Recorder(ctx);
+      const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder);
+      logsResourceId = getLogsArmResourceId();
+      monitorWorkspaceId = getMonitorWorkspaceId();
+      logsClient = recordedClient.client;
+    });
+  afterEach(async () => {
+      if (recorder) {
+        loggerForTest.verbose("Recorder: stopping");
+        await recorder.stop();
+      }
+    });
 
   it("queryLogs (bad query)", async () => {
     // Kind (coming from Properties) is of type `dynamic`, so you can't sort on it (so we should get back an error from the service)
@@ -508,23 +508,23 @@ describe("LogsQueryClient live tests - server timeout", function () {
   let logsClient: LogsQueryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
-    setLogLevel("verbose");
-    loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(ctx);
-    const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder, {
-      maxRetries: 0,
-      retryDelayInMs: 0,
-      maxRetryDelayInMs: 0,
+  beforeEach(async (ctx) => {
+      setLogLevel("verbose");
+      loggerForTest.verbose(`Recorder: starting...`);
+      recorder = new Recorder(ctx);
+      const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder, {
+        maxRetries: 0,
+        retryDelayInMs: 0,
+        maxRetryDelayInMs: 0,
+      });
+      logsClient = recordedClient.client;
+      recorder = recordedClient.recorder;
+      monitorWorkspaceId = getMonitorWorkspaceId();
     });
-    logsClient = recordedClient.client;
-    recorder = recordedClient.recorder;
-    monitorWorkspaceId = getMonitorWorkspaceId();
-  });
-  afterEach(async function () {
-    loggerForTest.verbose("Recorder: stopping");
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      loggerForTest.verbose("Recorder: stopping");
+      await recorder.stop();
+    });
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.
   it.skip("serverTimeoutInSeconds", async function () {

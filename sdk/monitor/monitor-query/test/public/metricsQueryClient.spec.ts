@@ -18,18 +18,18 @@ describe("MetricsClient live tests", function () {
   let metricsQueryClient: MetricsQueryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
-    loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(ctx);
-    const recordedClient: RecorderAndMetricsClient = await createRecorderAndMetricsClient(recorder);
-    resourceId = getMetricsArmResourceId();
-    metricsQueryClient = recordedClient.client;
-  });
+  beforeEach(async (ctx) => {
+      loggerForTest.verbose(`Recorder: starting...`);
+      recorder = new Recorder(ctx);
+      const recordedClient: RecorderAndMetricsClient = await createRecorderAndMetricsClient(recorder);
+      resourceId = getMetricsArmResourceId();
+      metricsQueryClient = recordedClient.client;
+    });
 
-  afterEach(async function () {
-    loggerForTest.verbose("Recorder: stopping");
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      loggerForTest.verbose("Recorder: stopping");
+      await recorder.stop();
+    });
 
   it("getMetricDefinitions -> queryMetrics", async () => {
     const iter = metricsQueryClient.listMetricDefinitions(resourceId);
