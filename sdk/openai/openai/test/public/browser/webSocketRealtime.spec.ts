@@ -26,7 +26,9 @@ describe("Realtime", () => {
       describe("OpenAIRealtimeWebSocket", function () {
         it("websocket.azure", async function () {
           await withDeployments(clientAndDeployments, async (client, deploymentName) => {
-            const rt = await OpenAIRealtimeWebSocket.azure(client as AzureOpenAI, { deploymentName });
+            const rt = await OpenAIRealtimeWebSocket.azure(client as AzureOpenAI, {
+              deploymentName,
+            });
             let deltaReceived = 0;
             await new Promise<void>((resolve, reject) => {
               rt.socket.addEventListener("open", () => {
@@ -71,7 +73,7 @@ describe("Realtime", () => {
 
               rt.socket.addEventListener("close", () => {
                 assert.isAtLeast(deltaReceived, 2);
-                resolve()
+                resolve();
               });
             });
           });
