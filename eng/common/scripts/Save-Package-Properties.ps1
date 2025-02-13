@@ -43,6 +43,7 @@ Param (
 )
 
 . (Join-Path $PSScriptRoot common.ps1)
+Write-Host "addDevVersion: $addDevVersion"
 
 function SetOutput($outputPath, $incomingPackageSpec)
 {
