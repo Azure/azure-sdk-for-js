@@ -447,7 +447,11 @@ export function createMsalClient(
       silentRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
     }
     state.logger.getToken.info("Attempting to acquire token silently");
-    return app.acquireTokenSilent(silentRequest);
+    try {
+      return await app.acquireTokenSilent(silentRequest);
+    } catch (err: any) {
+      throw handleMsalError(scopes, err, options);
+    }
   }
 
   /**
