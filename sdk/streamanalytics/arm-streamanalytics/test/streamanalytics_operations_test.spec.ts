@@ -71,7 +71,7 @@ describe("StreamAnalytics test", () => {
       },
       testPollingOptions);
     assert.equal(res.name, resourcename);
-  }).timeout(7200000);
+  });
 
   it("clusters get test", async () => {
     const res = await client.clusters.get(
@@ -90,6 +90,7 @@ describe("StreamAnalytics test", () => {
 
   it("clusters delete test", async () => {
     const resArray = new Array();
+    await client.clusters.beginDeleteAndWait(resourceGroup, resourcename);
     for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
