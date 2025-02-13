@@ -12,6 +12,7 @@ import {
 } from "../../utils/asserts.js";
 import { createClientsAndDeployments } from "../../utils/createClients.js";
 import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
+import type { AzureOpenAI } from "openai";
 
 describe("Realtime", () => {
   matrix([[APIVersion["2024_10_01_preview"]]] as const, async function (apiVersion: APIVersion) {
@@ -25,9 +26,8 @@ describe("Realtime", () => {
       describe("OpenAIRealtimeWS", function () {
         it("ws.azure", async function () {
           await withDeployments(clientAndDeployments, async (client, deploymentName) => {
-            const rt = await OpenAIRealtimeWS.azure(client, { deploymentName });
+            const rt = await OpenAIRealtimeWS.azure(client as AzureOpenAI, { deploymentName });
             await new Promise<void>((resolve, reject) => {
-              // access the underlying `ws.WebSocket` instance
               rt.socket.on("open", () => {
                 rt.send({
                   type: "session.update",

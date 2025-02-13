@@ -12,6 +12,7 @@ import {
   assertSessionCreatedEvent,
 } from "../../utils/asserts.js";
 import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
+import type { AzureOpenAI } from "openai";
 
 describe("Realtime", () => {
   matrix([[APIVersion["2024_10_01_preview"]]] as const, async function (apiVersion: APIVersion) {
@@ -25,7 +26,7 @@ describe("Realtime", () => {
       describe("OpenAIRealtimeWebSocket", function () {
         it("websocket.azure", async function () {
           await withDeployments(clientAndDeployments, async (client, deploymentName) => {
-            const rt = await OpenAIRealtimeWebSocket.azure(client, { deploymentName });
+            const rt = await OpenAIRealtimeWebSocket.azure(client as AzureOpenAI, { deploymentName });
             let deltaReceived = 0;
             await new Promise<void>((resolve, reject) => {
               rt.socket.addEventListener("open", () => {
@@ -58,7 +59,7 @@ describe("Realtime", () => {
               });
 
               rt.on("response.text.delta", (event) => {
-                deltaReceived += 1;
+                ++deltaReceived;
                 assertResponseTextDeltaEvent(event);
               });
 
