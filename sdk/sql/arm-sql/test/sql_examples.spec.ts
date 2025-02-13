@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { SqlManagementClient } from "../src/sqlManagementClient";
+import { SqlManagementClient } from "../src/sqlManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -43,22 +41,22 @@ describe("Sql test", () => {
   let serverName: string;
   let databaseName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new SqlManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "westus";
-    resourceGroup = "myjstest";
-    databaseName = "mydatabasezzzz";
-    serverName = "myserverppp";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new SqlManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "westus";
+      resourceGroup = "myjstest";
+      databaseName = "mydatabasezzzz";
+      serverName = "myserverppp";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("servers create test", async function () {
     const res = await client.servers.beginCreateOrUpdateAndWait(resourceGroup, serverName, {
@@ -134,7 +132,6 @@ describe("Sql test", () => {
   });
 
   it("databases delete test", async function () {
-    const res = await client.databases.beginDeleteAndWait(resourceGroup, serverName, databaseName, testPollingOptions);
     const resArray = new Array()
     for await (let item of client.databases.listByServer(resourceGroup, serverName)) {
       resArray.push(item)
@@ -143,7 +140,6 @@ describe("Sql test", () => {
   });
 
   it("servers delete test", async function () {
-    const res = await client.servers.beginDeleteAndWait(resourceGroup, serverName, testPollingOptions);
     const resArray = new Array()
     for await (let item of client.servers.listByResourceGroup(resourceGroup)) {
       resArray.push(item)

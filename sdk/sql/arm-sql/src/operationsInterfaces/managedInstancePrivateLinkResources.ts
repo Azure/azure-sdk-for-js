@@ -12,7 +12,7 @@ import {
   ManagedInstancePrivateLinkResourcesListByManagedInstanceOptionalParams,
   ManagedInstancePrivateLinkResourcesGetOptionalParams,
   ManagedInstancePrivateLinkResourcesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedInstancePrivateLinkResources. */
