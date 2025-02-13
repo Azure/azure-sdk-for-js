@@ -209,7 +209,11 @@ describe("Call Automation Client Unit Tests", () => {
     const result = await promiseResult;
 
     assert.isNotNull(result);
-    expect(client.answerCall).toHaveBeenCalledWith(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL, answerCallOptions);
+    expect(client.answerCall).toHaveBeenCalledWith(
+      CALL_INCOMING_CALL_CONTEXT,
+      CALL_CALLBACK_URL,
+      answerCallOptions,
+    );
     assert.equal(result, answerCallResultMock);
   });
 
