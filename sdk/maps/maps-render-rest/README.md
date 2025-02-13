@@ -64,9 +64,9 @@ You'll need to register the new Microsoft Entra ID application and grant access 
 You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options.
 The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://learn.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
-```javascript
-const MapsRender = require("@azure-rest/maps-render").default;
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRender from "@azure-rest/maps-render";
 
 const credential = new DefaultAzureCredential();
 const client = MapsRender(credential, "<maps-account-client-id>");
@@ -80,9 +80,9 @@ You can authenticate with your Azure Maps Subscription Key. Please install the["
 npm install @azure/core-auth
 ```
 
-```javascript
-const MapsRender = require("@azure-rest/maps-render").default;
-const { AzureKeyCredential } = require("@azure/core-auth");
+```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
+import { AzureKeyCredential } from "@azure/core-auth";
+import MapsRender from "@azure-rest/maps-render";
 
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = MapsRender(credential);
@@ -104,11 +104,11 @@ npm install @azure/core-auth
 
 Finally, you can use the SAS token to authenticate the client:
 
-```javascript
-const MapsRender = require("@azure-rest/maps-render").default;
-const { AzureSASCredential } = require("@azure/core-auth");
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AzureMapsManagementClient } = require("@azure/arm-maps");
+```ts snippet:ReadmeSampleCreateClient_SAS
+import { DefaultAzureCredential } from "@azure/identity";
+import { AzureMapsManagementClient } from "@azure/arm-maps";
+import { AzureSASCredential } from "@azure/core-auth";
+import MapsRender from "@azure-rest/maps-render";
 
 const subscriptionId = "<subscription ID of the map account>";
 const resourceGroupName = "<resource group name of the map account>";
@@ -120,6 +120,7 @@ const mapsAccountSasParameters = {
   principalId: "<principle ID (object ID) of the managed identity>",
   signingKey: "primaryKey",
 };
+
 const credential = new DefaultAzureCredential();
 const managementClient = new AzureMapsManagementClient(credential, subscriptionId);
 const { accountSasToken } = await managementClient.accounts.listSas(
@@ -127,9 +128,11 @@ const { accountSasToken } = await managementClient.accounts.listSas(
   accountName,
   mapsAccountSasParameters,
 );
+
 if (accountSasToken === undefined) {
   throw new Error("No accountSasToken was found for the Maps Account.");
 }
+
 const sasCredential = new AzureSASCredential(accountSasToken);
 const client = MapsRender(sasCredential);
 ```
@@ -153,9 +156,13 @@ The following sections provide several code snippets covering some of the most c
 You can request map tiles in vector or raster formats. These tiles are typically to be integrated into a map control or SDK.
 Some example tiles that can be requested are Azure Maps road tiles, real-time Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://learn.microsoft.com/shows/internet-of-things-show/introducing-azure-maps-creator).
 
-```javascript
-const { createWriteStream } = require("fs");
-const { positionToTileXY } = require("@azure-rest/maps-render");
+```ts snippet:ReadmeSampleRequestMapTiles
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
+import { createWriteStream } from "node:fs";
+
+const credential = new DefaultAzureCredential();
+const client = MapsRender(credential, "<maps-account-client-id>");
 
 const zoom = 6;
 // Use the helper function `positionToTileXY` to get the tile index from the coordinate.
@@ -176,6 +183,7 @@ const response = await client
 if (!response.body) {
   throw Error("No response body");
 }
+
 response.body.pipe(createWriteStream("tile.png"));
 ```
 
@@ -184,14 +192,18 @@ response.body.pipe(createWriteStream("tile.png"));
 You can request map copyright attribution information for a section of a tileset.
 A tileset is a collection of raster or vector data broken up into a uniform grid of square tiles at preset zoom levels. Every tileset has a tilesetId to use when making requests. The supported tilesetIds are listed [here](https://learn.microsoft.com/rest/api/maps/render/get-map-attribution?tabs=HTTP#tilesetid).
 
-```javascript
-const { isUnexpected } = require("@azure-rest/maps-render");
+```ts snippet:ReadmeSampleRequestMapAttribution
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
+
+const credential = new DefaultAzureCredential();
+const client = MapsRender(credential, "<maps-account-client-id>");
 
 const response = await client.path("/map/attribution").get({
   queryParameters: {
     tilesetId: "microsoft.base",
     zoom: 6,
-    /** The order is [SouthwestCorner_Longitude, SouthwestCorner_Latitude, NortheastCorner_Longitude, NortheastCorner_Latitude] */
+    // The order is [SouthwestCorner_Longitude, SouthwestCorner_Latitude, NortheastCorner_Longitude, NortheastCorner_Latitude]
     bounds: [-122.414162, 47.57949, -122.247157, 47.668372],
   },
 });
@@ -209,8 +221,12 @@ response.body.copyrights.forEach((copyright) => console.log(copyright));
 
 You can request metadata for a tileset in TileJSON format using the following code snippet.
 
-```javascript
-const { isUnexpected } = require("@azure-rest/maps-render");
+```ts snippet:ReadmeSampleRequestTilesetMetadata
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
+
+const credential = new DefaultAzureCredential();
+const client = MapsRender(credential, "<maps-account-client-id>");
 
 const response = await client.path("/map/tileset").get({
   queryParameters: {
@@ -236,8 +252,8 @@ console.log(
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -255,8 +271,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-
-
 
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-render-rest
 [npm_package]: https://www.npmjs.com/package/@azure-rest/maps-render
