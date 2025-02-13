@@ -39,28 +39,22 @@ describe("StreamAnalytics test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: StreamAnalyticsManagementClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new StreamAnalyticsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest";
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new StreamAnalyticsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
 
-    });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("clusters create test", async function () {
+  it("clusters create test", async () => {
     const res = await client.clusters.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
@@ -73,14 +67,14 @@ describe("StreamAnalytics test", () => {
     assert.equal(res.name, resourcename);
   }).timeout(7200000);
 
-  it("clusters get test", async function () {
+  it("clusters get test", async () => {
     const res = await client.clusters.get(
       resourceGroup,
       resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("clusters list test", async function () {
+  it("clusters list test", async () => {
     const resArray = new Array();
     for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -88,7 +82,7 @@ describe("StreamAnalytics test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("clusters delete test", async function () {
+  it("clusters delete test", async () => {
     const resArray = new Array();
     for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
