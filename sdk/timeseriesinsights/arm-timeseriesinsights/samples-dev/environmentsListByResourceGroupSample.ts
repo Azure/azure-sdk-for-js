@@ -7,9 +7,7 @@
  */
 import { TimeSeriesInsightsClient } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the available environments associated with the subscription and within the specified resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all the available environments associated with the subscription and within the specified resource group.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EnvironmentsListByResourceGroup.json
  */
-async function environmentsByResourceGroup() {
+async function environmentsByResourceGroup(): Promise<void> {
   const subscriptionId = process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "rg1";
   const credential = new DefaultAzureCredential();
@@ -26,7 +24,7 @@ async function environmentsByResourceGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await environmentsByResourceGroup();
 }
 

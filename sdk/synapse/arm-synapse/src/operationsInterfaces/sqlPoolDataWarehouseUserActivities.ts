@@ -10,7 +10,7 @@ import {
   DataWarehouseUserActivityName,
   SqlPoolDataWarehouseUserActivitiesGetOptionalParams,
   SqlPoolDataWarehouseUserActivitiesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolDataWarehouseUserActivities. */
 export interface SqlPoolDataWarehouseUserActivities {

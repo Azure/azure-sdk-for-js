@@ -12,7 +12,7 @@ import {
   PrivateEndpointConnectionsPrivateLinkHubListOptionalParams,
   PrivateEndpointConnectionsPrivateLinkHubGetOptionalParams,
   PrivateEndpointConnectionsPrivateLinkHubGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateEndpointConnectionsPrivateLinkHub. */
