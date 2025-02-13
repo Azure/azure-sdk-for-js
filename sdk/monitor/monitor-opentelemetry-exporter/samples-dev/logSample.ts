@@ -11,16 +11,17 @@
 
 import { AzureMonitorLogExporter } from "@azure/monitor-opentelemetry-exporter";
 import { Resource } from "@opentelemetry/resources";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
 
 // Load the .env file if it exists
 import "dotenv/config";
 import { SeverityNumber } from "@opentelemetry/api-logs";
-// Logger setup.
+
+// Logger setup
 const loggerProvider = new LoggerProvider({
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+    [ATTR_SERVICE_NAME]: "basic-service",
   }),
 });
 // Configure processor to send logs to the exporter
@@ -35,7 +36,7 @@ const logger = loggerProvider.getLogger("example-basic-logger-node");
 
 export async function main(): Promise<void> {
   // Add logs
-  await logger.emit({
+  logger.emit({
     severityNumber: SeverityNumber.INFO,
     severityText: "INFO",
     body: "test message",

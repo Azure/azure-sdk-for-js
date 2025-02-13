@@ -38,16 +38,17 @@ AZURE_LOG_LEVEL = info
 
 2. Add the following code to the app:
 
-```ts
-import * as dotenv from "dotenv";
-dotenv.config({ path: ".env" });
+```ts snippet:DotEnvSample
+import { config } from "dotenv";
+
+config({ path: ".env" });
 ```
 
 #### Logging using setLogLevel
 
 Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -223,12 +224,16 @@ You may see an error as follows:
 
 The following code shows a sample of setting the server timeout to 10 minutes. By setting this server timeout, the Azure Monitor Query library automatically extends the client timeout to wait for 10 minutes for the server to respond. You don't need to configure your HTTP client to extend the response timeout, as shown in the previous section.
 
-```ts
+```ts snippet:TroubleShootingProcessServerTimeout
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient, Durations } from "@azure/monitor-query";
+
+const monitorWorkspaceId = "<workspace_id>";
+const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
 
 const credential = new DefaultAzureCredential();
 const logsQueryClient = new LogsQueryClient(credential);
+
 const result = await logsQueryClient.queryWorkspace(
   monitorWorkspaceId,
   kustoQuery,
@@ -243,35 +248,58 @@ By default, if the execution of a Kusto query resulted in a partially successful
 
 In the case of single query, there can be only two possibilities for the value of `status` field of `result` object: `Success` or `PartialFailure`. You can access the details of the partially successful results with the following code snippet:
 
-```ts
-const result = await logsQueryClient.queryWorkspace(${azureLogAnalyticsWorkspaceId}, ${kustoQuery}, {
-    duration: ${duration}
-  });
+```ts snippet:TroubleShootingProcessPartialResult
+import { LogsQueryClient, Durations, LogsQueryResultStatus } from "@azure/monitor-query";
+import { DefaultAzureCredential } from "@azure/identity";
 
-  if (result.status === LogsQueryResultStatus.Success) {
-    const tablesFromResult: LogsTable[] = result.tables;
+const azureLogAnalyticsWorkspaceId = "<workspace_id>";
+const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
 
-    if (tablesFromResult.length === 0) {
-      console.log(`No results for query '${kustoQuery}'`);
-      return;
-    }
-    console.log(`This query has returned table(s) - `);
-    processTables(tablesFromResult);
-  } else {
-    console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
-    if (result.partialTables.length > 0) {
-      console.log(`This query has also returned partial data in the following table(s) - `);
-      processTables(result.partialTables);
+const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
+const result = await logsQueryClient.queryWorkspace(azureLogAnalyticsWorkspaceId, kustoQuery, {
+  duration: Durations.twentyFourHours,
+});
+
+if (result.status === LogsQueryResultStatus.Success) {
+  const tablesFromResult = result.tables;
+
+  if (tablesFromResult.length === 0) {
+    console.log(`No results for query '${kustoQuery}'`);
+    return;
+  }
+  console.log(`This query has returned table(s) - `);
+  processTables(tablesFromResult);
+} else {
+  console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+  if (result.partialTables.length > 0) {
+    console.log(`This query has also returned partial data in the following table(s) - `);
+    processTables(result.partialTables);
+  }
+}
+
+function processTables(tablesFromResult) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
     }
   }
+}
 ```
 
 For more details on the response hierarchy for single query, see [Handle logs query response](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#handle-logs-query-response).
 
 In the case of multiple queries, there are three possibilities for the value of `status` field of `result` object: `Success`, `PartialFailure`, or `Failure`. You can access the details of the partially successful results by the following code snippet:
 
-```ts
-async function processBatchResult(result: LogsQueryBatchResult) {
+```ts snippet:TroubleShootingProcessBatchResult
+import { LogsQueryResultStatus } from "@azure/monitor-query";
+
+async function processBatchResult(result, queriesBatch) {
   let i = 0;
   for (const response of result) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
@@ -294,6 +322,20 @@ async function processBatchResult(result: LogsQueryBatchResult) {
     }
     // next query
     i++;
+  }
+}
+
+function processTables(tablesFromResult) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
   }
 }
 ```
