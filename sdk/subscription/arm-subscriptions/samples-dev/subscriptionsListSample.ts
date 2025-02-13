@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all subscriptions for a tenant.
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2016-06-01/examples/listSubscriptions.json
  */
-async function listSubscriptions() {
+async function listSubscriptions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();

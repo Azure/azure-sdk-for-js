@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Triggers Server certificate rollover.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/RegisteredServers_TriggerRollover.json
  */
-async function registeredServersTriggerRollover() {
+async function registeredServersTriggerRollover(): Promise<void> {
   const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const resourceGroupName = "SampleResourceGroup_1";
   const storageSyncServiceName = "SampleStorageSyncService_1";
