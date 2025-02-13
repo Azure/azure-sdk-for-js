@@ -19,10 +19,9 @@ import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions"
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   const provider = new MeterProvider({
     resource: new Resource({
       [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",

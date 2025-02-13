@@ -26,9 +26,7 @@ import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 /*********************************************************************
  *  OPEN TELEMETRY SETUP
  **********************************************************************/
