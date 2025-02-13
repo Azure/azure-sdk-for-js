@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Sim, MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a SIM.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a SIM.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SimCreate.json
  */
-async function createSim() {
+async function createSim(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -60,7 +58,7 @@ async function createSim() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createSim();
 }
 
