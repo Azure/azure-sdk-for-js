@@ -112,7 +112,7 @@ describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => 
     assert.isDefined(callDisconnectedEvent);
   });
 
-  it.only("answer call with custom context and hangup", { timeout: 60000 }, async (ctx) => {
+  it("answer call with custom context and hangup", { timeout: 60000 }, async (ctx) => {
     const fullTitle: string | undefined =
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
