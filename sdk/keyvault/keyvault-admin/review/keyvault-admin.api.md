@@ -82,13 +82,9 @@ export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultBackupClientOptions);
     beginBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
     beginBackup(blobStorageUri: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
-    // (undocumented)
     beginPreBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginPreBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
-    // (undocumented)
     beginPreBackup(blobStorageUri: string, options?: KeyVaultBeginPreBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
-    // (undocumented)
     beginPreRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginPreRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
-    // (undocumented)
     beginPreRestore(folderUri: string, options?: KeyVaultBeginPreRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
     beginRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
     beginRestore(folderUri: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;

@@ -292,6 +292,7 @@ export interface ImportCertificateOptions extends coreClient.OperationOptions {
     enabled?: boolean;
     password?: string;
     policy?: ImportCertificatePolicy;
+    preserveCertificateOrder?: boolean;
     tags?: CertificateTags;
 }
 
