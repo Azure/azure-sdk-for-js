@@ -40,10 +40,10 @@ describe("MongoCluster test", () => {
   });
 
   afterEach(async () => {
-      if (recorder?.recordingId) {
-        await recorder.stop();
-      }
-    });
+    if (recorder?.recordingId) {
+      await recorder.stop();
+    }
+  });
 
   it("operations list test", async function () {
     const resArray = new Array();

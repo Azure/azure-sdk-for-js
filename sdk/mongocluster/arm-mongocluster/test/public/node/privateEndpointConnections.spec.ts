@@ -50,10 +50,10 @@ describe("MongoCluster test", () => {
   });
 
   afterEach(async () => {
-      if (recorder?.recordingId) {
-        await recorder.stop();
-      }
-    });
+    if (recorder?.recordingId) {
+      await recorder.stop();
+    }
+  });
 
   it("mongoClusters for private endpoint create test", async function () {
     const res = await client.mongoClusters.createOrUpdate(
