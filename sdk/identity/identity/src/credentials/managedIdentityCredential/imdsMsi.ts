@@ -21,9 +21,7 @@ const imdsEndpointPath = "/metadata/identity/oauth2/token";
  * Generates an invalid request options to get a response quickly from IMDS endpoint.
  * The response indicates the availability of IMSD service; otherwise the request would time out.
  */
-function prepareInvalidRequestOptions(
-  scopes: string | string[],
-): PipelineRequestOptions {
+function prepareInvalidRequestOptions(scopes: string | string[]): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
     throw new Error(`${msiName}: Multiple scopes are not supported.`);
