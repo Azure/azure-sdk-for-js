@@ -6,7 +6,7 @@ import type { WebSocketData } from "./models/public.js";
 import { createWebSocket } from "./webSocket.js";
 
 export function createConnectionManager(
-  url: URL,
+  url: string,
   options: WebSocketImplOptions = {},
 ): WithSocket<WebSocket, WebSocketData, WebSocketData> {
   return createWebSocket(url, options);

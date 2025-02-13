@@ -76,8 +76,8 @@ async function withConnectionManager<WebSocketT>(
 /**
  * Create a wrapper that builds a promise-based client on demand.
  */
-function buildClientWrapper<WebSocketT>(
-  urlObj: URL,
+function buildClient<WebSocketT>(
+  urlObj: string,
   protocols: string | string[] | undefined,
   restOptions: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols">,
   fullOptions: WebSocketClientOptions,
@@ -132,7 +132,7 @@ export function createWebSocketClient<WebSocketT>(
   const { protocols, allowInsecureConnection, ...restOptions } = options;
   try {
     const urlObj = createUrl(url, { allowInsecureConnection });
-    return buildClientWrapper<WebSocketT>(urlObj, protocols, restOptions, options);
+    return buildClient<WebSocketT>(urlObj, protocols, restOptions, options);
   } catch (err) {
     const rejectOnDemand = (): Promise<never> => Promise.reject(err);
     return {

@@ -9,7 +9,7 @@ type InternalListener = EventListener;
 type PublicListener = WebSocketEventListeners<WebSocketData>[keyof WebSocketEventListeners];
 
 export function createWebSocket(
-  url: URL,
+  url: string,
   options: WebSocketImplOptions = {},
 ): WithSocket<WebSocket, WebSocketData, WebSocketData> {
   // Check if the WebSocket Web API is available in the current runtime.

@@ -28,22 +28,31 @@ export type Writable<T> = {
 };
 
 /**
- * Creates the websocket connection URL
- * @param url - The input URL the user passed in
- * @param options - Options for createUrl
+ * Creates the websocket connection URL. It validates the protocol
+ * and converts http/https to ws/wss respectively.
  *
- * @returns the websocket connection URL
+ * @param url - The input URL string.
+ * @param options - Options for createUrl; if allowInsecureConnection is false, insecure protocols are rejected.
+ * @returns The adjusted URL string.
  */
-export function createUrl(url: string, options: { allowInsecureConnection?: boolean } = {}): URL {
+export function createUrl(
+  url: string,
+  options: { allowInsecureConnection?: boolean } = {},
+): string {
   const { allowInsecureConnection } = options;
-  const urlObj = new URL(url);
-  if (["ws:", "http:"].includes(urlObj.protocol) && !allowInsecureConnection) {
+  // Extract protocol from the URL using a regular expression.
+  const protocolMatch = url.match(/^([a-zA-Z]+):\/\//);
+  if (!protocolMatch || protocolMatch.length < 2) {
+    throw createError("Invalid URL format");
+  }
+  const protocol = protocolMatch[1].toLowerCase() + ":";
+
+  // If using insecure protocols and they are not permitted, throw an error.
+  if (["ws:", "http:"].includes(protocol) && !allowInsecureConnection) {
     throw createError("Insecure connection is not allowed");
   }
-  if (urlObj.protocol === "http:") {
-    urlObj.protocol = "ws:";
-  } else if (urlObj.protocol === "https:") {
-    urlObj.protocol = "wss:";
-  }
-  return urlObj;
+
+  return protocol === "http:"
+    ? "ws:" + url.slice("http:".length)
+    : "wss:" + url.slice("https:".length);
 }

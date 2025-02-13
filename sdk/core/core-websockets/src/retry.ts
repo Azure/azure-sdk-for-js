@@ -167,9 +167,7 @@ export async function retry<T>(
       logger.verbose(`[${operationId}] Operation succeeded after attempt #${state.attemptNumber}`);
       return result;
     } catch (err) {
-      logger.verbose(
-        `[${operationId}] Operation failed in attempt #${state.attemptNumber}: ${err}`,
-      );
+      logger.verbose(`[${operationId}] Operation failed in attempt #${state.attemptNumber}:`, err);
       errors.push(err);
       if (isRetryable?.(err) && state.attemptNumber < state.totalNumberOfAttempts) {
         const targetDelayInMs = calculateDelay(

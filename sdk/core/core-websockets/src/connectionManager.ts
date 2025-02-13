@@ -7,7 +7,7 @@ import { createWebSocket } from "./webSocket.js";
 import { createWs } from "./ws.js";
 
 export function createConnectionManager<WebSocketT>(
-  url: URL,
+  url: string,
   options: WebSocketImplOptions = {},
 ): WithSocket<WebSocketT, WebSocketData, WebSocketData> {
   if (typeof WebSocket === "function") {

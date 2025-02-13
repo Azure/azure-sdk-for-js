@@ -12,7 +12,7 @@ type InternalListner = (event: any) => void;
 type PublicListener = WebSocketEventListeners<WebSocketData>[keyof WebSocketEventListeners];
 
 export function createWs(
-  url: URL,
+  url: string,
   options: WebSocketImplOptions & WebSocketClientAsWsOptions = {},
 ): WithSocket<WS.WebSocket, WebSocketData, WebSocketData> {
   // Check if the 'ws' module is available in the current runtime.
