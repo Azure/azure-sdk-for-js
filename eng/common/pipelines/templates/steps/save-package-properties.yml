@@ -63,7 +63,7 @@ steps:
           $setDailyDevBuild = "true"
           echo "##vso[task.setvariable variable=SetDevVersion]$setDailyDevBuild"
         displayName: "Setup Versioning Properties"
-        condition: and(${{ parameters.Condition }}, eq(variables['SetDevVersion'], ''))
+        condition: eq(variables['SetDevVersion'], '')
 
       - task: Powershell@2
         displayName: Save package properties
