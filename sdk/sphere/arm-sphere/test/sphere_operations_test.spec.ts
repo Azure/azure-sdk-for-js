@@ -39,27 +39,25 @@ describe("Sphere test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: AzureSphereManagementClient;
-  let location: string;
   let resourceGroup: string;
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new AzureSphereManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new AzureSphereManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("catalogs create test", async function () {
+  it("catalogs create test", async () => {
     const res = await client.catalogs.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
@@ -68,13 +66,13 @@ describe("Sphere test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it("catalogs get test", async function () {
+  it("catalogs get test", async () => {
     const res = await client.catalogs.get(resourceGroup,
       resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("catalogs list test", async function () {
+  it("catalogs list test", async () => {
     const resArray = new Array();
     for await (let item of client.catalogs.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -82,7 +80,7 @@ describe("Sphere test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("operations list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
@@ -90,8 +88,10 @@ describe("Sphere test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("catalogs delete test", async function () {
+  it("catalogs delete test", async () => {
     const resArray = new Array();
+    await client.catalogs.beginDeleteAndWait(resourceGroup,
+      resourcename, testPollingOptions);
     for await (let item of client.catalogs.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
