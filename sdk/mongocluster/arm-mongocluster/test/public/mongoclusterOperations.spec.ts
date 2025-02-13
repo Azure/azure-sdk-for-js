@@ -39,11 +39,11 @@ describe("MongoCluster test", () => {
     fireWallName = "testfilerule";
   });
 
-  afterEach(async function () {
-    if (recorder?.recordingId) {
-      await recorder.stop();
-    }
-  });
+  afterEach(async () => {
+      if (recorder?.recordingId) {
+        await recorder.stop();
+      }
+    });
 
   it("operations list test", async function () {
     const resArray = new Array();

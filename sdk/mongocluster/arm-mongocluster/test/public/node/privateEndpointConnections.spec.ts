@@ -49,11 +49,11 @@ describe("MongoCluster test", () => {
     privateEndpointName = "testPEC";
   });
 
-  afterEach(async function () {
-    if (recorder?.recordingId) {
-      await recorder.stop();
-    }
-  });
+  afterEach(async () => {
+      if (recorder?.recordingId) {
+        await recorder.stop();
+      }
+    });
 
   it("mongoClusters for private endpoint create test", async function () {
     const res = await client.mongoClusters.createOrUpdate(
