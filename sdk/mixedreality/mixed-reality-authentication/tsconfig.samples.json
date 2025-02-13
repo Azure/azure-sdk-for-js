@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/mixed-reality-authentication": [
-        "./dist/esm"
-      ]
+      "@azure/mixed-reality-authentication": ["./dist/esm"]
     }
   }
 }
