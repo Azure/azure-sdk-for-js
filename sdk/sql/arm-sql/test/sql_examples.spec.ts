@@ -42,23 +42,23 @@ describe("Sql test", () => {
   let databaseName: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new SqlManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "westus";
-      resourceGroup = "myjstest";
-      databaseName = "mydatabasezzzz";
-      serverName = "myserverppp";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new SqlManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "westus";
+    resourceGroup = "myjstest";
+    databaseName = "mydatabasezzzz";
+    serverName = "myserverppp";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("servers create test", async function () {
+  it("servers create test", async () => {
     const res = await client.servers.beginCreateOrUpdateAndWait(resourceGroup, serverName, {
       location,
       administratorLogin: "dummylogin",
@@ -68,7 +68,7 @@ describe("Sql test", () => {
     assert.equal(res.name, serverName);
   });
 
-  it("databases create test", async function () {
+  it("databases create test", async () => {
     const res = await client.databases.beginCreateOrUpdateAndWait(resourceGroup, serverName, databaseName, {
       location,
       readScale: "Disabled"
@@ -76,7 +76,7 @@ describe("Sql test", () => {
     assert.equal(res.name, databaseName);
   });
 
-  it("databaseSecurityAlertPolicies create test", async function () {
+  it("databaseSecurityAlertPolicies create test", async () => {
     const res = await client.databaseSecurityAlertPolicies.createOrUpdate(resourceGroup, serverName, databaseName, "Default", {
       disabledAlerts: ["Sql_Injection", "Access_Anomaly"],
       state: "Enabled",
@@ -84,17 +84,17 @@ describe("Sql test", () => {
     assert.equal(res.name, "Default");
   });
 
-  it("servers get test", async function () {
+  it("servers get test", async () => {
     const res = await client.servers.get(resourceGroup, serverName);
     assert.equal(res.name, serverName);
   });
 
-  it("databases get test", async function () {
+  it("databases get test", async () => {
     const res = await client.databases.get(resourceGroup, serverName, databaseName);
     assert.equal(res.name, databaseName);
   });
 
-  it("servers list test", async function () {
+  it("servers list test", async () => {
     const resArray = new Array()
     for await (let item of client.servers.listByResourceGroup(resourceGroup)) {
       resArray.push(item)
@@ -102,7 +102,7 @@ describe("Sql test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("databases list test", async function () {
+  it("databases list test", async () => {
     const resArray = new Array()
     for await (let item of client.databases.listByServer(resourceGroup, serverName)) {
       resArray.push(item)
@@ -110,7 +110,7 @@ describe("Sql test", () => {
     assert.equal(resArray.length, 2);
   });
 
-  it("servers update test", async function () {
+  it("servers update test", async () => {
     const res = await client.servers.beginUpdateAndWait(resourceGroup, serverName, {
       tags: {
         tag1: "value1"
@@ -119,7 +119,7 @@ describe("Sql test", () => {
     assert.equal(res.type, "Microsoft.Sql/servers")
   });
 
-  it("databases update test", async function () {
+  it("databases update test", async () => {
     const res = await client.databases.beginUpdateAndWait(resourceGroup, serverName, databaseName, {
       sku: {
         name: "S1",
@@ -131,16 +131,18 @@ describe("Sql test", () => {
     assert.equal(res.type, "Microsoft.Sql/servers/databases")
   });
 
-  it("databases delete test", async function () {
+  it("databases delete test", async () => {
     const resArray = new Array()
+    await client.databases.beginDeleteAndWait(resourceGroup, serverName, databaseName, testPollingOptions);
     for await (let item of client.databases.listByServer(resourceGroup, serverName)) {
       resArray.push(item)
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("servers delete test", async function () {
+  it("servers delete test", async () => {
     const resArray = new Array()
+    await client.servers.beginDeleteAndWait(resourceGroup, serverName, testPollingOptions);
     for await (let item of client.servers.listByResourceGroup(resourceGroup)) {
       resArray.push(item)
     }
