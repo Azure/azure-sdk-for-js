@@ -7,9 +7,7 @@
  */
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to A failover request can be triggered for a storage account in the event a primary endpoint becomes unavailable for any reason. The failover occurs from the storage account's primary cluster to the secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover and the account is converted to LRS. In the case of a Planned Failover, the primary and secondary clusters are swapped after failover and the account remains geo-replicated. Failover should continue to be used in the event of availability issues as Planned failover is only available while the primary and secondary endpoints are available. The primary use case of a Planned Failover is disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter to 'Planned'. Learn more about the failover options here- https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidance
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary A failover request can be triggered for a storage account in the event a primary endpoint becomes unavailable for any reason. The failover occurs from the storage account's primary cluster to the secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover and the account is converted to LRS. In the case of a Planned Failover, the primary and secondary clusters are swapped after failover and the account remains geo-replicated. Failover should continue to be used in the event of availability issues as Planned failover is only available while the primary and secondary endpoints are available. The primary use case of a Planned Failover is disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter to 'Planned'. Learn more about the failover options here- https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidance
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountFailover.json
  */
-async function storageAccountFailover() {
+async function storageAccountFailover(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4228";
   const accountName = "sto2434";
@@ -33,7 +31,7 @@ async function storageAccountFailover() {
  * @summary A failover request can be triggered for a storage account in the event a primary endpoint becomes unavailable for any reason. The failover occurs from the storage account's primary cluster to the secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover and the account is converted to LRS. In the case of a Planned Failover, the primary and secondary clusters are swapped after failover and the account remains geo-replicated. Failover should continue to be used in the event of availability issues as Planned failover is only available while the primary and secondary endpoints are available. The primary use case of a Planned Failover is disaster recovery testing drills. This type of failover is invoked by setting FailoverType parameter to 'Planned'. Learn more about the failover options here- https://learn.microsoft.com/azure/storage/common/storage-disaster-recovery-guidance
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountFailoverPlanned.json
  */
-async function storageAccountFailoverPlanned() {
+async function storageAccountFailoverPlanned(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4228";
   const accountName = "sto2434";
@@ -43,7 +41,7 @@ async function storageAccountFailoverPlanned() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await storageAccountFailover();
   await storageAccountFailoverPlanned();
 }

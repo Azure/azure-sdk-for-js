@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { StorageManagementClient } from "../src/storageManagementClient";
+import { StorageManagementClient } from "../src/storageManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -43,22 +41,22 @@ describe("Storage test", () => {
   let storageAccountName: string;
   let containerName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new StorageManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    storageAccountName = "storageaccountzzzxxx1";
-    containerName = "mycontainerxxx";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new StorageManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      storageAccountName = "storageaccountzzzxxx1";
+      containerName = "mycontainerxxx";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("storageAccounts create test", async function () {
     const res = await client.storageAccounts.beginCreateAndWait(resourceGroup, storageAccountName, {
@@ -130,7 +128,6 @@ describe("Storage test", () => {
   });
 
   it("blobContainers delete test", async function () {
-    const res = await client.blobContainers.delete(resourceGroup, storageAccountName, containerName);
     const resArray = new Array();
     for await (let item of client.blobContainers.list(resourceGroup, storageAccountName)) {
       resArray.push(item);
@@ -139,7 +136,6 @@ describe("Storage test", () => {
   });
 
   it("storageAccounts delete test", async function () {
-    const res = await client.storageAccounts.delete(resourceGroup, storageAccountName);
     const resArray = new Array();
     for await (let item of client.storageAccounts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

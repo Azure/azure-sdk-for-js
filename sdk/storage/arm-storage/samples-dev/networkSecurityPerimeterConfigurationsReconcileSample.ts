@@ -7,9 +7,7 @@
  */
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Refreshes any information about the association.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Refreshes any information about the association.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/NetworkSecurityPerimeterConfigurationReconcile.json
  */
-async function networkSecurityPerimeterConfigurationReconcile() {
+async function networkSecurityPerimeterConfigurationReconcile(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
@@ -34,7 +32,7 @@ async function networkSecurityPerimeterConfigurationReconcile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await networkSecurityPerimeterConfigurationReconcile();
 }
 
