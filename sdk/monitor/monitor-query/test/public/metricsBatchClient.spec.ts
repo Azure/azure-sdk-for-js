@@ -17,13 +17,13 @@ describe.skip("MetricsBatchClient live tests", function () {
   let metricsBatchQueryClient: MetricsClient;
 
   beforeEach(async () => {
-      const recordedClient: RecorderAndMetricsBatchQueryClient =
-        await createRecorderAndMetricsBatchQueryClient();
-      resourceIds = getMetricsBatchResourceIds();
-      metricsNamespace = getMetricsBatchNamespace();
-      metricNames = getMetricsBatchNames();
-      metricsBatchQueryClient = recordedClient.client;
-    });
+    const recordedClient: RecorderAndMetricsBatchQueryClient =
+      await createRecorderAndMetricsBatchQueryClient();
+    resourceIds = getMetricsBatchResourceIds();
+    metricsNamespace = getMetricsBatchNamespace();
+    metricNames = getMetricsBatchNames();
+    metricsBatchQueryClient = recordedClient.client;
+  });
 
   it("batch query with no resource ids", async () => {
     try {

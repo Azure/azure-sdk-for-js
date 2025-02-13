@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/monitor-query": [
-        "./dist/esm"
-      ]
+      "@azure/monitor-query": ["./dist/esm"]
     }
   }
 }

@@ -19,17 +19,17 @@ describe("MetricsClient live tests", function () {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-      loggerForTest.verbose(`Recorder: starting...`);
-      recorder = new Recorder(ctx);
-      const recordedClient: RecorderAndMetricsClient = await createRecorderAndMetricsClient(recorder);
-      resourceId = getMetricsArmResourceId();
-      metricsQueryClient = recordedClient.client;
-    });
+    loggerForTest.verbose(`Recorder: starting...`);
+    recorder = new Recorder(ctx);
+    const recordedClient: RecorderAndMetricsClient = await createRecorderAndMetricsClient(recorder);
+    resourceId = getMetricsArmResourceId();
+    metricsQueryClient = recordedClient.client;
+  });
 
   afterEach(async () => {
-      loggerForTest.verbose("Recorder: stopping");
-      await recorder.stop();
-    });
+    loggerForTest.verbose("Recorder: stopping");
+    await recorder.stop();
+  });
 
   it("getMetricDefinitions -> queryMetrics", async () => {
     const iter = metricsQueryClient.listMetricDefinitions(resourceId);
