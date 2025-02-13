@@ -67,6 +67,7 @@ function SetOutput($outputPath, $incomingPackageSpec)
   {
     # Use the "Version" property which was provided by the incoming package spec
     # as the DevVersion. This may be overridden later.
+    Write-Host "Adding DevVersion property to package info json. Dev version: $($incomingPackageSpec.Version)"
     $outputObject.DevVersion = $incomingPackageSpec.Version
   }
 
