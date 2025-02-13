@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { MetricNamespace, MetricNamespacesListOptionalParams } from "../models";
+import { MetricNamespace, MetricNamespacesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MetricNamespaces. */

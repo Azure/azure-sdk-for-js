@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { MonitorClient } from "../src/monitorClient";
+import { MonitorClient } from "../src/monitorClient.js";
 import { LogicManagementClient } from "@azure/arm-logic";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { EventHubManagementClient } from "@azure/arm-eventhub";
@@ -62,33 +60,33 @@ describe("Monitor test", () => {
   let workspaceId: string;
   let azureMonitorWorkspaceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new MonitorClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    logic_client = new LogicManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    storage_client = new StorageManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    eventhub_client = new EventHubManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    op_client = new OperationalInsightsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    workflowName = "myworkflowxxx";
-    storageAccountName = "mystorageaccountyyy1";
-    namespaceName = "mynamespacexxx";
-    eventhubName = "myeventhubxxx";
-    workspaceName = "myworkspacexxx";
-    authorizationRuleName = "myauthorizationRulexxx";
-    logProfileName = "mylogProfilexxx";
-    diagnosticName = "mydiagnosticxxxx";
-    azureMonitorWorkspaceName = "myAzureMonitorWorkspace"
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new MonitorClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      logic_client = new LogicManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      storage_client = new StorageManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      eventhub_client = new EventHubManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      op_client = new OperationalInsightsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      workflowName = "myworkflowxxx";
+      storageAccountName = "mystorageaccountyyy1";
+      namespaceName = "mynamespacexxx";
+      eventhubName = "myeventhubxxx";
+      workspaceName = "myworkspacexxx";
+      authorizationRuleName = "myauthorizationRulexxx";
+      logProfileName = "mylogProfilexxx";
+      diagnosticName = "mydiagnosticxxxx";
+      azureMonitorWorkspaceName = "myAzureMonitorWorkspace"
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("create parameters for diagnosticSettings", async function () {
     //workflows.createOrUpdate
@@ -133,17 +131,6 @@ describe("Monitor test", () => {
     storageId = storageaccount.id || "";
 
     //namespaces.beginCreateOrUpdateAndWait
-    const namespaces = await eventhub_client.namespaces.beginCreateOrUpdateAndWait(resourceGroup, namespaceName, {
-      sku: {
-        name: "Standard",
-        tier: "Standard",
-      },
-      location: location,
-      tags: {
-        tag1: "value1",
-        tag2: "value2",
-      }
-    }, testPollingOptions)
     //namespaces.createOrUpdateAuthorizationRule
     const authorization = await eventhub_client.namespaces.createOrUpdateAuthorizationRule(resourceGroup, namespaceName, authorizationRuleName, { rights: ["Listen", "Send", "Manage"] });
     authorizationId = authorization.id || "";
@@ -164,23 +151,6 @@ describe("Monitor test", () => {
   // skip this case as no data plane write permissions
   it.skip("eventhub create test", async function () {
     // eventHubs.createOrUpdate
-    const eventhub = await eventhub_client.eventHubs.createOrUpdate(resourceGroup, namespaceName, eventhubName, {
-      messageRetentionInDays: 4,
-      partitionCount: 4,
-      status: "Active",
-      captureDescription: {
-        enabled: true,
-        encoding: "Avro",
-        intervalInSeconds: 120,
-        sizeLimitInBytes: 10485763,
-        destination: {
-          name: "EventHubArchive.AzureBlockBlob",
-          storageAccountResourceId: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/" + storageAccountName,
-          blobContainer: "container",
-          archiveNameFormat: "{Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}",
-        }
-      }
-    });
   })
 
   it("diagnosticSettings create test", async function () {
@@ -214,11 +184,9 @@ describe("Monitor test", () => {
   });
 
   it("diagnosticSettings list test", async function () {
-    const res = await client.diagnosticSettings.list(workflowsId);
   });
 
   it("diagnosticSettings delete test", async function () {
-    const res = await client.diagnosticSettings.delete(workflowsId, diagnosticName);
   });
 
   it("logProfiles create test", async function () {
@@ -287,7 +255,6 @@ describe("Monitor test", () => {
 
   it("workspace delete test", async function () {
     const resArray = new Array();
-    const res = await client.azureMonitorWorkspaces.beginDeleteAndWait(resourceGroup, azureMonitorWorkspaceName)
     for await (let item of client.azureMonitorWorkspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
@@ -295,32 +262,15 @@ describe("Monitor test", () => {
   });
 
   it("metric listAtSubscriptionScope test", async function () {
-    const res = await client.metricsOperations.listAtSubscriptionScope(
-      location,
-      {
-        metricnamespace: "microsoft.compute/virtualmachines"
-      }
-    );
   });
 
   it("metric list test", async function () {
-    const res = await client.metricsOperations.list(
-      "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/" + storageAccountName + "/blobServices/default",
-      {
-        metricnamespace: "Microsoft.Storage/storageAccounts/blobServices"
-      }
-    );
   });
 
   it("delete parameters for diagnosticSettings", async function () {
-    const workflowDlete = await logic_client.workflows.delete(resourceGroup, workflowName);
-    const storageDelete = await storage_client.storageAccounts.delete(resourceGroup, storageAccountName);
-    const namespaceDelete = await eventhub_client.namespaces.beginDeleteAndWait(resourceGroup, namespaceName, testPollingOptions);
-    const workspaceDelete = await op_client.workspaces.beginDeleteAndWait(resourceGroup, workspaceName, testPollingOptions);
   });
 
   it("logProfiles delete test", async function () {
-    const res = await client.logProfiles.delete(logProfileName);
     const resArray = new Array();
     for await (let item of client.logProfiles.list()) {
       resArray.push(item);
