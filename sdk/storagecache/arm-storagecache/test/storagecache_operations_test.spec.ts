@@ -41,30 +41,74 @@ describe("StorageCache test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new StorageCacheManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest";
-    });
-
-  afterEach(async () => {
-      await recorder.stop();
-    });
-
-  it("caches create test", async function () {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new StorageCacheManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest";
   });
 
-  it("caches get test", async function () {
+  afterEach(async () => {
+    await recorder.stop();
+  });
+
+  it("caches create test", async () => {
+    await client.caches.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      resourcename,
+      {
+        networkSettings: {
+          mtu: 1500,
+          utilityAddresses: [
+            "10.0.0.10",
+            "10.0.0.11",
+            "10.0.0.12"
+          ],
+          ntpServer: "time.windows.com"
+        },
+        cacheSizeGB: 3072,
+        directoryServicesSettings: {},
+        location,
+        securitySettings: {
+          accessPolicies: [
+            {
+              name: "default",
+              accessRules: [
+                {
+                  access: "rw",
+                  rootSquash: false,
+                  scope: "default",
+                  submountAccess: true,
+                  suid: false
+                }
+              ]
+            }
+          ]
+        },
+        sku: { name: "Standard_2G" },
+        subnet:
+          "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+        tags: { dept: "Contoso" },
+        zones: ["1"],
+        mountAddresses: [
+          "10.0.0.7",
+          "10.0.0.8",
+          "10.0.0.9"
+        ],
+      },
+      testPollingOptions);
+  });
+
+  it("caches get test", async () => {
     const res = await client.caches.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("caches list test", async function () {
+  it("caches list test", async () => {
     const resArray = new Array();
     for await (let item of client.caches.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -72,8 +116,9 @@ describe("StorageCache test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("caches delete test", async function () {
+  it("caches delete test", async () => {
     const resArray = new Array();
+    await client.caches.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions)
     for await (let item of client.caches.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
