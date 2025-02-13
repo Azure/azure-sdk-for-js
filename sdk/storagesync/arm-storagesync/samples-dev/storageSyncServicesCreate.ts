@@ -15,7 +15,7 @@ import type { StorageSyncServiceCreateParameters } from "@azure/arm-storagesync"
 import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function storageSyncServicesCreate() {
+async function storageSyncServicesCreate(): Promise<void> {
   const subscriptionId = "52b8da2f-61e0-4a1f-8dde-336911f367fb";
   const resourceGroupName = "SampleResourceGroup_1";
   const storageSyncServiceName = "SampleStorageSyncService_1";
