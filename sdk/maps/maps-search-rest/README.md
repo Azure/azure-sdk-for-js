@@ -64,10 +64,10 @@ The Azure Maps resource client id can be found in the Authentication sections in
 
 ```ts snippet:ReadmeSampleCreateClient_TokenCredential
 import { DefaultAzureCredential } from "@azure/identity";
-import MapSearch from "@azure-rest/maps-search";
+import MapsSearch from "@azure-rest/maps-search";
 
 const credential = new DefaultAzureCredential();
-const client = MapSearch(credential, "<maps-account-client-id>");
+const client = MapsSearch(credential, "<maps-account-client-id>");
 ```
 
 #### Using a Subscription Key Credential
@@ -76,10 +76,10 @@ You can authenticate with your Azure Maps Subscription Key.
 
 ```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
 import { AzureKeyCredential } from "@azure/core-auth";
-import MapSearch from "@azure-rest/maps-search";
+import MapsSearch from "@azure-rest/maps-search";
 
 const credential = new AzureKeyCredential("<subscription-key>");
-const client = MapSearch(credential);
+const client = MapsSearch(credential);
 ```
 
 #### Using a Shared Access Signature (SAS) Token Credential
@@ -102,7 +102,7 @@ Finally, you can use the SAS token to authenticate the client:
 import { DefaultAzureCredential } from "@azure/identity";
 import { AzureMapsManagementClient } from "@azure/arm-maps";
 import { AzureSASCredential } from "@azure/core-auth";
-import MapSearch from "@azure-rest/maps-search";
+import MapsSearch from "@azure-rest/maps-search";
 
 const subscriptionId = "<subscription ID of the map account>";
 const resourceGroupName = "<resource group name of the map account>";
@@ -128,7 +128,7 @@ if (accountSasToken === undefined) {
 }
 
 const sasCredential = new AzureSASCredential(accountSasToken);
-const client = MapSearch(sasCredential);
+const client = MapsSearch(sasCredential);
 ```
 
 ## Key concepts
@@ -150,10 +150,10 @@ You can use an authenticated client to convert an address into latitude and long
 
 ```ts snippet:ReadmeSampleGeocode
 import { DefaultAzureCredential } from "@azure/identity";
-import MapSearch, { isUnexpected } from "@azure-rest/maps-search";
+import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 
 const credential = new DefaultAzureCredential();
-const client = MapSearch(credential, "<maps-account-client-id>");
+const client = MapsSearch(credential, "<maps-account-client-id>");
 
 /** Make a request to the geocoding API */
 const response = await client
@@ -187,10 +187,10 @@ This is often used for applications that consume GPS feeds and want to discover 
 
 ```ts snippet:ReadmeSampleReverseGeocode
 import { DefaultAzureCredential } from "@azure/identity";
-import MapSearch, { isUnexpected } from "@azure-rest/maps-search";
+import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 
 const credential = new DefaultAzureCredential();
-const client = MapSearch(credential, "<maps-account-client-id>");
+const client = MapsSearch(credential, "<maps-account-client-id>");
 
 /** Make the request. */
 const response = await client.path("/reverseGeocode").get({

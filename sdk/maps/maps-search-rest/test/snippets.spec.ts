@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import MapSearch, { isUnexpected } from "../src/index.js";
+import MapsSearch, { isUnexpected } from "../src/index.js";
 import { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { DefaultAzureCredential } from "@azure/identity";
 // @ts-ignore
@@ -12,17 +12,17 @@ import { describe, it } from "vitest";
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_TokenCredential", async () => {
     const credential = new DefaultAzureCredential();
-    const client = MapSearch(credential, "<maps-account-client-id>");
+    const client = MapsSearch(credential, "<maps-account-client-id>");
   });
 
   it("ReadmeSampleCreateClient_SubscriptionKey", async () => {
     const credential = new AzureKeyCredential("<subscription-key>");
-    const client = MapSearch(credential);
+    const client = MapsSearch(credential);
   });
 
   it("ReadmeSampleCreateClient_SASToken", async () => {
     const credential = new AzureSASCredential("<SAS Token>");
-    const client = MapSearch(credential);
+    const client = MapsSearch(credential);
   });
 
   it("ReadmeSampleCreateClient_SAS", async () => {
@@ -50,12 +50,12 @@ describe("snippets", () => {
     }
     // @ts-preserve-whitespace
     const sasCredential = new AzureSASCredential(accountSasToken);
-    const client = MapSearch(sasCredential);
+    const client = MapsSearch(sasCredential);
   });
 
   it("ReadmeSampleGeocode", async () => {
     const credential = new DefaultAzureCredential();
-    const client = MapSearch(credential, "<maps-account-client-id>");
+    const client = MapsSearch(credential, "<maps-account-client-id>");
     // @ts-preserve-whitespace
     /** Make a request to the geocoding API */
     const response = await client
@@ -84,7 +84,7 @@ describe("snippets", () => {
 
   it("ReadmeSampleReverseGeocode", async () => {
     const credential = new DefaultAzureCredential();
-    const client = MapSearch(credential, "<maps-account-client-id>");
+    const client = MapsSearch(credential, "<maps-account-client-id>");
     // @ts-preserve-whitespace
     /** Make the request. */
     const response = await client.path("/reverseGeocode").get({
