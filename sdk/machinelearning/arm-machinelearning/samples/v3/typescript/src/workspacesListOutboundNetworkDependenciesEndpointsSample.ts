@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Called by Client (Portal, CLI, etc) to get a list of all external outbound dependencies (FQDNs) programmatically.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Called by Client (Portal, CLI, etc) to get a list of all external outbound dependencies (FQDNs) programmatically.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/ExternalFQDN/get.json
  */
-async function listOutboundNetworkDependenciesEndpoints() {
+async function listOutboundNetworkDependenciesEndpoints(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -40,7 +38,7 @@ async function listOutboundNetworkDependenciesEndpoints() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listOutboundNetworkDependenciesEndpoints();
 }
 

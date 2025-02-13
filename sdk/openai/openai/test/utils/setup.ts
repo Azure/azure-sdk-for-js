@@ -5,7 +5,7 @@ import type { TestProject } from "vitest/node";
 import { EnvironmentVariableNames } from "./envVars.js";
 import type { DeploymentInfo, ResourceInfo, ResourcesInfo } from "./types.js";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
-import { createTestCredential } from "@azure-tools/test-credential";
+import { createLiveCredential } from "@azure-tools/test-credential";
 import { logger } from "./logger.js";
 import "dotenv/config";
 import { readFile, writeFile } from "node:fs/promises";
@@ -49,7 +49,7 @@ async function listDeployments(
   accountName: string,
 ): Promise<DeploymentInfo[]> {
   const deployments: DeploymentInfo[] = [];
-  const mgmtClient = new CognitiveServicesManagementClient(createTestCredential(), subId);
+  const mgmtClient = new CognitiveServicesManagementClient(createLiveCredential(), subId);
   for await (const deployment of mgmtClient.deployments.list(rgName, accountName)) {
     const deploymentName = deployment.name;
     const modelName = deployment.properties?.model?.name;

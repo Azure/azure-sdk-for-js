@@ -17,7 +17,7 @@ import {
   Workspace as WorkspaceMapper,
   WorkspaceUpdateDefinition as WorkspaceUpdateDefinitionMapper,
   GenerateUploadUrlRequest as GenerateUploadUrlRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

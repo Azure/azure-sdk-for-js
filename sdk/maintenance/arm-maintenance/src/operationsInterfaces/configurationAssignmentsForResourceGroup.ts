@@ -16,7 +16,7 @@ import {
   ConfigurationAssignmentsForResourceGroupUpdateResponse,
   ConfigurationAssignmentsForResourceGroupDeleteOptionalParams,
   ConfigurationAssignmentsForResourceGroupDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ConfigurationAssignmentsForResourceGroup. */
 export interface ConfigurationAssignmentsForResourceGroup {

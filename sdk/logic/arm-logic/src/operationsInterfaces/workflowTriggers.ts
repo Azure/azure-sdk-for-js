@@ -20,7 +20,7 @@ import {
   WorkflowTriggersSetStateOptionalParams,
   WorkflowTriggersListCallbackUrlOptionalParams,
   WorkflowTriggersListCallbackUrlResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WorkflowTriggers. */
