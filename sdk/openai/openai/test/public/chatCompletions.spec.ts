@@ -3,11 +3,12 @@
 
 import { assert, describe, it } from "vitest";
 import { createClientsAndDeployments } from "../utils/createClients.js";
-import type { APIVersion } from "../utils/utils.js";
 import {
   APIMatrix,
+  APIVersion,
   bufferAsyncIterable,
   createAzureSearchExtension,
+  testWithDeployments,
   withDeployments,
 } from "../utils/utils.js";
 import { assertChatCompletions, assertChatCompletionsList } from "../utils/asserts.js";
@@ -15,7 +16,6 @@ import { type ChatCompletionMessageParam } from "openai/resources/chat/completio
 import { functionCallModelsToSkip, jsonResponseModelsToSkip } from "../utils/models.js";
 import "../../src/types/index.js";
 import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
-import { logger } from "../utils/logger.js";
 
 describe.each(APIMatrix)("Chat Completions [%s]", function (apiVersion: APIVersion) {
   let clientsAndDeploymentsInfo: ClientsAndDeploymentsInfo;
@@ -255,70 +255,28 @@ describe.each(APIMatrix)("Chat Completions [%s]", function (apiVersion: APIVersi
     });
 
     describe("works with custom data sources", async function () {
-      logger.info("Starting...");
-      let { clientsAndDeployments, count } = clientsAndDeploymentsInfo;
-      assert.isNotEmpty(clientsAndDeployments, "No deployments found");
-      let i = 0;
-      describe.each(clientsAndDeployments)(
-        "Chat Completions",
-        async function ({ client, deployments }) {
-          deployments.forEach((deployment) => {
-            it(deployment.deploymentName, async function (done) {
-              logger.info(
-                `[${++i}/${count}] testing with deployment: ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
-              );
-
-              try {
-                assert.isNotNull(client);
-                logger.info("Client: ", client);
-                logger.info("Starting to run deployment name ", deployment.deploymentName);
-                const res = await client.chat.completions.create({
-                  model: deployment.deploymentName,
-                  messages: byodMessages,
-                  data_sources: [createAzureSearchExtension()],
-                });
-                logger.info("Result: ", res);
-                assertChatCompletions?.(res);
-                logger.info("Chat completions passed");
-              } catch (e) {
-                const error = e as any;
-                if (!e) return;
-                const errorStr = JSON.stringify(error);
-                if (
-                  [
-                    "OperationNotSupported",
-                    "model_not_found",
-                    "rate_limit_exceeded",
-                    "ModelDeprecated",
-                    "429",
-                    "UserError",
-                  ].includes(error.code) ||
-                  error.type === "invalid_request_error" ||
-                  error.name === "AbortError" ||
-                  errorStr.includes("Connection error") ||
-                  errorStr.includes("toolCalls") ||
-                  [
-                    "ManagedIdentityIsNotEnabled",
-                    "Rate limit is exceeded",
-                    "Invalid AzureCognitiveSearch configuration detected",
-                    "Unsupported Model",
-                    "does not support 'system' with this model",
-                    "Cannot cancel run with status 'completed'",
-                  ].some((match) => error.message.includes(match)) ||
-                  error.status === 404
-                ) {
-                  logger.warning("Handled error: ", error);
-                  done.skip("Skipping test due to handled error");
-                  return;
-                } else {
-                  logger.error(`Error in deployment ${deployment.deploymentName}: `, error);
-                  throw e;
-                }
-              }
-            });
-          });
+      assert.isNotEmpty(clientsAndDeploymentsInfo.clientsAndDeployments, "No deployments found");
+      await testWithDeployments({
+        clientsAndDeployments: clientsAndDeploymentsInfo,
+        run: (client, model) =>
+          client.chat.completions.create({
+            model: model,
+            messages: byodMessages,
+            data_sources: [createAzureSearchExtension()],
+          }),
+        validate: assertChatCompletions,
+        modelsListToSkip: [
+          { name: "gpt-35-turbo-0613" }, // Unsupported model
+          { name: "gpt-4-32k" }, // Managed identity is not enabled
+          { name: "o1-preview" }, // o-series models are not supported with OYD.
+        ],
+        acceptableErrors: {
+          messageSubstring: [
+            "Rate limit is exceeded",
+            "Invalid AzureCognitiveSearch configuration detected", // gpt-4-1106-preview and others
+          ],
         },
-      );
+      });
     });
 
     describe("return stream", function () {

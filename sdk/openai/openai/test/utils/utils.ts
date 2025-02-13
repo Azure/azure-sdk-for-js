@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "vitest";
+import { assert, test } from "vitest";
 import {
   type PipelineRequest,
   type PipelineResponse,
@@ -14,15 +14,14 @@ import {
 import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import type { AzureChatExtensionConfiguration } from "../../src/types/index.js";
 import { getAzureSearchEndpoint, getAzureSearchIndex } from "./injectables.js";
-import type {
-  ClientsAndDeploymentsInfo,
-  ModelCapabilities,
-  ModelInfo,
-  ResourceInfo,
-} from "./types.js";
+import { ClientsAndDeploymentsInfo, ModelCapabilities, ModelInfo, ResourceInfo } from "./types.js";
 import { logger } from "./logger.js";
 import type { OpenAI } from "openai";
 import type { Sku } from "@azure/arm-cognitiveservices";
+
+export type AcceptableErrors = {
+  messageSubstring: string[];
+};
 
 export const maxRetriesOption = { maxRetries: 0 };
 
@@ -31,6 +30,7 @@ export enum APIVersion {
   Stable = "2024-10-21",
   OpenAI = "OpenAI",
 }
+
 export const APIMatrix = [APIVersion.Preview, APIVersion.Stable];
 
 function toString(error: any): string {
@@ -86,8 +86,7 @@ export async function withDeployments<T>(
             "Unsupported Model",
             "does not support 'system' with this model",
             "Cannot cancel run with status 'completed'",
-          ].some((match) => error.message.includes(match)) ||
-          error.status === 404
+          ].some((match) => error.message.includes(match))
         ) {
           logger.warning("WARNING: Handled error: ", error);
           continue;
@@ -103,6 +102,49 @@ export async function withDeployments<T>(
   logger.info(
     `Succeeded with (${succeeded.length}): ${JSON.stringify(succeeded.map(({ deploymentName }) => deploymentName).join(", "))}`,
   );
+}
+
+export type DeploymentTestingParameters<T> = {
+  clientsAndDeployments: ClientsAndDeploymentsInfo;
+  run: (client: OpenAI, model: string) => Promise<T>;
+  validate?: (result: T) => void;
+  modelsListToSkip?: Partial<ModelInfo>[];
+  acceptableErrors?: AcceptableErrors;
+};
+
+export async function testWithDeployments<T>({
+  clientsAndDeployments,
+  run,
+  validate,
+  modelsListToSkip,
+  acceptableErrors,
+}: DeploymentTestingParameters<T>): Promise<void> {
+  assert.isNotEmpty(clientsAndDeployments, "No deployments found");
+  for (const { client, deployments } of clientsAndDeployments.clientsAndDeployments) {
+    for (const deployment of deployments) {
+      test(deployment.model.name, async (done) => {
+        if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
+          done.skip(
+            `Skipping ${deployment.deploymentName} (${deployment.model.name}: ${deployment.model.version})`,
+          );
+          return;
+        }
+        let result;
+        try {
+          result = await run(client, deployment.deploymentName);
+        } catch (e) {
+          const error = e as any;
+          if (acceptableErrors?.messageSubstring.some((match) => error.message.includes(match))) {
+            done.skip(`WARNING: Handled error: ${error}`);
+            return;
+          }
+          throw e;
+        }
+        validate?.(result);
+        return;
+      });
+    }
+  }
 }
 
 export function filterDeployments(
@@ -194,7 +236,7 @@ function isModelInList(
   for (const model of modelsList) {
     if (
       expectedModel.name === model.name &&
-      (!expectedModel.version || expectedModel.version === model.version)
+      (!expectedModel.version || !model.version || expectedModel.version === model.version)
     ) {
       return true;
     }
