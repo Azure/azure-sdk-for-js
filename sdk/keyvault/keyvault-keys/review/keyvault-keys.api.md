@@ -181,6 +181,7 @@ export interface GetDeletedKeyOptions extends coreClient.OperationOptions {
 // @public
 export interface GetKeyOptions extends coreClient.OperationOptions {
     version?: string;
+    withAttestation?: boolean;
 }
 
 // @public
@@ -277,6 +278,8 @@ export interface KeyPollerOptions extends coreClient.OperationOptions {
 
 // @public
 export interface KeyProperties {
+    // Warning: (ae-forgotten-export) The symbol "KeyAttestation" needs to be exported by the entry point index.d.ts
+    attestation?: KeyAttestation;
     readonly createdOn?: Date;
     enabled?: boolean;
     expiresOn?: Date;

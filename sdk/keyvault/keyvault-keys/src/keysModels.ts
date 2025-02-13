@@ -147,6 +147,28 @@ export interface KeyVaultKey {
 }
 
 /**
+ * An interface representing the properties of a key's attestation
+ */
+export interface KeyAttestation {
+  /**
+   * The certificate used for attestation validation, in PEM format.
+   */
+  certificatePemFile?: Uint8Array;
+  /**
+   * The key attestation corresponding to the private key material of the key.
+   */
+  privateKeyAttestation?: Uint8Array;
+  /**
+   * The key attestation corresponding to the public key material of the key.
+   */
+  publicKeyAttestation?: Uint8Array;
+  /**
+   * The version of the attestation.
+   */
+  version?: string;
+}
+
+/**
  * An interface representing the Properties of {@link KeyVaultKey}
  */
 export interface KeyProperties {
@@ -236,6 +258,11 @@ export interface KeyProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly hsmPlatform?: string;
+
+  /**
+   * The key attestation, if available and requested.
+   */
+  attestation?: KeyAttestation;
 }
 
 /**
@@ -488,6 +515,21 @@ export interface GetKeyOptions extends coreClient.OperationOptions {
   /**
    * The version of the secret to retrieve. If not
    * specified the latest version of the secret will be retrieved.
+   */
+  version?: string;
+  /**
+   * Specifies whether to include the Key Attestation with the key
+   */
+  withAttestation?: boolean;
+}
+
+/**
+ * Options for {@link getKeyAttestation}.
+ */
+export interface GetKeyAttestationOptions extends coreClient.OperationOptions {
+  /**
+   * The version of the key to retrieve the attestation for. If not
+   * specified the latest version of the key will be retrieved.
    */
   version?: string;
 }
