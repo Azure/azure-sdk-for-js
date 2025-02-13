@@ -604,6 +604,10 @@ export interface ImportCertificateOptions extends coreClient.OperationOptions {
    * metadata in the form of key-value pairs.
    */
   tags?: CertificateTags;
+  /**
+   * Specifies whether the certificate chain preserves its original order. The default value is false, which sets the leaf certificate at index 0.
+   */
+  preserveCertificateOrder?: boolean;
 }
 
 /**

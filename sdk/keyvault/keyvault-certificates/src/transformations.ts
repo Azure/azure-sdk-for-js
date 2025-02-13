@@ -32,7 +32,7 @@ import type {
   ErrorModel,
 } from "./generated/models/index.js";
 import { parseKeyVaultCertificateIdentifier } from "./identifier.js";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export function toCoreAttributes(properties: CertificateProperties): CertificateAttributes {
   return {
@@ -217,6 +217,7 @@ export function getCertificateFromCertificateBundle(
       certificateBundle.x509Thumbprint &&
       uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return {
@@ -253,6 +254,7 @@ export function getCertificateWithPolicyFromCertificateBundle(
       certificateBundle.x509Thumbprint &&
       uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return {
