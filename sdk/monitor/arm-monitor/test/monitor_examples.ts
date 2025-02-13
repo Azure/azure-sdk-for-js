@@ -13,12 +13,12 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { MonitorClient } from "../src/monitorClient.js";
 import { LogicManagementClient } from "@azure/arm-logic";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
