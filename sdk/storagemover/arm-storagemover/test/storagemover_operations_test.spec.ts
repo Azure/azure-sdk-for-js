@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { StorageMoverClient } from "../src/storageMoverClient";
+import { StorageMoverClient } from "../src/storageMoverClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -50,26 +48,26 @@ describe("storageMover test", () => {
   let projectName: string;
   let jobDefinitionName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new StorageMoverClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2euap";
-    resourceGroup = "myjstest";
-    storageMoverName = "storageMoverName";
-    agentName = "testagent";
-    endpointName = "testendpoint";
-    endpointName1 = "testendpoint1";
-    projectName = "testendproject";
-    jobDefinitionName = "testjobDefinition";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new StorageMoverClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus2euap";
+      resourceGroup = "myjstest";
+      storageMoverName = "storageMoverName";
+      agentName = "testagent";
+      endpointName = "testendpoint";
+      endpointName1 = "testendpoint1";
+      projectName = "testendproject";
+      jobDefinitionName = "testjobDefinition";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("storageMovers create test", async function () {
     const res = await client.storageMovers.createOrUpdate(
@@ -223,7 +221,6 @@ describe("storageMover test", () => {
 
   it("jobDefinitions delete test", async function () {
     const resArray = new Array();
-    const res = await client.jobDefinitions.beginDeleteAndWait(resourceGroup, storageMoverName, projectName, jobDefinitionName, testPollingOptions)
     for await (let item of client.jobDefinitions.list(resourceGroup, storageMoverName, projectName)) {
       resArray.push(item);
     }
@@ -232,7 +229,6 @@ describe("storageMover test", () => {
 
   it("agent delete test", async function () {
     const resArray = new Array();
-    const res = await client.agents.beginDeleteAndWait(resourceGroup, storageMoverName, agentName, testPollingOptions)
     for await (let item of client.agents.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
@@ -241,8 +237,6 @@ describe("storageMover test", () => {
 
   it("endpoints delete test", async function () {
     const resArray = new Array();
-    const res = await client.endpoints.beginDeleteAndWait(resourceGroup, storageMoverName, endpointName, testPollingOptions)
-    const res1 = await client.endpoints.beginDeleteAndWait(resourceGroup, storageMoverName, endpointName1, testPollingOptions)
     for await (let item of client.endpoints.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
@@ -251,7 +245,6 @@ describe("storageMover test", () => {
 
   it("projects delete test", async function () {
     const resArray = new Array();
-    const res = await client.projects.beginDeleteAndWait(resourceGroup, storageMoverName, projectName, testPollingOptions)
     for await (let item of client.projects.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
     }
@@ -260,7 +253,6 @@ describe("storageMover test", () => {
 
   it("storageMovers delete test", async function () {
     const resArray = new Array();
-    const res = await client.storageMovers.beginDeleteAndWait(resourceGroup, storageMoverName, testPollingOptions)
     for await (let item of client.storageMovers.listBySubscription()) {
       resArray.push(item);
     }
