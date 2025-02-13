@@ -58,9 +58,7 @@ export function _watchersStopSend(
     });
 }
 
-export async function _watchersStopDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _watchersStopDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -78,18 +76,12 @@ export function watchersStop(
   watcherName: string,
   options: WatchersStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _watchersStopDeserialize,
-    ["202", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _watchersStopSend(context, resourceGroupName, watcherName, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _watchersStopDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _watchersStopSend(context, resourceGroupName, watcherName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _watchersStartSend(
@@ -115,9 +107,7 @@ export function _watchersStartSend(
     });
 }
 
-export async function _watchersStartDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _watchersStartDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -135,18 +125,12 @@ export function watchersStart(
   watcherName: string,
   options: WatchersStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _watchersStartDeserialize,
-    ["202", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _watchersStartSend(context, resourceGroupName, watcherName, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _watchersStartDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _watchersStartSend(context, resourceGroupName, watcherName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _watchersListBySubscriptionSend(
@@ -267,9 +251,7 @@ export function _watchersDeleteSend(
     });
 }
 
-export async function _watchersDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _watchersDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -287,18 +269,12 @@ export function watchersDelete(
   watcherName: string,
   options: WatchersDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _watchersDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _watchersDeleteSend(context, resourceGroupName, watcherName, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _watchersDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _watchersDeleteSend(context, resourceGroupName, watcherName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _watchersUpdateSend(
@@ -327,9 +303,7 @@ export function _watchersUpdateSend(
     });
 }
 
-export async function _watchersUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Watcher> {
+export async function _watchersUpdateDeserialize(result: PathUncheckedResponse): Promise<Watcher> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -348,24 +322,13 @@ export function watchersUpdate(
   properties: WatcherUpdate,
   options: WatchersUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Watcher>, Watcher> {
-  return getLongRunningPoller(
-    context,
-    _watchersUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _watchersUpdateSend(
-          context,
-          resourceGroupName,
-          watcherName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<Watcher>, Watcher>;
+  return getLongRunningPoller(context, _watchersUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _watchersUpdateSend(context, resourceGroupName, watcherName, properties, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<Watcher>, Watcher>;
 }
 
 export function _watchersCreateOrUpdateSend(
@@ -415,24 +378,13 @@ export function watchersCreateOrUpdate(
   resource: Watcher,
   options: WatchersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Watcher>, Watcher> {
-  return getLongRunningPoller(
-    context,
-    _watchersCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _watchersCreateOrUpdateSend(
-          context,
-          resourceGroupName,
-          watcherName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<Watcher>, Watcher>;
+  return getLongRunningPoller(context, _watchersCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _watchersCreateOrUpdateSend(context, resourceGroupName, watcherName, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<Watcher>, Watcher>;
 }
 
 export function _watchersGetSend(
@@ -458,9 +410,7 @@ export function _watchersGetSend(
     });
 }
 
-export async function _watchersGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Watcher> {
+export async function _watchersGetDeserialize(result: PathUncheckedResponse): Promise<Watcher> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -478,11 +428,6 @@ export async function watchersGet(
   watcherName: string,
   options: WatchersGetOptionalParams = { requestOptions: {} },
 ): Promise<Watcher> {
-  const result = await _watchersGetSend(
-    context,
-    resourceGroupName,
-    watcherName,
-    options,
-  );
+  const result = await _watchersGetSend(context, resourceGroupName, watcherName, options);
   return _watchersGetDeserialize(result);
 }

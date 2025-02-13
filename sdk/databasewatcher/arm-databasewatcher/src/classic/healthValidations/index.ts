@@ -59,26 +59,14 @@ function _getHealthValidations(context: DatabaseWatcherContext) {
       resourceGroupName: string,
       watcherName: string,
       options?: HealthValidationsListByParentOptionalParams,
-    ) =>
-      healthValidationsListByParent(
-        context,
-        resourceGroupName,
-        watcherName,
-        options,
-      ),
+    ) => healthValidationsListByParent(context, resourceGroupName, watcherName, options),
     get: (
       resourceGroupName: string,
       watcherName: string,
       healthValidationName: string,
       options?: HealthValidationsGetOptionalParams,
     ) =>
-      healthValidationsGet(
-        context,
-        resourceGroupName,
-        watcherName,
-        healthValidationName,
-        options,
-      ),
+      healthValidationsGet(context, resourceGroupName, watcherName, healthValidationName, options),
   };
 }
 

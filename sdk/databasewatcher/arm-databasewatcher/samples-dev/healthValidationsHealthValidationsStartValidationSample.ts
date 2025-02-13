@@ -14,12 +14,11 @@ async function healthValidationsStartValidationMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "A76F9850-996B-40B3-94D4-C98110A0EEC9";
   const client = new DatabaseWatcherClient(credential, subscriptionId);
-  const result =
-    await client.healthValidations.HealthValidations_startValidation(
-      "rgWatcher",
-      "testWatcher",
-      "testHealthValidation",
-    );
+  const result = await client.healthValidations.HealthValidations_startValidation(
+    "rgWatcher",
+    "testWatcher",
+    "testHealthValidation",
+  );
   console.log(result);
 }
 

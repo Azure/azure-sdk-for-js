@@ -4,26 +4,22 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface SharedPrivateLinkResourcesListByWatcherOptionalParams
-  extends OperationOptions {}
+export interface SharedPrivateLinkResourcesListByWatcherOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface SharedPrivateLinkResourcesDeleteOptionalParams
-  extends OperationOptions {
+export interface SharedPrivateLinkResourcesDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SharedPrivateLinkResourcesCreateOptionalParams
-  extends OperationOptions {
+export interface SharedPrivateLinkResourcesCreateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface SharedPrivateLinkResourcesGetOptionalParams
-  extends OperationOptions {}
+export interface SharedPrivateLinkResourcesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface TargetsListByWatcherOptionalParams extends OperationOptions {}
@@ -38,30 +34,25 @@ export interface TargetsCreateOrUpdateOptionalParams extends OperationOptions {}
 export interface TargetsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface HealthValidationsStartValidationOptionalParams
-  extends OperationOptions {
+export interface HealthValidationsStartValidationOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface HealthValidationsListByParentOptionalParams
-  extends OperationOptions {}
+export interface HealthValidationsListByParentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface HealthValidationsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AlertRuleResourcesListByParentOptionalParams
-  extends OperationOptions {}
+export interface AlertRuleResourcesListByParentOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AlertRuleResourcesDeleteOptionalParams
-  extends OperationOptions {}
+export interface AlertRuleResourcesDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AlertRuleResourcesCreateOrUpdateOptionalParams
-  extends OperationOptions {}
+export interface AlertRuleResourcesCreateOrUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AlertRuleResourcesGetOptionalParams extends OperationOptions {}
@@ -79,12 +70,10 @@ export interface WatchersStartOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface WatchersListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface WatchersListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WatchersListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface WatchersListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WatchersDeleteOptionalParams extends OperationOptions {

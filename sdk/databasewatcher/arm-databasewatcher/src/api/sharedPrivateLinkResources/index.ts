@@ -214,10 +214,7 @@ export function sharedPrivateLinkResourcesCreate(
   options: SharedPrivateLinkResourcesCreateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<SharedPrivateLinkResource>,
-  SharedPrivateLinkResource
-> {
+): PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource> {
   return getLongRunningPoller(
     context,
     _sharedPrivateLinkResourcesCreateDeserialize,
@@ -236,10 +233,7 @@ export function sharedPrivateLinkResourcesCreate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<
-    OperationState<SharedPrivateLinkResource>,
-    SharedPrivateLinkResource
-  >;
+  ) as PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
 }
 
 export function _sharedPrivateLinkResourcesGetSend(

@@ -61,14 +61,7 @@ function _getTargets(context: DatabaseWatcherContext) {
       watcherName: string,
       targetName: string,
       options?: TargetsDeleteOptionalParams,
-    ) =>
-      targetsDelete(
-        context,
-        resourceGroupName,
-        watcherName,
-        targetName,
-        options,
-      ),
+    ) => targetsDelete(context, resourceGroupName, watcherName, targetName, options),
     createOrUpdate: (
       resourceGroupName: string,
       watcherName: string,
@@ -76,27 +69,17 @@ function _getTargets(context: DatabaseWatcherContext) {
       resource: Target,
       options?: TargetsCreateOrUpdateOptionalParams,
     ) =>
-      targetsCreateOrUpdate(
-        context,
-        resourceGroupName,
-        watcherName,
-        targetName,
-        resource,
-        options,
-      ),
+      targetsCreateOrUpdate(context, resourceGroupName, watcherName, targetName, resource, options),
     get: (
       resourceGroupName: string,
       watcherName: string,
       targetName: string,
       options?: TargetsGetOptionalParams,
-    ) =>
-      targetsGet(context, resourceGroupName, watcherName, targetName, options),
+    ) => targetsGet(context, resourceGroupName, watcherName, targetName, options),
   };
 }
 
-export function _getTargetsOperations(
-  context: DatabaseWatcherContext,
-): TargetsOperations {
+export function _getTargetsOperations(context: DatabaseWatcherContext): TargetsOperations {
   return {
     ..._getTargets(context),
   };

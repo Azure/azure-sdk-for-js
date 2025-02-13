@@ -76,13 +76,7 @@ export function alertRuleResourcesListByParent(
 ): PagedAsyncIterableIterator<AlertRuleResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _alertRuleResourcesListByParentSend(
-        context,
-        resourceGroupName,
-        watcherName,
-        options,
-      ),
+    () => _alertRuleResourcesListByParentSend(context, resourceGroupName, watcherName, options),
     _alertRuleResourcesListByParentDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

@@ -79,11 +79,8 @@ export interface WatchersOperations {
 
 function _getWatchers(context: DatabaseWatcherContext) {
   return {
-    stop: (
-      resourceGroupName: string,
-      watcherName: string,
-      options?: WatchersStopOptionalParams,
-    ) => watchersStop(context, resourceGroupName, watcherName, options),
+    stop: (resourceGroupName: string, watcherName: string, options?: WatchersStopOptionalParams) =>
+      watchersStop(context, resourceGroupName, watcherName, options),
     start: (
       resourceGroupName: string,
       watcherName: string,
@@ -105,38 +102,19 @@ function _getWatchers(context: DatabaseWatcherContext) {
       watcherName: string,
       properties: WatcherUpdate,
       options?: WatchersUpdateOptionalParams,
-    ) =>
-      watchersUpdate(
-        context,
-        resourceGroupName,
-        watcherName,
-        properties,
-        options,
-      ),
+    ) => watchersUpdate(context, resourceGroupName, watcherName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       watcherName: string,
       resource: Watcher,
       options?: WatchersCreateOrUpdateOptionalParams,
-    ) =>
-      watchersCreateOrUpdate(
-        context,
-        resourceGroupName,
-        watcherName,
-        resource,
-        options,
-      ),
-    get: (
-      resourceGroupName: string,
-      watcherName: string,
-      options?: WatchersGetOptionalParams,
-    ) => watchersGet(context, resourceGroupName, watcherName, options),
+    ) => watchersCreateOrUpdate(context, resourceGroupName, watcherName, resource, options),
+    get: (resourceGroupName: string, watcherName: string, options?: WatchersGetOptionalParams) =>
+      watchersGet(context, resourceGroupName, watcherName, options),
   };
 }
 
-export function _getWatchersOperations(
-  context: DatabaseWatcherContext,
-): WatchersOperations {
+export function _getWatchersOperations(context: DatabaseWatcherContext): WatchersOperations {
   return {
     ..._getWatchers(context),
   };

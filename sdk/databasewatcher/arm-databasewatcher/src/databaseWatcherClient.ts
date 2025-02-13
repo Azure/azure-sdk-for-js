@@ -5,10 +5,7 @@ import {
   _getSharedPrivateLinkResourcesOperations,
   SharedPrivateLinkResourcesOperations,
 } from "./classic/sharedPrivateLinkResources/index.js";
-import {
-  _getTargetsOperations,
-  TargetsOperations,
-} from "./classic/targets/index.js";
+import { _getTargetsOperations, TargetsOperations } from "./classic/targets/index.js";
 import {
   _getHealthValidationsOperations,
   HealthValidationsOperations,
@@ -17,14 +14,8 @@ import {
   _getAlertRuleResourcesOperations,
   AlertRuleResourcesOperations,
 } from "./classic/alertRuleResources/index.js";
-import {
-  _getWatchersOperations,
-  WatchersOperations,
-} from "./classic/watchers/index.js";
-import {
-  _getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { _getWatchersOperations, WatchersOperations } from "./classic/watchers/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   createDatabaseWatcher,
   DatabaseWatcherContext,
@@ -54,9 +45,7 @@ export class DatabaseWatcherClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.sharedPrivateLinkResources = _getSharedPrivateLinkResourcesOperations(
-      this._client,
-    );
+    this.sharedPrivateLinkResources = _getSharedPrivateLinkResourcesOperations(this._client);
     this.targets = _getTargetsOperations(this._client);
     this.healthValidations = _getHealthValidationsOperations(this._client);
     this.alertRuleResources = _getAlertRuleResourcesOperations(this._client);

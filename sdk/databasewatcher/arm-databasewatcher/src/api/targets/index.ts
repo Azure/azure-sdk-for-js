@@ -72,13 +72,7 @@ export function targetsListByWatcher(
 ): PagedAsyncIterableIterator<Target> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _targetsListByWatcherSend(
-        context,
-        resourceGroupName,
-        watcherName,
-        options,
-      ),
+    () => _targetsListByWatcherSend(context, resourceGroupName, watcherName, options),
     _targetsListByWatcherDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -110,9 +104,7 @@ export function _targetsDeleteSend(
     });
 }
 
-export async function _targetsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _targetsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -227,9 +219,7 @@ export function _targetsGetSend(
     });
 }
 
-export async function _targetsGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Target> {
+export async function _targetsGetDeserialize(result: PathUncheckedResponse): Promise<Target> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

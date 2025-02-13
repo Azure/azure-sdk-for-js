@@ -55,13 +55,7 @@ function _getAlertRuleResources(context: DatabaseWatcherContext) {
       resourceGroupName: string,
       watcherName: string,
       options?: AlertRuleResourcesListByParentOptionalParams,
-    ) =>
-      alertRuleResourcesListByParent(
-        context,
-        resourceGroupName,
-        watcherName,
-        options,
-      ),
+    ) => alertRuleResourcesListByParent(context, resourceGroupName, watcherName, options),
     delete: (
       resourceGroupName: string,
       watcherName: string,

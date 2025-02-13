@@ -142,13 +142,7 @@ export function healthValidationsListByParent(
 ): PagedAsyncIterableIterator<HealthValidation> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _healthValidationsListByParentSend(
-        context,
-        resourceGroupName,
-        watcherName,
-        options,
-      ),
+    () => _healthValidationsListByParentSend(context, resourceGroupName, watcherName, options),
     _healthValidationsListByParentDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

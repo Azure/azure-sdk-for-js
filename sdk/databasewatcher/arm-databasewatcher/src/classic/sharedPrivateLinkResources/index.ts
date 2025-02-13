@@ -40,10 +40,7 @@ export interface SharedPrivateLinkResourcesOperations {
     sharedPrivateLinkResourceName: string,
     resource: SharedPrivateLinkResource,
     options?: SharedPrivateLinkResourcesCreateOptionalParams,
-  ) => PollerLike<
-    OperationState<SharedPrivateLinkResource>,
-    SharedPrivateLinkResource
-  >;
+  ) => PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
   /** Get a SharedPrivateLinkResource */
   get: (
     resourceGroupName: string,
@@ -59,13 +56,7 @@ function _getSharedPrivateLinkResources(context: DatabaseWatcherContext) {
       resourceGroupName: string,
       watcherName: string,
       options?: SharedPrivateLinkResourcesListByWatcherOptionalParams,
-    ) =>
-      sharedPrivateLinkResourcesListByWatcher(
-        context,
-        resourceGroupName,
-        watcherName,
-        options,
-      ),
+    ) => sharedPrivateLinkResourcesListByWatcher(context, resourceGroupName, watcherName, options),
     delete: (
       resourceGroupName: string,
       watcherName: string,
