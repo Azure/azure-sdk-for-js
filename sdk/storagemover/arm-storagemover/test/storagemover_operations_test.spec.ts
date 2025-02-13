@@ -69,7 +69,7 @@ describe("storageMover test", () => {
       await recorder.stop();
     });
 
-  it("storageMovers create test", async function () {
+  it("storageMovers create test", async () => {
     const res = await client.storageMovers.createOrUpdate(
       resourceGroup,
       storageMoverName,
@@ -81,7 +81,7 @@ describe("storageMover test", () => {
     assert.equal(res.name, storageMoverName);
   });
 
-  it("agents create test", async function () {
+  it("agents create test", async () => {
     const arcResourceid = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.HybridCompute/machines/testhybridCompute"
     const res = await client.agents.createOrUpdate(
       resourceGroup,
@@ -95,7 +95,7 @@ describe("storageMover test", () => {
     assert.equal(res.name, agentName);
   });
 
-  it("endpoints create test", async function () {
+  it("endpoints create test", async () => {
     const said = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/teststorageaccountxxx1"
     const res = await client.endpoints.createOrUpdate(
       resourceGroup,
@@ -125,7 +125,7 @@ describe("storageMover test", () => {
     assert.equal(result.name, endpointName1);
   });
 
-  it("projects create test", async function () {
+  it("projects create test", async () => {
     const res = await client.projects.createOrUpdate(
       resourceGroup,
       storageMoverName,
@@ -136,7 +136,7 @@ describe("storageMover test", () => {
     assert.equal(res.name, projectName);
   });
 
-  it("jobDefinitions create test", async function () {
+  it("jobDefinitions create test", async () => {
     const res = await client.jobDefinitions.createOrUpdate(
       resourceGroup,
       storageMoverName,
@@ -154,32 +154,32 @@ describe("storageMover test", () => {
     assert.equal(res.name, jobDefinitionName);
   });
 
-  it("storageMovers get test", async function () {
+  it("storageMovers get test", async () => {
     const res = await client.storageMovers.get(resourceGroup, storageMoverName);
     assert.equal(res.name, storageMoverName);
   });
 
-  it("agent get test", async function () {
+  it("agent get test", async () => {
     const res = await client.agents.get(resourceGroup, storageMoverName, agentName);
     assert.equal(res.name, agentName);
   });
 
-  it("endpoints get test", async function () {
+  it("endpoints get test", async () => {
     const res = await client.endpoints.get(resourceGroup, storageMoverName, endpointName);
     assert.equal(res.name, endpointName);
   });
 
-  it("projects get test", async function () {
+  it("projects get test", async () => {
     const res = await client.projects.get(resourceGroup, storageMoverName, projectName);
     assert.equal(res.name, projectName);
   });
 
-  it("jobDefinitions get test", async function () {
+  it("jobDefinitions get test", async () => {
     const res = await client.jobDefinitions.get(resourceGroup, storageMoverName, projectName, jobDefinitionName);
     assert.equal(res.name, jobDefinitionName);
   });
 
-  it("endpoints list test", async function () {
+  it("endpoints list test", async () => {
     const resArray = new Array();
     for await (let item of client.endpoints.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
@@ -187,7 +187,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 2);
   });
 
-  it("agent list test", async function () {
+  it("agent list test", async () => {
     const resArray = new Array();
     for await (let item of client.agents.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
@@ -195,7 +195,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("projects list test", async function () {
+  it("projects list test", async () => {
     const resArray = new Array();
     for await (let item of client.projects.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
@@ -203,7 +203,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("jobDefinitions list test", async function () {
+  it("jobDefinitions list test", async () => {
     const resArray = new Array();
     for await (let item of client.jobDefinitions.list(resourceGroup, storageMoverName, projectName)) {
       resArray.push(item);
@@ -211,7 +211,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("storageMovers list test", async function () {
+  it("storageMovers list test", async () => {
     const resArray = new Array();
     for await (let item of client.storageMovers.listBySubscription()) {
       resArray.push(item);
@@ -219,7 +219,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("jobDefinitions delete test", async function () {
+  it("jobDefinitions delete test", async () => {
     const resArray = new Array();
     for await (let item of client.jobDefinitions.list(resourceGroup, storageMoverName, projectName)) {
       resArray.push(item);
@@ -227,7 +227,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("agent delete test", async function () {
+  it("agent delete test", async () => {
     const resArray = new Array();
     for await (let item of client.agents.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
@@ -235,7 +235,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("endpoints delete test", async function () {
+  it("endpoints delete test", async () => {
     const resArray = new Array();
     for await (let item of client.endpoints.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
@@ -243,7 +243,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("projects delete test", async function () {
+  it("projects delete test", async () => {
     const resArray = new Array();
     for await (let item of client.projects.list(resourceGroup, storageMoverName)) {
       resArray.push(item);
@@ -251,7 +251,7 @@ describe("storageMover test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("storageMovers delete test", async function () {
+  it("storageMovers delete test", async () => {
     const resArray = new Array();
     for await (let item of client.storageMovers.listBySubscription()) {
       resArray.push(item);
