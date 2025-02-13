@@ -38,7 +38,7 @@ describe("My test", () => {
       await recorder.stop();
     });
 
-  it("sample test", async function () {
+  it("sample test", async () => {
     console.log("Hi, I'm a test!");
   });
 });
