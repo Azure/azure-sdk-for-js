@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -17,8 +19,10 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionDeleteMaximumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaa";
   const vmExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
@@ -38,8 +42,10 @@ async function virtualMachineExtensionDeleteMaximumSetGen(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachineExtension_Delete_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionDeleteMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmExtensionName = "aa";
   const credential = new DefaultAzureCredential();

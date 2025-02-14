@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { SharedGalleryImages } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { SharedGalleryImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ComputeManagementClient } from "../computeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SharedGalleryImage,
   SharedGalleryImagesListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   SharedGalleryImagesGetOptionalParams,
   SharedGalleryImagesGetResponse,
   SharedGalleryImagesListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SharedGalleryImages operations. */
@@ -38,7 +38,7 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
 
   /**
    * List shared gallery images by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param options The options parameters.
    */
@@ -114,7 +114,7 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
 
   /**
    * List shared gallery images by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param options The options parameters.
    */
@@ -131,7 +131,7 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
 
   /**
    * Get a shared gallery image by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param galleryImageName The name of the Shared Gallery Image Definition from which the Image
    *                         Versions are to be listed.
@@ -151,7 +151,7 @@ export class SharedGalleryImagesImpl implements SharedGalleryImages {
 
   /**
    * ListNext
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -179,14 +179,14 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.galleryUniqueName,
   ],
   headerParameters: [Parameters.accept],
@@ -200,14 +200,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryImage,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.galleryImageName,
     Parameters.galleryUniqueName,
   ],
@@ -222,14 +222,14 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1,
+    Parameters.subscriptionId,
+    Parameters.location,
     Parameters.galleryUniqueName,
   ],
   headerParameters: [Parameters.accept],

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { CloudServicesUpdateDomain } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { CloudServicesUpdateDomain } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ComputeManagementClient } from "../computeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   UpdateDomain,
   CloudServicesUpdateDomainListUpdateDomainsNextOptionalParams,
@@ -28,7 +28,7 @@ import {
   CloudServicesUpdateDomainGetUpdateDomainOptionalParams,
   CloudServicesUpdateDomainGetUpdateDomainResponse,
   CloudServicesUpdateDomainListUpdateDomainsNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CloudServicesUpdateDomain operations. */
@@ -292,12 +292,12 @@ const walkUpdateDomainOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters36,
+  requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
     Parameters.updateDomain,
   ],
@@ -320,7 +320,7 @@ const getUpdateDomainOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
     Parameters.updateDomain,
   ],
@@ -342,7 +342,7 @@ const listUpdateDomainsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -361,9 +361,9 @@ const listUpdateDomainsNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],

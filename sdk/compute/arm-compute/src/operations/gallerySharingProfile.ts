@@ -6,22 +6,22 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GallerySharingProfile } from "../operationsInterfaces/index.js";
+import { GallerySharingProfile } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ComputeManagementClient } from "../computeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   SharingUpdate,
   GallerySharingProfileUpdateOptionalParams,
   GallerySharingProfileUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing GallerySharingProfile operations. */
 export class GallerySharingProfileImpl implements GallerySharingProfile {
@@ -37,7 +37,7 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
 
   /**
    * Update sharing profile of a gallery.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param galleryName The name of the Shared Image Gallery.
    * @param sharingUpdate Parameters supplied to the update gallery sharing profile.
    * @param options The options parameters.
@@ -102,6 +102,7 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -109,7 +110,7 @@ export class GallerySharingProfileImpl implements GallerySharingProfile {
 
   /**
    * Update sharing profile of a gallery.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param galleryName The name of the Shared Image Gallery.
    * @param sharingUpdate Parameters supplied to the update gallery sharing profile.
    * @param options The options parameters.
@@ -149,7 +150,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharingUpdate,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.sharingUpdate,

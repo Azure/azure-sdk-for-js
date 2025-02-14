@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -18,12 +20,16 @@ import "dotenv/config";
  */
 async function virtualMachineRunCommandGet(): Promise<void> {
   const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "24fb23e3-6ba3-41f0-9b6e-e41131d5d61e";
+    process.env["COMPUTE_SUBSCRIPTION_ID"] ||
+    "24fb23e3-6ba3-41f0-9b6e-e41131d5d61e";
   const location = "SoutheastAsia";
   const commandId = "RunPowerShellScript";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineRunCommands.get(location, commandId);
+  const result = await client.virtualMachineRunCommands.get(
+    location,
+    commandId,
+  );
   console.log(result);
 }
 

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { CloudServiceRoleInstances } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { CloudServiceRoleInstances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ComputeManagementClient } from "../computeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   RoleInstance,
   CloudServiceRoleInstancesListNextOptionalParams,
@@ -35,7 +35,7 @@ import {
   CloudServiceRoleInstancesGetRemoteDesktopFileOptionalParams,
   CloudServiceRoleInstancesGetRemoteDesktopFileResponse,
   CloudServiceRoleInstancesListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CloudServiceRoleInstances operations. */
@@ -598,8 +598,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -616,12 +616,12 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand3, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -642,8 +642,8 @@ const getInstanceViewOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -660,11 +660,11 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  queryParameters: [Parameters.expand2, Parameters.apiVersion4],
+  queryParameters: [Parameters.expand3, Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -686,8 +686,8 @@ const restartOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -709,8 +709,8 @@ const reimageOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -732,8 +732,8 @@ const rebuildOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -755,8 +755,8 @@ const getRemoteDesktopFileOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
     Parameters.roleInstanceName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept2],
@@ -775,9 +775,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],

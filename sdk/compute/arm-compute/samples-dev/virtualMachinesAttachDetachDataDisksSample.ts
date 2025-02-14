@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { AttachDetachDataDisksRequest } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  AttachDetachDataDisksRequest,
+  ComputeManagementClient,
+} from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -18,8 +22,10 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
  */
 async function virtualMachineAttachDetachDataDisksMaximumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaaaaaaaaaaa";
   const parameters: AttachDetachDataDisksRequest = {
     dataDisksToAttach: [
@@ -76,8 +82,10 @@ async function virtualMachineAttachDetachDataDisksMaximumSetGen(): Promise<void>
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
  */
 async function virtualMachineAttachDetachDataDisksMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "azure-vm";
   const parameters: AttachDetachDataDisksRequest = {
     dataDisksToAttach: [

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { SharedGalleries } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { SharedGalleries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ComputeManagementClient } from "../computeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   SharedGallery,
   SharedGalleriesListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   SharedGalleriesGetOptionalParams,
   SharedGalleriesGetResponse,
   SharedGalleriesListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SharedGalleries operations. */
@@ -38,7 +38,7 @@ export class SharedGalleriesImpl implements SharedGalleries {
 
   /**
    * List shared galleries by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public list(
@@ -96,7 +96,7 @@ export class SharedGalleriesImpl implements SharedGalleries {
 
   /**
    * List shared galleries by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _list(
@@ -111,7 +111,7 @@ export class SharedGalleriesImpl implements SharedGalleries {
 
   /**
    * Get a shared gallery by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param options The options parameters.
    */
@@ -128,7 +128,7 @@ export class SharedGalleriesImpl implements SharedGalleries {
 
   /**
    * ListNext
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
@@ -154,14 +154,14 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -174,14 +174,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGallery,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.galleryUniqueName,
   ],
   headerParameters: [Parameters.accept],
@@ -195,14 +195,14 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1,
+    Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

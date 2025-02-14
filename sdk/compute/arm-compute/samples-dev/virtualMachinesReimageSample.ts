@@ -6,11 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
   VirtualMachineReimageParameters,
   VirtualMachinesReimageOptionalParams,
+  ComputeManagementClient,
 } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -21,8 +23,10 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Reimage_NonEphemeralVMs.json
  */
 async function reimageANonEphemeralVirtualMachine(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVMName";
   const parameters: VirtualMachineReimageParameters = {
     exactVersion: "aaaaaa",
@@ -50,8 +54,10 @@ async function reimageANonEphemeralVirtualMachine(): Promise<void> {
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Reimage.json
  */
 async function reimageAVirtualMachine(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmName = "myVMName";
   const parameters: VirtualMachineReimageParameters = { tempDisk: true };
   const options: VirtualMachinesReimageOptionalParams = { parameters };

@@ -12,14 +12,14 @@ import {
   CommunityGalleryImageVersionsListOptionalParams,
   CommunityGalleryImageVersionsGetOptionalParams,
   CommunityGalleryImageVersionsGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CommunityGalleryImageVersions. */
 export interface CommunityGalleryImageVersions {
   /**
    * List community gallery image versions inside an image.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param publicGalleryName The public name of the community gallery.
    * @param galleryImageName The name of the community gallery image definition.
    * @param options The options parameters.
@@ -32,7 +32,7 @@ export interface CommunityGalleryImageVersions {
   ): PagedAsyncIterableIterator<CommunityGalleryImageVersion>;
   /**
    * Get a community gallery image version.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param publicGalleryName The public name of the community gallery.
    * @param galleryImageName The name of the community gallery image definition.
    * @param galleryImageVersionName The name of the community gallery image version. Needs to follow

@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   VirtualMachineSize,
   VirtualMachineSizesListOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachineSizes. */
@@ -18,7 +18,7 @@ export interface VirtualMachineSizes {
   /**
    * This API is deprecated. Use [Resources
    * Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
-   * @param location The location upon which virtual-machine-sizes is queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   list(

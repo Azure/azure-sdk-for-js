@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { CloudServiceRoles } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { CloudServiceRoles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { ComputeManagementClient } from "../computeManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   CloudServiceRole,
   CloudServiceRolesListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   CloudServiceRolesGetOptionalParams,
   CloudServiceRolesGetResponse,
   CloudServiceRolesListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CloudServiceRoles operations. */
@@ -191,7 +191,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
     Parameters.roleName,
   ],
@@ -213,7 +213,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
@@ -232,9 +232,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
     Parameters.cloudServiceName,
   ],
   headerParameters: [Parameters.accept],
