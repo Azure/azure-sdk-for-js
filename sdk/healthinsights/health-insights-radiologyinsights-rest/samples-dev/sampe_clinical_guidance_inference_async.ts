@@ -30,44 +30,43 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
       results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach(
-          (inference: {
-            kind: string;
-            finding: any;
-            identifier: any;
-            presentGuidanceInformation: any;
-            ranking: any;
-            recommendationProposals: any;
-            missingGuidanceInformation: any[];
-          }) => {
-            if (inference.kind === "guidance") {
-              console.log("Clinical Guidance Inference found");
-              if ("finding" in inference) {
-                const find = inference.finding;
-                if ("code" in find) {
-                  const fcode = find.code;
-                  console.log("   Finding Code: ");
-                  displayCodes(fcode);
-                }
+        patientResult.inferences.forEach((inference) => {
+          if (inference.kind === "guidance") {
+            console.log("Clinical Guidance Inference found");
+            if ("finding" in inference) {
+              const find = inference.finding;
+              if ("code" in find) {
+                const fcode = find.code;
+                console.log("   Finding Code: ");
+                displayCodes(fcode);
               }
+            }
 
-              if ("identifier" in inference) {
-                console.log("   Identifier: ", inference.identifier);
-                if ("code" in inference.identifier) {
-                  displayCodes(inference.identifier.code);
-                }
+            if ("identifier" in inference) {
+              console.log("   Identifier: ", inference.identifier);
+              if ("code" in inference.identifier) {
+                displayCodes(inference.identifier.code);
               }
+            }
 
-              inference.presentGuidanceInformation?.forEach((presentGuidanceInformation: any) => {
-                console.log("   Present Guidance Information: ");
-                displayPresentGuidanceInformation(inference.presentGuidanceInformation);
-              })
+            inference.presentGuidanceInformation?.forEach((presentGuidanceInformation: any) => {
+              console.log("   Present Guidance Information: ");
+              displayPresentGuidanceInformation(inference.presentGuidanceInformation);
+            })
 
-              if ("ranking" in inference) {
-                console.log("   Ranking: ", inference.ranking);
-              }
-            },
-          });
+            if ("ranking" in inference) {
+              console.log("   Ranking: ", inference.ranking);
+            }
+
+            if ("recommendationProposal" in inference) {
+              console.log("   Recommendation Proposal: ", inference.recommendationProposal);
+            }
+
+            if ("missingGuidanceInfromation" in inference) {
+              console.log("   Missing Guidance Information: ", inference.missingGuidanceInformation);
+            }
+          }
+        });
       }
   } else {
       const error = radiologyInsightsResult.error;
@@ -88,16 +87,20 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     }
 
     function displayPresentGuidanceInformation(guidanceinfo: any): void {
-      console.log("     Present Guidance Item: ");
-      displayCodes(guidanceinfo.presentGuidanceItem);
+      console.log("     Present Guidance Information Item: ", guidanceinfo.presentGuidanceItem);
 
       guidanceinfo.sizes?.forEach((sizes: any) => {
-        if ("resourceTypes" in sizes) {
-          console.log("     Present Guidance Size ResourceType: ", sizes.resourceType);
+        if ("valueQuantity" in sizes) {
+          console.log("     Size valueQuantity: ");
+          displayQuantityOutput(guidanceinfo.sizes.valueQuantity);
         }
-        if ("identifier" in sizes) {
-          console.log("     Present Guidance Size Identifier: ");
-          displayIdentifiers(sizes.identifier);
+        if ("valueRange" in sizes) {
+          if ("low" in sizes.valueRange) {
+            console.log("     Size ValueRange: min", sizes.valueRange.low);
+          }
+          if ("high" in sizes.valueRange) {
+            console.log("     Size ValueRange: max", sizes.valueRange.high);
+          }
         }
       })
 
@@ -106,10 +109,10 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
         displayQuantityOutput(guidanceinfo.maximumDiameterAsInText);
       }
 
-      if ("presentGuidanceValues" in guidanceinfo) {
-        console.log("     Present Guidance Values: ");
-        displayCodes(guidanceinfo.presentGuidanceValues);
-      }
+
+      guidanceinfo.presentGuidanceValues?.forEach((sizes: any) => {
+        console.log("     Present Guidance Value: ", guidanceinfo.presentGuidanceValue);
+      })
 
       if ("extension" in guidanceinfo) {
         console.log("     Extension: ");
@@ -118,45 +121,12 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 
     }
 
-    function displayIdentifiers(identifiers: any): void {
-      if ("use" in identifiers) {
-        console.log("      Identifier Use: ", identifiers.use);
+    function displayQuantityOutput(quantity: any): void {
+      if ("value" in quantity) {
+        console.log("     Value: ", quantity.value);
       }
-      if ("type" in identifiers) {
-        console.log("      Identifier Type: ");
-        displayCodes(identifiers.type);
-      }
-      if ("system" in identifiers) {
-        console.log("      Identifier System: ", identifiers.system);
-      }
-      if ("value" in identifiers) {
-        console.log("      Identifier Value: ", identifiers.value);
-      }
-      if ("period" in identifiers) {
-        console.log("      Identifier Period: ");
-        if ("start" in identifiers.period) {
-          console.log("        Start: ", identifiers.period.start);
-        }
-        if ("end" in identifiers.period) {
-          console.log("        End: ", identifiers.period.end);
-        }
-      }
-      if ("assigner" in identifiers) {
-        console.log("      Identifier Assigner: ");
-        if ("reference" in identifiers.assigner) {
-          console.log("        Reference: ", identifiers.assigner.reference);
-        }
-        if ("type" in identifiers.assigner) {
-          console.log("        Type: ");
-          displayCodes(identifiers.assigner.type);
-        }
-        if ("identifier" in identifiers.assigner) {
-          console.log("        Identifier: ");
-          displayIdentifiers(identifiers.assigner.identifier);
-        }
-        if ("display" in identifiers.assigner) {
-          console.log("        Display: ", identifiers.assigner.display);
-        }
+      if ("unit" in quantity) {
+        console.log("     Unit: ", quantity.unit);
       }
 
     }
