@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-mysql": [
-        "./dist/esm"
-      ]
+      "@azure/arm-mysql": ["./dist/esm"]
     }
   }
 }
