@@ -13,7 +13,7 @@ import {
   InboundSecurityRuleCreateOrUpdateResponse,
   InboundSecurityRuleGetOptionalParams,
   InboundSecurityRuleGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a InboundSecurityRuleOperations. */
 export interface InboundSecurityRuleOperations {

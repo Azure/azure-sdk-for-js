@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RoutingRule, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an routing rule.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates an routing rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingRulePut.json
  */
-async function createADefaultRoutingRule() {
+async function createADefaultRoutingRule(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -53,7 +51,7 @@ async function createADefaultRoutingRule() {
  * @summary Creates or updates an routing rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingRulePut.json
  */
-async function createAnRoutingRule() {
+async function createAnRoutingRule(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -80,7 +78,7 @@ async function createAnRoutingRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createADefaultRoutingRule();
   createAnRoutingRule();
 }
