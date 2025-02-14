@@ -17,7 +17,7 @@ import dotenv from "dotenv";
 useIdentityPlugin(cachePersistencePlugin);
 
 dotenv.config();
-// The app registration client Id in the Microsoft Entra tenant
+// The app registration client ID in the Microsoft Entra tenant
 const clientId = "APP-REGISTRATION-CLIENT-ID";
 // The tenant ID in Microsoft Entra ID
 const tenantId = "TENANT-ID";
