@@ -7,7 +7,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 
 import "dotenv/config";
-import type {
+import {
   CreateJobParameters,
   RadiologyInsightsJobOutput,
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -30,45 +30,55 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
       results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach((inference) => {
-          if (inference.kind === "guidance") {
-            console.log("Clinical Guidance Inference found");
-            if ("finding" in inference) {
-              const find = inference.finding;
-              if ("code" in find) {
-                const fcode = find.code;
-                console.log("   Finding Code: ");
-                displayCodes(fcode);
+        patientResult.inferences.forEach(
+          (inference: {
+            kind: string;
+            finding?: any;
+            identifier?: any;
+            presentGuidanceInformation?: any[];
+            ranking?: any;
+            recommendationProposals?: any;
+            missingGuidanceInformation?: any[];
+          }) => {
+            if (inference.kind === "guidance") {
+              console.log("Clinical Guidance Inference found");
+              if ("finding" in inference) {
+                const find = inference.finding;
+                if ("code" in find) {
+                  const fcode = find.code;
+                  console.log("   Finding Code: ");
+                  displayCodes(fcode);
+                }
               }
-            }
 
-            if ("identifier" in inference) {
-              console.log("   Identifier: ", inference.identifier);
-              if ("code" in inference.identifier) {
-                displayCodes(inference.identifier.code);
+              if ("identifier" in inference) {
+                console.log("   Identifier: ", inference.identifier);
+                if ("code" in inference.identifier) {
+                  displayCodes(inference.identifier.code);
+                }
               }
-            }
 
-            inference.presentGuidanceInformation?.forEach((presentGuidanceInformation: any) => {
-              console.log("   Present Guidance Information: ");
-              displayPresentGuidanceInformation(inference.presentGuidanceInformation);
-            })
+              inference.presentGuidanceInformation?.forEach((presentGuidanceInformation: any) => {
+                console.log("   Present Guidance Information: ");
+                displayPresentGuidanceInformation(inference.presentGuidanceInformation);
+              })
 
-            if ("ranking" in inference) {
-              console.log("   Ranking: ", inference.ranking);
-            }
+              if ("ranking" in inference) {
+                console.log("   Ranking: ", inference.ranking);
+              }
 
-            if ("recommendationProposal" in inference) {
-              console.log("   Recommendation Proposal: ", inference.recommendationProposal);
-            }
+              if ("recommendationProposal" in inference) {
+                console.log("   Recommendation Proposal: ", inference.recommendationProposal.recommendedProcedure.kind);
+              }
 
-            if ("missingGuidanceInfromation" in inference) {
-              console.log("   Missing Guidance Information: ", inference.missingGuidanceInformation);
+              inference.missingGuidanceInfromation?.forEach((missingGuidanceInfromation: any) => {
+                console.log("   Missing Guidance Information: ", inference.missingGuidanceInfromation);
+              })
+
             }
-          }
-        });
-      }
-  } else {
+          })
+      });
+    } else {
       const error = radiologyInsightsResult.error;
       if (error) {
         console.log(error.code, ":", error.message);
@@ -83,7 +93,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
               "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
             );
           }
-        });
+        }
+      });
     }
 
     function displayPresentGuidanceInformation(guidanceinfo: any): void {
