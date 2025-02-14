@@ -28,10 +28,10 @@ async function main() {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     retryOptions: {
       maxTries: 4,
-    },
+    }, // Retry options
     userAgentOptions: {
       userAgentPrefix: "BasicSample V10.0.0",
-    },
+    }, // Customized telemetry string
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
       enable: false,
@@ -41,7 +41,7 @@ async function main() {
   const queueServiceClient = new QueueServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.queue.core.windows.net`,
-    pipeline
+    pipeline,
   );
 
   // Create a new queue
@@ -49,13 +49,13 @@ async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`
+    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`,
   );
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`
+    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`,
   );
 }
 

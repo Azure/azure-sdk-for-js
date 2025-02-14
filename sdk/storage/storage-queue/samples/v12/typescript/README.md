@@ -68,7 +68,7 @@ node dist/sharedKeyAuth.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx dev-tool run vendored cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dist/sharedKeyAuth.js
+npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node dist/sharedKeyAuth.js
 ```
 
 ## Next Steps
@@ -83,7 +83,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [listqueues]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/listQueues.ts
 [proxyauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/proxyAuth.ts
 [custompipeline]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/customPipeline.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/storage-queue
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-queue
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurestorageaccount]: https://learn.microsoft.com/azure/storage/common/storage-account-overview
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/README.md

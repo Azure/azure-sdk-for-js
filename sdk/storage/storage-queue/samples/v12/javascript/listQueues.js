@@ -21,7 +21,7 @@ async function main() {
 
   const queueServiceClient = new QueueServiceClient(
     `https://${account}.queue.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("Queues:");
