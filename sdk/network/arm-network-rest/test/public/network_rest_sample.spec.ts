@@ -49,23 +49,23 @@ describe("Network test", () => {
   let subnet_name: string;
   let ipGroupName: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || "";
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = createTestNetworkManagementClient(recorder, credential);
-    location = "eastus";
-    resourceGroupName = env.RESOURCE_GROUP_NAME || "myjstest";
-    virtualNetworkName = "virtualnetworkzzz";
-    subnet_name = "subnetnamexx";
-    ipGroupName = "ipgroupyyy";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || "";
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = createTestNetworkManagementClient(recorder, credential);
+      location = "eastus";
+      resourceGroupName = env.RESOURCE_GROUP_NAME || "myjstest";
+      virtualNetworkName = "virtualnetworkzzz";
+      subnet_name = "subnetnamexx";
+      ipGroupName = "ipgroupyyy";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("virtualNetworks create test", async function () {
     const option: VirtualNetworksCreateOrUpdateParameters = {

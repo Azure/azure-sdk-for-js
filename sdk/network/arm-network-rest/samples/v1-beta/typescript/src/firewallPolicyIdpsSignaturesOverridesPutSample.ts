@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Will override/create a new signature overrides for the policy's IDPS
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicySignatureOverridesPut.json
  */
-async function putSignatureOverrides() {
+async function putSignatureOverrides(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Lists all the network manager security admin configurations in a network manager, in a paginated format.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerSecurityAdminConfigurationList.json
  */
-async function listSecurityAdminConfigurationsInANetworkManager() {
+async function listSecurityAdminConfigurationsInANetworkManager(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
