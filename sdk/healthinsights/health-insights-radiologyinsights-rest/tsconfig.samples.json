@@ -5,6 +5,7 @@
       "@azure-rest/health-insights-radiologyinsights": [
         "./dist/esm"
       ]
-    }
+    },
+    "noEmit": false
   }
 }
