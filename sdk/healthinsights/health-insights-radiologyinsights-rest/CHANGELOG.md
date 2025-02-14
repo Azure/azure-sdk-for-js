@@ -2,8 +2,10 @@
 
 ## 2.0.0 (2025)
 
+- Adding Scope 2
+
 ### Features Added
-- Added sample code for 
+- Added sample code for scoring and assessment, quality measure and clinical guidance.
 
 ### Breaking Changes
 - for PatientDocumentOutput:
