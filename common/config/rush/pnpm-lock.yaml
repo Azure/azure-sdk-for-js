@@ -2541,7 +2541,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-vision-face@file:projects/ai-vision-face.tgz':
-    resolution: {integrity: sha512-35MLspEjo3srhk6oFk7t9K+NTSb2H/VYXLKgHPmAJ1JmakroQlu8TCiLM6l5qQCKKZNS5FzgsoQGsWZal7Y6aQ==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-2pzuJLb5LbYfA3e9uRy6i0ga3tTu/gygEl8nde84YF+fBqc4vqK9qOI2dC7Q9sJURHvopBu1Nln/uLplNGO7Xw==, tarball: file:projects/ai-vision-face.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-vision-image-analysis@file:projects/ai-vision-image-analysis.tgz':
@@ -2709,7 +2709,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz':
-    resolution: {integrity: sha512-aXX8Ytyln4lKOu3fu7LUYBLRjcdoe2ZZE7N8XE9Q9dDl+Z1seLFrbjslMyE1T937Uo0tw5NG5uLihdozAWjvnw==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-d/RTmfImGIUn2GYUAWtEBeuwI4d/KvaMMU2f3r5rqNk1ry5788txHmOMhtfdfEkRi4l81MkW4sL5fpNnu4C0dQ==, tarball: file:projects/arm-compute-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid@file:projects/arm-compute-profile-2020-09-01-hybrid.tgz':
@@ -3145,7 +3145,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-mongocluster@file:projects/arm-mongocluster.tgz':
-    resolution: {integrity: sha512-CHIOI2ng/UH/J8jmhBwKgAr/VqquZ0dR57RK1abYTny91kI9rhyZmRs4V1Ast7URPzh9i7W6qwG5Vkkk72ocBw==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-IV75GkJIy826xX3bpXNNtD5NA8T2xtd2XyhDNitkSqKm3vAGsn5pRJx3bZefvIBWfcBluTLuDDEqq/Px+dI3Nw==, tarball: file:projects/arm-mongocluster.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-monitor-profile-2020-09-01-hybrid@file:projects/arm-monitor-profile-2020-09-01-hybrid.tgz':
@@ -3837,7 +3837,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/mixed-reality-authentication@file:projects/mixed-reality-authentication.tgz':
-    resolution: {integrity: sha512-ywWZlWlup0L8SPjj1jFktE7J/n8/Cx62am7LRdeCSrCT75/eLNmPVwszPGnmLGGeYeLtfe9LCPNJKl016CN3eg==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-MqIMonBfqikbR5BtP/VGgekybjnuQ+HuvZB4PpwCIasG11Q+c/kKKtWN43adwhDXtpaokIK5RnfCayjz2wMxTg==, tarball: file:projects/mixed-reality-authentication.tgz}
     version: 0.0.0
 
   '@rush-temp/mixed-reality-remote-rendering@file:projects/mixed-reality-remote-rendering.tgz':
@@ -7709,11 +7709,6 @@ packages:
       '@swc/wasm':
         optional: true
 
-  tshy@1.18.0:
-    resolution: {integrity: sha512-FQudIujBazHRu7CVPHKQE9/Xq1Wc7lezxD/FCnTXx2PTcnoSN32DVpb/ZXvzV2NJBTDB3XKjqX8Cdm+2UK1DlQ==}
-    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
-    hasBin: true
-
   tshy@2.0.1:
     resolution: {integrity: sha512-U5fC+3pMaGfmULhPTVpxKMd62AcX13yfsFrjhAP/daTLG6LFRLIuxqYOmkejJ4MT/s5bEa29+1Jy/9mXkMiMfA==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
@@ -10211,7 +10206,6 @@ snapshots:
       eslint: 9.20.0
       playwright: 1.50.1
       prettier: 3.5.0
-      tshy: 1.18.0
       tslib: 2.8.1
       typescript: 5.7.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
@@ -11644,15 +11638,14 @@ snapshots:
 
   '@rush-temp/arm-compute-1@file:projects/arm-compute-1.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.75
-      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -26665,20 +26658,6 @@ snapshots:
       typescript: 5.7.3
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
-
-  tshy@1.18.0:
-    dependencies:
-      chalk: 5.4.1
-      chokidar: 3.6.0
-      foreground-child: 3.3.0
-      minimatch: 9.0.5
-      mkdirp: 3.0.1
-      polite-json: 5.0.0
-      resolve-import: 1.4.6
-      rimraf: 5.0.10
-      sync-content: 1.0.2
-      typescript: 5.7.3
-      walk-up-path: 3.0.1
 
   tshy@2.0.1:
     dependencies:

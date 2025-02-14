@@ -1,15 +1,204 @@
 # Release History
-
-## 22.3.1 (Unreleased)
-
+    
+## 23.0.0 (2025-02-14)
+    
 ### Features Added
+
+  - Added Interface AvailabilitySetsListAvailableSizesNextOptionalParams
+  - Added Interface AzureResourceManagerArmResponseSharingUpdate
+  - Added Interface CapacityReservationsCreateOrUpdateHeaders
+  - Added Interface CapacityReservationsDeleteHeaders
+  - Added Interface CapacityReservationsUpdateHeaders
+  - Added Interface DedicatedHostsCreateOrUpdateHeaders
+  - Added Interface DedicatedHostsDeleteHeaders
+  - Added Interface DedicatedHostsListAvailableSizesNextOptionalParams
+  - Added Interface DedicatedHostsRestartHeaders
+  - Added Interface DedicatedHostsUpdateHeaders
+  - Added Interface DiskAccessesCreateOrUpdateHeaders
+  - Added Interface DiskAccessesDeleteAPrivateEndpointConnectionHeaders
+  - Added Interface DiskAccessesDeleteHeaders
+  - Added Interface DiskAccessesUpdateAPrivateEndpointConnectionHeaders
+  - Added Interface DiskAccessesUpdateHeaders
+  - Added Interface DiskEncryptionSetsCreateOrUpdateHeaders
+  - Added Interface DiskEncryptionSetsDeleteHeaders
+  - Added Interface DiskEncryptionSetsUpdateHeaders
+  - Added Interface DiskRestorePointGrantAccessHeaders
+  - Added Interface DiskRestorePointRevokeAccessHeaders
+  - Added Interface DisksCreateOrUpdateHeaders
+  - Added Interface DisksDeleteHeaders
+  - Added Interface DisksGrantAccessHeaders
+  - Added Interface DisksRevokeAccessHeaders
+  - Added Interface DisksUpdateHeaders
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface GalleriesCreateOrUpdateHeaders
+  - Added Interface GalleriesDeleteHeaders
+  - Added Interface GalleriesUpdateHeaders
+  - Added Interface GalleryApplicationsCreateOrUpdateHeaders
+  - Added Interface GalleryApplicationsDeleteHeaders
+  - Added Interface GalleryApplicationsUpdateHeaders
+  - Added Interface GalleryApplicationVersionsCreateOrUpdateHeaders
+  - Added Interface GalleryApplicationVersionsDeleteHeaders
+  - Added Interface GalleryApplicationVersionsUpdateHeaders
+  - Added Interface GalleryImagesCreateOrUpdateHeaders
+  - Added Interface GalleryImagesDeleteHeaders
+  - Added Interface GalleryImagesUpdateHeaders
+  - Added Interface GalleryImageVersionsCreateOrUpdateHeaders
+  - Added Interface GalleryImageVersionsDeleteHeaders
+  - Added Interface GalleryImageVersionsUpdateHeaders
+  - Added Interface GalleryInVMAccessControlProfilesCreateOrUpdateHeaders
+  - Added Interface GalleryInVMAccessControlProfilesUpdateHeaders
+  - Added Interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateHeaders
+  - Added Interface GalleryInVMAccessControlProfileVersionsUpdateHeaders
+  - Added Interface GallerySharingProfileUpdateHeaders
+  - Added Interface ImagesCreateOrUpdateHeaders
+  - Added Interface ImagesDeleteHeaders
+  - Added Interface ImagesUpdateHeaders
+  - Added Interface LogAnalyticsExportRequestRateByIntervalHeaders
+  - Added Interface LogAnalyticsExportThrottledRequestsHeaders
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationListResult
+  - Added Interface OperationsListNextOptionalParams
+  - Added Interface RestorePointCollectionsDeleteHeaders
+  - Added Interface RestorePointsCreateHeaders
+  - Added Interface RestorePointsDeleteHeaders
+  - Added Interface SnapshotsCreateOrUpdateHeaders
+  - Added Interface SnapshotsDeleteHeaders
+  - Added Interface SnapshotsGrantAccessHeaders
+  - Added Interface SnapshotsRevokeAccessHeaders
+  - Added Interface SnapshotsUpdateHeaders
+  - Added Interface TrackedResource
+  - Added Interface VirtualMachineExtensionsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineExtensionsDeleteHeaders
+  - Added Interface VirtualMachineExtensionsUpdateHeaders
+  - Added Interface VirtualMachineRunCommandsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineRunCommandsDeleteHeaders
+  - Added Interface VirtualMachineRunCommandsUpdateHeaders
+  - Added Interface VirtualMachinesAssessPatchesHeaders
+  - Added Interface VirtualMachineScaleSetExtensionsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineScaleSetExtensionsDeleteHeaders
+  - Added Interface VirtualMachineScaleSetExtensionsUpdateHeaders
+  - Added Interface VirtualMachineScaleSetRollingUpgradesCancelHeaders
+  - Added Interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeHeaders
+  - Added Interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeHeaders
+  - Added Interface VirtualMachineScaleSetsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineScaleSetsDeallocateHeaders
+  - Added Interface VirtualMachineScaleSetsDeleteHeaders
+  - Added Interface VirtualMachineScaleSetsDeleteInstancesHeaders
+  - Added Interface VirtualMachineScaleSetsPerformMaintenanceHeaders
+  - Added Interface VirtualMachineScaleSetsPowerOffHeaders
+  - Added Interface VirtualMachineScaleSetsRedeployHeaders
+  - Added Interface VirtualMachineScaleSetsReimageAllHeaders
+  - Added Interface VirtualMachineScaleSetsReimageHeaders
+  - Added Interface VirtualMachineScaleSetsRestartHeaders
+  - Added Interface VirtualMachineScaleSetsSetOrchestrationServiceStateHeaders
+  - Added Interface VirtualMachineScaleSetsStartHeaders
+  - Added Interface VirtualMachineScaleSetsUpdateHeaders
+  - Added Interface VirtualMachineScaleSetsUpdateInstancesHeaders
+  - Added Interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineScaleSetVMExtensionsDeleteHeaders
+  - Added Interface VirtualMachineScaleSetVMExtensionsUpdateHeaders
+  - Added Interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateHeaders
+  - Added Interface VirtualMachineScaleSetVMRunCommandsDeleteHeaders
+  - Added Interface VirtualMachineScaleSetVMRunCommandsUpdateHeaders
+  - Added Interface VirtualMachineScaleSetVMsDeallocateHeaders
+  - Added Interface VirtualMachineScaleSetVMsDeleteHeaders
+  - Added Interface VirtualMachineScaleSetVMsPerformMaintenanceHeaders
+  - Added Interface VirtualMachineScaleSetVMsPowerOffHeaders
+  - Added Interface VirtualMachineScaleSetVMsRedeployHeaders
+  - Added Interface VirtualMachineScaleSetVMsReimageAllHeaders
+  - Added Interface VirtualMachineScaleSetVMsReimageHeaders
+  - Added Interface VirtualMachineScaleSetVMsRestartHeaders
+  - Added Interface VirtualMachineScaleSetVMsRunCommandHeaders
+  - Added Interface VirtualMachineScaleSetVMsStartHeaders
+  - Added Interface VirtualMachineScaleSetVMsUpdateHeaders
+  - Added Interface VirtualMachinesCaptureHeaders
+  - Added Interface VirtualMachinesConvertToManagedDisksHeaders
+  - Added Interface VirtualMachinesCreateOrUpdateHeaders
+  - Added Interface VirtualMachinesDeallocateHeaders
+  - Added Interface VirtualMachinesDeleteHeaders
+  - Added Interface VirtualMachinesInstallPatchesHeaders
+  - Added Interface VirtualMachineSizesListNextOptionalParams
+  - Added Interface VirtualMachinesListAvailableSizesNextOptionalParams
+  - Added Interface VirtualMachinesPerformMaintenanceHeaders
+  - Added Interface VirtualMachinesPowerOffHeaders
+  - Added Interface VirtualMachinesReapplyHeaders
+  - Added Interface VirtualMachinesRedeployHeaders
+  - Added Interface VirtualMachinesReimageHeaders
+  - Added Interface VirtualMachinesRestartHeaders
+  - Added Interface VirtualMachinesRunCommandHeaders
+  - Added Interface VirtualMachinesStartHeaders
+  - Added Interface VirtualMachinesUpdateHeaders
+  - Added Type Alias ActionType
+  - Added Type Alias AvailabilitySetsListAvailableSizesNextResponse
+  - Added Type Alias CreatedByType
+  - Added Type Alias DedicatedHostsListAvailableSizesNextResponse
+  - Added Type Alias DedicatedHostsRestartResponse
+  - Added Type Alias OperationsListNextResponse
+  - Added Type Alias Origin
+  - Added Type Alias VirtualMachineSizesListNextResponse
+  - Added Type Alias VirtualMachinesListAvailableSizesNextResponse
+  - Interface DedicatedHostSizeListResult has a new optional parameter nextLink
+  - Interface DedicatedHostsRedeployHeaders has a new optional parameter retryAfter
+  - Interface GalleryInVMAccessControlProfilesDeleteHeaders has a new optional parameter retryAfter
+  - Interface GalleryInVMAccessControlProfileVersionsDeleteHeaders has a new optional parameter retryAfter
+  - Interface GallerySoftDeletedResource has a new optional parameter id
+  - Interface GallerySoftDeletedResource has a new optional parameter name
+  - Interface GallerySoftDeletedResource has a new optional parameter tags
+  - Interface GallerySoftDeletedResource has a new optional parameter type
+  - Interface Resource has a new optional parameter systemData
+  - Interface RestorePointSourceVMStorageProfile has a new optional parameter dataDiskList
+  - Interface SystemData has a new optional parameter createdBy
+  - Interface SystemData has a new optional parameter createdByType
+  - Interface SystemData has a new optional parameter lastModifiedBy
+  - Interface SystemData has a new optional parameter lastModifiedByType
+  - Interface VirtualMachinesAttachDetachDataDisksHeaders has a new optional parameter retryAfter
+  - Interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders has a new optional parameter retryAfter
+  - Interface VirtualMachineScaleSetsReapplyHeaders has a new optional parameter retryAfter
+  - Interface VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders has a new optional parameter retryAfter
+  - Interface VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders has a new optional parameter retryAfter
+  - Interface VirtualMachineSizeListResult has a new optional parameter nextLink
+  - Add parameters of DedicatedHostsUpdateHeaders to TypeAlias DedicatedHostsUpdateResponse
+  - Add parameters of GalleriesUpdateHeaders to TypeAlias GalleriesUpdateResponse
+  - Add parameters of GalleryApplicationsUpdateHeaders to TypeAlias GalleryApplicationsUpdateResponse
+  - Add parameters of GalleryApplicationVersionsUpdateHeaders to TypeAlias GalleryApplicationVersionsUpdateResponse
+  - Add parameters of GalleryImagesUpdateHeaders to TypeAlias GalleryImagesUpdateResponse
+  - Add parameters of GalleryImageVersionsUpdateHeaders to TypeAlias GalleryImageVersionsUpdateResponse
+  - Add parameters of GalleryInVMAccessControlProfilesUpdateHeaders to TypeAlias GalleryInVMAccessControlProfilesUpdateResponse
+  - Add parameters of GalleryInVMAccessControlProfileVersionsUpdateHeaders to TypeAlias GalleryInVMAccessControlProfileVersionsUpdateResponse
+  - Add parameters of RestorePointsCreateHeaders to TypeAlias RestorePointsCreateResponse
+  - Add parameters of VirtualMachineExtensionsUpdateHeaders to TypeAlias VirtualMachineExtensionsUpdateResponse
+  - Add parameters of VirtualMachineRunCommandsUpdateHeaders to TypeAlias VirtualMachineRunCommandsUpdateResponse
+  - Add parameters of VirtualMachineScaleSetsUpdateHeaders to TypeAlias VirtualMachineScaleSetsUpdateResponse
+  - Add parameters of VirtualMachineScaleSetVMExtensionsUpdateHeaders to TypeAlias VirtualMachineScaleSetVMExtensionsUpdateResponse
+  - Add parameters of VirtualMachineScaleSetVMRunCommandsUpdateHeaders to TypeAlias VirtualMachineScaleSetVMRunCommandsUpdateResponse
+  - Add parameters of VirtualMachinesUpdateHeaders to TypeAlias VirtualMachinesUpdateResponse
+  - Added Enum KnownActionType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownOrigin
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface GalleryInVMAccessControlProfilesDeleteHeaders no longer has parameter azureAsyncOperation
+  - Interface GalleryInVMAccessControlProfileVersionsDeleteHeaders no longer has parameter azureAsyncOperation
+  - Interface PrivateEndpointConnection no longer has parameter id
+  - Interface PrivateEndpointConnection no longer has parameter name
+  - Interface PrivateEndpointConnection no longer has parameter type
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Interface RestorePointSourceVMStorageProfile no longer has parameter dataDisks
+  - Interface VirtualMachineScaleSetExtension no longer has parameter name
+  - Interface VirtualMachineScaleSetExtension no longer has parameter type
+  - Interface VirtualMachineScaleSetVMExtension no longer has parameter name
+  - Interface VirtualMachineScaleSetVMExtension no longer has parameter type
+  - Interface GallerySoftDeletedResource has a new required parameter location
+  - Parameter value of interface PrivateEndpointConnectionListResult is now required
+  - Parameter value of interface RestorePointCollectionListResult is now required
+  - Enum KnownOrchestrationServiceNames no longer has value DummyOrchestrationServiceName
+    
+    
 ## 22.3.0 (2025-01-09)
     
 ### Features Added
