@@ -70,13 +70,15 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
   function displayCodes(codeableConcept: any): void {
     codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
+        if ("display" in coding && "system" in coding && "code" in coding) {
         console.log(
-          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
-        );
+          "         Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+          );
+        } 
       }
     });
   }
-
+  
   function displayImaging(images: any): void {
     console.log("     Modality Codes: ");
     displayCodes(images.modality);
@@ -100,8 +102,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
   const codingData = {
-    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-    code: "24727-0",
+    system: "http://www.ama-assn.org/go/cpt",
+    code: "70460",
     display: "CT HEAD W CONTRAST IV",
   };
 

@@ -74,7 +74,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 function createRequestBody(): CreateJobParameters {
 
   const codingData = {
-    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
+    system: "http://www.ama-assn.org/go/cpt",
     code: "30704-1",
     display: "US ABDOMEN LIMITED"
   };

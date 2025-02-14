@@ -52,8 +52,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
   const codingData = {
-    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-    code: "USPELVIS",
+    system: "http://www.ama-assn.org/go/cpt",
+    code: "76856",
     display: "US PELVIS COMPLETE",
   };
 

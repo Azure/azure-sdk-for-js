@@ -8,7 +8,7 @@ import { createRecorder, createTestClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
-  system: "Http://hl7.org/fhir/ValueSet/cpt-all",
+  system: "http://www.ama-assn.org/go/cpt",
   code: "USPELVIS",
   display: "US PELVIS COMPLETE",
 };

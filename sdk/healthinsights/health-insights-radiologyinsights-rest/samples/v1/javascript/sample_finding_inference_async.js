@@ -93,7 +93,7 @@ function printResults(radiologyInsightsResult) {
 // Create request body for radiology insights
 function createRequestBody() {
   const codingData = {
-    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
+    system: "http://www.ama-assn.org/go/cpt",
     code: "ANG366",
     display: "XA VENACAVA FILTER INSERTION",
   };

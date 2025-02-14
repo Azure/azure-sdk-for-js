@@ -14,7 +14,7 @@ const codingData = {
 };
 
 const codingData2 = {
-  system: "Http://hl7.org/fhir/ValueSet/cpt-all",
+  system: "http://www.ama-assn.org/go/cpt",
   code: "111111",
   display: "CT ABD/PELVIS",
 };
