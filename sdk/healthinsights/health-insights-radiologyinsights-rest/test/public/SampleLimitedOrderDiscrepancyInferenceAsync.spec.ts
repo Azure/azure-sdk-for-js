@@ -86,7 +86,7 @@ These findings were discussed with Dr. Doe at 5:05 p.m. on 1/1/15.
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: ClinicalDocumentType.RadiologyReport,
+  clinicalType: "radiologyReport"
   id: "docid1",
   language: "en",
   authors: [authorData],

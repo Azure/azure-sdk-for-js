@@ -74,7 +74,7 @@ These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: ClinicalDocumentType.RadiologyReport,
+  clinicalType: "radiologyReport"
   id: "docid1",
   language: "en",
   authors: [authorData],

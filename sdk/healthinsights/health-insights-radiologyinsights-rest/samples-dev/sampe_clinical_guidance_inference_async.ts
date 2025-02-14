@@ -38,7 +38,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
             presentGuidanceInformation?: any[];
             ranking?: any;
             recommendationProposals?: any;
-            missingGuidanceInformation?: any[];
+            missingGuidanceInformation?: string[];
           }) => {
             if (inference.kind === "guidance") {
               console.log("Clinical Guidance Inference found");
@@ -221,7 +221,7 @@ Findings communicated to Dr. Jane Smith.`,
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: ClinicalDocumentType.RadiologyReport,
+    clinicalType: "radiologyReport"
     id: "docid1",
     language: "en",
     authors: [authorData],

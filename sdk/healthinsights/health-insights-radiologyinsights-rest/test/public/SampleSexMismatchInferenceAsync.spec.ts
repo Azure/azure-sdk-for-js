@@ -77,7 +77,7 @@ const content = {
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: ClinicalDocumentType.RadiologyReport,
+  clinicalType: "radiologyReport"
   id: "docid1",
   language: "en",
   authors: [authorData],
