@@ -45,25 +45,32 @@ describe("signalr test", () => {
   let resourceName: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new SignalRManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourceName = "mySignalRService1";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || '';
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new SignalRManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus";
+    resourceGroup = "myjstest";
+    resourceName = "mySignalRService1";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("checkname test", async function () {
+  it("checkname test", async () => {
+    await client.signalR.checkNameAvailability(
+      location,
+      {
+        name: resourceName,
+        type: "Microsoft.SignalRService/SignalR"
+      }
+    );
   })
 
-  it("signalr create test", async function () {
+  it("signalr create test", async () => {
     const res = await client.signalR.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourceName,
@@ -108,12 +115,12 @@ describe("signalr test", () => {
     assert.equal(res.name, resourceName);
   });
 
-  it("signalr get test", async function () {
+  it("signalr get test", async () => {
     const res = await client.signalR.get(resourceGroup, resourceName);
     assert.equal(res.name, resourceName);
   });
 
-  it("signalr list test", async function () {
+  it("signalr list test", async () => {
     const resArray = new Array();
     for await (let item of client.signalR.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -121,8 +128,9 @@ describe("signalr test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("signalr delete test", async function () {
+  it("signalr delete test", async () => {
     const resArray = new Array();
+    await client.signalR.beginDeleteAndWait(resourceGroup, resourceName, testPollingOptions)
     for await (let item of client.signalR.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
