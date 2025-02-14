@@ -7,9 +7,7 @@
  */
 import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the Primary and Secondary ConnectionStrings to the NotificationHub
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the Primary and Secondary ConnectionStrings to the NotificationHub
  * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/NotificationHubs/AuthorizationRuleListKeys.json
  */
-async function notificationHubsListKeys() {
+async function notificationHubsListKeys(): Promise<void> {
   const subscriptionId =
     process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] ||
     "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
@@ -40,7 +38,7 @@ async function notificationHubsListKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   notificationHubsListKeys();
 }
 

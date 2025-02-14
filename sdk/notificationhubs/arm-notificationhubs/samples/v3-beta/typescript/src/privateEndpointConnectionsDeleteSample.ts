@@ -7,9 +7,7 @@
  */
 import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the Private Endpoint Connection.
@@ -19,7 +17,7 @@ This is a public API that can be called directly by Notification Hubs users.
 This is a public API that can be called directly by Notification Hubs users.
  * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/Namespaces/PrivateEndpointConnectionDelete.json
  */
-async function privateEndpointConnectionsDelete() {
+async function privateEndpointConnectionsDelete(): Promise<void> {
   const subscriptionId =
     process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] ||
     "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
@@ -41,7 +39,7 @@ async function privateEndpointConnectionsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateEndpointConnectionsDelete();
 }
 

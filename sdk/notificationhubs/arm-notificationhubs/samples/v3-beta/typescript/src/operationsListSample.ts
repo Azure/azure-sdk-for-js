@@ -7,9 +7,7 @@
  */
 import { NotificationHubsManagementClient } from "@azure/arm-notificationhubs";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all available Notification Hubs operations.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all available Notification Hubs operations.
  * x-ms-original-file: specification/notificationhubs/resource-manager/Microsoft.NotificationHubs/preview/2023-10-01-preview/examples/NHOperationsList.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const subscriptionId =
     process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function operationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operationsList();
 }
 
