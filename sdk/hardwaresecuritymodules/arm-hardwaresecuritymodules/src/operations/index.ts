@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./cloudHsmClusters";
-export * from "./cloudHsmClusterPrivateLinkResources";
-export * from "./cloudHsmClusterPrivateEndpointConnections";
-export * from "./privateEndpointConnections";
-export * from "./cloudHsmClusterBackupStatus";
-export * from "./cloudHsmClusterRestoreStatus";
-export * from "./dedicatedHsmOperations";
-export * from "./operations";
+export * from "./cloudHsmClusters.js";
+export * from "./cloudHsmClusterPrivateLinkResources.js";
+export * from "./cloudHsmClusterPrivateEndpointConnections.js";
+export * from "./privateEndpointConnections.js";
+export * from "./cloudHsmClusterBackupStatus.js";
+export * from "./cloudHsmClusterRestoreStatus.js";
+export * from "./dedicatedHsmOperations.js";
+export * from "./operations.js";

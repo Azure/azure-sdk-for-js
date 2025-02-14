@@ -13,9 +13,7 @@ import {
   HDInsightContainersManagementClient,
 } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a cluster pool.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates a cluster pool.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateClusterPool.json
  */
-async function clusterPoolPut() {
+async function clusterPoolPut(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "10e32bab-26da-4cc4-a441-52b318f824e6";
@@ -59,7 +57,7 @@ async function clusterPoolPut() {
  * @summary Creates or updates a cluster pool.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateClusterPoolWithPrivateAks.json
  */
-async function clusterPoolPutWithPrivateAks() {
+async function clusterPoolPutWithPrivateAks(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "10e32bab-26da-4cc4-a441-52b318f824e6";
@@ -100,7 +98,7 @@ async function clusterPoolPutWithPrivateAks() {
  * @summary Creates or updates a cluster pool.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/CreateClusterPoolWithUDRAks.json
  */
-async function clusterPoolPutWithUdrAks() {
+async function clusterPoolPutWithUdrAks(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "10e32bab-26da-4cc4-a441-52b318f824e6";
@@ -135,7 +133,7 @@ async function clusterPoolPutWithUdrAks() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   clusterPoolPut();
   clusterPoolPutWithPrivateAks();
   clusterPoolPutWithUdrAks();

@@ -25,7 +25,7 @@ import {
   UsagesImpl,
   UsersImpl,
   VirtualMachinesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Images,
   LabPlans,
@@ -37,8 +37,8 @@ import {
   Usages,
   Users,
   VirtualMachines
-} from "./operationsInterfaces";
-import { LabServicesClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { LabServicesClientOptionalParams } from "./models/index.js";
 
 export class LabServicesClient extends coreClient.ServiceClient {
   $host: string;

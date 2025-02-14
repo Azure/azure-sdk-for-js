@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Retrieves all the jobs in a device.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/JobsListByDevice.json
  */
-async function jobsListByDevice() {
+async function jobsListByDevice(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HSDK-ARCSX4MVKZ";
   const resourceGroupName = "ResourceGroupForSDKTest";

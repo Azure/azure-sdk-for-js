@@ -236,5 +236,3 @@ All Quantum Jobs service operations will throw a RequestFailedException on failu
 [credentials]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credentials
 [style-guide-msft]: https://learn.microsoft.com/style-guide/capitalization
 [style-guide-cloud]: https://aka.ms/azsdk/cloud-style-guide
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fappconfiguration%2Fapp-configuration%2FREADME.png)

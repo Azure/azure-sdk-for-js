@@ -1,10 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-/**
- * @summary Send a text message
- */
-
 const NotificationClient = require("@azure-rest/communication-messages").default,
   { isUnexpected } = require("@azure-rest/communication-messages");
 

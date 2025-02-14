@@ -30,7 +30,7 @@ export default defineConfig({
       headless: true,
       instances: [
         {
-          browser: "chromium"
+          browser: "chromium",
           launch: {
             bypassCSP: true,
             args: ["--no-sandbox", "--disable-web-security"],

@@ -8,9 +8,7 @@
 import type { FailoverInput } from "@azure/arm-iothub";
 import { IotHubClient } from "@azure/arm-iothub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Manually initiate a failover for the IoT Hub to its secondary region. To learn more, see https://aka.ms/manualfailover
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Manually initiate a failover for the IoT Hub to its secondary region. To learn more, see https://aka.ms/manualfailover
  * x-ms-original-file: specification/iothub/resource-manager/Microsoft.Devices/stable/2023-06-30/examples/IotHub_ManualFailover.json
  */
-async function iotHubManualFailover() {
+async function iotHubManualFailover(): Promise<void> {
   const subscriptionId =
     process.env["IOTHUB_SUBSCRIPTION_ID"] || "91d12660-3dec-467a-be2a-213b5544ddc0";
   const iotHubName = "testHub";
@@ -34,7 +32,7 @@ async function iotHubManualFailover() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await iotHubManualFailover();
 }
 

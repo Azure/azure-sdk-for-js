@@ -8,9 +8,7 @@
 import type { TagsResource } from "@azure/arm-hybridcompute";
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateLinkScope/PrivateLinkScopes_UpdateTagsOnly.json
  */
-async function privateLinkScopeUpdateTagsOnly() {
+async function privateLinkScopeUpdateTagsOnly(): Promise<void> {
   const subscriptionId = process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "my-resource-group";
   const scopeName = "my-privatelinkscope";
@@ -35,7 +33,7 @@ async function privateLinkScopeUpdateTagsOnly() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await privateLinkScopeUpdateTagsOnly();
 }
 

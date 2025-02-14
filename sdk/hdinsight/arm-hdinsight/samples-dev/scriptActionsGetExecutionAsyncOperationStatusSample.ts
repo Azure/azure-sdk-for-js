@@ -7,9 +7,7 @@
  */
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the async operation status of execution operation.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the async operation status of execution operation.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetScriptExecutionAsyncOperationStatus.json
  */
-async function getsTheAsyncExecutionOperationStatus() {
+async function getsTheAsyncExecutionOperationStatus(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -32,7 +30,7 @@ async function getsTheAsyncExecutionOperationStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsTheAsyncExecutionOperationStatus();
 }
 

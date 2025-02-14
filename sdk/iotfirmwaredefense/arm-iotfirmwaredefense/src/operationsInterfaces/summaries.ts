@@ -13,7 +13,7 @@ import {
   SummaryName,
   SummariesGetOptionalParams,
   SummariesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Summaries. */

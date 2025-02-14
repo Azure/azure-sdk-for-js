@@ -7,9 +7,7 @@
  */
 import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get jobs of HDInsight on AKS cluster.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get jobs of HDInsight on AKS cluster.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListClusterJobs.json
  */
-async function listClusterJobs() {
+async function listClusterJobs(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "hiloResourcegroup";
@@ -36,7 +34,7 @@ async function listClusterJobs() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listClusterJobs();
 }
 

@@ -17,12 +17,12 @@ import * as coreAuth from "@azure/core-auth";
 import {
   OperationalizationClustersImpl,
   MachineLearningComputeImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   OperationalizationClusters,
   MachineLearningCompute
-} from "./operationsInterfaces";
-import { MachineLearningComputeManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MachineLearningComputeManagementClientOptionalParams } from "./models/index.js";
 
 export class MachineLearningComputeManagementClient extends coreClient.ServiceClient {
   $host: string;

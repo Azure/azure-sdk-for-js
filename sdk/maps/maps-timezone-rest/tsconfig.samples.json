@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/maps-search": ["./dist/esm"]
+      "@azure-rest/maps-timezone": ["./dist/esm"]
     }
   }
 }

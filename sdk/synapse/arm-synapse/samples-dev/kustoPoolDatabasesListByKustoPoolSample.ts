@@ -7,9 +7,7 @@
  */
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of databases of the given Kusto pool.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns the list of databases of the given Kusto pool.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoDatabasesListByKustoPool.json
  */
-async function kustoDatabasesListByKustoPool() {
+async function kustoDatabasesListByKustoPool(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "kustorptest";
@@ -36,7 +34,7 @@ async function kustoDatabasesListByKustoPool() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await kustoDatabasesListByKustoPool();
 }
 

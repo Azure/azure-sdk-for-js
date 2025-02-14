@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LiveEvent, AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new live event.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a new live event.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveevent-create.json
  */
-async function createALiveEvent() {
+async function createALiveEvent(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "0a6ec948-5a62-437d-b9df-934dc7c1b722";
@@ -64,7 +62,7 @@ async function createALiveEvent() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createALiveEvent();
 }
 
