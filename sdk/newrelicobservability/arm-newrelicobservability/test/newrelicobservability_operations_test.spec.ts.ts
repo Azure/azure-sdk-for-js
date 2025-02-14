@@ -15,8 +15,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { CreateTestCredentialOptions, createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { NewRelicObservability } from "../src/newRelicObservability";
+import { NewRelicObservability } from "../src/newRelicObservability.js";
 
 const replaceableVariables: Record<string, string> = {
   NewRelic_CLIENT_ID: "azure_client_id",
@@ -46,29 +45,29 @@ describe("NewRelicObservability test", () => {
   let resourceGroup: string;
   let resourcename: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.NewRelic_SUBSCRIPTION_ID || "";
-    tenantId = env.NewRelic_TENANT_ID || "";
-    const credentialOptions: CreateTestCredentialOptions = {
-      tenantId,
-    };
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential(credentialOptions);
-    client = new NewRelicObservability(
-      credential,
-      subscriptionId,
-      recorder.configureClientOptions({}),
-    );
-    location = "centraluseuap";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest1";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.NewRelic_SUBSCRIPTION_ID || "";
+      tenantId = env.NewRelic_TENANT_ID || "";
+      const credentialOptions: CreateTestCredentialOptions = {
+        tenantId,
+      };
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential(credentialOptions);
+      client = new NewRelicObservability(
+        credential,
+        subscriptionId,
+        recorder.configureClientOptions({}),
+      );
+      location = "centraluseuap";
+      resourceGroup = "myjstest";
+      resourcename = "resourcetest1";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operations list test", async function () {
     const resArray = new Array();
@@ -117,8 +116,6 @@ describe("NewRelicObservability test", () => {
 
   it("monitors delete test", async function () {
     const resArray = new Array();
-    const res = await client.monitors.beginDeleteAndWait(resourceGroup, "v-ziweichen@microsoft.com", resourcename, testPollingOptions
-    )
     for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
