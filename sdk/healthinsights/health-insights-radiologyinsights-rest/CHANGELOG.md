@@ -86,8 +86,7 @@
     - Renamed 'dateTime' field into 'communicatedAt'
     - 'recipient' field is now a 'MedicalProfessionalTypeOutput' and no longer a string[]
 
-  - for PatientDetailsOutput
-    - 'birthDate' field is now a string and no longer a Date object.
+  - Subsitute Date objects by a string object.
 
 ## 1.0.0-beta.1 (2024-03-05)
 

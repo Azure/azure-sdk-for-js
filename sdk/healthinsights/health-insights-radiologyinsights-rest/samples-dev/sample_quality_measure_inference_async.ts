@@ -12,7 +12,6 @@ import {
   RadiologyInsightsJobOutput,
 } from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
-  ClinicalDocumentType,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -48,8 +47,8 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
                 console.log("   Compliance Type: ", inference.complianceType);
               }
 
-              inference.qualityCriteria?.forEach((qualityCriteria: any) => {
-                console.log("   Quality Criterium: ", inference.qualityCriteria);
+              inference.qualityCriteria?.forEach((criteria: any) => {
+                console.log("   Quality Criterium: ", criteria);
               })
 
             }
@@ -60,41 +59,6 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       if (error) {
         console.log(error.code, ":", error.message);
       }
-    }
-
-    function displayCodes(codeableConcept: any): void {
-      codeableConcept.coding?.forEach((coding: any) => {
-        if ("code" in coding) {
-          if ("display" in coding && "system" in coding && "code" in coding) {
-            console.log(
-              "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
-            );
-          }
-        }
-      });
-    }
-
-    function displayQuantityOutput(quantity: any): void {
-      if ("value" in quantity) {
-        console.log("     Value: ", quantity.value);
-      }
-      if ("unit" in quantity) {
-        console.log("     Unit: ", quantity.unit);
-      }
-
-    }
-
-    function displaySectionInfo(inference: { extension: any[] }): void {
-      inference.extension?.forEach((ext: any) => {
-        if ("url" in ext && ext.url === "section") {
-          console.log("   Section:");
-          ext.extension?.forEach((subextension: { url: string; valueString: string }) => {
-            if ("url" in subextension && "valueString" in subextension) {
-              console.log("      " + subextension.url + ": " + subextension.valueString);
-            }
-          });
-        }
-      });
     }
   }
 
@@ -258,9 +222,6 @@ export async function main(): Promise<void> {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  const content =
-    radiologyInsightsParameter?.body?.jobData?.patients?.[0]?.patientDocuments?.[0]?.content
-      ?.value ?? "";
   await printResults(resultBody);
 }
 

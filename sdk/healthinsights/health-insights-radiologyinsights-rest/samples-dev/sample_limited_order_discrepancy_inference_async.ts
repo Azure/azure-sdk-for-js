@@ -11,7 +11,6 @@ import type {
   RadiologyInsightsJobOutput,
 } from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
-  ClinicalDocumentType,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/health-insights-radiologyinsights";

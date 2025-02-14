@@ -12,7 +12,6 @@ import {
   RadiologyInsightsJobOutput,
 } from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
-  ClinicalDocumentType,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -58,21 +57,21 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
                 }
               }
 
-              inference.presentGuidanceInformation?.forEach((presentGuidanceInformation: any) => {
+              inference.presentGuidanceInformation?.forEach((presentInfo: any) => {
                 console.log("   Present Guidance Information: ");
-                displayPresentGuidanceInformation(inference.presentGuidanceInformation);
+                displayPresentGuidanceInformation(presentInfo);
               })
 
               if ("ranking" in inference) {
                 console.log("   Ranking: ", inference.ranking);
               }
 
-              if ("recommendationProposal" in inference) {
-                console.log("   Recommendation Proposal: ", inference.recommendationProposal.recommendedProcedure.kind);
+              if ("recommendationProposals" in inference) {
+                console.log("   Recommendation Proposal: ", inference.recommendationProposals.recommendedProcedure.kind);
               }
 
-              inference.missingGuidanceInfromation?.forEach((missingGuidanceInfromation: any) => {
-                console.log("   Missing Guidance Information: ", inference.missingGuidanceInfromation);
+              inference.missingGuidanceInformation?.forEach((missingInfo: any) => {
+                console.log("   Missing Guidance Information: ", missingInfo);
               })
 
             }
@@ -120,16 +119,14 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
         displayQuantityOutput(guidanceinfo.maximumDiameterAsInText);
       }
 
-
       guidanceinfo.presentGuidanceValues?.forEach((sizes: any) => {
-        console.log("     Present Guidance Value: ", guidanceinfo.presentGuidanceValue);
+        console.log("     Present Guidance Value: ", sizes);
       })
 
       if ("extension" in guidanceinfo) {
         console.log("     Extension: ");
         displaySectionInfo(guidanceinfo.extension);
       }
-
     }
 
     function displayQuantityOutput(quantity: any): void {
@@ -139,7 +136,6 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
       if ("unit" in quantity) {
         console.log("     Unit: ", quantity.unit);
       }
-
     }
 
     function displaySectionInfo(inference: { extension: any[] }): void {
@@ -312,9 +308,6 @@ export async function main(): Promise<void> {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  const content =
-    radiologyInsightsParameter?.body?.jobData?.patients?.[0]?.patientDocuments?.[0]?.content
-      ?.value ?? "";
   await printResults(resultBody);
 }
 

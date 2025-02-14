@@ -11,7 +11,6 @@ import type {
   RadiologyInsightsJobOutput,
 } from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
-  ClinicalDocumentType,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -205,16 +204,11 @@ export async function main(): Promise<void> {
   const jobID = "jobId-" + dateString;
   const initialResponse = await client
     .path("/radiology-insights/jobs/{id}", jobID)
-    .put(radiologyInsightsParameter, {
-      headers: {
-        Authorization: `Bearer ${tokenResponse?.token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
+    .put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }
+
   const poller = await getLongRunningPoller(client, initialResponse);
   const RadiologyInsightsResult = await poller.pollUntilDone();
   if (isUnexpected(RadiologyInsightsResult)) {
