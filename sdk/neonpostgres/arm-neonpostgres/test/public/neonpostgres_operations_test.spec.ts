@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -28,7 +29,8 @@ describe("Postgres test", () => {
   afterEach(async () => {
     await recorder.stop();
   });
-  it("operations list test", async function () {
+
+  it("operations list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
