@@ -19,7 +19,7 @@ const code = {
 
 const patientInfo = {
   sex: "female",
-  birthDate: new Date("1959-11-11T19:00:00+00:00"),
+  birthDate: "1959-11-11T19:00:00+00:00",
 };
 
 const encounterData = {
@@ -58,7 +58,7 @@ This may correspond to the mammographic finding. No other cystic or solid masses
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: "radiologyReport"
+  clinicalType: "radiologyReport",
   id: "docid1",
   language: "en",
   authors: [authorData],

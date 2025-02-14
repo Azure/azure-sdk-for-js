@@ -19,7 +19,7 @@ const code = {
 
 const patientInfo = {
   sex: "female",
-  birthDate: new Date("1959-11-11T19:00:00+00:00"),
+  birthDate: "1959-11-11T19:00:00+00:00",
 };
 
 const encounterData = {
@@ -86,7 +86,7 @@ These findings were discussed with Dr. Doe at 5:05 p.m. on 1/1/15.
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: "radiologyReport"
+  clinicalType: "radiologyReport",
   id: "docid1",
   language: "en",
   authors: [authorData],

@@ -74,7 +74,7 @@ function createRequestBody(): CreateJobParameters {
 
   const patientInfo = {
     sex: "female",
-    birthDate: new Date("1959-11-11T19:00:00+00:00"),
+    birthDate: "1959-11-11T19:00:00+00:00",
   };
 
   const encounterData = {
@@ -132,7 +132,7 @@ function createRequestBody(): CreateJobParameters {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: "radiologyReport"
+    clinicalType: "radiologyReport",
     id: "docid1",
     language: "en",
     authors: [authorData],

@@ -36,7 +36,7 @@ const clinicInfoData = {
 
 const patientInfo = {
   sex: "female",
-  birthDate: new Date("1959-11-11T19:00:00+00:00"),
+  birthDate: "1959-11-11T19:00:00+00:00",
   clinicalInfo: [clinicInfoData],
 };
 
@@ -72,7 +72,7 @@ The results were sent via Powerscribe to George Brown, PA.`,
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: "radiologyReport"
+  clinicalType: "radiologyReport",
   id: "docid1",
   language: "en",
   authors: [authorData],
