@@ -162,7 +162,7 @@ function createRequestBody(): CreateJobParameters {
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: new Date("2021-05-31T16:00:00.000Z"),
+    createdAt: "2021-05-31T16:00:00.000Z",
     orderedProceduresAsCsv: "CT HEAD W CONTRAST IV",
   };
 
@@ -185,6 +185,9 @@ function createRequestBody(): CreateJobParameters {
     "followupRecommendation",
     "followupCommunication",
     "radiologyProcedure",
+    "scoringAndAssessment",
+    "guidance",
+    "qualityMeasure",
   ];
 
   const followupRecommendationOptions = {

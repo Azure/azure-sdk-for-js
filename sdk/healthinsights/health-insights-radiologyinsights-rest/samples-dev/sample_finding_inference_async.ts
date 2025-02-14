@@ -179,6 +179,9 @@ function createRequestBody(): CreateJobParameters {
     "followupRecommendation",
     "followupCommunication",
     "radiologyProcedure",
+    "scoringAndAssessment",
+    "guidance",
+    "qualityMeasure",
   ];
 
   const followupRecommendationOptions = {

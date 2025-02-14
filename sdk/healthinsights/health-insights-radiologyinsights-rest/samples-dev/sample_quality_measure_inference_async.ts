@@ -138,7 +138,7 @@ Findings communicated to Dr. Jane Smith.`,
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: new Date("2021-05-31T16:00:00.000Z"),
+    createdAt: "2021-05-31T16:00:00.000Z",
     orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
   };
 
@@ -161,6 +161,9 @@ Findings communicated to Dr. Jane Smith.`,
     "followupRecommendation",
     "followupCommunication",
     "radiologyProcedure",
+    "scoringAndAssessment",
+    "guidance",
+    "qualityMeasure",
   ];
 
   const followupRecommendationOptions = {

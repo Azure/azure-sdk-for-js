@@ -160,7 +160,7 @@ function createRequestBody() {
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: new Date("2021-05-31T16:00:00.000Z"),
+    createdAt: "2021-05-31T16:00:00.000Z",
     orderedProceduresAsCsv: "US ABDOMEN LIMITED",
   };
   const patientData = {
@@ -182,6 +182,9 @@ function createRequestBody() {
     "followupRecommendation",
     "followupCommunication",
     "radiologyProcedure",
+    "scoringAndAssessment",
+    "guidance",
+    "qualityMeasure",
   ];
 
   const followupRecommendationOptions = {

@@ -778,6 +778,9 @@ export interface RadiologyInsightsPatientResultOutput {
  *   - FollowupRecommendation
  *   - RadiologyProcedure
  *   - FollowupCommunication
+ *   - ScoringAndAssessment
+ *   - Guidance
+ *   - QualityMeasure
  */
 export interface RadiologyInsightsInferenceOutputParent {
   /** Additional Content defined by implementations */
@@ -1083,6 +1086,9 @@ export type DomainResourceOutput =
  *   - FollowupRecommendation
  *   - RadiologyProcedure
  *   - FollowupCommunication
+ *   - ScoringAndAssessment
+ *   - Guidance
+ *   - QualityMeasure
  */
 export type RadiologyInsightsInferenceOutput =
   | RadiologyInsightsInferenceOutputParent

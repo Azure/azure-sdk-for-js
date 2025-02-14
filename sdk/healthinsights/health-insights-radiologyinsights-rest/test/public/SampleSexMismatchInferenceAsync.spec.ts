@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
-import { ClinicalDocumentType, getLongRunningPoller } from "../../src/index.js";
+import { getLongRunningPoller } from "../../src/index.js";
 import { createRecorder, createTestClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -84,7 +84,7 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdAt: new Date("2021-05-31T16:00:00.000Z"),
+  createdAt: "2021-05-31T16:00:00.000Z",
   orderedProceduresAsCsv: "US PELVIS COMPLETE",
 };
 
@@ -107,6 +107,9 @@ const inferenceTypes = [
   "followupRecommendation",
   "followupCommunication",
   "radiologyProcedure",
+  "scoringAndAssessment",
+  "guidance",
+  "qualityMeasure",
 ];
 
 const followupRecommendationOptions = {

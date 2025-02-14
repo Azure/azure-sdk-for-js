@@ -99,6 +99,10 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     function displayPresentGuidanceInformation(guidanceinfo: any): void {
       console.log("     Present Guidance Information Item: ", guidanceinfo.presentGuidanceItem);
 
+      guidanceinfo.presentGuidanceValues?.forEach((sizes: any) => {
+        console.log("     Present Guidance Value: ", sizes);
+      })
+
       guidanceinfo.sizes?.forEach((sizes: any) => {
         if ("valueQuantity" in sizes) {
           console.log("     Size valueQuantity: ");
@@ -118,10 +122,6 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
         console.log("     Maximum Diameter As In Text: ");
         displayQuantityOutput(guidanceinfo.maximumDiameterAsInText);
       }
-
-      guidanceinfo.presentGuidanceValues?.forEach((sizes: any) => {
-        console.log("     Present Guidance Value: ", sizes);
-      })
 
       if ("extension" in guidanceinfo) {
         console.log("     Extension: ");
@@ -196,23 +196,10 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `EXAM: CT CHEST WO CONTRAST
-INDICATION: abnormal lung findings. History of emphysema.
-TECHNIQUE: Helical CT images through the chest, without contrast. This exam was performed using one or more of the following dose reduction techniques: Automated exposure control, adjustment of the mA and/or kV according to patient size, and/or use of iterative reconstruction technique.
-COMPARISON: Chest CT dated 6/21/2022.
-Number of previous CT examinations or cardiac nuclear medicine (myocardial perfusion) examinations performed in the preceding 12-months: 2
-
-FINDINGS:
-Heart size is normal. No pericardial effusion. Thoracic aorta as well as pulmonary arteries are normal in caliber. There are dense coronary artery calcifications. No enlarged axillary, mediastinal, or hilar lymph nodes by CT size criteria. Central airways are widely patent. No bronchial wall thickening. No pneumothorax, pleural effusion or pulmonary edema. The previously identified posterior right upper lobe nodules are no longer seen. However, there are multiple new small pulmonary nodules. An 8 mm nodule in the right upper lobe, image #15 series 4. New posterior right upper lobe nodule measuring 6 mm, image #28 series 4. New 1.2 cm pulmonary nodule, right upper lobe, image #33 series 4. New 4 mm pulmonary nodule left upper lobe, image #22 series 4. New 8 mm pulmonary nodule in the left upper lobe adjacent to the fissure, image #42 series 4. A few new tiny 2 to 3 mm pulmonary nodules are also noted in the left lower lobe. As before there is a background of severe emphysema. No evidence of pneumonia.
-Limited evaluation of the upper abdomen shows no concerning abnormality.
-Review of bone windows shows no aggressive appearing osseous lesions.
-
-IMPRESSION:
-
-1. Previously identified small pulmonary nodules in the right upper lobe have resolved, but there are multiple new small nodules scattered throughout both lungs. Recommend short-term follow-up with noncontrast chest CT in 3 months as per current  Current guidelines (2017 Fleischner Society).
-2. Severe emphysema.
-
-Findings communicated to Dr. Jane Smith.`,
+    value: `History:
+    Left renal tumor with thin septations.
+    Findings:
+    There is a right kidney tumor with nodular calcification.`,
   };
 
   const patientDocumentData = {
@@ -224,7 +211,7 @@ Findings communicated to Dr. Jane Smith.`,
     specialtyType: "radiology",
     administrativeMetadata: administrativeMetadata,
     content: content,
-    createdAt: new Date("2021-05-31T16:00:00.000Z"),
+    createdAt: "2021-05-31T16:00:00.000Z",
     orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
   };
 
@@ -247,6 +234,9 @@ Findings communicated to Dr. Jane Smith.`,
     "followupRecommendation",
     "followupCommunication",
     "radiologyProcedure",
+    "scoringAndAssessment",
+    "guidance",
+    "qualityMeasure",
   ];
 
   const followupRecommendationOptions = {

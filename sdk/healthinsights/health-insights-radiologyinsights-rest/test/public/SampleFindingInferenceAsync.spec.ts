@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
-import { ClinicalDocumentType, getLongRunningPoller } from "../../src/index.js";
+import { getLongRunningPoller } from "../../src/index.js";
 import { createRecorder, createTestClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -19,7 +19,7 @@ const code = {
 
 const patientInfo = {
   sex: "male",
-  birthDate: new Date("1980-04-22T02:00:00+00:00"),
+  birthDate: "1980-04-22T02:00:00+00:00",
 };
 
 const encounterData = {
@@ -65,7 +65,7 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdAt: new Date("2021-05-31T16:00:00.000Z"),
+  createdAt: "2021-05-31T16:00:00.000Z",
   orderedProceduresAsCsv: "XA VENACAVA FILTER INSERTION",
 };
 
@@ -88,6 +88,9 @@ const inferenceTypes = [
   "followupRecommendation",
   "followupCommunication",
   "radiologyProcedure",
+  "scoringAndAssessment",
+  "guidance",
+  "qualityMeasure",
 ];
 
 const followupRecommendationOptions = {
