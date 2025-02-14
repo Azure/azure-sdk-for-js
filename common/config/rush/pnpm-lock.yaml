@@ -558,7 +558,7 @@ importers:
         version: file:projects/arm-nginx.tgz
       '@rush-temp/arm-notificationhubs':
         specifier: file:./projects/arm-notificationhubs.tgz
-        version: file:projects/arm-notificationhubs.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+        version: file:projects/arm-notificationhubs.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-oep':
         specifier: file:./projects/arm-oep.tgz
         version: file:projects/arm-oep.tgz
@@ -3205,7 +3205,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-notificationhubs@file:projects/arm-notificationhubs.tgz':
-    resolution: {integrity: sha512-hJ21qDm1EwG0RoKVwVGJzE8C6C4JOVGrovpGlU65MUS7VgKCqAMhhZ5nM5DzpvHoapjfS/gVrhjoSQTAU7FSIA==, tarball: file:projects/arm-notificationhubs.tgz}
+    resolution: {integrity: sha512-kCf0r/voMpEbuQgPWwl8bc1i/M6NI9glhHxBTZtJxLPKwK1jbS5rV7/SBfynTP37Abm4yLmhmPEKvG9Cu6bhrw==, tarball: file:projects/arm-notificationhubs.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-oep@file:projects/arm-oep.tgz':
@@ -3849,11 +3849,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-ingestion@file:projects/monitor-ingestion.tgz':
-    resolution: {integrity: sha512-dvuiJ3sNRdt1sNwIAEfhjOs8qnYZYqwpGXeJMfq8gND0EM4Zl42TQ3gd+r6tWtlK0IUKe3gCD3/u4u42BJkjtQ==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-YLL1fo04qN7uEbiPJpy2wOHs6iF8RF0lj/YFk7tmz6Y6ZVMYkA2xTQnoWcdjBebYm1VbRqjC3c1ne+y6V0TVIw==, tarball: file:projects/monitor-ingestion.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry-exporter@file:projects/monitor-opentelemetry-exporter.tgz':
-    resolution: {integrity: sha512-hEnlLvehlh3ejDkAZMH2pTtAPU+i6O550upJ4DPMW89QmlerdmJT9CJt3u8yCb6af/ei6C871wpRH/JEXKk4ig==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-gYNw155B6HI+lQInIpZhU6fNZvEqpj6PezKQg/gdptSpJf5ERm+76kMQCAdWzbgOew9KkaufLrXS2QrjwPbuDQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     version: 0.0.0
 
   '@rush-temp/monitor-opentelemetry@file:projects/monitor-opentelemetry.tgz':
@@ -3861,7 +3861,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/monitor-query@file:projects/monitor-query.tgz':
-    resolution: {integrity: sha512-QySGA7L+mDLcyYqOmT0uB3vusB6f8FBSVbJPPkU0lpSji3nBLw590UHS8m8UOdKSdDKKZOGhgYyCbAFWML42sA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-FfDHQlhugBYGKJAG+Qvo0eA9RxpyaY0LHrPOjcmIyF8gy3hxeJf0+Z9/XSfi3jDrCdv+l1K3as1cbuiY48Or4Q==, tarball: file:projects/monitor-query.tgz}
     version: 0.0.0
 
   '@rush-temp/notification-hubs@file:projects/notification-hubs.tgz':
@@ -15860,10 +15860,11 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
-  '@rush-temp/arm-notificationhubs@file:projects/arm-notificationhubs.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)':
+  '@rush-temp/arm-notificationhubs@file:projects/arm-notificationhubs.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.75
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
       playwright: 1.50.1
@@ -15873,14 +15874,15 @@ snapshots:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
-      - '@vitest/browser'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
       - msw
+      - safaridriver
       - sass
       - sass-embedded
       - stylus
@@ -15888,6 +15890,9 @@ snapshots:
       - supports-color
       - terser
       - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
       - yaml
 
   '@rush-temp/arm-oep@file:projects/arm-oep.tgz':
