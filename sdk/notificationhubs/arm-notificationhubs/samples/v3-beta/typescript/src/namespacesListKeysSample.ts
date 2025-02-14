@@ -17,17 +17,12 @@ import "dotenv/config";
  */
 async function namespacesListKeys(): Promise<void> {
   const subscriptionId =
-    process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] ||
-    "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
-  const resourceGroupName =
-    process.env["NOTIFICATIONHUBS_RESOURCE_GROUP"] || "5ktrial";
+    process.env["NOTIFICATIONHUBS_SUBSCRIPTION_ID"] || "29cfa613-cbbc-4512-b1d6-1b3a92c7fa40";
+  const resourceGroupName = process.env["NOTIFICATIONHUBS_RESOURCE_GROUP"] || "5ktrial";
   const namespaceName = "nh-sdk-ns";
   const authorizationRuleName = "RootManageSharedAccessKey";
   const credential = new DefaultAzureCredential();
-  const client = new NotificationHubsManagementClient(
-    credential,
-    subscriptionId,
-  );
+  const client = new NotificationHubsManagementClient(credential, subscriptionId);
   const result = await client.namespaces.listKeys(
     resourceGroupName,
     namespaceName,
@@ -37,7 +32,7 @@ async function namespacesListKeys(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  namespacesListKeys();
+  await namespacesListKeys();
 }
 
 main().catch(console.error);
