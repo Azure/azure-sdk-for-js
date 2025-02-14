@@ -4,40 +4,22 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
 import { getLongRunningPoller } from "../../src/index.js";
-import { createManagedClient, createRecorder } from "./utils/recordedClient.js";
+import { createRecorder, createTestClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const codingData = {
-  system: "http://www.nlm.nih.gov/research/umls",
-  code: "C0018802",
-  display: "MalignantNeoplasms",
-};
-
-const codingData2 = {
   system: "http://www.ama-assn.org/go/cpt",
-  code: "111111",
-  display: "CT ABD/PELVIS",
+  code: "USTHY",
+  display: "US THYROID",
 };
 
 const code = {
   coding: [codingData],
 };
 
-const code2 = {
-  coding: [codingData2],
-};
-
-const clinicInfoData = {
-  resourceType: "Observation",
-  status: "unknown",
-  code: code,
-  valueBoolean: true,
-};
-
 const patientInfo = {
   sex: "female",
   birthDate: "1959-11-11T19:00:00+00:00",
-  clinicalInfo: [clinicInfoData],
 };
 
 const encounterData = {
@@ -55,9 +37,10 @@ const authorData = {
 };
 
 const orderedProceduresData = {
-  code: code2,
-  description: "CT ABD/PELVIS",
+  code: code,
+  description: "CT CHEST WO CONTRAST",
 };
+
 const administrativeMetadata = {
   orderedProcedures: [orderedProceduresData],
   encounterId: "encounterid1",
@@ -65,9 +48,23 @@ const administrativeMetadata = {
 
 const content = {
   sourceType: "inline",
-  value: `
-The results were faxed to Julie Carter on July 6 2016 at 3 PM
-The results were sent via Powerscribe to George Brown, PA.`,
+  value: `Exam: US THYROID
+
+Clinical History: Thyroid nodules. 76 year old patient.
+
+Comparison: none.
+
+Findings:
+Right lobe: 4.8 x 1.6 x 1.4 cm
+Left Lobe: 4.1 x 1.3 x 1.3 cm
+
+Isthmus: 4 mm
+
+There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
+In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
+
+Impression:
+Multiple bilateral small cystic benign thyroid nodules. A low suspicion 9 mm left lobe thyroid nodule (TI-RADS 3) which, given its small size, does not warrant follow-up.`,
 };
 
 const patientDocumentData = {
@@ -79,8 +76,8 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdAt: new Date("2021-05-31T22:00:00.000Z"),
-  orderedProceduresAsCsv: "US PELVIS COMPLETE",
+  createdAt: "2021-05-31T16:00:00.000Z",
+  orderedProceduresAsCsv: "CT CHEST WO CONTRAST",
 };
 
 const patientData = {
@@ -116,6 +113,7 @@ const followupRecommendationOptions = {
 const findingOptions = {
   provideFocusedSentenceEvidence: true,
 };
+
 const inferenceOptions = {
   followupRecommendationOptions: followupRecommendationOptions,
   findingOptions: findingOptions,
@@ -142,26 +140,74 @@ const param = {
   body: RadiologyInsightsJob,
 };
 
-describe("Radiology Insights Test", () => {
+/**
+ *
+ * Display the Scoring and Assessment Inference of the Radiology Insights request.
+ *
+ */
+
+function findSAInference(res: any): void {
+  if ("result" in res.body) {
+    res.body.result?.patientResults.forEach((patientResult: any) => {
+      if (patientResult.inferences) {
+        patientResult.inferences.forEach((inference: any) => {
+          if (inference.kind === "scoringAndAssessment") {
+            console.log("Scoring and Assessment Inference found:");
+
+            if ("category" in inference) {
+              console.log("   Category: ", inference.category);
+            }
+
+            if ("categoryDescription" in inference) {
+              console.log("   Category Description: ", inference.categoryDescription);
+            }
+
+            if ("singleValue" in inference) {
+              console.log("   Singe Value: ", inference.singleValue);
+            }
+
+            if ("rangeValue" in inference) {
+              console.log("   Range Value: ");
+              displayValueRange(inference.rangeValue);
+            }
+          }
+        });
+      }
+    });
+  }
+
+  function displayValueRange(range: any): void {
+    if ("minimum" in range) {
+      console.log("     Min: ", range.minimum);
+    }
+    if ("maximum" in range) {
+      console.log("     Max: ", range.maximum);
+    }
+  }
+
+}
+
+describe("Sex Mismatch Inference Test", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
   beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
-    client = await createManagedClient(recorder);
+    client = await createTestClient(recorder);
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
 
-  it("radiology Insights test", async () => {
+  it("sex mismatch inference test", async () => {
     const result = await client
-      .path("/radiology-insights/jobs/{id}", "jobId-17138795314335")
+      .path("/radiology-insights/jobs/{id}", "jobId-17138795260264")
       .put(param);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
     console.log(res);
     assert.equal(res.status, "200");
+    findSAInference(res);
   });
 });

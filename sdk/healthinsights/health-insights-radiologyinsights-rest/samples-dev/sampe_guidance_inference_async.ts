@@ -40,7 +40,7 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
             missingGuidanceInformation?: string[];
           }) => {
             if (inference.kind === "guidance") {
-              console.log("Clinical Guidance Inference found:");
+              console.log("Guidance Inference found:");
               if ("finding" in inference) {
                 const find = inference.finding;
                 if ("code" in find) {

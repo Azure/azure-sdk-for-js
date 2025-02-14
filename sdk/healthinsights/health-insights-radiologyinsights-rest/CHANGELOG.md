@@ -5,7 +5,7 @@
 - Adding Scope 2
 
 ### Features Added
-- Added sample code for scoring and assessment, quality measure and clinical guidance.
+- Added sample and test code for scoring and assessment, quality measure and clinical guidance.
 
 ### Breaking Changes
 - for PatientDocumentOutput:
@@ -86,7 +86,7 @@
     - Renamed 'dateTime' field into 'communicatedAt'
     - 'recipient' field is now a 'MedicalProfessionalTypeOutput' and no longer a string[]
 
-  - Subsitute Date objects by a string object.
+  - Subsitute Date objects by a string object (createdAt and birthDate).
 
 ## 1.0.0-beta.1 (2024-03-05)
 
