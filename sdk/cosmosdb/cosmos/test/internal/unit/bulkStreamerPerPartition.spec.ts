@@ -21,7 +21,6 @@ describe("BulkStreamerPerPartition", () => {
       mockExecutor,
       mockRetrier,
       limiter,
-      {},
       CosmosDbDiagnosticLevel.info,
       false,
       {} as any,

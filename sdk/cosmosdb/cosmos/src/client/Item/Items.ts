@@ -395,9 +395,7 @@ export class Items {
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);
           body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
@@ -509,9 +507,7 @@ export class Items {
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);
           options = options || {};
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
           partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
@@ -654,9 +650,7 @@ export class Items {
         // returns copy to avoid encryption of original operations body passed
         operations = copyObject(operations);
         options = options || {};
-        if (!this.container.isEncryptionInitialized) {
-          await this.container.initializeEncryption();
-        }
+        await this.container.checkAndInitializeEncryption();
         options.containerRid = this.container._rid;
         operations = await this.bulkBatchEncryptionHelper(operations, diagnosticNode);
       }
@@ -711,8 +705,9 @@ export class Items {
       if (batch.operations.length > 100) {
         throw new Error("Cannot run bulk request with more than 100 operations per partition");
       }
+      let response: Response<OperationResponse[]>;
       try {
-        const response = await addDiagnosticChild(
+        response = await addDiagnosticChild(
           async (childNode: DiagnosticNodeInternal) =>
             this.clientContext.bulk({
               body: batch.operations,
@@ -726,17 +721,6 @@ export class Items {
           diagnosticNode,
           DiagnosticNodeType.BATCH_REQUEST,
         );
-        if (this.clientContext.enableEncryption) {
-          diagnosticNode.beginEncryptionDiagnostics(
-            Constants.Encryption.DiagnosticsDecryptOperation,
-          );
-          for (const result of response.result) {
-            result.resourceBody = await this.container.encryptionProcessor.decrypt(
-              result.resourceBody,
-            );
-          }
-          diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
-        }
         response.result.forEach((operationResponse: OperationResponse, index: number) => {
           orderedResponses[batch.indexes[index]] = operationResponse;
         });
@@ -787,12 +771,38 @@ export class Items {
           } else {
             throw new Error(
               "Partition key error. An operation has an unsupported partitionKey type" +
-              err.message,
+                err.message,
             );
           }
         } else {
           throw new Error(`Bulk request errored with: ${err.message}`);
         }
+      }
+      if (response) {
+        try {
+          if (this.clientContext.enableEncryption) {
+            diagnosticNode.beginEncryptionDiagnostics(
+              Constants.Encryption.DiagnosticsDecryptOperation,
+            );
+            for (const result of response.result) {
+              result.resourceBody = await this.container.encryptionProcessor.decrypt(
+                result.resourceBody,
+              );
+            }
+            diagnosticNode.endEncryptionDiagnostics(
+              Constants.Encryption.DiagnosticsDecryptOperation,
+            );
+          }
+        } catch (error) {
+          const decryptionError = new ErrorResponse(
+            `Batch response was received but response decryption failed: + ${error.message}`,
+          );
+          decryptionError.code = StatusCodes.ServiceUnavailable;
+          throw decryptionError;
+        }
+        response.result.forEach((operationResponse: OperationResponse, index: number) => {
+          orderedResponses[batch.indexes[index]] = operationResponse;
+        });
       }
     });
   }
@@ -924,9 +934,7 @@ export class Items {
           // returns copy to avoid encryption of original operations body passed
           operations = copyObject(operations);
           options = options || {};
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           if (partitionKey) {
             const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);

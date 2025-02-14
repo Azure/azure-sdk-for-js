@@ -312,8 +312,7 @@ export function splitBatchBasedOnBodySize(originalBatch: Batch): Batch[] {
  * @hidden
  */
 export function calculateObjectSizeInBytes(obj: unknown): number {
-  return new TextEncoder().encode(bodyFromData(sanitizeObject(obj)) as any).length;
-  // return new TextEncoder().encode(bodyFromData(obj as any)).length;
+  return new TextEncoder().encode(bodyFromData(obj as any)).length;
 }
 
 export function decorateBatchOperation(
@@ -340,7 +339,6 @@ export function isSuccessStatusCode(statusCode: StatusCode): boolean {
 
 export type ExecuteCallback = (
   operations: ItemBulkOperation[],
-  options: RequestOptions,
   diagnosticNode: DiagnosticNodeInternal,
 ) => Promise<BulkResponse>;
 export type RetryCallback = (
@@ -371,24 +369,4 @@ export class TaskCompletionSource<T> {
   public setException(error: Error): void {
     this.rejectFn(error);
   }
-}
-
-/**
- * Removes circular references and unnecessary properties from the object.
- * workaround for TypeError: Converting circular structure to JSON
- * @internal
- */
-function sanitizeObject(obj: any): any {
-  const seen = new WeakSet();
-  return JSON.parse(
-    JSON.stringify(obj, (key, value) => {
-      if (typeof value === "object" && value !== null) {
-        if (seen.has(value)) {
-          return undefined; // Remove circular references
-        }
-        seen.add(value);
-      }
-      return key === "diagnosticNode" || key === "retryPolicy" ? undefined : value; // Exclude unnecessary properties
-    }),
-  );
 }

@@ -6,7 +6,6 @@ import type { ExecuteCallback, RetryCallback } from "../utils/batch";
 import { BulkBatcher } from "./BulkBatcher";
 import semaphore from "semaphore";
 import type { ItemBulkOperation } from "./ItemBulkOperation";
-import type { RequestOptions } from "../request/RequestOptions";
 import { BulkPartitionMetric } from "./BulkPartitionMetric";
 import { BulkCongestionAlgorithm } from "./BulkCongestionAlgorithm";
 import type { Limiter } from "./Limiter";
@@ -24,13 +23,10 @@ import type { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticL
 export class BulkStreamerPerPartition {
   private readonly executor: ExecuteCallback;
   private readonly retrier: RetryCallback;
-  private readonly options: RequestOptions;
-
   private currentBatcher: BulkBatcher;
   private readonly lock: semaphore.Semaphore;
   private dispatchTimer: NodeJS.Timeout;
   private limiterSemaphore: Limiter;
-
   private readonly oldPartitionMetric: BulkPartitionMetric;
   private readonly partitionMetric: BulkPartitionMetric;
   private readonly congestionControlAlgorithm: BulkCongestionAlgorithm;
@@ -45,7 +41,6 @@ export class BulkStreamerPerPartition {
     executor: ExecuteCallback,
     retrier: RetryCallback,
     limiter: Limiter,
-    options: RequestOptions,
     diagnosticLevel: CosmosDbDiagnosticLevel,
     encryptionEnabled: boolean,
     clientConfig: ClientConfigDiagnostic,
@@ -54,7 +49,6 @@ export class BulkStreamerPerPartition {
     this.executor = executor;
     this.retrier = retrier;
     this.limiterSemaphore = limiter;
-    this.options = options;
     this.diagnosticLevel = diagnosticLevel;
     this.encryptionEnabled = encryptionEnabled;
     this.encryptionProcessor = encryptionProcessor;
@@ -111,7 +105,6 @@ export class BulkStreamerPerPartition {
       this.limiterSemaphore,
       this.executor,
       this.retrier,
-      this.options,
       this.diagnosticLevel,
       this.encryptionEnabled,
       this.clientConfigDiagnostics,

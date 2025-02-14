@@ -124,10 +124,7 @@ export class BulkStreamer {
     try {
       if (this.clientContext.enableEncryption) {
         operation = copyObject(operation);
-        if (!this.container.isEncryptionInitialized) {
-          await this.container.initializeEncryption();
-        }
-        this.options.containerRid = this.container._rid;
+        await this.container.checkAndInitializeEncryption();
         operation = await this.encryptionHelper(operation, diagnosticNode);
       }
       partitionKeyRangeId = await this.resolvePartitionKeyRangeId(operation, diagnosticNode);
@@ -234,7 +231,6 @@ export class BulkStreamer {
 
   private async executeRequest(
     operations: ItemBulkOperation[],
-    options: RequestOptions,
     diagnosticNode: DiagnosticNodeInternal,
   ): Promise<BulkResponse> {
     if (this.isCancelled) {
@@ -247,6 +243,9 @@ export class BulkStreamer {
     const requestBody: Operation[] = [];
     for (const itemBulkOperation of operations) {
       requestBody.push(this.prepareOperation(itemBulkOperation.operationInput));
+    }
+    if (!this.options.containerRid) {
+      this.options.containerRid = this.container._rid;
     }
     return new Promise<BulkResponse>((resolve, reject) => {
       limiter.take(async () => {
@@ -268,12 +267,15 @@ export class BulkStreamer {
                 partitionKeyRangeId: pkRangeId,
                 path: path,
                 resourceId: this.container.url,
-                options: options,
+                options: this.options,
                 diagnosticNode: childNode,
               }),
             diagnosticNode,
             DiagnosticNodeType.BATCH_REQUEST,
           );
+          if (!response) {
+            throw new ErrorResponse("Failed to fetch bulk response.");
+          }
           return resolve(BulkResponse.fromResponseMessage(response, operations));
         } catch (error) {
           if (this.clientContext.enableEncryption) {
@@ -340,7 +342,6 @@ export class BulkStreamer {
       this.executeRequest,
       this.reBatchOperation,
       limiter,
-      this.options,
       this.clientContext.diagnosticLevel,
       this.clientContext.enableEncryption,
       this.clientContext.getClientConfig(),

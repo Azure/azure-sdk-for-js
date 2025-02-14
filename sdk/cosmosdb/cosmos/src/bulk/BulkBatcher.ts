@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import type { RequestOptions } from "../request";
 import { ErrorResponse } from "../request";
-import { Constants, StatusCodes } from "../common";
+import { Constants, OperationType, StatusCodes } from "../common";
 import type { ExecuteCallback, RetryCallback } from "../utils/batch";
 import { calculateObjectSizeInBytes, isSuccessStatusCode } from "../utils/batch";
 import type { BulkResponse } from "./BulkResponse";
@@ -28,7 +27,6 @@ export class BulkBatcher {
   private toBeDispatched: boolean;
   private readonly executor: ExecuteCallback;
   private readonly retrier: RetryCallback;
-  private readonly options: RequestOptions;
   private readonly diagnosticLevel: CosmosDbDiagnosticLevel;
   private readonly encryptionEnabled: boolean;
   private readonly encryptionProcessor: EncryptionProcessor;
@@ -38,7 +36,6 @@ export class BulkBatcher {
     private limiter: Limiter,
     executor: ExecuteCallback,
     retrier: RetryCallback,
-    options: RequestOptions,
     diagnosticLevel: CosmosDbDiagnosticLevel,
     encryptionEnabled: boolean,
     clientConfig: ClientConfigDiagnostic,
@@ -47,7 +44,6 @@ export class BulkBatcher {
     this.batchOperationsList = [];
     this.executor = executor;
     this.retrier = retrier;
-    this.options = options;
     this.diagnosticLevel = diagnosticLevel;
     this.encryptionEnabled = encryptionEnabled;
     this.encryptionProcessor = encryptionProcessor;
@@ -73,7 +69,7 @@ export class BulkBatcher {
     if (this.batchOperationsList.length === Constants.MaxBulkOperationsCount) {
       return false;
     }
-    const currentOperationSize = calculateObjectSizeInBytes(operation);
+    const currentOperationSize = calculateObjectSizeInBytes(operation.operationInput);
     if (
       this.batchOperationsList.length > 0 &&
       this.currentSize + currentOperationSize > Constants.DefaultMaxBulkRequestBodySizeInBytes
@@ -103,11 +99,7 @@ export class BulkBatcher {
       null,
     );
     try {
-      const response: BulkResponse = await this.executor(
-        this.batchOperationsList,
-        this.options,
-        diagnosticNode,
-      );
+      const response: BulkResponse = await this.executor(this.batchOperationsList, diagnosticNode);
       // status code of 0 represents an empty response,
       // we are sending this back from executor in case of 410 error
       if (response.statusCode === 0) {
@@ -160,15 +152,12 @@ export class BulkBatcher {
           }
         } catch (error) {
           // if decryption fails after successful write operation, fail the operation with internal server error
-          if (
-            bulkOperationResult.operationInput.operationType !== "Read" &&
-            bulkOperationResult.operationInput.operationType !== "Delete"
-          ) {
+          if (bulkOperationResult.operationInput.operationType !== OperationType.Read) {
             const decryptionError = new ErrorResponse(
               `Item ${bulkOperationResult.operationInput.operationType} operation was successful but response decryption failed: + ${error.message}`,
             );
             decryptionError.code = StatusCodes.ServiceUnavailable;
-            operation.operationContext.fail(decryptionError);
+            throw decryptionError;
           }
         }
         operation.operationContext.addDiagnosticChild(diagnosticNode);

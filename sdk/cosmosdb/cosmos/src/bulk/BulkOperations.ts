@@ -24,14 +24,14 @@ export class BulkOperations {
     partitionKey: PartitionKey,
     resourceBody: JSONObject,
   ): ItemOperation {
-    if (resourceBody == null) {
-      throw new ErrorResponse("resourceBody cannot be null or undefined");
+    if (!resourceBody) {
+      throw new ErrorResponse("resourceBody cannot be undefined");
     }
-    if (partitionKey == null) {
-      throw new ErrorResponse("partitionKey cannot be null or undefined");
+    if (partitionKey === undefined) {
+      throw new ErrorResponse("partitionKey cannot be undefined");
     }
-    if (resourceBody.id == null) {
-      throw new ErrorResponse("resourceBody.id cannot be null or undefined");
+    if (resourceBody.id === undefined) {
+      throw new ErrorResponse("resourceBody.id cannot be undefined");
     }
     return {
       operationType: BulkOperationType.Create,
@@ -51,14 +51,14 @@ export class BulkOperations {
     partitionKey: PartitionKey,
     resourceBody: JSONObject,
   ): ItemOperation {
-    if (resourceBody == null) {
-      throw new ErrorResponse("resourceBody cannot be null or undefined");
+    if (!resourceBody) {
+      throw new ErrorResponse("resourceBody cannot be undefined");
     }
-    if (partitionKey == null) {
-      throw new ErrorResponse("partitionKey cannot be null or undefined");
+    if (partitionKey === undefined) {
+      throw new ErrorResponse("partitionKey cannot be undefined");
     }
-    if (resourceBody.id == null) {
-      throw new ErrorResponse("resourceBody.id cannot be null or undefined");
+    if (resourceBody.id === undefined) {
+      throw new ErrorResponse("resourceBody.id cannot be undefined");
     }
     return {
       operationType: BulkOperationType.Upsert,
@@ -75,6 +75,12 @@ export class BulkOperations {
    * @returns An object representing the read operation input.
    */
   static getReadItemOperation(id: string, partitionKey: PartitionKey): ItemOperation {
+    if (id === undefined) {
+      throw new ErrorResponse("id cannot be undefined");
+    }
+    if (partitionKey === undefined) {
+      throw new ErrorResponse("partitionKey cannot be undefined");
+    }
     return {
       operationType: BulkOperationType.Read,
       id: id,
@@ -90,11 +96,11 @@ export class BulkOperations {
    * @returns An object representing the delete operation input.
    */
   static getDeleteItemOperation(id: string, partitionKey: PartitionKey): ItemOperation {
-    if (partitionKey == null) {
-      throw new ErrorResponse("partitionKey cannot be null or undefined");
+    if (partitionKey === undefined) {
+      throw new ErrorResponse("partitionKey cannot be undefined");
     }
-    if (id == null) {
-      throw new ErrorResponse("id cannot be null or undefined");
+    if (id === undefined) {
+      throw new ErrorResponse("id cannot be undefined");
     }
     return {
       operationType: BulkOperationType.Delete,
@@ -116,14 +122,14 @@ export class BulkOperations {
     partitionKey: PartitionKey,
     resourceBody: JSONObject,
   ): ItemOperation {
-    if (resourceBody == null) {
-      throw new ErrorResponse("resourceBody cannot be null or undefined");
+    if (!resourceBody) {
+      throw new ErrorResponse("resourceBody cannot be undefined");
     }
-    if (partitionKey == null) {
-      throw new ErrorResponse("partitionKey cannot be null or undefined");
+    if (partitionKey === undefined) {
+      throw new ErrorResponse("partitionKey cannot be undefined");
     }
-    if (resourceBody.id == null) {
-      throw new ErrorResponse("resourceBody.id cannot be null or undefined");
+    if (resourceBody.id === undefined) {
+      throw new ErrorResponse("resourceBody.id cannot be undefined");
     }
     return {
       operationType: BulkOperationType.Replace,
@@ -145,11 +151,14 @@ export class BulkOperations {
     partitionKey: PartitionKey,
     resourceBody: PatchRequestBody,
   ): ItemOperation {
-    if (resourceBody == null) {
-      throw new ErrorResponse("patch request body cannot be null or undefined");
+    if (id === undefined) {
+      throw new ErrorResponse("id cannot be undefined");
     }
-    if (partitionKey == null) {
-      throw new ErrorResponse("partitionKey cannot be null or undefined");
+    if (!resourceBody) {
+      throw new ErrorResponse("patch request body cannot be undefined");
+    }
+    if (partitionKey === undefined) {
+      throw new ErrorResponse("partitionKey cannot be undefined");
     }
     return {
       operationType: BulkOperationType.Patch,
