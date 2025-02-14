@@ -83,8 +83,8 @@ function displayValueRange(range: any): void {
 function createRequestBody(): CreateJobParameters {
   const codingData = {
     system: "http://www.ama-assn.org/go/cpt",
-    code: "CTCHWO",
-    display: "CT CHEST WO CONTRAST",
+    code: "USTHY",
+    display: "US THYROID",
   };
 
   const code = {
@@ -122,27 +122,23 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: `EXAM: CT CHEST WO CONTRAST
+    value: `Exam: US THYROID
 
-INDICATION: abnormal lung findings. History of emphysema.
+Clinical History: Thyroid nodules. 76 year old patient.
 
-TECHNIQUE: Helical CT images through the chest, without contrast. This exam was performed using one or more of the following dose reduction techniques: Automated exposure control, adjustment of the mA and/or kV according to patient size, and/or use of iterative reconstruction technique. 
+Comparison: none.
 
-COMPARISON: Chest CT dated 6/21/2022.
-Number of previous CT examinations or cardiac nuclear medicine (myocardial perfusion) examinations performed in the preceding 12-months: 2
+Findings:
+Right lobe: 4.8 x 1.6 x 1.4 cm
+Left Lobe: 4.1 x 1.3 x 1.3 cm
 
-FINDINGS:
-Heart size is normal. No pericardial effusion. Thoracic aorta as well as pulmonary arteries are normal in caliber. There are dense coronary artery calcifications. No enlarged axillary, mediastinal, or hilar lymph nodes by CT size criteria. Central airways are widely patent. No bronchial wall thickening. No pneumothorax, pleural effusion or pulmonary edema. The previously identified posterior right upper lobe nodules are no longer seen. However, there are multiple new small pulmonary nodules. An 8 mm nodule in the right upper lobe, image #15 series 4. New posterior right upper lobe nodule measuring 6 mm, image #28 series 4. New 1.2 cm pulmonary nodule, right upper lobe, image #33 series 4. New 4 mm pulmonary nodule left upper lobe, image #22 series 4. New 8 mm pulmonary nodule in the left upper lobe adjacent to the fissure, image #42 series 4. A few new tiny 2 to 3 mm pulmonary nodules are also noted in the left lower lobe. As before there is a background of severe emphysema. No evidence of pneumonia.
-Limited evaluation of the upper abdomen shows no concerning abnormality.
-Review of bone windows shows no aggressive appearing osseous lesions.
+Isthmus: 4 mm
 
+There are multiple cystic and partly cystic sub-5 mm nodules noted within the right lobe (TIRADS 2).
+In the lower pole of the left lobe there is a 9 x 8 x 6 mm predominantly solid isoechoic nodule (TIRADS 3).
 
-IMPRESSION:
-
-1. Previously identified small pulmonary nodules in the right upper lobe have resolved, but there are multiple new small nodules scattered throughout both lungs. Recommend short-term follow-up with noncontrast chest CT in 3 months as per current  Current guidelines (2017 Fleischner Society).
-2. Severe emphysema.
-
-Findings communicated to Dr. Jane Smith.`,
+Impression:
+Multiple bilateral small cystic benign thyroid nodules. A low suspicion 9 mm left lobe thyroid nodule (TI-RADS 3) which, given its small size, does not warrant follow-up.`,
   };
 
   const patientDocumentData = {
