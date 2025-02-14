@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { NetAppManagementClient } from "../src/netAppManagementClient";
+import { NetAppManagementClient } from "../src/netAppManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
@@ -42,21 +40,21 @@ describe("netapp test", () => {
   let resourceGroup: string;
   let accountName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new NetAppManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    accountName = "accounttest";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new NetAppManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      accountName = "accounttest";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operations list test", async function () {
     const resArray = new Array();
@@ -107,7 +105,6 @@ describe("netapp test", () => {
 
   it("accounts delete test", async function () {
     const resArray = new Array();
-    const res = await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions)
     for await (let item of client.accounts.list(resourceGroup)) {
       resArray.push(item);
     }
