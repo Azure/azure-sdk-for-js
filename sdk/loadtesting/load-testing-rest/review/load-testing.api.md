@@ -95,14 +95,14 @@ export type CertificateType = string;
 export type CertificateTypeOutput = string;
 
 // @public
-export type CreateByTypes = string;
-
-// @public
-export type CreateByTypesOutput = string;
-
-// @public
 function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: AzureLoadTestingClientOptions): AzureLoadTestingClient;
 export default createClient;
+
+// @public
+export type CreatedByType = string;
+
+// @public
+export type CreatedByTypeOutput = string;
 
 // @public
 export interface DailyRecurrence extends RecurrenceParent {
@@ -167,13 +167,13 @@ export type FrequencyOutput = string;
 
 // @public
 export interface FunctionFlexConsumptionResourceConfiguration {
-    httpConcurrency: number;
+    httpConcurrency?: number;
     instanceMemoryMB: number;
 }
 
 // @public
 export interface FunctionFlexConsumptionResourceConfigurationOutput {
-    httpConcurrency: number;
+    httpConcurrency?: number;
     instanceMemoryMB: number;
 }
 
@@ -1708,6 +1708,18 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
+export type PassFailAction = string;
+
+// @public
+export type PassFailActionOutput = string;
+
+// @public
+export type PassFailAggregationFunction = string;
+
+// @public
+export type PassFailAggregationFunctionOutput = string;
+
+// @public
 export interface PassFailCriteria {
     passFailMetrics?: Record<string, PassFailMetric>;
     passFailServerMetrics?: Record<string, PassFailServerMetric>;
@@ -1721,8 +1733,8 @@ export interface PassFailCriteriaOutput {
 
 // @public
 export interface PassFailMetric {
-    action?: PFAction;
-    aggregate?: PFAgFunc;
+    action?: PassFailAction;
+    aggregate?: PassFailAggregationFunction;
     clientMetric?: PFMetrics;
     condition?: string;
     requestName?: string;
@@ -1731,19 +1743,25 @@ export interface PassFailMetric {
 
 // @public
 export interface PassFailMetricOutput {
-    action?: PFActionOutput;
+    action?: PassFailActionOutput;
     readonly actualValue?: number;
-    aggregate?: PFAgFuncOutput;
+    aggregate?: PassFailAggregationFunctionOutput;
     clientMetric?: PFMetricsOutput;
     condition?: string;
     requestName?: string;
-    readonly result?: PFResultOutput;
+    readonly result?: PassFailResultOutput;
     value?: number;
 }
 
 // @public
+export type PassFailResult = string;
+
+// @public
+export type PassFailResultOutput = string;
+
+// @public
 export interface PassFailServerMetric {
-    action?: PFAction;
+    action?: PassFailAction;
     aggregation: string;
     condition: string;
     metricName: string;
@@ -1754,46 +1772,28 @@ export interface PassFailServerMetric {
 
 // @public
 export interface PassFailServerMetricOutput {
-    action?: PFActionOutput;
+    action?: PassFailActionOutput;
     readonly actualValue?: number;
     aggregation: string;
     condition: string;
     metricName: string;
     metricNamespace: string;
     resourceId: string;
-    readonly result?: PFResultOutput;
+    readonly result?: PassFailResultOutput;
     value: number;
 }
 
 // @public
-export type PFAction = string;
+export type PassFailTestResult = string;
 
 // @public
-export type PFActionOutput = string;
-
-// @public
-export type PFAgFunc = string;
-
-// @public
-export type PFAgFuncOutput = string;
+export type PassFailTestResultOutput = string;
 
 // @public
 export type PFMetrics = string;
 
 // @public
 export type PFMetricsOutput = string;
-
-// @public
-export type PFResult = string;
-
-// @public
-export type PFResultOutput = string;
-
-// @public
-export type PFTestResult = string;
-
-// @public
-export type PFTestResultOutput = string;
 
 // @public (undocumented)
 export interface PolledOperationOptions {
@@ -2569,7 +2569,7 @@ export type TestResourceMergeAndPatch = Partial<Test>;
 export interface TestRun {
     autoStopCriteria?: AutoStopCriteria;
     certificate?: CertificateMetadata;
-    createdByType?: CreateByTypes;
+    createdByType?: CreatedByType;
     debugLogsEnabled?: boolean;
     description?: string;
     displayName?: string;
@@ -2632,13 +2632,13 @@ export interface TestRunDetailOutput {
 
 // @public
 export interface TestRunEndedEventCondition {
-    testRunResults?: PFTestResult[];
+    testRunResults?: PassFailTestResult[];
     testRunStatuses?: Status[];
 }
 
 // @public
 export interface TestRunEndedEventConditionOutput {
-    testRunResults?: PFTestResultOutput[];
+    testRunResults?: PassFailTestResultOutput[];
     testRunStatuses?: StatusOutput[];
 }
 
@@ -2693,7 +2693,7 @@ export interface TestRunOutput {
     autoStopCriteria?: AutoStopCriteriaOutput;
     certificate?: CertificateMetadataOutput;
     readonly createdBy?: string;
-    createdByType?: CreateByTypesOutput;
+    createdByType?: CreatedByTypeOutput;
     readonly createdDateTime?: string;
     debugLogsEnabled?: boolean;
     description?: string;
@@ -2718,7 +2718,7 @@ export interface TestRunOutput {
     readonly subnetId?: string;
     readonly testArtifacts?: TestRunArtifactsOutput;
     testId?: string;
-    readonly testResult?: PFTestResultOutput;
+    readonly testResult?: PassFailTestResultOutput;
     readonly testRunId: string;
     readonly testRunStatistics?: Record<string, TestRunStatisticsOutput>;
     readonly virtualUserHours?: number;

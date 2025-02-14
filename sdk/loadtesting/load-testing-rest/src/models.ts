@@ -95,7 +95,7 @@ export interface PassFailMetric {
    *
    * Possible values: "count", "percentage", "avg", "p50", "p75", "p90", "p95", "p96", "p97", "p98", "p99", "p99.9", "p99.99", "min", "max"
    */
-  aggregate?: PFAgFunc;
+  aggregate?: PassFailAggregationFunction;
   /** The comparison operator. Supported types ‘>’, ‘<’ */
   condition?: string;
   /** Request name for which the Pass fail criteria has to be applied */
@@ -110,7 +110,7 @@ export interface PassFailMetric {
    *
    * Possible values: "continue", "stop"
    */
-  action?: PFAction;
+  action?: PassFailAction;
 }
 
 /** Pass fail server metric */
@@ -132,7 +132,7 @@ export interface PassFailServerMetric {
    *
    * Possible values: "continue", "stop"
    */
-  action?: PFAction;
+  action?: PassFailAction;
 }
 
 /** Auto stop criteria for a test. This will automatically stop a load test if the error percentage is high for a certain time window. */
@@ -331,7 +331,7 @@ export interface FunctionFlexConsumptionResourceConfiguration {
   /** Memory size of the instance. Supported values are 2048, 4096. */
   instanceMemoryMB: number;
   /** HTTP Concurrency for the function app. */
-  httpConcurrency: number;
+  httpConcurrency?: number;
 }
 
 /** Load test run model */
@@ -373,7 +373,7 @@ export interface TestRun {
    *
    * Possible values: "User", "ScheduledTrigger"
    */
-  createdByType?: CreateByTypes;
+  createdByType?: CreatedByType;
 }
 
 /** Error details if there is any failure in load test run */
@@ -656,7 +656,7 @@ export interface TestRunEndedEventCondition {
   /** The test run statuses to send notification for. */
   testRunStatuses?: Status[];
   /** The test run results to send notification for. */
-  testRunResults?: PFTestResult[];
+  testRunResults?: PassFailTestResult[];
 }
 
 /** The notification event filter when the event type is TestRunStarted and scope is Tests. */
@@ -706,12 +706,12 @@ export type TestsNotificationEventFilter =
   | TriggerDisabledNotificationEventFilter;
 /** Alias for PFMetrics */
 export type PFMetrics = string;
-/** Alias for PFAgFunc */
-export type PFAgFunc = string;
-/** Alias for PFAction */
-export type PFAction = string;
-/** Alias for PFResult */
-export type PFResult = string;
+/** Alias for PassFailAggregationFunction */
+export type PassFailAggregationFunction = string;
+/** Alias for PassFailAction */
+export type PassFailAction = string;
+/** Alias for PassFailResult */
+export type PassFailResult = string;
 /** Alias for SecretType */
 export type SecretType = string;
 /** Alias for CertificateType */
@@ -726,14 +726,14 @@ export type TestKind = string;
 export type ManagedIdentityType = string;
 /** Alias for ResourceKind */
 export type ResourceKind = string;
-/** Alias for PFTestResult */
-export type PFTestResult = string;
+/** Alias for PassFailTestResult */
+export type PassFailTestResult = string;
 /** Alias for Status */
 export type Status = string;
 /** Alias for RequestDataLevel */
 export type RequestDataLevel = string;
-/** Alias for CreateByTypes */
-export type CreateByTypes = string;
+/** Alias for CreatedByType */
+export type CreatedByType = string;
 /** Alias for TimeGrain */
 export type TimeGrain = string;
 /** Alias for TestProfileRunStatus */
