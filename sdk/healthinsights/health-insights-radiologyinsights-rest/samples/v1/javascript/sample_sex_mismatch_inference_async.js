@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const dotenv = require("dotenv");
 
 const AzureHealthInsightsClient = require("../src").default,
-  { ClinicalDocumentTypeEnum, getLongRunningPoller, isUnexpected } = require("../src");
+  { ClinicalDocumentType, getLongRunningPoller, isUnexpected } = require("../src");
 
 dotenv.config();
 
@@ -148,7 +148,7 @@ function createRequestBody() {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
+    clinicalType: ClinicalDocumentType.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],

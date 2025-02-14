@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
-import { ClinicalDocumentTypeEnum, getLongRunningPoller } from "../../src/index.js";
+import { ClinicalDocumentType, getLongRunningPoller } from "../../src/index.js";
 import { createRecorder, createTestClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -75,7 +75,7 @@ These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
+  clinicalType: ClinicalDocumentType.RadiologyReport,
   id: "docid1",
   language: "en",
   authors: [authorData],

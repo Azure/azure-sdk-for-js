@@ -3,7 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AzureHealthInsightsClient } from "../../src/index.js";
-import { ClinicalDocumentTypeEnum, getLongRunningPoller } from "../../src/index.js";
+import { ClinicalDocumentType, getLongRunningPoller } from "../../src/index.js";
 import { createRecorder, createTestClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -58,7 +58,7 @@ This may correspond to the mammographic finding. No other cystic or solid masses
 
 const patientDocumentData = {
   type: "note",
-  clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
+  clinicalType: ClinicalDocumentType.RadiologyReport,
   id: "docid1",
   language: "en",
   authors: [authorData],
@@ -151,13 +151,13 @@ function findLateralityDiscrepancy(res: any): void {
       if ("code" in coding && "display" in coding && "system" in coding) {
         console.log(
           "   Coding: " +
-            coding.code +
-            ", " +
-            coding.display +
-            " (" +
-            coding.system +
-            "), type: " +
-            coding.type,
+          coding.code +
+          ", " +
+          coding.display +
+          " (" +
+          coding.system +
+          "), type: " +
+          coding.type,
         );
       }
     });

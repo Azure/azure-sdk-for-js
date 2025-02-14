@@ -11,7 +11,7 @@ import type {
   RadiologyInsightsJobOutput,
 } from "@azure-rest/health-insights-radiologyinsights";
 import AzureHealthInsightsClient, {
-  ClinicalDocumentTypeEnum,
+  ClinicalDocumentType,
   getLongRunningPoller,
   isUnexpected,
 } from "@azure-rest/health-insights-radiologyinsights";
@@ -85,10 +85,10 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void
     codeableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         if ("display" in coding && "system" in coding && "code" in coding) {
-        console.log(
-          "         Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+          console.log(
+            "         Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
           );
-        } 
+        }
       }
     });
   }
@@ -188,7 +188,7 @@ function createRequestBody(): CreateJobParameters {
 
   const patientDocumentData = {
     type: "note",
-    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
+    clinicalType: ClinicalDocumentType.RadiologyReport,
     id: "docid1",
     language: "en",
     authors: [authorData],
