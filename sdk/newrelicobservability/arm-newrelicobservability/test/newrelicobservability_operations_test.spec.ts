@@ -6,16 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
-import { CreateTestCredentialOptions, createTestCredential } from "@azure-tools/test-credential";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { CreateTestCredentialOptions } from "@azure-tools/test-credential";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { NewRelicObservability } from "../src/newRelicObservability.js";
-import { assert } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   NewRelic_CLIENT_ID: "azure_client_id",
@@ -46,32 +42,32 @@ describe("NewRelicObservability test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.NewRelic_SUBSCRIPTION_ID || "";
-      tenantId = env.NewRelic_TENANT_ID || "";
-      const credentialOptions: CreateTestCredentialOptions = {
-        tenantId,
-      };
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential(credentialOptions);
-      client = new NewRelicObservability(
-        credential,
-        subscriptionId,
-        recorder.configureClientOptions({}),
-      );
-      location = "centraluseuap";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest1";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.NewRelic_SUBSCRIPTION_ID || "";
+    tenantId = env.NewRelic_TENANT_ID || "";
+    const credentialOptions: CreateTestCredentialOptions = {
+      tenantId,
+    };
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential(credentialOptions);
+    client = new NewRelicObservability(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "centraluseuap";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest1";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("operations list test", async function () {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
   });
@@ -108,7 +104,7 @@ describe("NewRelicObservability test", () => {
 
   it("monitors list test", async function () {
     const resArray = new Array();
-    for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 2);
@@ -116,7 +112,7 @@ describe("NewRelicObservability test", () => {
 
   it("monitors delete test", async function () {
     const resArray = new Array();
-    for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
