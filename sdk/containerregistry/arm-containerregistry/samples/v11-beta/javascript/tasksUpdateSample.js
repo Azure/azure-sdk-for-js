@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates a task with the specified parameters.
@@ -64,7 +64,7 @@ async function tasksUpdate() {
     resourceGroupName,
     registryName,
     taskName,
-    taskUpdateParameters
+    taskUpdateParameters,
   );
   console.log(result);
 }
@@ -92,7 +92,7 @@ async function tasksUpdateQuickTask() {
     resourceGroupName,
     registryName,
     taskName,
-    taskUpdateParameters
+    taskUpdateParameters,
   );
   console.log(result);
 }
@@ -152,7 +152,7 @@ async function tasksUpdateWithKeyVaultCustomCredentials() {
     resourceGroupName,
     registryName,
     taskName,
-    taskUpdateParameters
+    taskUpdateParameters,
   );
   console.log(result);
 }
@@ -200,7 +200,7 @@ async function tasksUpdateWithMsiCustomCredentials() {
     resourceGroupName,
     registryName,
     taskName,
-    taskUpdateParameters
+    taskUpdateParameters,
   );
   console.log(result);
 }
@@ -253,17 +253,17 @@ async function tasksUpdateWithOpaqueCustomCredentials() {
     resourceGroupName,
     registryName,
     taskName,
-    taskUpdateParameters
+    taskUpdateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  tasksUpdate();
-  tasksUpdateQuickTask();
-  tasksUpdateWithKeyVaultCustomCredentials();
-  tasksUpdateWithMsiCustomCredentials();
-  tasksUpdateWithOpaqueCustomCredentials();
+  await tasksUpdate();
+  await tasksUpdateQuickTask();
+  await tasksUpdateWithKeyVaultCustomCredentials();
+  await tasksUpdateWithMsiCustomCredentials();
+  await tasksUpdateWithOpaqueCustomCredentials();
 }
 
 main().catch(console.error);

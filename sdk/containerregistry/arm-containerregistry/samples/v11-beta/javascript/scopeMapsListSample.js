@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all the scope maps for the specified container registry.
  *
  * @summary Lists all the scope maps for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ScopeMapList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ScopeMapList.json
  */
 async function scopeMapList() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function scopeMapList() {
 }
 
 async function main() {
-  scopeMapList();
+  await scopeMapList();
 }
 
 main().catch(console.error);

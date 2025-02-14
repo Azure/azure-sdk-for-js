@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
@@ -48,7 +48,7 @@ async function registriesScheduleRun() {
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -85,7 +85,7 @@ async function registriesScheduleRunEncodedTaskRun() {
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -123,7 +123,7 @@ async function registriesScheduleRunFileTaskRun() {
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -155,7 +155,11 @@ async function registriesScheduleRunTask() {
       updateTriggerToken: "aGVsbG8gd29ybGQ=",
       values: [
         { name: "mytestname", isSecret: false, value: "mytestvalue" },
-        { name: "mysecrettestname", isSecret: true, value: "mysecrettestvalue" },
+        {
+          name: "mysecrettestname",
+          isSecret: true,
+          value: "mysecrettestvalue",
+        },
       ],
     },
     taskId: "myTask",
@@ -165,7 +169,7 @@ async function registriesScheduleRunTask() {
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -208,7 +212,7 @@ async function registriesScheduleRunTaskWithCustomCredentials() {
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -263,7 +267,7 @@ async function registriesScheduleRunWithCustomCredentials() {
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -305,19 +309,19 @@ async function registriesScheduleRunWithLogTemplate() {
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
 
 async function main() {
-  registriesScheduleRun();
-  registriesScheduleRunEncodedTaskRun();
-  registriesScheduleRunFileTaskRun();
-  registriesScheduleRunTask();
-  registriesScheduleRunTaskWithCustomCredentials();
-  registriesScheduleRunWithCustomCredentials();
-  registriesScheduleRunWithLogTemplate();
+  await registriesScheduleRun();
+  await registriesScheduleRunEncodedTaskRun();
+  await registriesScheduleRunFileTaskRun();
+  await registriesScheduleRunTask();
+  await registriesScheduleRunTaskWithCustomCredentials();
+  await registriesScheduleRunWithCustomCredentials();
+  await registriesScheduleRunWithLogTemplate();
 }
 
 main().catch(console.error);

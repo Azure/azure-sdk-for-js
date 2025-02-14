@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Generate keys for a token of a specified container registry.
  *
  * @summary Generate keys for a token of a specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/RegistryGenerateCredentials.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/RegistryGenerateCredentials.json
  */
 async function registryGenerateCredentials() {
   const subscriptionId =
@@ -33,13 +33,13 @@ async function registryGenerateCredentials() {
   const result = await client.registries.beginGenerateCredentialsAndWait(
     resourceGroupName,
     registryName,
-    generateCredentialsParameters
+    generateCredentialsParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  registryGenerateCredentials();
+  await registryGenerateCredentials();
 }
 
 main().catch(console.error);

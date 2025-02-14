@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a link to download the run logs.
@@ -31,7 +31,7 @@ async function runsGetLogSasUrl() {
 }
 
 async function main() {
-  runsGetLogSasUrl();
+  await runsGetLogSasUrl();
 }
 
 main().catch(console.error);
