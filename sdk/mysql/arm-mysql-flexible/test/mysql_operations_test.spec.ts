@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { MySQLManagementFlexibleServerClient } from "../src/mySQLManagementFlexibleServerClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -41,29 +37,32 @@ describe("mysql test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new MySQLManagementFlexibleServerClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      resourcename = "resourcetest";
-
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new MySQLManagementFlexibleServerClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "eastus";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("servers create test", async function () {
+  it("servers create test", async () => {
     const res = await client.servers.beginCreateAndWait(
       resourceGroup,
       resourcename,
       {
         administratorLogin: "cloudsa",
-        administratorLoginPassword: "REDACTED", //use "your_password" when run the test and then use "REDACTED" to replace it here and in recordings
+        administratorLoginPassword: "REDACTED", // use "your_password" when run the test and then use "REDACTED" to replace it here and in recordings
         availabilityZone: "1",
         backup: {
           backupIntervalHours: 24,
@@ -78,28 +77,29 @@ describe("mysql test", () => {
         tags: { num: "1" },
         version: "5.7",
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, resourcename);
   });
 
-  it("servers get test", async function () {
+  it("servers get test", async () => {
     const res = await client.servers.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("servers list test", async function () {
+  it("servers list test", async () => {
     const resArray = new Array();
-    for await (let item of client.servers.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.servers.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("servers delete test", async function () {
+  it("servers delete test", async () => {
     const resArray = new Array();
-    for await (let item of client.servers.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.servers.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});
