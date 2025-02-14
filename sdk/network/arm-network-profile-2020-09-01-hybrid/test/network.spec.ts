@@ -7,7 +7,7 @@
  */
 
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
