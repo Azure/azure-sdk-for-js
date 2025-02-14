@@ -431,9 +431,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
 
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
     if (this.clientContext.enableEncryption) {
-      if (!this.container.isEncryptionInitialized) {
-        await this.container.initializeEncryption();
-      }
+      await this.container.checkAndInitializeEncryption();
       feedOptions.containerRid = this.container._rid;
     }
     try {

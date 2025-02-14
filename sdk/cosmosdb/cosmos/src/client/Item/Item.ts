@@ -89,9 +89,7 @@ export class Item {
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           this.partitionKey =
             await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
@@ -185,9 +183,7 @@ export class Item {
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);
           options = options || {};
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
           this.partitionKey =
@@ -262,9 +258,7 @@ export class Item {
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           this.partitionKey =
             await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
@@ -331,9 +325,7 @@ export class Item {
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);

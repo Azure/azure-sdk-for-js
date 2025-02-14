@@ -838,7 +838,9 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
     assert.strictEqual(counter, 20, "20 results should be fetched");
   });
   after(async function () {
-    await container.delete();
+    if (container) {
+      await container.delete();
+    }
   });
 });
 
@@ -979,7 +981,9 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
     assert.strictEqual(counter, 5, "5 results should be fetched");
   });
   after(async function () {
-    await container.delete();
+    if (container) {
+      await container.delete();
+    }
   });
 });
 
@@ -1119,7 +1123,9 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
     assert.strictEqual(counter, 5, "5 results should be fetched");
   });
   after(async function () {
-    await container.delete();
+    if (container) {
+      await container.delete();
+    }
   });
 });
 
@@ -1278,6 +1284,8 @@ describe("test changefeed allVersionsAndDeletes mode for a prefix partition key"
     assert.strictEqual(counter, 10, "10 results should be fetched");
   });
   after(async function () {
-    await container.delete();
+    if (container) {
+      await container.delete();
+    }
   });
 });
