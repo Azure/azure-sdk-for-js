@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List Object Anchors Accounts by Subscription
  * x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/object-anchors/GetBySubscription.json
  */
-async function listObjectAnchorsAccountsBySubscription() {
+async function listObjectAnchorsAccountsBySubscription(): Promise<void> {
   const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const credential = new DefaultAzureCredential();
   const client = new MixedRealityClient(credential, subscriptionId);

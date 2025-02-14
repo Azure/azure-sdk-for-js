@@ -62,9 +62,9 @@ Set the values of the client ID, tenant ID, and client secret of the Microsoft E
 You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options.
 The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://learn.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
-```javascript
-const MapsSearch = require("@azure-rest/maps-search").default;
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsSearch from "@azure-rest/maps-search";
 
 const credential = new DefaultAzureCredential();
 const client = MapsSearch(credential, "<maps-account-client-id>");
@@ -74,9 +74,9 @@ const client = MapsSearch(credential, "<maps-account-client-id>");
 
 You can authenticate with your Azure Maps Subscription Key.
 
-```javascript
-const MapsSearch = require("@azure-rest/maps-search").default;
-const { AzureKeyCredential } = require("@azure/core-auth");
+```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
+import { AzureKeyCredential } from "@azure/core-auth";
+import MapsSearch from "@azure-rest/maps-search";
 
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = MapsSearch(credential);
@@ -98,11 +98,11 @@ npm install @azure/core-auth
 
 Finally, you can use the SAS token to authenticate the client:
 
-```javascript
-const MapsSearch = require("@azure-rest/maps-search").default;
-const { AzureSASCredential } = require("@azure/core-auth");
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AzureMapsManagementClient } = require("@azure/arm-maps");
+```ts snippet:ReadmeSampleCreateClient_SAS
+import { DefaultAzureCredential } from "@azure/identity";
+import { AzureMapsManagementClient } from "@azure/arm-maps";
+import { AzureSASCredential } from "@azure/core-auth";
+import MapsSearch from "@azure-rest/maps-search";
 
 const subscriptionId = "<subscription ID of the map account>";
 const resourceGroupName = "<resource group name of the map account>";
@@ -114,6 +114,7 @@ const mapsAccountSasParameters = {
   principalId: "<principle ID (object ID) of the managed identity>",
   signingKey: "primaryKey",
 };
+
 const credential = new DefaultAzureCredential();
 const managementClient = new AzureMapsManagementClient(credential, subscriptionId);
 const { accountSasToken } = await managementClient.accounts.listSas(
@@ -121,9 +122,11 @@ const { accountSasToken } = await managementClient.accounts.listSas(
   accountName,
   mapsAccountSasParameters,
 );
+
 if (accountSasToken === undefined) {
   throw new Error("No accountSasToken was found for the Maps Account.");
 }
+
 const sasCredential = new AzureSASCredential(accountSasToken);
 const client = MapsSearch(sasCredential);
 ```
@@ -145,41 +148,36 @@ The following sections provide several code snippets covering some of the most c
 
 You can use an authenticated client to convert an address into latitude and longitude coordinates. This process is also called geocoding. In addition to returning the coordinates, the response will also return detailed address properties such as postal code, admin districts, and country/region information.
 
-```javascript
-const MapsSearch = require("@azure-rest/maps-search").default;
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { isUnexpected } = require("@azure-rest/maps-search");
+```ts snippet:ReadmeSampleGeocode
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 
-/** Initialize the MapsSearchClient */
-const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
+const credential = new DefaultAzureCredential();
+const client = MapsSearch(credential, "<maps-account-client-id>");
 
-async function main() {
-  /** Make a request to the geocoding API */
-  const response = await client
-    .path("/geocode")
-    .get({ queryParameters: { query: "400 Broad, Seattle" } });
-  /** Handle error response */
-  if (isUnexpected(response)) {
-    throw response.body.error;
-  }
-  /** Log the response body. */
-  if (!response.body.features) {
-    console.log(`No coordinates found for the address.`);
-  } else {
-    console.log(`The followings are the possible coordinates of the address:`);
-    for (const result of response.body.features) {
-      const [lon, lat] = result.geometry.coordinates;
-      console.log(`Latitude: ${lat}, Longitude ${lon}`);
-      console.log("Postal code: ", result.properties?.address?.postalCode);
-      console.log("Admin districts: ", result.properties?.address?.adminDistricts?.join(", "));
-      console.log("Country region: ", result.properties?.address?.countryRegion);
-    }
-  }
+/** Make a request to the geocoding API */
+const response = await client
+  .path("/geocode")
+  .get({ queryParameters: { query: "400 Broad, Seattle" } });
+// @ts-preserve-whitespaces
+/** Handle error response */
+if (isUnexpected(response)) {
+  throw response.body.error;
 }
 
-main().catch((err) => {
-  console.log(err);
-});
+/** Log the response body. */
+if (!response.body.features) {
+  console.log(`No coordinates found for the address.`);
+} else {
+  console.log(`The followings are the possible coordinates of the address:`);
+  for (const result of response.body.features) {
+    const [lon, lat] = result.geometry.coordinates;
+    console.log(`Latitude: ${lat}, Longitude ${lon}`);
+    console.log("Postal code: ", result.properties?.address?.postalCode);
+    console.log("Admin districts: ", result.properties?.address?.adminDistricts?.join(", "));
+    console.log("Country region: ", result.properties?.address?.countryRegion);
+  }
+}
 ```
 
 ### Make a Reverse Address Search to translate coordinate location to street address
@@ -187,40 +185,35 @@ main().catch((err) => {
 You can translate coordinates into human readable street addresses. This process is also called reverse geocoding.
 This is often used for applications that consume GPS feeds and want to discover addresses at specific coordinate points.
 
-```javascript
-const MapsSearch = require("@azure-rest/maps-search").default;
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { isUnexpected } = require("@azure-rest/maps-search");
+```ts snippet:ReadmeSampleReverseGeocode
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 
-/** Initialize the MapsSearchClient */
-const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
+const credential = new DefaultAzureCredential();
+const client = MapsSearch(credential, "<maps-account-client-id>");
 
-async function main() {
-  /** Make the request. */
-  const response = await client.path("/reverseGeocode").get({
-    queryParameters: { coordinates: [-121.89, 37.337] }, // [longitude, latitude],
-  });
-  /** Handle error response. */
-  if (isUnexpected(response)) {
-    throw response.body.error;
-  }
-  if (!response.body.features || response.body.features.length === 0) {
-    console.log("No results found.");
-  } else {
-    /** Log the response body. */
-    for (const feature of response.body.features) {
-      if (feature.properties?.address?.formattedAddress) {
-        console.log(feature.properties.address.formattedAddress);
-      } else {
-        console.log("No address found.");
-      }
+/** Make the request. */
+const response = await client.path("/reverseGeocode").get({
+  queryParameters: { coordinates: [-121.89, 37.337] }, // [longitude, latitude],
+});
+
+/** Handle error response. */
+if (isUnexpected(response)) {
+  throw response.body.error;
+}
+
+if (!response.body.features || response.body.features.length === 0) {
+  console.log("No results found.");
+} else {
+  /** Log the response body. */
+  for (const feature of response.body.features) {
+    if (feature.properties?.address?.formattedAddress) {
+      console.log(feature.properties.address.formattedAddress);
+    } else {
+      console.log("No address found.");
     }
   }
 }
-
-main().catch((err) => {
-  console.log(err);
-});
 ```
 
 ## Use V1 SDK
@@ -234,19 +227,17 @@ npm install @azure-rest/map-search-v2@npm:@azure-rest/map-search@^2.0.0
 
 Then, you can import the two packages:
 
-```javascript
-const MapsSearchV1 = require("@azure-rest/map-search-v1").default;
-const MapsSearchV2 = require("@azure-rest/map-search-v2").default;
+```ts snippet:ignore
+import MapsSearchV1 from "@azure-rest/map-search-v1";
+import MapsSearchV2 from "@azure-rest/map-search-v2";
 ```
 
 In the following example, we want to accept an address and search POIs around it. We'll use V2 SDK to get the coordinate of the address(/geocode), and use V1 SDK to search POIs around it(/search/nearby).
 
-```javascript
-const MapsSearchV1 = require("@azure-rest/map-search-v1").default;
-const MapsSearchV2 = require("@azure-rest/map-search-v2").default;
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { isUnexpected: isUnexpectedV1 } = require("@azure-rest/maps-search-v1");
-const { isUnexpected: isUnexpectedV2 } = require("@azure-rest/maps-search-v2");
+```ts snippet:ignore
+import MapsSearchV1, { isUnexpected: isUnexpectedV1 } from "@azure-rest/map-search-v1";
+import MapsSearchV2, { isUnexpected: isUnexpectedV2 } from "@azure-rest/map-search-v2";
+import { AzureKeyCredential } from "@azure/core-auth";
 
 /** Initialize the MapsSearchClient */
 const clientV1 = MapsSearchV1(new AzureKeyCredential("<subscription-key>"));
@@ -257,6 +248,7 @@ async function searchNearby(address) {
   const geocodeResponse = await clientV2
     .path("/geocode")
     .get({ queryParameters: { query: address } });
+
   /** Handle error response */
   if (isUnexpectedV2(geocodeResponse)) {
     throw geocodeResponse.body.error;
@@ -297,8 +289,8 @@ main().catch((err) => {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

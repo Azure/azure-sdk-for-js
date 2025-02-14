@@ -16,7 +16,7 @@ import {
   BackupSchedulesCreateOrUpdateOptionalParams,
   BackupSchedulesCreateOrUpdateResponse,
   BackupSchedulesDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BackupSchedules. */

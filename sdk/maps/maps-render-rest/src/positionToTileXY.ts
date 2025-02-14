@@ -16,14 +16,35 @@ const MAX_LONGITUDE = 180;
  * Reference: https://learn.microsoft.com/en-us/azure/azure-maps/zoom-levels-and-tile-grid?tabs=typescript#tile-math-source-code
  *
  * @example
- * ```ts
+ * ```ts snippet:ReadmeSampleRequestMapTiles
+ * import { DefaultAzureCredential } from "@azure/identity";
+ * import MapsRender, { positionToTileXY } from "@azure-rest/maps-render";
+ * import { createWriteStream } from "node:fs";
+ *
+ * const credential = new DefaultAzureCredential();
+ * const client = MapsRender(credential, "<maps-account-client-id>");
+ *
  * const zoom = 6;
+ * // Use the helper function `positionToTileXY` to get the tile index from the coordinate.
  * const { x, y } = positionToTileXY([47.61559, -122.33817], 6, "256");
  * const response = await client
  *   .path("/map/tile")
  *   .get({
- *     queryParameters: { tilesetId: "microsoft.base.road", zoom, x, y },
+ *     queryParameters: {
+ *       tilesetId: "microsoft.base.road",
+ *       zoom,
+ *       x,
+ *       y,
+ *     },
  *   })
+ *   .asNodeStream();
+ *
+ * // Handle the error.
+ * if (!response.body) {
+ *   throw Error("No response body");
+ * }
+ *
+ * response.body.pipe(createWriteStream("tile.png"));
  * ```
  *
  * @param position - Position coordinate in the format [latitude, longitude].
