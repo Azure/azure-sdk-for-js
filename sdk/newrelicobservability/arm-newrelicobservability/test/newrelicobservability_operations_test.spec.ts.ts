@@ -14,8 +14,8 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { CreateTestCredentialOptions, createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
 import { NewRelicObservability } from "../src/newRelicObservability.js";
+import { assert } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   NewRelic_CLIENT_ID: "azure_client_id",
