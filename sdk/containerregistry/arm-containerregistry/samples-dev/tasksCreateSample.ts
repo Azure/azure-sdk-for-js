@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { Task } from "@azure/arm-containerregistry";
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  Task,
+  ContainerRegistryManagementClient,
+} from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -19,8 +23,10 @@ import "dotenv/config";
  */
 async function tasksCreate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "mytTask";
   const taskCreateParameters: Task = {
@@ -71,7 +77,10 @@ async function tasksCreate(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tasks.beginCreateAndWait(
     resourceGroupName,
     registryName,
@@ -89,8 +98,10 @@ async function tasksCreate(): Promise<void> {
  */
 async function tasksCreateQuickTask(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "quicktask";
   const taskCreateParameters: Task = {
@@ -102,7 +113,10 @@ async function tasksCreateQuickTask(): Promise<void> {
     tags: { testkey: "value" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tasks.beginCreateAndWait(
     resourceGroupName,
     registryName,
@@ -120,8 +134,10 @@ async function tasksCreateQuickTask(): Promise<void> {
  */
 async function tasksCreateWithSystemAndUserIdentities(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "mytTask";
   const taskCreateParameters: Task = {
@@ -178,7 +194,10 @@ async function tasksCreateWithSystemAndUserIdentities(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tasks.beginCreateAndWait(
     resourceGroupName,
     registryName,
@@ -196,8 +215,10 @@ async function tasksCreateWithSystemAndUserIdentities(): Promise<void> {
  */
 async function tasksCreateWithUserIdentities(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "mytTask";
   const taskCreateParameters: Task = {
@@ -256,7 +277,10 @@ async function tasksCreateWithUserIdentities(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tasks.beginCreateAndWait(
     resourceGroupName,
     registryName,
@@ -274,8 +298,10 @@ async function tasksCreateWithUserIdentities(): Promise<void> {
  */
 async function tasksCreateWithUserIdentitiesWithSystemIdentity(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "mytTask";
   const taskCreateParameters: Task = {
@@ -324,7 +350,10 @@ async function tasksCreateWithUserIdentitiesWithSystemIdentity(): Promise<void> 
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tasks.beginCreateAndWait(
     resourceGroupName,
     registryName,
