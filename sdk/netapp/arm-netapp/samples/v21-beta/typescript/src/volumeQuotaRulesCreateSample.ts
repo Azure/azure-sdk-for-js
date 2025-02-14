@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { VolumeQuotaRule, NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create the specified quota rule within the given volume
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create the specified quota rule within the given volume
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeQuotaRules_Create.json
  */
-async function volumeQuotaRulesCreate() {
+async function volumeQuotaRulesCreate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "5275316f-a498-48d6-b324-2cbfdc4311b9";
@@ -48,7 +46,7 @@ async function volumeQuotaRulesCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   volumeQuotaRulesCreate();
 }
 

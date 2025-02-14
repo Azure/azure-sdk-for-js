@@ -11,7 +11,7 @@ import {
   BackupRestoreFiles,
   BackupsUnderBackupVaultRestoreFilesOptionalParams,
   BackupsUnderBackupVaultRestoreFilesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BackupsUnderBackupVault. */
 export interface BackupsUnderBackupVault {
