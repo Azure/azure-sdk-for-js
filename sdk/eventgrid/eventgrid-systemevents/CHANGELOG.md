@@ -4,6 +4,13 @@
 
 ### Features Added
 
+- Added `animated` property to `AcsMessageMediaContent`
+
+- Added the following properties to `AcsMessageReceivedEventData`
+  - `messageId`
+  - `messageType`
+  - `reaction`
+
 ### Breaking Changes
 
 ### Bugs Fixed
