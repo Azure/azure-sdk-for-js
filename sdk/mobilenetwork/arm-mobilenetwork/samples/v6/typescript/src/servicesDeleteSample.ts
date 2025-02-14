@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified service.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the specified service.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/ServiceDelete.json
  */
-async function deleteService() {
+async function deleteService(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function deleteService() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteService();
 }
 

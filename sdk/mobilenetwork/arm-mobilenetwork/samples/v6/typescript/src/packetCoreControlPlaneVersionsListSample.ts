@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all supported packet core control planes versions.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all supported packet core control planes versions.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/PacketCoreControlPlaneVersionList.json
  */
-async function getSupportedPacketCoreControlPlaneVersions() {
+async function getSupportedPacketCoreControlPlaneVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MobileNetworkManagementClient(credential);
   const resArray = new Array();
@@ -30,7 +28,7 @@ async function getSupportedPacketCoreControlPlaneVersions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSupportedPacketCoreControlPlaneVersions();
 }
 

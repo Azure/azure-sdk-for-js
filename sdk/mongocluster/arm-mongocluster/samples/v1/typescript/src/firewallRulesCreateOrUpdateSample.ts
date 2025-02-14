@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary creates a new firewall rule or updates an existing firewall rule on a mongo cluster.
  * x-ms-original-file: 2024-07-01/MongoClusters_FirewallRuleCreate.json
  */
-async function createsAFirewallRuleOnAMongoClusterResource() {
+async function createsAFirewallRuleOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function createsAFirewallRuleOnAMongoClusterResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsAFirewallRuleOnAMongoClusterResource();
 }
 

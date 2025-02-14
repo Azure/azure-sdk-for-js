@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all the available machine learning workspaces under the specified subscription.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2019-10-01/examples/ListWorkspaces.json
  */
-async function workspaceGetBySubscription() {
+async function workspaceGetBySubscription(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const credential = new DefaultAzureCredential();
   const client = new MachineLearningWorkspacesManagementClient(

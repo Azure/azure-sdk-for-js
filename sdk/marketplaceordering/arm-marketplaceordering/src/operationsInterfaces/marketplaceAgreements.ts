@@ -21,7 +21,7 @@ import {
   MarketplaceAgreementsGetAgreementResponse,
   MarketplaceAgreementsListOptionalParams,
   MarketplaceAgreementsListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MarketplaceAgreements. */
 export interface MarketplaceAgreements {

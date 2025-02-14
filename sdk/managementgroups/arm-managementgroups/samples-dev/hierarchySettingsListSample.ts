@@ -16,7 +16,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/ListHierarchySettings.json
  */
-async function listGroupSettings() {
+async function listGroupSettings(): Promise<void> {
   const groupId = "root";
   const credential = new DefaultAzureCredential();
   const client = new ManagementGroupsAPI(credential);

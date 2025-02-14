@@ -7,9 +7,7 @@
  */
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all Extension versions based on location, publisher, extensionType
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets all Extension versions based on location, publisher, extensionType
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/extension/ExtensionMetadata_List.json
  */
-async function getAListOfExtensions() {
+async function getAListOfExtensions(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const location = "EastUS";
@@ -32,7 +30,7 @@ async function getAListOfExtensions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAListOfExtensions();
 }
 

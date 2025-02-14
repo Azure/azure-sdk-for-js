@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PrivateLinkResourceOperations } from "../operationsInterfaces";
+import { PrivateLinkResourceOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMigrateV2 } from "../azureMigrateV2";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMigrateV2 } from "../azureMigrateV2.js";
 import {
   PrivateLinkResourceGetOptionalParams,
   PrivateLinkResourceGetResponse,
   PrivateLinkResourceListByProjectOptionalParams,
   PrivateLinkResourceListByProjectResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing PrivateLinkResourceOperations operations. */
 export class PrivateLinkResourceOperationsImpl

@@ -13,7 +13,7 @@ import {
   IntegrationRuntimeNodesUpdateOptionalParams,
   IntegrationRuntimeNodesUpdateResponse,
   IntegrationRuntimeNodesDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeNodes. */
 export interface IntegrationRuntimeNodes {

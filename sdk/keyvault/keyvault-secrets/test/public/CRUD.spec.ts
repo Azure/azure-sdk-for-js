@@ -51,7 +51,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     );
   });
 
-  it("cannot create a secret with an empty name", async function () {
+  it("cannot create a secret with an empty name", async () => {
     await expect(client.setSecret("", secretValue)).rejects.toThrowError();
   });
 

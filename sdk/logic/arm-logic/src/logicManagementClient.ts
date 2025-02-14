@@ -42,7 +42,7 @@ import {
   IntegrationServiceEnvironmentManagedApisImpl,
   IntegrationServiceEnvironmentManagedApiOperationsImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Workflows,
   WorkflowVersions,
@@ -71,8 +71,8 @@ import {
   IntegrationServiceEnvironmentManagedApis,
   IntegrationServiceEnvironmentManagedApiOperations,
   Operations
-} from "./operationsInterfaces";
-import { LogicManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { LogicManagementClientOptionalParams } from "./models/index.js";
 
 export class LogicManagementClient extends coreClient.ServiceClient {
   $host: string;

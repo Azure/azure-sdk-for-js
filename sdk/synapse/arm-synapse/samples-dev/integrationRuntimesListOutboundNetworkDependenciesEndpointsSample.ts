@@ -7,9 +7,7 @@
  */
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of outbound network dependencies for a given Azure-SSIS integration runtime.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the list of outbound network dependencies for a given Azure-SSIS integration runtime.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimes_ListOutboundNetworkDependenciesEndpoints.json
  */
-async function getOutboundNetworkDependencyEndpoints() {
+async function getOutboundNetworkDependencyEndpoints(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "ade9c2b6-c160-4305-9bb9-80342f6c1ae2";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "exampleResourceGroup";
@@ -33,7 +31,7 @@ async function getOutboundNetworkDependencyEndpoints() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getOutboundNetworkDependencyEndpoints();
 }
 

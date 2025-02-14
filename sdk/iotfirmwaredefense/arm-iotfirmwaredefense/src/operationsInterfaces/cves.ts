@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { CveResource, CvesListByFirmwareOptionalParams } from "../models";
+import { CveResource, CvesListByFirmwareOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Cves. */
