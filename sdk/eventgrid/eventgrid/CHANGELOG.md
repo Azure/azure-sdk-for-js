@@ -4,7 +4,12 @@
 
 ### Features Added
 
-- To be filled
+- properties added to `AcsMessageMediaContent`
+  - `animated`
+- properties added to `AcsMessageReceivedEventData`
+  - `messageId`
+  - `messageType`
+  - `reaction`
 
 ## 5.10.0 (2025-01-21)
 
