@@ -1,5 +1,11 @@
 # Release History
 
+## 5.11.0 (2025-02-21)
+
+### Features Added
+
+- To be filled
+
 ## 5.10.0 (2025-01-21)
 
 ### Features Added
