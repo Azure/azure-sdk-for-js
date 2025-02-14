@@ -19,7 +19,7 @@ import {
   CapacityReservationsUpdateOptionalParams,
   CapacityReservationsUpdateResponse,
   CapacityReservationsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CapacityReservations. */

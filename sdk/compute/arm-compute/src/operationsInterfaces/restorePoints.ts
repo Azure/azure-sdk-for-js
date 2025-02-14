@@ -14,7 +14,7 @@ import {
   RestorePointsCreateOptionalParams,
   RestorePointsCreateResponse,
   RestorePointsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RestorePoints. */
 export interface RestorePoints {

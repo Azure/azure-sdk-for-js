@@ -46,29 +46,29 @@ describe("Compute test", () => {
   let interface_name: string;
   let virtual_machine_name: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new ComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus2euap";
-    resourceGroupName = "czwjstest";
-    availabilitySetName = "availabilitySets123";
-    network_name = "networknamexx1";
-    subnet_name = "subnetnamexx1";
-    interface_name = "interfacex1";
-    virtual_machine_name = "virtualmachinex1";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new ComputeManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      network_client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus2euap";
+      resourceGroupName = "czwjstest";
+      availabilitySetName = "availabilitySets123";
+      network_name = "networknamexx1";
+      subnet_name = "subnetnamexx1";
+      interface_name = "interfacex1";
+      virtual_machine_name = "virtualmachinex1";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   //network_client.virtualNetworks.createOrUpdate
-  async function createVirtualNetwork() {
+  async function createVirtualNetwork(): Promise<void> {
     const parameter: VirtualNetwork = {
       location: location,
       addressSpace: {
@@ -99,7 +99,7 @@ describe("Compute test", () => {
     group_name: any,
     location: any,
     nic_name: any
-  ) {
+  ): Promise<void> {
     const parameter: NetworkInterface = {
       location: location,
       ipConfigurations: [

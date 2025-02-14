@@ -19,7 +19,7 @@ import {
   ProximityPlacementGroupsUpdateOptionalParams,
   ProximityPlacementGroupsUpdateResponse,
   ProximityPlacementGroupsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ProximityPlacementGroups. */

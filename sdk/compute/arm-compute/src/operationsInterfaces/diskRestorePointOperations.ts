@@ -16,7 +16,7 @@ import {
   DiskRestorePointGrantAccessOptionalParams,
   DiskRestorePointGrantAccessResponse,
   DiskRestorePointRevokeAccessOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DiskRestorePointOperations. */
 export interface DiskRestorePointOperations {

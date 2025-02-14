@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { LogAnalytics } from "../operationsInterfaces";
+import { LogAnalytics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ComputeManagementClient } from "../computeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   RequestRateByIntervalInput,
   LogAnalyticsExportRequestRateByIntervalOptionalParams,
@@ -24,7 +24,7 @@ import {
   ThrottledRequestsInput,
   LogAnalyticsExportThrottledRequestsOptionalParams,
   LogAnalyticsExportThrottledRequestsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing LogAnalytics operations. */
 export class LogAnalyticsImpl implements LogAnalytics {

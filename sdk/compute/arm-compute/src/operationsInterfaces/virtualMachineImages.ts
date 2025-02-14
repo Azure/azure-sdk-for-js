@@ -19,7 +19,7 @@ import {
   VirtualMachineImagesListResponse,
   VirtualMachineImagesGetOptionalParams,
   VirtualMachineImagesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VirtualMachineImages. */
 export interface VirtualMachineImages {

@@ -19,7 +19,7 @@ import {
   VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams,
   VirtualMachineScaleSetVMRunCommandsUpdateResponse,
   VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachineScaleSetVMRunCommands. */

@@ -24,7 +24,7 @@ import {
   DedicatedHostsRedeployResponse,
   DedicatedHostsRestartOptionalParams,
   DedicatedHostsRestartResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DedicatedHosts. */

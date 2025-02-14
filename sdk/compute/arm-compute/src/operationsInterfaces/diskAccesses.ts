@@ -29,7 +29,7 @@ import {
   DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
   DiskAccessesUpdateAPrivateEndpointConnectionResponse,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DiskAccesses. */
