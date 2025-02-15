@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all network watchers by resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets all network watchers by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkWatcherList.json
  */
-async function listNetworkWatchers() {
+async function listNetworkWatchers(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listNetworkWatchers() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listNetworkWatchers();
 }
 

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Lists all packet capture sessions within the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherPacketCapturesList.json
  */
-async function listPacketCaptures() {
+async function listPacketCaptures(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -16,7 +16,7 @@ import {
   ExpressRouteConnectionsDeleteOptionalParams,
   ExpressRouteConnectionsListOptionalParams,
   ExpressRouteConnectionsListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ExpressRouteConnections. */
 export interface ExpressRouteConnections {

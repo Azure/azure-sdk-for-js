@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Return the Bastion Shareable Links for all the VMs specified in the request.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/BastionShareableLinkGet.json
  */
-async function returnsTheBastionShareableLinksForTheRequestVMS() {
+async function returnsTheBastionShareableLinksForTheRequestVMS(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

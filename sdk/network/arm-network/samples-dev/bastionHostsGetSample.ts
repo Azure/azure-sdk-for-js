@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified Bastion Host.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the specified Bastion Host.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostGet.json
  */
-async function getBastionHost() {
+async function getBastionHost(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const bastionHostName = "bastionhosttenant'";
@@ -33,7 +31,7 @@ async function getBastionHost() {
  * @summary Gets the specified Bastion Host.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostGetWithPrivateOnly.json
  */
-async function getBastionHostWithPrivateOnly() {
+async function getBastionHostWithPrivateOnly(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const bastionHostName = "bastionhosttenant";
@@ -49,7 +47,7 @@ async function getBastionHostWithPrivateOnly() {
  * @summary Gets the specified Bastion Host.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostGetWithZones.json
  */
-async function getBastionHostWithZones() {
+async function getBastionHostWithZones(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const bastionHostName = "bastionhosttenant";
@@ -65,7 +63,7 @@ async function getBastionHostWithZones() {
  * @summary Gets the specified Bastion Host.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostDeveloperGet.json
  */
-async function getDeveloperBastionHost() {
+async function getDeveloperBastionHost(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const bastionHostName = "bastionhostdeveloper'";
@@ -75,7 +73,7 @@ async function getDeveloperBastionHost() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getBastionHost();
   await getBastionHostWithPrivateOnly();
   await getBastionHostWithZones();

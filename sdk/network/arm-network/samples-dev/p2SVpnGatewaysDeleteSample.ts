@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a virtual wan p2s vpn gateway.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes a virtual wan p2s vpn gateway.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/P2SVpnGatewayDelete.json
  */
-async function p2SVpnGatewayDelete() {
+async function p2SVpnGatewayDelete(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "p2sVpnGateway1";
@@ -27,7 +25,7 @@ async function p2SVpnGatewayDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await p2SVpnGatewayDelete();
 }
 

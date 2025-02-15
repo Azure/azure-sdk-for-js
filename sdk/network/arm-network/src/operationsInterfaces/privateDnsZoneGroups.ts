@@ -16,7 +16,7 @@ import {
   PrivateDnsZoneGroupsGetResponse,
   PrivateDnsZoneGroupsCreateOrUpdateOptionalParams,
   PrivateDnsZoneGroupsCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PrivateDnsZoneGroups. */

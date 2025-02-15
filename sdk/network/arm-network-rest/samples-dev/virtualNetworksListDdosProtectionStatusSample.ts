@@ -14,7 +14,7 @@ import "dotenv/config";
  * @summary Gets the Ddos Protection Status of all IP Addresses under the Virtual Network
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGetDdosProtectionStatus.json
  */
-async function getDdosProtectionStatusOfAVirtualNetwork() {
+async function getDdosProtectionStatusOfAVirtualNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

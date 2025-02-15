@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the details of a HubVirtualNetworkConnection.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Retrieves the details of a HubVirtualNetworkConnection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/HubVirtualNetworkConnectionGet.json
  */
-async function hubVirtualNetworkConnectionGet() {
+async function hubVirtualNetworkConnectionGet(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
@@ -32,7 +30,7 @@ async function hubVirtualNetworkConnectionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await hubVirtualNetworkConnectionGet();
 }
 

@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes a vpn connection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnConnectionDelete.json
  */
-async function vpnConnectionDelete() {
+async function vpnConnectionDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

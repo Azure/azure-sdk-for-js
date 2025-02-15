@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets information about the specified application security group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationSecurityGroupGet.json
  */
-async function getApplicationSecurityGroup() {
+async function getApplicationSecurityGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

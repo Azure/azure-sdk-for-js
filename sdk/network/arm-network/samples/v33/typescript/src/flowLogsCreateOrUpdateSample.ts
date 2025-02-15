@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { FlowLog, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a flow log for the specified network security group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create or update a flow log for the specified network security group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkWatcherFlowLogCreate.json
  */
-async function createOrUpdateFlowLog() {
+async function createOrUpdateFlowLog(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
@@ -53,7 +51,7 @@ async function createOrUpdateFlowLog() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateFlowLog();
 }
 

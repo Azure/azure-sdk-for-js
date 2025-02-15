@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the currently advertised routes table associated with the express route cross connection in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCrossConnectionsRouteTable.json
  */
-async function getExpressRouteCrossConnectionsRouteTable() {
+async function getExpressRouteCrossConnectionsRouteTable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

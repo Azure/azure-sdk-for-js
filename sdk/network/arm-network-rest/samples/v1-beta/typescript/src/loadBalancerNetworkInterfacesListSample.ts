@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets associated load balancer network interfaces.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerNetworkInterfaceListSimple.json
  */
-async function loadBalancerNetworkInterfaceListSimple() {
+async function loadBalancerNetworkInterfaceListSimple(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -45,7 +45,7 @@ loadBalancerNetworkInterfaceListSimple().catch(console.error);
  * @summary Gets associated load balancer network interfaces.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerNetworkInterfaceListVmss.json
  */
-async function loadBalancerNetworkInterfaceListVmss() {
+async function loadBalancerNetworkInterfaceListVmss(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

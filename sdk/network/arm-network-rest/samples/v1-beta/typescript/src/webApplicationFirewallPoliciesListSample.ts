@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Lists all of the protection policies within a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/WafListPolicies.json
  */
-async function listsAllWafPoliciesInAResourceGroup() {
+async function listsAllWafPoliciesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

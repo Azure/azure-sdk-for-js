@@ -13,9 +13,7 @@ import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a routing rule.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Deletes a routing rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingRuleDelete.json
  */
-async function deletesARoutingRule() {
+async function deletesARoutingRule(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function deletesARoutingRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletesARoutingRule();
 }
 

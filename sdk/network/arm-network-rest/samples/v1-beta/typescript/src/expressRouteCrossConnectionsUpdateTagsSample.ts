@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Updates an express route cross connection tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCrossConnectionUpdateTags.json
  */
-async function updateExpressRouteCrossConnectionTags() {
+async function updateExpressRouteCrossConnectionTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

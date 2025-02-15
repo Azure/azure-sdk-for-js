@@ -16,7 +16,7 @@ import {
   RoutingRuleCollectionsCreateOrUpdateOptionalParams,
   RoutingRuleCollectionsCreateOrUpdateResponse,
   RoutingRuleCollectionsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RoutingRuleCollections. */

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TagsObject, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates virtual wan p2s vpn gateway tags.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates virtual wan p2s vpn gateway tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/P2SVpnGatewayUpdateTags.json
  */
-async function p2SVpnGatewayUpdate() {
+async function p2SVpnGatewayUpdate(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "p2sVpnGateway1";
@@ -37,7 +35,7 @@ async function p2SVpnGatewayUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   p2SVpnGatewayUpdate();
 }
 

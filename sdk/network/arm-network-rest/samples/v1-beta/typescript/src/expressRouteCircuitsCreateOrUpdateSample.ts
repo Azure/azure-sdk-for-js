@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Creates or updates an express route circuit.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitCreate.json
  */
-async function createExpressRouteCircuit() {
+async function createExpressRouteCircuit(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -60,7 +60,7 @@ createExpressRouteCircuit().catch(console.error);
  * @summary Creates or updates an express route circuit.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitCreateOnExpressRoutePort.json
  */
-async function createExpressRouteCircuitOnExpressRoutePort() {
+async function createExpressRouteCircuitOnExpressRoutePort(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

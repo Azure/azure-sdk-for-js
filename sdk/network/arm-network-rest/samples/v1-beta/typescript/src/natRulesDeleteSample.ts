@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes a nat rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NatRuleDelete.json
  */
-async function natRuleDelete() {
+async function natRuleDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

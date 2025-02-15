@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/P2SVpnGatewayGetConnectionHealthDetailed.json
  */
-async function p2SVpnGatewayGetConnectionHealthDetailed() {
+async function p2SVpnGatewayGetConnectionHealthDetailed(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all RouteFilterRules in a route filter.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all RouteFilterRules in a route filter.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/RouteFilterRuleListByRouteFilter.json
  */
-async function routeFilterRuleListByRouteFilter() {
+async function routeFilterRuleListByRouteFilter(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const routeFilterName = "filterName";
@@ -36,7 +34,7 @@ async function routeFilterRuleListByRouteFilter() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   routeFilterRuleListByRouteFilter();
 }
 

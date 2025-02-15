@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Stops a specified packet capture session.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Stops a specified packet capture session.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkWatcherPacketCaptureStop.json
  */
-async function stopPacketCapture() {
+async function stopPacketCapture(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkWatcherName = "nw1";
@@ -32,7 +30,7 @@ async function stopPacketCapture() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await stopPacketCapture();
 }
 

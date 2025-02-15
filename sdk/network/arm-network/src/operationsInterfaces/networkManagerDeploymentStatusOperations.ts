@@ -10,7 +10,7 @@ import {
   NetworkManagerDeploymentStatusParameter,
   NetworkManagerDeploymentStatusListOptionalParams,
   NetworkManagerDeploymentStatusListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a NetworkManagerDeploymentStatusOperations. */
 export interface NetworkManagerDeploymentStatusOperations {

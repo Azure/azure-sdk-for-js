@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Updates a network watcher tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherUpdateTags.json
  */
-async function updateNetworkWatcherTags() {
+async function updateNetworkWatcherTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -13,9 +13,7 @@ import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the current filter values for the signatures overrides
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Retrieves the current filter values for the signatures overrides
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyQuerySignatureOverridesFilterValues.json
  */
-async function querySignatureOverrides() {
+async function querySignatureOverrides(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "e747cc13-97d4-4a79-b463-42d7f4e558f2";
@@ -42,7 +40,7 @@ async function querySignatureOverrides() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   querySignatureOverrides();
 }
 

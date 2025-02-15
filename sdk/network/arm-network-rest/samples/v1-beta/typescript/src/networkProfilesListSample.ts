@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all network profiles in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkProfileList.json
  */
-async function listResourceGroupNetworkProfiles() {
+async function listResourceGroupNetworkProfiles(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

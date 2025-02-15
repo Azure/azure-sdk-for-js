@@ -13,7 +13,7 @@ import {
   FirewallPolicyDraftsDeleteOptionalParams,
   FirewallPolicyDraftsGetOptionalParams,
   FirewallPolicyDraftsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FirewallPolicyDrafts. */
 export interface FirewallPolicyDrafts {

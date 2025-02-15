@@ -8,9 +8,7 @@
 import type { WebApplicationFirewallPolicy } from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or update policy with specified rule set name within a resource group.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or update policy with specified rule set name within a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/WafPolicyCreateOrUpdate.json
  */
-async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
+async function createsOrUpdatesAWafPolicyWithinAResourceGroup(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const policyName = "Policy1";
@@ -242,7 +240,7 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createsOrUpdatesAWafPolicyWithinAResourceGroup();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TagsObject, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an express route circuit tags.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates an express route circuit tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ExpressRouteCircuitUpdateTags.json
  */
-async function updateExpressRouteCircuitTags() {
+async function updateExpressRouteCircuitTags(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "ertest";
   const circuitName = "er1";
@@ -35,7 +33,7 @@ async function updateExpressRouteCircuitTags() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateExpressRouteCircuitTags();
 }
 

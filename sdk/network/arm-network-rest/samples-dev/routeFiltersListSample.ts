@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets all route filters in a subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteFilterList.json
  */
-async function routeFilterList() {
+async function routeFilterList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

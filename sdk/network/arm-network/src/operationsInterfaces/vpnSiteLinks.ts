@@ -12,7 +12,7 @@ import {
   VpnSiteLinksListByVpnSiteOptionalParams,
   VpnSiteLinksGetOptionalParams,
   VpnSiteLinksGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VpnSiteLinks. */

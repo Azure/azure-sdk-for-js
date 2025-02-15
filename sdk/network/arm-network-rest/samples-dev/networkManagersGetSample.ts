@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the specified Network Manager.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerGet.json
  */
-async function networkManagersGet() {
+async function networkManagersGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

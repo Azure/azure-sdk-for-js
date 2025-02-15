@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List network usages for a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List network usages for a subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/UsageList.json
  */
-async function listUsages() {
+async function listUsages(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "westus";
   const credential = new DefaultAzureCredential();
@@ -38,7 +36,7 @@ async function listUsages() {
  * @summary List network usages for a subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/UsageListSpacedLocation.json
  */
-async function listUsagesSpacedLocation() {
+async function listUsagesSpacedLocation(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const location = "West US";
   const credential = new DefaultAzureCredential();
@@ -50,7 +48,7 @@ async function listUsagesSpacedLocation() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listUsages();
   listUsagesSpacedLocation();
 }

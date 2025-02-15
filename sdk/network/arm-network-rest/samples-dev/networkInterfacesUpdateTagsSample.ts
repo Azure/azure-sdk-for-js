@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Updates a network interface tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceUpdateTags.json
  */
-async function updateNetworkInterfaceTags() {
+async function updateNetworkInterfaceTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

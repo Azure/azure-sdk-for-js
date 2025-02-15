@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPut.json
  */
-async function createAzureFirewall() {
+async function createAzureFirewall(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -140,7 +140,7 @@ createAzureFirewall().catch(console.error);
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithAdditionalProperties.json
  */
-async function createAzureFirewallWithAdditionalProperties() {
+async function createAzureFirewallWithAdditionalProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -269,7 +269,7 @@ createAzureFirewallWithAdditionalProperties().catch(console.error);
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithIpGroups.json
  */
-async function createAzureFirewallWithIPGroups() {
+async function createAzureFirewallWithIPGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -396,7 +396,7 @@ createAzureFirewallWithIPGroups().catch(console.error);
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithZones.json
  */
-async function createAzureFirewallWithZones() {
+async function createAzureFirewallWithZones(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -523,7 +523,7 @@ createAzureFirewallWithZones().catch(console.error);
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutWithMgmtSubnet.json
  */
-async function createAzureFirewallWithManagementSubnet() {
+async function createAzureFirewallWithManagementSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -661,7 +661,7 @@ createAzureFirewallWithManagementSubnet().catch(console.error);
  * @summary Creates or updates the specified Azure Firewall.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallPutInHub.json
  */
-async function createAzureFirewallInVirtualHub() {
+async function createAzureFirewallInVirtualHub(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

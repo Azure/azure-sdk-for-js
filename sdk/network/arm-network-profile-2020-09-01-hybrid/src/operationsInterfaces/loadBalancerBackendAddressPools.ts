@@ -12,7 +12,7 @@ import {
   LoadBalancerBackendAddressPoolsListOptionalParams,
   LoadBalancerBackendAddressPoolsGetOptionalParams,
   LoadBalancerBackendAddressPoolsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LoadBalancerBackendAddressPools. */

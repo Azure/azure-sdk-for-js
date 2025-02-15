@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Deletes a static member.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerStaticMemberDelete.json
  */
-async function staticMembersDelete() {
+async function staticMembersDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

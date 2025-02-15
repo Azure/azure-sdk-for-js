@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { VpnGatewayNatRule, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a nat rule to a scalable vpn gateway if it doesn't exist else updates the existing nat rules.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a nat rule to a scalable vpn gateway if it doesn't exist else updates the existing nat rules.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NatRulePut.json
  */
-async function natRulePut() {
+async function natRulePut(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const gatewayName = "gateway1";
@@ -44,7 +42,7 @@ async function natRulePut() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   natRulePut();
 }
 

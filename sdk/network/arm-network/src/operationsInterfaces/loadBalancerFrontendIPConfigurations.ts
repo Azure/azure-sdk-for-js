@@ -12,7 +12,7 @@ import {
   LoadBalancerFrontendIPConfigurationsListOptionalParams,
   LoadBalancerFrontendIPConfigurationsGetOptionalParams,
   LoadBalancerFrontendIPConfigurationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LoadBalancerFrontendIPConfigurations. */

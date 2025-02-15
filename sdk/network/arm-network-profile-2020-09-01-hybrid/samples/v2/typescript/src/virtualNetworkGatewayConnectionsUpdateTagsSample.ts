@@ -13,9 +13,7 @@ import {
   NetworkManagementClient
 } from "@azure/arm-network-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a virtual network gateway connection tags.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates a virtual network gateway connection tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2018-11-01/examples/VirtualNetworkGatewayConnectionUpdateTags.json
  */
-async function updateVirtualNetworkGatewayConnectionTags() {
+async function updateVirtualNetworkGatewayConnectionTags(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayConnectionName = "test";
@@ -38,7 +36,7 @@ async function updateVirtualNetworkGatewayConnectionTags() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateVirtualNetworkGatewayConnectionTags();
 }
 

@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Checks whether the subscription is visible to private link service.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CheckPrivateLinkServiceVisibility.json
  */
-async function checkPrivateLinkServiceVisibility() {
+async function checkPrivateLinkServiceVisibility(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates/Updates the Static CIDR resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates/Updates the Static CIDR resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/StaticCidrs_Create.json
  */
-async function staticCidrsCreate() {
+async function staticCidrsCreate(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "11111111-1111-1111-1111-111111111111";
@@ -39,7 +37,7 @@ async function staticCidrsCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   staticCidrsCreate();
 }
 
