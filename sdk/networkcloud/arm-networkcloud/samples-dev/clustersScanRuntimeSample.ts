@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-networkcloud";
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration.
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary Triggers the execution of a runtime protection scan to detect and remediate detected issues, in accordance with the cluster configuration.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_ScanRuntime.json
  */
-async function executeARuntimeProtectionScanOnTheCluster() {
+async function executeARuntimeProtectionScanOnTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -42,7 +40,7 @@ async function executeARuntimeProtectionScanOnTheCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await executeARuntimeProtectionScanOnTheCluster();
 }
 

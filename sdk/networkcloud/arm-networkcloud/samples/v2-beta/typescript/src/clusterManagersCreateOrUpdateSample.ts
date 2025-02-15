@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ClusterManager, NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new cluster manager or update properties of the cluster manager if it exists.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a new cluster manager or update properties of the cluster manager if it exists.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/ClusterManagers_Create.json
  */
-async function createOrUpdateClusterManager() {
+async function createOrUpdateClusterManager(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
     "123e4567-e89b-12d3-a456-426655440000";
@@ -56,7 +54,7 @@ async function createOrUpdateClusterManager() {
  * @summary Create a new cluster manager or update properties of the cluster manager if it exists.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/ClusterManagers_Create_Uami.json
  */
-async function createOrUpdateClusterManagerWithUserAssignedIdentity() {
+async function createOrUpdateClusterManagerWithUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
     "123e4567-e89b-12d3-a456-426655440000";
@@ -92,7 +90,7 @@ async function createOrUpdateClusterManagerWithUserAssignedIdentity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateClusterManager();
   createOrUpdateClusterManagerWithUserAssignedIdentity();
 }

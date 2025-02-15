@@ -14,9 +14,7 @@ import {
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update tags associated with the provided volume.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Update tags associated with the provided volume.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Volumes_Patch.json
  */
-async function patchVolume() {
+async function patchVolume(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
     "123e4567-e89b-12d3-a456-426655440000";
@@ -45,7 +43,7 @@ async function patchVolume() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchVolume();
 }
 

@@ -7,9 +7,7 @@
  */
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of baseboard management controller key sets for the provided cluster.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a list of baseboard management controller key sets for the provided cluster.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BmcKeySets_ListByCluster.json
  */
-async function listBaseboardManagementControllerKeySetsOfTheCluster() {
+async function listBaseboardManagementControllerKeySetsOfTheCluster(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -31,7 +29,7 @@ async function listBaseboardManagementControllerKeySetsOfTheCluster() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listBaseboardManagementControllerKeySetsOfTheCluster();
 }
 

@@ -7,9 +7,7 @@
  */
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of layer 3 (L3) networks in the provided subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a list of layer 3 (L3) networks in the provided subscription.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/L3Networks_ListBySubscription.json
  */
-async function listL3NetworksForSubscription() {
+async function listL3NetworksForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listL3NetworksForSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listL3NetworksForSubscription();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of consoles for the provided virtual machine.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a list of consoles for the provided virtual machine.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Consoles_ListByVirtualMachine.json
  */
-async function listConsolesOfTheVirtualMachine() {
+async function listConsolesOfTheVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
     "123e4567-e89b-12d3-a456-426655440000";
@@ -39,7 +37,7 @@ async function listConsolesOfTheVirtualMachine() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listConsolesOfTheVirtualMachine();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { KubernetesCluster, NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new Kubernetes cluster or update the properties of the existing one.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a new Kubernetes cluster or update the properties of the existing one.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/KubernetesClusters_Create.json
  */
-async function createOrUpdateKubernetesCluster() {
+async function createOrUpdateKubernetesCluster(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
     "123e4567-e89b-12d3-a456-426655440000";
@@ -193,7 +191,7 @@ async function createOrUpdateKubernetesCluster() {
  * @summary Create a new Kubernetes cluster or update the properties of the existing one.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/KubernetesClusters_L2LoadBalancer_Create.json
  */
-async function createOrUpdateKubernetesClusterWithALayer2LoadBalancer() {
+async function createOrUpdateKubernetesClusterWithALayer2LoadBalancer(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
     "123e4567-e89b-12d3-a456-426655440000";
@@ -337,7 +335,7 @@ async function createOrUpdateKubernetesClusterWithALayer2LoadBalancer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateKubernetesCluster();
   createOrUpdateKubernetesClusterWithALayer2LoadBalancer();
 }

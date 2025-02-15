@@ -8,9 +8,7 @@
 import type { ClusterPatchParameters, ClustersUpdateOptionalParams } from "@azure/arm-networkcloud";
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_AggregatorOrSingleRackDefinition.json
  */
-async function patchClusterAggregatorOrSingleRackDefinition() {
+async function patchClusterAggregatorOrSingleRackDefinition(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -80,7 +78,7 @@ async function patchClusterAggregatorOrSingleRackDefinition() {
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_CommandOutput.json
  */
-async function patchClusterCommandOutput() {
+async function patchClusterCommandOutput(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -118,7 +116,7 @@ async function patchClusterCommandOutput() {
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_Location.json
  */
-async function patchClusterLocation() {
+async function patchClusterLocation(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -140,7 +138,7 @@ async function patchClusterLocation() {
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_RuntimeProtectionConfiguration.json
  */
-async function patchRuntimeProtectionConfiguration() {
+async function patchRuntimeProtectionConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -162,7 +160,7 @@ async function patchRuntimeProtectionConfiguration() {
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_SecretArchive.json
  */
-async function patchSecretArchive() {
+async function patchSecretArchive(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -188,7 +186,7 @@ async function patchSecretArchive() {
  * @summary Patch the properties of the provided cluster, or update the tags associated with the cluster. Properties and tag updates can be done independently.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Patch_UpdateStrategy.json
  */
-async function patchUpdateStrategy() {
+async function patchUpdateStrategy(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -210,7 +208,7 @@ async function patchUpdateStrategy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchClusterAggregatorOrSingleRackDefinition();
   await patchClusterCommandOutput();
   await patchClusterLocation();
