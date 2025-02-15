@@ -65,18 +65,22 @@ export interface Debugger {
   extend: (namespace: string) => Debugger;
 }
 
+function sanitizeEnvVariable(envValue: string): string {
+  return envValue.replace(/[^a-zA-Z0-9,.*:-]/g, ''); // Allow only safe characters
+}
+
 const debugEnvVariable =
-  (typeof process !== "undefined" && process.env && process.env.DEBUG) || undefined;
+  (typeof process !== "undefined" && process.env && process.env.DEBUG)
+    ? sanitizeEnvVariable(process.env.DEBUG)
+    : undefined;
 
 let enabledString: string | undefined;
-let debugEnvVariableEscaped: string;
 let enabledNamespaces: RegExp[] = [];
 let skippedNamespaces: RegExp[] = [];
 const debuggers: Debugger[] = [];
 
 if (debugEnvVariable) {
-  debugEnvVariableEscaped = debugEnvVariable.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special characters
-  enable(debugEnvVariableEscaped);
+  enable(debugEnvVariable);
 }
 
 const debugObj: Debug = Object.assign(
