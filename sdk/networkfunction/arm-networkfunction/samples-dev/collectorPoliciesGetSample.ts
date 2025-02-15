@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the collector policy in a specified Traffic Collector
  * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyGet.json
  */
-async function getCollectionPolicy() {
+async function getCollectionPolicy(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const azureTrafficCollectorName = "atc";

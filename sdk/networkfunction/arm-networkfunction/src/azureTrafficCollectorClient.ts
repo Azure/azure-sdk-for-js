@@ -20,15 +20,15 @@ import {
   AzureTrafficCollectorsByResourceGroupImpl,
   AzureTrafficCollectorsImpl,
   CollectorPoliciesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   NetworkFunction,
   AzureTrafficCollectorsBySubscription,
   AzureTrafficCollectorsByResourceGroup,
   AzureTrafficCollectors,
   CollectorPolicies
-} from "./operationsInterfaces";
-import { AzureTrafficCollectorClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureTrafficCollectorClientOptionalParams } from "./models/index.js";
 
 export class AzureTrafficCollectorClient extends coreClient.ServiceClient {
   $host: string;
