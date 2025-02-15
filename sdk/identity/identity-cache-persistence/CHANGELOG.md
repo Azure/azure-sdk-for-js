@@ -2,7 +2,7 @@
 
 ## 1.2.0 (2025-02-18)
 
-- ### Other Changes
+### Other Changes
 
 - Updated `@azure/msal-node` to the version `^3.2.2`
 
