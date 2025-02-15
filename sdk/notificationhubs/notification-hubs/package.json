@@ -61,7 +61,8 @@
   "//sampleConfiguration": {
     "productName": "",
     "productSlugs": [
-      "azure"
+      "azure",
+      "azure-notification-hubs"
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/notification-hubs"

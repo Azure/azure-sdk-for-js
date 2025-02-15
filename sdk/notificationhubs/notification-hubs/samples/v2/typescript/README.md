@@ -107,7 +107,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendtagslist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/samples/v2/typescript/src/sendTagsList.ts
 [updateinstallation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/samples/v2/typescript/src/updateInstallation.ts
 [updateregistration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/samples/v2/typescript/src/updateRegistration.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/notification-hubs?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/notification-hubs
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
