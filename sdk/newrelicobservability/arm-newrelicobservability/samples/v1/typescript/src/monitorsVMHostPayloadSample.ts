@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the payload that needs to be passed in the request body for installing NewRelic agent on a VM.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns the payload that needs to be passed in the request body for installing NewRelic agent on a VM.
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_VmHostPayload_MaximumSet_Gen.json
  */
-async function monitorsVMHostPayloadMaximumSetGen() {
+async function monitorsVMHostPayloadMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function monitorsVMHostPayloadMaximumSetGen() {
  * @summary Returns the payload that needs to be passed in the request body for installing NewRelic agent on a VM.
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_VmHostPayload_MinimumSet_Gen.json
  */
-async function monitorsVMHostPayloadMinimumSetGen() {
+async function monitorsVMHostPayloadMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -58,7 +56,7 @@ async function monitorsVMHostPayloadMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsVMHostPayloadMaximumSetGen();
   monitorsVMHostPayloadMinimumSetGen();
 }

@@ -8,9 +8,7 @@
 import type { AppServicesGetRequest } from "@azure/arm-newrelicobservability";
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the app service resources currently being monitored by the NewRelic resource.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary List the app service resources currently being monitored by the NewRelic resource.
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_ListAppServices_MaximumSet_Gen.json
  */
-async function monitorsListAppServicesMaximumSetGen() {
+async function monitorsListAppServicesMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
@@ -48,7 +46,7 @@ async function monitorsListAppServicesMaximumSetGen() {
  * @summary List the app service resources currently being monitored by the NewRelic resource.
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_ListAppServices_MinimumSet_Gen.json
  */
-async function monitorsListAppServicesMinimumSetGen() {
+async function monitorsListAppServicesMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
@@ -72,7 +70,7 @@ async function monitorsListAppServicesMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await monitorsListAppServicesMaximumSetGen();
   await monitorsListAppServicesMinimumSetGen();
 }
