@@ -64,7 +64,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/notification-hubs?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/notification-hubs"
   },
   "autoPublish": true,
   "sideEffects": false,
