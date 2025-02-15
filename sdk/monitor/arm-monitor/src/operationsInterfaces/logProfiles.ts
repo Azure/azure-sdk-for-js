@@ -18,7 +18,7 @@ import {
   LogProfileResourcePatch,
   LogProfilesUpdateOptionalParams,
   LogProfilesUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LogProfiles. */

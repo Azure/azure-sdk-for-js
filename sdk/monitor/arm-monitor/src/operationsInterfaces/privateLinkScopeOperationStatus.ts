@@ -9,7 +9,7 @@
 import {
   PrivateLinkScopeOperationStatusGetOptionalParams,
   PrivateLinkScopeOperationStatusGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PrivateLinkScopeOperationStatus. */
 export interface PrivateLinkScopeOperationStatus {

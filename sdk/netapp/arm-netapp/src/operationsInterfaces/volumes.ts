@@ -59,7 +59,7 @@ import {
   VolumesRelocateOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
   VolumesRevertRelocationOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Volumes. */

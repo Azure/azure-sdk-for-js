@@ -8,9 +8,7 @@
 import type { BackupsMigrationRequest } from "@azure/arm-netapp";
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Migrate the backups under a NetApp account to backup vault
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Migrate the backups under a NetApp account to backup vault
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/BackupsUnderAccount_Migrate.json
  */
-async function backupsUnderAccountMigrate() {
+async function backupsUnderAccountMigrate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] || "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
@@ -37,7 +35,7 @@ async function backupsUnderAccountMigrate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await backupsUnderAccountMigrate();
 }
 
