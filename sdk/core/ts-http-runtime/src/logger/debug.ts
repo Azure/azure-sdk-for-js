@@ -69,12 +69,14 @@ const debugEnvVariable =
   (typeof process !== "undefined" && process.env && process.env.DEBUG) || undefined;
 
 let enabledString: string | undefined;
+let debugEnvVariableEscaped: string;
 let enabledNamespaces: RegExp[] = [];
 let skippedNamespaces: RegExp[] = [];
 const debuggers: Debugger[] = [];
 
 if (debugEnvVariable) {
-  enable(debugEnvVariable);
+  debugEnvVariableEscaped = debugEnvVariable.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // Escape special characters
+  enable(debugEnvVariableEscaped);
 }
 
 const debugObj: Debug = Object.assign(
