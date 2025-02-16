@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists the available operations of Microsoft.OpenEnergyPlatform resource provider.
  * x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2021-06-01-preview/examples/Operations_List.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new OpenEnergyPlatformManagementServiceAPIs(credential, subscriptionId);
