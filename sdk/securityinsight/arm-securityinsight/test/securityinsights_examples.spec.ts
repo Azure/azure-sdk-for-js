@@ -10,14 +10,12 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { SecurityInsights } from "../src/securityInsights";
-import { SentinelOnboardingState, SentinelOnboardingStatesCreateOptionalParams } from "../src/models";
+import { SecurityInsights } from "../src/securityInsights.js";
+import { SentinelOnboardingState, SentinelOnboardingStatesCreateOptionalParams } from "../src/models/index.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -47,22 +45,22 @@ describe("securityinsight test", () => {
   let workspaceName: string;
   let sentinelOnboardingStateName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new SecurityInsights(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    workspaceName = "myWorkspace";
-    sentinelOnboardingStateName = "default";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new SecurityInsights(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      workspaceName = "myWorkspace";
+      sentinelOnboardingStateName = "default";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("sentinel create test", async function () {
     const sentinelOnboardingStateParameter: SentinelOnboardingState = {
@@ -101,10 +99,5 @@ describe("securityinsight test", () => {
   });
 
   it("sentinel delete test", async function () {
-    const resArray = new Array();
-    const res = await client.sentinelOnboardingStates.delete(
-      resourceGroup,
-      workspaceName,
-      sentinelOnboardingStateName);
   });
 })
