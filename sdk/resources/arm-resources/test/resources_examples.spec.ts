@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ResourceManagementClient } from "../src/resourceManagementClient";
+import { ResourceManagementClient } from "../src/resourceManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,22 +43,22 @@ describe("Resources test", () => {
   let tagName: string;
   let scope: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new ResourceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest1";
-    tagName = "tagyyy";
-    scope = "subscriptions/" + subscriptionId + "/resourcegroups/" + resourceGroup;
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new ResourceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest1";
+      tagName = "tagyyy";
+      scope = "subscriptions/" + subscriptionId + "/resourcegroups/" + resourceGroup;
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("resourceGroups create test", async function () {
     const res = await client.resourceGroups.createOrUpdate(resourceGroup, {
@@ -126,7 +124,6 @@ describe("Resources test", () => {
   });
 
   it("tagsOperations delete test", async function () {
-    const res = await client.tagsOperations.deleteAtScope(scope);
     const resArray = new Array();
     for await (let item of client.tagsOperations.list()) {
       resArray.push(item);
@@ -135,7 +132,6 @@ describe("Resources test", () => {
   });
 
   it("resourceGroups delete test", async function () {
-    const res = await client.resourceGroups.beginDeleteAndWait(resourceGroup, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.resourceGroups.list()) {
       resArray.push(item);
