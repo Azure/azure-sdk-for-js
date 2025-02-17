@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes a specified agent pool resource.
@@ -29,13 +29,13 @@ async function agentPoolsDelete() {
   const result = await client.agentPools.beginDeleteAndWait(
     resourceGroupName,
     registryName,
-    agentPoolName
+    agentPoolName,
   );
   console.log(result);
 }
 
 async function main() {
-  agentPoolsDelete();
+  await agentPoolsDelete();
 }
 
 main().catch(console.error);

@@ -15,7 +15,7 @@ import {
   ImportPipelinesGetResponse,
   ImportPipelinesCreateOptionalParams,
   ImportPipelinesCreateResponse,
-  ImportPipelinesDeleteOptionalParams
+  ImportPipelinesDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ImportPipelines {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: ImportPipelinesListOptionalParams
+    options?: ImportPipelinesListOptionalParams,
   ): PagedAsyncIterableIterator<ImportPipeline>;
   /**
    * Gets the properties of the import pipeline.
@@ -43,7 +43,7 @@ export interface ImportPipelines {
     resourceGroupName: string,
     registryName: string,
     importPipelineName: string,
-    options?: ImportPipelinesGetOptionalParams
+    options?: ImportPipelinesGetOptionalParams,
   ): Promise<ImportPipelinesGetResponse>;
   /**
    * Creates an import pipeline for a container registry with the specified parameters.
@@ -58,7 +58,7 @@ export interface ImportPipelines {
     registryName: string,
     importPipelineName: string,
     importPipelineCreateParameters: ImportPipeline,
-    options?: ImportPipelinesCreateOptionalParams
+    options?: ImportPipelinesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ImportPipelinesCreateResponse>,
@@ -78,7 +78,7 @@ export interface ImportPipelines {
     registryName: string,
     importPipelineName: string,
     importPipelineCreateParameters: ImportPipeline,
-    options?: ImportPipelinesCreateOptionalParams
+    options?: ImportPipelinesCreateOptionalParams,
   ): Promise<ImportPipelinesCreateResponse>;
   /**
    * Deletes an import pipeline from a container registry.
@@ -91,7 +91,7 @@ export interface ImportPipelines {
     resourceGroupName: string,
     registryName: string,
     importPipelineName: string,
-    options?: ImportPipelinesDeleteOptionalParams
+    options?: ImportPipelinesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an import pipeline from a container registry.
@@ -104,6 +104,6 @@ export interface ImportPipelines {
     resourceGroupName: string,
     registryName: string,
     importPipelineName: string,
-    options?: ImportPipelinesDeleteOptionalParams
+    options?: ImportPipelinesDeleteOptionalParams,
   ): Promise<void>;
 }

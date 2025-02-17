@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all the pipeline runs for the specified container registry.
  *
  * @summary Lists all the pipeline runs for the specified container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PipelineRunList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/PipelineRunList.json
  */
 async function pipelineRunList() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function pipelineRunList() {
 }
 
 async function main() {
-  pipelineRunList();
+  await pipelineRunList();
 }
 
 main().catch(console.error);
