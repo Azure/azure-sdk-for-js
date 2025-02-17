@@ -10,7 +10,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
   const caeChallenge = `Bearer realm="", error_description="Continuous access evaluation resulted in challenge", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0=" `;
   // This header is invalid because the claims is empty
   const invalidCAEChallenge = `Bearer realm="", error_description="", error="insufficient_claims", claims=""`;
-  it("should proceed CAE process for mgmt client if a valid CAE challenge", async function () {
+  it("should proceed CAE process for mgmt client if a valid CAE challenge", async () => {
     let getTokenCount = 0;
     const credential: TokenCredential = {
       getToken: async () => {
@@ -19,7 +19,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
         if (getTokenCount === 0) {
           token = "firstToken";
         }
-        return { token: "testToken", expiresOnTimestamp: 11111 };
+        return { token: token, expiresOnTimestamp: 11111 };
       },
     };
 
@@ -31,12 +31,16 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
           request = req;
           getRequestCount++;
           if (getRequestCount === 1) {
-            return { request: req, status: 401, headers: createHttpHeaders({ "www-authenticate": caeChallenge }) };
+            return {
+              request: req,
+              status: 401,
+              headers: createHttpHeaders({ "www-authenticate": caeChallenge }),
+            };
           }
           return { request: req, status: 200, headers: createHttpHeaders() };
         },
       },
-      credential
+      credential,
     });
 
     const result = await client.operations.list();
@@ -50,7 +54,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
     assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
   });
 
-  it("should not proceed CAE process for mgmt client if an invalid CAE challenge", async function () {
+  it("should not proceed CAE process for mgmt client if an invalid CAE challenge", async () => {
     let getTokenCount = 0;
     const credential: TokenCredential = {
       getToken: async () => {
@@ -59,7 +63,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
         if (getTokenCount === 0) {
           token = "firstToken";
         }
-        return { token: "testToken", expiresOnTimestamp: 11111 };
+        return { token: token, expiresOnTimestamp: 11111 };
       },
     };
 
@@ -71,12 +75,16 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
           request = req;
           getRequestCount++;
           if (getRequestCount === 1) {
-            return { request: req, status: 401, headers: createHttpHeaders({ "www-authenticate": invalidCAEChallenge }) };
+            return {
+              request: request,
+              status: 401,
+              headers: createHttpHeaders({ "www-authenticate": invalidCAEChallenge }),
+            };
           }
           return { request: req, status: 200, headers: createHttpHeaders() };
         },
       },
-      credential
+      credential,
     });
     try {
       const result = await client.operations.list();
