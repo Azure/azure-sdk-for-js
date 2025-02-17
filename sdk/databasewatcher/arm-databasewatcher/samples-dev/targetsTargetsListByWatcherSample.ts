@@ -15,10 +15,7 @@ async function targetsListByWatcherMaximumSet(): Promise<void> {
   const subscriptionId = "49e0fbd3-75e8-44e7-96fd-5b64d9ad818d";
   const client = new DatabaseWatcherClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.targets.listByWatcher(
-    "apiTest-ddat4p",
-    "databasemo3ej9ih",
-  )) {
+  for await (let item of client.targets.listByWatcher("apiTest-ddat4p", "databasemo3ej9ih")) {
     resArray.push(item);
   }
 

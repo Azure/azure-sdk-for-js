@@ -14,11 +14,7 @@ async function targetsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "49e0fbd3-75e8-44e7-96fd-5b64d9ad818d";
   const client = new DatabaseWatcherClient(credential, subscriptionId);
-  const result = await client.targets.get(
-    "apiTest-ddat4p",
-    "databasemo3ej9ih",
-    "monitoringh22eed",
-  );
+  const result = await client.targets.get("apiTest-ddat4p", "databasemo3ej9ih", "monitoringh22eed");
   console.log(result);
 }
 

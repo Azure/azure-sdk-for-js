@@ -978,11 +978,11 @@ export function datastoreDeserializer(item: any): Datastore {
 /** The type of Kusto offering. */
 export enum KnownKustoOfferingType {
   /** The Azure Data Explorer cluster Kusto offering. */
-  adx = "adx",
+  Adx = "adx",
   /** The free Azure Data Explorer cluster Kusto offering. */
-  free = "free",
+  Free = "free",
   /** The Fabric Real-Time Analytics Kusto offering. */
-  fabric = "fabric",
+  Fabric = "fabric",
 }
 
 /**
@@ -1297,11 +1297,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  user = "user",
+  User = "user",
   /** Indicates the operation is initiated by a system. */
-  system = "system",
+  System = "system",
   /** Indicates the operation is initiated by a user or system. */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -1333,5 +1333,5 @@ export type ActionType = string;
 /** Versions info. */
 export enum KnownVersions {
   /** The 2025-01-02 version. */
-  v2025_01_02 = "2025-01-02",
+  V2025_01_02 = "2025-01-02",
 }

@@ -15,10 +15,7 @@ async function healthValidationsListByParentMaximumSet(): Promise<void> {
   const subscriptionId = "A76F9850-996B-40B3-94D4-C98110A0EEC9";
   const client = new DatabaseWatcherClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.healthValidations.listByParent(
-    "rgWatcher",
-    "testWatcher",
-  )) {
+  for await (let item of client.healthValidations.listByParent("rgWatcher", "testWatcher")) {
     resArray.push(item);
   }
 
