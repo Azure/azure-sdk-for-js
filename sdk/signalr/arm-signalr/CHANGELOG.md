@@ -1,7 +1,7 @@
 # Release History
-
+    
 ## 6.0.0-beta.2 (2023-10-09)
-
+    
 ### Features Added
 
   - Added operation group SignalRReplicas
@@ -44,35 +44,35 @@
 
 ### Features Added
 
-  - Added operation group SignalRReplicas
-  - Added operation SignalR.listReplicaSkus
-  - Added Interface Replica
-  - Added Interface ReplicaList
-  - Added Interface SignalRListReplicaSkusOptionalParams
-  - Added Interface SignalRRegenerateKeyHeaders
-  - Added Interface SignalRReplicasCreateOrUpdateOptionalParams
-  - Added Interface SignalRReplicasDeleteOptionalParams
-  - Added Interface SignalRReplicasGetOptionalParams
-  - Added Interface SignalRReplicasListNextOptionalParams
-  - Added Interface SignalRReplicasListOptionalParams
-  - Added Interface SignalRReplicasRestartHeaders
-  - Added Interface SignalRReplicasRestartOptionalParams
-  - Added Interface SignalRReplicasUpdateHeaders
-  - Added Interface SignalRReplicasUpdateOptionalParams
-  - Added Interface SignalRRestartHeaders
-  - Added Interface SignalRUpdateHeaders
-  - Added Type Alias SignalRListReplicaSkusResponse
-  - Added Type Alias SignalRReplicasCreateOrUpdateResponse
-  - Added Type Alias SignalRReplicasGetResponse
-  - Added Type Alias SignalRReplicasListNextResponse
-  - Added Type Alias SignalRReplicasListResponse
-  - Added Type Alias SignalRReplicasRestartResponse
-  - Added Type Alias SignalRReplicasUpdateResponse
-  - Added Type Alias SignalRRestartResponse
+- Added operation group SignalRReplicas
+- Added operation SignalR.listReplicaSkus
+- Added Interface Replica
+- Added Interface ReplicaList
+- Added Interface SignalRListReplicaSkusOptionalParams
+- Added Interface SignalRRegenerateKeyHeaders
+- Added Interface SignalRReplicasCreateOrUpdateOptionalParams
+- Added Interface SignalRReplicasDeleteOptionalParams
+- Added Interface SignalRReplicasGetOptionalParams
+- Added Interface SignalRReplicasListNextOptionalParams
+- Added Interface SignalRReplicasListOptionalParams
+- Added Interface SignalRReplicasRestartHeaders
+- Added Interface SignalRReplicasRestartOptionalParams
+- Added Interface SignalRReplicasUpdateHeaders
+- Added Interface SignalRReplicasUpdateOptionalParams
+- Added Interface SignalRRestartHeaders
+- Added Interface SignalRUpdateHeaders
+- Added Type Alias SignalRListReplicaSkusResponse
+- Added Type Alias SignalRReplicasCreateOrUpdateResponse
+- Added Type Alias SignalRReplicasGetResponse
+- Added Type Alias SignalRReplicasListNextResponse
+- Added Type Alias SignalRReplicasListResponse
+- Added Type Alias SignalRReplicasRestartResponse
+- Added Type Alias SignalRReplicasUpdateResponse
+- Added Type Alias SignalRRestartResponse
 
 ### Breaking Changes
 
-  - Parameter location of interface TrackedResource is now required
+- Parameter location of interface TrackedResource is now required
 
 
 ## 5.2.0 (2023-03-08)
