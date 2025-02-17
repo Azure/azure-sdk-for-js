@@ -16,21 +16,20 @@ export interface OperationStatusOperations {
   ) => Promise<OperationStatusResult>;
 }
 
-export function getOperationStatus(
-  context: DeviceRegistryManagementContext,
-  subscriptionId: string,
-) {
+function _getOperationStatus(context: DeviceRegistryManagementContext) {
   return {
-    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) =>
-      operationStatusGet(context, subscriptionId, location, operationId, options),
+    get: (
+      location: string,
+      operationId: string,
+      options?: OperationStatusGetOptionalParams,
+    ) => operationStatusGet(context, location, operationId, options),
   };
 }
 
-export function getOperationStatusOperations(
+export function _getOperationStatusOperations(
   context: DeviceRegistryManagementContext,
-  subscriptionId: string,
 ): OperationStatusOperations {
   return {
-    ...getOperationStatus(context, subscriptionId),
+    ..._getOperationStatus(context),
   };
 }

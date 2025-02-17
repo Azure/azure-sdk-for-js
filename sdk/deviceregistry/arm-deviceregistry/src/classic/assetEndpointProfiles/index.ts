@@ -3,40 +3,45 @@
 
 import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
-  assetEndpointProfilesGet,
-  assetEndpointProfilesCreateOrReplace,
-  assetEndpointProfilesUpdate,
-  assetEndpointProfilesDelete,
-  assetEndpointProfilesListByResourceGroup,
   assetEndpointProfilesListBySubscription,
+  assetEndpointProfilesListByResourceGroup,
+  assetEndpointProfilesDelete,
+  assetEndpointProfilesUpdate,
+  assetEndpointProfilesCreateOrReplace,
+  assetEndpointProfilesGet,
 } from "../../api/assetEndpointProfiles/index.js";
-import { AssetEndpointProfile, AssetEndpointProfileUpdate } from "../../models/models.js";
+import {
+  AssetEndpointProfile,
+  AssetEndpointProfileUpdate,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
-  AssetEndpointProfilesGetOptionalParams,
-  AssetEndpointProfilesCreateOrReplaceOptionalParams,
-  AssetEndpointProfilesUpdateOptionalParams,
-  AssetEndpointProfilesDeleteOptionalParams,
-  AssetEndpointProfilesListByResourceGroupOptionalParams,
   AssetEndpointProfilesListBySubscriptionOptionalParams,
+  AssetEndpointProfilesListByResourceGroupOptionalParams,
+  AssetEndpointProfilesDeleteOptionalParams,
+  AssetEndpointProfilesUpdateOptionalParams,
+  AssetEndpointProfilesCreateOrReplaceOptionalParams,
+  AssetEndpointProfilesGetOptionalParams,
 } from "../../api/options.js";
 
 /** Interface representing a AssetEndpointProfiles operations. */
 export interface AssetEndpointProfilesOperations {
-  /** Get a AssetEndpointProfile */
-  get: (
+  /** List AssetEndpointProfile resources by subscription ID */
+  listBySubscription: (
+    options?: AssetEndpointProfilesListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<AssetEndpointProfile>;
+  /** List AssetEndpointProfile resources by resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: AssetEndpointProfilesListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<AssetEndpointProfile>;
+  /** Delete a AssetEndpointProfile */
+  delete: (
     resourceGroupName: string,
     assetEndpointProfileName: string,
-    options?: AssetEndpointProfilesGetOptionalParams,
-  ) => Promise<AssetEndpointProfile>;
-  /** Create a AssetEndpointProfile */
-  createOrReplace: (
-    resourceGroupName: string,
-    assetEndpointProfileName: string,
-    resource: AssetEndpointProfile,
-    options?: AssetEndpointProfilesCreateOrReplaceOptionalParams,
-  ) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
+    options?: AssetEndpointProfilesDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Update a AssetEndpointProfile */
   update: (
     resourceGroupName: string,
@@ -44,52 +49,44 @@ export interface AssetEndpointProfilesOperations {
     properties: AssetEndpointProfileUpdate,
     options?: AssetEndpointProfilesUpdateOptionalParams,
   ) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
-  /** Delete a AssetEndpointProfile */
-  delete: (
+  /** Create a AssetEndpointProfile */
+  createOrReplace: (
     resourceGroupName: string,
     assetEndpointProfileName: string,
-    options?: AssetEndpointProfilesDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List AssetEndpointProfile resources by resource group */
-  listByResourceGroup: (
+    resource: AssetEndpointProfile,
+    options?: AssetEndpointProfilesCreateOrReplaceOptionalParams,
+  ) => PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
+  /** Get a AssetEndpointProfile */
+  get: (
     resourceGroupName: string,
-    options?: AssetEndpointProfilesListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<AssetEndpointProfile>;
-  /** List AssetEndpointProfile resources by subscription ID */
-  listBySubscription: (
-    options?: AssetEndpointProfilesListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<AssetEndpointProfile>;
+    assetEndpointProfileName: string,
+    options?: AssetEndpointProfilesGetOptionalParams,
+  ) => Promise<AssetEndpointProfile>;
 }
 
-export function getAssetEndpointProfiles(
-  context: DeviceRegistryManagementContext,
-  subscriptionId: string,
-) {
+function _getAssetEndpointProfiles(context: DeviceRegistryManagementContext) {
   return {
-    get: (
+    listBySubscription: (
+      options?: AssetEndpointProfilesListBySubscriptionOptionalParams,
+    ) => assetEndpointProfilesListBySubscription(context, options),
+    listByResourceGroup: (
       resourceGroupName: string,
-      assetEndpointProfileName: string,
-      options?: AssetEndpointProfilesGetOptionalParams,
+      options?: AssetEndpointProfilesListByResourceGroupOptionalParams,
     ) =>
-      assetEndpointProfilesGet(
+      assetEndpointProfilesListByResourceGroup(
         context,
-        subscriptionId,
         resourceGroupName,
-        assetEndpointProfileName,
         options,
       ),
-    createOrReplace: (
+    delete: (
       resourceGroupName: string,
       assetEndpointProfileName: string,
-      resource: AssetEndpointProfile,
-      options?: AssetEndpointProfilesCreateOrReplaceOptionalParams,
+      options?: AssetEndpointProfilesDeleteOptionalParams,
     ) =>
-      assetEndpointProfilesCreateOrReplace(
+      assetEndpointProfilesDelete(
         context,
-        subscriptionId,
         resourceGroupName,
         assetEndpointProfileName,
-        resource,
         options,
       ),
     update: (
@@ -100,39 +97,42 @@ export function getAssetEndpointProfiles(
     ) =>
       assetEndpointProfilesUpdate(
         context,
-        subscriptionId,
         resourceGroupName,
         assetEndpointProfileName,
         properties,
         options,
       ),
-    delete: (
+    createOrReplace: (
       resourceGroupName: string,
       assetEndpointProfileName: string,
-      options?: AssetEndpointProfilesDeleteOptionalParams,
+      resource: AssetEndpointProfile,
+      options?: AssetEndpointProfilesCreateOrReplaceOptionalParams,
     ) =>
-      assetEndpointProfilesDelete(
+      assetEndpointProfilesCreateOrReplace(
         context,
-        subscriptionId,
+        resourceGroupName,
+        assetEndpointProfileName,
+        resource,
+        options,
+      ),
+    get: (
+      resourceGroupName: string,
+      assetEndpointProfileName: string,
+      options?: AssetEndpointProfilesGetOptionalParams,
+    ) =>
+      assetEndpointProfilesGet(
+        context,
         resourceGroupName,
         assetEndpointProfileName,
         options,
       ),
-    listByResourceGroup: (
-      resourceGroupName: string,
-      options?: AssetEndpointProfilesListByResourceGroupOptionalParams,
-    ) =>
-      assetEndpointProfilesListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: AssetEndpointProfilesListBySubscriptionOptionalParams) =>
-      assetEndpointProfilesListBySubscription(context, subscriptionId, options),
   };
 }
 
-export function getAssetEndpointProfilesOperations(
+export function _getAssetEndpointProfilesOperations(
   context: DeviceRegistryManagementContext,
-  subscriptionId: string,
 ): AssetEndpointProfilesOperations {
   return {
-    ...getAssetEndpointProfiles(context, subscriptionId),
+    ..._getAssetEndpointProfiles(context),
   };
 }

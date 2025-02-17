@@ -3,32 +3,20 @@
 
 import { DeviceRegistryManagementClient } from "./deviceRegistryManagementClient.js";
 import {
-  _assetsCreateOrReplaceDeserialize,
-  _assetsUpdateDeserialize,
-  _assetsDeleteDeserialize,
-} from "./api/assets/index.js";
-import {
-  _assetEndpointProfilesCreateOrReplaceDeserialize,
-  _assetEndpointProfilesUpdateDeserialize,
   _assetEndpointProfilesDeleteDeserialize,
+  _assetEndpointProfilesUpdateDeserialize,
+  _assetEndpointProfilesCreateOrReplaceDeserialize,
 } from "./api/assetEndpointProfiles/index.js";
 import {
-  _discoveredAssetsCreateOrReplaceDeserialize,
-  _discoveredAssetsUpdateDeserialize,
-  _discoveredAssetsDeleteDeserialize,
-} from "./api/discoveredAssets/index.js";
-import {
-  _discoveredAssetEndpointProfilesCreateOrReplaceDeserialize,
-  _discoveredAssetEndpointProfilesUpdateDeserialize,
-  _discoveredAssetEndpointProfilesDeleteDeserialize,
-} from "./api/discoveredAssetEndpointProfiles/index.js";
-import {
-  _schemaRegistriesCreateOrReplaceDeserialize,
-  _schemaRegistriesUpdateDeserialize,
-  _schemaRegistriesDeleteDeserialize,
-} from "./api/schemaRegistries/index.js";
+  _assetsDeleteDeserialize,
+  _assetsUpdateDeserialize,
+  _assetsCreateOrReplaceDeserialize,
+} from "./api/assets/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import {
+  OperationOptions,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   PollerLike,
@@ -59,7 +47,9 @@ export interface RestorePollerOptions<
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: DeviceRegistryManagementClient,
   serializedState: string,
-  sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
+  sourceOperation: (
+    ...args: any[]
+  ) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
@@ -100,80 +90,35 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}":
     {
-      deserializer: _assetsCreateOrReplaceDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
-    {
-      deserializer: _assetsUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
-    {
-      deserializer: _assetsDeleteDeserialize,
+      deserializer: _assetEndpointProfilesDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}":
-    {
-      deserializer: _assetEndpointProfilesCreateOrReplaceDeserialize,
-      expectedStatuses: ["200", "201"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}":
     {
       deserializer: _assetEndpointProfilesUpdateDeserialize,
       expectedStatuses: ["200", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}":
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assetEndpointProfiles/{assetEndpointProfileName}":
     {
-      deserializer: _assetEndpointProfilesDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssets/{discoveredAssetName}":
-    {
-      deserializer: _discoveredAssetsCreateOrReplaceDeserialize,
+      deserializer: _assetEndpointProfilesCreateOrReplaceDeserialize,
       expectedStatuses: ["200", "201"],
     },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssets/{discoveredAssetName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
     {
-      deserializer: _discoveredAssetsUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssets/{discoveredAssetName}":
-    {
-      deserializer: _discoveredAssetsDeleteDeserialize,
+      deserializer: _assetsDeleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssetEndpointProfiles/{discoveredAssetEndpointProfileName}":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
     {
-      deserializer: _discoveredAssetEndpointProfilesCreateOrReplaceDeserialize,
+      deserializer: _assetsUpdateDeserialize,
+      expectedStatuses: ["200", "202"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/assets/{assetName}":
+    {
+      deserializer: _assetsCreateOrReplaceDeserialize,
       expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssetEndpointProfiles/{discoveredAssetEndpointProfileName}":
-    {
-      deserializer: _discoveredAssetEndpointProfilesUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/discoveredAssetEndpointProfiles/{discoveredAssetEndpointProfileName}":
-    {
-      deserializer: _discoveredAssetEndpointProfilesDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}":
-    {
-      deserializer: _schemaRegistriesCreateOrReplaceDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}":
-    {
-      deserializer: _schemaRegistriesUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceRegistry/schemaRegistries/{schemaRegistryName}":
-    {
-      deserializer: _schemaRegistriesDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
     },
 };
 
@@ -203,17 +148,24 @@ function getDeserializationHelper(
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
