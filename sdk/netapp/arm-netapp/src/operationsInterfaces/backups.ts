@@ -23,7 +23,7 @@ import {
   BackupsUpdateResponse,
   BackupsDeleteOptionalParams,
   BackupsDeleteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Backups. */

@@ -11,7 +11,7 @@ import {
   BackupsMigrationRequest,
   BackupsUnderVolumeMigrateBackupsOptionalParams,
   BackupsUnderVolumeMigrateBackupsResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a BackupsUnderVolume. */
 export interface BackupsUnderVolume {

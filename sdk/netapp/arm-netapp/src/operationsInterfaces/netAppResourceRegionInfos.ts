@@ -12,7 +12,7 @@ import {
   NetAppResourceRegionInfosListOptionalParams,
   NetAppResourceRegionInfosGetOptionalParams,
   NetAppResourceRegionInfosGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetAppResourceRegionInfos. */

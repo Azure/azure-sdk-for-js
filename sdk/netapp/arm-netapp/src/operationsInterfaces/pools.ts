@@ -19,7 +19,7 @@ import {
   PoolsUpdateOptionalParams,
   PoolsUpdateResponse,
   PoolsDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Pools. */
