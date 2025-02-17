@@ -10,10 +10,7 @@ import {
   assetEndpointProfilesCreateOrReplace,
   assetEndpointProfilesGet,
 } from "../../api/assetEndpointProfiles/index.js";
-import {
-  AssetEndpointProfile,
-  AssetEndpointProfileUpdate,
-} from "../../models/models.js";
+import { AssetEndpointProfile, AssetEndpointProfileUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -66,29 +63,17 @@ export interface AssetEndpointProfilesOperations {
 
 function _getAssetEndpointProfiles(context: DeviceRegistryManagementContext) {
   return {
-    listBySubscription: (
-      options?: AssetEndpointProfilesListBySubscriptionOptionalParams,
-    ) => assetEndpointProfilesListBySubscription(context, options),
+    listBySubscription: (options?: AssetEndpointProfilesListBySubscriptionOptionalParams) =>
+      assetEndpointProfilesListBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: AssetEndpointProfilesListByResourceGroupOptionalParams,
-    ) =>
-      assetEndpointProfilesListByResourceGroup(
-        context,
-        resourceGroupName,
-        options,
-      ),
+    ) => assetEndpointProfilesListByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       assetEndpointProfileName: string,
       options?: AssetEndpointProfilesDeleteOptionalParams,
-    ) =>
-      assetEndpointProfilesDelete(
-        context,
-        resourceGroupName,
-        assetEndpointProfileName,
-        options,
-      ),
+    ) => assetEndpointProfilesDelete(context, resourceGroupName, assetEndpointProfileName, options),
     update: (
       resourceGroupName: string,
       assetEndpointProfileName: string,
@@ -119,13 +104,7 @@ function _getAssetEndpointProfiles(context: DeviceRegistryManagementContext) {
       resourceGroupName: string,
       assetEndpointProfileName: string,
       options?: AssetEndpointProfilesGetOptionalParams,
-    ) =>
-      assetEndpointProfilesGet(
-        context,
-        resourceGroupName,
-        assetEndpointProfileName,
-        options,
-      ),
+    ) => assetEndpointProfilesGet(context, resourceGroupName, assetEndpointProfileName, options),
   };
 }
 

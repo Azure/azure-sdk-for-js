@@ -69,42 +69,26 @@ function _getAssets(context: DeviceRegistryManagementContext) {
       resourceGroupName: string,
       options?: AssetsListByResourceGroupOptionalParams,
     ) => assetsListByResourceGroup(context, resourceGroupName, options),
-    delete: (
-      resourceGroupName: string,
-      assetName: string,
-      options?: AssetsDeleteOptionalParams,
-    ) => assetsDelete(context, resourceGroupName, assetName, options),
+    delete: (resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams) =>
+      assetsDelete(context, resourceGroupName, assetName, options),
     update: (
       resourceGroupName: string,
       assetName: string,
       properties: AssetUpdate,
       options?: AssetsUpdateOptionalParams,
-    ) =>
-      assetsUpdate(context, resourceGroupName, assetName, properties, options),
+    ) => assetsUpdate(context, resourceGroupName, assetName, properties, options),
     createOrReplace: (
       resourceGroupName: string,
       assetName: string,
       resource: Asset,
       options?: AssetsCreateOrReplaceOptionalParams,
-    ) =>
-      assetsCreateOrReplace(
-        context,
-        resourceGroupName,
-        assetName,
-        resource,
-        options,
-      ),
-    get: (
-      resourceGroupName: string,
-      assetName: string,
-      options?: AssetsGetOptionalParams,
-    ) => assetsGet(context, resourceGroupName, assetName, options),
+    ) => assetsCreateOrReplace(context, resourceGroupName, assetName, resource, options),
+    get: (resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams) =>
+      assetsGet(context, resourceGroupName, assetName, options),
   };
 }
 
-export function _getAssetsOperations(
-  context: DeviceRegistryManagementContext,
-): AssetsOperations {
+export function _getAssetsOperations(context: DeviceRegistryManagementContext): AssetsOperations {
   return {
     ..._getAssets(context),
   };

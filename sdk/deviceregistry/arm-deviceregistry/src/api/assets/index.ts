@@ -151,9 +151,7 @@ export function _assetsDeleteSend(
     });
 }
 
-export async function _assetsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _assetsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -171,18 +169,12 @@ export function assetsDelete(
   assetName: string,
   options: AssetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _assetsDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _assetsDeleteSend(context, resourceGroupName, assetName, options),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _assetsDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () => _assetsDeleteSend(context, resourceGroupName, assetName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _assetsUpdateSend(
@@ -211,9 +203,7 @@ export function _assetsUpdateSend(
     });
 }
 
-export async function _assetsUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Asset> {
+export async function _assetsUpdateDeserialize(result: PathUncheckedResponse): Promise<Asset> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -232,24 +222,13 @@ export function assetsUpdate(
   properties: AssetUpdate,
   options: AssetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Asset>, Asset> {
-  return getLongRunningPoller(
-    context,
-    _assetsUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _assetsUpdateSend(
-          context,
-          resourceGroupName,
-          assetName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<Asset>, Asset>;
+  return getLongRunningPoller(context, _assetsUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _assetsUpdateSend(context, resourceGroupName, assetName, properties, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<Asset>, Asset>;
 }
 
 export function _assetsCreateOrReplaceSend(
@@ -299,24 +278,13 @@ export function assetsCreateOrReplace(
   resource: Asset,
   options: AssetsCreateOrReplaceOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Asset>, Asset> {
-  return getLongRunningPoller(
-    context,
-    _assetsCreateOrReplaceDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _assetsCreateOrReplaceSend(
-          context,
-          resourceGroupName,
-          assetName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<Asset>, Asset>;
+  return getLongRunningPoller(context, _assetsCreateOrReplaceDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _assetsCreateOrReplaceSend(context, resourceGroupName, assetName, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<Asset>, Asset>;
 }
 
 export function _assetsGetSend(
@@ -342,9 +310,7 @@ export function _assetsGetSend(
     });
 }
 
-export async function _assetsGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Asset> {
+export async function _assetsGetDeserialize(result: PathUncheckedResponse): Promise<Asset> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -362,11 +328,6 @@ export async function assetsGet(
   assetName: string,
   options: AssetsGetOptionalParams = { requestOptions: {} },
 ): Promise<Asset> {
-  const result = await _assetsGetSend(
-    context,
-    resourceGroupName,
-    assetName,
-    options,
-  );
+  const result = await _assetsGetSend(context, resourceGroupName, assetName, options);
   return _assetsGetDeserialize(result);
 }

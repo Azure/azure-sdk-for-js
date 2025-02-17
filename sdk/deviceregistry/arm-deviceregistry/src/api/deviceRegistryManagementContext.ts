@@ -16,8 +16,7 @@ export interface DeviceRegistryManagementContext extends Client {
 }
 
 /** Optional parameters for the client. */
-export interface DeviceRegistryManagementClientOptionalParams
-  extends ClientOptions {
+export interface DeviceRegistryManagementClientOptionalParams extends ClientOptions {
   /** The API version to use for this operation. */
   /** Known values of {@link KnownVersions} that the service accepts. */
   apiVersion?: string;
@@ -29,8 +28,7 @@ export function createDeviceRegistryManagement(
   subscriptionId: string,
   options: DeviceRegistryManagementClientOptionalParams = {},
 ): DeviceRegistryManagementContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-deviceregistry/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions

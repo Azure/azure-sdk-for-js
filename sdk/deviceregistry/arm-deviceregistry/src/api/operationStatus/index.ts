@@ -60,11 +60,6 @@ export async function operationStatusGet(
   operationId: string,
   options: OperationStatusGetOptionalParams = { requestOptions: {} },
 ): Promise<OperationStatusResult> {
-  const result = await _operationStatusGetSend(
-    context,
-    location,
-    operationId,
-    options,
-  );
+  const result = await _operationStatusGetSend(context, location, operationId, options);
   return _operationStatusGetDeserialize(result);
 }

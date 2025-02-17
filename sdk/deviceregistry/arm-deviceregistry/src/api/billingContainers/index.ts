@@ -114,10 +114,6 @@ export async function billingContainersGet(
   billingContainerName: string,
   options: BillingContainersGetOptionalParams = { requestOptions: {} },
 ): Promise<BillingContainer> {
-  const result = await _billingContainersGetSend(
-    context,
-    billingContainerName,
-    options,
-  );
+  const result = await _billingContainersGetSend(context, billingContainerName, options);
   return _billingContainersGetDeserialize(result);
 }

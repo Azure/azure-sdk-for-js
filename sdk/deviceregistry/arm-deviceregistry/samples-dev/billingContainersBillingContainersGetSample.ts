@@ -14,9 +14,7 @@ async function getBillingContainer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
-  const result = await client.billingContainers.BillingContainers_get(
-    "my-billingContainer",
-  );
+  const result = await client.billingContainers.BillingContainers_get("my-billingContainer");
   console.log(result);
 }
 

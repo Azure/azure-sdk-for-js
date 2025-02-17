@@ -14,11 +14,9 @@ async function updateAsset(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
-  const result = await client.assets.Assets_update(
-    "myResourceGroup",
-    "my-asset",
-    { properties: { enabled: false, displayName: "NewAssetDisplayName" } },
-  );
+  const result = await client.assets.Assets_update("myResourceGroup", "my-asset", {
+    properties: { enabled: false, displayName: "NewAssetDisplayName" },
+  });
   console.log(result);
 }
 

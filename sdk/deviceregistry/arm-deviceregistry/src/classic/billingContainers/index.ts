@@ -28,13 +28,10 @@ export interface BillingContainersOperations {
 
 function _getBillingContainers(context: DeviceRegistryManagementContext) {
   return {
-    listBySubscription: (
-      options?: BillingContainersListBySubscriptionOptionalParams,
-    ) => billingContainersListBySubscription(context, options),
-    get: (
-      billingContainerName: string,
-      options?: BillingContainersGetOptionalParams,
-    ) => billingContainersGet(context, billingContainerName, options),
+    listBySubscription: (options?: BillingContainersListBySubscriptionOptionalParams) =>
+      billingContainersListBySubscription(context, options),
+    get: (billingContainerName: string, options?: BillingContainersGetOptionalParams) =>
+      billingContainersGet(context, billingContainerName, options),
   };
 }
 

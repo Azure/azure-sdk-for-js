@@ -18,11 +18,8 @@ export interface OperationStatusOperations {
 
 function _getOperationStatus(context: DeviceRegistryManagementContext) {
   return {
-    get: (
-      location: string,
-      operationId: string,
-      options?: OperationStatusGetOptionalParams,
-    ) => operationStatusGet(context, location, operationId, options),
+    get: (location: string, operationId: string, options?: OperationStatusGetOptionalParams) =>
+      operationStatusGet(context, location, operationId, options),
   };
 }
 

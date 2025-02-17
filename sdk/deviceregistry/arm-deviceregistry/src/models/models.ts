@@ -30,9 +30,7 @@ export interface BillingContainerProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function billingContainerPropertiesDeserializer(
-  item: any,
-): BillingContainerProperties {
+export function billingContainerPropertiesDeserializer(item: any): BillingContainerProperties {
   return {
     provisioningState: item["provisioningState"],
   };
@@ -126,9 +124,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -169,9 +165,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -194,26 +188,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -227,23 +215,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -255,18 +237,14 @@ export interface _BillingContainerListResult {
   nextLink?: string;
 }
 
-export function _billingContainerListResultDeserializer(
-  item: any,
-): _BillingContainerListResult {
+export function _billingContainerListResultDeserializer(item: any): _BillingContainerListResult {
   return {
     value: billingContainerArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function billingContainerArrayDeserializer(
-  result: Array<BillingContainer>,
-): any[] {
+export function billingContainerArrayDeserializer(result: Array<BillingContainer>): any[] {
   return result.map((item) => {
     return billingContainerDeserializer(item);
   });
@@ -280,9 +258,7 @@ export interface AssetEndpointProfile extends TrackedResource {
   extendedLocation: ExtendedLocation;
 }
 
-export function assetEndpointProfileSerializer(
-  item: AssetEndpointProfile,
-): any {
+export function assetEndpointProfileSerializer(item: AssetEndpointProfile): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -293,9 +269,7 @@ export function assetEndpointProfileSerializer(
   };
 }
 
-export function assetEndpointProfileDeserializer(
-  item: any,
-): AssetEndpointProfile {
+export function assetEndpointProfileDeserializer(item: any): AssetEndpointProfile {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -342,8 +316,7 @@ export function assetEndpointProfilePropertiesSerializer(
       ? item["authentication"]
       : authenticationSerializer(item["authentication"]),
     additionalConfiguration: item["additionalConfiguration"],
-    discoveredAssetEndpointProfileRef:
-      item["discoveredAssetEndpointProfileRef"],
+    discoveredAssetEndpointProfileRef: item["discoveredAssetEndpointProfileRef"],
   };
 }
 
@@ -358,8 +331,7 @@ export function assetEndpointProfilePropertiesDeserializer(
       ? item["authentication"]
       : authenticationDeserializer(item["authentication"]),
     additionalConfiguration: item["additionalConfiguration"],
-    discoveredAssetEndpointProfileRef:
-      item["discoveredAssetEndpointProfileRef"],
+    discoveredAssetEndpointProfileRef: item["discoveredAssetEndpointProfileRef"],
     status: !item["status"]
       ? item["status"]
       : assetEndpointProfileStatusDeserializer(item["status"]),
@@ -382,9 +354,7 @@ export function authenticationSerializer(item: Authentication): any {
     method: item["method"],
     usernamePasswordCredentials: !item["usernamePasswordCredentials"]
       ? item["usernamePasswordCredentials"]
-      : usernamePasswordCredentialsSerializer(
-          item["usernamePasswordCredentials"],
-        ),
+      : usernamePasswordCredentialsSerializer(item["usernamePasswordCredentials"]),
     x509Credentials: !item["x509Credentials"]
       ? item["x509Credentials"]
       : x509CredentialsSerializer(item["x509Credentials"]),
@@ -396,9 +366,7 @@ export function authenticationDeserializer(item: any): Authentication {
     method: item["method"],
     usernamePasswordCredentials: !item["usernamePasswordCredentials"]
       ? item["usernamePasswordCredentials"]
-      : usernamePasswordCredentialsDeserializer(
-          item["usernamePasswordCredentials"],
-        ),
+      : usernamePasswordCredentialsDeserializer(item["usernamePasswordCredentials"]),
     x509Credentials: !item["x509Credentials"]
       ? item["x509Credentials"]
       : x509CredentialsDeserializer(item["x509Credentials"]),
@@ -434,18 +402,14 @@ export interface UsernamePasswordCredentials {
   passwordSecretName: string;
 }
 
-export function usernamePasswordCredentialsSerializer(
-  item: UsernamePasswordCredentials,
-): any {
+export function usernamePasswordCredentialsSerializer(item: UsernamePasswordCredentials): any {
   return {
     usernameSecretName: item["usernameSecretName"],
     passwordSecretName: item["passwordSecretName"],
   };
 }
 
-export function usernamePasswordCredentialsDeserializer(
-  item: any,
-): UsernamePasswordCredentials {
+export function usernamePasswordCredentialsDeserializer(item: any): UsernamePasswordCredentials {
   return {
     usernameSecretName: item["usernameSecretName"],
     passwordSecretName: item["passwordSecretName"],
@@ -474,9 +438,7 @@ export interface AssetEndpointProfileStatus {
   readonly errors?: AssetEndpointProfileStatusError[];
 }
 
-export function assetEndpointProfileStatusDeserializer(
-  item: any,
-): AssetEndpointProfileStatus {
+export function assetEndpointProfileStatusDeserializer(item: any): AssetEndpointProfileStatus {
   return {
     errors: !item["errors"]
       ? item["errors"]
@@ -561,9 +523,7 @@ export interface AssetEndpointProfileUpdate {
   properties?: AssetEndpointProfileUpdateProperties;
 }
 
-export function assetEndpointProfileUpdateSerializer(
-  item: AssetEndpointProfileUpdate,
-): any {
+export function assetEndpointProfileUpdateSerializer(item: AssetEndpointProfileUpdate): any {
   return {
     tags: item["tags"],
     properties: !item["properties"]
@@ -614,17 +574,13 @@ export function _assetEndpointProfileListResultDeserializer(
   };
 }
 
-export function assetEndpointProfileArraySerializer(
-  result: Array<AssetEndpointProfile>,
-): any[] {
+export function assetEndpointProfileArraySerializer(result: Array<AssetEndpointProfile>): any[] {
   return result.map((item) => {
     return assetEndpointProfileSerializer(item);
   });
 }
 
-export function assetEndpointProfileArrayDeserializer(
-  result: Array<AssetEndpointProfile>,
-): any[] {
+export function assetEndpointProfileArrayDeserializer(result: Array<AssetEndpointProfile>): any[] {
   return result.map((item) => {
     return assetEndpointProfileDeserializer(item);
   });
@@ -744,12 +700,8 @@ export function assetPropertiesSerializer(item: AssetProperties): any {
     defaultTopic: !item["defaultTopic"]
       ? item["defaultTopic"]
       : topicSerializer(item["defaultTopic"]),
-    datasets: !item["datasets"]
-      ? item["datasets"]
-      : datasetArraySerializer(item["datasets"]),
-    events: !item["events"]
-      ? item["events"]
-      : eventArraySerializer(item["events"]),
+    datasets: !item["datasets"] ? item["datasets"] : datasetArraySerializer(item["datasets"]),
+    events: !item["events"] ? item["events"] : eventArraySerializer(item["events"]),
   };
 }
 
@@ -781,15 +733,9 @@ export function assetPropertiesDeserializer(item: any): AssetProperties {
     defaultTopic: !item["defaultTopic"]
       ? item["defaultTopic"]
       : topicDeserializer(item["defaultTopic"]),
-    datasets: !item["datasets"]
-      ? item["datasets"]
-      : datasetArrayDeserializer(item["datasets"]),
-    events: !item["events"]
-      ? item["events"]
-      : eventArrayDeserializer(item["events"]),
-    status: !item["status"]
-      ? item["status"]
-      : assetStatusDeserializer(item["status"]),
+    datasets: !item["datasets"] ? item["datasets"] : datasetArrayDeserializer(item["datasets"]),
+    events: !item["events"] ? item["events"] : eventArrayDeserializer(item["events"]),
+    status: !item["status"] ? item["status"] : assetStatusDeserializer(item["status"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -1010,22 +956,16 @@ export interface AssetStatus {
 
 export function assetStatusDeserializer(item: any): AssetStatus {
   return {
-    errors: !item["errors"]
-      ? item["errors"]
-      : assetStatusErrorArrayDeserializer(item["errors"]),
+    errors: !item["errors"] ? item["errors"] : assetStatusErrorArrayDeserializer(item["errors"]),
     version: item["version"],
     datasets: !item["datasets"]
       ? item["datasets"]
       : assetStatusDatasetArrayDeserializer(item["datasets"]),
-    events: !item["events"]
-      ? item["events"]
-      : assetStatusEventArrayDeserializer(item["events"]),
+    events: !item["events"] ? item["events"] : assetStatusEventArrayDeserializer(item["events"]),
   };
 }
 
-export function assetStatusErrorArrayDeserializer(
-  result: Array<AssetStatusError>,
-): any[] {
+export function assetStatusErrorArrayDeserializer(result: Array<AssetStatusError>): any[] {
   return result.map((item) => {
     return assetStatusErrorDeserializer(item);
   });
@@ -1046,9 +986,7 @@ export function assetStatusErrorDeserializer(item: any): AssetStatusError {
   };
 }
 
-export function assetStatusDatasetArrayDeserializer(
-  result: Array<AssetStatusDataset>,
-): any[] {
+export function assetStatusDatasetArrayDeserializer(result: Array<AssetStatusDataset>): any[] {
   return result.map((item) => {
     return assetStatusDatasetDeserializer(item);
   });
@@ -1081,9 +1019,7 @@ export interface MessageSchemaReference {
   readonly schemaVersion: string;
 }
 
-export function messageSchemaReferenceDeserializer(
-  item: any,
-): MessageSchemaReference {
+export function messageSchemaReferenceDeserializer(item: any): MessageSchemaReference {
   return {
     schemaRegistryNamespace: item["schemaRegistryNamespace"],
     schemaName: item["schemaName"],
@@ -1091,9 +1027,7 @@ export function messageSchemaReferenceDeserializer(
   };
 }
 
-export function assetStatusEventArrayDeserializer(
-  result: Array<AssetStatusEvent>,
-): any[] {
+export function assetStatusEventArrayDeserializer(result: Array<AssetStatusEvent>): any[] {
   return result.map((item) => {
     return assetStatusEventDeserializer(item);
   });
@@ -1227,9 +1161,7 @@ export interface AssetUpdateProperties {
   events?: Event[];
 }
 
-export function assetUpdatePropertiesSerializer(
-  item: AssetUpdateProperties,
-): any {
+export function assetUpdatePropertiesSerializer(item: AssetUpdateProperties): any {
   return {
     enabled: item["enabled"],
     displayName: item["displayName"],
@@ -1248,12 +1180,8 @@ export function assetUpdatePropertiesSerializer(
     defaultTopic: !item["defaultTopic"]
       ? item["defaultTopic"]
       : topicSerializer(item["defaultTopic"]),
-    datasets: !item["datasets"]
-      ? item["datasets"]
-      : datasetArraySerializer(item["datasets"]),
-    events: !item["events"]
-      ? item["events"]
-      : eventArraySerializer(item["events"]),
+    datasets: !item["datasets"] ? item["datasets"] : datasetArraySerializer(item["datasets"]),
+    events: !item["events"] ? item["events"] : eventArraySerializer(item["events"]),
   };
 }
 
@@ -1306,24 +1234,18 @@ export interface OperationStatusResult {
   readonly resourceId?: string;
 }
 
-export function operationStatusResultDeserializer(
-  item: any,
-): OperationStatusResult {
+export function operationStatusResultDeserializer(item: any): OperationStatusResult {
   return {
     id: item["id"],
     name: item["name"],
     status: item["status"],
     percentComplete: item["percentComplete"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
     endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
     operations: !item["operations"]
       ? item["operations"]
       : operationStatusResultArrayDeserializer(item["operations"]),
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
     resourceId: item["resourceId"],
   };
 }
@@ -1344,9 +1266,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1377,9 +1297,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };

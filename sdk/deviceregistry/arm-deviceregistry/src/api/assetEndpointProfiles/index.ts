@@ -129,12 +129,7 @@ export function assetEndpointProfilesListByResourceGroup(
 ): PagedAsyncIterableIterator<AssetEndpointProfile> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _assetEndpointProfilesListByResourceGroupSend(
-        context,
-        resourceGroupName,
-        options,
-      ),
+    () => _assetEndpointProfilesListByResourceGroupSend(context, resourceGroupName, options),
     _assetEndpointProfilesListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -250,24 +245,19 @@ export function assetEndpointProfilesUpdate(
   properties: AssetEndpointProfileUpdate,
   options: AssetEndpointProfilesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile> {
-  return getLongRunningPoller(
-    context,
-    _assetEndpointProfilesUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _assetEndpointProfilesUpdateSend(
-          context,
-          resourceGroupName,
-          assetEndpointProfileName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
+  return getLongRunningPoller(context, _assetEndpointProfilesUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _assetEndpointProfilesUpdateSend(
+        context,
+        resourceGroupName,
+        assetEndpointProfileName,
+        properties,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<AssetEndpointProfile>, AssetEndpointProfile>;
 }
 
 export function _assetEndpointProfilesCreateOrReplaceSend(

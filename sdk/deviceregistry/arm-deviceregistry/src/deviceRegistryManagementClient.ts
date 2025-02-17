@@ -9,18 +9,12 @@ import {
   _getAssetEndpointProfilesOperations,
   AssetEndpointProfilesOperations,
 } from "./classic/assetEndpointProfiles/index.js";
-import {
-  _getAssetsOperations,
-  AssetsOperations,
-} from "./classic/assets/index.js";
+import { _getAssetsOperations, AssetsOperations } from "./classic/assets/index.js";
 import {
   _getOperationStatusOperations,
   OperationStatusOperations,
 } from "./classic/operationStatus/index.js";
-import {
-  _getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { _getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   createDeviceRegistryManagement,
   DeviceRegistryManagementContext,
@@ -52,9 +46,7 @@ export class DeviceRegistryManagementClient {
     });
     this.pipeline = this._client.pipeline;
     this.billingContainers = _getBillingContainersOperations(this._client);
-    this.assetEndpointProfiles = _getAssetEndpointProfilesOperations(
-      this._client,
-    );
+    this.assetEndpointProfiles = _getAssetEndpointProfilesOperations(this._client);
     this.assets = _getAssetsOperations(this._client);
     this.operationStatus = _getOperationStatusOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
