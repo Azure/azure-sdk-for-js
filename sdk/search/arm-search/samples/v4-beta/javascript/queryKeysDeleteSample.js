@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified query key. Unlike admin keys, query keys are not regenerated. The process for regenerating a query key is to delete and then recreate it.
  *
  * @summary Deletes the specified query key. Unlike admin keys, query keys are not regenerated. The process for regenerating a query key is to delete and then recreate it.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchDeleteQueryKey.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchDeleteQueryKey.json
  */
 async function searchDeleteQueryKey() {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function searchDeleteQueryKey() {
 }
 
 async function main() {
-  searchDeleteQueryKey();
+  await searchDeleteQueryKey();
 }
 
 main().catch(console.error);

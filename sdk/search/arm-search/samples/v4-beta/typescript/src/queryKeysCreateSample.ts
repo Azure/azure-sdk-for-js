@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Generates a new query key for the specified search service. You can create up to 50 query keys per service.
  *
  * @summary Generates a new query key for the specified search service. You can create up to 50 query keys per service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateQueryKey.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchCreateQueryKey.json
  */
-async function searchCreateQueryKey() {
+async function searchCreateQueryKey(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -36,8 +34,8 @@ async function searchCreateQueryKey() {
   console.log(result);
 }
 
-async function main() {
-  searchCreateQueryKey();
+async function main(): Promise<void> {
+  await searchCreateQueryKey();
 }
 
 main().catch(console.error);

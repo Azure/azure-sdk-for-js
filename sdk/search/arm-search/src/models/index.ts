@@ -204,6 +204,62 @@ export interface CloudErrorBody {
   details?: CloudErrorBody[];
 }
 
+/** The response containing a list of features and SKUs offered in various regions. */
+export interface OfferingsListResult {
+  /** The list of regions with their respective features and SKUs offered. */
+  value?: OfferingsByRegion[];
+  /**
+   * The URL to get the next set of offerings, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+export interface OfferingsByRegion {
+  /** The name of the region. */
+  regionName?: string;
+  /** The list of features offered in this region. */
+  features?: FeatureOffering[];
+  /** The list of SKUs offered in this region. */
+  skus?: SkuOffering[];
+}
+
+export interface FeatureOffering {
+  /** The name of the feature offered in this region. */
+  name?: FeatureName;
+}
+
+export interface SkuOffering {
+  /** Defines the SKU of a search service, which determines billing rate and capacity limits. */
+  sku?: Sku;
+  /** The limits associated with this SKU offered in this region. */
+  limits?: SkuOfferingLimits;
+}
+
+/** Defines the SKU of a search service, which determines billing rate and capacity limits. */
+export interface Sku {
+  /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.' */
+  name?: SkuName;
+}
+
+/** The limits associated with this SKU offered in this region. */
+export interface SkuOfferingLimits {
+  /** The maximum number of indexes available for this SKU. */
+  indexes?: number;
+  /** The maximum number of indexers available for this SKU. */
+  indexers?: number;
+  /** The maximum storage size in Gigabytes available for this SKU per partition. */
+  partitionStorageInGigabytes?: number;
+  /** The maximum vector storage size in Gigabytes available for this SKU per partition. */
+  partitionVectorStorageInGigabytes?: number;
+  /** The maximum number of search units available for this SKU. */
+  searchUnits?: number;
+  /** The maximum number of replicas available for this SKU. */
+  replicas?: number;
+  /** The maximum number of partitions available for this SKU. */
+  partitions?: number;
+}
+
 /** Response containing the primary and secondary admin API keys for a given Azure AI Search service. */
 export interface AdminKeyResult {
   /**
@@ -348,12 +404,6 @@ export interface SharedPrivateLinkResourceProperties {
   provisioningState?: SharedPrivateLinkResourceProvisioningState;
 }
 
-/** Defines the SKU of a search service, which determines billing rate and capacity limits. */
-export interface Sku {
-  /** The SKU of the search service. Valid values include: 'free': Shared service. 'basic': Dedicated service with up to 3 replicas. 'standard': Dedicated service with up to 12 partitions and 12 replicas. 'standard2': Similar to standard, but with more capacity per search unit. 'standard3': The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). 'storage_optimized_l1': Supports 1TB per partition, up to 12 partitions. 'storage_optimized_l2': Supports 2TB per partition, up to 12 partitions.' */
-  name?: SkuName;
-}
-
 /** Details about the search service identity. A null value indicates that the search service has no identity assigned. */
 export interface Identity {
   /**
@@ -386,6 +436,22 @@ export interface UserAssignedManagedIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Response containing a list of Azure AI Search services. */
@@ -668,12 +734,21 @@ export interface SearchServiceUpdate extends Resource {
   tags?: { [propertyName: string]: string };
   /** Details about the search service identity. A null value indicates that the search service has no identity assigned. */
   identity?: Identity;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
   replicaCount?: number;
   /** The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. */
   partitionCount?: number;
+  /** The endpoint of the Azure AI Search service. */
+  endpoint?: string;
   /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. */
   hostingMode?: HostingMode;
+  /** Configure this property to support the search service using either the default compute or Azure Confidential Compute. */
+  computeType?: ComputeType;
   /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
@@ -718,6 +793,16 @@ export interface SearchServiceUpdate extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
+  /**
+   * Indicates whether or not the search service has an upgrade available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly upgradeAvailable?: boolean;
+  /**
+   * The date and time the search service was last upgraded. This field will be null until the service gets upgraded for the first time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceUpgradeDate?: Date;
 }
 
 /** Describes a supported private link resource for the Azure AI Search service. */
@@ -738,12 +823,21 @@ export interface SearchService extends TrackedResource {
   sku?: Sku;
   /** The identity of the resource. */
   identity?: Identity;
+  /**
+   * Azure Resource Manager metadata of the search service containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU. */
   replicaCount?: number;
   /** The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3. */
   partitionCount?: number;
+  /** The endpoint of the Azure AI Search service. */
+  endpoint?: string;
   /** Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'. */
   hostingMode?: HostingMode;
+  /** Configure this property to support the search service using either the default compute or Azure Confidential Compute. */
+  computeType?: ComputeType;
   /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
   publicNetworkAccess?: PublicNetworkAccess;
   /**
@@ -788,6 +882,16 @@ export interface SearchService extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
+  /**
+   * Indicates whether or not the search service has an upgrade available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly upgradeAvailable?: boolean;
+  /**
+   * The date and time the search service was last upgraded. This field will be null until the service gets upgraded for the first time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceUpgradeDate?: Date;
 }
 
 /** Network security perimeter configuration for a server. */
@@ -808,11 +912,106 @@ export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
   location?: string;
 }
 
+/** Defines headers for Service_upgrade operation. */
+export interface ServiceUpgradeHeaders {
+  location?: string;
+}
+
 /** Parameter group */
 export interface SearchManagementRequestOptions {
   /** A client-generated GUID value that identifies this request. If specified, this will be included in response information as a way to track the request. */
   clientRequestId?: string;
 }
+
+/** Known values of {@link FeatureName} that the service accepts. */
+export enum KnownFeatureName {
+  /** Supports Grok feature. */
+  Grok = "Grok",
+  /** Supports Image Vectorization feature. */
+  ImageVectorization = "ImageVectorization",
+  /** Supports Document Intelligence feature. */
+  DocumentIntelligence = "DocumentIntelligence",
+  /** Supports Query Rewrite feature. */
+  QueryRewrite = "QueryRewrite",
+  /** Supports S3 feature. */
+  S3 = "S3",
+  /** Supports Storage Optimized feature. */
+  StorageOptimized = "StorageOptimized",
+  /** Supports Semantic Search feature. */
+  SemanticSearch = "SemanticSearch",
+  /** Supports Mega Store feature. */
+  MegaStore = "MegaStore",
+  /** Supports Availability Zones feature. */
+  AvailabilityZones = "AvailabilityZones",
+}
+
+/**
+ * Defines values for FeatureName. \
+ * {@link KnownFeatureName} can be used interchangeably with FeatureName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Grok**: Supports Grok feature. \
+ * **ImageVectorization**: Supports Image Vectorization feature. \
+ * **DocumentIntelligence**: Supports Document Intelligence feature. \
+ * **QueryRewrite**: Supports Query Rewrite feature. \
+ * **S3**: Supports S3 feature. \
+ * **StorageOptimized**: Supports Storage Optimized feature. \
+ * **SemanticSearch**: Supports Semantic Search feature. \
+ * **MegaStore**: Supports Mega Store feature. \
+ * **AvailabilityZones**: Supports Availability Zones feature.
+ */
+export type FeatureName = string;
+
+/** Known values of {@link SkuName} that the service accepts. */
+export enum KnownSkuName {
+  /** Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. */
+  Free = "free",
+  /** Billable tier for a dedicated service having up to 3 replicas. */
+  Basic = "basic",
+  /** Billable tier for a dedicated service having up to 12 partitions and 12 replicas. */
+  Standard = "standard",
+  /** Similar to 'standard', but with more capacity per search unit. */
+  Standard2 = "standard2",
+  /**  The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). */
+  Standard3 = "standard3",
+  /** Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. */
+  StorageOptimizedL1 = "storage_optimized_l1",
+  /** Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions. */
+  StorageOptimizedL2 = "storage_optimized_l2",
+}
+
+/**
+ * Defines values for SkuName. \
+ * {@link KnownSkuName} can be used interchangeably with SkuName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **free**: Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. \
+ * **basic**: Billable tier for a dedicated service having up to 3 replicas. \
+ * **standard**: Billable tier for a dedicated service having up to 12 partitions and 12 replicas. \
+ * **standard2**: Similar to 'standard', but with more capacity per search unit. \
+ * **standard3**:  The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). \
+ * **storage_optimized_l1**: Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. \
+ * **storage_optimized_l2**: Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions.
+ */
+export type SkuName = string;
+
+/** Known values of {@link ComputeType} that the service accepts. */
+export enum KnownComputeType {
+  /** Create the service with the default compute. */
+  Default = "default",
+  /** Create the service with Azure Confidential Compute. */
+  Confidential = "confidential",
+}
+
+/**
+ * Defines values for ComputeType. \
+ * {@link KnownComputeType} can be used interchangeably with ComputeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**: Create the service with the default compute. \
+ * **confidential**: Create the service with Azure Confidential Compute.
+ */
+export type ComputeType = string;
 
 /** Known values of {@link PublicNetworkAccess} that the service accepts. */
 export enum KnownPublicNetworkAccess {
@@ -970,39 +1169,6 @@ export enum KnownSharedPrivateLinkResourceProvisioningState {
  */
 export type SharedPrivateLinkResourceProvisioningState = string;
 
-/** Known values of {@link SkuName} that the service accepts. */
-export enum KnownSkuName {
-  /** Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. */
-  Free = "free",
-  /** Billable tier for a dedicated service having up to 3 replicas. */
-  Basic = "basic",
-  /** Billable tier for a dedicated service having up to 12 partitions and 12 replicas. */
-  Standard = "standard",
-  /** Similar to 'standard', but with more capacity per search unit. */
-  Standard2 = "standard2",
-  /**  The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). */
-  Standard3 = "standard3",
-  /** Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. */
-  StorageOptimizedL1 = "storage_optimized_l1",
-  /** Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions. */
-  StorageOptimizedL2 = "storage_optimized_l2",
-}
-
-/**
- * Defines values for SkuName. \
- * {@link KnownSkuName} can be used interchangeably with SkuName,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **free**: Free tier, with no SLA guarantees and a subset of the features offered on billable tiers. \
- * **basic**: Billable tier for a dedicated service having up to 3 replicas. \
- * **standard**: Billable tier for a dedicated service having up to 12 partitions and 12 replicas. \
- * **standard2**: Similar to 'standard', but with more capacity per search unit. \
- * **standard3**:  The largest Standard offering with up to 12 partitions and 12 replicas (or up to 3 partitions with more indexes if you also set the hostingMode property to 'highDensity'). \
- * **storage_optimized_l1**: Billable tier for a dedicated service that supports 1TB per partition, up to 12 partitions. \
- * **storage_optimized_l2**: Billable tier for a dedicated service that supports 2TB per partition, up to 12 partitions.
- */
-export type SkuName = string;
-
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
   /** Indicates that any identity associated with the search service needs to be removed. */
@@ -1026,6 +1192,30 @@ export enum KnownIdentityType {
  * **SystemAssigned, UserAssigned**: Indicates that system-assigned identity for the search service will be enabled along with the assignment of one or more user assigned identities.
  */
 export type IdentityType = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link UnavailableNameReason} that the service accepts. */
 export enum KnownUnavailableNameReason {
@@ -1099,6 +1289,13 @@ export interface OperationsListOptionalParams
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OfferingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OfferingsListResponse = OfferingsListResult;
 
 /** Optional parameters. */
 export interface AdminKeysGetOptionalParams
@@ -1436,6 +1633,18 @@ export interface NetworkSecurityPerimeterConfigurationsListByServiceNextOptional
 /** Contains response data for the listByServiceNext operation. */
 export type NetworkSecurityPerimeterConfigurationsListByServiceNextResponse =
   NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface ServiceUpgradeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the upgrade operation. */
+export type ServiceUpgradeResponse = SearchService;
 
 /** Optional parameters. */
 export interface SearchManagementClientOptionalParams

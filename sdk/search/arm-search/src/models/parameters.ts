@@ -17,7 +17,7 @@ import {
   CheckNameAvailabilityInput as CheckNameAvailabilityInputMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   SharedPrivateLinkResource as SharedPrivateLinkResourceMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -46,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-01-preview",
+    defaultValue: "2025-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

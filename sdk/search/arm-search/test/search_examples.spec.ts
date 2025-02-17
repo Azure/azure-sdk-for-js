@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { SearchManagementClient } from "../src/searchManagementClient";
+import { SearchManagementClient } from "../src/searchManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -57,8 +55,8 @@ describe("Search test", () => {
   let keyname: string;
   let keyvalue: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -70,7 +68,7 @@ describe("Search test", () => {
     keyname = "testjskey";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -93,7 +91,7 @@ describe("Search test", () => {
       }
     }, testPollingOptions);
     assert.equal(res.name, searchServiceName);
-  }).timeout(3600000);
+  });
 
   it("services get test", async function () {
     const res = await client.services.get(resourceGroup, searchServiceName);

@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a network security perimeter configuration.
  *
  * @summary Gets a network security perimeter configuration.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/NetworkSecurityPerimeterConfigurationsGet.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/NetworkSecurityPerimeterConfigurationsGet.json
  */
-async function getAnNspConfigByName() {
+async function getAnNspConfigByName(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -35,8 +33,8 @@ async function getAnNspConfigByName() {
   console.log(result);
 }
 
-async function main() {
-  getAnNspConfigByName();
+async function main(): Promise<void> {
+  await getAnNspConfigByName();
 }
 
 main().catch(console.error);

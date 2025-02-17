@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all supported private link resource types for the given service.
  *
  * @summary Gets a list of all supported private link resource types for the given service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/ListSupportedPrivateLinkResources.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/ListSupportedPrivateLinkResources.json
  */
-async function listSupportedPrivateLinkResources() {
+async function listSupportedPrivateLinkResources(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -36,8 +34,8 @@ async function listSupportedPrivateLinkResources() {
   console.log(resArray);
 }
 
-async function main() {
-  listSupportedPrivateLinkResources();
+async function main(): Promise<void> {
+  await listSupportedPrivateLinkResources();
 }
 
 main().catch(console.error);

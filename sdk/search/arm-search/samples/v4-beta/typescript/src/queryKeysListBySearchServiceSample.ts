@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of query API keys for the given Azure AI Search service.
  *
  * @summary Returns the list of query API keys for the given Azure AI Search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchListQueryKeysBySearchService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2025-02-01-preview/examples/SearchListQueryKeysBySearchService.json
  */
-async function searchListQueryKeysBySearchService() {
+async function searchListQueryKeysBySearchService(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -36,8 +34,8 @@ async function searchListQueryKeysBySearchService() {
   console.log(resArray);
 }
 
-async function main() {
-  searchListQueryKeysBySearchService();
+async function main(): Promise<void> {
+  await searchListQueryKeysBySearchService();
 }
 
 main().catch(console.error);

@@ -6,12 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./adminKeys";
-export * from "./queryKeys";
-export * from "./services";
-export * from "./privateLinkResources";
-export * from "./privateEndpointConnections";
-export * from "./sharedPrivateLinkResources";
-export * from "./usages";
-export * from "./networkSecurityPerimeterConfigurations";
+export * from "./operations.js";
+export * from "./offerings.js";
+export * from "./adminKeys.js";
+export * from "./queryKeys.js";
+export * from "./services.js";
+export * from "./privateLinkResources.js";
+export * from "./privateEndpointConnections.js";
+export * from "./sharedPrivateLinkResources.js";
+export * from "./usages.js";
+export * from "./networkSecurityPerimeterConfigurations.js";
+export * from "./service.js";
