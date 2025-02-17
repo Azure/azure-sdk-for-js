@@ -37,24 +37,24 @@ describe("LogsIngestionClient live tests", function () {
   let recorder: Recorder;
   let recordedClient: RecorderAndLogsClient;
   let client: LogsIngestionClient;
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(ctx);
     recordedClient = await createClientAndStartRecorder(recorder);
     client = recordedClient.client;
   });
-  afterEach(async function () {
+  afterEach(async () => {
     if (recorder) {
       loggerForTest.verbose("Recorder: stopping");
       await recorder.stop();
     }
   });
 
-  it("sends empty data", async function () {
+  it("sends empty data", async () => {
     await client.upload(getDcrId(), "Custom-MyTableRawData", []);
   });
 
-  it("sends basic data", async function () {
+  it("sends basic data", async () => {
     await client.upload(getDcrId(), "Custom-MyTableRawData", [
       {
         Time: "2021-12-08T23:51:14.1104269Z",
@@ -75,13 +75,13 @@ describe("LogsIngestionClient live tests", function () {
     ]);
   });
 
-  it("Success Test - divides huge data into chunks", async function () {
+  it("Success Test - divides huge data into chunks", async () => {
     await client.upload(getDcrId(), "Custom-MyTableRawData", getObjects(10000), {
       maxConcurrency: 3,
     });
   });
 
-  it("Partial Fail Test - when dcr id is incorrect for alternate requests", async function () {
+  it("Partial Fail Test - when dcr id is incorrect for alternate requests", async () => {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const additionalPolicies = createFailedPolicies({ isFailed: false });
@@ -119,7 +119,7 @@ describe("LogsIngestionClient live tests", function () {
     }
   });
 
-  it("Throws error when all logs fail", async function () {
+  it("Throws error when all logs fail", async () => {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     try {
@@ -141,7 +141,7 @@ describe("LogsIngestionClient live tests", function () {
       }
     }
   });
-  it("Calls the error callback function when all logs fail", async function () {
+  it("Calls the error callback function when all logs fail", async () => {
     const noOfElements = 25000;
     const logData = getObjects(noOfElements);
     const concurrency = 3;
@@ -187,7 +187,7 @@ describe("LogsIngestionClient live tests", function () {
     }
   });
 
-  it("User abort additional processing early if they handle the error", async function () {
+  it("User abort additional processing early if they handle the error", async () => {
     const abortController = new AbortController();
     let errorCallbackCount = 0;
     function errorCallback(): void {

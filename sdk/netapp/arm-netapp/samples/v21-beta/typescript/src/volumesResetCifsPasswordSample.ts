@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Reset cifs password from volume
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Reset cifs password from volume
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Volumes_ResetCifsPassword.json
  */
-async function volumesResetCifsPassword() {
+async function volumesResetCifsPassword(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
@@ -39,7 +37,7 @@ async function volumesResetCifsPassword() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   volumesResetCifsPassword();
 }
 

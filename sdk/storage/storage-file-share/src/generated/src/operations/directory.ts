@@ -46,18 +46,12 @@ export class DirectoryImpl implements Directory {
 
   /**
    * Creates a new directory under the specified share or parent directory.
-   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
-   *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param options The options parameters.
    */
   create(
-    fileAttributes: string,
     options?: DirectoryCreateOptionalParams
   ): Promise<DirectoryCreateResponse> {
-    return this.client.sendOperationRequest(
-      { fileAttributes, options },
-      createOperationSpec
-    );
+    return this.client.sendOperationRequest({ options }, createOperationSpec);
   }
 
   /**
@@ -88,16 +82,13 @@ export class DirectoryImpl implements Directory {
 
   /**
    * Sets properties on the directory.
-   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
-   *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param options The options parameters.
    */
   setProperties(
-    fileAttributes: string,
     options?: DirectorySetPropertiesOptionalParams
   ): Promise<DirectorySetPropertiesResponse> {
     return this.client.sendOperationRequest(
-      { fileAttributes, options },
+      { options },
       setPropertiesOperationSpec
     );
   }
@@ -202,7 +193,10 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.fileAttributes,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn,
-    Parameters.fileChangeOn
+    Parameters.fileChangeOn,
+    Parameters.owner,
+    Parameters.group,
+    Parameters.fileMode
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -286,7 +280,10 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
     Parameters.fileAttributes,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn,
-    Parameters.fileChangeOn
+    Parameters.fileChangeOn,
+    Parameters.owner,
+    Parameters.group,
+    Parameters.fileMode
   ],
   isXML: true,
   serializer: xmlSerializer

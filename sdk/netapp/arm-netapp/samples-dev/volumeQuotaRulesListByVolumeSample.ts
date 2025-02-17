@@ -7,9 +7,7 @@
  */
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all quota rules associated with the volume
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all quota rules associated with the volume
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeQuotaRules_List.json
  */
-async function volumeQuotaRulesList() {
+async function volumeQuotaRulesList(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] || "5275316f-a498-48d6-b324-2cbfdc4311b9";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
@@ -38,7 +36,7 @@ async function volumeQuotaRulesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await volumeQuotaRulesList();
 }
 

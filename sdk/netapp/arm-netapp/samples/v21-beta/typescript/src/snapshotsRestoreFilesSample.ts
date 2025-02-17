@@ -13,9 +13,7 @@ import {
   NetAppManagementClient,
 } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Restore the specified files from the specified snapshot to the active filesystem
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Restore the specified files from the specified snapshot to the active filesystem
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Snapshots_SingleFileRestore.json
  */
-async function snapshotsSingleFileRestore() {
+async function snapshotsSingleFileRestore(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
@@ -48,7 +46,7 @@ async function snapshotsSingleFileRestore() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   snapshotsSingleFileRestore();
 }
 

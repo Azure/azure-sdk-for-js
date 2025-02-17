@@ -8,9 +8,7 @@
 import type { GetGroupIdListForLdapUserRequest } from "@azure/arm-netapp";
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of group Ids for a specific LDAP User
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Returns the list of group Ids for a specific LDAP User
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/GroupIdListForLDAPUser.json
  */
-async function getGroupIdListForUser() {
+async function getGroupIdListForUser(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] || "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
@@ -38,7 +36,7 @@ async function getGroupIdListForUser() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getGroupIdListForUser();
 }
 

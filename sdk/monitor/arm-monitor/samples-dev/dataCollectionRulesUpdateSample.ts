@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates part of a data collection rule.
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary Updates part of a data collection rule.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesUpdate.json
  */
-async function updateDataCollectionRule() {
+async function updateDataCollectionRule(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "703362b3-f278-4e4b-9179-c76eaf41ffc2";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "myResourceGroup";
@@ -38,7 +36,7 @@ async function updateDataCollectionRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateDataCollectionRule();
 }
 
