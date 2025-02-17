@@ -690,7 +690,7 @@ importers:
         version: file:projects/arm-securitydevops.tgz
       '@rush-temp/arm-securityinsight':
         specifier: file:./projects/arm-securityinsight.tgz
-        version: file:projects/arm-securityinsight.tgz
+        version: file:projects/arm-securityinsight.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-selfhelp':
         specifier: file:./projects/arm-selfhelp.tgz
         version: file:projects/arm-selfhelp.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
@@ -3385,7 +3385,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-securityinsight@file:projects/arm-securityinsight.tgz':
-    resolution: {integrity: sha512-jDaUR42R/4oP75bObifhzRk/oUtQi7RoSMHxsIle8IK+nCubQ9e0qt7Q225PZTlh1c4wzdfht0t+z4mw8zFX5w==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-cAMXP83D9lEn3zzy6NixU8aFI3E3CFIA89Rw4ne8eC25wfsXdYx+k91jNIWwdSCB6e9PiMiMUnfpHy8Flf+m3g==, tarball: file:projects/arm-securityinsight.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-selfhelp@file:projects/arm-selfhelp.tgz':
@@ -16883,25 +16883,40 @@ snapshots:
       - '@swc/wasm'
       - supports-color
 
-  '@rush-temp/arm-securityinsight@file:projects/arm-securityinsight.tgz':
+  '@rush-temp/arm-securityinsight@file:projects/arm-securityinsight.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.75
-      chai: 4.5.0
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.75)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/arm-selfhelp@file:projects/arm-selfhelp.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
