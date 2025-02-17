@@ -21,7 +21,7 @@ import {
   EntityGetInsightsParameters,
   EntitiesGetInsightsOptionalParams,
   EntitiesGetInsightsResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Entities. */
