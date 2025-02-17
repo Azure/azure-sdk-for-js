@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { SearchManagementClient } from "../src/searchManagementClient";
+import { SearchManagementClient } from "../src/searchManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id"
@@ -57,22 +55,22 @@ describe("Search test", () => {
   let keyname: string;
   let keyvalue: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new SearchManagementClient(credential, subscriptionId, recorder.configureClientOptions({ endpoint: "https://eastus2euap.management.azure.com/", credentialScopes: "https://management.azure.com/.default" }));
-    location = "eastus2euap";
-    resourceGroup = "myjstest";
-    searchServiceName = "myjssearchservicexxx"
-    keyname = "testjskey";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new SearchManagementClient(credential, subscriptionId, recorder.configureClientOptions({ endpoint: "https://eastus2euap.management.azure.com/", credentialScopes: "https://management.azure.com/.default" }));
+      location = "eastus2euap";
+      resourceGroup = "myjstest";
+      searchServiceName = "myjssearchservicexxx"
+      keyname = "testjskey";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("operations list test", async function () {
     const resArray = new Array();
