@@ -88,7 +88,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-netapp/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-netapp/21.4.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

@@ -105,6 +105,7 @@ describe("netapp test", () => {
 
   it("accounts delete test", async () => {
     const resArray = new Array();
+    await client.accounts.beginDeleteAndWait(resourceGroup, accountName, testPollingOptions);
     for await (const item of client.accounts.list(resourceGroup)) {
       resArray.push(item);
     }
