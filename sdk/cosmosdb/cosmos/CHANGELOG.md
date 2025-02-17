@@ -6,6 +6,35 @@
 
 - Partition merge support: This feature adds support for Partition merge (preview) feature. Requests from JS SDK will not be blocked, when the feature is enabled. [docs](https://learn.microsoft.com/azure/cosmos-db/merge)
 
+- Partial hierarchical partition key support in Change Feed : This feature adds support for partial hierarchical partition key in Change Feed allowing the SDK to work seamlessly with partial partition keys, returning accurate change feed results regardless of which partition key components are provided in the iterator. Eg. Container has partition key ["/name", "/zip", "/state"], change feed will work if only value of name and zipis provided eg: ["john", "11011"]
+
+- Index Metrics V2 support: This feature adds support for V2 version of index metrics that returns the response in JSON format.
+
+Example output of older version
+
+```js
+Index Utilization Information
+  Utilized Single Indexes
+    Index Spec: /Item/?
+    Index Impact Score: High
+    ---
+    Index Spec: /Price/?
+    Index Impact Score: High
+    ---
+  Potential Single Indexes
+  Utilized Composite Indexes
+  Potential Composite Indexes
+    Index Spec: /Item ASC, /Price ASC
+    Index Impact Score: High
+    ---
+```
+
+Example output of version V2
+
+```js
+{"UtilizedIndexes":{"SingleIndexes":[{"IndexSpec":"/Item/?"},{"IndexSpec":"/Price/?"}],"CompositeIndexes":[]},"PotentialIndexes":{"SingleIndexes":[],"CompositeIndexes":[{"IndexSpecs":["/Item ASC","/Price ASC"],"IndexImpactScore":"High"}]}}
+```
+
 ### Breaking Changes
 
 ### Bugs Fixed
