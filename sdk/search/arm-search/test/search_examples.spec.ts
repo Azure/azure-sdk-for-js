@@ -6,41 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { SearchManagementClient } from "../src/searchManagementClient";
+import { SearchManagementClient } from "../src/searchManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   sanitizerOptions: {
-    bodySanitizers: [{
-      regex: true,
-      value: `fakeKey`,
-      target: `[a-z0-9_A-z]{40,100}`
-    }],
-    uriSanitizers: [{
-      regex: true,
-      value: `fakeKey`,
-      target: `[a-z0-9_A-z]{40,100}`
-    }]
+    bodySanitizers: [
+      {
+        regex: true,
+        value: `fakeKey`,
+        target: `[a-z0-9_A-z]{40,100}`,
+      },
+    ],
+    uriSanitizers: [
+      {
+        regex: true,
+        value: `fakeKey`,
+        target: `[a-z0-9_A-z]{40,100}`,
+      },
+    ],
   },
   removeCentralSanitizers: [
     "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
     "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
   ],
-
 };
 
 export const testPollingOptions = {
@@ -57,24 +53,31 @@ describe("Search test", () => {
   let keyname: string;
   let keyvalue: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new SearchManagementClient(credential, subscriptionId, recorder.configureClientOptions({ endpoint: "https://eastus2euap.management.azure.com/", credentialScopes: "https://management.azure.com/.default" }));
+    client = new SearchManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({
+        endpoint: "https://eastus2euap.management.azure.com/",
+        credentialScopes: "https://management.azure.com/.default",
+      }),
+    );
     location = "eastus2euap";
     resourceGroup = "myjstest";
-    searchServiceName = "myjssearchservicexxx"
+    searchServiceName = "myjssearchservicexxx";
     keyname = "testjskey";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("operations list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
@@ -82,25 +85,30 @@ describe("Search test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("services create test", async function () {
-    const res = await client.services.beginCreateOrUpdateAndWait(resourceGroup, searchServiceName, {
-      location: location,
-      replicaCount: 1,
-      partitionCount: 1,
-      hostingMode: "default",
-      sku: {
-        name: "standard"
-      }
-    }, testPollingOptions);
+  it("services create test", async () => {
+    const res = await client.services.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      searchServiceName,
+      {
+        location: location,
+        replicaCount: 1,
+        partitionCount: 1,
+        hostingMode: "default",
+        sku: {
+          name: "standard",
+        },
+      },
+      testPollingOptions,
+    );
     assert.equal(res.name, searchServiceName);
-  }).timeout(3600000);
+  });
 
-  it("services get test", async function () {
+  it("services get test", async () => {
     const res = await client.services.get(resourceGroup, searchServiceName);
     assert.equal(res.name, searchServiceName);
   });
 
-  it("services list test", async function () {
+  it("services list test", async () => {
     const resArray = new Array();
     for await (let item of client.services.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -108,13 +116,13 @@ describe("Search test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("queryKeys create test", async function () {
+  it("queryKeys create test", async () => {
     const res = await client.queryKeys.create(resourceGroup, searchServiceName, keyname);
     keyvalue = res.key || "";
     assert.equal(res.name, keyname);
   });
 
-  it("queryKeys list test", async function () {
+  it("queryKeys list test", async () => {
     const resArray = new Array();
     for await (let item of client.queryKeys.listBySearchService(resourceGroup, searchServiceName)) {
       resArray.push(item);
@@ -141,7 +149,7 @@ describe("Search test", () => {
     assert.equal(resArray.length, len - 1);
   });
 
-  it("services delete test", async function () {
+  it("services delete test", async () => {
     await client.services.delete(resourceGroup, searchServiceName);
     const resArray = new Array();
     for await (let item of client.services.listByResourceGroup(resourceGroup)) {
