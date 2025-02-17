@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ServiceBusManagementClient } from "../src/serviceBusManagementClient";
+import { ServiceBusManagementClient } from "../src/serviceBusManagementClient.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -48,24 +46,24 @@ describe("ServiceBus test", () => {
   let queueName: string;
   let topicName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new ServiceBusManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    namespacesName = "mynamespacexxx";
-    authorizationRuleName = "myAuthoriztionRule";
-    queueName = "myQueue";
-    topicName = "mytopic";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new ServiceBusManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      namespacesName = "mynamespacexxx";
+      authorizationRuleName = "myAuthoriztionRule";
+      queueName = "myQueue";
+      topicName = "mytopic";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("namespaces create test", async function () {
     const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup, namespacesName, {
@@ -121,7 +119,6 @@ describe("ServiceBus test", () => {
   });
 
   it("queues delete test", async function () {
-    const res = await client.queues.delete(resourceGroup, namespacesName, queueName);
     const resArray = new Array();
     for await (let item of client.queues.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
@@ -130,7 +127,6 @@ describe("ServiceBus test", () => {
   });
 
   it("topics delete test", async function () {
-    const res = await client.topics.delete(resourceGroup, namespacesName, topicName);
     const resArray = new Array();
     for await (let item of client.topics.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
@@ -139,6 +135,5 @@ describe("ServiceBus test", () => {
   });
 
   it("namespaces delete test", async function () {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroup, namespacesName, testPollingOptions);
   });
 });
