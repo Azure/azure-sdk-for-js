@@ -14,10 +14,7 @@ async function deleteAssetEndpointProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
-  await client.assetEndpointProfiles.delete(
-    "myResourceGroup",
-    "my-assetendpointprofile",
-  );
+  await client.assetEndpointProfiles.delete("myResourceGroup", "my-assetendpointprofile");
 }
 
 async function main(): Promise<void> {
