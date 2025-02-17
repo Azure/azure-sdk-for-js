@@ -1,8 +1,8 @@
 import { TokenCredential } from "@azure/core-auth";
-import { assert } from "chai";
 import { ResourceManagementClient } from "../src/resourceManagementClient.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { OperationRequest } from "@azure/core-client";
+import { describe, it, assert } from "vitest";
 
 describe("Mock test for CAE with ResourceManagementClient", () => {
   // this is not a real token, does not contain any sensitive info, just for test.
