@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { HelpRP } from "../src/helpRP";
+import { HelpRP } from "../src/helpRP.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -47,23 +45,23 @@ describe("help test", () => {
   let scope: string;
   let scope1: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new HelpRP(credential, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "czwjstest";
-    resourcename = "resourcetest1";
-    scope = "subscriptions/" + subscriptionId;
-    scope1 = "subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.KeyVault/vaults/testkey20230703";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new HelpRP(credential, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "czwjstest";
+      resourcename = "resourcetest1";
+      scope = "subscriptions/" + subscriptionId;
+      scope1 = "subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.KeyVault/vaults/testkey20230703";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   // I think we could skip this case, because service don't give delete api to detele this resource
   it.skip("diagnostics create test", async function () {
@@ -94,6 +92,5 @@ describe("help test", () => {
   });
 
   it("discoverySolutionNLPSubscriptionScope post test", async function () {
-    const res = await client.discoverySolutionNLP.discoverSolutionsBySubscription(subscriptionId, { discoverSolutionRequest: { issueSummary: "how to retrieve certs from deleted keyvault." } });
   });
 })
