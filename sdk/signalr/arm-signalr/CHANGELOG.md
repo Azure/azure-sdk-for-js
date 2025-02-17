@@ -72,7 +72,7 @@
 
 ### Breaking Changes
 
-- Parameter location of interface TrackedResource is now required
+  - Parameter location of interface TrackedResource is now required
 
 
 ## 5.2.0 (2023-03-08)
