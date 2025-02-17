@@ -147,7 +147,7 @@ export function parsePath(path: string): string[] {
     const quote = path[currentIndex];
     let newIndex = ++currentIndex;
 
-    for (;;) {
+    for (; ;) {
       newIndex = path.indexOf(quote, newIndex);
       if (newIndex === -1) {
         throwError();
@@ -394,7 +394,13 @@ export function copyObject(obj: any): any {
     const objCopy = {} as any;
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
-        objCopy[key] = deepCopyRecursive(obj[key]);
+        if (typeof obj[key] === "bigint") {
+          throw new Error("BigInt type is not supported");
+        }
+        const val = deepCopyRecursive(obj[key]);
+        if (val !== undefined) {
+          objCopy[key] = deepCopyRecursive(obj[key]);
+        }
       }
     }
     return objCopy;
