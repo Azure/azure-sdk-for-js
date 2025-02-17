@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeviceRegistryManagementClient } = require("@azure/arm-deviceregistry");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a Asset
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a Asset
  * x-ms-original-file: 2024-11-01/Create_Asset_With_DiscoveredAssetRef.json
  */
-async function createAssetWithDiscoveredAssetRefs(): Promise<void> {
+async function createAssetWithDiscoveredAssetRefs() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -87,7 +87,7 @@ async function createAssetWithDiscoveredAssetRefs(): Promise<void> {
  * @summary create a Asset
  * x-ms-original-file: 2024-11-01/Create_Asset_With_ExternalAssetId.json
  */
-async function createAssetWithExternalAssetId(): Promise<void> {
+async function createAssetWithExternalAssetId() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -163,7 +163,7 @@ async function createAssetWithExternalAssetId(): Promise<void> {
  * @summary create a Asset
  * x-ms-original-file: 2024-11-01/Create_Asset_Without_DisplayName.json
  */
-async function createAssetWithoutDisplayName(): Promise<void> {
+async function createAssetWithoutDisplayName() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -238,7 +238,7 @@ async function createAssetWithoutDisplayName(): Promise<void> {
  * @summary create a Asset
  * x-ms-original-file: 2024-11-01/Create_Asset_Without_ExternalAssetId.json
  */
-async function createAssetWithoutExternalAssetId(): Promise<void> {
+async function createAssetWithoutExternalAssetId() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -307,7 +307,7 @@ async function createAssetWithoutExternalAssetId(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await createAssetWithDiscoveredAssetRefs();
   createAssetWithExternalAssetId();
   createAssetWithoutDisplayName();

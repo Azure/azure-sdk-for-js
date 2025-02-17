@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeviceRegistryManagementClient } = require("@azure/arm-deviceregistry");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to get a Asset
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a Asset
  * x-ms-original-file: 2024-11-01/Get_Asset.json
  */
-async function getAsset(): Promise<void> {
+async function getAsset() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function getAsset(): Promise<void> {
  * @summary get a Asset
  * x-ms-original-file: 2024-11-01/Get_Asset_With_SyncStatus.json
  */
-async function getAssetWithSyncStatus(): Promise<void> {
+async function getAssetWithSyncStatus() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -32,7 +32,7 @@ async function getAssetWithSyncStatus(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await getAsset();
   getAssetWithSyncStatus();
 }

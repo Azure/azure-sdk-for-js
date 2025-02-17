@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeviceRegistryManagementClient } = require("@azure/arm-deviceregistry");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list the operations for the provider
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-11-01/List_Operations.json
  */
-async function listOperations(): Promise<void> {
+async function listOperations() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listOperations(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listOperations();
 }
 

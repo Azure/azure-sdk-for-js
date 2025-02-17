@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeviceRegistryManagementClient } = require("@azure/arm-deviceregistry");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to delete a Asset
@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a Asset
  * x-ms-original-file: 2024-11-01/Delete_Asset.json
  */
-async function deleteAsset(): Promise<void> {
+async function deleteAsset() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   await client.assets.delete("myResourceGroup", "my-asset");
 }
 
-async function main(): Promise<void> {
+async function main() {
   await deleteAsset();
 }
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeviceRegistryManagementClient } = require("@azure/arm-deviceregistry");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to get a AssetEndpointProfile
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a AssetEndpointProfile
  * x-ms-original-file: 2024-11-01/Get_AssetEndpointProfile.json
  */
-async function getAssetEndpointProfile(): Promise<void> {
+async function getAssetEndpointProfile() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -27,7 +27,7 @@ async function getAssetEndpointProfile(): Promise<void> {
  * @summary get a AssetEndpointProfile
  * x-ms-original-file: 2024-11-01/Get_AssetEndpointProfile_With_SyncStatus.json
  */
-async function getAssetEndpointProfileWithSyncStatus(): Promise<void> {
+async function getAssetEndpointProfileWithSyncStatus() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function getAssetEndpointProfileWithSyncStatus(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await getAssetEndpointProfile();
   getAssetEndpointProfileWithSyncStatus();
 }

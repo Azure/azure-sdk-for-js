@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
-import { DefaultAzureCredential } from "@azure/identity";
+const { DeviceRegistryManagementClient } = require("@azure/arm-deviceregistry");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list AssetEndpointProfile resources by subscription ID
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list AssetEndpointProfile resources by subscription ID
  * x-ms-original-file: 2024-11-01/List_AssetEndpointProfiles_Subscription.json
  */
-async function listAssetEndpointProfilesSubscription(): Promise<void> {
+async function listAssetEndpointProfilesSubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function listAssetEndpointProfilesSubscription(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await listAssetEndpointProfilesSubscription();
 }
 

@@ -1327,11 +1327,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  user = "user",
+  User = "user",
   /** Indicates the operation is initiated by a system. */
-  system = "system",
+  System = "system",
   /** Indicates the operation is initiated by a user or system. */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -1363,5 +1363,5 @@ export type ActionType = string;
 /** Microsoft.DeviceRegistry Resource Provider supported API versions. */
 export enum KnownVersions {
   /** Microsoft.DeviceRegistry Resource Provider management API version 2024-11-01. */
-  v2024_11_01 = "2024-11-01",
+  V2024_11_01 = "2024-11-01",
 }
