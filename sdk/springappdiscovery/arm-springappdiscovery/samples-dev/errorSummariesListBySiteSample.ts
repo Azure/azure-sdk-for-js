@@ -7,9 +7,7 @@
  */
 import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the ErrorSummaries resource in springbootsites.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists the ErrorSummaries resource in springbootsites.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/ErrorSummaries_ListBySite_MaximumSet_Gen.json
  */
-async function errorSummariesListBySiteMaximumSetGen() {
+async function errorSummariesListBySiteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "libzegdqkcxmhqhhhcxm";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function errorSummariesListBySiteMaximumSetGen() {
  * @summary Lists the ErrorSummaries resource in springbootsites.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/ErrorSummaries_ListBySite_MinimumSet_Gen.json
  */
-async function errorSummariesListBySiteMinimumSetGen() {
+async function errorSummariesListBySiteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "libzegdqkcxmhqhhhcxm";
   const resourceGroupName =
@@ -53,7 +51,7 @@ async function errorSummariesListBySiteMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await errorSummariesListBySiteMaximumSetGen();
   await errorSummariesListBySiteMinimumSetGen();
 }

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the action of alert rule.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the action of alert rule.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/actions/GetActionOfAlertRuleById.json
  */
-async function getAnActionOfAlertRule() {
+async function getAnActionOfAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -40,7 +38,7 @@ async function getAnActionOfAlertRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAnActionOfAlertRule();
 }
 

@@ -7,9 +7,7 @@
  */
 import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List operations.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List operations.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/Operations_List_MaximumSet_Gen.json
  */
-async function operationsListMaximumSetGen() {
+async function operationsListMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -35,7 +33,7 @@ async function operationsListMaximumSetGen() {
  * @summary List operations.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/Operations_List_MinimumSet_Gen.json
  */
-async function operationsListMinimumSetGen() {
+async function operationsListMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -47,7 +45,7 @@ async function operationsListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await operationsListMaximumSetGen();
   await operationsListMinimumSetGen();
 }

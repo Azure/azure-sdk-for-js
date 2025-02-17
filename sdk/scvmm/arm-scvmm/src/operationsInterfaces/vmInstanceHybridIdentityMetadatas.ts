@@ -12,7 +12,7 @@ import {
   VmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceOptionalParams,
   VmInstanceHybridIdentityMetadatasGetOptionalParams,
   VmInstanceHybridIdentityMetadatasGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VmInstanceHybridIdentityMetadatas. */
