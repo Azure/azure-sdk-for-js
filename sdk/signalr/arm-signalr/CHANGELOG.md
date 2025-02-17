@@ -1,7 +1,7 @@
 # Release History
-    
+
 ## 6.0.0-beta.2 (2023-10-09)
-    
+
 ### Features Added
 
   - Added operation group SignalRReplicas
