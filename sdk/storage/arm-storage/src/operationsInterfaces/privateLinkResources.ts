@@ -9,7 +9,7 @@
 import {
   PrivateLinkResourcesListByStorageAccountOptionalParams,
   PrivateLinkResourcesListByStorageAccountResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {

@@ -16,7 +16,7 @@ import {
   BlobInventoryPoliciesCreateOrUpdateOptionalParams,
   BlobInventoryPoliciesCreateOrUpdateResponse,
   BlobInventoryPoliciesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BlobInventoryPolicies. */

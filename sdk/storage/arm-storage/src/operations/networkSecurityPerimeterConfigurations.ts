@@ -7,17 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces/index.js";
+import { NetworkSecurityPerimeterConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { StorageManagementClient } from "../storageManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { StorageManagementClient } from "../storageManagementClient";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   NetworkSecurityPerimeterConfiguration,
   NetworkSecurityPerimeterConfigurationsListOptionalParams,
@@ -26,7 +26,7 @@ import {
   NetworkSecurityPerimeterConfigurationsGetResponse,
   NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   NetworkSecurityPerimeterConfigurationsReconcileResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing NetworkSecurityPerimeterConfigurations operations. */

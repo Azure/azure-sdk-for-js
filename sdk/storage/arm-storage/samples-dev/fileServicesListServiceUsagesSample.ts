@@ -13,27 +13,31 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
+ * This sample demonstrates how to Gets the usages of file service in storage account.
  *
- * @summary Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobServicesGet.json
+ * @summary Gets the usages of file service in storage account.
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileServicesListUsages.json
  */
-async function getBlobServices(): Promise<void> {
+async function listFileServiceUsages(): Promise<void> {
   const subscriptionId =
-    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+    process.env["STORAGE_SUBSCRIPTION_ID"] ||
+    "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
-  const result = await client.blobServices.getServiceProperties(
+  const resArray = new Array();
+  for await (let item of client.fileServices.listServiceUsages(
     resourceGroupName,
     accountName,
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  await getBlobServices();
+  await listFileServiceUsages();
 }
 
 main().catch(console.error);

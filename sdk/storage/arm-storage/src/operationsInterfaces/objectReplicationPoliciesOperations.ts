@@ -15,7 +15,7 @@ import {
   ObjectReplicationPoliciesCreateOrUpdateOptionalParams,
   ObjectReplicationPoliciesCreateOrUpdateResponse,
   ObjectReplicationPoliciesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ObjectReplicationPoliciesOperations. */

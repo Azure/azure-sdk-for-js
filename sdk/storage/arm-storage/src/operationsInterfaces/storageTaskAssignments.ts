@@ -20,7 +20,7 @@ import {
   StorageTaskAssignmentsGetResponse,
   StorageTaskAssignmentsDeleteOptionalParams,
   StorageTaskAssignmentsDeleteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StorageTaskAssignments. */
