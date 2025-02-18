@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./vaultCertificates";
-export * from "./registeredIdentities";
-export * from "./replicationUsages";
-export * from "./privateLinkResourcesOperations";
-export * from "./recoveryServices";
-export * from "./vaults";
-export * from "./operations";
-export * from "./vaultExtendedInfo";
-export * from "./usages";
+export * from "./vaultCertificates.js";
+export * from "./registeredIdentities.js";
+export * from "./replicationUsages.js";
+export * from "./privateLinkResourcesOperations.js";
+export * from "./recoveryServices.js";
+export * from "./vaults.js";
+export * from "./operations.js";
+export * from "./vaultExtendedInfo.js";
+export * from "./usages.js";

@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./accounts";
-export * from "./defaultAccounts";
-export * from "./operations";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
+export * from "./accounts.js";
+export * from "./defaultAccounts.js";
+export * from "./operations.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";

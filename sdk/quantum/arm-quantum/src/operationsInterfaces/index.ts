@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./workspaces";
-export * from "./offerings";
-export * from "./operations";
-export * from "./workspace";
+export * from "./workspaces.js";
+export * from "./offerings.js";
+export * from "./operations.js";
+export * from "./workspace.js";

@@ -13,7 +13,7 @@ import {
   ResourceCapabilities,
   RecoveryServicesCapabilitiesOptionalParams,
   RecoveryServicesCapabilitiesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RecoveryServices. */
 export interface RecoveryServices {

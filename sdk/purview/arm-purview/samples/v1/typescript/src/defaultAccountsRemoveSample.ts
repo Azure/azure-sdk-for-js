@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Removes the default account from the scope.
  * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/DefaultAccounts_Remove.json
  */
-async function defaultAccountsRemove() {
+async function defaultAccountsRemove(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const scopeTenantId = "11733A4E-BA84-46FF-91D1-AFF1A3215A90";
   const scopeType = "Tenant";

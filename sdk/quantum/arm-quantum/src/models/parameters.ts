@@ -16,7 +16,7 @@ import {
   TagsObject as TagsObjectMapper,
   CheckNameAvailabilityParameters as CheckNameAvailabilityParametersMapper,
   APIKeys as APIKeysMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
