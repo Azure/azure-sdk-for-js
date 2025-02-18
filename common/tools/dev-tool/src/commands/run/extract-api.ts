@@ -26,7 +26,7 @@ export const commandInfo = makeCommandInfo(
     "merge-subpath-exports": {
       shortName: "mse",
       kind: "boolean",
-      default: false,
+      default: true,
       description: "whether to include subpath export APIs.",
     },
   },
