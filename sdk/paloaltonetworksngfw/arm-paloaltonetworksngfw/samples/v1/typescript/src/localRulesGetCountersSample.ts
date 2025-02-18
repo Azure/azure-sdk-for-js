@@ -13,9 +13,7 @@ import {
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get counters
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get counters
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_getCounters_MaximumSet_Gen.json
  */
-async function localRulesGetCountersMaximumSetGen() {
+async function localRulesGetCountersMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -50,7 +48,7 @@ async function localRulesGetCountersMaximumSetGen() {
  * @summary Get counters
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_getCounters_MinimumSet_Gen.json
  */
-async function localRulesGetCountersMinimumSetGen() {
+async function localRulesGetCountersMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -68,7 +66,7 @@ async function localRulesGetCountersMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   localRulesGetCountersMaximumSetGen();
   localRulesGetCountersMinimumSetGen();
 }

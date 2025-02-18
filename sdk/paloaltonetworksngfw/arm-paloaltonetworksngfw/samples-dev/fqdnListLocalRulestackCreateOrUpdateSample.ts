@@ -8,9 +8,7 @@
 import type { FqdnListLocalRulestackResource } from "@azure/arm-paloaltonetworksngfw";
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a FqdnListLocalRulestackResource
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a FqdnListLocalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListLocalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function fqdnListLocalRulestackCreateOrUpdateMaximumSetGen() {
+async function fqdnListLocalRulestackCreateOrUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -48,7 +46,7 @@ async function fqdnListLocalRulestackCreateOrUpdateMaximumSetGen() {
  * @summary Create a FqdnListLocalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListLocalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function fqdnListLocalRulestackCreateOrUpdateMinimumSetGen() {
+async function fqdnListLocalRulestackCreateOrUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "rgopenapi";
@@ -68,7 +66,7 @@ async function fqdnListLocalRulestackCreateOrUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await fqdnListLocalRulestackCreateOrUpdateMaximumSetGen();
   await fqdnListLocalRulestackCreateOrUpdateMinimumSetGen();
 }

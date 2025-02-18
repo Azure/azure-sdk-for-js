@@ -8,9 +8,7 @@
 import type { Console } from "@azure/arm-networkcloud";
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new virtual machine console or update the properties of the existing virtual machine console.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a new virtual machine console or update the properties of the existing virtual machine console.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Consoles_Create.json
  */
-async function createOrUpdateVirtualMachineConsole() {
+async function createOrUpdateVirtualMachineConsole(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -49,7 +47,7 @@ async function createOrUpdateVirtualMachineConsole() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateVirtualMachineConsole();
 }
 
