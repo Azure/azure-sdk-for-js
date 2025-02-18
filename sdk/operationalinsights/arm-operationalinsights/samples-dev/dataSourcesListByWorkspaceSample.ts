@@ -7,9 +7,7 @@
  */
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the first page of data source instances in a workspace with the link to the next page.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the first page of data source instances in a workspace with the link to the next page.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/DataSourcesListByWorkspace.json
  */
-async function dataSourcesListByWorkspace() {
+async function dataSourcesListByWorkspace(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "OIAutoRest5123";
@@ -36,7 +34,7 @@ async function dataSourcesListByWorkspace() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await dataSourcesListByWorkspace();
 }
 

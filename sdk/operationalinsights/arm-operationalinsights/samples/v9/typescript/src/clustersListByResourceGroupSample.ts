@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets Log Analytics clusters in a resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets Log Analytics clusters in a resource group.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersListByResourceGroup.json
  */
-async function clustersGet() {
+async function clustersGet(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-00000000000";
@@ -40,7 +38,7 @@ async function clustersGet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   clustersGet();
 }
 

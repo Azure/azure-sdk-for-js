@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { DeletedWorkspaces } from "../operationsInterfaces";
+import { DeletedWorkspaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import {
   Workspace,
   DeletedWorkspacesListOptionalParams,
   DeletedWorkspacesListResponse,
   DeletedWorkspacesListByResourceGroupOptionalParams,
   DeletedWorkspacesListByResourceGroupResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DeletedWorkspaces operations. */

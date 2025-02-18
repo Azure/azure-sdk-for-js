@@ -8,9 +8,7 @@
 import type { ClusterPatch } from "@azure/arm-operationalinsights";
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a Log Analytics cluster.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates a Log Analytics cluster.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersUpdate.json
  */
-async function clustersPatch() {
+async function clustersPatch(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "oiautorest6685";
@@ -50,7 +48,7 @@ async function clustersPatch() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await clustersPatch();
 }
 

@@ -8,9 +8,7 @@
 import type { WorkspacePatch } from "@azure/arm-operationalinsights";
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a workspace.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates a workspace.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/WorkspacesUpdate.json
  */
-async function workspacesPatch() {
+async function workspacesPatch(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "oiautorest6685";
@@ -34,7 +32,7 @@ async function workspacesPatch() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await workspacesPatch();
 }
 
