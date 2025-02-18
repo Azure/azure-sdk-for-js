@@ -12,8 +12,8 @@ import type {
   SequenceAckMessage,
   ServerDataMessage,
   WebPubSubMessage,
-} from "../src/models/index.js";
-import { WebPubSubJsonReliableProtocol } from "../src/protocols/index.js";
+} from "../../src/index.js";
+import { WebPubSubJsonReliableProtocol } from "../../src/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("JsonProtocol", function () {

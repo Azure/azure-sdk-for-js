@@ -929,6 +929,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tools/web-pubsub-simulator",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-simulator",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-search-documents",
       "projectFolder": "sdk/search/perf-tests/search-documents",
       "versionPolicyName": "test"

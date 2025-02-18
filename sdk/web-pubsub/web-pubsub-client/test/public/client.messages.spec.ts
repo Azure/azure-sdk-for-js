@@ -7,10 +7,15 @@ import type {
   JoinGroupOptions,
   LeaveGroupOptions,
   ServerDataMessage,
-} from "../src/models/index.js";
-import { WebPubSubClient } from "../src/webPubSubClient.js";
-import { describe, it, expect, vi } from "vitest";
+} from "../../src/index.js";
+import { WebPubSubClient } from "../../src/index.js";
+import { describe, it, expect, vi, afterEach } from "vitest";
+
 describe("WebPubSubClient", () => {
+  afterEach(async () => {
+    vi.restoreAllMocks();
+  });
+
   describe("Execute operation and translate to WebPubSubMessage", () => {
     it("join group without ack id", () => {
       const client = new WebPubSubClient("wss://service.com");
