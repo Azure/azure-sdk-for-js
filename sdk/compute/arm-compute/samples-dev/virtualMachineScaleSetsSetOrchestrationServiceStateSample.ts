@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { OrchestrationServiceStateInput } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  OrchestrationServiceStateInput,
+  ComputeManagementClient,
+} from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -18,8 +22,10 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const parameters: OrchestrationServiceStateInput = {
     action: "Resume",
@@ -27,11 +33,12 @@ async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen(): P
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -42,8 +49,10 @@ async function virtualMachineScaleSetOrchestrationServiceStateMaximumSetGen(): P
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const parameters: OrchestrationServiceStateInput = {
     action: "Resume",
@@ -51,11 +60,12 @@ async function virtualMachineScaleSetOrchestrationServiceStateMinimumSetGen(): P
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginSetOrchestrationServiceStateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      parameters,
+    );
   console.log(result);
 }
 

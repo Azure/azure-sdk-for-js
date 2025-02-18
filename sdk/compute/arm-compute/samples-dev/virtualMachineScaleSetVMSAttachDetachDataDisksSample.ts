@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { AttachDetachDataDisksRequest } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  AttachDetachDataDisksRequest,
+  ComputeManagementClient,
+} from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -18,8 +22,10 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_AttachDetachDataDisks_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "azure-vmscaleset";
   const instanceId = "0";
   const parameters: AttachDetachDataDisksRequest = {
@@ -60,12 +66,13 @@ async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen(): Pro
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -76,8 +83,10 @@ async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen(): Pro
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_AttachDetachDataDisks_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "azure-vmscaleset";
   const instanceId = "0";
   const parameters: AttachDetachDataDisksRequest = {
@@ -96,12 +105,13 @@ async function virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen(): Pro
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    instanceId,
-    parameters,
-  );
+  const result =
+    await client.virtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      parameters,
+    );
   console.log(result);
 }
 

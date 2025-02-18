@@ -40,7 +40,7 @@ export class SharedGalleryImageVersionsImpl
 
   /**
    * List shared gallery image versions by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param galleryImageName The name of the Shared Gallery Image Definition from which the Image
    *                         Versions are to be listed.
@@ -134,7 +134,7 @@ export class SharedGalleryImageVersionsImpl
 
   /**
    * List shared gallery image versions by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param galleryImageName The name of the Shared Gallery Image Definition from which the Image
    *                         Versions are to be listed.
@@ -154,7 +154,7 @@ export class SharedGalleryImageVersionsImpl
 
   /**
    * Get a shared gallery image version by subscription id or tenant id.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param galleryImageName The name of the Shared Gallery Image Definition from which the Image
    *                         Versions are to be listed.
@@ -184,7 +184,7 @@ export class SharedGalleryImageVersionsImpl
 
   /**
    * ListNext
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param galleryUniqueName The unique name of the Shared Gallery.
    * @param galleryImageName The name of the Shared Gallery Image Definition from which the Image
    *                         Versions are to be listed.
@@ -215,14 +215,14 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryImageVersionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3, Parameters.sharedTo],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.galleryImageName,
     Parameters.galleryUniqueName,
   ],
@@ -237,14 +237,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryImageVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.galleryImageName,
     Parameters.galleryImageVersionName,
     Parameters.galleryUniqueName,
@@ -260,14 +260,14 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SharedGalleryImageVersionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location1,
+    Parameters.subscriptionId,
+    Parameters.location,
     Parameters.galleryImageName,
     Parameters.galleryUniqueName,
   ],

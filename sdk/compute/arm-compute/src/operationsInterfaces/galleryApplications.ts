@@ -11,13 +11,13 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   GalleryApplication,
   GalleryApplicationsListByGalleryOptionalParams,
+  GalleryApplicationsGetOptionalParams,
+  GalleryApplicationsGetResponse,
   GalleryApplicationsCreateOrUpdateOptionalParams,
   GalleryApplicationsCreateOrUpdateResponse,
   GalleryApplicationUpdate,
   GalleryApplicationsUpdateOptionalParams,
   GalleryApplicationsUpdateResponse,
-  GalleryApplicationsGetOptionalParams,
-  GalleryApplicationsGetResponse,
   GalleryApplicationsDeleteOptionalParams,
 } from "../models/index.js";
 
@@ -26,9 +26,8 @@ import {
 export interface GalleryApplications {
   /**
    * List gallery Application Definitions in a gallery.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery from which Application Definitions are
-   *                    to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param options The options parameters.
    */
   listByGallery(
@@ -37,13 +36,23 @@ export interface GalleryApplications {
     options?: GalleryApplicationsListByGalleryOptionalParams,
   ): PagedAsyncIterableIterator<GalleryApplication>;
   /**
+   * Retrieves information about a gallery Application Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    options?: GalleryApplicationsGetOptionalParams,
+  ): Promise<GalleryApplicationsGetResponse>;
+  /**
    * Create or update a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be created.
-   * @param galleryApplicationName The name of the gallery Application Definition to be created or
-   *                               updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in
-   *                               the middle. The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param galleryApplication Parameters supplied to the create or update gallery Application operation.
    * @param options The options parameters.
    */
@@ -61,12 +70,9 @@ export interface GalleryApplications {
   >;
   /**
    * Create or update a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be created.
-   * @param galleryApplicationName The name of the gallery Application Definition to be created or
-   *                               updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in
-   *                               the middle. The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param galleryApplication Parameters supplied to the create or update gallery Application operation.
    * @param options The options parameters.
    */
@@ -79,12 +85,9 @@ export interface GalleryApplications {
   ): Promise<GalleryApplicationsCreateOrUpdateResponse>;
   /**
    * Update a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be updated.
-   * @param galleryApplicationName The name of the gallery Application Definition to be updated. The
-   *                               allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle.
-   *                               The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param galleryApplication Parameters supplied to the update gallery Application operation.
    * @param options The options parameters.
    */
@@ -102,12 +105,9 @@ export interface GalleryApplications {
   >;
   /**
    * Update a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be updated.
-   * @param galleryApplicationName The name of the gallery Application Definition to be updated. The
-   *                               allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle.
-   *                               The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param galleryApplication Parameters supplied to the update gallery Application operation.
    * @param options The options parameters.
    */
@@ -119,25 +119,10 @@ export interface GalleryApplications {
     options?: GalleryApplicationsUpdateOptionalParams,
   ): Promise<GalleryApplicationsUpdateResponse>;
   /**
-   * Retrieves information about a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery from which the Application Definitions
-   *                    are to be retrieved.
-   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    galleryName: string,
-    galleryApplicationName: string,
-    options?: GalleryApplicationsGetOptionalParams,
-  ): Promise<GalleryApplicationsGetResponse>;
-  /**
    * Delete a gallery Application.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be deleted.
-   * @param galleryApplicationName The name of the gallery Application Definition to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param options The options parameters.
    */
   beginDelete(
@@ -148,10 +133,9 @@ export interface GalleryApplications {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a gallery Application.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be deleted.
-   * @param galleryApplicationName The name of the gallery Application Definition to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param options The options parameters.
    */
   beginDeleteAndWait(

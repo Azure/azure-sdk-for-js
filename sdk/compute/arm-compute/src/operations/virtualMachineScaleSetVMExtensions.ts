@@ -18,6 +18,10 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
+  VirtualMachineScaleSetVMExtensionsListOptionalParams,
+  VirtualMachineScaleSetVMExtensionsListResponse,
+  VirtualMachineScaleSetVMExtensionsGetOptionalParams,
+  VirtualMachineScaleSetVMExtensionsGetResponse,
   VirtualMachineScaleSetVMExtension,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams,
   VirtualMachineScaleSetVMExtensionsCreateOrUpdateResponse,
@@ -25,10 +29,6 @@ import {
   VirtualMachineScaleSetVMExtensionsUpdateOptionalParams,
   VirtualMachineScaleSetVMExtensionsUpdateResponse,
   VirtualMachineScaleSetVMExtensionsDeleteOptionalParams,
-  VirtualMachineScaleSetVMExtensionsGetOptionalParams,
-  VirtualMachineScaleSetVMExtensionsGetResponse,
-  VirtualMachineScaleSetVMExtensionsListOptionalParams,
-  VirtualMachineScaleSetVMExtensionsListResponse,
 } from "../models/index.js";
 
 /** Class containing VirtualMachineScaleSetVMExtensions operations. */
@@ -46,8 +46,54 @@ export class VirtualMachineScaleSetVMExtensionsImpl
   }
 
   /**
+   * The operation to get all extensions of an instance in Virtual Machine Scaleset.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMExtensionsListOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMExtensionsListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, vmScaleSetName, instanceId, options },
+      listOperationSpec,
+    );
+  }
+
+  /**
+   * The operation to get the VMSS VM extension.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param vmExtensionName The name of the virtual machine extension.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    vmExtensionName: string,
+    options?: VirtualMachineScaleSetVMExtensionsGetOptionalParams,
+  ): Promise<VirtualMachineScaleSetVMExtensionsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        vmScaleSetName,
+        instanceId,
+        vmExtensionName,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * The operation to create or update the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -123,6 +169,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -130,7 +177,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to create or update the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -158,7 +205,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to update the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -234,6 +281,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -241,7 +289,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to update the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -269,7 +317,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to delete the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -334,6 +382,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -341,7 +390,7 @@ export class VirtualMachineScaleSetVMExtensionsImpl
 
   /**
    * The operation to delete the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
    * @param vmExtensionName The name of the virtual machine extension.
@@ -363,56 +412,55 @@ export class VirtualMachineScaleSetVMExtensionsImpl
     );
     return poller.pollUntilDone();
   }
-
-  /**
-   * The operation to get the VMSS VM extension.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param vmExtensionName The name of the virtual machine extension.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    vmExtensionName: string,
-    options?: VirtualMachineScaleSetVMExtensionsGetOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMExtensionsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        vmScaleSetName,
-        instanceId,
-        vmExtensionName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * The operation to get all extensions of an instance in Virtual Machine Scaleset.
-   * @param resourceGroupName The name of the resource group.
-   * @param vmScaleSetName The name of the VM scale set.
-   * @param instanceId The instance ID of the virtual machine.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    vmScaleSetName: string,
-    instanceId: string,
-    options?: VirtualMachineScaleSetVMExtensionsListOptionalParams,
-  ): Promise<VirtualMachineScaleSetVMExtensionsListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, vmScaleSetName, instanceId, options },
-      listOperationSpec,
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineScaleSetVMExtensionsListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineScaleSetVMExtension,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId,
+    Parameters.vmExtensionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
   httpMethod: "PUT",
@@ -453,15 +501,19 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineScaleSetVMExtension,
+      headersMapper: Mappers.VirtualMachineScaleSetVMExtensionsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.VirtualMachineScaleSetVMExtension,
+      headersMapper: Mappers.VirtualMachineScaleSetVMExtensionsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.VirtualMachineScaleSetVMExtension,
+      headersMapper: Mappers.VirtualMachineScaleSetVMExtensionsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.VirtualMachineScaleSetVMExtension,
+      headersMapper: Mappers.VirtualMachineScaleSetVMExtensionsUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -501,51 +553,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.vmScaleSetName,
     Parameters.instanceId,
     Parameters.vmExtensionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineScaleSetVMExtension,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
-    Parameters.vmExtensionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.VirtualMachineScaleSetVMExtensionsListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.vmScaleSetName,
-    Parameters.instanceId,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -17,7 +17,7 @@ import {
 export interface GallerySharingProfile {
   /**
    * Update sharing profile of a gallery.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param galleryName The name of the Shared Image Gallery.
    * @param sharingUpdate Parameters supplied to the update gallery sharing profile.
    * @param options The options parameters.
@@ -35,7 +35,7 @@ export interface GallerySharingProfile {
   >;
   /**
    * Update sharing profile of a gallery.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param galleryName The name of the Shared Image Gallery.
    * @param sharingUpdate Parameters supplied to the update gallery sharing profile.
    * @param options The options parameters.

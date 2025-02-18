@@ -21,14 +21,14 @@ import {
   ProximityPlacementGroupsListByResourceGroupNextOptionalParams,
   ProximityPlacementGroupsListByResourceGroupOptionalParams,
   ProximityPlacementGroupsListByResourceGroupResponse,
+  ProximityPlacementGroupsGetOptionalParams,
+  ProximityPlacementGroupsGetResponse,
   ProximityPlacementGroupsCreateOrUpdateOptionalParams,
   ProximityPlacementGroupsCreateOrUpdateResponse,
   ProximityPlacementGroupUpdate,
   ProximityPlacementGroupsUpdateOptionalParams,
   ProximityPlacementGroupsUpdateResponse,
   ProximityPlacementGroupsDeleteOptionalParams,
-  ProximityPlacementGroupsGetOptionalParams,
-  ProximityPlacementGroupsGetResponse,
   ProximityPlacementGroupsListBySubscriptionNextResponse,
   ProximityPlacementGroupsListByResourceGroupNextResponse,
 } from "../models/index.js";
@@ -102,7 +102,7 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 
   /**
    * Lists all proximity placement groups in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -170,8 +170,53 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
   }
 
   /**
+   * Lists all proximity placement groups in a subscription.
+   * @param options The options parameters.
+   */
+  private _listBySubscription(
+    options?: ProximityPlacementGroupsListBySubscriptionOptionalParams,
+  ): Promise<ProximityPlacementGroupsListBySubscriptionResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBySubscriptionOperationSpec,
+    );
+  }
+
+  /**
+   * Lists all proximity placement groups in a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: ProximityPlacementGroupsListByResourceGroupOptionalParams,
+  ): Promise<ProximityPlacementGroupsListByResourceGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves information about a proximity placement group .
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param proximityPlacementGroupName The name of the proximity placement group.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    options?: ProximityPlacementGroupsGetOptionalParams,
+  ): Promise<ProximityPlacementGroupsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, proximityPlacementGroupName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Create or update a proximity placement group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param parameters Parameters supplied to the Create Proximity Placement Group operation.
    * @param options The options parameters.
@@ -190,7 +235,7 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 
   /**
    * Update a proximity placement group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param parameters Parameters supplied to the Update Proximity Placement Group operation.
    * @param options The options parameters.
@@ -209,7 +254,7 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 
   /**
    * Delete a proximity placement group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param options The options parameters.
    */
@@ -221,51 +266,6 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
     return this.client.sendOperationRequest(
       { resourceGroupName, proximityPlacementGroupName, options },
       deleteOperationSpec,
-    );
-  }
-
-  /**
-   * Retrieves information about a proximity placement group .
-   * @param resourceGroupName The name of the resource group.
-   * @param proximityPlacementGroupName The name of the proximity placement group.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    proximityPlacementGroupName: string,
-    options?: ProximityPlacementGroupsGetOptionalParams,
-  ): Promise<ProximityPlacementGroupsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, proximityPlacementGroupName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all proximity placement groups in a subscription.
-   * @param options The options parameters.
-   */
-  private _listBySubscription(
-    options?: ProximityPlacementGroupsListBySubscriptionOptionalParams,
-  ): Promise<ProximityPlacementGroupsListBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      { options },
-      listBySubscriptionOperationSpec,
-    );
-  }
-
-  /**
-   * Lists all proximity placement groups in a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: ProximityPlacementGroupsListByResourceGroupOptionalParams,
-  ): Promise<ProximityPlacementGroupsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec,
     );
   }
 
@@ -286,7 +286,7 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -304,95 +304,6 @@ export class ProximityPlacementGroupsImpl implements ProximityPlacementGroups {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProximityPlacementGroup,
-    },
-    201: {
-      bodyMapper: Mappers.ProximityPlacementGroup,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters13,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.proximityPlacementGroupName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const updateOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProximityPlacementGroup,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  requestBody: Parameters.parameters14,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.proximityPlacementGroupName,
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer,
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.proximityPlacementGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ProximityPlacementGroup,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.includeColocationStatus],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.proximityPlacementGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/proximityPlacementGroups",
   httpMethod: "GET",
@@ -429,6 +340,95 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProximityPlacementGroup,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.includeColocationStatus],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.proximityPlacementGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProximityPlacementGroup,
+    },
+    201: {
+      bodyMapper: Mappers.ProximityPlacementGroup,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters19,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.proximityPlacementGroupName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ProximityPlacementGroup,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  requestBody: Parameters.parameters20,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.proximityPlacementGroupName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.proximityPlacementGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -442,8 +442,8 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -461,8 +461,8 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],

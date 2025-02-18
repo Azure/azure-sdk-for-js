@@ -24,13 +24,13 @@ import {
   GalleryImagesListByGalleryNextOptionalParams,
   GalleryImagesListByGalleryOptionalParams,
   GalleryImagesListByGalleryResponse,
+  GalleryImagesGetOptionalParams,
+  GalleryImagesGetResponse,
   GalleryImagesCreateOrUpdateOptionalParams,
   GalleryImagesCreateOrUpdateResponse,
   GalleryImageUpdate,
   GalleryImagesUpdateOptionalParams,
   GalleryImagesUpdateResponse,
-  GalleryImagesGetOptionalParams,
-  GalleryImagesGetResponse,
   GalleryImagesDeleteOptionalParams,
   GalleryImagesListByGalleryNextResponse,
 } from "../models/index.js";
@@ -50,9 +50,8 @@ export class GalleryImagesImpl implements GalleryImages {
 
   /**
    * List gallery image definitions in a gallery.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which Image Definitions are to be
-   *                    listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param options The options parameters.
    */
   public listByGallery(
@@ -134,13 +133,46 @@ export class GalleryImagesImpl implements GalleryImages {
   }
 
   /**
+   * List gallery image definitions in a gallery.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param options The options parameters.
+   */
+  private _listByGallery(
+    resourceGroupName: string,
+    galleryName: string,
+    options?: GalleryImagesListByGalleryOptionalParams,
+  ): Promise<GalleryImagesListByGalleryResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, options },
+      listByGalleryOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves information about a gallery image definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryImageName: string,
+    options?: GalleryImagesGetOptionalParams,
+  ): Promise<GalleryImagesGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, galleryImageName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Create or update a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    created.
-   * @param galleryImageName The name of the gallery image definition to be created or updated. The
-   *                         allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle.
-   *                         The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param galleryImage Parameters supplied to the create or update gallery image operation.
    * @param options The options parameters.
    */
@@ -211,6 +243,7 @@ export class GalleryImagesImpl implements GalleryImages {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -218,12 +251,9 @@ export class GalleryImagesImpl implements GalleryImages {
 
   /**
    * Create or update a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    created.
-   * @param galleryImageName The name of the gallery image definition to be created or updated. The
-   *                         allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle.
-   *                         The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param galleryImage Parameters supplied to the create or update gallery image operation.
    * @param options The options parameters.
    */
@@ -246,12 +276,9 @@ export class GalleryImagesImpl implements GalleryImages {
 
   /**
    * Update a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    updated.
-   * @param galleryImageName The name of the gallery image definition to be updated. The allowed
-   *                         characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The
-   *                         maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param galleryImage Parameters supplied to the update gallery image operation.
    * @param options The options parameters.
    */
@@ -322,6 +349,7 @@ export class GalleryImagesImpl implements GalleryImages {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -329,12 +357,9 @@ export class GalleryImagesImpl implements GalleryImages {
 
   /**
    * Update a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    updated.
-   * @param galleryImageName The name of the gallery image definition to be updated. The allowed
-   *                         characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The
-   *                         maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param galleryImage Parameters supplied to the update gallery image operation.
    * @param options The options parameters.
    */
@@ -356,31 +381,10 @@ export class GalleryImagesImpl implements GalleryImages {
   }
 
   /**
-   * Retrieves information about a gallery image definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which the Image Definitions are to be
-   *                    retrieved.
-   * @param galleryImageName The name of the gallery image definition to be retrieved.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    galleryName: string,
-    galleryImageName: string,
-    options?: GalleryImagesGetOptionalParams,
-  ): Promise<GalleryImagesGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, galleryImageName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Delete a gallery image.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    deleted.
-   * @param galleryImageName The name of the gallery image definition to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -435,6 +439,7 @@ export class GalleryImagesImpl implements GalleryImages {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -442,10 +447,9 @@ export class GalleryImagesImpl implements GalleryImages {
 
   /**
    * Delete a gallery image.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be
-   *                    deleted.
-   * @param galleryImageName The name of the gallery image definition to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryImageName The name of the gallery image definition to be retrieved.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -464,28 +468,9 @@ export class GalleryImagesImpl implements GalleryImages {
   }
 
   /**
-   * List gallery image definitions in a gallery.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which Image Definitions are to be
-   *                    listed.
-   * @param options The options parameters.
-   */
-  private _listByGallery(
-    resourceGroupName: string,
-    galleryName: string,
-    options?: GalleryImagesListByGalleryOptionalParams,
-  ): Promise<GalleryImagesListByGalleryResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, options },
-      listByGalleryOperationSpec,
-    );
-  }
-
-  /**
    * ListByGalleryNext
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Image Gallery from which Image Definitions are to be
-   *                    listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param nextLink The nextLink from the previous successful call to the ListByGallery method.
    * @param options The options parameters.
    */
@@ -504,6 +489,49 @@ export class GalleryImagesImpl implements GalleryImages {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByGalleryOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImageList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryImage,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryImageName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
   httpMethod: "PUT",
@@ -521,7 +549,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryImage,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.galleryImage,
@@ -543,18 +571,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.GalleryImage,
+      headersMapper: Mappers.GalleryImagesUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.GalleryImage,
+      headersMapper: Mappers.GalleryImagesUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.GalleryImage,
+      headersMapper: Mappers.GalleryImagesUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.GalleryImage,
+      headersMapper: Mappers.GalleryImagesUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.galleryImage1,
@@ -570,28 +602,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryImage,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
-    Parameters.galleryImageName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
   httpMethod: "DELETE",
@@ -601,7 +611,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -611,27 +621,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryImageName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByGalleryOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryImageList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -644,13 +633,13 @@ const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
   ],

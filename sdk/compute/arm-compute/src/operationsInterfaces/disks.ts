@@ -10,15 +10,15 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Disk,
-  DisksListByResourceGroupOptionalParams,
   DisksListOptionalParams,
+  DisksListByResourceGroupOptionalParams,
+  DisksGetOptionalParams,
+  DisksGetResponse,
   DisksCreateOrUpdateOptionalParams,
   DisksCreateOrUpdateResponse,
   DiskUpdate,
   DisksUpdateOptionalParams,
   DisksUpdateResponse,
-  DisksGetOptionalParams,
-  DisksGetResponse,
   DisksDeleteOptionalParams,
   GrantAccessData,
   DisksGrantAccessOptionalParams,
@@ -30,8 +30,13 @@ import {
 /** Interface representing a Disks. */
 export interface Disks {
   /**
+   * Lists all the disks under a subscription.
+   * @param options The options parameters.
+   */
+  list(options?: DisksListOptionalParams): PagedAsyncIterableIterator<Disk>;
+  /**
    * Lists all the disks under a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -39,13 +44,21 @@ export interface Disks {
     options?: DisksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Disk>;
   /**
-   * Lists all the disks under a subscription.
+   * Gets information about a disk.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param diskName The name of the managed disk that is being created. The name can't be changed after
+   *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
+   *                 length is 80 characters.
    * @param options The options parameters.
    */
-  list(options?: DisksListOptionalParams): PagedAsyncIterableIterator<Disk>;
+  get(
+    resourceGroupName: string,
+    diskName: string,
+    options?: DisksGetOptionalParams,
+  ): Promise<DisksGetResponse>;
   /**
    * Creates or updates a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -65,7 +78,7 @@ export interface Disks {
   >;
   /**
    * Creates or updates a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -80,7 +93,7 @@ export interface Disks {
   ): Promise<DisksCreateOrUpdateResponse>;
   /**
    * Updates (patches) a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -97,7 +110,7 @@ export interface Disks {
   >;
   /**
    * Updates (patches) a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -111,21 +124,8 @@ export interface Disks {
     options?: DisksUpdateOptionalParams,
   ): Promise<DisksUpdateResponse>;
   /**
-   * Gets information about a disk.
-   * @param resourceGroupName The name of the resource group.
-   * @param diskName The name of the managed disk that is being created. The name can't be changed after
-   *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
-   *                 length is 80 characters.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    diskName: string,
-    options?: DisksGetOptionalParams,
-  ): Promise<DisksGetResponse>;
-  /**
    * Deletes a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -138,7 +138,7 @@ export interface Disks {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -151,7 +151,7 @@ export interface Disks {
   ): Promise<void>;
   /**
    * Grants access to a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -171,7 +171,7 @@ export interface Disks {
   >;
   /**
    * Grants access to a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -186,7 +186,7 @@ export interface Disks {
   ): Promise<DisksGrantAccessResponse>;
   /**
    * Revokes access to a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.
@@ -199,7 +199,7 @@ export interface Disks {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Revokes access to a disk.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskName The name of the managed disk that is being created. The name can't be changed after
    *                 the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name
    *                 length is 80 characters.

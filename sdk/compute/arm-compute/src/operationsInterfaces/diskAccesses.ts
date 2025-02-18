@@ -10,39 +10,30 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DiskAccess,
-  DiskAccessesListByResourceGroupOptionalParams,
   DiskAccessesListOptionalParams,
+  DiskAccessesListByResourceGroupOptionalParams,
   PrivateEndpointConnection,
   DiskAccessesListPrivateEndpointConnectionsOptionalParams,
+  DiskAccessesGetOptionalParams,
+  DiskAccessesGetResponse,
   DiskAccessesCreateOrUpdateOptionalParams,
   DiskAccessesCreateOrUpdateResponse,
   DiskAccessUpdate,
   DiskAccessesUpdateOptionalParams,
   DiskAccessesUpdateResponse,
-  DiskAccessesGetOptionalParams,
-  DiskAccessesGetResponse,
   DiskAccessesDeleteOptionalParams,
   DiskAccessesGetPrivateLinkResourcesOptionalParams,
   DiskAccessesGetPrivateLinkResourcesResponse,
-  DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
-  DiskAccessesUpdateAPrivateEndpointConnectionResponse,
   DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
   DiskAccessesGetAPrivateEndpointConnectionResponse,
+  DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
+  DiskAccessesUpdateAPrivateEndpointConnectionResponse,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DiskAccesses. */
 export interface DiskAccesses {
-  /**
-   * Lists all the disk access resources under a resource group.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: DiskAccessesListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<DiskAccess>;
   /**
    * Lists all the disk access resources under a subscription.
    * @param options The options parameters.
@@ -51,8 +42,17 @@ export interface DiskAccesses {
     options?: DiskAccessesListOptionalParams,
   ): PagedAsyncIterableIterator<DiskAccess>;
   /**
+   * Lists all the disk access resources under a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: DiskAccessesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<DiskAccess>;
+  /**
    * List information about private endpoint connections under a disk access resource
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -64,8 +64,21 @@ export interface DiskAccesses {
     options?: DiskAccessesListPrivateEndpointConnectionsOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
+   * Gets information about a disk access resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
+   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    diskAccessName: string,
+    options?: DiskAccessesGetOptionalParams,
+  ): Promise<DiskAccessesGetResponse>;
+  /**
    * Creates or updates a disk access resource
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -85,7 +98,7 @@ export interface DiskAccesses {
   >;
   /**
    * Creates or updates a disk access resource
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -100,7 +113,7 @@ export interface DiskAccesses {
   ): Promise<DiskAccessesCreateOrUpdateResponse>;
   /**
    * Updates (patches) a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -120,7 +133,7 @@ export interface DiskAccesses {
   >;
   /**
    * Updates (patches) a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -134,21 +147,8 @@ export interface DiskAccesses {
     options?: DiskAccessesUpdateOptionalParams,
   ): Promise<DiskAccessesUpdateResponse>;
   /**
-   * Gets information about a disk access resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
-   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9, _ and -. The maximum name length is 80 characters.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    diskAccessName: string,
-    options?: DiskAccessesGetOptionalParams,
-  ): Promise<DiskAccessesGetResponse>;
-  /**
    * Deletes a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -161,7 +161,7 @@ export interface DiskAccesses {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -174,7 +174,7 @@ export interface DiskAccesses {
   ): Promise<void>;
   /**
    * Gets the private link resources possible under disk access resource
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -186,9 +186,24 @@ export interface DiskAccesses {
     options?: DiskAccessesGetPrivateLinkResourcesOptionalParams,
   ): Promise<DiskAccessesGetPrivateLinkResourcesResponse>;
   /**
+   * Gets information about a private endpoint connection under a disk access resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
+   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
+   *                       0-9, _ and -. The maximum name length is 80 characters.
+   * @param privateEndpointConnectionName The name of the private endpoint connection.
+   * @param options The options parameters.
+   */
+  getAPrivateEndpointConnection(
+    resourceGroupName: string,
+    diskAccessName: string,
+    privateEndpointConnectionName: string,
+    options?: DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
+  ): Promise<DiskAccessesGetAPrivateEndpointConnectionResponse>;
+  /**
    * Approve or reject a private endpoint connection under disk access resource, this can't be used to
    * create a new private endpoint connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -212,7 +227,7 @@ export interface DiskAccesses {
   /**
    * Approve or reject a private endpoint connection under disk access resource, this can't be used to
    * create a new private endpoint connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -229,23 +244,8 @@ export interface DiskAccesses {
     options?: DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
   ): Promise<DiskAccessesUpdateAPrivateEndpointConnectionResponse>;
   /**
-   * Gets information about a private endpoint connection under a disk access resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param diskAccessName The name of the disk access resource that is being created. The name can't be
-   *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
-   *                       0-9, _ and -. The maximum name length is 80 characters.
-   * @param privateEndpointConnectionName The name of the private endpoint connection.
-   * @param options The options parameters.
-   */
-  getAPrivateEndpointConnection(
-    resourceGroupName: string,
-    diskAccessName: string,
-    privateEndpointConnectionName: string,
-    options?: DiskAccessesGetAPrivateEndpointConnectionOptionalParams,
-  ): Promise<DiskAccessesGetAPrivateEndpointConnectionResponse>;
-  /**
    * Deletes a private endpoint connection under a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.
@@ -260,7 +260,7 @@ export interface DiskAccesses {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection under a disk access resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param diskAccessName The name of the disk access resource that is being created. The name can't be
    *                       changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z,
    *                       0-9, _ and -. The maximum name length is 80 characters.

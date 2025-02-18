@@ -24,13 +24,13 @@ import {
   GalleryApplicationsListByGalleryNextOptionalParams,
   GalleryApplicationsListByGalleryOptionalParams,
   GalleryApplicationsListByGalleryResponse,
+  GalleryApplicationsGetOptionalParams,
+  GalleryApplicationsGetResponse,
   GalleryApplicationsCreateOrUpdateOptionalParams,
   GalleryApplicationsCreateOrUpdateResponse,
   GalleryApplicationUpdate,
   GalleryApplicationsUpdateOptionalParams,
   GalleryApplicationsUpdateResponse,
-  GalleryApplicationsGetOptionalParams,
-  GalleryApplicationsGetResponse,
   GalleryApplicationsDeleteOptionalParams,
   GalleryApplicationsListByGalleryNextResponse,
 } from "../models/index.js";
@@ -50,9 +50,8 @@ export class GalleryApplicationsImpl implements GalleryApplications {
 
   /**
    * List gallery Application Definitions in a gallery.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery from which Application Definitions are
-   *                    to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param options The options parameters.
    */
   public listByGallery(
@@ -134,13 +133,46 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   }
 
   /**
+   * List gallery Application Definitions in a gallery.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param options The options parameters.
+   */
+  private _listByGallery(
+    resourceGroupName: string,
+    galleryName: string,
+    options?: GalleryApplicationsListByGalleryOptionalParams,
+  ): Promise<GalleryApplicationsListByGalleryResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, options },
+      listByGalleryOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves information about a gallery Application Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    options?: GalleryApplicationsGetOptionalParams,
+  ): Promise<GalleryApplicationsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, galleryApplicationName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Create or update a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be created.
-   * @param galleryApplicationName The name of the gallery Application Definition to be created or
-   *                               updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in
-   *                               the middle. The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param galleryApplication Parameters supplied to the create or update gallery Application operation.
    * @param options The options parameters.
    */
@@ -211,6 +243,7 @@ export class GalleryApplicationsImpl implements GalleryApplications {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -218,12 +251,9 @@ export class GalleryApplicationsImpl implements GalleryApplications {
 
   /**
    * Create or update a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be created.
-   * @param galleryApplicationName The name of the gallery Application Definition to be created or
-   *                               updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in
-   *                               the middle. The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param galleryApplication Parameters supplied to the create or update gallery Application operation.
    * @param options The options parameters.
    */
@@ -246,12 +276,9 @@ export class GalleryApplicationsImpl implements GalleryApplications {
 
   /**
    * Update a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be updated.
-   * @param galleryApplicationName The name of the gallery Application Definition to be updated. The
-   *                               allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle.
-   *                               The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param galleryApplication Parameters supplied to the update gallery Application operation.
    * @param options The options parameters.
    */
@@ -322,6 +349,7 @@ export class GalleryApplicationsImpl implements GalleryApplications {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -329,12 +357,9 @@ export class GalleryApplicationsImpl implements GalleryApplications {
 
   /**
    * Update a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be updated.
-   * @param galleryApplicationName The name of the gallery Application Definition to be updated. The
-   *                               allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle.
-   *                               The maximum length is 80 characters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param galleryApplication Parameters supplied to the update gallery Application operation.
    * @param options The options parameters.
    */
@@ -356,31 +381,10 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   }
 
   /**
-   * Retrieves information about a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery from which the Application Definitions
-   *                    are to be retrieved.
-   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    galleryName: string,
-    galleryApplicationName: string,
-    options?: GalleryApplicationsGetOptionalParams,
-  ): Promise<GalleryApplicationsGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, galleryApplicationName, options },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Delete a gallery Application.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be deleted.
-   * @param galleryApplicationName The name of the gallery Application Definition to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -435,6 +439,7 @@ export class GalleryApplicationsImpl implements GalleryApplications {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -442,10 +447,9 @@ export class GalleryApplicationsImpl implements GalleryApplications {
 
   /**
    * Delete a gallery Application.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition is
-   *                    to be deleted.
-   * @param galleryApplicationName The name of the gallery Application Definition to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -464,28 +468,9 @@ export class GalleryApplicationsImpl implements GalleryApplications {
   }
 
   /**
-   * List gallery Application Definitions in a gallery.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery from which Application Definitions are
-   *                    to be listed.
-   * @param options The options parameters.
-   */
-  private _listByGallery(
-    resourceGroupName: string,
-    galleryName: string,
-    options?: GalleryApplicationsListByGalleryOptionalParams,
-  ): Promise<GalleryApplicationsListByGalleryResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, options },
-      listByGalleryOperationSpec,
-    );
-  }
-
-  /**
    * ListByGalleryNext
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery from which Application Definitions are
-   *                    to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
    * @param nextLink The nextLink from the previous successful call to the ListByGallery method.
    * @param options The options parameters.
    */
@@ -504,6 +489,49 @@ export class GalleryApplicationsImpl implements GalleryApplications {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByGalleryOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryApplicationList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryApplication,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryApplicationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
   httpMethod: "PUT",
@@ -521,7 +549,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryApplication,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.galleryApplication,
@@ -543,18 +571,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.GalleryApplication,
+      headersMapper: Mappers.GalleryApplicationsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.GalleryApplication,
+      headersMapper: Mappers.GalleryApplicationsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.GalleryApplication,
+      headersMapper: Mappers.GalleryApplicationsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.GalleryApplication,
+      headersMapper: Mappers.GalleryApplicationsUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.galleryApplication1,
@@ -570,28 +602,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryApplication,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
-    Parameters.galleryApplicationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
   httpMethod: "DELETE",
@@ -601,7 +611,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -611,27 +621,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByGalleryOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryApplicationList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -644,13 +633,13 @@ const listByGalleryNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryApplicationList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
   ],

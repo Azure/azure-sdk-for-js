@@ -10,31 +10,21 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Image,
-  ImagesListByResourceGroupOptionalParams,
   ImagesListOptionalParams,
+  ImagesListByResourceGroupOptionalParams,
+  ImagesGetOptionalParams,
+  ImagesGetResponse,
   ImagesCreateOrUpdateOptionalParams,
   ImagesCreateOrUpdateResponse,
   ImageUpdate,
   ImagesUpdateOptionalParams,
   ImagesUpdateResponse,
   ImagesDeleteOptionalParams,
-  ImagesGetOptionalParams,
-  ImagesGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Images. */
 export interface Images {
-  /**
-   * Gets the list of images under a resource group. Use nextLink property in the response to get the
-   * next page of Images. Do this till nextLink is null to fetch all the Images.
-   * @param resourceGroupName The name of the resource group.
-   * @param options The options parameters.
-   */
-  listByResourceGroup(
-    resourceGroupName: string,
-    options?: ImagesListByResourceGroupOptionalParams,
-  ): PagedAsyncIterableIterator<Image>;
   /**
    * Gets the list of Images in the subscription. Use nextLink property in the response to get the next
    * page of Images. Do this till nextLink is null to fetch all the Images.
@@ -42,8 +32,29 @@ export interface Images {
    */
   list(options?: ImagesListOptionalParams): PagedAsyncIterableIterator<Image>;
   /**
+   * Gets the list of images under a resource group. Use nextLink property in the response to get the
+   * next page of Images. Do this till nextLink is null to fetch all the Images.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: ImagesListByResourceGroupOptionalParams,
+  ): PagedAsyncIterableIterator<Image>;
+  /**
+   * Gets an image.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param imageName The name of the image.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    imageName: string,
+    options?: ImagesGetOptionalParams,
+  ): Promise<ImagesGetResponse>;
+  /**
    * Create or update an image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param parameters Parameters supplied to the Create Image operation.
    * @param options The options parameters.
@@ -61,7 +72,7 @@ export interface Images {
   >;
   /**
    * Create or update an image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param parameters Parameters supplied to the Create Image operation.
    * @param options The options parameters.
@@ -74,7 +85,7 @@ export interface Images {
   ): Promise<ImagesCreateOrUpdateResponse>;
   /**
    * Update an image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param parameters Parameters supplied to the Update Image operation.
    * @param options The options parameters.
@@ -89,7 +100,7 @@ export interface Images {
   >;
   /**
    * Update an image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param parameters Parameters supplied to the Update Image operation.
    * @param options The options parameters.
@@ -102,7 +113,7 @@ export interface Images {
   ): Promise<ImagesUpdateResponse>;
   /**
    * Deletes an Image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param options The options parameters.
    */
@@ -113,7 +124,7 @@ export interface Images {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an Image.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param imageName The name of the image.
    * @param options The options parameters.
    */
@@ -122,15 +133,4 @@ export interface Images {
     imageName: string,
     options?: ImagesDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Gets an image.
-   * @param resourceGroupName The name of the resource group.
-   * @param imageName The name of the image.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    imageName: string,
-    options?: ImagesGetOptionalParams,
-  ): Promise<ImagesGetResponse>;
 }

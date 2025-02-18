@@ -24,13 +24,13 @@ import {
   GalleryApplicationVersionsListByGalleryApplicationNextOptionalParams,
   GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
   GalleryApplicationVersionsListByGalleryApplicationResponse,
+  GalleryApplicationVersionsGetOptionalParams,
+  GalleryApplicationVersionsGetResponse,
   GalleryApplicationVersionsCreateOrUpdateOptionalParams,
   GalleryApplicationVersionsCreateOrUpdateResponse,
   GalleryApplicationVersionUpdate,
   GalleryApplicationVersionsUpdateOptionalParams,
   GalleryApplicationVersionsUpdateResponse,
-  GalleryApplicationVersionsGetOptionalParams,
-  GalleryApplicationVersionsGetResponse,
   GalleryApplicationVersionsDeleteOptionalParams,
   GalleryApplicationVersionsListByGalleryApplicationNextResponse,
 } from "../models/index.js";
@@ -52,11 +52,9 @@ export class GalleryApplicationVersionsImpl
 
   /**
    * List gallery Application Versions in a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from
-   *                               which the Application Versions are to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param options The options parameters.
    */
   public listByGalleryApplication(
@@ -146,15 +144,57 @@ export class GalleryApplicationVersionsImpl
   }
 
   /**
+   * List gallery Application Versions in a gallery Application Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param options The options parameters.
+   */
+  private _listByGalleryApplication(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
+  ): Promise<GalleryApplicationVersionsListByGalleryApplicationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, galleryName, galleryApplicationName, options },
+      listByGalleryApplicationOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves information about a gallery Application Version.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    galleryName: string,
+    galleryApplicationName: string,
+    galleryApplicationVersionName: string,
+    options?: GalleryApplicationVersionsGetOptionalParams,
+  ): Promise<GalleryApplicationVersionsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        galleryName,
+        galleryApplicationName,
+        galleryApplicationVersionName,
+        options,
+      },
+      getOperationSpec,
+    );
+  }
+
+  /**
    * Create or update a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version is to be created.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be created.
-   *                                      Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits
-   *                                      must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application
    *                                  Version operation.
    * @param options The options parameters.
@@ -228,6 +268,7 @@ export class GalleryApplicationVersionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -235,14 +276,10 @@ export class GalleryApplicationVersionsImpl
 
   /**
    * Create or update a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version is to be created.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be created.
-   *                                      Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits
-   *                                      must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param galleryApplicationVersion Parameters supplied to the create or update gallery Application
    *                                  Version operation.
    * @param options The options parameters.
@@ -268,14 +305,10 @@ export class GalleryApplicationVersionsImpl
 
   /**
    * Update a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version is to be updated.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be updated.
-   *                                      Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits
-   *                                      must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version
    *                                  operation.
    * @param options The options parameters.
@@ -349,6 +382,7 @@ export class GalleryApplicationVersionsImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -356,14 +390,10 @@ export class GalleryApplicationVersionsImpl
 
   /**
    * Update a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version is to be updated.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be updated.
-   *                                      Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits
-   *                                      must be within the range of a 32-bit integer. Format: <MajorVersion>.<MinorVersion>.<Patch>
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version
    *                                  operation.
    * @param options The options parameters.
@@ -388,42 +418,11 @@ export class GalleryApplicationVersionsImpl
   }
 
   /**
-   * Retrieves information about a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version resides.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    galleryName: string,
-    galleryApplicationName: string,
-    galleryApplicationVersionName: string,
-    options?: GalleryApplicationVersionsGetOptionalParams,
-  ): Promise<GalleryApplicationVersionsGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        galleryName,
-        galleryApplicationName,
-        galleryApplicationVersionName,
-        options,
-      },
-      getOperationSpec,
-    );
-  }
-
-  /**
    * Delete a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version resides.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -485,6 +484,7 @@ export class GalleryApplicationVersionsImpl
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -492,12 +492,10 @@ export class GalleryApplicationVersionsImpl
 
   /**
    * Delete a gallery Application Version.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the gallery Application Definition in which the
-   *                               Application Version resides.
-   * @param galleryApplicationVersionName The name of the gallery Application Version to be deleted.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
+   * @param galleryApplicationVersionName The name of the gallery Application Version to be retrieved.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -518,33 +516,10 @@ export class GalleryApplicationVersionsImpl
   }
 
   /**
-   * List gallery Application Versions in a gallery Application Definition.
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from
-   *                               which the Application Versions are to be listed.
-   * @param options The options parameters.
-   */
-  private _listByGalleryApplication(
-    resourceGroupName: string,
-    galleryName: string,
-    galleryApplicationName: string,
-    options?: GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
-  ): Promise<GalleryApplicationVersionsListByGalleryApplicationResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, galleryName, galleryApplicationName, options },
-      listByGalleryApplicationOperationSpec,
-    );
-  }
-
-  /**
    * ListByGalleryApplicationNext
-   * @param resourceGroupName The name of the resource group.
-   * @param galleryName The name of the Shared Application Gallery in which the Application Definition
-   *                    resides.
-   * @param galleryApplicationName The name of the Shared Application Gallery Application Definition from
-   *                               which the Application Versions are to be listed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param galleryName The name of the Shared Image Gallery.
+   * @param galleryApplicationName The name of the gallery Application Definition to be retrieved.
    * @param nextLink The nextLink from the previous successful call to the ListByGalleryApplication
    *                 method.
    * @param options The options parameters.
@@ -571,6 +546,51 @@ export class GalleryApplicationVersionsImpl
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByGalleryApplicationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryApplicationVersionList,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryApplicationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GalleryApplicationVersion,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion3, Parameters.expand11],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.galleryName,
+    Parameters.galleryApplicationName,
+    Parameters.galleryApplicationVersionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
   httpMethod: "PUT",
@@ -588,7 +608,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryApplicationVersion,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.galleryApplicationVersion,
@@ -611,18 +631,22 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.GalleryApplicationVersion,
+      headersMapper: Mappers.GalleryApplicationVersionsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.GalleryApplicationVersion,
+      headersMapper: Mappers.GalleryApplicationVersionsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.GalleryApplicationVersion,
+      headersMapper: Mappers.GalleryApplicationVersionsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.GalleryApplicationVersion,
+      headersMapper: Mappers.GalleryApplicationVersionsUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.galleryApplicationVersion1,
@@ -639,29 +663,6 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryApplicationVersion,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3, Parameters.expand11],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
-    Parameters.galleryApplicationName,
-    Parameters.galleryApplicationVersionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
   httpMethod: "DELETE",
@@ -671,7 +672,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
@@ -682,28 +683,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.galleryName,
     Parameters.galleryApplicationName,
     Parameters.galleryApplicationVersionName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByGalleryApplicationOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GalleryApplicationVersionList,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion3],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.galleryName,
-    Parameters.galleryApplicationName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -716,13 +695,13 @@ const listByGalleryApplicationNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.GalleryApplicationVersionList,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.galleryName,
     Parameters.galleryApplicationName,

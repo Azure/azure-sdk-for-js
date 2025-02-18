@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { VirtualMachineScaleSetExtensionUpdate } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  VirtualMachineScaleSetExtensionUpdate,
+  ComputeManagementClient,
+} from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -18,8 +22,10 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionUpdateMaximumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmssExtensionName = "aaaa";
   const extensionParameters: VirtualMachineScaleSetExtensionUpdate = {
@@ -36,12 +42,13 @@ async function virtualMachineScaleSetExtensionUpdateMaximumSetGen(): Promise<voi
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetExtensions.beginUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmssExtensionName,
-    extensionParameters,
-  );
+  const result =
+    await client.virtualMachineScaleSetExtensions.beginUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmssExtensionName,
+      extensionParameters,
+    );
   console.log(result);
 }
 
@@ -52,19 +59,22 @@ async function virtualMachineScaleSetExtensionUpdateMaximumSetGen(): Promise<voi
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionUpdateMinimumSetGen(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const vmssExtensionName = "aa";
   const extensionParameters: VirtualMachineScaleSetExtensionUpdate = {};
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetExtensions.beginUpdateAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmssExtensionName,
-    extensionParameters,
-  );
+  const result =
+    await client.virtualMachineScaleSetExtensions.beginUpdateAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmssExtensionName,
+      extensionParameters,
+    );
   console.log(result);
 }
 

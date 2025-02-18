@@ -41,7 +41,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Export logs that show Api requests made by this subscription in the given time window to show
    * throttling activities.
-   * @param location The location upon which virtual-machine-sizes is queried.
+   * @param location The name of Azure region.
    * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
    * @param options The options parameters.
    */
@@ -113,7 +113,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Export logs that show Api requests made by this subscription in the given time window to show
    * throttling activities.
-   * @param location The location upon which virtual-machine-sizes is queried.
+   * @param location The name of Azure region.
    * @param parameters Parameters supplied to the LogAnalytics getRequestRateByInterval Api.
    * @param options The options parameters.
    */
@@ -132,13 +132,13 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
   /**
    * Export logs that show total throttled Api requests for this subscription in the given time window.
-   * @param location The location upon which virtual-machine-sizes is queried.
-   * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
+   * @param location The name of Azure region.
+   * @param body The request body
    * @param options The options parameters.
    */
   async beginExportThrottledRequests(
     location: string,
-    parameters: ThrottledRequestsInput,
+    body: ThrottledRequestsInput,
     options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -186,7 +186,7 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { location, parameters, options },
+      args: { location, body, options },
       spec: exportThrottledRequestsOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -203,18 +203,18 @@ export class LogAnalyticsImpl implements LogAnalytics {
 
   /**
    * Export logs that show total throttled Api requests for this subscription in the given time window.
-   * @param location The location upon which virtual-machine-sizes is queried.
-   * @param parameters Parameters supplied to the LogAnalytics getThrottledRequests Api.
+   * @param location The name of Azure region.
+   * @param body The request body
    * @param options The options parameters.
    */
   async beginExportThrottledRequestsAndWait(
     location: string,
-    parameters: ThrottledRequestsInput,
+    body: ThrottledRequestsInput,
     options?: LogAnalyticsExportThrottledRequestsOptionalParams,
   ): Promise<LogAnalyticsExportThrottledRequestsResponse> {
     const poller = await this.beginExportThrottledRequests(
       location,
-      parameters,
+      body,
       options,
     );
     return poller.pollUntilDone();
@@ -240,15 +240,15 @@ const exportRequestRateByIntervalOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters31,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -271,15 +271,15 @@ const exportThrottledRequestsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.LogAnalyticsOperationResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.parameters32,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

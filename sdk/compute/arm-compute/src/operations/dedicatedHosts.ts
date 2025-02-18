@@ -24,20 +24,23 @@ import {
   DedicatedHostsListByHostGroupNextOptionalParams,
   DedicatedHostsListByHostGroupOptionalParams,
   DedicatedHostsListByHostGroupResponse,
+  DedicatedHostsListAvailableSizesNextOptionalParams,
   DedicatedHostsListAvailableSizesOptionalParams,
   DedicatedHostsListAvailableSizesResponse,
+  DedicatedHostsGetOptionalParams,
+  DedicatedHostsGetResponse,
   DedicatedHostsCreateOrUpdateOptionalParams,
   DedicatedHostsCreateOrUpdateResponse,
   DedicatedHostUpdate,
   DedicatedHostsUpdateOptionalParams,
   DedicatedHostsUpdateResponse,
   DedicatedHostsDeleteOptionalParams,
-  DedicatedHostsGetOptionalParams,
-  DedicatedHostsGetResponse,
-  DedicatedHostsRestartOptionalParams,
   DedicatedHostsRedeployOptionalParams,
   DedicatedHostsRedeployResponse,
+  DedicatedHostsRestartOptionalParams,
+  DedicatedHostsRestartResponse,
   DedicatedHostsListByHostGroupNextResponse,
+  DedicatedHostsListAvailableSizesNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +59,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   /**
    * Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in
    * the response to get the next page of dedicated hosts.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param options The options parameters.
    */
@@ -141,7 +144,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   /**
    * Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE:
    * The dedicated host sizes provided can be used to only scale up the existing dedicated host.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -185,16 +188,35 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     hostGroupName: string,
     hostName: string,
     options?: DedicatedHostsListAvailableSizesOptionalParams,
-    _settings?: PageSettings,
+    settings?: PageSettings,
   ): AsyncIterableIterator<string[]> {
     let result: DedicatedHostsListAvailableSizesResponse;
-    result = await this._listAvailableSizes(
-      resourceGroupName,
-      hostGroupName,
-      hostName,
-      options,
-    );
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listAvailableSizes(
+        resourceGroupName,
+        hostGroupName,
+        hostName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listAvailableSizesNext(
+        resourceGroupName,
+        hostGroupName,
+        hostName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listAvailableSizesPagingAll(
@@ -214,10 +236,47 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   }
 
   /**
-   * Create or update a dedicated host .
-   * @param resourceGroupName The name of the resource group.
+   * Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in
+   * the response to get the next page of dedicated hosts.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host .
+   * @param options The options parameters.
+   */
+  private _listByHostGroup(
+    resourceGroupName: string,
+    hostGroupName: string,
+    options?: DedicatedHostsListByHostGroupOptionalParams,
+  ): Promise<DedicatedHostsListByHostGroupResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, hostGroupName, options },
+      listByHostGroupOperationSpec,
+    );
+  }
+
+  /**
+   * Retrieves information about a dedicated host.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsGetOptionalParams,
+  ): Promise<DedicatedHostsGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, hostGroupName, hostName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Create or update a dedicated host .
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
    * @param parameters Parameters supplied to the Create Dedicated Host.
    * @param options The options parameters.
    */
@@ -282,6 +341,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -289,9 +349,9 @@ export class DedicatedHostsImpl implements DedicatedHosts {
 
   /**
    * Create or update a dedicated host .
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host .
+   * @param hostName The name of the dedicated host.
    * @param parameters Parameters supplied to the Create Dedicated Host.
    * @param options The options parameters.
    */
@@ -314,9 +374,9 @@ export class DedicatedHostsImpl implements DedicatedHosts {
 
   /**
    * Update a dedicated host .
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host .
+   * @param hostName The name of the dedicated host.
    * @param parameters Parameters supplied to the Update Dedicated Host operation.
    * @param options The options parameters.
    */
@@ -381,6 +441,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -388,9 +449,9 @@ export class DedicatedHostsImpl implements DedicatedHosts {
 
   /**
    * Update a dedicated host .
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host .
+   * @param hostName The name of the dedicated host.
    * @param parameters Parameters supplied to the Update Dedicated Host operation.
    * @param options The options parameters.
    */
@@ -413,7 +474,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
 
   /**
    * Delete a dedicated host.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -470,6 +531,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -477,7 +539,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
 
   /**
    * Delete a dedicated host.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -498,140 +560,31 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   }
 
   /**
-   * Retrieves information about a dedicated host.
-   * @param resourceGroupName The name of the resource group.
+   * Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE:
+   * The dedicated host sizes provided can be used to only scale up the existing dedicated host.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
    */
-  get(
+  private _listAvailableSizes(
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    options?: DedicatedHostsGetOptionalParams,
-  ): Promise<DedicatedHostsGetResponse> {
+    options?: DedicatedHostsListAvailableSizesOptionalParams,
+  ): Promise<DedicatedHostsListAvailableSizesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostGroupName, hostName, options },
-      getOperationSpec,
+      listAvailableSizesOperationSpec,
     );
-  }
-
-  /**
-   * Lists all of the dedicated hosts in the specified dedicated host group. Use the nextLink property in
-   * the response to get the next page of dedicated hosts.
-   * @param resourceGroupName The name of the resource group.
-   * @param hostGroupName The name of the dedicated host group.
-   * @param options The options parameters.
-   */
-  private _listByHostGroup(
-    resourceGroupName: string,
-    hostGroupName: string,
-    options?: DedicatedHostsListByHostGroupOptionalParams,
-  ): Promise<DedicatedHostsListByHostGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, hostGroupName, options },
-      listByHostGroupOperationSpec,
-    );
-  }
-
-  /**
-   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
-   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
-   * restart check the Resource Health Center in the Azure Portal. Please refer to
-   * https://learn.microsoft.com/azure/service-health/resource-health-overview for more details.
-   * @param resourceGroupName The name of the resource group.
-   * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host.
-   * @param options The options parameters.
-   */
-  async beginRestart(
-    resourceGroupName: string,
-    hostGroupName: string,
-    hostName: string,
-    options?: DedicatedHostsRestartOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { resourceGroupName, hostGroupName, hostName, options },
-      spec: restartOperationSpec,
-    });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
-   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
-   * restart check the Resource Health Center in the Azure Portal. Please refer to
-   * https://learn.microsoft.com/azure/service-health/resource-health-overview for more details.
-   * @param resourceGroupName The name of the resource group.
-   * @param hostGroupName The name of the dedicated host group.
-   * @param hostName The name of the dedicated host.
-   * @param options The options parameters.
-   */
-  async beginRestartAndWait(
-    resourceGroupName: string,
-    hostGroupName: string,
-    hostName: string,
-    options?: DedicatedHostsRestartOptionalParams,
-  ): Promise<void> {
-    const poller = await this.beginRestart(
-      resourceGroupName,
-      hostGroupName,
-      hostName,
-      options,
-    );
-    return poller.pollUntilDone();
   }
 
   /**
    * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
    * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
    * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
-   * https://learn.microsoft.com/azure/service-health/resource-health-overview for more details.
-   * @param resourceGroupName The name of the resource group.
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -696,6 +649,7 @@ export class DedicatedHostsImpl implements DedicatedHosts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -705,8 +659,8 @@ export class DedicatedHostsImpl implements DedicatedHosts {
    * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
    * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
    * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
-   * https://learn.microsoft.com/azure/service-health/resource-health-overview for more details.
-   * @param resourceGroupName The name of the resource group.
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
@@ -727,28 +681,109 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   }
 
   /**
-   * Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE:
-   * The dedicated host sizes provided can be used to only scale up the existing dedicated host.
-   * @param resourceGroupName The name of the resource group.
+   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
+   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
+   * restart check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param hostName The name of the dedicated host.
    * @param options The options parameters.
    */
-  private _listAvailableSizes(
+  async beginRestart(
     resourceGroupName: string,
     hostGroupName: string,
     hostName: string,
-    options?: DedicatedHostsListAvailableSizesOptionalParams,
-  ): Promise<DedicatedHostsListAvailableSizesResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, hostGroupName, hostName, options },
-      listAvailableSizesOperationSpec,
+    options?: DedicatedHostsRestartOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DedicatedHostsRestartResponse>,
+      DedicatedHostsRestartResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<DedicatedHostsRestartResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, hostGroupName, hostName, options },
+      spec: restartOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DedicatedHostsRestartResponse,
+      OperationState<DedicatedHostsRestartResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
+   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
+   * restart check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  async beginRestartAndWait(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRestartOptionalParams,
+  ): Promise<DedicatedHostsRestartResponse> {
+    const poller = await this.beginRestart(
+      resourceGroupName,
+      hostGroupName,
+      hostName,
+      options,
     );
+    return poller.pollUntilDone();
   }
 
   /**
    * ListByHostGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostGroupName The name of the dedicated host group.
    * @param nextLink The nextLink from the previous successful call to the ListByHostGroup method.
    * @param options The options parameters.
@@ -764,10 +799,74 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       listByHostGroupNextOperationSpec,
     );
   }
+
+  /**
+   * ListAvailableSizesNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param nextLink The nextLink from the previous successful call to the ListAvailableSizes method.
+   * @param options The options parameters.
+   */
+  private _listAvailableSizesNext(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    nextLink: string,
+    options?: DedicatedHostsListAvailableSizesNextOptionalParams,
+  ): Promise<DedicatedHostsListAvailableSizesNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, hostGroupName, hostName, nextLink, options },
+      listAvailableSizesNextOperationSpec,
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
+const listByHostGroupOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DedicatedHostListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DedicatedHost,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.expand3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostGroupName,
+    Parameters.hostName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
   httpMethod: "PUT",
@@ -788,7 +887,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters17,
+  requestBody: Parameters.parameters28,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -807,21 +906,25 @@ const updateOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHost,
+      headersMapper: Mappers.DedicatedHostsUpdateHeaders,
     },
     201: {
       bodyMapper: Mappers.DedicatedHost,
+      headersMapper: Mappers.DedicatedHostsUpdateHeaders,
     },
     202: {
       bodyMapper: Mappers.DedicatedHost,
+      headersMapper: Mappers.DedicatedHostsUpdateHeaders,
     },
     204: {
       bodyMapper: Mappers.DedicatedHost,
+      headersMapper: Mappers.DedicatedHostsUpdateHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
     },
   },
-  requestBody: Parameters.parameters18,
+  requestBody: Parameters.parameters29,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -857,57 +960,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const getOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
+const listAvailableSizesOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/hostSizes",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedHost,
+      bodyMapper: Mappers.DedicatedHostSizeListResult,
     },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.expand2],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hostGroupName,
-    Parameters.hostName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const listByHostGroupOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DedicatedHostListResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.hostGroupName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
-const restartOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/restart",
-  httpMethod: "POST",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
     default: {
       bodyMapper: Mappers.CloudError,
     },
@@ -940,7 +999,7 @@ const redeployOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.DedicatedHostsRedeployHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -948,18 +1007,27 @@ const redeployOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostGroupName1,
-    Parameters.hostName1,
+    Parameters.hostGroupName,
+    Parameters.hostName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listAvailableSizesOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/hostSizes",
-  httpMethod: "GET",
+const restartOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/restart",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DedicatedHostSizeListResult,
+      headersMapper: Mappers.DedicatedHostsRestartHeaders,
+    },
+    201: {
+      headersMapper: Mappers.DedicatedHostsRestartHeaders,
+    },
+    202: {
+      headersMapper: Mappers.DedicatedHostsRestartHeaders,
+    },
+    204: {
+      headersMapper: Mappers.DedicatedHostsRestartHeaders,
     },
     default: {
       bodyMapper: Mappers.CloudError,
@@ -970,8 +1038,8 @@ const listAvailableSizesOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostGroupName1,
-    Parameters.hostName1,
+    Parameters.hostGroupName,
+    Parameters.hostName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -989,10 +1057,32 @@ const listByHostGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listAvailableSizesNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DedicatedHostSizeListResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostGroupName,
+    Parameters.hostName,
   ],
   headerParameters: [Parameters.accept],
   serializer,

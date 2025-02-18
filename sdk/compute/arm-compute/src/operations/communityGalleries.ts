@@ -30,7 +30,7 @@ export class CommunityGalleriesImpl implements CommunityGalleries {
 
   /**
    * Get a community gallery by gallery public name.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param publicGalleryName The public name of the community gallery.
    * @param options The options parameters.
    */
@@ -56,14 +56,14 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunityGallery,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location1,
+    Parameters.location,
     Parameters.publicGalleryName,
   ],
   headerParameters: [Parameters.accept],

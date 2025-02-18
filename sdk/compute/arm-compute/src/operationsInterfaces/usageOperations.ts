@@ -15,7 +15,7 @@ export interface UsageOperations {
   /**
    * Gets, for the specified location, the current compute resource usage information as well as the
    * limits for compute resources under the subscription.
-   * @param location The location for which resource usage is queried.
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   list(

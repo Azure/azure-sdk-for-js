@@ -11,14 +11,14 @@ import {
   ProximityPlacementGroup,
   ProximityPlacementGroupsListBySubscriptionOptionalParams,
   ProximityPlacementGroupsListByResourceGroupOptionalParams,
+  ProximityPlacementGroupsGetOptionalParams,
+  ProximityPlacementGroupsGetResponse,
   ProximityPlacementGroupsCreateOrUpdateOptionalParams,
   ProximityPlacementGroupsCreateOrUpdateResponse,
   ProximityPlacementGroupUpdate,
   ProximityPlacementGroupsUpdateOptionalParams,
   ProximityPlacementGroupsUpdateResponse,
   ProximityPlacementGroupsDeleteOptionalParams,
-  ProximityPlacementGroupsGetOptionalParams,
-  ProximityPlacementGroupsGetResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ProximityPlacementGroups {
   ): PagedAsyncIterableIterator<ProximityPlacementGroup>;
   /**
    * Lists all proximity placement groups in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -41,8 +41,19 @@ export interface ProximityPlacementGroups {
     options?: ProximityPlacementGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ProximityPlacementGroup>;
   /**
+   * Retrieves information about a proximity placement group .
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param proximityPlacementGroupName The name of the proximity placement group.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    proximityPlacementGroupName: string,
+    options?: ProximityPlacementGroupsGetOptionalParams,
+  ): Promise<ProximityPlacementGroupsGetResponse>;
+  /**
    * Create or update a proximity placement group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param parameters Parameters supplied to the Create Proximity Placement Group operation.
    * @param options The options parameters.
@@ -55,7 +66,7 @@ export interface ProximityPlacementGroups {
   ): Promise<ProximityPlacementGroupsCreateOrUpdateResponse>;
   /**
    * Update a proximity placement group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param parameters Parameters supplied to the Update Proximity Placement Group operation.
    * @param options The options parameters.
@@ -68,7 +79,7 @@ export interface ProximityPlacementGroups {
   ): Promise<ProximityPlacementGroupsUpdateResponse>;
   /**
    * Delete a proximity placement group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param proximityPlacementGroupName The name of the proximity placement group.
    * @param options The options parameters.
    */
@@ -77,15 +88,4 @@ export interface ProximityPlacementGroups {
     proximityPlacementGroupName: string,
     options?: ProximityPlacementGroupsDeleteOptionalParams,
   ): Promise<void>;
-  /**
-   * Retrieves information about a proximity placement group .
-   * @param resourceGroupName The name of the resource group.
-   * @param proximityPlacementGroupName The name of the proximity placement group.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    proximityPlacementGroupName: string,
-    options?: ProximityPlacementGroupsGetOptionalParams,
-  ): Promise<ProximityPlacementGroupsGetResponse>;
 }

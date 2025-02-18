@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { RequestRateByIntervalInput } from "@azure/arm-compute";
-import { ComputeManagementClient } from "@azure/arm-compute";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  RequestRateByIntervalInput,
+  ComputeManagementClient,
+} from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -18,7 +22,8 @@ import "dotenv/config";
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/logAnalyticExamples/LogAnalytics_RequestRateByInterval.json
  */
 async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals(): Promise<void> {
-  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "westus";
   const parameters: RequestRateByIntervalInput = {
     blobContainerSasUri: "https://somesasuri",
@@ -29,10 +34,11 @@ async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProvider
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.logAnalytics.beginExportRequestRateByIntervalAndWait(
-    location,
-    parameters,
-  );
+  const result =
+    await client.logAnalytics.beginExportRequestRateByIntervalAndWait(
+      location,
+      parameters,
+    );
   console.log(result);
 }
 

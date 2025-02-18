@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper.js";
 import { VirtualMachineSizes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
@@ -14,8 +15,10 @@ import * as Parameters from "../models/parameters.js";
 import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
   VirtualMachineSize,
+  VirtualMachineSizesListNextOptionalParams,
   VirtualMachineSizesListOptionalParams,
   VirtualMachineSizesListResponse,
+  VirtualMachineSizesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,8 +36,8 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
 
   /**
    * This API is deprecated. Use [Resources
-   * Skus](https://learn.microsoft.com/rest/api/compute/resourceskus/list)
-   * @param location The location upon which virtual-machine-sizes is queried.
+   * Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   public list(
@@ -61,11 +64,24 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
   private async *listPagingPage(
     location: string,
     options?: VirtualMachineSizesListOptionalParams,
-    _settings?: PageSettings,
+    settings?: PageSettings,
   ): AsyncIterableIterator<VirtualMachineSize[]> {
     let result: VirtualMachineSizesListResponse;
-    result = await this._list(location, options);
-    yield result.value || [];
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(location, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(location, continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
   }
 
   private async *listPagingAll(
@@ -79,8 +95,8 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
 
   /**
    * This API is deprecated. Use [Resources
-   * Skus](https://learn.microsoft.com/rest/api/compute/resourceskus/list)
-   * @param location The location upon which virtual-machine-sizes is queried.
+   * Skus](https://docs.microsoft.com/rest/api/compute/resourceskus/list)
+   * @param location The name of Azure region.
    * @param options The options parameters.
    */
   private _list(
@@ -90,6 +106,23 @@ export class VirtualMachineSizesImpl implements VirtualMachineSizes {
     return this.client.sendOperationRequest(
       { location, options },
       listOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param location The name of Azure region.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    location: string,
+    nextLink: string,
+    options?: VirtualMachineSizesListNextOptionalParams,
+  ): Promise<VirtualMachineSizesListNextResponse> {
+    return this.client.sendOperationRequest(
+      { location, nextLink, options },
+      listNextOperationSpec,
     );
   }
 }
@@ -104,14 +137,34 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.VirtualMachineSizeListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.location,
     Parameters.subscriptionId,
+    Parameters.location,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualMachineSizeListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.subscriptionId,
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
   serializer,

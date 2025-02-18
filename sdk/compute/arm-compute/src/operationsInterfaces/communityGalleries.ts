@@ -15,7 +15,7 @@ import {
 export interface CommunityGalleries {
   /**
    * Get a community gallery by gallery public name.
-   * @param location Resource location.
+   * @param location The name of Azure region.
    * @param publicGalleryName The public name of the community gallery.
    * @param options The options parameters.
    */
