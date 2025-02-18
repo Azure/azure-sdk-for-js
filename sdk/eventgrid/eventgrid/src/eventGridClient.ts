@@ -12,7 +12,7 @@ import { GeneratedClient } from "./generated/generatedClient.js";
 import type {
   CloudEvent as CloudEventWireModel,
   EventGridEvent as EventGridEventWireModel,
-  GeneratedClientPublishCloudEventEventsOptionalParams,
+  PublishCloudEventEventsOptionalParams,
 } from "./generated/models/index.js";
 import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy.js";
 import { tracingClient } from "./tracing.js";
@@ -174,7 +174,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
           const {
             channelName,
             ...sendOptions
-          }: { channelName?: string } & GeneratedClientPublishCloudEventEventsOptionalParams =
+          }: { channelName?: string } & PublishCloudEventEventsOptionalParams =
             updatedOptions as CloudEventSendOptions;
 
           if (channelName) {
