@@ -1,8 +1,8 @@
 import { TokenCredential } from "@azure/core-auth";
-import { assert } from "chai";
-import { ResourceManagementClient } from "../src/resourceManagementClient";
+import { ResourceManagementClient } from "../src/resourceManagementClient.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { OperationRequest } from "@azure/core-client";
+import { describe, it, assert } from "vitest";
 
 describe("Mock test for CAE with ResourceManagementClient", () => {
   // this is not a real token, does not contain any sensitive info, just for test.
@@ -10,16 +10,16 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
   const caeChallenge = `Bearer realm="", error_description="Continuous access evaluation resulted in challenge", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0=" `;
   // This header is invalid because the claims is empty
   const invalidCAEChallenge = `Bearer realm="", error_description="", error="insufficient_claims", claims=""`;
-  it("should proceed CAE process for mgmt client if a valid CAE challenge", async function () {
+  it("should proceed CAE process for mgmt client if a valid CAE challenge", async () => {
     let getTokenCount = 0;
     const credential: TokenCredential = {
-      getToken: async (scopes) => {
+      getToken: async () => {
         getTokenCount++;
         let token = "testToken";
-        if (getTokenCount === 0) {
+        if (getTokenCount === 1) {
           token = "firstToken";
         }
-        return { token: "testToken", expiresOnTimestamp: 11111 };
+        return { token: token, expiresOnTimestamp: 11111 };
       },
     };
 
@@ -31,12 +31,16 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
           request = req;
           getRequestCount++;
           if (getRequestCount === 1) {
-            return { request: req, status: 401, headers: createHttpHeaders({ "www-authenticate": caeChallenge }) };
+            return {
+              request: req,
+              status: 401,
+              headers: createHttpHeaders({ "www-authenticate": caeChallenge }),
+            };
           }
           return { request: req, status: 200, headers: createHttpHeaders() };
         },
       },
-      credential
+      credential,
     });
 
     const result = await client.operations.list();
@@ -50,33 +54,35 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
     assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
   });
 
-  it("should not proceed CAE process for mgmt client if an invalid CAE challenge", async function () {
+  it("should not proceed CAE process for mgmt client if an invalid CAE challenge", async () => {
     let getTokenCount = 0;
     const credential: TokenCredential = {
-      getToken: async (scopes) => {
+      getToken: async () => {
         getTokenCount++;
         let token = "testToken";
-        if (getTokenCount === 0) {
+        if (getTokenCount === 1) {
           token = "firstToken";
         }
-        return { token: "testToken", expiresOnTimestamp: 11111 };
+        return { token: token, expiresOnTimestamp: 11111 };
       },
     };
 
     let getRequestCount = 0;
-    let request: OperationRequest;
     const client = new ResourceManagementClient(credential, "subscriptionID", {
       httpClient: {
         sendRequest: async (req) => {
-          request = req;
           getRequestCount++;
           if (getRequestCount === 1) {
-            return { request: req, status: 401, headers: createHttpHeaders({ "www-authenticate": invalidCAEChallenge }) };
+            return {
+              request: req,
+              status: 401,
+              headers: createHttpHeaders({ "www-authenticate": invalidCAEChallenge }),
+            };
           }
           return { request: req, status: 200, headers: createHttpHeaders() };
         },
       },
-      credential
+      credential,
     });
     try {
       const result = await client.operations.list();

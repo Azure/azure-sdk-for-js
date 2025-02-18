@@ -9,7 +9,7 @@
 import {
   ProviderResourceTypesListOptionalParams,
   ProviderResourceTypesListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProviderResourceTypes. */
 export interface ProviderResourceTypes {
