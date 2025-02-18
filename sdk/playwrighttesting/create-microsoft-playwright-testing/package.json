@@ -107,7 +107,5 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  },
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  }
 }
