@@ -3769,11 +3769,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity-broker@file:projects/identity-broker.tgz':
-    resolution: {integrity: sha512-D7r8Jg8u0TnZ1Ou8qCAi4MK7V9IcO+NxDlxHuo6lrinY3QapneKicfIjl0iK/OylrQRS9QwCJYNNVb+JNHpXPA==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-srliIScGxUDIjZEI2fqEyuQtUFWiP8wbE/CVBcW+remMTyPMb3ArTGzvik/GtWk/nXlZqazedoXODDNxbxd0qw==, tarball: file:projects/identity-broker.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-cache-persistence@file:projects/identity-cache-persistence.tgz':
-    resolution: {integrity: sha512-gBomXlC4mua5KzE19ZD54QuEHHQHXQDcASTJQHH5jNMKVU5O8FUnJNm1yrGpzqcjAnXQqOTNKHcg6D78CVQUDA==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-mLx+AXaT6P5YQ1kQjj3u/bKAtxhYtx2v7mXjoGj3CBeBEraB72d0mPeSC1tXjg7QzAoOT7QWWGbRvbLEr2U2lQ==, tarball: file:projects/identity-cache-persistence.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-vscode@file:projects/identity-vscode.tgz':
@@ -20483,7 +20483,7 @@ snapshots:
   '@rush-temp/identity-broker@file:projects/identity-broker.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/msal-node': 2.16.2
+      '@azure/msal-node': 3.2.2
       '@azure/msal-node-extensions': 1.5.4
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
@@ -20519,7 +20519,7 @@ snapshots:
 
   '@rush-temp/identity-cache-persistence@file:projects/identity-cache-persistence.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure/msal-node': 2.16.2
+      '@azure/msal-node': 3.2.2
       '@azure/msal-node-extensions': 1.5.4
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
