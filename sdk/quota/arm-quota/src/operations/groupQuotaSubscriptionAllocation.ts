@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GroupQuotaSubscriptionAllocation } from "../operationsInterfaces";
+import { GroupQuotaSubscriptionAllocation } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI.js";
 import {
   GroupQuotaSubscriptionAllocationListOptionalParams,
   GroupQuotaSubscriptionAllocationListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing GroupQuotaSubscriptionAllocation operations. */
 export class GroupQuotaSubscriptionAllocationImpl
