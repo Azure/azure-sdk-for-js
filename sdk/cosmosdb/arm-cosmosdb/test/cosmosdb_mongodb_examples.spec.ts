@@ -40,18 +40,18 @@ describe("Cosmosdb test", () => {
   let accountName: string;
   let databaseName: string;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastasia";
-    resourceGroupName = "myjstest";
-    accountName = "myaccountxxyz3";
-    databaseName = "mydatabasexxxx";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastasia";
+      resourceGroupName = "myjstest";
+      accountName = "myaccountxxyz3";
+      databaseName = "mydatabasexxxx";
+    });
 
   afterEach(async () => {
     await recorder.stop();

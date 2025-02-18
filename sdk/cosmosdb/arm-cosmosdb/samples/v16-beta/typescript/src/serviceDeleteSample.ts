@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes service with the given serviceName.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBDataTransferServiceDelete.json
  */
-async function dataTransferServiceDelete() {
+async function dataTransferServiceDelete(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -36,7 +36,7 @@ async function dataTransferServiceDelete() {
  * @summary Deletes service with the given serviceName.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBGraphAPIComputeServiceDelete.json
  */
-async function graphApiComputeServiceDelete() {
+async function graphApiComputeServiceDelete(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -57,7 +57,7 @@ async function graphApiComputeServiceDelete() {
  * @summary Deletes service with the given serviceName.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMaterializedViewsBuilderServiceDelete.json
  */
-async function materializedViewsBuilderServiceDelete() {
+async function materializedViewsBuilderServiceDelete(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -78,7 +78,7 @@ async function materializedViewsBuilderServiceDelete() {
  * @summary Deletes service with the given serviceName.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/services/sqldedicatedgateway/CosmosDBSqlDedicatedGatewayServiceDelete.json
  */
-async function sqlDedicatedGatewayServiceDelete() {
+async function sqlDedicatedGatewayServiceDelete(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -93,7 +93,7 @@ async function sqlDedicatedGatewayServiceDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dataTransferServiceDelete();
   graphApiComputeServiceDelete();
   materializedViewsBuilderServiceDelete();
