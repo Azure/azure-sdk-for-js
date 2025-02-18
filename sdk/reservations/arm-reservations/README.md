@@ -54,8 +54,7 @@ Using Node.js and Node-like environments, you can use the `DefaultAzureCredentia
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new AzureReservationAPI(new DefaultAzureCredential(), subscriptionId);
+const client = new AzureReservationAPI(new DefaultAzureCredential());
 ```
 
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
@@ -64,12 +63,11 @@ For browser environments, use the `InteractiveBrowserCredential` from the `@azur
 import { InteractiveBrowserCredential } from "@azure/identity";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
   clientId: "<YOUR_CLIENT_ID>",
 });
-const client = new AzureReservationAPI(credential, subscriptionId);
+const client = new AzureReservationAPI(credential);
 ```
 
 ### JavaScript Bundle
