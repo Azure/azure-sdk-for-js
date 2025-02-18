@@ -136,6 +136,7 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "workerd": "./dist/esm/index.js",
       "browser": {
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
