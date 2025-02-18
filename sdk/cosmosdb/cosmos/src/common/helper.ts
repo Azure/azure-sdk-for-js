@@ -376,30 +376,14 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
  */
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-shadow, no-prototype-builtins */
 export function copyObject(obj: any): any {
-  function deepCopyRecursive(obj: any): any {
-    if (obj === null || typeof obj !== "object") {
-      return obj;
-    }
-    if (obj instanceof Date) {
-      return JSON.parse(JSON.stringify(obj));
-    }
-    if (Array.isArray(obj)) {
-      const arrCopy = [];
-      for (const item of obj) {
-        arrCopy.push(deepCopyRecursive(item));
+  return JSON.parse(
+    JSON.stringify(obj, (_, value) => {
+      if (typeof value === "bigint") {
+        throw new Error(`BigInt type is not supported`);
       }
-      return arrCopy;
-    }
-
-    const objCopy = {} as any;
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        objCopy[key] = deepCopyRecursive(obj[key]);
-      }
-    }
-    return objCopy;
-  }
-  return deepCopyRecursive(obj);
+      return value;
+    }),
+  );
 }
 
 /**
