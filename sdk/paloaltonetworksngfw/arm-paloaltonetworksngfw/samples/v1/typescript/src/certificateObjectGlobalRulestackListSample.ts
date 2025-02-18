@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List CertificateObjectGlobalRulestackResource resources by Tenant
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List CertificateObjectGlobalRulestackResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_List_MaximumSet_Gen.json
  */
-async function certificateObjectGlobalRulestackListMaximumSetGen() {
+async function certificateObjectGlobalRulestackListMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -39,7 +37,7 @@ async function certificateObjectGlobalRulestackListMaximumSetGen() {
  * @summary List CertificateObjectGlobalRulestackResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_List_MinimumSet_Gen.json
  */
-async function certificateObjectGlobalRulestackListMinimumSetGen() {
+async function certificateObjectGlobalRulestackListMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -52,7 +50,7 @@ async function certificateObjectGlobalRulestackListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   certificateObjectGlobalRulestackListMaximumSetGen();
   certificateObjectGlobalRulestackListMinimumSetGen();
 }
