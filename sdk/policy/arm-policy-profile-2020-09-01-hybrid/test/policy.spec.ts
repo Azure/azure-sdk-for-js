@@ -36,7 +36,7 @@ describe("My test", () => {
     await recorder.stop();
   });
 
-  it("sample test", async function () {
+  it("sample test", async () => {
     assert.isTrue(true);
   });
 });
