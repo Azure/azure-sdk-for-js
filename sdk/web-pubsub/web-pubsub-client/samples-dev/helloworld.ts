@@ -11,34 +11,38 @@ import type {
 } from "@azure/web-pubsub-client";
 import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
+import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
-const hubName = "sample_chat";
-const groupName = "testGroup";
-const serviceClient = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, hubName);
-
-const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions): Promise<string> => {
-  return (
-    await serviceClient.getClientAccessToken({
-      roles: [`webpubsub.joinLeaveGroup.${groupName}`, `webpubsub.sendToGroup.${groupName}`],
-    })
-  ).url;
-};
-
 async function main(): Promise<void> {
+  const hubName = "sample_chat";
+  const groupName = "testGroup";
+  const serviceClient = new WebPubSubServiceClient(
+    process.env.WPS_ENDPOINT!,
+    new DefaultAzureCredential(),
+    hubName,
+  );
+
+  const fetchClientAccessUrl = async (_: GetClientAccessUrlOptions): Promise<string> => {
+    return (
+      await serviceClient.getClientAccessToken({
+        roles: [`webpubsub.joinLeaveGroup.${groupName}`, `webpubsub.sendToGroup.${groupName}`],
+      })
+    ).url;
+  };
   const client = new WebPubSubClient({
     getClientAccessUrl: fetchClientAccessUrl,
   } as WebPubSubClientCredential);
 
-  await client.on("connected", (e) => {
+  client.on("connected", (e) => {
     console.log(`Connection ${e.connectionId} is connected.`);
   });
 
-  await client.on("disconnected", (e) => {
+  client.on("disconnected", (e) => {
     console.log(`Connection disconnected: ${e.message}`);
   });
 
-  await client.on("server-message", (e) => {
+  client.on("server-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(`Received message ${Buffer.from(e.message.data).toString("base64")}`);
     } else {
@@ -46,7 +50,7 @@ async function main(): Promise<void> {
     }
   });
 
-  await client.on("group-message", (e) => {
+  client.on("group-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(
         `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString(
@@ -73,7 +77,7 @@ async function main(): Promise<void> {
     "binary",
   );
   await delay(1000);
-  await client.stop();
+  client.stop();
 }
 
 main().catch((e) => {
