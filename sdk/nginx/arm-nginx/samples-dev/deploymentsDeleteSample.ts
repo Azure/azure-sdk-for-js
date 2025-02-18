@@ -7,9 +7,7 @@
  */
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete the NGINX deployment resource
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Delete the NGINX deployment resource
  * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Deployments_Delete.json
  */
-async function deploymentsDelete() {
+async function deploymentsDelete(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
@@ -28,7 +26,7 @@ async function deploymentsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deploymentsDelete();
 }
 

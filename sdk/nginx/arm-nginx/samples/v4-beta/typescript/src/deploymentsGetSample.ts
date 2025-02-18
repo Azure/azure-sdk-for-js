@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the NGINX deployment
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the NGINX deployment
  * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Deployments_Get.json
  */
-async function deploymentsGet() {
+async function deploymentsGet(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function deploymentsGet() {
  * @summary Get the NGINX deployment
  * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Deployments_Get_AutoScale.json
  */
-async function deploymentsGetAutoScale() {
+async function deploymentsGetAutoScale(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -58,7 +56,7 @@ async function deploymentsGetAutoScale() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deploymentsGet();
   deploymentsGetAutoScale();
 }
