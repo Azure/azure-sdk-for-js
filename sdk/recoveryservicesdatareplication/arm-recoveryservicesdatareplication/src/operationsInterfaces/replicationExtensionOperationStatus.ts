@@ -9,7 +9,7 @@
 import {
   ReplicationExtensionOperationStatusGetOptionalParams,
   ReplicationExtensionOperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ReplicationExtensionOperationStatus. */
 export interface ReplicationExtensionOperationStatus {
