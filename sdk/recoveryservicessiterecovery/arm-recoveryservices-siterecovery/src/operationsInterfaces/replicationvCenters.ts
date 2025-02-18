@@ -21,7 +21,7 @@ import {
   UpdateVCenterRequest,
   ReplicationvCentersUpdateOptionalParams,
   ReplicationvCentersUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationvCenters. */
