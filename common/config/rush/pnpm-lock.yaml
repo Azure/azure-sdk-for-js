@@ -591,7 +591,7 @@ importers:
         version: file:projects/arm-policy.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-policy-profile-2020-09-01-hybrid':
         specifier: file:./projects/arm-policy-profile-2020-09-01-hybrid.tgz
-        version: file:projects/arm-policy-profile-2020-09-01-hybrid.tgz
+        version: file:projects/arm-policy-profile-2020-09-01-hybrid.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-policyinsights':
         specifier: file:./projects/arm-policyinsights.tgz
         version: file:projects/arm-policyinsights.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
@@ -2737,7 +2737,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz':
-    resolution: {integrity: sha512-Xc2JkbgagP65oltPB9A4krmQn4o6YTZ2V6gL6JqJYBfe1ARa/pNWa+bhKY3+u/ImzMpWj+eZ433VGXuTja5EwQ==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-YE6nJTK/BVAb1nBjvV/qgoJOgtmzrPI3GPW7DOuKyyVO1yNCIZ15X46xdfFgoZysUzTvglU7TgAUYur+STPBYw==, tarball: file:projects/arm-computeschedule.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-confidentialledger@file:projects/arm-confidentialledger.tgz':
@@ -3249,7 +3249,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz':
-    resolution: {integrity: sha512-h4htkOBXb/SsaNfmBHi3B7j8LJGsPAVjXZQJR9dLkg8fhCHT3EWVckIfhLpDNu/+FHPG4yf8EefdcUxdBWrX1g==, tarball: file:projects/arm-pineconevectordb.tgz}
+    resolution: {integrity: sha512-jW914Jzu10EhN3yiXskFA40AOpqHyI/GdT35ak04F3dP0ug5Ouk2R40dYLf//wsxHpkaPF4PBnXOaMtv7Ew5ZA==, tarball: file:projects/arm-pineconevectordb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-playwrighttesting@file:projects/arm-playwrighttesting.tgz':
@@ -3257,11 +3257,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-policy-profile-2020-09-01-hybrid@file:projects/arm-policy-profile-2020-09-01-hybrid.tgz':
-    resolution: {integrity: sha512-O4pesDEC4sjhSswkTPTwhI4sxSU0GEZTNXuZ3sjtzjZFDzgX8CvS6clo5Zh/tVfNNRFbfzxwa/Zx8oAHyOgpnA==, tarball: file:projects/arm-policy-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-CHsrZs9AQeh8QugNkHu0ehi+uRinmQuQpRnv8fINFp2NihVa0kosmU/xxkbAdY2bqKz4YtTPiOm4Ux4bD+cyhw==, tarball: file:projects/arm-policy-profile-2020-09-01-hybrid.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz':
-    resolution: {integrity: sha512-cmJJUV1AyjJWRDpjqsGPQTlH/uc3ctcw7zYBSL+Jhq/dgD8rDJpZ5jLH/GbbTyPfge9wKJ9kLvar7N22vPxlpw==, tarball: file:projects/arm-policy.tgz}
+    resolution: {integrity: sha512-JHsF5y5vYVCkUgSJ+WWbhdXbn7W2QVUUxbsuNfE7+qpr1MxTLF3/CJKPaR3y1snMbyGM6tO06uXh1tCaE8juLQ==, tarball: file:projects/arm-policy.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-policyinsights@file:projects/arm-policyinsights.tgz':
@@ -3433,7 +3433,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-servicenetworking@file:projects/arm-servicenetworking.tgz':
-    resolution: {integrity: sha512-arlvJb/ozRYbK5/eX6UKRRFByc5mhGztqsWFR6U9o+wSfu6VAZuksYw2w8rUovVSzWx+LCKhX2uG2nBaYdfxgw==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-y41ds59a+CS9sqMVLi7Wdabb4hBxBIi+T7GFQCWDR1MwU68OfVmhlCoYOtgJKZI6dPVMLtoGc62yHXXPeHv4HA==, tarball: file:projects/arm-servicenetworking.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-signalr@file:projects/arm-signalr.tgz':
@@ -3705,7 +3705,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz':
-    resolution: {integrity: sha512-12oujwcJZYF2mealed/mFD41GgSez6UE1ICuPTnzoDyW2yaasQKrp5z8RowLVQFmIZz6Y6xcPKPhRUSQ3Optug==, tarball: file:projects/defender-easm.tgz}
+    resolution: {integrity: sha512-jI8Yq+2wjHPEivyY7P7u6aSgf7vh4DhhJATtBjuVYuowO353vHtGL2f1Q05SEZLm4i2zkeRiYfRb6GP0gNbjUQ==, tarball: file:projects/defender-easm.tgz}
     version: 0.0.0
 
   '@rush-temp/dev-tool@file:projects/dev-tool.tgz':
@@ -11824,7 +11824,6 @@ snapshots:
 
   '@rush-temp/arm-computeschedule@file:projects/arm-computeschedule.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
@@ -16207,7 +16206,6 @@ snapshots:
 
   '@rush-temp/arm-pineconevectordb@file:projects/arm-pineconevectordb.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
@@ -16276,23 +16274,39 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-policy-profile-2020-09-01-hybrid@file:projects/arm-policy-profile-2020-09-01-hybrid.tgz':
+  '@rush-temp/arm-policy-profile-2020-09-01-hybrid@file:projects/arm-policy-profile-2020-09-01-hybrid.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.75
-      chai: 4.5.0
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.75)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/arm-policy@file:projects/arm-policy.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
@@ -17552,7 +17566,6 @@ snapshots:
 
   '@rush-temp/arm-servicenetworking@file:projects/arm-servicenetworking.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
@@ -19941,7 +19954,6 @@ snapshots:
 
   '@rush-temp/defender-easm@file:projects/defender-easm.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
       '@types/node': 18.19.75
       '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
