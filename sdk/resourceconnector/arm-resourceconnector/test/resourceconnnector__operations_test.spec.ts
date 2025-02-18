@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ResourceConnectorManagementClient } from "../src/resourceConnectorManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -20,7 +15,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -44,23 +39,26 @@ describe("ResourceConnector test", () => {
   let resourcename: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new ResourceConnectorManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "czwjstest";
-      resourcename = "resourcetest";
-
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new ResourceConnectorManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "eastus";
+    resourceGroup = "czwjstest";
+    resourcename = "resourcetest";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("appliances create test", async function () {
+  it("appliances create test", async () => {
     const res = await client.appliances.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
@@ -68,21 +66,19 @@ describe("ResourceConnector test", () => {
         identity: { type: "SystemAssigned" },
         distro: "AKSEdge",
         infrastructureConfig: { provider: "VMWare" },
-        location
+        location,
       },
-      testPollingOptions);
-    assert.equal(res.name, resourcename);
-  });
-
-  it("appliances get test", async function () {
-    const res = await client.appliances.get(
-      resourceGroup,
-      resourcename
+      testPollingOptions,
     );
     assert.equal(res.name, resourcename);
   });
 
-  it("appliances list test", async function () {
+  it("appliances get test", async () => {
+    const res = await client.appliances.get(resourceGroup, resourcename);
+    assert.equal(res.name, resourcename);
+  });
+
+  it("appliances list test", async () => {
     const resArray = new Array();
     for await (let item of client.appliances.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -90,11 +86,12 @@ describe("ResourceConnector test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("appliances delete test", async function () {
+  it("appliances delete test", async () => {
     const resArray = new Array();
+    await client.appliances.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions);
     for await (let item of client.appliances.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});
