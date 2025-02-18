@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a AutonomousDatabaseBackup
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a AutonomousDatabaseBackup
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/autonomousDatabaseBackup_delete.json
  */
-async function autonomousDatabaseBackupsDelete() {
+async function autonomousDatabaseBackupsDelete(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,7 +42,7 @@ async function autonomousDatabaseBackupsDelete() {
  * @summary Delete a AutonomousDatabaseBackup
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/autonomousDatabaseBackup_delete.json
  */
-async function deleteAutonomousDatabaseBackup() {
+async function deleteAutonomousDatabaseBackup(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -62,7 +60,7 @@ async function deleteAutonomousDatabaseBackup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   autonomousDatabaseBackupsDelete();
   deleteAutonomousDatabaseBackup();
 }

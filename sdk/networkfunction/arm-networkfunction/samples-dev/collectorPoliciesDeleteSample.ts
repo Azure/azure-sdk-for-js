@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a specified Collector Policy resource.
  * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyDelete.json
  */
-async function deleteCollectionPolicy() {
+async function deleteCollectionPolicy(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const azureTrafficCollectorName = "atc";

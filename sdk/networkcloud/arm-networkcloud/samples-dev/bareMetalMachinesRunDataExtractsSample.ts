@@ -8,9 +8,7 @@
 import type { BareMetalMachineRunDataExtractsParameters } from "@azure/arm-networkcloud";
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Run one or more data extractions on the provided bare metal machine. The URL to storage account with the command execution results and the command exit code can be retrieved from the operation status API once available.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Run one or more data extractions on the provided bare metal machine. The URL to storage account with the command execution results and the command exit code can be retrieved from the operation status API once available.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/BareMetalMachines_RunDataExtracts.json
  */
-async function runDataExtractionOnBareMetalMachine() {
+async function runDataExtractionOnBareMetalMachine(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -42,7 +40,7 @@ async function runDataExtractionOnBareMetalMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await runDataExtractionOnBareMetalMachine();
 }
 

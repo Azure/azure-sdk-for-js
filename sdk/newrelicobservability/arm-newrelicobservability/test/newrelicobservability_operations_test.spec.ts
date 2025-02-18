@@ -6,17 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
-import { CreateTestCredentialOptions, createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { NewRelicObservability } from "../src/newRelicObservability";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { CreateTestCredentialOptions } from "@azure-tools/test-credential";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { NewRelicObservability } from "../src/newRelicObservability.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   NewRelic_CLIENT_ID: "azure_client_id",
@@ -46,8 +41,8 @@ describe("NewRelicObservability test", () => {
   let resourceGroup: string;
   let resourcename: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.NewRelic_SUBSCRIPTION_ID || "";
     tenantId = env.NewRelic_TENANT_ID || "";
@@ -66,13 +61,13 @@ describe("NewRelicObservability test", () => {
     resourcename = "resourcetest1";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("operations list test", async function () {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
   });
@@ -109,7 +104,7 @@ describe("NewRelicObservability test", () => {
 
   it("monitors list test", async function () {
     const resArray = new Array();
-    for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 2);
@@ -117,9 +112,7 @@ describe("NewRelicObservability test", () => {
 
   it("monitors delete test", async function () {
     const resArray = new Array();
-    const res = await client.monitors.beginDeleteAndWait(resourceGroup, "v-ziweichen@microsoft.com", resourcename, testPollingOptions
-    )
-    for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.monitors.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
