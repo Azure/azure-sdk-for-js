@@ -247,6 +247,9 @@ importers:
       '@rush-temp/arm-dashboard':
         specifier: file:./projects/arm-dashboard.tgz
         version: file:projects/arm-dashboard.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-databasewatcher':
+        specifier: file:./projects/arm-databasewatcher.tgz
+        version: file:projects/arm-databasewatcher.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-databoundaries':
         specifier: file:./projects/arm-databoundaries.tgz
         version: file:projects/arm-databoundaries.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
@@ -2802,6 +2805,10 @@ packages:
 
   '@rush-temp/arm-dashboard@file:projects/arm-dashboard.tgz':
     resolution: {integrity: sha512-F3E5mVGf1SLYnCrCcwbwd/iS+vxKjqnAdXbAvbUh2Ai/raPFg2HwoHcPmVxMwXti8yE8TNjagtbd+MWI5nQVhg==, tarball: file:projects/arm-dashboard.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-databasewatcher@file:projects/arm-databasewatcher.tgz':
+    resolution: {integrity: sha512-TErY+b4zxOXU6OxBEWGN/uwEhCNFGsHY447WHI0c9ZDAoJQ+KRYOtDIA6BF5FhGTxCdnLXQg84GG3NMBDEc4qg==, tarball: file:projects/arm-databasewatcher.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
@@ -12393,6 +12400,42 @@ snapshots:
       playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-databasewatcher@file:projects/arm-databasewatcher.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@microsoft/api-extractor': 7.49.2(@types/node@18.19.75)
+      '@types/node': 18.19.75
+      '@vitest/browser': 3.0.5(@types/node@18.19.75)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.5)
+      '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)
+      dotenv: 16.4.7
+      eslint: 9.20.0
+      playwright: 1.50.1
+      tslib: 2.8.1
+      typescript: 5.6.3
       vitest: 3.0.5(@types/debug@4.1.12)(@types/node@18.19.75)(@vitest/browser@3.0.5)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23369,7 +23412,7 @@ snapshots:
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 18.19.75
+      '@types/node': 22.7.9
 
   '@types/gensync@1.0.4': {}
 
