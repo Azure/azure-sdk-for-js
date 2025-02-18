@@ -7,9 +7,7 @@
  */
 import { StorageMoverClient } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a Project resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a Project resource.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Projects_Get.json
  */
-async function projectsGet() {
+async function projectsGet(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] || "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
   const resourceGroupName = process.env["STORAGEMOVER_RESOURCE_GROUP"] || "examples-rg";
@@ -29,7 +27,7 @@ async function projectsGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await projectsGet();
 }
 

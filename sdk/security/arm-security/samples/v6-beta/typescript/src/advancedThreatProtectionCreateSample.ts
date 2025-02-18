@@ -13,9 +13,7 @@ import {
   SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the Advanced Threat Protection settings on a specified resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates the Advanced Threat Protection settings on a specified resource.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2019-01-01/examples/AdvancedThreatProtection/PutAdvancedThreatProtectionSettings_example.json
  */
-async function createsOrUpdatesTheAdvancedThreatProtectionSettingsOnASpecifiedResource() {
+async function createsOrUpdatesTheAdvancedThreatProtectionSettingsOnASpecifiedResource(): Promise<void> {
   const resourceId =
     "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/SampleRG/providers/Microsoft.Storage/storageAccounts/samplestorageaccount";
   const advancedThreatProtectionSetting: AdvancedThreatProtectionSetting = {
@@ -41,7 +39,7 @@ async function createsOrUpdatesTheAdvancedThreatProtectionSettingsOnASpecifiedRe
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsOrUpdatesTheAdvancedThreatProtectionSettingsOnASpecifiedResource();
 }
 

@@ -17,7 +17,7 @@ import {
   RestorePointsGetOptionalParams,
   RestorePointsGetResponse,
   RestorePointsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RestorePoints. */

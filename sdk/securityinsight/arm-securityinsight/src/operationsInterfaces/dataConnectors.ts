@@ -18,7 +18,7 @@ import {
   DataConnectorConnectBody,
   DataConnectorsConnectOptionalParams,
   DataConnectorsDisconnectOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DataConnectors. */

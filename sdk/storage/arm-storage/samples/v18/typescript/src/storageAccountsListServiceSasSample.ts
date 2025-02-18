@@ -13,9 +13,7 @@ import {
   StorageManagementClient,
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List service SAS credentials of a specific resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List service SAS credentials of a specific resource.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountListServiceSAS.json
  */
-async function storageAccountListServiceSas() {
+async function storageAccountListServiceSas(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res7439";
@@ -44,7 +42,7 @@ async function storageAccountListServiceSas() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   storageAccountListServiceSas();
 }
 

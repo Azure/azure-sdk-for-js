@@ -34,7 +34,7 @@ import {
   CachesUpgradeFirmwareOptionalParams,
   CachesSpaceAllocationOptionalParams,
   CachesSpaceAllocationResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Caches. */

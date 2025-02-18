@@ -8,9 +8,7 @@
 import type { ServiceUpdateParameters } from "@azure/arm-servicefabricmanagedclusters";
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the tags of a service resource of a given managed cluster.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates the tags of a service resource of a given managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ServicePatchOperation_example.json
  */
-async function patchAService() {
+async function patchAService(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function patchAService() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchAService();
 }
 
