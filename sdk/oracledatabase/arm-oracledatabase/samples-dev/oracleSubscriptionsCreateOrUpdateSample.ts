@@ -8,9 +8,7 @@
 import type { OracleSubscription } from "@azure/arm-oracledatabase";
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a OracleSubscription
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a OracleSubscription
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/oracleSubscriptions_create.json
  */
-async function createOrUpdateOracleSubscription() {
+async function createOrUpdateOracleSubscription(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resource: OracleSubscription = {
@@ -37,7 +35,7 @@ async function createOrUpdateOracleSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateOracleSubscription();
 }
 

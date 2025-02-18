@@ -29,7 +29,7 @@ import {
   AutonomousDatabaseBackupUpdate as AutonomousDatabaseBackupUpdateMapper,
   DbNodeAction as DbNodeActionMapper,
   VirtualNetworkAddress as VirtualNetworkAddressMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

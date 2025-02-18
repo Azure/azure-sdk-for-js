@@ -13,9 +13,7 @@ import {
   OracleDatabaseManagementClient,
 } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a CloudVmCluster
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create a CloudVmCluster
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/vmClusters_create.json
  */
-async function createVMCluster() {
+async function createVMCluster(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -84,7 +82,7 @@ async function createVMCluster() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createVMCluster();
 }
 

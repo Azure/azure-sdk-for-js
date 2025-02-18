@@ -7,9 +7,7 @@
  */
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List SystemVersion resources by Location
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List SystemVersion resources by Location
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/systemVersions_listByLocation.json
  */
-async function listExadataSystemVersionsByTheProvidedFilter() {
+async function listExadataSystemVersionsByTheProvidedFilter(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const location = "eastus";
@@ -36,7 +34,7 @@ async function listExadataSystemVersionsByTheProvidedFilter() {
  * @summary List SystemVersion resources by Location
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/systemVersions_listByLocation.json
  */
-async function systemVersionsListByLocation() {
+async function systemVersionsListByLocation(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const location = "eastus";
@@ -49,7 +47,7 @@ async function systemVersionsListByLocation() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listExadataSystemVersionsByTheProvidedFilter();
   await systemVersionsListByLocation();
 }
