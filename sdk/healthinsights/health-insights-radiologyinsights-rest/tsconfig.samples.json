@@ -2,7 +2,10 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/health-insights-radiologyinsights": ["./dist/esm"]
-    }
+      "@azure-rest/health-insights-radiologyinsights": [
+        "./dist/esm"
+      ]
+    },
+    "noEmit": false
   }
 }
