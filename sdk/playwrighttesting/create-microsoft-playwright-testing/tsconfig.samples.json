@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/create-microsoft-playwright-testing": [
-        "./dist/esm"
-      ]
+      "@azure/create-microsoft-playwright-testing": ["./dist/esm"]
     }
   }
 }
