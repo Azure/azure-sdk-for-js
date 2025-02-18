@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Organizations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Organizations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NewRelicObservability } from "../newRelicObservability";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NewRelicObservability } from "../newRelicObservability.js";
 import {
   OrganizationResource,
   OrganizationsListNextOptionalParams,
   OrganizationsListOptionalParams,
   OrganizationsListOperationResponse,
   OrganizationsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Organizations operations. */
