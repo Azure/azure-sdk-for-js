@@ -10,7 +10,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "./pagingHelper";
+import { setContinuationToken } from "./pagingHelper.js";
 import {
   ReservationImpl,
   ReservationOrderImpl,
@@ -21,7 +21,7 @@ import {
   ExchangeImpl,
   QuotaImpl,
   QuotaRequestStatusImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Reservation,
   ReservationOrder,
@@ -32,9 +32,9 @@ import {
   Exchange,
   Quota,
   QuotaRequestStatus
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   AzureReservationAPIOptionalParams,
   Catalog,
@@ -44,7 +44,7 @@ import {
   GetAppliedReservationListOptionalParams,
   GetAppliedReservationListResponse,
   GetCatalogNextResponse
-} from "./models";
+} from "./models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 export class AzureReservationAPI extends coreClient.ServiceClient {

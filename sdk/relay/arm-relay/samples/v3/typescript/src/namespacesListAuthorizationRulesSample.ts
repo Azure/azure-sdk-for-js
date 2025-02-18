@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Authorization rules for a namespace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Authorization rules for a namespace.
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceAutorizationRuleListAll.json
  */
-async function relayNameSpaceAutorizationRuleListAll() {
+async function relayNameSpaceAutorizationRuleListAll(): Promise<void> {
   const subscriptionId =
     process.env["RELAY_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -39,7 +37,7 @@ async function relayNameSpaceAutorizationRuleListAll() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   relayNameSpaceAutorizationRuleListAll();
 }
 

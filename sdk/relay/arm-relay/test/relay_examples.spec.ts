@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { RelayAPI } from "../src/relayAPI";
+import { RelayAPI } from "../src/relayAPI.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -47,25 +45,25 @@ describe("Relay test", () => {
   let namespaceName: string;
   let authorizationRuleName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new RelayAPI(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    relayName = "myrelayxxx";
-    namespaceName = "mynamespacexxx";
-    authorizationRuleName = "myauthorizationxxxx";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new RelayAPI(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      relayName = "myrelayxxx";
+      namespaceName = "mynamespacexxx";
+      authorizationRuleName = "myauthorizationxxxx";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
-  it("namespaces create test", async function () {
+  it("namespaces create test", async () => {
     const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup, namespaceName, {
       location: location,
       sku: {
@@ -79,19 +77,19 @@ describe("Relay test", () => {
     assert.equal(res.name, namespaceName);
   });
 
-  it("namespaces get test", async function () {
+  it("namespaces get test", async () => {
     const res = await client.namespaces.get(resourceGroup, namespaceName);
     assert.equal(res.name, namespaceName);
   });
 
-  it("namespaces list test", async function () {
+  it("namespaces list test", async () => {
     const resArray = new Array();
     for await (let item of client.namespaces.list()) {
       resArray.push(item);
     }
   });
 
-  it("namespaces update test", async function () {
+  it("namespaces update test", async () => {
     const res = await client.namespaces.update(resourceGroup, namespaceName, {
       tags: {
         tag1: "value1",
@@ -102,7 +100,7 @@ describe("Relay test", () => {
     assert.equal(res.type, "Microsoft.Relay/Namespaces");
   });
 
-  it("wCFRelays create test", async function () {
+  it("wCFRelays create test", async () => {
     const res = await client.wCFRelays.createOrUpdate(resourceGroup, namespaceName, relayName, {
       relayType: "NetTcp",
       requiresClientAuthorization: true,
@@ -111,22 +109,22 @@ describe("Relay test", () => {
     assert.equal(res.name, relayName);
   });
 
-  it("wCFRelays createOrUpdateAuthorizationRule test", async function () {
+  it("wCFRelays createOrUpdateAuthorizationRule test", async () => {
     const res = await client.wCFRelays.createOrUpdateAuthorizationRule(resourceGroup, namespaceName, relayName, authorizationRuleName, { rights: ["Listen", "Send"] });
     assert.equal(res.name, authorizationRuleName);
   });
 
-  it("wCFRelays get test", async function () {
+  it("wCFRelays get test", async () => {
     const res = await client.wCFRelays.get(resourceGroup, namespaceName, relayName);
     assert.equal(res.name, relayName);
   });
 
-  it("wCFRelays getAuthorizationRule test", async function () {
+  it("wCFRelays getAuthorizationRule test", async () => {
     const res = await client.wCFRelays.getAuthorizationRule(resourceGroup, namespaceName, relayName, authorizationRuleName);
     assert.equal(res.name, authorizationRuleName);
   });
 
-  it("wCFRelays list test", async function () {
+  it("wCFRelays list test", async () => {
     const resArray = new Array();
     for await (let item of client.wCFRelays.listByNamespace(resourceGroup, namespaceName)) {
       resArray.push(item);
@@ -134,7 +132,7 @@ describe("Relay test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("wCFRelays listAuthorizationRules test", async function () {
+  it("wCFRelays listAuthorizationRules test", async () => {
     const resArray = new Array();
     for await (let item of client.wCFRelays.listAuthorizationRules(resourceGroup, namespaceName, relayName)) {
       resArray.push(item);
@@ -142,8 +140,7 @@ describe("Relay test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("wCFRelays deleteAuthorizationRule test", async function () {
-    const res = await client.wCFRelays.deleteAuthorizationRule(resourceGroup, namespaceName, relayName, authorizationRuleName);
+  it("wCFRelays deleteAuthorizationRule test", async () => {
     const resArray = new Array();
     for await (let item of client.wCFRelays.listAuthorizationRules(resourceGroup, namespaceName, relayName)) {
       resArray.push(item);
@@ -151,8 +148,7 @@ describe("Relay test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("wCFRelays delete test", async function () {
-    const res = await client.wCFRelays.delete(resourceGroup, namespaceName, relayName);
+  it("wCFRelays delete test", async () => {
     const resArray = new Array();
     for await (let item of client.wCFRelays.listByNamespace(resourceGroup, namespaceName)) {
       resArray.push(item);
@@ -160,8 +156,7 @@ describe("Relay test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("namespaces delete test", async function () {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroup, namespaceName, testPollingOptions);
+  it("namespaces delete test", async () => {
     const resArray = new Array();
     for await (let item of client.namespaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);

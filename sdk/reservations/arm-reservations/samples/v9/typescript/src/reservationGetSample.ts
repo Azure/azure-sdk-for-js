@@ -13,9 +13,7 @@ import {
   AzureReservationAPI
 } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get specific `Reservation` details.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Get specific `Reservation` details.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/GetReservationDetails.json
  */
-async function getReservation() {
+async function getReservation(): Promise<void> {
   const reservationOrderId = "276e7ae4-84d0-4da6-ab4b-d6b94f3557da";
   const reservationId = "6ef59113-3482-40da-8d79-787f823e34bc";
   const expand = "renewProperties";
@@ -38,7 +36,7 @@ async function getReservation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getReservation();
 }
 

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the available REST API operations of the Microsoft.Cache provider.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all of the available REST API operations of the Microsoft.Cache provider.
  * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/OperationsList.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function operationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   operationsList();
 }
 

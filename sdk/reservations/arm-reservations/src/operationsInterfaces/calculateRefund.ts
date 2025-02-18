@@ -10,7 +10,7 @@ import {
   CalculateRefundRequest,
   CalculateRefundPostOptionalParams,
   CalculateRefundPostResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CalculateRefund. */
 export interface CalculateRefund {

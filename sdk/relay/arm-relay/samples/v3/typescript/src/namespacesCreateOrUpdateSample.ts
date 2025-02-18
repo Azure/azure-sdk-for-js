@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RelayNamespace, RelayAPI } from "@azure/arm-relay";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create Azure Relay namespace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create Azure Relay namespace.
  * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/NameSpaces/RelayNameSpaceCreate.json
  */
-async function relayNamespaceCreate() {
+async function relayNamespaceCreate(): Promise<void> {
   const subscriptionId =
     process.env["RELAY_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -42,7 +40,7 @@ async function relayNamespaceCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   relayNamespaceCreate();
 }
 

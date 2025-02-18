@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Appliances } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Appliances } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ResourceConnectorManagementClient } from "../resourceConnectorManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ResourceConnectorManagementClient } from "../resourceConnectorManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ApplianceOperation,
   AppliancesListOperationsNextOptionalParams,
@@ -49,7 +49,7 @@ import {
   AppliancesListOperationsNextResponse,
   AppliancesListBySubscriptionNextResponse,
   AppliancesListByResourceGroupNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Appliances operations. */
