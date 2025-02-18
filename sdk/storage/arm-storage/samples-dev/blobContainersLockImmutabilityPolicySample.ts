@@ -7,9 +7,7 @@
  */
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersLockImmutabilityPolicy.json
  */
-async function lockImmutabilityPolicy() {
+async function lockImmutabilityPolicy(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res2702";
   const accountName = "sto5009";
@@ -34,7 +32,7 @@ async function lockImmutabilityPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await lockImmutabilityPolicy();
 }
 

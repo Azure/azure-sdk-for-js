@@ -6,23 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { HelpRP } from "../src/helpRP";
+import { HelpRP } from "../src/helpRP.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -41,27 +34,24 @@ describe("help test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HelpRP;
-  let location: string;
-  let resourceGroup: string;
   let resourcename: string;
-  let scope: string;
   let scope1: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new HelpRP(credential, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "czwjstest";
     resourcename = "resourcetest1";
-    scope = "subscriptions/" + subscriptionId;
-    scope1 = "subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.KeyVault/vaults/testkey20230703";
+    scope1 =
+      "subscriptions/" +
+      subscriptionId +
+      "/resourceGroups/myjstest/providers/Microsoft.KeyVault/vaults/testkey20230703";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -71,29 +61,27 @@ describe("help test", () => {
       diagnosticResourceRequest: {
         insights: [
           {
-            solutionId: "KeyVaultUnauthorizedNetworkInsight"
-          }
-        ]
+            solutionId: "KeyVaultUnauthorizedNetworkInsight",
+          },
+        ],
       },
       updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
-    }
-    const result = await client.diagnostics.beginCreateAndWait(
-      scope1,
-      resourcename,
-      options
-    );
+    };
+    const result = await client.diagnostics.beginCreateAndWait(scope1, resourcename, options);
     assert.equal(result.name, resourcename);
   });
 
-  it("selfhelp operation test", async function () {
+  it("selfhelp operation test", async () => {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
     }
-    assert.notEqual(resArray.length, 0)
+    assert.notEqual(resArray.length, 0);
   });
 
-  it("discoverySolutionNLPSubscriptionScope post test", async function () {
-    const res = await client.discoverySolutionNLP.discoverSolutionsBySubscription(subscriptionId, { discoverSolutionRequest: { issueSummary: "how to retrieve certs from deleted keyvault." } });
+  it("discoverySolutionNLPSubscriptionScope post test", async () => {
+    await client.discoverySolutionNLP.discoverSolutionsBySubscription(subscriptionId, {
+      discoverSolutionRequest: { issueSummary: "how to retrieve certs from deleted keyvault." },
+    });
   });
-})
+});

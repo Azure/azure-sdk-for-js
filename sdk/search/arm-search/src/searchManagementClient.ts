@@ -24,7 +24,7 @@ import {
   SharedPrivateLinkResourcesImpl,
   UsagesImpl,
   NetworkSecurityPerimeterConfigurationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   AdminKeys,
@@ -35,14 +35,14 @@ import {
   SharedPrivateLinkResources,
   Usages,
   NetworkSecurityPerimeterConfigurations,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   SearchManagementClientOptionalParams,
   UsageBySubscriptionSkuOptionalParams,
   UsageBySubscriptionSkuResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class SearchManagementClient extends coreClient.ServiceClient {
   $host: string;

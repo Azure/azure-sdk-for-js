@@ -9,7 +9,7 @@
 import {
   GitHubConnectorStatsGetOptionalParams,
   GitHubConnectorStatsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GitHubConnectorStatsOperations. */
 export interface GitHubConnectorStatsOperations {

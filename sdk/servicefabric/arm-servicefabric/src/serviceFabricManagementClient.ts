@@ -22,7 +22,7 @@ import {
   ApplicationTypeVersionsImpl,
   ApplicationsImpl,
   ServicesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Clusters,
   ClusterVersions,
@@ -31,8 +31,8 @@ import {
   ApplicationTypeVersions,
   Applications,
   Services
-} from "./operationsInterfaces";
-import { ServiceFabricManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ServiceFabricManagementClientOptionalParams } from "./models/index.js";
 
 export class ServiceFabricManagementClient extends coreClient.ServiceClient {
   $host: string;

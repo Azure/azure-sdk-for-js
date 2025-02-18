@@ -8,9 +8,7 @@
 import type { ResourceGroupsDeleteOptionalParams } from "@azure/arm-resources";
 import { ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/ForceDeleteVMsAndVMSSInResourceGroup.json
  */
-async function forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAResourceGroup() {
+async function forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
@@ -37,7 +35,7 @@ async function forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAReso
  * @summary When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/ForceDeleteVMsInResourceGroup.json
  */
-async function forceDeleteAllTheVirtualMachinesInAResourceGroup() {
+async function forceDeleteAllTheVirtualMachinesInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
@@ -49,7 +47,7 @@ async function forceDeleteAllTheVirtualMachinesInAResourceGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await forceDeleteAllTheVirtualMachinesAndVirtualMachineScaleSetsInAResourceGroup();
   await forceDeleteAllTheVirtualMachinesInAResourceGroup();
 }

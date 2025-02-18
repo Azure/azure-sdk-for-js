@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all virtualClusters in the subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of all virtualClusters in the subscription.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-05-01-preview/examples/VirtualClusterList.json
  */
-async function listVirtualClusters() {
+async function listVirtualClusters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "20d7082a-0fc7-4468-82bd-542694d5042b";
@@ -33,7 +31,7 @@ async function listVirtualClusters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listVirtualClusters();
 }
 

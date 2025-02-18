@@ -7,9 +7,7 @@
  */
 import { AzureOrbital } from "@azure/arm-orbital";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns list of spacecrafts by resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns list of spacecrafts by resource group.
  * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-11-01/examples/SpacecraftsByResourceGroupList.json
  */
-async function listOfSpacecraftByResourceGroup() {
+async function listOfSpacecraftByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["ORBITAL_SUBSCRIPTION_ID"] || "c1be1141-a7c9-4aac-9608-3c2e2f1152c3";
   const resourceGroupName = process.env["ORBITAL_RESOURCE_GROUP"] || "contoso-Rgp";
@@ -30,7 +28,7 @@ async function listOfSpacecraftByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listOfSpacecraftByResourceGroup();
 }
 

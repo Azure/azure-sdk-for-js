@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ChildAvailabilityStatuses } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ChildAvailabilityStatuses } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftResourceHealth } from "../microsoftResourceHealth";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftResourceHealth } from "../microsoftResourceHealth.js";
 import {
   AvailabilityStatus,
   ChildAvailabilityStatusesListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   ChildAvailabilityStatusesGetByResourceOptionalParams,
   ChildAvailabilityStatusesGetByResourceResponse,
   ChildAvailabilityStatusesListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ChildAvailabilityStatuses operations. */

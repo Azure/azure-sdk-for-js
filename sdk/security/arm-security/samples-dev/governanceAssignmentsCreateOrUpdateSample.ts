@@ -8,9 +8,7 @@
 import type { GovernanceAssignment } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a governance assignment on the given subscription.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a governance assignment on the given subscription.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-01-01-preview/examples/GovernanceAssignments/PutGovernanceAssignment_example.json
  */
-async function createGovernanceAssignment() {
+async function createGovernanceAssignment(): Promise<void> {
   const scope =
     "subscriptions/c32e05d9-7207-4e22-bdf4-4f7d9c72e5fd/resourceGroups/compute_servers/providers/Microsoft.Compute/virtualMachines/win2012";
   const assessmentName = "6b9421dd-5555-2251-9b3d-2be58e2f82cd";
@@ -52,7 +50,7 @@ async function createGovernanceAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createGovernanceAssignment();
 }
 

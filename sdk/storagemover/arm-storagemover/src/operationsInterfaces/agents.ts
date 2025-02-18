@@ -19,7 +19,7 @@ import {
   AgentsUpdateOptionalParams,
   AgentsUpdateResponse,
   AgentsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Agents. */
