@@ -63,24 +63,22 @@ import type {
  *
  * #### Azure Active Directory
  *
- * ```typescript
- * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+ * ```ts snippet:ReadmeSampleCreateAdminClient_AAD
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new DefaultAzureCredential();
- *
  * const client = new DocumentModelAdministrationClient(endpoint, credential);
  * ```
  *
  * #### API Key (Subscription Key)
  *
- * ```typescript
- * import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+ * ```ts snippet:ReadmeSampleCreateAdminClient_APIKey
+ * import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new AzureKeyCredential("<api key>");
- *
  * const client = new DocumentModelAdministrationClient(endpoint, credential);
  * ```
  */
@@ -96,13 +94,12 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example:
    *
-   * ```javascript
-   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+   * ```ts snippet:ReadmeSampleCreateAdminClient_AAD
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
    *
    * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
    * const credential = new DefaultAzureCredential();
-   *
    * const client = new DocumentModelAdministrationClient(endpoint, credential);
    * ```
    *
@@ -121,12 +118,11 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example:
    *
-   * ```javascript
-   * import { DocumentModelAdministrationClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+   * ```ts snippet:ReadmeSampleCreateAdminClient_APIKey
+   * import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
    *
    * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
    * const credential = new AzureKeyCredential("<api key>");
-   *
    * const client = new DocumentModelAdministrationClient(endpoint, credential);
    * ```
    *
@@ -177,7 +173,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * const modelId = "aNewModel";
    * const containerUrl = "<training data container SAS URL>";
    *
@@ -223,7 +219,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * const modelId = "aNewModel";
    *
    * const poller = await client.beginBuildDocumentModel(modelId, { containerUrl: "<SAS-encoded blob container URL>" }, {
@@ -302,7 +298,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * const modelId = "aNewComposedModel";
    * const subModelIds = [
    *   "documentType1Model",
@@ -371,7 +367,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * // The copyAuthorization data structure stored below grants any cognitive services resource the right to copy a
    * // model into the client's resource with the given destination model ID.
    * const copyAuthorization = await client.getCopyAuthorization("<destination model ID>");
@@ -407,7 +403,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * // We need a client for the source model's resource
    * const sourceEndpoint = "https://<source resource name>.cognitiveservices.azure.com";
    * const sourceCredential = new AzureKeyCredential("<source api key>");
@@ -479,7 +475,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * const classifierId = "aNewClassifier";
    * const containerUrl1 = "<training data container SAS URL 1>";
    * const containerUrl2 = "<training data container SAS URL 2>";
@@ -701,7 +697,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * const {
    *   // Information about the custom models in the current resource
    *   customDocumentModelDetails: {
@@ -738,7 +734,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * // The ID of the prebuilt business card model
    * const modelId = "prebuilt-businessCard";
    *
@@ -798,7 +794,7 @@ export class DocumentModelAdministrationClient {
    *
    * #### Async Iteration
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * for await (const summary of client.listDocumentModels()) {
    *   const {
    *     modelId, // The model's unique ID
@@ -812,7 +808,7 @@ export class DocumentModelAdministrationClient {
    *
    * #### By Page
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * // The listDocumentModels method is paged, and you can iterate by page using the `byPage` method.
    * const pages = client.listDocumentModels().byPage();
    *
@@ -845,7 +841,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * await client.deleteDocumentModel("<model ID to delete>"));
    * ```
    *
@@ -872,7 +868,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * const classifierId = "<classifier ID";
    *
    * const {
@@ -913,7 +909,7 @@ export class DocumentModelAdministrationClient {
    *
    * #### Async Iteration
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * for await (const details of client.listDocumentClassifiers()) {
    *   const {
    *     classifierId, // The classifier's unique ID
@@ -925,7 +921,7 @@ export class DocumentModelAdministrationClient {
    *
    * #### By Page
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * // The listDocumentClassifiers method is paged, and you can iterate by page using the `byPage` method.
    * const pages = client.listDocumentClassifiers().byPage();
    *
@@ -956,7 +952,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * await client.deleteDocumentClassifier("<classifier ID to delete>"));
    * ```
    *
@@ -990,7 +986,7 @@ export class DocumentModelAdministrationClient {
    *
    * ### Example
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * // The ID of the operation, which should be a GUID
    * const operationId = "<operation GUID>";
    *
@@ -1023,7 +1019,7 @@ export class DocumentModelAdministrationClient {
    *
    * #### Async Iteration
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * for await (const operation of client.listOperations()) {
    *   const {
    *     operationId, // the operation's GUID
@@ -1035,7 +1031,7 @@ export class DocumentModelAdministrationClient {
    *
    * #### By Page
    *
-   * ```javascript
+   * ```ts snippet:ignore
    * // The listOperations method is paged, and you can iterate by page using the `byPage` method.
    * const pages = client.listOperations().byPage();
    *

@@ -15,12 +15,11 @@
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
-import { PrebuiltBusinessCardModel } from "./prebuilt/prebuilt-businessCard";
+import { PrebuiltBusinessCardModel } from "./prebuilt/prebuilt-businessCard.js";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
   const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 

@@ -14,15 +14,14 @@
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
-import { PrebuiltTaxUsW2Model } from "./prebuilt/prebuilt-tax.us.w2";
+import { PrebuiltTaxUsW2Model } from "./prebuilt/prebuilt-tax.us.w2.js";
 
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
   const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
