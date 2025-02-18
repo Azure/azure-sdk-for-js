@@ -16,7 +16,7 @@ import {
   PatchManagementGroupRequest as PatchManagementGroupRequestMapper,
   CreateOrUpdateSettingsRequest as CreateOrUpdateSettingsRequestMapper,
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

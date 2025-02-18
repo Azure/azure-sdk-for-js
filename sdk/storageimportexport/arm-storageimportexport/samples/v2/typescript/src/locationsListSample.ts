@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageImportExport } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a list of locations to which you can ship the disks associated with an import or export job. A location is a Microsoft data center region.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a list of locations to which you can ship the disks associated with an import or export job. A location is a Microsoft data center region.
  * x-ms-original-file: specification/storageimportexport/resource-manager/Microsoft.ImportExport/preview/2021-01-01/examples/ListLocations.json
  */
-async function listLocations() {
+async function listLocations(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEIMPORTEXPORT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function listLocations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listLocations();
 }
 

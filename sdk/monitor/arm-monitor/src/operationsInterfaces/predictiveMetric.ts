@@ -9,7 +9,7 @@
 import {
   PredictiveMetricGetOptionalParams,
   PredictiveMetricGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PredictiveMetric. */
 export interface PredictiveMetric {

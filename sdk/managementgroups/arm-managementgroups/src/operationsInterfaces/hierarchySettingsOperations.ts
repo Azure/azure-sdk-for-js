@@ -17,7 +17,7 @@ import {
   HierarchySettingsUpdateOptionalParams,
   HierarchySettingsUpdateResponse,
   HierarchySettingsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a HierarchySettingsOperations. */
 export interface HierarchySettingsOperations {

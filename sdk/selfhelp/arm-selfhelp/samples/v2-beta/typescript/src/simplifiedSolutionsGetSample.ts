@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the simplified Solutions using the applicable solutionResourceName while creating the simplified Solutions.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the simplified Solutions using the applicable solutionResourceName while creating the simplified Solutions.
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/SimplifiedSolutions_Get.json
  */
-async function solutionGet() {
+async function solutionGet(): Promise<void> {
   const scope =
     "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp";
   const simplifiedSolutionsResourceName = "simplifiedSolutionsResourceName1";
@@ -33,7 +31,7 @@ async function solutionGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   solutionGet();
 }
 

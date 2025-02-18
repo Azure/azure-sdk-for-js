@@ -15,7 +15,7 @@ import {
   PricingsDeleteOptionalParams,
   PricingsListOptionalParams,
   PricingsListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Pricings. */
 export interface Pricings {

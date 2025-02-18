@@ -52,9 +52,9 @@ Set the values of the client ID, tenant ID, and client secret of the Microsoft E
 You will also need to specify the Azure Maps resource you intend to use by specifying the `clientId` in the client options.
 The Azure Maps resource client id can be found in the Authentication sections in the Azure Maps resource. Please refer to the [documentation](https://learn.microsoft.com/azure/azure-maps/how-to-manage-authentication#view-authentication-details) on how to find it.
 
-```javascript
-const MapsRoute = require("@azure-rest/maps-route").default;
-const { DefaultAzureCredential } = require("@azure/identity");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRoute from "@azure-rest/maps-route";
 
 const credential = new DefaultAzureCredential();
 const client = MapsRoute(credential, "<maps-account-client-id>");
@@ -64,9 +64,9 @@ const client = MapsRoute(credential, "<maps-account-client-id>");
 
 You can authenticate with your Azure Maps Subscription Key.
 
-```javascript
-const MapsRoute = require("@azure-rest/maps-route").default;
-const { AzureKeyCredential } = require("@azure/core-auth");
+```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
+import { AzureKeyCredential } from "@azure/core-auth";
+import MapsRoute from "@azure-rest/maps-route";
 
 const credential = new AzureKeyCredential("<subscription-key>");
 const client = MapsRoute(credential);
@@ -88,11 +88,11 @@ npm install @azure/core-auth
 
 Finally, you can use the SAS token to authenticate the client:
 
-```javascript
-const MapsRoute = require("@azure-rest/maps-route").default;
-const { AzureSASCredential } = require("@azure/core-auth");
-const { DefaultAzureCredential } = require("@azure/identity");
-const { AzureMapsManagementClient } = require("@azure/arm-maps");
+```ts snippet:ReadmeSampleCreateClient_SAS
+import { DefaultAzureCredential } from "@azure/identity";
+import { AzureMapsManagementClient } from "@azure/arm-maps";
+import { AzureSASCredential } from "@azure/core-auth";
+import MapsRoute from "@azure-rest/maps-route";
 
 const subscriptionId = "<subscription ID of the map account>";
 const resourceGroupName = "<resource group name of the map account>";
@@ -104,6 +104,7 @@ const mapsAccountSasParameters = {
   principalId: "<principle ID (object ID) of the managed identity>",
   signingKey: "primaryKey",
 };
+
 const credential = new DefaultAzureCredential();
 const managementClient = new AzureMapsManagementClient(credential, subscriptionId);
 const { accountSasToken } = await managementClient.accounts.listSas(
@@ -111,9 +112,11 @@ const { accountSasToken } = await managementClient.accounts.listSas(
   accountName,
   mapsAccountSasParameters,
 );
+
 if (accountSasToken === undefined) {
   throw new Error("No accountSasToken was found for the Maps Account.");
 }
+
 const sasCredential = new AzureSASCredential(accountSasToken);
 const client = MapsRoute(sasCredential);
 ```
@@ -134,8 +137,13 @@ To retrieve the route direction, you need to pass in the parameters the coordina
 
 By default, the Route service will return an array of coordinates. The response will contain the coordinates that make up the path in a list named points. Route response also includes the distance from the start of the route and the estimated elapsed time. These values can be used to calculate the average speed for the entire route.
 
-```javascript
-const { toColonDelimitedLatLonString, isUnexpected } = require("@azure-rest/maps-route");
+```ts snippet:ReadmeSampleRouteDirections
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRoute, { toColonDelimitedLatLonString, isUnexpected } from "@azure-rest/maps-route";
+
+const credential = new DefaultAzureCredential();
+const client = MapsRoute(credential, "<maps-account-client-id>");
+
 const routeDirectionsResult1 = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: "51.368752,-0.118332:41.385426,-0.128929",
@@ -169,9 +177,7 @@ routeDirectionsResult2.body.routes.forEach(({ summary, legs }) => {
   );
   legs.forEach(({ summary, points }, idx) => {
     console.log(
-      `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
-        summary.travelTimeInSeconds
-      } seconds. Followings are the first 10 points: `,
+      `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds. Followings are the first 10 points: `,
     );
     console.table(points.slice(0, 10));
   });
@@ -182,8 +188,13 @@ routeDirectionsResult2.body.routes.forEach(({ summary, legs }) => {
 
 The service supports commercial vehicle routing, covering commercial trucks routing. The APIs consider specified limits. Such as, the height and weight of the vehicle, and if the vehicle is carrying hazardous cargo. For example, if a vehicle is carrying flammable, the routing engine avoid certain tunnels that are near residential areas.
 
-```javascript
-const { toColonDelimitedLatLonString, isUnexpected } = require("@azure-rest/maps-route");
+```ts snippet:ReadmeSampleRouteDirectionsCommercialVehicle
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRoute, { toColonDelimitedLatLonString, isUnexpected } from "@azure-rest/maps-route";
+
+const credential = new DefaultAzureCredential();
+const client = MapsRoute(credential, "<maps-account-client-id>");
+
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
@@ -214,9 +225,7 @@ routeDirectionsResult.body.routes.forEach(({ summary, legs }) => {
   );
   legs.forEach(({ summary, points }, idx) => {
     console.log(
-      `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
-        summary.travelTimeInSeconds
-      } seconds. Followings are the first 10 points: `,
+      `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds. Followings are the first 10 points: `,
     );
     console.table(points.slice(0, 10));
   });
@@ -234,8 +243,13 @@ For multi-stop routing, up to 150 waypoints may be specified in a single route r
 
 If you want to optimize the best order to visit the given waypoints, then you need to specify `computeBestWaypointOrder=true`. This scenario is also known as the traveling salesman optimization problem.
 
-```javascript
-const { toColonDelimitedLatLonString, isUnexpected } = require("@azure-rest/maps-route");
+```ts snippet:ReadmeSampleRouteDirectionsOptimize
+import { DefaultAzureCredential } from "@azure/identity";
+import MapsRoute, { toColonDelimitedLatLonString, isUnexpected } from "@azure-rest/maps-route";
+
+const credential = new DefaultAzureCredential();
+const client = MapsRoute(credential, "<maps-account-client-id>");
+
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
@@ -273,8 +287,8 @@ routeDirectionsResult.body.optimizedWaypoints.forEach(
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```

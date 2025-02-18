@@ -6,24 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { ServiceFabricManagementClient } from "../src/serviceFabricManagementClient";
-import { resourceGroupName } from "../src/models/parameters";
+import { ServiceFabricManagementClient } from "../src/serviceFabricManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -47,93 +39,121 @@ describe("ServiceFabric test", () => {
   let clusterName: string;
   let applicationTypeName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ServiceFabricManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new ServiceFabricManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
     clusterName = "myclusterxxxy";
     applicationTypeName = "myapplicationtypexxxy";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("clusters create test", async function () {
-    const res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName, {
-      type: "Microsoft.ServiceFabric/clusters",
-      location: location,
-      id: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.ServiceFabric/clusters/" + clusterName,
-      name: "myCluster",
-      managementEndpoint: "http://myCluster.eastus.cloudapp.azure.com:19080",
-      fabricSettings: [
-        {
-          name: "UpgradeService",
-          parameters: [
-            {
-              name: "AppPollIntervalInSeconds",
-              value: "60"
-            }
-          ]
-        }
-      ],
-      diagnosticsStorageAccountConfig: {
-        storageAccountName: "diag",
-        protectedAccountKeyName: "StorageAccountKey1",
-        blobEndpoint: "https://diag.blob.core.windows.net/",
-        queueEndpoint: "https://diag.queue.core.windows.net/",
-        tableEndpoint: "https://diag.table.core.windows.net/"
+  it("clusters create test", async () => {
+    const res = await client.clusters.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      clusterName,
+      {
+        type: "Microsoft.ServiceFabric/clusters",
+        location: location,
+        id:
+          "/subscriptions/" +
+          subscriptionId +
+          "/resourceGroups/" +
+          resourceGroup +
+          "/providers/Microsoft.ServiceFabric/clusters/" +
+          clusterName,
+        name: "myCluster",
+        managementEndpoint: "http://myCluster.eastus.cloudapp.azure.com:19080",
+        fabricSettings: [
+          {
+            name: "UpgradeService",
+            parameters: [
+              {
+                name: "AppPollIntervalInSeconds",
+                value: "60",
+              },
+            ],
+          },
+        ],
+        diagnosticsStorageAccountConfig: {
+          storageAccountName: "diag",
+          protectedAccountKeyName: "StorageAccountKey1",
+          blobEndpoint: "https://diag.blob.core.windows.net/",
+          queueEndpoint: "https://diag.queue.core.windows.net/",
+          tableEndpoint: "https://diag.table.core.windows.net/",
+        },
+        nodeTypes: [
+          {
+            name: "nt1vm",
+            clientConnectionEndpointPort: 19000,
+            httpGatewayEndpointPort: 19007,
+            applicationPorts: {
+              startPort: 20000,
+              endPort: 30000,
+            },
+            ephemeralPorts: {
+              startPort: 49000,
+              endPort: 64000,
+            },
+            isPrimary: true,
+            vmInstanceCount: 5,
+            durabilityLevel: "Bronze",
+          },
+        ],
+        reliabilityLevel: "Silver",
+        upgradeMode: "Automatic",
       },
-      nodeTypes: [
-        {
-          name: "nt1vm",
-          clientConnectionEndpointPort: 19000,
-          httpGatewayEndpointPort: 19007,
-          applicationPorts: {
-            startPort: 20000,
-            endPort: 30000
-          },
-          ephemeralPorts: {
-            startPort: 49000,
-            endPort: 64000
-          },
-          isPrimary: true,
-          vmInstanceCount: 5,
-          durabilityLevel: "Bronze"
-        }
-      ],
-      reliabilityLevel: "Silver",
-      upgradeMode: "Automatic"
-    }, testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, clusterName);
   });
 
-  it("applicationTypes create test", async function () {
-    const res = await client.applicationTypes.createOrUpdate(resourceGroup, clusterName, applicationTypeName, {
-      type: "applicationTypes",
-      location: location,
-      id: "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.ServiceFabric/clusters/" + clusterName + "/applicationTypes/" + applicationTypeName,
-      name: "myCluster"
-    })
+  it("applicationTypes create test", async () => {
+    const res = await client.applicationTypes.createOrUpdate(
+      resourceGroup,
+      clusterName,
+      applicationTypeName,
+      {
+        type: "applicationTypes",
+        location: location,
+        id:
+          "/subscriptions/" +
+          subscriptionId +
+          "/resourceGroups/" +
+          resourceGroup +
+          "/providers/Microsoft.ServiceFabric/clusters/" +
+          clusterName +
+          "/applicationTypes/" +
+          applicationTypeName,
+        name: "myCluster",
+      },
+    );
     assert.equal(res.name, applicationTypeName);
   });
 
-  it("clusters get test", async function () {
-    const res = await client.clusters.get(resourceGroup, clusterName)
+  it("clusters get test", async () => {
+    const res = await client.clusters.get(resourceGroup, clusterName);
     assert.equal(res.name, clusterName);
   });
 
-  it("applicationTypes get test", async function () {
-    const res = await client.applicationTypes.get(resourceGroup, clusterName, applicationTypeName)
+  it("applicationTypes get test", async () => {
+    const res = await client.applicationTypes.get(resourceGroup, clusterName, applicationTypeName);
     assert.equal(res.name, applicationTypeName);
   });
 
-  it("clusters list test", async function () {
+  it("clusters list test", async () => {
     const resArray = new Array();
     for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -141,7 +161,7 @@ describe("ServiceFabric test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("applicationTypes list test", async function () {
+  it("applicationTypes list test", async () => {
     const resArray = new Array();
     for await (let item of client.applicationTypes.list(resourceGroup, clusterName)) {
       resArray.push(item);
@@ -149,67 +169,77 @@ describe("ServiceFabric test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("clusters update test", async function () {
+  it("clusters update test", async (ctx) => {
     if (isPlaybackMode()) {
-      this.skip();
+      ctx.skip();
     }
-    const res = await client.clusters.beginUpdateAndWait(resourceGroup, clusterName, {
-      tags: {
-        a: "b"
-      },
-      nodeTypes: [
-        {
-          name: "nt1vm",
-          clientConnectionEndpointPort: 19000,
-          httpGatewayEndpointPort: 19007,
-          applicationPorts: {
-            startPort: 20000,
-            endPort: 30000
-          },
-          ephemeralPorts: {
-            startPort: 49000,
-            endPort: 64000
-          },
-          isPrimary: true,
-          vmInstanceCount: 5,
-          durabilityLevel: "Bronze"
+    const res = await client.clusters.beginUpdateAndWait(
+      resourceGroup,
+      clusterName,
+      {
+        tags: {
+          a: "b",
         },
-        {
-          name: "testnt1",
-          clientConnectionEndpointPort: 0,
-          httpGatewayEndpointPort: 0,
-          applicationPorts: {
-            startPort: 1000,
-            endPort: 2000
+        nodeTypes: [
+          {
+            name: "nt1vm",
+            clientConnectionEndpointPort: 19000,
+            httpGatewayEndpointPort: 19007,
+            applicationPorts: {
+              startPort: 20000,
+              endPort: 30000,
+            },
+            ephemeralPorts: {
+              startPort: 49000,
+              endPort: 64000,
+            },
+            isPrimary: true,
+            vmInstanceCount: 5,
+            durabilityLevel: "Bronze",
           },
-          ephemeralPorts: {
-            startPort: 3000,
-            endPort: 4000
+          {
+            name: "testnt1",
+            clientConnectionEndpointPort: 0,
+            httpGatewayEndpointPort: 0,
+            applicationPorts: {
+              startPort: 1000,
+              endPort: 2000,
+            },
+            ephemeralPorts: {
+              startPort: 3000,
+              endPort: 4000,
+            },
+            isPrimary: false,
+            vmInstanceCount: 3,
+            durabilityLevel: "Bronze",
           },
-          isPrimary: false,
-          vmInstanceCount: 3,
-          durabilityLevel: "Bronze"
-        }
-      ],
-      reliabilityLevel: "Bronze",
-      upgradeMode: "Automatic",
-      eventStoreServiceEnabled: true
-    }, testPollingOptions);
+        ],
+        reliabilityLevel: "Bronze",
+        upgradeMode: "Automatic",
+        eventStoreServiceEnabled: true,
+      },
+      testPollingOptions,
+    );
     assert.equal(res.upgradeMode, "Automatic");
   });
 
-  it("applicationTypes delete test", async function () {
-    const resDelete = await client.applicationTypes.beginDeleteAndWait(resourceGroup, clusterName, applicationTypeName, testPollingOptions);
+  it("applicationTypes delete test", async () => {
     const resArray = new Array();
+    await client.applicationTypes.beginDeleteAndWait(
+      resourceGroup,
+      clusterName,
+      applicationTypeName,
+      testPollingOptions,
+    );
     for await (let item of client.applicationTypes.list(resourceGroup, clusterName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("clusters delete test", async function () {
-    const resDelete = await client.clusters.delete(resourceGroup, clusterName);
+  it("clusters delete test", async () => {
     const resArray = new Array();
+    await client.clusters.delete(resourceGroup, clusterName);
     for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

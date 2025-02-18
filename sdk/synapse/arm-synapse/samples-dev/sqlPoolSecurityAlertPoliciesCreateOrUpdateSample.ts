@@ -8,9 +8,7 @@
 import type { SqlPoolSecurityAlertPolicy } from "@azure/arm-synapse";
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Sql pool's security alert policy.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a Sql pool's security alert policy.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateSqlPoolSecurityAlertWithAllParameters.json
  */
-async function updateASqlPoolThreatDetectionPolicyWithAllParameters() {
+async function updateASqlPoolThreatDetectionPolicyWithAllParameters(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "securityalert-4799";
@@ -53,7 +51,7 @@ async function updateASqlPoolThreatDetectionPolicyWithAllParameters() {
  * @summary Create or update a Sql pool's security alert policy.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateSqlPoolSecurityAlertWithMinParameters.json
  */
-async function updateASqlPoolThreatDetectionPolicyWithMinimalParameters() {
+async function updateASqlPoolThreatDetectionPolicyWithMinimalParameters(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "securityalert-4799";
@@ -73,7 +71,7 @@ async function updateASqlPoolThreatDetectionPolicyWithMinimalParameters() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateASqlPoolThreatDetectionPolicyWithAllParameters();
   await updateASqlPoolThreatDetectionPolicyWithMinimalParameters();
 }

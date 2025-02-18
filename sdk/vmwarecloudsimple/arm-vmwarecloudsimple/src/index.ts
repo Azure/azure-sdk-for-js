@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { VMwareCloudSimple } from "./vMwareCloudSimple";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { VMwareCloudSimple } from "./vMwareCloudSimple.js";
+export * from "./operationsInterfaces/index.js";

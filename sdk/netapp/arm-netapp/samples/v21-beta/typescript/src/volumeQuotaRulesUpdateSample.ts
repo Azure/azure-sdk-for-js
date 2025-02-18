@@ -13,9 +13,7 @@ import {
   NetAppManagementClient,
 } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patch a quota rule
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Patch a quota rule
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeQuotaRules_Update.json
  */
-async function volumeQuotaRulesUpdate() {
+async function volumeQuotaRulesUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "5275316f-a498-48d6-b324-2cbfdc4311b9";
@@ -46,7 +44,7 @@ async function volumeQuotaRulesUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   volumeQuotaRulesUpdate();
 }
 

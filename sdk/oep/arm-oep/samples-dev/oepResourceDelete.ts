@@ -14,7 +14,7 @@
 import { OpenEnergyPlatformManagementServiceAPIs } from "@azure/arm-oep";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function oepResourceDelete() {
+async function oepResourceDelete(): Promise<void> {
   const subscriptionId = "0000000-0000-0000-0000-000000000001";
   const resourceGroupName = "DummyResourceGroupName";
   const resourceName = "DummyResourceName";

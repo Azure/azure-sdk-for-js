@@ -7,9 +7,7 @@
  */
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List Account Filters in the Media Services account.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List Account Filters in the Media Services account.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/accountFilters-list-all.json
  */
-async function listAllAccountFilters() {
+async function listAllAccountFilters(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -31,7 +29,7 @@ async function listAllAccountFilters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAllAccountFilters();
 }
 

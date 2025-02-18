@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the database with the given name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the database with the given name.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabasesDelete.json
  */
-async function kustoPoolDatabasesDelete() {
+async function kustoPoolDatabasesDelete(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -40,7 +38,7 @@ async function kustoPoolDatabasesDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   kustoPoolDatabasesDelete();
 }
 

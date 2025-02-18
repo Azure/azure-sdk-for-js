@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Failovers a set of volume containers from a specified source device to a target device.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/DevicesFailover.json
  */
-async function devicesFailover() {
+async function devicesFailover(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const sourceDeviceName = "Device05ForSDKTest";
   const resourceGroupName = "ResourceGroupForSDKTest";

@@ -7,9 +7,7 @@
  */
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all capacity pools in the NetApp Account
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all capacity pools in the NetApp Account
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Pools_List.json
  */
-async function poolsList() {
+async function poolsList(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] || "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
@@ -31,7 +29,7 @@ async function poolsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await poolsList();
 }
 

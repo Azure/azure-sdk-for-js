@@ -7,9 +7,7 @@
  */
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about a configuration of server.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets information about a configuration of server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2023-06-01-preview/examples/ConfigurationGet.json
  */
-async function getAConfiguration() {
+async function getAConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
@@ -29,7 +27,7 @@ async function getAConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAConfiguration();
 }
 

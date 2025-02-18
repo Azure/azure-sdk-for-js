@@ -13,9 +13,7 @@ import {
   MicrosoftResourceHealth
 } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists current service health events in the tenant.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists current service health events in the tenant.
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2022-10-01/examples/Events_ListByTenantId.json
  */
-async function listEventsByTenantId() {
+async function listEventsByTenantId(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function listEventsByTenantId() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listEventsByTenantId();
 }
 

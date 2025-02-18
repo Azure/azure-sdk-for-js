@@ -9,7 +9,7 @@
 import {
   IntegrationRuntimeStatusGetOptionalParams,
   IntegrationRuntimeStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeStatusOperations. */
 export interface IntegrationRuntimeStatusOperations {

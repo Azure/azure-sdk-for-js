@@ -7,9 +7,7 @@
  */
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all Kusto pool principalAssignments.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all Kusto pool principalAssignments.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolPrincipalAssignmentsList.json
  */
-async function kustoPoolPrincipalAssignmentsList() {
+async function kustoPoolPrincipalAssignmentsList(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const workspaceName = "synapseWorkspaceName";
@@ -36,7 +34,7 @@ async function kustoPoolPrincipalAssignmentsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await kustoPoolPrincipalAssignmentsList();
 }
 

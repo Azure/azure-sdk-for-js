@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creating or Updating a Spatial Anchors Account.
  * x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/spatial-anchors/Put.json
  */
-async function createSpatialAnchorAccount() {
+async function createSpatialAnchorAccount(): Promise<void> {
   const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const resourceGroupName = "MyResourceGroup";
   const accountName = "MyAccount";

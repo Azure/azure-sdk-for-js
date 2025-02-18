@@ -8,9 +8,7 @@
 import type { DeploymentWhatIf } from "@azure/arm-resources-profile-2020-09-01-hybrid";
 import { ResourceManagementClient } from "@azure/arm-resources-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the subscription.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Returns changes that will be made by the deployment if executed at the scope of the subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2019-10-01/examples/PostDeploymentWhatIfOnSubscription.json
  */
-async function predictTemplateChangesAtSubscriptionScope() {
+async function predictTemplateChangesAtSubscriptionScope(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000001";
   const deploymentName = "exampleDeploymentName";
@@ -39,7 +37,7 @@ async function predictTemplateChangesAtSubscriptionScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await predictTemplateChangesAtSubscriptionScope();
 }
 

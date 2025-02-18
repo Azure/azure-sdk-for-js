@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Image, AzureSphereManagementClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates an image. Use this action when the image ID is unknown.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates an image. Use this action when the image ID is unknown.
  * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PostUploadImageCatalog.json
  */
-async function catalogsUploadImage() {
+async function catalogsUploadImage(): Promise<void> {
   const subscriptionId =
     process.env["SPHERE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +38,7 @@ async function catalogsUploadImage() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   catalogsUploadImage();
 }
 

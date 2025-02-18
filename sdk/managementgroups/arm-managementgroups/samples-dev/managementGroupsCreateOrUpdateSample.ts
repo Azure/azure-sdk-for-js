@@ -22,7 +22,7 @@ If a management group is already created and a subsequent create request is issu
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/PutManagementGroup.json
  */
-async function putManagementGroup() {
+async function putManagementGroup(): Promise<void> {
   const groupId = "ChildGroup";
   const cacheControl = "no-cache";
   const createManagementGroupRequest: CreateManagementGroupRequest = {
