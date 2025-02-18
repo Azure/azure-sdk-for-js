@@ -181,6 +181,7 @@ export interface GetDeletedKeyOptions extends coreClient.OperationOptions {
 // @public
 export interface GetKeyOptions extends coreClient.OperationOptions {
     version?: string;
+    withAttestation?: boolean;
 }
 
 // @public
@@ -277,6 +278,8 @@ export interface KeyPollerOptions extends coreClient.OperationOptions {
 
 // @public
 export interface KeyProperties {
+    // Warning: (ae-forgotten-export) The symbol "KeyAttestation" needs to be exported by the entry point index.d.ts
+    attestation?: KeyAttestation;
     readonly createdOn?: Date;
     enabled?: boolean;
     expiresOn?: Date;
@@ -377,6 +380,8 @@ export enum KnownEncryptionAlgorithms {
     A256Cbcpad = "A256CBCPAD",
     A256GCM = "A256GCM",
     A256KW = "A256KW",
+    CkmAesKeyWrap = "CKM_AES_KEY_WRAP",
+    CkmAesKeyWrapPad = "CKM_AES_KEY_WRAP_PAD",
     RSA15 = "RSA1_5",
     RSAOaep = "RSA-OAEP",
     RSAOaep256 = "RSA-OAEP-256"
@@ -424,6 +429,9 @@ export enum KnownSignatureAlgorithms {
     ES256K = "ES256K",
     ES384 = "ES384",
     ES512 = "ES512",
+    HS256 = "HS256",
+    HS384 = "HS384",
+    HS512 = "HS512",
     PS256 = "PS256",
     PS384 = "PS384",
     PS512 = "PS512",

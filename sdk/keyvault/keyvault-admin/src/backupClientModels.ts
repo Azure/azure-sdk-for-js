@@ -3,6 +3,7 @@
 
 import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import type { SUPPORTED_API_VERSIONS } from "./constants.js";
+import { KeyVaultBackupClient } from "./backupClient.js";
 
 export type { PollerLike } from "./lro/shim.js";
 export type { OperationStatus } from "./generated/index.js";
@@ -40,21 +41,33 @@ export interface KeyVaultBackupPollerOptions extends OperationOptions {
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginBackup}
+ * passed to {@link KeyVaultBackupClient.beginPreBackup}
  */
-export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions {}
+export type KeyVaultBeginPreBackupOptions = KeyVaultBackupPollerOptions;
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginRestore}
+ * passed to {@link KeyVaultBackupClient.beginBackup}
  */
-export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions {}
+export type KeyVaultBeginBackupOptions = KeyVaultBackupPollerOptions;
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link beginSelectiveKeyRestore}
+ * passed to {@link KeyVaultBackupClient.beginRestore}
  */
-export interface KeyVaultBeginSelectiveKeyRestoreOptions extends KeyVaultBackupPollerOptions {}
+export type KeyVaultBeginRestoreOptions = KeyVaultBackupPollerOptions;
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link begingPreRestore}
+ */
+export type KeyVaultBeginPreRestoreOptions = KeyVaultBackupPollerOptions;
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link KeyVaultBackupClient.beginSelectiveKeyRestore}
+ */
+export type KeyVaultBeginSelectiveKeyRestoreOptions = KeyVaultBackupPollerOptions;
 
 /**
  * An interface representing the result of a backup operation.

@@ -35,7 +35,6 @@ export function getKeyFromKeyBundle(
   const parsedId = parseKeyVaultKeyIdentifier(keyBundle.key!.kid!);
 
   const attributes: KeyAttributes = keyBundle.attributes || {};
-  delete keyBundle.attributes;
 
   const resultObject: KeyVaultKey | DeletedKey = {
     key: keyBundle.key,
@@ -70,6 +69,10 @@ export function getKeyFromKeyBundle(
     (resultObject as any).properties.recoveryId = deletedKeyBundle.recoveryId;
     (resultObject as any).properties.scheduledPurgeDate = deletedKeyBundle.scheduledPurgeDate;
     (resultObject as any).properties.deletedOn = deletedKeyBundle.deletedDate;
+  }
+
+  if (attributes.attestation) {
+    resultObject.properties.attestation = attributes.attestation;
   }
 
   return resultObject;

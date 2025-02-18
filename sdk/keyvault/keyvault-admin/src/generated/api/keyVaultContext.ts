@@ -7,7 +7,11 @@ import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
 /** The key vault client performs cryptographic key operations and vault operations against the Key Vault service. */
-export interface KeyVaultContext extends Client {}
+export interface KeyVaultContext extends Client {
+  /** The API version to use for this operation. */
+  /** Known values of {@link KnownVersions} that the service accepts. */
+  apiVersion: string;
+}
 
 /** Optional parameters for the client. */
 export interface KeyVaultClientOptionalParams extends ClientOptions {
@@ -18,11 +22,12 @@ export interface KeyVaultClientOptionalParams extends ClientOptions {
 
 /** The key vault client performs cryptographic key operations and vault operations against the Key Vault service. */
 export function createKeyVault(
-  vaultBaseUrl: string,
+  endpointParam: string,
   credential: TokenCredential,
   options: KeyVaultClientOptionalParams = {},
 ): KeyVaultContext {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${vaultBaseUrl}`;
+  const endpointUrl =
+    options.endpoint ?? options.baseUrl ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-keyvault-admin/1.0.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
@@ -40,7 +45,7 @@ export function createKeyVault(
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   clientContext.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  const apiVersion = options.apiVersion ?? "7.6-preview.1";
+  const apiVersion = options.apiVersion ?? "7.6-preview.2";
   clientContext.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {
@@ -56,5 +61,5 @@ export function createKeyVault(
       return next(req);
     },
   });
-  return clientContext;
+  return { ...clientContext, apiVersion } as KeyVaultContext;
 }

@@ -17,6 +17,7 @@ export {
   KeyAttributes,
   KnownDeletionRecoveryLevel,
   DeletionRecoveryLevel,
+  KeyAttestation,
   KnownJsonWebKeyCurveName,
   JsonWebKeyCurveName,
   KeyReleasePolicy,
@@ -57,6 +58,7 @@ export {
 } from "./models/index.js";
 export {
   KeyVaultClientOptionalParams,
+  GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
   GetKeyRotationPolicyOptionalParams,
