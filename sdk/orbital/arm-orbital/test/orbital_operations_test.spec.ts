@@ -2,13 +2,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { AzureOrbital } from "../src/azureOrbital";
+import { AzureOrbital } from "../src/azureOrbital.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -38,22 +36,22 @@ describe("orbital test", () => {
   let resourcename: string;
   let resourcename1: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new AzureOrbital(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "westus2";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
-    resourcename1 = "resourcetest1";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new AzureOrbital(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "westus2";
+      resourceGroup = "myjstest";
+      resourcename = "resourcetest";
+      resourcename1 = "resourcetest1";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("contactProfiles create test", async function () {
     //need to create a virtualnetwork "myvirtualnetwork" and a subnet "testsubnets". Then set SUBNET DELEGATION to"Microsoft.Orbital/orbitalGateways"
@@ -125,7 +123,6 @@ describe("orbital test", () => {
 
   it("contactProfiles delete test", async function () {
     const resArray = new Array();
-    const res = await client.contactProfiles.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions)
     for await (let item of client.contactProfiles.list(resourceGroup)) {
       resArray.push(item);
     }
@@ -179,7 +176,6 @@ describe("orbital test", () => {
 
   it("spacecrafts delete test", async function () {
     const resArray = new Array();
-    const res = await client.spacecrafts.beginDeleteAndWait(resourceGroup, resourcename1, testPollingOptions)
     for await (let item of client.spacecrafts.list(resourceGroup)) {
       resArray.push(item);
     }
