@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { IncidentComment, SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the incident comment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates the incident comment.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/comments/CreateIncidentComment.json
  */
-async function createsOrUpdatesAnIncidentComment() {
+async function createsOrUpdatesAnIncidentComment(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -42,7 +40,7 @@ async function createsOrUpdatesAnIncidentComment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsOrUpdatesAnIncidentComment();
 }
 

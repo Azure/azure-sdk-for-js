@@ -25,7 +25,7 @@ import {
   ServiceImpl,
   ServiceReplicaImpl,
   CodePackageImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Secret,
@@ -37,8 +37,8 @@ import {
   Service,
   ServiceReplica,
   CodePackage
-} from "./operationsInterfaces";
-import { ServiceFabricMeshManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ServiceFabricMeshManagementClientOptionalParams } from "./models/index.js";
 
 export class ServiceFabricMeshManagementClient extends coreClient.ServiceClient {
   $host: string;

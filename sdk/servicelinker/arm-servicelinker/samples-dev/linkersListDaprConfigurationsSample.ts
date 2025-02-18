@@ -7,9 +7,7 @@
  */
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List the dapr configuration supported by Service Connector.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List the dapr configuration supported by Service Connector.
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/GetDaprConfigurations.json
  */
-async function getDaprConfigurations() {
+async function getDaprConfigurations(): Promise<void> {
   const resourceUri =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getDaprConfigurations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getDaprConfigurations();
 }
 

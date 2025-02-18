@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GitLabSubgroups } from "../operationsInterfaces";
+import { GitLabSubgroups } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityCenter } from "../securityCenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityCenter } from "../securityCenter.js";
 import {
   GitLabSubgroupsListOptionalParams,
   GitLabSubgroupsListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing GitLabSubgroups operations. */
 export class GitLabSubgroupsImpl implements GitLabSubgroups {
