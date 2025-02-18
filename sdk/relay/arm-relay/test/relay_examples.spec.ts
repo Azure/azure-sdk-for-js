@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { RelayAPI } from "../src/relayAPI";
+import { RelayAPI } from "../src/relayAPI.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -47,23 +45,23 @@ describe("Relay test", () => {
   let namespaceName: string;
   let authorizationRuleName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new RelayAPI(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    relayName = "myrelayxxx";
-    namespaceName = "mynamespacexxx";
-    authorizationRuleName = "myauthorizationxxxx";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new RelayAPI(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      relayName = "myrelayxxx";
+      namespaceName = "mynamespacexxx";
+      authorizationRuleName = "myauthorizationxxxx";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("namespaces create test", async function () {
     const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup, namespaceName, {
@@ -143,7 +141,6 @@ describe("Relay test", () => {
   });
 
   it("wCFRelays deleteAuthorizationRule test", async function () {
-    const res = await client.wCFRelays.deleteAuthorizationRule(resourceGroup, namespaceName, relayName, authorizationRuleName);
     const resArray = new Array();
     for await (let item of client.wCFRelays.listAuthorizationRules(resourceGroup, namespaceName, relayName)) {
       resArray.push(item);
@@ -152,7 +149,6 @@ describe("Relay test", () => {
   });
 
   it("wCFRelays delete test", async function () {
-    const res = await client.wCFRelays.delete(resourceGroup, namespaceName, relayName);
     const resArray = new Array();
     for await (let item of client.wCFRelays.listByNamespace(resourceGroup, namespaceName)) {
       resArray.push(item);
@@ -161,7 +157,6 @@ describe("Relay test", () => {
   });
 
   it("namespaces delete test", async function () {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroup, namespaceName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.namespaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
