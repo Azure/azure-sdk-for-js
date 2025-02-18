@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { RecoveryServicesClient } from "../src/recoveryServicesClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -20,7 +15,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -45,41 +40,50 @@ describe("Recoveryservices test", () => {
   let vaultsName: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new RecoveryServicesClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      vaultsName = "myvaultxxx";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new RecoveryServicesClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    location = "eastus";
+    resourceGroup = "myjstest";
+    vaultsName = "myvaultxxx";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("vaults create test", async function () {
-    const res = await client.vaults.beginCreateOrUpdateAndWait(resourceGroup, vaultsName, {
-      location: location,
-      properties: { publicNetworkAccess: "Enabled" },
-      sku: {
-        name: "Standard"
+  it("vaults create test", async () => {
+    const res = await client.vaults.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      vaultsName,
+      {
+        location: location,
+        properties: { publicNetworkAccess: "Enabled" },
+        sku: {
+          name: "Standard",
+        },
+        identity: {
+          type: "SystemAssigned",
+        },
       },
-      identity: {
-        type: "SystemAssigned"
-      }
-    }, testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, vaultsName);
   });
 
-  it("vaults get test", async function () {
+  it("vaults get test", async () => {
     const res = await client.vaults.get(resourceGroup, vaultsName);
     assert.equal(res.name, vaultsName);
   });
 
-  it("vaults list test", async function () {
+  it("vaults list test", async () => {
     const resArray = new Array();
     for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -87,20 +91,21 @@ describe("Recoveryservices test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("vaultExtendedInfo create test", async function () {
+  it("vaultExtendedInfo create test", async () => {
     const res = await client.vaultExtendedInfo.createOrUpdate(resourceGroup, vaultsName, {
-      algorithm: "None"
+      algorithm: "None",
     });
     assert.equal(res.algorithm, "None");
   });
 
-  it("vaultExtendedInfo get test", async function () {
+  it("vaultExtendedInfo get test", async () => {
     const res = await client.vaultExtendedInfo.get(resourceGroup, vaultsName);
-    assert.equal(res.type, "Microsoft.RecoveryServices/vaults/extendedInformation")
+    assert.equal(res.type, "Microsoft.RecoveryServices/vaults/extendedInformation");
   });
 
-  it("vaults delete test", async function () {
+  it("vaults delete test", async () => {
     const resArray = new Array();
+    await client.vaults.beginDeleteAndWait(resourceGroup, vaultsName);
     for await (let item of client.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
