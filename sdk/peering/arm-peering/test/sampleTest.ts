@@ -6,13 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import type {
+  RecorderStartOptions} from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
   env
 } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
