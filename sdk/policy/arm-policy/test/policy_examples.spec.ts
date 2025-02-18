@@ -47,24 +47,24 @@ describe("Policy test", () => {
   let policyAssignmentName: string;
   let managementclient: ManagementGroupsAPI;
 
-  beforeEach(async function (ctx) {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new PolicyClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    managementclient = new ManagementGroupsAPI(credential, recorder.configureClientOptions({}))
-    groupId = "20000000-0001-0000-0000-000000000123";
-    policyName = "jspolicy";
-    scope = "providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
-    policyAssignmentName = "passigment";
-    client1 = new PolicyClient(credential, recorder.configureClientOptions({}));
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new PolicyClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      managementclient = new ManagementGroupsAPI(credential, recorder.configureClientOptions({}))
+      groupId = "20000000-0001-0000-0000-000000000123";
+      policyName = "jspolicy";
+      scope = "providers/Microsoft.Management/managementgroups/20000000-0001-0000-0000-000000000123/";
+      policyAssignmentName = "passigment";
+      client1 = new PolicyClient(credential, recorder.configureClientOptions({}));
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("policyDefinitions list test", async function () {
     const result = await client.policyDefinitions.list();
