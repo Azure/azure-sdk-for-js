@@ -36,7 +36,7 @@ describe("PlaywrightService test", () => {
   afterEach(async () => {
     await recorder.stop();
   });
-  it("operations list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
       resArray.push(item);
