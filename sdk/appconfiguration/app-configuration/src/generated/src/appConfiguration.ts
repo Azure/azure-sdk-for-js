@@ -1,4 +1,4 @@
-  /*
+/*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  *
@@ -7,7 +7,6 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreHttpCompat from "@azure/core-http-compat";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -81,7 +80,7 @@ import {
 } from "./models/index.js";
 
 /** @internal */
-export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
+export class AppConfiguration extends coreClient.ServiceClient {
   endpoint: string;
   syncToken?: string;
   apiVersion: ApiVersion20231101;
@@ -112,7 +111,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-app-configuration/1.8.1`;
+    const packageDetails = `azsdk-js-app-configuration/1.9.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

@@ -75,7 +75,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
     });
 
     function assertFeatureFlagProps(
-      actual: Omit<AddConfigurationSettingResponse, "_response">,
+      actual: AddConfigurationSettingResponse,
       expected: ConfigurationSetting<FeatureFlagValue>,
     ): void {
       assert.equal(isFeatureFlag(actual), true, "Expected to get the feature flag");

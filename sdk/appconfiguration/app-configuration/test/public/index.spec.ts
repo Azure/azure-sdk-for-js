@@ -1091,13 +1091,13 @@ describe("AppConfigurationClient", () => {
       iterator = client.listConfigurationSettings({ keyFilter: key, pageEtags: etags }).byPage();
 
       let response = await iterator.next();
-      assertPage(response.value, 0, 304);
+      assertPage(response.value, 0);
 
       response = await iterator.next();
-      assertPage(response.value, 0, 304);
+      assertPage(response.value, 0);
 
       response = await iterator.next();
-      assertPage(response.value, 0, 304);
+      assertPage(response.value, 0);
 
       // This number is arbitrarily chosen to add new setting to the 3rd page
       const additionalNumberOfLabels = 50;
@@ -1108,22 +1108,17 @@ describe("AppConfigurationClient", () => {
 
       // First page no change
       response = await iterator.next();
-      assertPage(response.value, 0, 304);
+      assertPage(response.value, 0);
 
       // Second page: full settings with change
       response = await iterator.next();
-      assertPage(response.value, pageSize, 200);
+      assertPage(response.value, pageSize);
 
       // Third page: new settings with changes
       response = await iterator.next();
-      assertPage(response.value, additionalNumberOfLabels, 200);
+      assertPage(response.value, additionalNumberOfLabels);
 
-      function assertPage(
-        page: ListConfigurationSettingPage,
-        expectedLength: number,
-        status: number,
-      ): void {
-        assert.equal(page._response.status, status);
+      function assertPage(page: ListConfigurationSettingPage, expectedLength: number): void {
         assert.equal(page.items.length, expectedLength);
         assert.isDefined(page.etag);
       }
