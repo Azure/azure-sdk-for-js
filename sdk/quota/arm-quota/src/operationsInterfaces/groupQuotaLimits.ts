@@ -9,7 +9,7 @@
 import {
   GroupQuotaLimitsListOptionalParams,
   GroupQuotaLimitsListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a GroupQuotaLimits. */
 export interface GroupQuotaLimits {

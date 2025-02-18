@@ -19,7 +19,7 @@ import {
   GroupQuotasGetResponse,
   GroupQuotasDeleteOptionalParams,
   GroupQuotasDeleteResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GroupQuotas. */

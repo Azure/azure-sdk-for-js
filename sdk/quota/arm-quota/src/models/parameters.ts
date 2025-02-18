@@ -17,7 +17,7 @@ import {
   GroupQuotaLimitList as GroupQuotaLimitListMapper,
   SubscriptionQuotaAllocationsList as SubscriptionQuotaAllocationsListMapper,
   CurrentQuotaLimitBase as CurrentQuotaLimitBaseMapper,
-} from "../models/mappers.js";
+} from "../models/mappers";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
@@ -94,7 +94,7 @@ export const groupQuotaName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-12-18-preview",
+    defaultValue: "2025-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

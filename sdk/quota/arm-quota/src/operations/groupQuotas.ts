@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { GroupQuotas } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { GroupQuotas } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   GroupQuotasEntity,
   GroupQuotasListNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   GroupQuotasDeleteOptionalParams,
   GroupQuotasDeleteResponse,
   GroupQuotasListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GroupQuotas operations. */

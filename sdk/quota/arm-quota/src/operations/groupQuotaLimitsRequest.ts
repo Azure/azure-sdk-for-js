@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { GroupQuotaLimitsRequest } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { GroupQuotaLimitsRequest } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   SubmittedResourceRequestStatus,
   GroupQuotaLimitsRequestListNextOptionalParams,
@@ -29,7 +29,7 @@ import {
   GroupQuotaLimitsRequestGetOptionalParams,
   GroupQuotaLimitsRequestGetResponse,
   GroupQuotaLimitsRequestListNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing GroupQuotaLimitsRequest operations. */

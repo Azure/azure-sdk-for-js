@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { OperationResponse, QuotaOperationListOptionalParams } from "../models/index.js";
+import { OperationResponse, QuotaOperationListOptionalParams } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a QuotaOperation. */

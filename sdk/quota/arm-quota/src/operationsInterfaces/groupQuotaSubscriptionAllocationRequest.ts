@@ -16,7 +16,7 @@ import {
   GroupQuotaSubscriptionAllocationRequestUpdateResponse,
   GroupQuotaSubscriptionAllocationRequestGetOptionalParams,
   GroupQuotaSubscriptionAllocationRequestGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GroupQuotaSubscriptionAllocationRequest. */

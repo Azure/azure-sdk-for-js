@@ -9,7 +9,7 @@
 import {
   GroupQuotaSubscriptionAllocationListOptionalParams,
   GroupQuotaSubscriptionAllocationListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a GroupQuotaSubscriptionAllocation. */
 export interface GroupQuotaSubscriptionAllocation {

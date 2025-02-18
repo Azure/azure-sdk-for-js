@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GroupQuotaLimits } from "../operationsInterfaces/index.js";
+import { GroupQuotaLimits } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
 import {
   GroupQuotaLimitsListOptionalParams,
   GroupQuotaLimitsListResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing GroupQuotaLimits operations. */
 export class GroupQuotaLimitsImpl implements GroupQuotaLimits {
