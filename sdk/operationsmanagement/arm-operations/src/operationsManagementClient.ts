@@ -19,14 +19,14 @@ import {
   ManagementAssociationsImpl,
   ManagementConfigurationsImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Solutions,
   ManagementAssociations,
   ManagementConfigurations,
   Operations
-} from "./operationsInterfaces";
-import { OperationsManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { OperationsManagementClientOptionalParams } from "./models/index.js";
 
 export class OperationsManagementClient extends coreClient.ServiceClient {
   $host: string;
