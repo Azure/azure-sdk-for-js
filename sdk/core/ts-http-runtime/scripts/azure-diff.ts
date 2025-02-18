@@ -11,7 +11,6 @@ const AZURE_SOURCES = {
   // core-rest-pipeline is placed at the root of the unbranded package; this also covers subfolders of
   // core-rest-pipeline including policies/ and retryStrategies/.
   "../core-rest-pipeline/src/": "./src/",
-  "../core-util/src/": "./src/util/",
   "../core-auth/src/": "./src/auth/",
   "../abort-controller/src/": "./src/abort-controller/",
   "../core-client-rest/src/": "./src/client/",
