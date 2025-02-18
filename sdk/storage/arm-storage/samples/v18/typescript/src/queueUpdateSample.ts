@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a new queue with the specified queue name, under the specified account.
  *
  * @summary Creates a new queue with the specified queue name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueOperationPatch.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/QueueOperationPatch.json
  */
 async function queueOperationPatch(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function queueOperationPatch(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  queueOperationPatch();
+  await queueOperationPatch();
 }
 
 main().catch(console.error);

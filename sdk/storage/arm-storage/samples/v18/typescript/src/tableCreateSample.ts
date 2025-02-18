@@ -20,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/TableOperationPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/TableOperationPut.json
  */
 async function tableOperationPut(): Promise<void> {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function tableOperationPut(): Promise<void> {
  * This sample demonstrates how to Creates a new table with the specified table name, under the specified account.
  *
  * @summary Creates a new table with the specified table name, under the specified account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/TableOperationPutOrPatchAcls.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/TableOperationPutOrPatchAcls.json
  */
 async function tableOperationPutOrPatchAcls(): Promise<void> {
   const subscriptionId =
@@ -83,8 +83,8 @@ async function tableOperationPutOrPatchAcls(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tableOperationPut();
-  tableOperationPutOrPatchAcls();
+  await tableOperationPut();
+  await tableOperationPutOrPatchAcls();
 }
 
 main().catch(console.error);

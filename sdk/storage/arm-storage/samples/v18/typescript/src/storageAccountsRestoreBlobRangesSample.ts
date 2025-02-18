@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Restore blobs in the specified blob ranges
  *
  * @summary Restore blobs in the specified blob ranges
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobRangesRestore.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobRangesRestore.json
  */
 async function blobRangesRestore(): Promise<void> {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function blobRangesRestore(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  blobRangesRestore();
+  await blobRangesRestore();
 }
 
 main().catch(console.error);

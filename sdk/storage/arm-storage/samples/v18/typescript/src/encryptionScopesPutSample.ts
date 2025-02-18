@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
  *
  * @summary Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountPutEncryptionScope.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountPutEncryptionScope.json
  */
 async function storageAccountPutEncryptionScope(): Promise<void> {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function storageAccountPutEncryptionScope(): Promise<void> {
  * This sample demonstrates how to Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
  *
  * @summary Synchronously creates or updates an encryption scope under the specified storage account. If an encryption scope is already created and a subsequent request is issued with different properties, the encryption scope properties will be updated per the specified request.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountPutEncryptionScopeWithInfrastructureEncryption.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountPutEncryptionScopeWithInfrastructureEncryption.json
  */
 async function storageAccountPutEncryptionScopeWithInfrastructureEncryption(): Promise<void> {
   const subscriptionId =
@@ -65,8 +65,8 @@ async function storageAccountPutEncryptionScopeWithInfrastructureEncryption(): P
 }
 
 async function main(): Promise<void> {
-  storageAccountPutEncryptionScope();
-  storageAccountPutEncryptionScopeWithInfrastructureEncryption();
+  await storageAccountPutEncryptionScope();
+  await storageAccountPutEncryptionScopeWithInfrastructureEncryption();
 }
 
 main().catch(console.error);
