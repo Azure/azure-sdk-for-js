@@ -13,7 +13,7 @@ import {
   BackupResourceStorageConfigsNonCRRUpdateOptionalParams,
   BackupResourceStorageConfigsNonCRRUpdateResponse,
   BackupResourceStorageConfigsNonCRRPatchOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BackupResourceStorageConfigsNonCRR. */
 export interface BackupResourceStorageConfigsNonCRR {

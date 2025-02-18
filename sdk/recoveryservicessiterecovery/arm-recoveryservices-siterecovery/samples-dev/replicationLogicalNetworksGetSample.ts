@@ -7,9 +7,7 @@
  */
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the details of a logical network.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the details of a logical network.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationLogicalNetworks_Get.json
  */
-async function getsALogicalNetworkWithSpecifiedServerIdAndLogicalNetworkName() {
+async function getsALogicalNetworkWithSpecifiedServerIdAndLogicalNetworkName(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -37,7 +35,7 @@ async function getsALogicalNetworkWithSpecifiedServerIdAndLogicalNetworkName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsALogicalNetworkWithSpecifiedServerIdAndLogicalNetworkName();
 }
 

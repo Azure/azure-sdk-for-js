@@ -9,7 +9,7 @@
 import {
   SecurityPINsGetOptionalParams,
   SecurityPINsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SecurityPINs. */
 export interface SecurityPINs {

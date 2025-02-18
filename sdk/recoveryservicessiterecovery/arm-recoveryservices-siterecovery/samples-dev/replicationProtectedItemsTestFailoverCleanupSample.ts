@@ -8,9 +8,7 @@
 import type { TestFailoverCleanupInput } from "@azure/arm-recoveryservices-siterecovery";
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Operation to clean up the test failover of a replication protected item.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Operation to clean up the test failover of a replication protected item.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_TestFailoverCleanup.json
  */
-async function executeTestFailoverCleanup() {
+async function executeTestFailoverCleanup(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -44,7 +42,7 @@ async function executeTestFailoverCleanup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await executeTestFailoverCleanup();
 }
 

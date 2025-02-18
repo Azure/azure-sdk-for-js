@@ -8,9 +8,7 @@
 import type { BackupRequestResource } from "@azure/arm-recoveryservicesbackup";
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Triggers backup for specified backed up item. This is an asynchronous operation. To know the status of the
@@ -20,7 +18,7 @@ operation, call GetProtectedItemOperationResult API.
 operation, call GetProtectedItemOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/TriggerBackup_Post.json
  */
-async function triggerBackup() {
+async function triggerBackup(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "linuxRsVault";
@@ -45,7 +43,7 @@ async function triggerBackup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await triggerBackup();
 }
 

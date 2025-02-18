@@ -13,9 +13,7 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or modifies a backup policy. This is an asynchronous operation. Status of the operation can be fetched
@@ -25,7 +23,7 @@ using GetPolicyOperationResult API.
 using GetPolicyOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hardened.json
  */
-async function createOrUpdateAzureStorageVaultStandardProtectionPolicy() {
+async function createOrUpdateAzureStorageVaultStandardProtectionPolicy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -100,7 +98,7 @@ using GetPolicyOperationResult API.
 using GetPolicyOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Daily.json
  */
-async function createOrUpdateDailyAzureStorageProtectionPolicy() {
+async function createOrUpdateDailyAzureStorageProtectionPolicy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -172,7 +170,7 @@ using GetPolicyOperationResult API.
 using GetPolicyOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/V2Policy/IaaS_v2_hourly.json
  */
-async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup() {
+async function createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -250,7 +248,7 @@ using GetPolicyOperationResult API.
 using GetPolicyOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/V2Policy/IaaS_v2_daily.json
  */
-async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup() {
+async function createOrUpdateEnhancedAzureVMProtectionPolicyWithDailyBackup(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -324,7 +322,7 @@ using GetPolicyOperationResult API.
 using GetPolicyOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
-async function createOrUpdateFullAzureVMProtectionPolicy() {
+async function createOrUpdateFullAzureVMProtectionPolicy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -390,7 +388,7 @@ using GetPolicyOperationResult API.
 using GetPolicyOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureWorkload/ProtectionPolicies_CreateOrUpdate_Complex.json
  */
-async function createOrUpdateFullAzureWorkloadProtectionPolicy() {
+async function createOrUpdateFullAzureWorkloadProtectionPolicy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -486,7 +484,7 @@ using GetPolicyOperationResult API.
 using GetPolicyOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectionPolicies_CreateOrUpdate_Hourly.json
  */
-async function createOrUpdateHourlyAzureStorageProtectionPolicy() {
+async function createOrUpdateHourlyAzureStorageProtectionPolicy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -562,7 +560,7 @@ using GetPolicyOperationResult API.
 using GetPolicyOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectionPolicies_CreateOrUpdate_Simple.json
  */
-async function createOrUpdateSimpleAzureVMProtectionPolicy() {
+async function createOrUpdateSimpleAzureVMProtectionPolicy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -599,7 +597,7 @@ async function createOrUpdateSimpleAzureVMProtectionPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAzureStorageVaultStandardProtectionPolicy();
   createOrUpdateDailyAzureStorageProtectionPolicy();
   createOrUpdateEnhancedAzureVMProtectionPolicyWithHourlyBackup();

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the details of the specified storage classification.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the details of the specified storage classification.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationStorageClassifications_Get.json
  */
-async function getsTheDetailsOfAStorageClassification() {
+async function getsTheDetailsOfAStorageClassification(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "9112a37f-0f3e-46ec-9c00-060c6edca071";
@@ -42,7 +40,7 @@ async function getsTheDetailsOfAStorageClassification() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsTheDetailsOfAStorageClassification();
 }
 

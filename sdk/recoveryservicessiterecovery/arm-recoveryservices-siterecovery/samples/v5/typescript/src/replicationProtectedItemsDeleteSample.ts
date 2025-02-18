@@ -13,9 +13,7 @@ import {
   SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to disable replication on a replication protected item. This will also remove the item.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary The operation to disable replication on a replication protected item. This will also remove the item.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_Delete.json
  */
-async function disablesProtection() {
+async function disablesProtection(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -54,7 +52,7 @@ async function disablesProtection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   disablesProtection();
 }
 

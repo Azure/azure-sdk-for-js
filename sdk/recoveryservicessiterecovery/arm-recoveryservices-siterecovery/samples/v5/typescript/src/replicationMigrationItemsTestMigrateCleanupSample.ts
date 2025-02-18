@@ -13,9 +13,7 @@ import {
   SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to initiate test migrate cleanup.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary The operation to initiate test migrate cleanup.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_TestMigrateCleanup.json
  */
-async function testMigrateCleanup() {
+async function testMigrateCleanup(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "cb53d0c3-bd59-4721-89bc-06916a9147ef";
@@ -51,7 +49,7 @@ async function testMigrateCleanup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   testMigrateCleanup();
 }
 

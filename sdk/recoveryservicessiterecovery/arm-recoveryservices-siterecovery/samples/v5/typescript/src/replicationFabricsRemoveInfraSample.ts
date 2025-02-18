@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Removes the appliance's infrastructure under the fabric.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Removes the appliance's infrastructure under the fabric.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationInfrastructure_Delete.json
  */
-async function removesTheApplianceInfrastructureUnderTheFabric() {
+async function removesTheApplianceInfrastructureUnderTheFabric(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -39,7 +37,7 @@ async function removesTheApplianceInfrastructureUnderTheFabric() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   removesTheApplianceInfrastructureUnderTheFabric();
 }
 

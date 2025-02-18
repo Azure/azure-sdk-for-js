@@ -13,9 +13,7 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides a pageable list of protectable objects within your subscription according to the query filter and the
@@ -25,7 +23,7 @@ pagination parameters.
 pagination parameters.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupProtectableItems_List.json
  */
-async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM() {
+async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM()
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listProtectableItemsWithBackupManagementTypeFilterAsAzureIaasVM();
 }
 

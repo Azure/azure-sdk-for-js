@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete ResourceGuardProxy under vault
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete ResourceGuardProxy under vault
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ResourceGuardProxyCRUD/DeleteResourceGuardProxy.json
  */
-async function deleteResourceGuardProxy() {
+async function deleteResourceGuardProxy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "0b352192-dcac-4cc7-992e-a96190ccc68c";
@@ -39,7 +37,7 @@ async function deleteResourceGuardProxy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteResourceGuardProxy();
 }
 

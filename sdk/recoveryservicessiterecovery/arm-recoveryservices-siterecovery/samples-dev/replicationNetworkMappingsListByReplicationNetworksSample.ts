@@ -7,9 +7,7 @@
  */
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all ASR network mappings for the specified network.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all ASR network mappings for the specified network.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_ListByReplicationNetworks.json
  */
-async function getsAllTheNetworkMappingsUnderANetwork() {
+async function getsAllTheNetworkMappingsUnderANetwork(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "9112a37f-0f3e-46ec-9c00-060c6edca071";
@@ -40,7 +38,7 @@ async function getsAllTheNetworkMappingsUnderANetwork() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsAllTheNetworkMappingsUnderANetwork();
 }
 

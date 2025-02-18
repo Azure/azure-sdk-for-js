@@ -8,9 +8,7 @@
 import type { BackupProtectedItemsListOptionalParams } from "@azure/arm-recoveryservicesbackup";
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides a pageable list of all items that are backed up within a vault.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Provides a pageable list of all items that are backed up within a vault.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupProtectedItems_List.json
  */
-async function listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM() {
+async function listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
@@ -38,7 +36,7 @@ async function listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listProtectedItemsWithBackupManagementTypeFilterAsAzureIaasVM();
 }
 
