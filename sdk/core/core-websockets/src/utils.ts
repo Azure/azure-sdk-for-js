@@ -48,11 +48,16 @@ export function createUrl(
   const protocol = protocolMatch[1].toLowerCase() + ":";
 
   // If using insecure protocols and they are not permitted, throw an error.
-  if (["ws:", "http:"].includes(protocol) && !allowInsecureConnection) {
+  if ((protocol === "ws:" || protocol === "http:") && !allowInsecureConnection) {
     throw createError("Insecure connection is not allowed");
   }
 
-  return protocol === "http:"
-    ? "ws:" + url.slice("http:".length)
-    : "wss:" + url.slice("https:".length);
+  if (protocol === "http:") {
+    return "ws:" + url.slice("http:".length);
+  } else if (protocol === "https:") {
+    return "wss:" + url.slice("https:".length);
+  } else {
+    // For any other protocol (like ws: or wss:), return the URL unchanged.
+    return url;
+  }
 }
