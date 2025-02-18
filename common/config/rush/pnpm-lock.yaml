@@ -3305,7 +3305,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-quota@file:projects/arm-quota.tgz':
-    resolution: {integrity: sha512-d8Zy/YF3kwBoeFO0hA++IGCkRHlb2a+v1Ri81Z35lr+Am2l75ywml3udF4k8DfYv86QgcZfLzNA5/8wBRD8xYQ==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-vLcASvBwIQSpz2slBQCOMEAYLiR8GSEB/+1XzGq8n60Jcrw+qjTRDyM+sP+ROCkNhonMIg8hYNFpFq8dmi+B1A==, tarball: file:projects/arm-quota.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-recoveryservices-siterecovery@file:projects/arm-recoveryservices-siterecovery.tgz':

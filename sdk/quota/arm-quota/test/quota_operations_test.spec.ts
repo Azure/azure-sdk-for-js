@@ -52,7 +52,7 @@ describe("quota test", () => {
     await recorder.stop();
   });
 
-  it("quota list test", async function () {
+  it("quota list test", async () => {
     const resArray = new Array();
     for await (let item of client.quota.list(scope)) {
       resArray.push(item);
@@ -60,7 +60,7 @@ describe("quota test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("usage list test", async function () {
+  it("usage list test", async () => {
     const resArray = new Array();
     for await (let item of client.usages.list(scope)) {
       resArray.push(item);

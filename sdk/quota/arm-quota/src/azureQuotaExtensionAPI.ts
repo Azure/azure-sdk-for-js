@@ -88,7 +88,7 @@ export class AzureQuotaExtensionAPI extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-quota/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-quota/1.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
