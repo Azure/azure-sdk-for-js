@@ -20,7 +20,7 @@ import "dotenv/config";
  * This sample demonstrates how to The Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
  *
  * @summary The Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesLease_Acquire.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileSharesLease_Acquire.json
  */
 async function acquireALeaseOnAShare(): Promise<void> {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function acquireALeaseOnAShare(): Promise<void> {
  * This sample demonstrates how to The Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
  *
  * @summary The Lease Share operation establishes and manages a lock on a share for delete operations. The lock duration can be 15 to 60 seconds, or can be infinite.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesLease_Break.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/FileSharesLease_Break.json
  */
 async function breakALeaseOnAShare(): Promise<void> {
   const subscriptionId =
@@ -79,8 +79,8 @@ async function breakALeaseOnAShare(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  acquireALeaseOnAShare();
-  breakALeaseOnAShare();
+  await acquireALeaseOnAShare();
+  await breakALeaseOnAShare();
 }
 
 main().catch(console.error);
