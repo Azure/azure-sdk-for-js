@@ -95,7 +95,7 @@ async function main() {
 
   console.log("Deleting topic...");
   await serviceBusAdminClient.deleteTopic(topicName);
-  client.close();
+  await client.close();
 }
 
 main().catch((err) => {

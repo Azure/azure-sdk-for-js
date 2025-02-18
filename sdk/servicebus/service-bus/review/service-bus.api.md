@@ -345,6 +345,8 @@ export class ServiceBusClient {
     createSender(queueOrTopicName: string, options?: ServiceBusSenderOptions): ServiceBusSender;
     fullyQualifiedNamespace: string;
     identifier: string;
+    listSessions(queueName: string, options?: OperationOptions): PagedAsyncIterableIterator<string>;
+    listSessions(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<string>;
 }
 
 // @public
