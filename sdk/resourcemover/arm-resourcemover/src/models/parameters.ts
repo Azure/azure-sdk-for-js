@@ -20,7 +20,7 @@ import {
   DiscardRequest as DiscardRequestMapper,
   BulkRemoveRequest as BulkRemoveRequestMapper,
   MoveResource as MoveResourceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
