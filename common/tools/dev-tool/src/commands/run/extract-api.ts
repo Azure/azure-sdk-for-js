@@ -22,6 +22,14 @@ import { resolveProject } from "../../util/resolveProject";
 export const commandInfo = makeCommandInfo(
   "extract-api",
   "Runs api-extractor multiple times for all exports.",
+  {
+    "merge-subpath-exports": {
+      shortName: "mse",
+      kind: "boolean",
+      default: false,
+      description: "whether to include subpath export APIs.",
+    },
+  },
 );
 
 const log = createPrinter("extract-api");
@@ -107,16 +115,7 @@ function extractApi(
   }
 }
 
-interface ApiJson {
-  metadata: Record<string, unknown>;
-  members: { kind: string; name: string }[];
-}
-
-async function loadApiJson(fullPath: string): Promise<ApiJson> {
-  return JSON.parse(await readFile(fullPath, { encoding: "utf-8" })) as ApiJson;
-}
-
-export default leafCommand(commandInfo, async () => {
+export default leafCommand(commandInfo, async (options) => {
   const projectInfo = await resolveProject(process.cwd());
   const packageJsonPath = path.join(projectInfo.path, "package.json");
   const packageJson = JSON.parse(await readFile(packageJsonPath, { encoding: "utf-8" }));
@@ -240,11 +239,63 @@ export default leafCommand(commandInfo, async () => {
       reportTempDir,
       exports,
       packageJson["dependencies"],
+      options["merge-subpath-exports"],
     );
   }
 
   return succeed;
 });
+
+interface ApiJson {
+  metadata: Record<string, unknown>;
+  members: { kind: string; name: string; canonicalReference: string }[];
+}
+
+async function loadApiJsonForSubPath(fullPath: string, subpathName?: string): Promise<ApiJson> {
+  // Fix up canonical references for subpath exports
+  // When we extract api for the subpaths, we use the same api-extractor settings,
+  // except with different main entry paths and output file paths. Thus, the canonical references
+  // in the api.json file have same package name across all subpaths.
+  // When merging the apis by adding subpath entrypoints to main export's api.json file,
+  // we set EntryPoint.name to differentiate the entry points.
+  // However, when the merged file is loaded by ApiModel in JS api parser,
+  // because of same package name but different entry point names, ApiModel will change the
+  // canonical reference ids of ApiItems in a subpath entrypoint to include the entry point name,
+  // but it doesn't do so for references. For example, in a merged api.json, we may have a function
+  // item like below
+  //
+  // {
+  //   "kind": "EntryPoint",
+  //   "canonicalReference": "@azure/notification-hubs!",
+  //   "name": "api",
+  //   "members": [
+  //     {
+  //       "kind": "Function",
+  //       "canonicalReference": "@azure/notification-hubs!beginSubmitNotificationHubJob:function(1)",
+  //
+  // After loading with ApiModel, The canonical reference of the function becomes
+  // "@azure/notification-hubs/api!beginSubmitNotificationHubJob:function(1)",
+  // with "/api" added before the "!".  However, any references to such updated canonical ids are
+  // not changed and still have "@azure/notification-hubs!" prefix.
+  // This results in the issue of navigation not working.
+  // To work around this, for subpaths we update all canonical id and references to include
+  // the entry point name.
+
+  const content = await readFile(fullPath, { encoding: "utf-8" });
+  const json = JSON.parse(content) as ApiJson;
+  if (!subpathName || subpathName === ".") {
+    return json;
+  }
+  const entryPoint = json.members.filter((m) => m.kind === "EntryPoint")[0];
+  entryPoint.name = subpathName;
+  const members = JSON.stringify(json.members);
+  const updatedMembers = members.replace(
+    new RegExp(`${entryPoint.canonicalReference}`, "g"),
+    `${entryPoint.canonicalReference.slice(0, -1)}/${entryPoint.name}!`,
+  );
+  json.members = JSON.parse(updatedMembers);
+  return json;
+}
 
 /**
  *
@@ -255,10 +306,11 @@ async function buildMergedApiJson(
   reportTempDir: string,
   exports: ExportEntry[] | undefined,
   dependencies: Record<string, string>,
+  useMerged: boolean = false,
 ) {
   const mainApiJsonPath = path.join(reportTempDir, `${unscopedPackageName}.api.json`);
 
-  const apiJson = await loadApiJson(mainApiJsonPath);
+  const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
   apiJson.metadata.dependencies = dependencies;
   for (const subpath of exports?.filter((p) => p.isSubpath) ?? []) {
     const p = path.join(reportTempDir, `${unscopedPackageName}-${subpath.baseName}.api.json`);
@@ -268,7 +320,7 @@ async function buildMergedApiJson(
     }
 
     log.debug(`loading api package for "${subpath.baseName}"`);
-    const subpathApiJson = await loadApiJson(p);
+    const subpathApiJson = await loadApiJsonForSubPath(p, subpath.baseName);
     const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
     entryPoint.name = subpath.baseName;
     apiJson.members.push(entryPoint);
@@ -276,8 +328,10 @@ async function buildMergedApiJson(
     await unlink(p);
   }
 
-  const augmentedApiJsonPath = mainApiJsonPath.replace(".api.json", `.augmented.json`);
-  log.debug(`writing merged api to ${augmentedApiJsonPath}`);
+  const augmentedApiJsonPath = useMerged
+    ? mainApiJsonPath
+    : mainApiJsonPath.replace(".api.json", `.augmented.json`);
+  log.info(`writing merged api to ${augmentedApiJsonPath}`);
   await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
   return augmentedApiJsonPath;
 }
