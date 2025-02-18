@@ -296,7 +296,10 @@ export const registrationDescriptionParser: RegistrationDescriptionParser = {
     rawRegistrationDescription: Record<string, any>,
   ): BaiduRegistrationDescription {
     return {
-      baiduChannelId: getString(rawRegistrationDescription["BaiduChannelId"], "baiduChannelId").trim(),
+      baiduChannelId: getString(
+        rawRegistrationDescription["BaiduChannelId"],
+        "baiduChannelId",
+      ).trim(),
       baiduUserId: getString(rawRegistrationDescription["BaiduUserId"], "baiduUserId").trim(),
       ...createRegistrationDescription(rawRegistrationDescription),
       kind: "Baidu",
@@ -927,7 +930,10 @@ export const registrationDescriptionSerializer: RegistrationDescriptionSerialize
   ): Record<string, any> {
     return {
       ...serializeRegistrationDescription(description),
-      XiaomiRegistrationId: getString(description.xiaomiRegistrationId, "xiaomiRegistrationId").trim(),
+      XiaomiRegistrationId: getString(
+        description.xiaomiRegistrationId,
+        "xiaomiRegistrationId",
+      ).trim(),
     };
   },
 
