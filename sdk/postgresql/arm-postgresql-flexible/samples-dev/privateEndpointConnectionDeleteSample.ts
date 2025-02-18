@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes a private endpoint connection with a given name.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/PrivateEndpointConnectionDelete.json
  */
-async function deletesAPrivateEndpointConnectionWithAGivenName() {
+async function deletesAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "Default";
@@ -32,7 +32,7 @@ async function deletesAPrivateEndpointConnectionWithAGivenName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deletesAPrivateEndpointConnectionWithAGivenName();
 }
 
