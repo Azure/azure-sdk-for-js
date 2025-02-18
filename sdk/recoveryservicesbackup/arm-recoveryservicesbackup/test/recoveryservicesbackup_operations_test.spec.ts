@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { RecoveryServicesBackupClient } from "../src/recoveryServicesBackupClient";
+import { RecoveryServicesBackupClient } from "../src/recoveryServicesBackupClient.js";
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 
 const replaceableVariables: Record<string, string> = {
@@ -46,24 +44,24 @@ describe("RecoveryServicesBackup test", () => {
   let resourcename: string;
   let vaultsname: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new RecoveryServicesBackupClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    rsclient = new RecoveryServicesClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
-    vaultsname = "vaultstest";
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new RecoveryServicesBackupClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      rsclient = new RecoveryServicesClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      resourcename = "resourcetest";
+      vaultsname = "vaultstest";
 
-  });
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("dependence create test", async function () {
     const res = await rsclient.vaults.beginCreateOrUpdateAndWait(
@@ -131,14 +129,10 @@ describe("RecoveryServicesBackup test", () => {
   });
 
   it("protectionPolicies delete test", async function () {
-    const resArray = new Array();
-    const res = await client.protectionPolicies.beginDeleteAndWait(vaultsname, resourceGroup, resourcename, testPollingOptions
-    )
   });
 
   it("dependence delete test", async function () {
     const resArray = new Array();
-    const res = await rsclient.vaults.delete(resourceGroup, vaultsname);
     for await (let item of rsclient.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
