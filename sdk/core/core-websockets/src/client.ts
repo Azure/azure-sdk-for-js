@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createConnectionManager } from "./connectionManager.js";
-import { WEBSOCKET_CLIENT_TAG } from "./constants.js";
 import type { ReliableConnectionClient, WithSocket } from "./models/internal.js";
 import type {
   WebSocketData,
@@ -11,16 +9,18 @@ import type {
   WebsocketClientAdapter,
 } from "./models/public.js";
 import type { WebSocketClientAsWsOptions } from "./runtimes/ws/models.js";
+import { createConnectionManager } from "./connectionManager.js";
 import { createReliableConnectionClient } from "./reliableConnectionClient.js";
 import { createUrl } from "./utils.js";
 import { createWebSocket } from "./webSocket.js";
 import { createWs } from "./ws.js";
+import { WEBSOCKET_CLIENT_TAG } from "./constants.js";
 
 async function withConnectionManager<WebSocketT>(
   connectionManager: WithSocket<WebSocketT, WebSocketData, WebSocketData>,
   options: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols"> = {},
 ): Promise<WebSocketClient<WebSocketT>> {
-  const { identifier, retryOptions, highWaterMark, abortSignal, on } = options;
+  const { identifier, retryOptions, highWaterMark, abortSignal, on, autoReconnect } = options;
   const reliableClientFactory = createReliableConnectionClient<WebSocketData, WebSocketData>(
     connectionManager.connectionManager,
     {
@@ -28,7 +28,13 @@ async function withConnectionManager<WebSocketT>(
       isRetryable: () => true,
     },
   );
-  const reliableClient = reliableClientFactory({ identifier, retryOptions, highWaterMark, on });
+  const reliableClient = reliableClientFactory({
+    identifier,
+    retryOptions,
+    highWaterMark,
+    on,
+    autoReconnect,
+  });
   await reliableClient.open({ abortSignal });
 
   const obj: Omit<WebSocketClient<WebSocketT>, "status" | "websocket" | "identifier"> = {
@@ -80,12 +86,11 @@ function buildClient<WebSocketT>(
   urlObj: string,
   protocols: string | string[] | undefined,
   restOptions: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols">,
-  fullOptions: WebSocketClientOptions,
 ): WebsocketClientAdapter<WebSocketT> {
   function buildPromise(): Promise<WebSocketClient<WebSocketT>> {
     return withConnectionManager<WebSocketT>(
       createConnectionManager<WebSocketT>(urlObj, { protocols }),
-      fullOptions,
+      restOptions,
     );
   }
 
@@ -132,7 +137,7 @@ export function createWebSocketClient<WebSocketT>(
   const { protocols, allowInsecureConnection, ...restOptions } = options;
   try {
     const urlObj = createUrl(url, { allowInsecureConnection });
-    return buildClient<WebSocketT>(urlObj, protocols, restOptions, options);
+    return buildClient<WebSocketT>(urlObj, protocols, restOptions);
   } catch (err) {
     const rejectOnDemand = (): Promise<never> => Promise.reject(err);
     return {

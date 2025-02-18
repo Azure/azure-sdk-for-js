@@ -1,28 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as forge from "node-forge";
+import forge from "node-forge";
 import path from "path";
 import * as fs from "fs/promises";
+import os from "os";
 import { logger } from "./logger.mjs";
 
-export async function generateCertificates(): Promise<void> {
-  const certPath = await helper();
-  process.env.NODE_EXTRA_CA_CERTS = certPath;
-  logger.info(`NODE_EXTRA_CA_CERTS set to ${certPath}`);
+export interface CertPaths {
+  keyPath: string;
+  certPath: string;
 }
 
-async function helper(): Promise<string> {
-  const keyPath = path.resolve(__dirname, "key.pem");
-  const certPath = path.resolve(__dirname, "cert.pem");
+export async function generateCertificates(): Promise<CertPaths> {
+  const paths = await helper();
+  process.env.NODE_EXTRA_CA_CERTS = paths.certPath;
+  logger.info(`NODE_EXTRA_CA_CERTS set to ${paths.certPath}`);
+  return paths;
+}
+
+async function helper(): Promise<CertPaths> {
+  // Create a temporary subfolder for our certificates.
+  const tmpDir = path.join(os.tmpdir(), "azure-webpubsub-simulator");
+  await fs.mkdir(tmpDir, { recursive: true });
+  const keyPath = path.resolve(tmpDir, "key.pem");
+  const certPath = path.resolve(tmpDir, "cert.pem");
 
   try {
     await fs.stat(keyPath);
     await fs.stat(certPath);
     logger.info("SSL/TLS certificates already exist.");
-    return certPath;
+    return { keyPath, certPath };
   } catch {
-    // Ignore error
+    // Ignore error and proceed to generate certificates.
   }
 
   logger.info("Generating SSL/TLS certificates...");
@@ -79,5 +89,5 @@ async function helper(): Promise<string> {
   await fs.writeFile(certPath, certPem);
 
   logger.info("SSL/TLS certificates generated.");
-  return certPath;
+  return { keyPath, certPath };
 }

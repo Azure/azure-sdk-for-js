@@ -34,7 +34,7 @@ export function createWebSocket(
     }
     listenerMap.get(type)!.set(fn, wrapper);
     socket.addEventListener(type, wrapper);
-    logger.info(
+    logger.verbose(
       `Added listener for ${type} events, total listeners for ${type} events: ${listenerMap.get(type)!.size}`,
     );
   }
@@ -88,7 +88,7 @@ export function createWebSocket(
         if (!wrapper) return;
         obj.socket.removeEventListener(type, wrapper);
         typeMap.delete(fn);
-        logger.info(
+        logger.verbose(
           `Removed listener for ${type} events, total listeners for ${type} events: ${listenerMap.get(type)!.size}`,
         );
         if (typeMap.size === 0) {

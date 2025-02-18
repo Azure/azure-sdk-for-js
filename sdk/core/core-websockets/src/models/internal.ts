@@ -105,6 +105,10 @@ export interface ReliableConnectionOptions<ReceiveDataT> {
    * Listeners for various events.
    */
   on?: Partial<WebSocketEventListeners<ReceiveDataT>>;
+  /**
+   * Whether to auto reconnect when the connection is closed.
+   */
+  autoReconnect?: boolean;
 }
 
 /**

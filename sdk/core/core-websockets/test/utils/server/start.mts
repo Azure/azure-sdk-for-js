@@ -2,21 +2,13 @@
 // Licensed under the MIT License.
 
 import type { TestProject } from "vitest/node";
-import { WebSocketServer } from "ws";
+import { type AddressInfo, WebSocketServer } from "ws";
+import net from "net";
 import * as https from "https";
 import * as fs from "fs/promises";
-import * as path from "path";
-import * as net from "net";
 import { generateCertificates } from "./certs.mjs";
 import { logger } from "./logger.mjs";
 import type { IncomingMessage, ServerResponse } from "http";
-
-declare module "vitest" {
-  interface ProvidedContext {
-    secureServerAddress: string;
-    insecureServerAddress: string;
-  }
-}
 
 function getAvailablePort(): Promise<number> {
   return new Promise((resolve, reject) => {
@@ -27,6 +19,13 @@ function getAvailablePort(): Promise<number> {
     });
     server.on("error", (err) => reject(err));
   });
+}
+
+declare module "vitest" {
+  interface ProvidedContext {
+    secureServerAddress: string;
+    insecureServerAddress: string;
+  }
 }
 
 function createWsServer({
@@ -77,11 +76,11 @@ async function createServer(): Promise<{
   const secureServerPort = await getAvailablePort();
   const insecureServerPort = await getAvailablePort();
 
-  await generateCertificates();
+  const { certPath, keyPath } = await generateCertificates();
 
   const httpsServer = https.createServer({
-    key: await fs.readFile(path.resolve(__dirname, "key.pem")),
-    cert: await fs.readFile(path.resolve(__dirname, "cert.pem")),
+    key: await fs.readFile(keyPath),
+    cert: await fs.readFile(certPath),
   });
 
   const secureServer = createWsServer({ httpsServer });
@@ -98,10 +97,10 @@ export default async function ({ provide }: TestProject): Promise<() => void> {
   const { secureServer, insecureServer, httpsServer } = await createServer();
 
   const insecureServerAddress = new URL(
-    `ws://localhost:${(insecureServer.address() as net.AddressInfo).port}`,
+    `ws://localhost:${(insecureServer.address() as AddressInfo).port}`,
   );
   const secureServerAddress = new URL(
-    `wss://localhost:${(secureServer.address() as net.AddressInfo).port}`,
+    `wss://localhost:${(secureServer.address() as AddressInfo).port}`,
   );
 
   provide("insecureServerAddress", insecureServerAddress.toString());
@@ -110,8 +109,6 @@ export default async function ({ provide }: TestProject): Promise<() => void> {
   function logError(err?: Error): void {
     if (err) {
       logger.error(`Failed to close WebSocket server`, err);
-    } else {
-      logger.info("WebSocket server closed");
     }
   }
 
@@ -119,5 +116,6 @@ export default async function ({ provide }: TestProject): Promise<() => void> {
     secureServer.close(logError);
     httpsServer.close(logError);
     insecureServer.close(logError);
+    logger.info("WebSocket server closed");
   };
 }

@@ -167,6 +167,10 @@ export interface WebSocketClientOptions {
    * Use this option to install listeners for various events.
    */
   on?: Partial<WebSocketEventListeners<WebSocketData>>;
+  /**
+   * Whether to auto reconnect when the connection is closed.
+   */
+  autoReconnect?: boolean;
 }
 
 /**

@@ -37,6 +37,7 @@ export interface WebsocketClientAdapter<WebSocketT> extends Promise<WebSocketCli
 export interface WebSocketClientOptions {
     abortSignal?: AbortSignal;
     allowInsecureConnection?: boolean;
+    autoReconnect?: boolean;
     highWaterMark?: number;
     identifier?: string;
     on?: Partial<WebSocketEventListeners<WebSocketData>>;

@@ -36,6 +36,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
     identifier,
     highWaterMark = DEFAULT_HIGH_WATER_MARK,
     on: listeners,
+    autoReconnect = true,
   }: ReliableConnectionOptions<ReceiveDataT> = {}): ReliableConnectionClient<
     SendDataT,
     ReceiveDataT
@@ -73,6 +74,32 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
         WebSocketEventListeners<ReceiveDataT>[K] | undefined,
       ];
     };
+
+    function clearHandlers(
+      reliableConnectionClient: ReliableConnectionClient<SendDataT, ReceiveDataT>,
+    ): void {
+      if (!handlers) {
+        return;
+      }
+      const events = ["open", "close", "error", "message"] as const;
+      Object.values(handlers).forEach(([handler1, handler2], index) => {
+        const event = events[index] as Parameters<
+          ReliableConnectionClient<SendDataT, ReceiveDataT>["off"]
+        >[0];
+        if (handler1) {
+          reliableConnectionClient.off(
+            event,
+            handler1 as Parameters<ReliableConnectionClient<SendDataT, ReceiveDataT>["off"]>[1],
+          );
+        }
+        if (handler2) {
+          reliableConnectionClient.off(
+            event,
+            handler2 as Parameters<ReliableConnectionClient<SendDataT, ReceiveDataT>["off"]>[1],
+          );
+        }
+      });
+    }
 
     function openHandler(reliableConnectionClient: WritableClient): () => void {
       return () => {
@@ -122,7 +149,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
             /** The server closed the connection */
             logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
             canReconnect = client.canReconnect(info);
-            if (canReconnect) {
+            if (autoReconnect && canReconnect) {
               reliableConnectionClient.open({ abortSignal: openAbortSignal }).catch(() => {
                 /** nothing else to do, give up */
               });
@@ -177,6 +204,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           logger.verbose(`[${connectionId}] Opening connection`);
           client.open();
 
+          clearHandlers(reliableConnectionClient);
           handlers = {
             open: [openHandler(reliableConnectionClient), listeners?.open],
             close: [closeHandler(reliableConnectionClient), listeners?.close],
@@ -305,21 +333,8 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
       },
       destroy: () => {
         client.destroy();
-
-        const events = ["open", "close", "error", "message"] as const;
-
-        Object.values(handlers)
-          .map(([x, _]) => x)
-          .forEach((handler, index) => {
-            if (handler) {
-              reliableConnectionClient.off(
-                events[index] as Parameters<
-                  ReliableConnectionClient<SendDataT, ReceiveDataT>["off"]
-                >[0],
-                handler as Parameters<ReliableConnectionClient<SendDataT, ReceiveDataT>["off"]>[1],
-              );
-            }
-          });
+        rejectAndReset(createError(`Client destroyed`));
+        clearHandlers(reliableConnectionClient);
 
         const methods = ["open", "close", "send", "on", "off", "destroy"] as const;
         methods.forEach((method) => {

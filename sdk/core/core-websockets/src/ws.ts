@@ -34,8 +34,8 @@ export function createWs(
     }
     listenerMap.get(type)!.set(fn, wrapper);
     socket.addEventListener(type, wrapper);
-    logger.info(
-      `Added listener for ${type} events, total listeners for ${type} events: ${listenerMap.get(type)!.size}`,
+    logger.verbose(
+      `Added listener for ${type} events, total listeners for ${type} events: ${socket.listenerCount(type)}`,
     );
   }
 
@@ -85,6 +85,9 @@ export function createWs(
           case "open":
           case "error": {
             obj.socket.addEventListener(type, fn as InternalListner);
+            logger.verbose(
+              `Added listener for ${type} events, total listeners for ${type} events: ${obj.socket.listenerCount(type)}`,
+            );
             break;
           }
         }
@@ -100,7 +103,7 @@ export function createWs(
         if (!wrapper) return;
         obj.socket.removeEventListener(type, wrapper);
         typeMap.delete(fn);
-        logger.info(
+        logger.verbose(
           `Removed listener for ${type} events, total listeners for ${type} events: ${listenerMap.get(type)!.size}`,
         );
         if (typeMap.size === 0) {
