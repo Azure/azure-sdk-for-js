@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a Service Fabric node type of a given managed cluster.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a Service Fabric node type of a given managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypeGetOperation_example.json
  */
-async function getANodeType() {
+async function getANodeType(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +39,7 @@ async function getANodeType() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getANodeType();
 }
 

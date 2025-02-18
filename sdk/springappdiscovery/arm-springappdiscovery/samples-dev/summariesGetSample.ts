@@ -7,9 +7,7 @@
  */
 import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the Summaries resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the Summaries resource.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/Summaries_Get_MaximumSet_Gen.json
  */
-async function summariesGetMaximumSetGen() {
+async function summariesGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "libzegdqkcxmhqhhhcxm";
   const resourceGroupName =
@@ -36,7 +34,7 @@ async function summariesGetMaximumSetGen() {
  * @summary Gets the Summaries resource.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/Summaries_Get_MinimumSet_Gen.json
  */
-async function summariesGetMinimumSetGen() {
+async function summariesGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "libzegdqkcxmhqhhhcxm";
   const resourceGroupName =
@@ -49,7 +47,7 @@ async function summariesGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await summariesGetMaximumSetGen();
   await summariesGetMinimumSetGen();
 }

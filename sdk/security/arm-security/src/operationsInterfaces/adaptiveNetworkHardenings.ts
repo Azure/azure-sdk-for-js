@@ -15,7 +15,7 @@ import {
   AdaptiveNetworkHardeningsGetResponse,
   AdaptiveNetworkHardeningEnforceRequest,
   AdaptiveNetworkHardeningsEnforceOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AdaptiveNetworkHardenings. */

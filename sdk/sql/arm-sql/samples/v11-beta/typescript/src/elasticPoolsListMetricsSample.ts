@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns elastic pool  metrics.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns elastic pool  metrics.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/stable/2014-04-01/examples/ElasticPoolMetricsListWithFilter.json
  */
-async function listDatabaseUsageMetrics() {
+async function listDatabaseUsageMetrics(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -44,7 +42,7 @@ async function listDatabaseUsageMetrics() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDatabaseUsageMetrics();
 }
 

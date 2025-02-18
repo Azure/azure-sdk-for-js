@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets NetworkRuleSet for a Namespace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets NetworkRuleSet for a Namespace.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetGet.json
  */
-async function nameSpaceNetworkRuleSetGet() {
+async function nameSpaceNetworkRuleSetGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "Subscription";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function nameSpaceNetworkRuleSetGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   nameSpaceNetworkRuleSetGet();
 }
 

@@ -12,7 +12,7 @@ import {
   RecoverableDatabasesListByServerOptionalParams,
   RecoverableDatabasesGetOptionalParams,
   RecoverableDatabasesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RecoverableDatabases. */

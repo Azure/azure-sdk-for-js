@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./moveCollections";
-export * from "./moveResources";
-export * from "./unresolvedDependencies";
-export * from "./operationsDiscoveryOperations";
+export * from "./moveCollections.js";
+export * from "./moveResources.js";
+export * from "./unresolvedDependencies.js";
+export * from "./operationsDiscoveryOperations.js";

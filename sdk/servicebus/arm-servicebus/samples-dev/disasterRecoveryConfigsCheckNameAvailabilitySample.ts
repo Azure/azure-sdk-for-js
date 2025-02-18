@@ -8,9 +8,7 @@
 import type { CheckNameAvailability } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check the give namespace name availability.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Check the give namespace name availability.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/SBAliasCheckNameAvailability.json
  */
-async function aliasNameAvailability() {
+async function aliasNameAvailability(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "exampleResourceGroup";
   const namespaceName = "sdk-Namespace-9080";
@@ -35,7 +33,7 @@ async function aliasNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await aliasNameAvailability();
 }
 

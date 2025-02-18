@@ -17,7 +17,7 @@ import {
   VirtualNetworkAddressesCreateOrUpdateResponse,
   VirtualNetworkAddressesDeleteOptionalParams,
   VirtualNetworkAddressesDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualNetworkAddresses. */

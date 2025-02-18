@@ -122,7 +122,7 @@ import {
   ImportNewDatabaseDefinition as ImportNewDatabaseDefinitionMapper,
   ReplicationLink as ReplicationLinkMapper,
   ReplicationLinkUpdate as ReplicationLinkUpdateMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
