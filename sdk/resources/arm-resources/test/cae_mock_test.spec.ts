@@ -16,7 +16,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
       getToken: async () => {
         getTokenCount++;
         let token = "testToken";
-        if (getTokenCount === 0) {
+        if (getTokenCount === 1) {
           token = "firstToken";
         }
         return { token: token, expiresOnTimestamp: 11111 };
@@ -60,7 +60,7 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
       getToken: async () => {
         getTokenCount++;
         let token = "testToken";
-        if (getTokenCount === 0) {
+        if (getTokenCount === 1) {
           token = "firstToken";
         }
         return { token: token, expiresOnTimestamp: 11111 };
@@ -68,15 +68,13 @@ describe("Mock test for CAE with ResourceManagementClient", () => {
     };
 
     let getRequestCount = 0;
-    let request: OperationRequest;
     const client = new ResourceManagementClient(credential, "subscriptionID", {
       httpClient: {
         sendRequest: async (req) => {
-          request = req;
           getRequestCount++;
           if (getRequestCount === 1) {
             return {
-              request: request,
+              request: req,
               status: 401,
               headers: createHttpHeaders({ "www-authenticate": invalidCAEChallenge }),
             };
