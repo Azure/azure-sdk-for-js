@@ -10,14 +10,12 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { AzureReservationAPI } from "../src/azureReservationAPI";
-import { CurrentQuotaLimitBase } from "../src/models";
+import { AzureReservationAPI } from "../src/azureReservationAPI.js";
+import { CurrentQuotaLimitBase } from "../src/models/index.js";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -49,29 +47,29 @@ describe("Datafactory test", () => {
   let resourceName: string;
   let createQuotaRequest: CurrentQuotaLimitBase;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new AzureReservationAPI(credential, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    providerId = "Microsoft.Compute";
-    resourceName = "standardFSv2Family";
-    createQuotaRequest = {
-      properties: {
-        name: { value: "standardFSv2Family" },
-        limit: 200,
-        unit: "Count"
-      }
-    };
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new AzureReservationAPI(credential, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      providerId = "Microsoft.Compute";
+      resourceName = "standardFSv2Family";
+      createQuotaRequest = {
+        properties: {
+          name: { value: "standardFSv2Family" },
+          limit: 200,
+          unit: "Count"
+        }
+      };
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   // it("quota create test", async function () {
   //   const res = await client.quota.beginCreateOrUpdateAndWait(
