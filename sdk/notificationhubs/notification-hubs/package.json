@@ -7,14 +7,6 @@
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "type": "module",
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/utils/constants.ts",
-        "prefix": "SDK_VERSION"
-      }
-    ]
-  },
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run build:test && dev-tool run extract-api",
@@ -60,6 +52,14 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/README.md",
   "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
     "@azure-tools/test-recorder": "^4.0.0",
