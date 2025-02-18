@@ -10,14 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { OperationalInsightsManagementClient } from "../src/operationalInsightsManagementClient";
-import { PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
+import { OperationalInsightsManagementClient } from "../src/operationalInsightsManagementClient.js";
 
 
 const replaceableVariables: Record<string, string> = {
@@ -47,22 +44,22 @@ describe("operationalinsights test", () => {
   let resourceGroup: string;
   let workspaceName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
-    // This is an example of how the environment variables are used
-    const credential = createTestCredential();
-    client = new OperationalInsightsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
-    resourceGroup = "myjstest";
-    // workspaceName = "workspacetest";
-    workspaceName = "oiautorest6685";
-  });
+  beforeEach(async (ctx) => {
+      recorder = new Recorder(ctx);
+      await recorder.start(recorderOptions);
+      subscriptionId = env.SUBSCRIPTION_ID || '';
+      // This is an example of how the environment variables are used
+      const credential = createTestCredential();
+      client = new OperationalInsightsManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+      location = "eastus";
+      resourceGroup = "myjstest";
+      // workspaceName = "workspacetest";
+      workspaceName = "oiautorest6685";
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("workspaces create test", async function () {
     const res = await client.workspaces.beginCreateOrUpdateAndWait(
@@ -102,7 +99,6 @@ describe("operationalinsights test", () => {
 
   it("workspaces delete test", async function () {
     const resArray = new Array();
-    const res = await client.workspaces.beginDeleteAndWait(resourceGroup, workspaceName, testPollingOptions)
     for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
