@@ -31,19 +31,19 @@ describe("Service Fabric Rest Level Client Test", () => {
   let applicationTypeName: string;
 
   beforeEach(async (ctx) => {
-      recorder = await createRecorder(ctx);
-      subscriptionId = env.SUBSCRIPTION_ID || "";
-      // This is an example of how the environment variables are used
-      client = await createClient(recorder);
-      location = "eastus";
-      resourceGroup = "myjstest";
-      clusterName = "myclusterxxxy";
-      applicationTypeName = "myapplicationtypexxxy";
-    });
+    recorder = await createRecorder(ctx);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    client = await createClient(recorder);
+    location = "eastus";
+    resourceGroup = "myjstest";
+    clusterName = "myclusterxxxy";
+    applicationTypeName = "myapplicationtypexxxy";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("clusters create test", async function () {
     const parameters: ClustersCreateOrUpdateParameters = {
