@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the Private Endpoint Connection.
@@ -37,7 +35,7 @@ async function privateEndpointConnectionsDelete() {
 }
 
 async function main() {
-  privateEndpointConnectionsDelete();
+  await privateEndpointConnectionsDelete();
 }
 
 main().catch(console.error);

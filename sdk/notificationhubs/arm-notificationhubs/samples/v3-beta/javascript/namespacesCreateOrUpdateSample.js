@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates / Updates a Notification Hub namespace. This operation is idempotent.
@@ -44,7 +42,7 @@ async function namespacesCreateOrUpdate() {
 }
 
 async function main() {
-  namespacesCreateOrUpdate();
+  await namespacesCreateOrUpdate();
 }
 
 main().catch(console.error);

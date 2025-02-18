@@ -62,15 +62,15 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
   }
 
   return {
-    notificationId: getStringOrUndefined(notificationDetails["NotificationId"]),
-    location: getStringOrUndefined(notificationDetails["Location"]),
-    state: getStringOrUndefined(notificationDetails["State"]) as NotificationOutcomeState,
+    notificationId: getStringOrUndefined(notificationDetails["NotificationId"])?.trim(),
+    location: getStringOrUndefined(notificationDetails["Location"])?.trim(),
+    state: getStringOrUndefined(notificationDetails["State"])?.trim() as NotificationOutcomeState,
     enqueueTime: getDateOrUndefined(notificationDetails["EnqueueTime"]),
     startTime: getDateOrUndefined(notificationDetails["StartTime"]),
     endTime: getDateOrUndefined(notificationDetails["EndTime"]),
-    pnsErrorDetailsUrl: getStringOrUndefined(notificationDetails["PnsErrorDetailsUri"]),
-    targetPlatforms: getStringOrUndefined(notificationDetails["TargetPlatforms"]),
-    notificationBody: getStringOrUndefined(notificationDetails["NotificationBody"]),
+    pnsErrorDetailsUrl: getStringOrUndefined(notificationDetails["PnsErrorDetailsUri"])?.trim(),
+    targetPlatforms: getStringOrUndefined(notificationDetails["TargetPlatforms"])?.trim(),
+    notificationBody: getStringOrUndefined(notificationDetails["NotificationBody"])?.trim(),
     apnsOutcomeCounts,
     admOutcomeCounts,
     baiduOutcomeCounts,
