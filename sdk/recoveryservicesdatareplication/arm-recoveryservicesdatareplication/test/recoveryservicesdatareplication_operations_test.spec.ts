@@ -14,6 +14,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AzureSiteRecoveryManagementServiceAPI } from "../src/azureSiteRecoveryManagementServiceAPI.js";
+import { describe, it, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
