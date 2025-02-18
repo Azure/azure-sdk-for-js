@@ -41,6 +41,26 @@ export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
 
+// @public
+export interface BulkOperationResult extends OperationResponse {
+    activityId?: string;
+    diagnostics?: CosmosDiagnostics;
+    operationInput?: ItemOperation;
+    retryAfter?: number;
+    sessionToken?: string;
+    subStatusCode?: number;
+}
+
+// @public
+export class BulkOperations {
+    static getCreateItemOperation(partitionKey: PartitionKey, resourceBody: JSONObject): ItemOperation;
+    static getDeleteItemOperation(id: string, partitionKey: PartitionKey): ItemOperation;
+    static getPatchItemOperation(id: string, partitionKey: PartitionKey, resourceBody: PatchRequestBody): ItemOperation;
+    static getReadItemOperation(id: string, partitionKey: PartitionKey): ItemOperation;
+    static getReplaceItemOperation(id: string, partitionKey: PartitionKey, resourceBody: JSONObject): ItemOperation;
+    static getUpsertItemOperation(partitionKey: PartitionKey, resourceBody: JSONObject): ItemOperation;
+}
+
 // @public (undocumented)
 export const BulkOperationType: {
     readonly Create: "Create";
@@ -62,6 +82,12 @@ export type BulkPatchOperation = OperationBase & {
     operationType: typeof BulkOperationType.Patch;
     id: string;
 };
+
+// @public
+export class BulkStreamer {
+    dispose(): void;
+    execute(operationInput: ItemOperation[]): Promise<BulkOperationResult>[];
+}
 
 // @public
 export class ChangeFeedIterator<T> {
@@ -619,6 +645,9 @@ export const Constants: {
     SDKVersion: string;
     CosmosDbDiagnosticLevelEnvVarName: string;
     DefaultMaxBulkRequestBodySizeInBytes: number;
+    MaxBulkOperationsCount: number;
+    BulkTimeoutInMs: number;
+    BulkMaxDegreeOfConcurrency: number;
     Encryption: {
         DiagnosticsDecryptOperation: string;
         DiagnosticsDuration: string;
@@ -1136,6 +1165,7 @@ export interface ErrorBody {
 
 // @public (undocumented)
 export class ErrorResponse extends Error {
+    constructor(message?: string, code?: number, substatus?: number);
     // (undocumented)
     [key: string]: any;
     // (undocumented)
@@ -1403,6 +1433,14 @@ export interface ItemDefinition {
     ttl?: number;
 }
 
+// @public
+export interface ItemOperation {
+    id?: string;
+    operationType: string;
+    partitionKey: PartitionKey;
+    resourceBody?: JSONObject | PatchRequestBody;
+}
+
 // @public (undocumented)
 export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T & Resource> {
     constructor(resource: T & Resource, headers: CosmosHeaders, statusCode: number, subsstatusCode: number, item: Item, diagnostics: CosmosDiagnostics);
@@ -1425,6 +1463,7 @@ export class Items {
     // (undocumented)
     readonly container: Container;
     create<T extends ItemDefinition = any>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
+    getBulkStreamer(options?: RequestOptions): BulkStreamer;
     getChangeFeedIterator<T>(changeFeedIteratorOptions?: ChangeFeedIteratorOptions): ChangeFeedPullModelIterator<T>;
     getEncryptionQueryIterator(queryBuilder: EncryptionQueryBuilder, options?: FeedOptions): Promise<QueryIterator<ItemDefinition>>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -2415,6 +2454,8 @@ export interface StatusCodesType {
     // (undocumented)
     ENOTFOUND: "ENOTFOUND";
     // (undocumented)
+    FailedDependency: 424;
+    // (undocumented)
     Forbidden: 403;
     // (undocumented)
     Gone: 410;
@@ -2422,6 +2463,8 @@ export interface StatusCodesType {
     InternalServerError: 500;
     // (undocumented)
     MethodNotAllowed: 405;
+    // (undocumented)
+    MultiStatus: 207;
     // (undocumented)
     NoContent: 204;
     // (undocumented)
