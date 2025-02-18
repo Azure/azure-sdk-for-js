@@ -63,7 +63,7 @@ describe("RecoveryServicesBackup test", () => {
       await recorder.stop();
     });
 
-  it("dependence create test", async function () {
+  it("dependence create test", async () => {
     const res = await rsclient.vaults.beginCreateOrUpdateAndWait(
       resourceGroup,
       vaultsname,
@@ -78,7 +78,7 @@ describe("RecoveryServicesBackup test", () => {
     assert.equal(res.name, vaultsname);
   });
 
-  it("protectionPolicies create test", async function () {
+  it("protectionPolicies create test", async () => {
     const res = await client.protectionPolicies.createOrUpdate(
       vaultsname,
       resourceGroup,
@@ -123,15 +123,15 @@ describe("RecoveryServicesBackup test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it("protectionPolicies get test", async function () {
+  it("protectionPolicies get test", async () => {
     const res = await client.protectionPolicies.get(vaultsname, resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("protectionPolicies delete test", async function () {
+  it("protectionPolicies delete test", async () => {
   });
 
-  it("dependence delete test", async function () {
+  it("dependence delete test", async () => {
     const resArray = new Array();
     for await (let item of rsclient.vaults.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
