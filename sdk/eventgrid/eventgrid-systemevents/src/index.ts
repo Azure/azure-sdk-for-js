@@ -155,6 +155,7 @@ export {
   AcsMessageContext,
   AcsMessageButtonContent,
   AcsMessageInteractiveContent,
+  AcsMessageReactionContent,
   KnownAcsInteractiveReplyKind,
   AcsInteractiveReplyKind,
   AcsMessageInteractiveButtonReplyContent,
@@ -307,8 +308,8 @@ export {
   ResourceNotificationsResourceDeletedEventData,
   ResourceNotificationsResourceDeletedDetails,
   ResourceNotificationsResourceManagementDeletedEventData,
-  ServiceApiVersions,
-} from "./cadl-generated/index.js";
+  KnownServiceApiVersions,
+} from "./generated/index.js";
 
 export {
   CloudEvent,
