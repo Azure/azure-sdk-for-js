@@ -1,8 +1,37 @@
 # Release History
 
+## 2.0.0 (2025)
+
+- Adding Scope 2
+
+### Features Added
+- Added sample and test code for scoring and assessment, quality measure and clinical guidance.
+
+### Breaking Changes
+- for PatientDocumentOutput:
+  - Adding guidanceOptions and qualityMeasureOptions.
+
+- for HealthInsightsErrorResponseOutput:
+  - Retire 'requestId' and the response: RequestIdResponseHeaderOutput.
+
+- for RequestIdResponseHeaderOutput:
+  - Adding FollowupCommunicationInferenceOutput, ScoringAndAssessmentInferenceOutput, GuidanceInferenceOutput and QualityMeasureInferenceOutput.
+  - Adding  FollowupCommunicationInferenceTypeOutput, ScoringAndAssessmentTypeOutput, GuidanceTypeOutput and QualityMeasureTypeOutput.
+
+- for GetJobQueryParamProperties:
+  - Replace 'string' by 'GetJobExpandQueryParam' with its definition.
+  
+- for CreateJobQueryParamProperties:
+  - Replace 'string' by 'CreateJobExpandQueryParam' with its definition.
+
+- for ClinicalDocumentTypeOutput:
+  - Replace 'ClinicalDocumentTypeOutputEnum' by 'string'.
+  
+
 ## 1.0.0 (2024-08-15)
 
  - GA release
+ 
  
  ### Features Added
 - Added sample code for all Inference types
@@ -56,6 +85,8 @@
   - for FollowupCommunication
     - Renamed 'dateTime' field into 'communicatedAt'
     - 'recipient' field is now a 'MedicalProfessionalTypeOutput' and no longer a string[]
+
+  - Subsitute Date objects by a string object (createdAt and birthDate).
 
 ## 1.0.0-beta.1 (2024-03-05)
 
