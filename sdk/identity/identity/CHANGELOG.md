@@ -9,7 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
-
+- Deprecated `UsernamePasswordCredential`. This credential does not support multifactor authentication (MFA) which is required by Microsoft Entra ID for most authentication scenarios.
+  
 ## 4.7.0 (2025-02-18)
 
 ### Features Added
