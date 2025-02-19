@@ -25,12 +25,6 @@ export const CreateRoomRequest: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
-      pstnDialOutEnabled: {
-        serializedName: "pstnDialOutEnabled",
-        type: {
-          name: "Boolean",
-        },
-      },
       participants: {
         serializedName: "participants",
         type: {
@@ -38,6 +32,12 @@ export const CreateRoomRequest: coreClient.CompositeMapper = {
           value: {
             type: { name: "Composite", className: "ParticipantProperties" },
           },
+        },
+      },
+      pstnDialOutEnabled: {
+        serializedName: "pstnDialOutEnabled",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -54,7 +54,7 @@ export const ParticipantProperties: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["Presenter", "Attendee", "Consumer"],
+          allowedValues: ["Presenter", "Attendee", "Consumer", "Collaborator"],
         },
       },
     },
@@ -271,7 +271,7 @@ export const RoomParticipant: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["Presenter", "Attendee", "Consumer"],
+          allowedValues: ["Presenter", "Attendee", "Consumer", "Collaborator"],
         },
       },
     },
