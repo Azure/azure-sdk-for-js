@@ -51,13 +51,13 @@ export const validUntil: OperationParameter = {
   mapper: CreateRoomRequestMapper,
 };
 
-export const pstnDialOutEnabled: OperationParameter = {
-  parameterPath: ["options", "pstnDialOutEnabled"],
+export const participants: OperationParameter = {
+  parameterPath: ["options", "participants"],
   mapper: CreateRoomRequestMapper,
 };
 
-export const participants: OperationParameter = {
-  parameterPath: ["options", "participants"],
+export const pstnDialOutEnabled: OperationParameter = {
+  parameterPath: ["options", "pstnDialOutEnabled"],
   mapper: CreateRoomRequestMapper,
 };
 
@@ -76,7 +76,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-04-15",
+    defaultValue: "2025-02-28",
     isConstant: true,
     serializedName: "api-version",
     type: {

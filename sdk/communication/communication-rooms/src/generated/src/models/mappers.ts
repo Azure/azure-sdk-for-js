@@ -25,12 +25,6 @@ export const CreateRoomRequest: coreClient.CompositeMapper = {
           name: "DateTime",
         },
       },
-      pstnDialOutEnabled: {
-        serializedName: "pstnDialOutEnabled",
-        type: {
-          name: "Boolean",
-        },
-      },
       participants: {
         serializedName: "participants",
         type: {
@@ -38,6 +32,12 @@ export const CreateRoomRequest: coreClient.CompositeMapper = {
           value: {
             type: { name: "Composite", className: "ParticipantProperties" },
           },
+        },
+      },
+      pstnDialOutEnabled: {
+        serializedName: "pstnDialOutEnabled",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -54,7 +54,7 @@ export const ParticipantProperties: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["Presenter", "Attendee", "Consumer"],
+          allowedValues: ["Presenter", "Attendee", "Consumer", "Collaborator"],
         },
       },
     },
@@ -67,6 +67,9 @@ export const RoomModel: coreClient.CompositeMapper = {
     className: "RoomModel",
     modelProperties: {
       id: {
+        constraints: {
+          MinLength: 1,
+        },
         serializedName: "id",
         required: true,
         type: {
@@ -127,6 +130,9 @@ export const CommunicationError: coreClient.CompositeMapper = {
     className: "CommunicationError",
     modelProperties: {
       code: {
+        constraints: {
+          MinLength: 1,
+        },
         serializedName: "code",
         required: true,
         type: {
@@ -134,6 +140,9 @@ export const CommunicationError: coreClient.CompositeMapper = {
         },
       },
       message: {
+        constraints: {
+          MinLength: 1,
+        },
         serializedName: "message",
         required: true,
         type: {
@@ -142,14 +151,12 @@ export const CommunicationError: coreClient.CompositeMapper = {
       },
       target: {
         serializedName: "target",
-        readOnly: true,
         type: {
           name: "String",
         },
       },
       details: {
         serializedName: "details",
-        readOnly: true,
         type: {
           name: "Sequence",
           element: {
@@ -160,7 +167,7 @@ export const CommunicationError: coreClient.CompositeMapper = {
           },
         },
       },
-      innerError: {
+      innererror: {
         serializedName: "innererror",
         type: {
           name: "Composite",
@@ -260,6 +267,9 @@ export const RoomParticipant: coreClient.CompositeMapper = {
     className: "RoomParticipant",
     modelProperties: {
       rawId: {
+        constraints: {
+          MinLength: 1,
+        },
         serializedName: "rawId",
         required: true,
         type: {
@@ -271,7 +281,7 @@ export const RoomParticipant: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["Presenter", "Attendee", "Consumer"],
+          allowedValues: ["Presenter", "Attendee", "Consumer", "Collaborator"],
         },
       },
     },

@@ -57,7 +57,7 @@ export class RoomsRestClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2024-04-15";
+    this.apiVersion = options.apiVersion || "2025-02-28";
     this.rooms = new RoomsImpl(this);
     this.participants = new ParticipantsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);

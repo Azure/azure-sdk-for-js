@@ -1,5 +1,10 @@
 # Release History
 
+
+## 1.2.0 (2025-02-28)
+
+- General Availability version of Rooms Collaborator role
+
 ## 1.1.1 (2024-11-22)
 
 ### Bugs Fixed
