@@ -17,7 +17,7 @@ import {
   CheckNameRequest as CheckNameRequestMapper,
   WorkspaceCollectionAccessKey as WorkspaceCollectionAccessKeyMapper,
   MigrateWorkspaceCollectionRequest as MigrateWorkspaceCollectionRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
