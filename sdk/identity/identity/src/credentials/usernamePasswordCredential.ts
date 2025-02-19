@@ -40,9 +40,9 @@ export class UsernamePasswordCredential implements TokenCredential {
    * @param username - The user account's e-mail address (user name).
    * @param password - The user account's account password
    * @param options - Options for configuring the client which makes the authentication request.
-   * 
+   *
    * @deprecated UsernamePasswordCredential is deprecated. Please use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details.
-  */
+   */
   constructor(
     tenantId: string,
     clientId: string,
@@ -50,7 +50,6 @@ export class UsernamePasswordCredential implements TokenCredential {
     password: string,
     options: UsernamePasswordCredentialOptions = {},
   ) {
-
     if (!tenantId) {
       throw new CredentialUnavailableError(
         "UsernamePasswordCredential: tenantId is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
