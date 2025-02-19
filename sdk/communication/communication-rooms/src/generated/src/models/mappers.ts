@@ -67,9 +67,6 @@ export const RoomModel: coreClient.CompositeMapper = {
     className: "RoomModel",
     modelProperties: {
       id: {
-        constraints: {
-          MinLength: 1,
-        },
         serializedName: "id",
         required: true,
         type: {
@@ -130,9 +127,6 @@ export const CommunicationError: coreClient.CompositeMapper = {
     className: "CommunicationError",
     modelProperties: {
       code: {
-        constraints: {
-          MinLength: 1,
-        },
         serializedName: "code",
         required: true,
         type: {
@@ -140,9 +134,6 @@ export const CommunicationError: coreClient.CompositeMapper = {
         },
       },
       message: {
-        constraints: {
-          MinLength: 1,
-        },
         serializedName: "message",
         required: true,
         type: {
@@ -151,12 +142,14 @@ export const CommunicationError: coreClient.CompositeMapper = {
       },
       target: {
         serializedName: "target",
+        readOnly: true,
         type: {
           name: "String",
         },
       },
       details: {
         serializedName: "details",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
@@ -167,7 +160,7 @@ export const CommunicationError: coreClient.CompositeMapper = {
           },
         },
       },
-      innererror: {
+      innerError: {
         serializedName: "innererror",
         type: {
           name: "Composite",
@@ -267,9 +260,6 @@ export const RoomParticipant: coreClient.CompositeMapper = {
     className: "RoomParticipant",
     modelProperties: {
       rawId: {
-        constraints: {
-          MinLength: 1,
-        },
         serializedName: "rawId",
         required: true,
         type: {

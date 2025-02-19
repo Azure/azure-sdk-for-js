@@ -39,20 +39,33 @@ export interface RoomModel {
   pstnDialOutEnabled: boolean;
 }
 
+/** The Communication Services error. */
 export interface CommunicationErrorResponse {
+  /** The Communication Services error. */
   error: CommunicationError;
 }
 
+/** The Communication Services error. */
 export interface CommunicationError {
   /** The error code. */
   code: string;
   /** The error message. */
   message: string;
-  /** If applicable, would be used to indicate the property causing the error. */
-  target?: string;
-  /** Further details about specific errors that led to this error. */
-  details?: CommunicationError[];
-  innererror?: CommunicationError;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * Further details about specific errors that led to this error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: CommunicationError[];
+  /**
+   * The inner error if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innerError?: CommunicationError;
 }
 
 /** A collection of rooms. */
