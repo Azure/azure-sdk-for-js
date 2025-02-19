@@ -16,13 +16,12 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
+ * This sample demonstrates how to Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
  *
- * @summary You can provide the template and parameters directly in the request or link to JSON files.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PutDeploymentAtManagementGroup.json
+ * @summary Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PostDeploymentValidateOnTenant.json
  */
-async function createDeploymentAtManagementGroupScope(): Promise<void> {
-  const groupId = "my-management-group-id";
+async function validatesATemplateAtTenantScope(): Promise<void> {
   const deploymentName = "my-deployment";
   const parameters: ScopedDeployment = {
     location: "eastus",
@@ -34,17 +33,15 @@ async function createDeploymentAtManagementGroupScope(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential);
-  const result =
-    await client.deployments.beginCreateOrUpdateAtManagementGroupScopeAndWait(
-      groupId,
-      deploymentName,
-      parameters,
-    );
+  const result = await client.deployments.beginValidateAtTenantScopeAndWait(
+    deploymentName,
+    parameters,
+  );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await createDeploymentAtManagementGroupScope();
+  await validatesATemplateAtTenantScope();
 }
 
 main().catch(console.error);

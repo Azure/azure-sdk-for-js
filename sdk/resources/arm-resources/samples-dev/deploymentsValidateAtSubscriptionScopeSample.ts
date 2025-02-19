@@ -8,27 +8,23 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  DeploymentWhatIf,
-  ResourceManagementClient,
-} from "@azure/arm-resources";
+import { Deployment, ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Returns changes that will be made by the deployment if executed at the scope of the resource group.
+ * This sample demonstrates how to Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
  *
- * @summary Returns changes that will be made by the deployment if executed at the scope of the resource group.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PostDeploymentWhatIfOnResourceGroup.json
+ * @summary Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/PostDeploymentValidateOnSubscription.json
  */
-async function predictTemplateChangesAtResourceGroupScope(): Promise<void> {
+async function validatesATemplateAtSubscriptionScope(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000001";
-  const resourceGroupName =
-    process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
   const deploymentName = "my-deployment";
-  const parameters: DeploymentWhatIf = {
+  const parameters: Deployment = {
+    location: "eastus",
     properties: {
       mode: "Incremental",
       parameters: {},
@@ -37,16 +33,16 @@ async function predictTemplateChangesAtResourceGroupScope(): Promise<void> {
   };
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential, subscriptionId);
-  const result = await client.deployments.beginWhatIfAndWait(
-    resourceGroupName,
-    deploymentName,
-    parameters,
-  );
+  const result =
+    await client.deployments.beginValidateAtSubscriptionScopeAndWait(
+      deploymentName,
+      parameters,
+    );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await predictTemplateChangesAtResourceGroupScope();
+  await validatesATemplateAtSubscriptionScope();
 }
 
 main().catch(console.error);

@@ -102,7 +102,7 @@ export interface DeploymentProperties {
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
   templateLink?: TemplateLink;
   /** Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string. */
-  parameters?: Record<string, unknown>;
+  parameters?: { [propertyName: string]: DeploymentParameter };
   /** The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
   parametersLink?: ParametersLink;
   /** The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources. */
@@ -113,6 +113,8 @@ export interface DeploymentProperties {
   onErrorDeployment?: OnErrorDeployment;
   /** Specifies whether template expressions are evaluated within the scope of the parent template or nested template. Only applicable to nested templates. If not specified, default value is outer. */
   expressionEvaluationOptions?: ExpressionEvaluationOptions;
+  /** The validation level of the deployment */
+  validationLevel?: ValidationLevel;
 }
 
 /** Entity representing the reference to the template. */
@@ -127,6 +129,30 @@ export interface TemplateLink {
   contentVersion?: string;
   /** The query string (for example, a SAS token) to be used with the templateLink URI. */
   queryString?: string;
+}
+
+/** Deployment parameter for the template. */
+export interface DeploymentParameter {
+  /** Input value to the parameter . */
+  value?: any;
+  /** Azure Key Vault parameter reference. */
+  reference?: KeyVaultParameterReference;
+}
+
+/** Azure Key Vault parameter reference. */
+export interface KeyVaultParameterReference {
+  /** Azure Key Vault reference. */
+  keyVault: KeyVaultReference;
+  /** Azure Key Vault secret name. */
+  secretName: string;
+  /** Azure Key Vault secret version. */
+  secretVersion?: string;
+}
+
+/** Azure Key Vault reference. */
+export interface KeyVaultReference {
+  /** Azure Key Vault resource id. */
+  id: string;
 }
 
 /** Entity representing the reference to the deployment parameters. */
@@ -269,6 +295,13 @@ export interface DeploymentPropertiesExtended {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: ErrorResponse;
+  /**
+   * Contains diagnostic information collected during validation process.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diagnostics?: DeploymentDiagnosticsDefinition[];
+  /** The validation level of the deployment */
+  validationLevel?: ValidationLevel;
 }
 
 /** Resource provider information. */
@@ -458,6 +491,34 @@ export interface ResourceReference {
   readonly id?: string;
 }
 
+export interface DeploymentDiagnosticsDefinition {
+  /**
+   * Denotes the additional response level.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly level: Level;
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
 /** Information from validate template deployment response. */
 export interface DeploymentValidateResult {
   /**
@@ -465,6 +526,21 @@ export interface DeploymentValidateResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly error?: ErrorResponse;
+  /**
+   * The ID of the deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the deployment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
   /** The template deployment properties. */
   properties?: DeploymentPropertiesExtended;
 }
@@ -518,12 +594,25 @@ export interface WhatIfOperationResult {
   error?: ErrorResponse;
   /** List of resource changes predicted by What-If operation. */
   changes?: WhatIfChange[];
+  /** List of resource changes predicted by What-If operation. */
+  potentialChanges?: WhatIfChange[];
+  /**
+   * List of resource diagnostics detected by What-If operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly diagnostics?: DeploymentDiagnosticsDefinition[];
 }
 
 /** Information about a single resource change predicted by What-If operation. */
 export interface WhatIfChange {
   /** Resource ID */
-  resourceId: string;
+  resourceId?: string;
+  /** The resource id of the Deployment responsible for this change. */
+  deploymentId?: string;
+  /** The symbolic name of the resource responsible for this change. */
+  symbolicName?: string;
+  /** A subset of properties that uniquely identify a Bicep extensible resource because it lacks a resource id like an Azure resource has. */
+  identifiers?: Record<string, unknown>;
   /** Type of change that will be made to the resource when the deployment is executed. */
   changeType: ChangeType;
   /** The explanation about why the resource is unsupported by What-If. */
@@ -802,12 +891,16 @@ export interface ExportTemplateRequest {
   resources?: string[];
   /** The export template options. A CSV-formatted list containing zero or more of the following: 'IncludeParameterDefaultValue', 'IncludeComments', 'SkipResourceNameParameterization', 'SkipAllParameterization' */
   options?: string;
+  /** The output format for the exported resources. */
+  outputFormat?: ExportTemplateOutputFormat;
 }
 
 /** Resource group export result. */
 export interface ResourceGroupExportResult {
-  /** The template content. */
+  /** The template content. Used if outputFormat is empty or set to 'Json'. */
   template?: Record<string, unknown>;
+  /** The formatted export content. Used if outputFormat is set to 'Bicep'. */
+  output?: string;
   /** The template export error. */
   error?: ErrorResponse;
 }
@@ -1143,6 +1236,30 @@ export interface DeploymentsWhatIfHeaders {
   retryAfter?: string;
 }
 
+/** Defines headers for ResourceGroups_delete operation. */
+export interface ResourceGroupsDeleteHeaders {
+  /** URL to get status of this long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for Tags_createOrUpdateAtScope operation. */
+export interface TagsCreateOrUpdateAtScopeHeaders {
+  /** URL to get status of this long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for Tags_updateAtScope operation. */
+export interface TagsUpdateAtScopeHeaders {
+  /** URL to get status of this long-running operation. */
+  location?: string;
+}
+
+/** Defines headers for Tags_deleteAtScope operation. */
+export interface TagsDeleteAtScopeHeaders {
+  /** URL to get status of this long-running operation. */
+  location?: string;
+}
+
 /** Known values of {@link ExpressionEvaluationOptionsScopeType} that the service accepts. */
 export enum KnownExpressionEvaluationOptionsScopeType {
   /** NotSpecified */
@@ -1150,7 +1267,7 @@ export enum KnownExpressionEvaluationOptionsScopeType {
   /** Outer */
   Outer = "Outer",
   /** Inner */
-  Inner = "Inner"
+  Inner = "Inner",
 }
 
 /**
@@ -1163,6 +1280,27 @@ export enum KnownExpressionEvaluationOptionsScopeType {
  * **Inner**
  */
 export type ExpressionEvaluationOptionsScopeType = string;
+
+/** Known values of {@link ValidationLevel} that the service accepts. */
+export enum KnownValidationLevel {
+  /** Static analysis of the template is performed. */
+  Template = "Template",
+  /** Static analysis of the template is performed and resource declarations are sent to resource providers for semantic validation. Validates that the caller has RBAC write permissions on each resource. */
+  Provider = "Provider",
+  /** Static analysis of the template is performed and resource declarations are sent to resource providers for semantic validation. Skips validating that the caller has RBAC write permissions on each resource. */
+  ProviderNoRbac = "ProviderNoRbac",
+}
+
+/**
+ * Defines values for ValidationLevel. \
+ * {@link KnownValidationLevel} can be used interchangeably with ValidationLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Template**: Static analysis of the template is performed. \
+ * **Provider**: Static analysis of the template is performed and resource declarations are sent to resource providers for semantic validation. Validates that the caller has RBAC write permissions on each resource. \
+ * **ProviderNoRbac**: Static analysis of the template is performed and resource declarations are sent to resource providers for semantic validation. Skips validating that the caller has RBAC write permissions on each resource.
+ */
+export type ValidationLevel = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
@@ -1189,7 +1327,7 @@ export enum KnownProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -1229,7 +1367,7 @@ export enum KnownAliasPathTokenType {
   /** The token type is number. */
   Number = "Number",
   /** The token type is boolean. */
-  Boolean = "Boolean"
+  Boolean = "Boolean",
 }
 
 /**
@@ -1253,7 +1391,7 @@ export enum KnownAliasPathAttributes {
   /** The token that the alias path is referring to has no attributes. */
   None = "None",
   /** The token that the alias path is referring to is modifiable by policies with 'modify' effect. */
-  Modifiable = "Modifiable"
+  Modifiable = "Modifiable",
 }
 
 /**
@@ -1275,7 +1413,7 @@ export enum KnownProviderAuthorizationConsentState {
   /** NotRequired */
   NotRequired = "NotRequired",
   /** Consented */
-  Consented = "Consented"
+  Consented = "Consented",
 }
 
 /**
@@ -1290,10 +1428,31 @@ export enum KnownProviderAuthorizationConsentState {
  */
 export type ProviderAuthorizationConsentState = string;
 
+/** Known values of {@link Level} that the service accepts. */
+export enum KnownLevel {
+  /** Warning */
+  Warning = "Warning",
+  /** Info */
+  Info = "Info",
+  /** Error */
+  Error = "Error",
+}
+
+/**
+ * Defines values for Level. \
+ * {@link KnownLevel} can be used interchangeably with Level,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Warning** \
+ * **Info** \
+ * **Error**
+ */
+export type Level = string;
+
 /** Known values of {@link ExtendedLocationType} that the service accepts. */
 export enum KnownExtendedLocationType {
   /** EdgeZone */
-  EdgeZone = "EdgeZone"
+  EdgeZone = "EdgeZone",
 }
 
 /**
@@ -1305,6 +1464,24 @@ export enum KnownExtendedLocationType {
  */
 export type ExtendedLocationType = string;
 
+/** Known values of {@link ExportTemplateOutputFormat} that the service accepts. */
+export enum KnownExportTemplateOutputFormat {
+  /** Json */
+  Json = "Json",
+  /** Bicep */
+  Bicep = "Bicep",
+}
+
+/**
+ * Defines values for ExportTemplateOutputFormat. \
+ * {@link KnownExportTemplateOutputFormat} can be used interchangeably with ExportTemplateOutputFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Json** \
+ * **Bicep**
+ */
+export type ExportTemplateOutputFormat = string;
+
 /** Known values of {@link TagsPatchOperation} that the service accepts. */
 export enum KnownTagsPatchOperation {
   /** The 'replace' option replaces the entire set of existing tags with a new set. */
@@ -1312,7 +1489,7 @@ export enum KnownTagsPatchOperation {
   /** The 'merge' option allows adding tags with new names and updating the values of tags with existing names. */
   Merge = "Merge",
   /** The 'delete' option allows selectively deleting tags based on given names or name\/value pairs. */
-  Delete = "Delete"
+  Delete = "Delete",
 }
 
 /**
@@ -1526,7 +1703,8 @@ export interface DeploymentsExportTemplateAtTenantScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the exportTemplateAtTenantScope operation. */
-export type DeploymentsExportTemplateAtTenantScopeResponse = DeploymentExportResult;
+export type DeploymentsExportTemplateAtTenantScopeResponse =
+  DeploymentExportResult;
 
 /** Optional parameters. */
 export interface DeploymentsListAtTenantScopeOptionalParams
@@ -1568,7 +1746,8 @@ export interface DeploymentsCreateOrUpdateAtManagementGroupScopeOptionalParams
 }
 
 /** Contains response data for the createOrUpdateAtManagementGroupScope operation. */
-export type DeploymentsCreateOrUpdateAtManagementGroupScopeResponse = DeploymentExtended;
+export type DeploymentsCreateOrUpdateAtManagementGroupScopeResponse =
+  DeploymentExtended;
 
 /** Optional parameters. */
 export interface DeploymentsGetAtManagementGroupScopeOptionalParams
@@ -1591,7 +1770,8 @@ export interface DeploymentsValidateAtManagementGroupScopeOptionalParams
 }
 
 /** Contains response data for the validateAtManagementGroupScope operation. */
-export type DeploymentsValidateAtManagementGroupScopeResponse = DeploymentValidateResult;
+export type DeploymentsValidateAtManagementGroupScopeResponse =
+  DeploymentValidateResult;
 
 /** Optional parameters. */
 export interface DeploymentsWhatIfAtManagementGroupScopeOptionalParams
@@ -1603,14 +1783,16 @@ export interface DeploymentsWhatIfAtManagementGroupScopeOptionalParams
 }
 
 /** Contains response data for the whatIfAtManagementGroupScope operation. */
-export type DeploymentsWhatIfAtManagementGroupScopeResponse = WhatIfOperationResult;
+export type DeploymentsWhatIfAtManagementGroupScopeResponse =
+  WhatIfOperationResult;
 
 /** Optional parameters. */
 export interface DeploymentsExportTemplateAtManagementGroupScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the exportTemplateAtManagementGroupScope operation. */
-export type DeploymentsExportTemplateAtManagementGroupScopeResponse = DeploymentExportResult;
+export type DeploymentsExportTemplateAtManagementGroupScopeResponse =
+  DeploymentExportResult;
 
 /** Optional parameters. */
 export interface DeploymentsListAtManagementGroupScopeOptionalParams
@@ -1622,7 +1804,8 @@ export interface DeploymentsListAtManagementGroupScopeOptionalParams
 }
 
 /** Contains response data for the listAtManagementGroupScope operation. */
-export type DeploymentsListAtManagementGroupScopeResponse = DeploymentListResult;
+export type DeploymentsListAtManagementGroupScopeResponse =
+  DeploymentListResult;
 
 /** Optional parameters. */
 export interface DeploymentsDeleteAtSubscriptionScopeOptionalParams
@@ -1652,7 +1835,8 @@ export interface DeploymentsCreateOrUpdateAtSubscriptionScopeOptionalParams
 }
 
 /** Contains response data for the createOrUpdateAtSubscriptionScope operation. */
-export type DeploymentsCreateOrUpdateAtSubscriptionScopeResponse = DeploymentExtended;
+export type DeploymentsCreateOrUpdateAtSubscriptionScopeResponse =
+  DeploymentExtended;
 
 /** Optional parameters. */
 export interface DeploymentsGetAtSubscriptionScopeOptionalParams
@@ -1675,7 +1859,8 @@ export interface DeploymentsValidateAtSubscriptionScopeOptionalParams
 }
 
 /** Contains response data for the validateAtSubscriptionScope operation. */
-export type DeploymentsValidateAtSubscriptionScopeResponse = DeploymentValidateResult;
+export type DeploymentsValidateAtSubscriptionScopeResponse =
+  DeploymentValidateResult;
 
 /** Optional parameters. */
 export interface DeploymentsWhatIfAtSubscriptionScopeOptionalParams
@@ -1687,14 +1872,16 @@ export interface DeploymentsWhatIfAtSubscriptionScopeOptionalParams
 }
 
 /** Contains response data for the whatIfAtSubscriptionScope operation. */
-export type DeploymentsWhatIfAtSubscriptionScopeResponse = WhatIfOperationResult;
+export type DeploymentsWhatIfAtSubscriptionScopeResponse =
+  WhatIfOperationResult;
 
 /** Optional parameters. */
 export interface DeploymentsExportTemplateAtSubscriptionScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the exportTemplateAtSubscriptionScope operation. */
-export type DeploymentsExportTemplateAtSubscriptionScopeResponse = DeploymentExportResult;
+export type DeploymentsExportTemplateAtSubscriptionScopeResponse =
+  DeploymentExportResult;
 
 /** Optional parameters. */
 export interface DeploymentsListAtSubscriptionScopeOptionalParams
@@ -1818,14 +2005,16 @@ export interface DeploymentsListAtManagementGroupScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtManagementGroupScopeNext operation. */
-export type DeploymentsListAtManagementGroupScopeNextResponse = DeploymentListResult;
+export type DeploymentsListAtManagementGroupScopeNextResponse =
+  DeploymentListResult;
 
 /** Optional parameters. */
 export interface DeploymentsListAtSubscriptionScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtSubscriptionScopeNext operation. */
-export type DeploymentsListAtSubscriptionScopeNextResponse = DeploymentListResult;
+export type DeploymentsListAtSubscriptionScopeNextResponse =
+  DeploymentListResult;
 
 /** Optional parameters. */
 export interface DeploymentsListByResourceGroupNextOptionalParams
@@ -1963,7 +2152,7 @@ export interface ResourcesListOptionalParams
   extends coreClient.OperationOptions {
   /** The filter to apply on the operation.<br><br>Filter comparison operators include `eq` (equals) and `ne` (not equals) and may be used with the following properties: `location`, `resourceType`, `name`, `resourceGroup`, `identity`, `identity/principalId`, `plan`, `plan/publisher`, `plan/product`, `plan/name`, `plan/version`, and `plan/promotionCode`.<br><br>For example, to filter by a resource type, use `$filter=resourceType eq 'Microsoft.Network/virtualNetworks'`<br><br><br>`substringof(value, property)` can  be used to filter for substrings of the following currently-supported properties: `name` and `resourceGroup`<br><br>For example, to get all resources with 'demo' anywhere in the resource name, use `$filter=substringof('demo', name)`<br><br>Multiple substring operations can also be combined using `and`/`or` operators.<br><br>Note that any truncated number of results queried via `$top` may also not be compatible when using a filter.<br><br><br>Resources can be filtered by tag names and values. For example, to filter for a tag name and value, use `$filter=tagName eq 'tag1' and tagValue eq 'Value1'`. Note that when resources are filtered by tag name and value, <b>the original tags for each resource will not be returned in the results.</b> Any list of additional properties queried via `$expand` may also not be compatible when filtering by tag names/values. <br><br>For tag names only, resources can be filtered by prefix using the following syntax: `$filter=startswith(tagName, 'depart')`. This query will return all resources with a tag name prefixed by the phrase `depart` (i.e.`department`, `departureDate`, `departureTime`, etc.)<br><br><br>Note that some properties can be combined when filtering resources, which include the following: `substringof() and/or resourceType`, `plan and plan/publisher and plan/name`, and `identity and identity/principalId`. */
   filter?: string;
-  /** The number of results to return. If null is passed, returns all resources. */
+  /** The number of recommendations per page if a paged version of this API is being used. */
   top?: number;
   /** Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. For example, `$expand=createdTime,changedTime`. */
   expand?: string;
@@ -2185,14 +2374,24 @@ export type TagsListResponse = TagsListResult;
 
 /** Optional parameters. */
 export interface TagsCreateOrUpdateAtScopeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdateAtScope operation. */
 export type TagsCreateOrUpdateAtScopeResponse = TagsResource;
 
 /** Optional parameters. */
 export interface TagsUpdateAtScopeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the updateAtScope operation. */
 export type TagsUpdateAtScopeResponse = TagsResource;
@@ -2206,7 +2405,12 @@ export type TagsGetAtScopeResponse = TagsResource;
 
 /** Optional parameters. */
 export interface TagsDeleteAtScopeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface TagsListNextOptionalParams
@@ -2230,7 +2434,8 @@ export interface DeploymentOperationsListAtScopeOptionalParams
 }
 
 /** Contains response data for the listAtScope operation. */
-export type DeploymentOperationsListAtScopeResponse = DeploymentOperationsListResult;
+export type DeploymentOperationsListAtScopeResponse =
+  DeploymentOperationsListResult;
 
 /** Optional parameters. */
 export interface DeploymentOperationsGetAtTenantScopeOptionalParams
@@ -2247,14 +2452,16 @@ export interface DeploymentOperationsListAtTenantScopeOptionalParams
 }
 
 /** Contains response data for the listAtTenantScope operation. */
-export type DeploymentOperationsListAtTenantScopeResponse = DeploymentOperationsListResult;
+export type DeploymentOperationsListAtTenantScopeResponse =
+  DeploymentOperationsListResult;
 
 /** Optional parameters. */
 export interface DeploymentOperationsGetAtManagementGroupScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAtManagementGroupScope operation. */
-export type DeploymentOperationsGetAtManagementGroupScopeResponse = DeploymentOperation;
+export type DeploymentOperationsGetAtManagementGroupScopeResponse =
+  DeploymentOperation;
 
 /** Optional parameters. */
 export interface DeploymentOperationsListAtManagementGroupScopeOptionalParams
@@ -2264,14 +2471,16 @@ export interface DeploymentOperationsListAtManagementGroupScopeOptionalParams
 }
 
 /** Contains response data for the listAtManagementGroupScope operation. */
-export type DeploymentOperationsListAtManagementGroupScopeResponse = DeploymentOperationsListResult;
+export type DeploymentOperationsListAtManagementGroupScopeResponse =
+  DeploymentOperationsListResult;
 
 /** Optional parameters. */
 export interface DeploymentOperationsGetAtSubscriptionScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAtSubscriptionScope operation. */
-export type DeploymentOperationsGetAtSubscriptionScopeResponse = DeploymentOperation;
+export type DeploymentOperationsGetAtSubscriptionScopeResponse =
+  DeploymentOperation;
 
 /** Optional parameters. */
 export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams
@@ -2281,7 +2490,8 @@ export interface DeploymentOperationsListAtSubscriptionScopeOptionalParams
 }
 
 /** Contains response data for the listAtSubscriptionScope operation. */
-export type DeploymentOperationsListAtSubscriptionScopeResponse = DeploymentOperationsListResult;
+export type DeploymentOperationsListAtSubscriptionScopeResponse =
+  DeploymentOperationsListResult;
 
 /** Optional parameters. */
 export interface DeploymentOperationsGetOptionalParams
@@ -2305,35 +2515,40 @@ export interface DeploymentOperationsListAtScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtScopeNext operation. */
-export type DeploymentOperationsListAtScopeNextResponse = DeploymentOperationsListResult;
+export type DeploymentOperationsListAtScopeNextResponse =
+  DeploymentOperationsListResult;
 
 /** Optional parameters. */
 export interface DeploymentOperationsListAtTenantScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtTenantScopeNext operation. */
-export type DeploymentOperationsListAtTenantScopeNextResponse = DeploymentOperationsListResult;
+export type DeploymentOperationsListAtTenantScopeNextResponse =
+  DeploymentOperationsListResult;
 
 /** Optional parameters. */
 export interface DeploymentOperationsListAtManagementGroupScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtManagementGroupScopeNext operation. */
-export type DeploymentOperationsListAtManagementGroupScopeNextResponse = DeploymentOperationsListResult;
+export type DeploymentOperationsListAtManagementGroupScopeNextResponse =
+  DeploymentOperationsListResult;
 
 /** Optional parameters. */
 export interface DeploymentOperationsListAtSubscriptionScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAtSubscriptionScopeNext operation. */
-export type DeploymentOperationsListAtSubscriptionScopeNextResponse = DeploymentOperationsListResult;
+export type DeploymentOperationsListAtSubscriptionScopeNextResponse =
+  DeploymentOperationsListResult;
 
 /** Optional parameters. */
 export interface DeploymentOperationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DeploymentOperationsListNextResponse = DeploymentOperationsListResult;
+export type DeploymentOperationsListNextResponse =
+  DeploymentOperationsListResult;
 
 /** Optional parameters. */
 export interface ResourceManagementClientOptionalParams

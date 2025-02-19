@@ -13,37 +13,37 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Gets the entire set of tags on a resource or subscription.
+ * This sample demonstrates how to Deletes the entire set of tags on a resource or subscription.
  *
- * @summary Gets the entire set of tags on a resource or subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/GetTagsResource.json
+ * @summary Deletes the entire set of tags on a resource or subscription.
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/DeleteTagsResource.json
  */
-async function getTagsOnAResource(): Promise<void> {
+async function updateTagsOnAResource(): Promise<void> {
   const scope =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/my-resource-group/providers/myPRNameSpace/VM/myVm";
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential);
-  const result = await client.tagsOperations.getAtScope(scope);
+  const result = await client.tagsOperations.beginDeleteAtScopeAndWait(scope);
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Gets the entire set of tags on a resource or subscription.
+ * This sample demonstrates how to Deletes the entire set of tags on a resource or subscription.
  *
- * @summary Gets the entire set of tags on a resource or subscription.
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/GetTagsSubscription.json
+ * @summary Deletes the entire set of tags on a resource or subscription.
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-11-01/examples/DeleteTagsSubscription.json
  */
-async function getTagsOnASubscription(): Promise<void> {
+async function updateTagsOnASubscription(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ResourceManagementClient(credential);
-  const result = await client.tagsOperations.getAtScope(scope);
+  const result = await client.tagsOperations.beginDeleteAtScopeAndWait(scope);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getTagsOnAResource();
-  await getTagsOnASubscription();
+  await updateTagsOnAResource();
+  await updateTagsOnASubscription();
 }
 
 main().catch(console.error);
