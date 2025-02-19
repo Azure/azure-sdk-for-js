@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all record sets in a Private DNS zone.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all record sets in a Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetALLList.json
  */
-async function getPrivateDnsZoneAllRecordSets() {
+async function getPrivateDnsZoneAllRecordSets(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function getPrivateDnsZoneAllRecordSets() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPrivateDnsZoneAllRecordSets();
 }
 
