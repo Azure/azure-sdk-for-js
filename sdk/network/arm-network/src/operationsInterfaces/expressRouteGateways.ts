@@ -21,7 +21,7 @@ import {
   ExpressRouteGatewaysGetOptionalParams,
   ExpressRouteGatewaysGetResponse,
   ExpressRouteGatewaysDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ExpressRouteGateways. */
 export interface ExpressRouteGateways {

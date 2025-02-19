@@ -19,7 +19,7 @@ import {
   TagsObject,
   LocalNetworkGatewaysUpdateTagsOptionalParams,
   LocalNetworkGatewaysUpdateTagsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LocalNetworkGateways. */
