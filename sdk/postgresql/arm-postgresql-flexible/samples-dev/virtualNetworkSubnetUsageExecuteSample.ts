@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Get virtual network subnet usage for a given vNet resource id.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/VirtualNetworkSubnetUsage.json
  */
-async function virtualNetworkSubnetUsageList() {
+async function virtualNetworkSubnetUsageList(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "westus";
@@ -30,7 +30,7 @@ async function virtualNetworkSubnetUsageList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await virtualNetworkSubnetUsageList();
 }
 

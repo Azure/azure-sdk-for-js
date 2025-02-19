@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Updates virtual wan p2s vpn gateway tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/P2SVpnGatewayUpdateTags.json
  */
-async function p2SVpnGatewayUpdate() {
+async function p2SVpnGatewayUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

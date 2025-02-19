@@ -7,9 +7,7 @@
  */
 import { PowerBIDedicated } from "@azure/arm-powerbidedicated";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all the Dedicated capacities for the given resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets all the Dedicated capacities for the given resource group.
  * x-ms-original-file: specification/powerbidedicated/resource-manager/Microsoft.PowerBIdedicated/stable/2021-01-01/examples/listCapacitiesInResourceGroup.json
  */
-async function listCapacitiesInResourceGroup() {
+async function listCapacitiesInResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["POWERBIDEDICATED_SUBSCRIPTION_ID"] || "613192d7-503f-477a-9cfe-4efc3ee2bd60";
   const resourceGroupName = process.env["POWERBIDEDICATED_RESOURCE_GROUP"] || "TestRG";
@@ -30,7 +28,7 @@ async function listCapacitiesInResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listCapacitiesInResourceGroup();
 }
 

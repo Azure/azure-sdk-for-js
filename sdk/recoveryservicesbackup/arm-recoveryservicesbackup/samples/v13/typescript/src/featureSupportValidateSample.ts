@@ -13,9 +13,7 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to It will validate if given feature with resource properties is supported in service
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary It will validate if given feature with resource properties is supported in service
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/BackupFeature_Validate.json
  */
-async function checkAzureVMBackupFeatureSupport() {
+async function checkAzureVMBackupFeatureSupport(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function checkAzureVMBackupFeatureSupport() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkAzureVMBackupFeatureSupport();
 }
 

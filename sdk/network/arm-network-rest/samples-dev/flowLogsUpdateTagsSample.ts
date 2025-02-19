@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Update tags of the specified flow log.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherFlowLogUpdateTags.json
  */
-async function updateFlowLogTags() {
+async function updateFlowLogTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

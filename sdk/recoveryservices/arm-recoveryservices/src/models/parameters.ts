@@ -18,7 +18,7 @@ import {
   Vault as VaultMapper,
   PatchVault as PatchVaultMapper,
   VaultExtendedInfoResource as VaultExtendedInfoResourceMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
