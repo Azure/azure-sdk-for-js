@@ -108,6 +108,7 @@ describe("snippets", () => {
   });
 
   it("ReadmeSampleAddCustomProperty", () => {
+    // @ts-ignore
     class SpanEnrichingProcessor implements SpanProcessor {
       async forceFlush(): Promise<void> {
         // Flush code here
