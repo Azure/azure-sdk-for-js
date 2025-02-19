@@ -40,8 +40,8 @@ export function solutionTypePropertiesDeserializer(item: any): SolutionTypePrope
     supportedAzureRegions: !item["supportedAzureRegions"]
       ? item["supportedAzureRegions"]
       : item["supportedAzureRegions"].map((p: any) => {
-          return p;
-        }),
+        return p;
+      }),
     solutionSettings: !item["solutionSettings"]
       ? item["solutionSettings"]
       : solutionTypeSettingsPropertiesArrayDeserializer(item["solutionSettings"]),
@@ -88,7 +88,7 @@ export function solutionTypeSettingsPropertiesDeserializer(
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource { }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
   return {
@@ -247,7 +247,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
+export interface _ErrorAdditionalInfoInfo { }
 
 export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
@@ -326,7 +326,7 @@ export function inventoryPropertiesDeserializer(item: any): InventoryProperties 
 /** Cloud Native Type enum. */
 export enum KnownCloudNativeType {
   /** ec2 enum. */
-  ec2 = "ec2",
+  Ec2 = "ec2",
 }
 
 /**
@@ -475,7 +475,7 @@ export function solutionConfigurationPropertiesDeserializer(
 }
 
 /** Solution settings */
-export interface SolutionSettings extends Record<string, string> {}
+export interface SolutionSettings extends Record<string, string> { }
 
 export function solutionSettingsSerializer(item: SolutionSettings): any {
   return { ...item };
@@ -488,7 +488,7 @@ export function solutionSettingsDeserializer(item: any): SolutionSettings {
 }
 
 /** The base extension resource. */
-export interface ExtensionResource extends Resource {}
+export interface ExtensionResource extends Resource { }
 
 export function extensionResourceSerializer(item: ExtensionResource): any {
   return item;
@@ -662,8 +662,8 @@ export function awsCloudProfileSerializer(item: AwsCloudProfile): any {
     excludedAccounts: !item["excludedAccounts"]
       ? item["excludedAccounts"]
       : item["excludedAccounts"].map((p: any) => {
-          return p;
-        }),
+        return p;
+      }),
     isOrganizationalAccount: item["isOrganizationalAccount"],
   };
 }
@@ -674,8 +674,8 @@ export function awsCloudProfileDeserializer(item: any): AwsCloudProfile {
     excludedAccounts: !item["excludedAccounts"]
       ? item["excludedAccounts"]
       : item["excludedAccounts"].map((p: any) => {
-          return p;
-        }),
+        return p;
+      }),
     isOrganizationalAccount: item["isOrganizationalAccount"],
   };
 }
@@ -790,7 +790,7 @@ export function solutionTypeSettingsSerializer(item: SolutionTypeSettings): any 
 }
 
 /** model interface _PostResponse */
-export interface _PostResponse {}
+export interface _PostResponse { }
 
 export function _postResponseDeserializer(item: any): _PostResponse {
   return item;
@@ -1006,8 +1006,8 @@ export function endpointPropertiesDeserializer(item: any): EndpointProperties {
 
 /** The type of endpoint. */
 export enum KnownType {
-  "default" = "default",
-  custom = "custom",
+  Default = "default",
+  Custom = "custom",
 }
 
 /**
@@ -1263,11 +1263,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  user = "user",
+  User = "user",
   /** Indicates the operation is initiated by a system. */
-  system = "system",
+  System = "system",
   /** Indicates the operation is initiated by a user or system. */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -1299,5 +1299,5 @@ export type ActionType = string;
 /** Hybrid Connectivity Management service version. */
 export enum KnownVersions {
   /** Version 2024-12-01 */
-  v2024_12_01 = "2024-12-01",
+  V2024_12_01 = "2024-12-01",
 }
