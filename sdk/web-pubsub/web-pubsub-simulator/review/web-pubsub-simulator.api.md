@@ -9,21 +9,17 @@ import type { WebSocketServer } from 'ws';
 // @public (undocumented)
 export function startWebPubSubServer(options?: WebPubSubServerOptions): Promise<WebPubSubServer>;
 
-// @public (undocumented)
+// @public
 export interface WebPubSubServer {
-    // (undocumented)
     close: () => void;
-    // (undocumented)
     httpsUrl: string;
-    // (undocumented)
     webPubSubClientUrl: string;
-    // (undocumented)
     ws: WebSocketServer;
 }
 
-// @public (undocumented)
+// @public
 export interface WebPubSubServerOptions {
-    // (undocumented)
+    hubs?: string[];
     port?: number;
 }
 

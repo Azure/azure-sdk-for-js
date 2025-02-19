@@ -16,7 +16,7 @@ import {
   getGroupName,
   getProxyHttpsUrl,
   getProxyWssUrl,
-  getSimulatorAdminUrl,
+  getServiceHttpsUrl,
   getWebPubSubClientUrl,
   isMockMode,
 } from "../utils/injectables.js";
@@ -26,7 +26,7 @@ describe("WebPubSubClient", function () {
   const url = getWebPubSubClientUrl();
   const proxyWssUrl = getProxyWssUrl();
   const proxyHttpsUrl = getProxyHttpsUrl();
-  const simulatorAdminUrl = getSimulatorAdminUrl();
+  const simulatorAdminUrl = getServiceHttpsUrl();
   const groupName = getGroupName();
   const retryDelayInMs = isMockMode() ? 10 : 1000;
   const waitForEvents = isMockMode() ? 100 : 2000;

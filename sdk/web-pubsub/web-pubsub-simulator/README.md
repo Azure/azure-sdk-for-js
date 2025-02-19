@@ -7,10 +7,9 @@ This project simulates the Azure Web PubSub service to facilitate client testing
 Below is an example of how to start the Web PubSub simulator server:
 
 ```typescript
-import { startWebPubSubServer } from "./src/start.js";
+import { startWebPubSubServer } from "@azure-tools/web-pubsub-simulator";
 
 async function run() {
-  // Start the server on port 8443 (or any available port)
   const server = await startWebPubSubServer({ port: 8443 });
   console.log(`Server is running:
     - WebSocket client URL: ${server.webPubSubClientUrl}
@@ -24,3 +23,5 @@ async function run() {
 run().catch((err) => {
   console.error("Error starting Web PubSub Simulator:", err);
 });
+```
+

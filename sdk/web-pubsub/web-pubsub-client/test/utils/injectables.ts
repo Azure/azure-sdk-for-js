@@ -4,7 +4,7 @@
 import { inject } from "vitest";
 
 export function getWebPubSubClientUrl(): string {
-  return inject("webPubSubClientUrl");
+  return inject("serviceWssUrl");
 }
 
 export function isMockMode(): boolean {
@@ -19,8 +19,8 @@ export function getProxyHttpsUrl(): string {
   return inject("proxyHttpsUrl");
 }
 
-export function getSimulatorAdminUrl(): string {
-  return inject("simulatorAdminUrl");
+export function getServiceHttpsUrl(): string {
+  return inject("serviceHttpsUrl");
 }
 
 export function getGroupName(): string {
