@@ -1,5 +1,11 @@
 # Release History
 
+## 1.6.0-beta.5 (2025-02-20)
+
+### Bugs Fixed
+
+- Updated signaling client to 1.0.0-beta.32 to fix chunk events missing editedOn field
+
 ## 1.6.0-beta.4 (2025-02-04)
 
 ### Features Added

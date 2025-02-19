@@ -1314,8 +1314,8 @@ packages:
     resolution: {integrity: sha512-fuCtFFSJb8fZohEJmy3rdD6yohCCirlVzSiebJ8JIX2wrzw44/JEP0jd9V+vtGZUCyDk5Xj2ackb4FI/kH7wUQ==}
     engines: {node: '>=14.0.0'}
 
-  '@azure/communication-signaling@1.0.0-beta.31':
-    resolution: {integrity: sha512-4zdDo8nyt9b+s8aieXHypEvrdS9OYSlvbyJG9tJz/fOpyXH7lbWvB/m/SNueX2b/M8ESeQdLjibzBxMJIQYFUw==}
+  '@azure/communication-signaling@1.0.0-beta.32':
+    resolution: {integrity: sha512-ChhJXblgILpnuZd6cQlf1EDBNSTJ5cGUtvMQkxNjdlMa0qYKOXUN0Ugz6clw6jcrcMorXJlbda6tI7iGmgDPuQ==}
     engines: {node: '>=8.0.0'}
 
   '@azure/core-auth@1.9.0':
@@ -3720,7 +3720,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz':
-    resolution: {integrity: sha512-OFSZ60PfzeD0VhsM6pt15PPmjw5oywNtBeRm8YfeKo1fQseOolAwzMk23qPSPK+0AK1KcXfCkMikJ7jEM3BBQQ==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-lwkBkwnwcQGnv678Hitkj3VUp1MsfNuHvyVj0ts+SgQiNOQ0+gJiFSb/UkcC07xMx51woxEIyAf34FdjvlmCHw==, tarball: file:projects/communication-chat.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-common@file:projects/communication-common.tgz':
@@ -8697,7 +8697,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/communication-signaling@1.0.0-beta.31':
+  '@azure/communication-signaling@1.0.0-beta.32':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
@@ -17666,7 +17666,7 @@ snapshots:
 
   '@rush-temp/communication-chat@file:projects/communication-chat.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
-      '@azure/communication-signaling': 1.0.0-beta.31
+      '@azure/communication-signaling': 1.0.0-beta.32
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.4(@types/node@18.19.74)(playwright@1.50.0)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.4)
       '@vitest/coverage-istanbul': 3.0.4(vitest@3.0.4)
