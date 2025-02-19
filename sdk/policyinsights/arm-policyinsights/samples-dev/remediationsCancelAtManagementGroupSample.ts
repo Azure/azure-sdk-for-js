@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Cancels a remediation at management group scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CancelManagementGroupScope.json
  */
-async function cancelARemediationAtManagementGroupScope() {
+async function cancelARemediationAtManagementGroupScope(): Promise<void> {
   const managementGroupId = "financeMg";
   const remediationName = "myRemediation";
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function cancelARemediationAtManagementGroupScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await cancelARemediationAtManagementGroupScope();
 }
 

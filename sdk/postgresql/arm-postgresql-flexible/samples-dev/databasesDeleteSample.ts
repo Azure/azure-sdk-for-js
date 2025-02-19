@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes a database.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/DatabaseDelete.json
  */
-async function deleteADatabase() {
+async function deleteADatabase(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
@@ -31,7 +31,7 @@ async function deleteADatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteADatabase();
 }
 

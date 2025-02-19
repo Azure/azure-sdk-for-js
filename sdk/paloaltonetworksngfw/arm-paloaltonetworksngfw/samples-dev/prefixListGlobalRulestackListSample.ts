@@ -7,9 +7,7 @@
  */
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List PrefixListGlobalRulestackResource resources by Tenant
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List PrefixListGlobalRulestackResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListGlobalRulestack_List_MaximumSet_Gen.json
  */
-async function prefixListGlobalRulestackListMaximumSetGen() {
+async function prefixListGlobalRulestackListMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -34,7 +32,7 @@ async function prefixListGlobalRulestackListMaximumSetGen() {
  * @summary List PrefixListGlobalRulestackResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListGlobalRulestack_List_MinimumSet_Gen.json
  */
-async function prefixListGlobalRulestackListMinimumSetGen() {
+async function prefixListGlobalRulestackListMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -45,7 +43,7 @@ async function prefixListGlobalRulestackListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await prefixListGlobalRulestackListMaximumSetGen();
   await prefixListGlobalRulestackListMinimumSetGen();
 }

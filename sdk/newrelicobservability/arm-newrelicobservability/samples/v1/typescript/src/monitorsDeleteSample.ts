@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete a NewRelicMonitorResource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete a NewRelicMonitorResource
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_Delete_MaximumSet_Gen.json
  */
-async function monitorsDeleteMaximumSetGen() {
+async function monitorsDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,7 +42,7 @@ async function monitorsDeleteMaximumSetGen() {
  * @summary Delete a NewRelicMonitorResource
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_Delete_MinimumSet_Gen.json
  */
-async function monitorsDeleteMinimumSetGen() {
+async function monitorsDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -62,7 +60,7 @@ async function monitorsDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   monitorsDeleteMaximumSetGen();
   monitorsDeleteMinimumSetGen();
 }
