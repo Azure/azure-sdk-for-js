@@ -19,14 +19,14 @@ import {
   DashboardsImpl,
   TenantConfigurationsImpl,
   ListTenantConfigurationViolationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Dashboards,
   TenantConfigurations,
   ListTenantConfigurationViolations
-} from "./operationsInterfaces";
-import { PortalOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { PortalOptionalParams } from "./models/index.js";
 
 export class Portal extends coreClient.ServiceClient {
   $host: string;

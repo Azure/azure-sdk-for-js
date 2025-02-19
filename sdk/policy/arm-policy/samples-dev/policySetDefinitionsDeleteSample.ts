@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary This operation deletes the policy set definition in the given subscription with the given name.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/deletePolicySetDefinition.json
  */
-async function deleteAPolicySetDefinition() {
+async function deleteAPolicySetDefinition(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] || "ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
   const policySetDefinitionName = "CostManagement";
@@ -25,7 +25,7 @@ async function deleteAPolicySetDefinition() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAPolicySetDefinition();
 }
 

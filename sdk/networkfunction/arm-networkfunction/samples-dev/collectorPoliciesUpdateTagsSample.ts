@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Updates the specified Collector Policy tags.
  * x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/CollectorPolicyUpdateTags.json
  */
-async function updateCollectorPolicyTags() {
+async function updateCollectorPolicyTags(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const azureTrafficCollectorName = "atc";

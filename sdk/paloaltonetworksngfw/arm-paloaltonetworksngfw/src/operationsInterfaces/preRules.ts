@@ -21,7 +21,7 @@ import {
   PreRulesRefreshCountersOptionalParams,
   PreRulesResetCountersOptionalParams,
   PreRulesResetCountersResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PreRules. */
