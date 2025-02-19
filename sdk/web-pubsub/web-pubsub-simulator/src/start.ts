@@ -8,64 +8,50 @@ import express from "express";
 import { WebSocket, WebSocketServer } from "ws";
 import { generateCertificates } from "./certs.js";
 import { logger } from "./logger.js";
-import type { WebPubSubServer, WebPubSubServerOptions } from "./types.js";
+import type { Connection, WebPubSubServer, WebPubSubServerOptions } from "./types.js";
 import { protocols, reliableProtocols } from "./constants.js";
 import {
   closeClientConnection,
   createConnectedMessage,
   getDataType,
+  getOrCreate,
+  parseUrl,
   requireQueryParam,
   sendError,
+  sendServerMessage,
   sendWsMessage,
 } from "./utils.js";
-
-type Connection = WebSocket & { sequenceId: number; connectionId: string };
 
 function createWsServerForExpress(
   server: https.Server,
   options: { hubs?: string[] } = {},
 ): {
   server: WebSocketServer;
-  hubConnections: Map<string, Set<WebSocket>>;
-  hubGroups: Map<string, Map<string, Set<WebSocket>>>;
+  hubConnections: Map<string, Set<Connection>>;
+  hubGroups: Map<string, Map<string, Set<Connection>>>;
 } {
   const wsServer = new WebSocketServer({ server });
-  const hubConnections = new Map<string, Set<WebSocket>>();
-  const hubGroups = new Map<string, Map<string, Set<WebSocket>>>();
+  const hubConnections = new Map<string, Set<Connection>>();
+  const hubGroups = new Map<string, Map<string, Set<Connection>>>();
 
   // Preinitialize hubs if provided.
   if (options.hubs?.length) {
-    options.hubs.forEach((hub) => hubConnections.set(hub, new Set<WebSocket>()));
+    options.hubs.forEach((hub) => hubConnections.set(hub, new Set<Connection>()));
   }
-  const dynamicHubs = !options.hubs || options.hubs.length === 0;
+  const dynamicHubs = hubConnections.size === 0;
   const reliableMessageCache = new Map<WebSocket, Map<number, any>>();
 
-  // Connection handler.
   wsServer.on("connection", (ws: Connection, request) => {
-    let isReliable = false;
-    // Verify protocol
+    const isReliable = reliableProtocols.includes(ws.protocol);
     if (!protocols.includes(ws.protocol)) {
       closeClientConnection(ws, `Unsupported protocol. Only ${protocols.join(", ")} accepted.`);
       return;
     }
-    if (reliableProtocols.includes(ws.protocol)) {
-      isReliable = true;
+    if (isReliable) {
       ws.sequenceId = 0;
     }
 
-    // Parse URL: Expected format /client/hubs/<hub>?access_token=<token>
-    let hubName: string | undefined;
-    let accessToken: string | null = null;
-    try {
-      const reqUrl = new URL(request.url || "", `https://${request.headers.host}`);
-      const parts = reqUrl.pathname.split("/");
-      if (parts.length >= 4 && parts[1] === "client" && parts[2] === "hubs") {
-        hubName = parts[3];
-      }
-      accessToken = reqUrl.searchParams.get("access_token");
-    } catch (e) {
-      logger.error("Error parsing connection URL", e);
-    }
+    const { accessToken, hubName } = parseUrl(request.url || "", `https://${request.headers.host}`);
 
     if (!hubName) {
       closeClientConnection(ws, "Hub name required in URL");
@@ -76,25 +62,21 @@ function createWsServerForExpress(
       return;
     }
 
-    // If hub is not preinitialized and hubs are not dynamic, reject connection.
     if (!hubConnections.has(hubName)) {
       if (!dynamicHubs) {
         closeClientConnection(ws, `Hub '${hubName}' does not exist.`);
         return;
       }
-      // Initialize new hub if dynamic.
-      hubConnections.set(hubName, new Set<WebSocket>());
+      hubConnections.set(hubName, new Set<Connection>());
     }
     hubConnections.get(hubName)!.add(ws);
 
-    // Assign a connectionId.
     ws.connectionId = Math.random().toString(36).substring(2, 15);
     logger.info(`Client connected to hub '${hubName}' via WebSocket`);
     const connectedMsg = createConnectedMessage(ws.connectionId, isReliable);
     sendWsMessage(ws, connectedMsg);
     logger.info(`Sent connected message: ${JSON.stringify(connectedMsg)}`);
 
-    // Message handler.
     ws.on("message", (message) => {
       const msgStr = message.toString();
       logger.info(`Received message: ${msgStr}`);
@@ -105,7 +87,6 @@ function createWsServerForExpress(
         logger.error(`Error parsing message: ${msgStr}`, e);
         return;
       }
-      // Handle different message types.
       switch (parsed?.type) {
         case "ping":
           sendWsMessage(ws, { type: "pong" });
@@ -159,8 +140,6 @@ function createWsServerForExpress(
   };
 }
 
-// ----- Message Handlers for WebSocket Messages -----
-
 function handleJoinGroup(
   ws: WebSocket,
   msg: any,
@@ -172,16 +151,8 @@ function handleJoinGroup(
     sendWsMessage(ws, { type: "error", event: "joinGroup", message: "group name required" });
     return;
   }
-  let groupsForHub = hubGroups.get(hubName);
-  if (!groupsForHub) {
-    groupsForHub = new Map<string, Set<WebSocket>>();
-    hubGroups.set(hubName, groupsForHub);
-  }
-  let group = groupsForHub.get(groupName);
-  if (!group) {
-    group = new Set<WebSocket>();
-    groupsForHub.set(groupName, group);
-  }
+  const groupsForHub = getOrCreate(hubGroups, hubName, () => new Map<string, Set<WebSocket>>());
+  const group = getOrCreate(groupsForHub, groupName, () => new Set<WebSocket>());
   group.add(ws);
   if (msg.ackId !== undefined) {
     sendWsMessage(ws, { type: "ack", ackId: msg.ackId, success: true });
@@ -308,10 +279,6 @@ function handleSendEvent(ws: WebSocket, msg: any): void {
   }
 }
 
-// ===========================
-// REST API Endpoints
-// ---------------------------
-
 async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<WebPubSubServer> {
   const securePort = port ?? 443;
   const { certPath, keyPath } = await generateCertificates();
@@ -319,13 +286,9 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
   const app = express();
   app.use(express.json());
 
-  // Create HTTPS server from Express
   const httpsServer = https.createServer({ key, cert }, app);
+  const wssServer = createWsServerForExpress(httpsServer, { hubs });
 
-  // Create WebSocket server (secureWsServer) using our HTTPS server and provided hubs.
-  const secureWsServer = createWsServerForExpress(httpsServer, { hubs });
-
-  // REST API Endpoints that reference secureWsServer
   app.post("/api/hubs/:hub/\\:generateToken", (req: Request, res: Response) => {
     const hub = req.params.hub;
     const apiVersion = req.query["api-version"] as string | undefined;
@@ -361,7 +324,7 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
     const data = req.body.message;
     if (!data) return sendError(res, 400, "The message property is required");
 
-    const connections = secureWsServer.hubConnections.get(hub);
+    const connections = wssServer.hubConnections.get(hub);
     if (!connections) return sendError(res, 400, `Hub "${hub}" does not exist`);
     res.sendStatus(202);
 
@@ -371,25 +334,13 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
       typeof excluded === "string" ? [excluded] : (excluded as string[]) || [],
     );
     connections.forEach((client) => {
-      if (
-        !excludedSet.has((client as Connection).connectionId) &&
-        client.readyState === WebSocket.OPEN
-      ) {
-        let seq: number | undefined;
-        if (reliableProtocols.includes(client.protocol)) {
-          seq = ((client as Connection).sequenceId ?? 0) + 1;
-          (client as Connection).sequenceId = seq;
-        }
-        const messageObj = {
-          type: "message",
-          from: "server",
-          dataType,
-          data,
-          sequenceId: seq,
-        };
-        sendWsMessage(client, messageObj);
-        logger.info(`Sent message to client with protocol ${client.protocol} (sequenceId: ${seq})`);
+      if (excludedSet.has(client.connectionId) || client.readyState !== WebSocket.OPEN) {
+        return;
       }
+      const sequenceId = sendServerMessage(client, dataType, data);
+      logger.info(
+        `Sent message to client in hub "${hub}" with protocol ${client.protocol} (sequenceId: ${sequenceId})`,
+      );
     });
   });
 
@@ -401,38 +352,21 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
     const data = req.body.message;
     if (!data) return sendError(res, 400, "The message property is required");
 
-    const connections = secureWsServer.hubConnections.get(hub);
+    const connections = wssServer.hubConnections.get(hub);
     if (!connections) return sendError(res, 400, `Hub "${hub}" does not exist`);
 
-    let targetClient: WebSocket | undefined;
     for (const client of connections) {
-      if ((client as Connection).connectionId === connectionId) {
-        targetClient = client;
-        break;
+      if (client.connectionId === connectionId) {
+        res.sendStatus(202);
+        const dataType = getDataType(req.headers["content-type"]);
+        const sequenceId = sendServerMessage(client, dataType, data);
+        logger.info(
+          `Sent message to connection "${connectionId}" in hub "${hub}" with protocol ${client.protocol} (sequenceId: ${sequenceId})`,
+        );
+        return;
       }
     }
-    if (!targetClient) {
-      return sendError(res, 404, `Connection "${connectionId}" not found in hub "${hub}"`);
-    }
-    res.sendStatus(202);
-
-    const dataType = getDataType(req.headers["content-type"]);
-    let seq: number | undefined;
-    if (reliableProtocols.includes(targetClient.protocol)) {
-      seq = ((targetClient as Connection).sequenceId ?? 0) + 1;
-      (targetClient as Connection).sequenceId = seq;
-    }
-    const messageObj = {
-      type: "message",
-      from: "server",
-      dataType,
-      data,
-      sequenceId: seq,
-    };
-    sendWsMessage(targetClient, messageObj);
-    logger.info(
-      `Sent message to connection "${connectionId}" in hub "${hub}" with protocol ${targetClient.protocol} (sequenceId: ${seq})`,
-    );
+    return sendError(res, 404, `Connection "${connectionId}" not found in hub "${hub}"`);
   });
 
   app.post("/api/hubs/:hub/groups/:group/\\:send", (req: Request, res: Response) => {
@@ -443,7 +377,7 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
     const data = req.body.message;
     if (!data) return sendError(res, 400, "The message property is required");
 
-    const groupsForHub = secureWsServer.hubGroups.get(hub);
+    const groupsForHub = wssServer.hubGroups.get(hub);
     if (!groupsForHub) return sendError(res, 400, `Hub "${hub}" does not exist or has no groups`);
     const group = groupsForHub.get(groupName);
     if (!group) return sendError(res, 404, `Group "${groupName}" not found in hub "${hub}"`);
@@ -452,24 +386,13 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
 
     const dataType = getDataType(req.headers["content-type"]);
     group.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        let seq: number | undefined;
-        if (reliableProtocols.includes(client.protocol)) {
-          seq = ((client as Connection).sequenceId ?? 0) + 1;
-          (client as Connection).sequenceId = seq;
-        }
-        const messageObj = {
-          type: "message",
-          from: "server",
-          dataType,
-          data,
-          sequenceId: seq,
-        };
-        sendWsMessage(client, messageObj);
-        logger.info(
-          `Sent message to client in group "${groupName}" of hub "${hub}" with protocol ${client.protocol} (sequenceId: ${seq})`,
-        );
+      if (client.readyState !== WebSocket.OPEN) {
+        return;
       }
+      const sequenceId = sendServerMessage(client, dataType, data);
+      logger.info(
+        `Sent message to client in group "${groupName}" of hub "${hub}" with protocol ${client.protocol} (sequenceId: ${sequenceId})`,
+      );
     });
   });
 
@@ -484,7 +407,7 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
     if (excluded !== undefined && !Array.isArray(excluded) && typeof excluded !== "string") {
       return sendError(res, 400, "excluded must be an array of strings");
     }
-    const groupsForHub = secureWsServer.hubGroups.get(hub);
+    const groupsForHub = wssServer.hubGroups.get(hub);
     if (!groupsForHub) return sendError(res, 400, `Hub "${hub}" does not exist or has no groups`);
     const group = groupsForHub.get(groupName);
     if (!group) return sendError(res, 404, `Group "${groupName}" not found in hub "${hub}"`);
@@ -493,7 +416,7 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
       typeof excluded === "string" ? [excluded] : (excluded as string[]) || [],
     );
     group.forEach((client) => {
-      const clientId = (client as Connection).connectionId;
+      const clientId = client.connectionId;
       if (!excludedSet.has(clientId) && client.readyState === WebSocket.OPEN) {
         closeClientConnection(client, reason);
         logger.info(
@@ -514,13 +437,13 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
     if (excluded !== undefined && !Array.isArray(excluded) && typeof excluded !== "string") {
       return sendError(res, 400, "excluded must be an array of strings");
     }
-    const connections = secureWsServer.hubConnections.get(hub);
+    const connections = wssServer.hubConnections.get(hub);
     if (!connections) return sendError(res, 400, `Hub "${hub}" does not exist`);
     const excludedSet = new Set(
       typeof excluded === "string" ? [excluded] : (excluded as string[]) || [],
     );
     connections.forEach((client) => {
-      const clientId = (client as Connection).connectionId;
+      const clientId = client.connectionId;
       if (!excludedSet.has(clientId) && client.readyState === WebSocket.OPEN) {
         closeClientConnection(client, reason);
         logger.info(`Closed connection "${clientId}" with reason: ${reason}`);
@@ -536,27 +459,22 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
     if (!apiVersion) return;
     const reason = requireQueryParam(req, res, "reason");
     if (!reason) return;
-    const connections = secureWsServer.hubConnections.get(hub);
+    const connections = wssServer.hubConnections.get(hub);
     if (!connections) return sendError(res, 400, `Hub "${hub}" does not exist`);
-    let targetClient: WebSocket | undefined;
     for (const client of connections) {
-      if ((client as Connection).connectionId === connectionId) {
-        targetClient = client;
-        break;
+      if (client.connectionId === connectionId) {
+        closeClientConnection(client, reason);
+        logger.info(`Closed connection "${connectionId}" in hub "${hub}" with reason: ${reason}`);
+        res.sendStatus(204);
+        return;
       }
     }
-    if (!targetClient) {
-      return sendError(res, 404, `Connection "${connectionId}" not found in hub "${hub}"`);
-    }
-
-    closeClientConnection(targetClient, reason);
-    logger.info(`Closed connection "${connectionId}" in hub "${hub}" with reason: ${reason}`);
-    res.sendStatus(204);
+    return sendError(res, 404, `Connection "${connectionId}" not found in hub "${hub}"`);
   });
 
   app.post("/admin/force-reconnect", (_, res: Response) => {
     logger.info("Admin call: /admin/force-reconnect invoked");
-    secureWsServer.server.clients.forEach((client) => {
+    wssServer.server.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         const connectedMsg = createConnectedMessage(
           (client as Connection).connectionId,
@@ -585,13 +503,13 @@ async function createServer({ port, hubs }: WebPubSubServerOptions): Promise<Web
 
   return {
     close: () => {
-      secureWsServer.server.close(logError);
+      wssServer.server.close(logError);
       httpsServer.close(logError);
       logger.info("Server closed");
     },
     webPubSubClientUrl: `wss://localhost:${securePort}`,
     httpsUrl: `https://localhost:${securePort}`,
-    ws: secureWsServer.server,
+    ws: wssServer.server,
   };
 }
 

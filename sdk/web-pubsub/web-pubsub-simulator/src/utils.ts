@@ -3,7 +3,9 @@
 
 import type { Response, Request } from "express";
 import type { WebSocket } from "ws";
-import type { ConnectedMessage, DisconnectedMessage } from "./types.js";
+import type { ConnectedMessage, Connection, DisconnectedMessage } from "./types.js";
+import { logger } from "./logger.js";
+import { reliableProtocols } from "./constants.js";
 
 export function getDataType(contentTypeHeader: string | undefined): string {
   switch (contentTypeHeader) {
@@ -77,4 +79,50 @@ export function createDisconnectedMessage(reason: string | undefined): Disconnec
     event: "disconnected",
     message: reason ?? "Connection closed",
   };
+}
+
+export function parseUrl(
+  path: string,
+  hostname: string,
+): { hubName: string | undefined; accessToken: string | null } {
+  // Parse URL: Expected format /client/hubs/<hub>?access_token=<token>
+  let hubName: string | undefined;
+  let accessToken: string | null = null;
+  try {
+    const reqUrl = new URL(path, hostname);
+    const parts = reqUrl.pathname.split("/");
+    if (parts.length >= 4 && parts[1] === "client" && parts[2] === "hubs") {
+      hubName = parts[3];
+    }
+    accessToken = reqUrl.searchParams.get("access_token");
+  } catch (e) {
+    logger.error("Error parsing connection URL", e);
+  }
+  return { hubName, accessToken };
+}
+
+export function sendServerMessage(
+  client: Connection,
+  dataType: string,
+  data: unknown,
+): number | undefined {
+  const sequenceId = reliableProtocols.includes(client.protocol) ? ++client.sequenceId : undefined;
+  const messageObj = {
+    type: "message",
+    from: "server",
+    dataType,
+    data,
+    sequenceId,
+  };
+  sendWsMessage(client, messageObj);
+  return sequenceId;
+}
+
+export function getOrCreate<K, V>(map: Map<K, V>, key: K, factory: () => V): V {
+  let value = map.get(key);
+  if (value === undefined) {
+    value = factory();
+    map.set(key, value);
+  }
+  return value;
 }

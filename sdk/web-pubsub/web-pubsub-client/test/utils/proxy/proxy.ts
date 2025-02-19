@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import https from "https";
+import https from "node:https";
 import * as fs from "fs/promises";
 import { getAvailablePort } from "../utils.js";
 import { WebSocket, WebSocketServer } from "ws";
@@ -130,12 +130,11 @@ export async function createWssProxy(
     }
 
     const protocolsHeader = req.headers["sec-websocket-protocol"];
-    let protocols: string | string[] | undefined;
-    if (protocolsHeader) {
-      protocols = protocolsHeader
-        .toString()
-        .split(",")
-        .map((s) => s.trim());
+    const protocols = protocolsHeader
+      ?.toString()
+      .split(",")
+      .map((s) => s.trim());
+    if (protocols) {
       logger.info(`Forwarding protocols: ${protocols}`);
     }
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSocketServer } from "ws";
+import type { WebSocket, WebSocketServer } from "ws";
 
 /**
  * Represents a message sent by the server to a client when a connection is established.
@@ -33,6 +33,8 @@ export interface DisconnectedMessage {
   /** A message describing the reason for disconnection. */
   message: string;
 }
+
+export type Connection = WebSocket & { sequenceId: number; connectionId: string };
 
 /**
  * Represents the Azure Web PubSub Simulator Server.
