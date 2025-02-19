@@ -8,9 +8,7 @@
 import type { ValidateOperationRequestResource } from "@azure/arm-recoveryservicesbackup";
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Validate operation for specified backed up item in the form of an asynchronous operation. Returns tracking headers which can be tracked using GetValidateOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/TriggerValidateOperation_RestoreDisk.json
  */
-async function triggerValidateOperation() {
+async function triggerValidateOperation(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "testVault";
@@ -57,7 +55,7 @@ async function triggerValidateOperation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await triggerValidateOperation();
 }
 
