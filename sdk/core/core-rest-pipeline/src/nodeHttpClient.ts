@@ -122,7 +122,6 @@ class NodeHttpClient implements HttpClient {
     }
 
     let responseStream: NodeJS.ReadableStream | undefined;
-    let cleanup: () => void | undefined;
     try {
       if (body && request.onUploadProgress) {
         const onUploadProgress = request.onUploadProgress;
@@ -139,9 +138,7 @@ class NodeHttpClient implements HttpClient {
         body = uploadReportStream;
       }
 
-      const makeRequestResult = this.makeRequest(request, abortController, body);
-      cleanup = makeRequestResult.cleanup; // to remove abort event listener
-      const res = await makeRequestResult.promise;
+      const res = await this.makeRequest(request, abortController, body);
 
       const headers = getResponseHeaders(res);
 
@@ -204,7 +201,6 @@ class NodeHttpClient implements HttpClient {
             if (abortListener) {
               request.abortSignal?.removeEventListener("abort", abortListener);
             }
-            cleanup();
           })
           .catch((e) => {
             logger.warning("Error when cleaning up abortListener on httpRequest", e);
@@ -217,7 +213,7 @@ class NodeHttpClient implements HttpClient {
     request: PipelineRequest,
     abortController: AbortController,
     body?: RequestBodyType,
-  ): { promise: Promise<http.IncomingMessage>; cleanup: () => void } {
+  ): Promise<http.IncomingMessage> {
     const url = new URL(request.url);
 
     const isInsecure = url.protocol !== "https:";
@@ -236,12 +232,7 @@ class NodeHttpClient implements HttpClient {
       headers: request.headers.toJSON({ preserveCase: true }),
     };
 
-    let abortCallback: () => void = () => {};
-    const cleanup = () => {
-      abortController.signal.removeEventListener("abort", abortCallback);
-    };
-
-    const promise = new Promise<http.IncomingMessage>((resolve, reject) => {
+    return new Promise<http.IncomingMessage>((resolve, reject) => {
       const req = isInsecure ? http.request(options, resolve) : https.request(options, resolve);
 
       req.once("error", (err: Error & { code?: string }) => {
@@ -250,13 +241,11 @@ class NodeHttpClient implements HttpClient {
         );
       });
 
-      abortCallback = () => {
+      abortController.signal.addEventListener("abort", () => {
         const abortError = new AbortError("The operation was aborted.");
         req.destroy(abortError);
         reject(abortError);
-      };
-
-      abortController.signal.addEventListener("abort", abortCallback);
+      });
       if (body && isReadableStream(body)) {
         body.pipe(req);
       } else if (body) {
@@ -273,8 +262,6 @@ class NodeHttpClient implements HttpClient {
         req.end();
       }
     });
-
-    return { promise, cleanup };
   }
 
   private getOrCreateAgent(request: PipelineRequest, isInsecure: boolean): http.Agent {
