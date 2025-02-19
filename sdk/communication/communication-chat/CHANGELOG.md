@@ -1,5 +1,15 @@
 # Release History
 
+## 1.6.0-beta.6 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.6.0-beta.5 (2025-02-20)
 
 ### Bugs Fixed
@@ -11,24 +21,6 @@
 ### Features Added
 
 - Beta support for StreamingChatMessageStartEvent and StreamingChatMessageChunkReceivedEvent events
-
-## 1.6.0-beta.3 (2024-06-24)
-
-### Bugs Fixed
-
-- Updating with hotfix from version 1.5.1
-
-## 1.6.0-beta.2 (2024-06-06)
-
-### Features Added
-
-- New `messagingPolicy` property in `ChatThreadProperties` for `textOnlyChat`.
-- New `policyViolation` property in `ChatMessage` for data loss prevention.
-
-### Other Changes
-
-- Updated @azure/communication-signaling to 1.0.0-beta.27
-- Updated @azure-tools/test-recorder to 3.5.1
 
 ## 1.5.4 (2024-10-24)
 
@@ -50,11 +42,29 @@
 - Updated to @azure/communication-signaling@1.0.0-beta.28 with React Native support.
 - Updated @azure/core-client and @azure/core-rest-pipeline version.
 
+## 1.6.0-beta.3 (2024-06-24)
+
+### Bugs Fixed
+
+- Updating with hotfix from version 1.5.1
+
 ## 1.5.1 (2024-06-12)
 
 ### Bugs Fixed
 
 - Updated @azure/core-client and @azure/core-rest-pipeline version.
+
+## 1.6.0-beta.2 (2024-06-06)
+
+### Features Added
+
+- New `messagingPolicy` property in `ChatThreadProperties` for `textOnlyChat`.
+- New `policyViolation` property in `ChatMessage` for data loss prevention.
+
+### Other Changes
+
+- Updated @azure/communication-signaling to 1.0.0-beta.27
+- Updated @azure-tools/test-recorder to 3.5.1
 
 ## 1.6.0-beta.1 (2024-04-17)
 
