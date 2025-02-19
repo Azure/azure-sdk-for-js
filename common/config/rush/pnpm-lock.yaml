@@ -234,7 +234,7 @@ importers:
         version: file:projects/arm-containerservicefleet.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-cosmosdb':
         specifier: file:./projects/arm-cosmosdb.tgz
-        version: file:projects/arm-cosmosdb.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
+        version: file:projects/arm-cosmosdb.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-cosmosdbforpostgresql':
         specifier: file:./projects/arm-cosmosdbforpostgresql.tgz
         version: file:projects/arm-cosmosdbforpostgresql.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
@@ -606,7 +606,7 @@ importers:
         version: file:projects/arm-postgresql-flexible.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-powerbidedicated':
         specifier: file:./projects/arm-powerbidedicated.tgz
-        version: file:projects/arm-powerbidedicated.tgz
+        version: file:projects/arm-powerbidedicated.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-powerbiembedded':
         specifier: file:./projects/arm-powerbiembedded.tgz
         version: file:projects/arm-powerbiembedded.tgz
@@ -2609,7 +2609,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-appservice-1@file:projects/arm-appservice-1.tgz':
-    resolution: {integrity: sha512-zKM2TDV+krhoMAhrdCotps5cGC8Tk2fgCZ4/ygk7GHgAM/Boh7fXVPB9J7YTf/t3KQ+OXsPxSeMHzAO8sNyYbA==, tarball: file:projects/arm-appservice-1.tgz}
+    resolution: {integrity: sha512-Wf2DGnB77ljft54tdBoZhlLGQhB6O2F35XAAYy1KcThUb5dOK3ako6dRdqKVtEBtfiEfIxgEwVxtDuqcC/M6sQ==, tarball: file:projects/arm-appservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-appservice-profile-2020-09-01-hybrid@file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz':
@@ -2781,7 +2781,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz':
-    resolution: {integrity: sha512-HxS/g3sWYGXQyKmends8pmLrsuUmKSVk9g6xblgv/6L6bpuWjeiF8h6AxiRwMDFcuKg85F0w0TRoHqSbLgX0RQ==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-as4w7hmtUqU5PWJA9hiCL5VcRHGI5rG4CfWLoG8AjxLC90ebIENWeUsNu/3LZKpEfuS9RjJC6q686pP86OkwnA==, tarball: file:projects/arm-cosmosdb.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-cosmosdbforpostgresql@file:projects/arm-cosmosdbforpostgresql.tgz':
@@ -3277,7 +3277,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-powerbidedicated@file:projects/arm-powerbidedicated.tgz':
-    resolution: {integrity: sha512-sPrwel0+Lt085jd3cl7eW9NXlQDqjtx1pIZkjDAFVskMyvrDRGtS+loTUHO/jjdFXXpgPxaMz09CqAefZGBF2w==, tarball: file:projects/arm-powerbidedicated.tgz}
+    resolution: {integrity: sha512-utwECYn4l976Us+CK5d7AYoCj8lgacSxgnGD/7mxldPsWhACw57ob9PW90WBtBPgXDFc8anOoYbUTdmq2yN3OA==, tarball: file:projects/arm-powerbidedicated.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-powerbiembedded@file:projects/arm-powerbiembedded.tgz':
@@ -3405,11 +3405,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-servicefabric-1@file:projects/arm-servicefabric-1.tgz':
-    resolution: {integrity: sha512-OIZcj3Jv0X/hFTB+bot/XvWIJefsq1YrS3nTVWwJhoXd0skb8929XKKCl733ooBgkaa6nEFz3CfwVb4MKcpLhg==, tarball: file:projects/arm-servicefabric-1.tgz}
+    resolution: {integrity: sha512-pBxYNFZ3hT7Rn6es7uL6qaCvwAjHfcGzRAue/Tw9lA+vWYg7I62Cj77wYYBDYJ5Xp3r0P029w5CcS7MujcYPdg==, tarball: file:projects/arm-servicefabric-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicefabric@file:projects/arm-servicefabric.tgz':
-    resolution: {integrity: sha512-5kbAYkO1RqLAG4oI2JatEp1LTCTI9/tFyA1rO7tAsMb4WSmkkg1a+bPw4sEUKDetFhp5G2L+D5QRKC/1eg10EA==, tarball: file:projects/arm-servicefabric.tgz}
+    resolution: {integrity: sha512-Q00flE9MHUxsW80bVl/1VDEmSQIubEsDiiCQa3/e4WFHtybvEQQS7yt5L8mps/bdexSsId6LuzUDX+B72oXIOg==, tarball: file:projects/arm-servicefabric.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-servicefabricmanagedclusters@file:projects/arm-servicefabricmanagedclusters.tgz':
@@ -3453,7 +3453,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-standbypool@file:projects/arm-standbypool.tgz':
-    resolution: {integrity: sha512-jr9i++BjAo6lf5IQe3fV4EFZ4rjASk+pL/j7rI3guhVAxRz3MUlOMohOxLJx8UafnglEGBZPjOIiAJyBlNpEEg==, tarball: file:projects/arm-standbypool.tgz}
+    resolution: {integrity: sha512-VpqxESExMjxj/o9Ao7TpMIpjWhnSBX43OujiIK2Vv90pgoFgnmegC2YRio3VzbqUmyCUnjwXwXNMk3/vw+Mdmg==, tarball: file:projects/arm-standbypool.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid@file:projects/arm-storage-profile-2020-09-01-hybrid.tgz':
@@ -3517,7 +3517,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-terraform@file:projects/arm-terraform.tgz':
-    resolution: {integrity: sha512-9/E7RqlJQGWEGQGjpv7mQoCepxQw26i16iBdi4+vL9jUiPokJ4Jw5IId6xiNpAuQULp72p7SOTwVzHkmsQhX9Q==, tarball: file:projects/arm-terraform.tgz}
+    resolution: {integrity: sha512-7EX92JzqlpgSTVI6+LsARVInPGzUAdGFZSrwHsf0l3iKqs29TOR6hYTlrSlHmdioLZzRycRHw13y01yJu+rDSA==, tarball: file:projects/arm-terraform.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-timeseriesinsights@file:projects/arm-timeseriesinsights.tgz':
@@ -3529,7 +3529,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-trustedsigning@file:projects/arm-trustedsigning.tgz':
-    resolution: {integrity: sha512-3VAy7aUxYc0OimF5O+p//TZnx241r6AdOq8YCSAzJVP5X2yBuDMNk6JuizsPeeOrUAfWhKIRkSXb2MI4QNCngA==, tarball: file:projects/arm-trustedsigning.tgz}
+    resolution: {integrity: sha512-jKTyJGjOznUMapFVE4UsvgHn6CoHyAuw832fu2l06V7nvnqYtK1cr/7IBQ9iQlbjoTHYmkBZpVBFeS4G8ztvvw==, tarball: file:projects/arm-trustedsigning.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-visualstudio@file:projects/arm-visualstudio.tgz':
@@ -12234,7 +12234,7 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
+  '@rush-temp/arm-cosmosdb@file:projects/arm-cosmosdb.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
@@ -12243,7 +12243,6 @@ snapshots:
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      tsx: 4.19.2
       typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
@@ -12264,6 +12263,7 @@ snapshots:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
@@ -16502,25 +16502,40 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/arm-powerbidedicated@file:projects/arm-powerbidedicated.tgz':
+  '@rush-temp/arm-powerbidedicated@file:projects/arm-powerbidedicated.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.76
-      chai: 4.5.0
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
-      mocha: 11.1.0
-      ts-node: 10.9.2(@types/node@18.19.76)(typescript@5.7.3)
+      playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
 
   '@rush-temp/arm-powerbiembedded@file:projects/arm-powerbiembedded.tgz':
     dependencies:
