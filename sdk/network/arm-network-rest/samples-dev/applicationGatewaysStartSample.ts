@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Starts the specified application gateway.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayStart.json
  */
-async function startApplicationGateway() {
+async function startApplicationGateway(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

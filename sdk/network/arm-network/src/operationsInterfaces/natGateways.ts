@@ -20,7 +20,7 @@ import {
   TagsObject,
   NatGatewaysUpdateTagsOptionalParams,
   NatGatewaysUpdateTagsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NatGateways. */

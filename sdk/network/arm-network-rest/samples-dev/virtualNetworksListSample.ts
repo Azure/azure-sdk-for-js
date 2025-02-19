@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets all virtual networks in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkList.json
  */
-async function listVirtualNetworksInResourceGroup() {
+async function listVirtualNetworksInResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Deletes the specified route table.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteTableDelete.json
  */
-async function deleteRouteTable() {
+async function deleteRouteTable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
