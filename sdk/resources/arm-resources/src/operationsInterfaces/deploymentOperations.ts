@@ -24,7 +24,7 @@ import {
   DeploymentOperationsGetAtSubscriptionScopeResponse,
   DeploymentOperationsGetOptionalParams,
   DeploymentOperationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeploymentOperations. */
