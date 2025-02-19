@@ -19,14 +19,14 @@ import {
   OfferingsImpl,
   OperationsImpl,
   WorkspaceImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Workspaces,
   Offerings,
   Operations,
   Workspace,
-} from "./operationsInterfaces";
-import { AzureQuantumManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureQuantumManagementClientOptionalParams } from "./models/index.js";
 
 export class AzureQuantumManagementClient extends coreClient.ServiceClient {
   $host: string;
