@@ -1,13 +1,15 @@
-# Azure HybridConnectivityManagementApi client library for JavaScript
+# Azure HybridConnectivity client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure HybridConnectivityManagementApi client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure HybridConnectivity client.
 
-REST API for Hybrid Connectivity
+REST API for public clouds.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridconnectivity) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hybridconnectivity) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridconnectivity)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hybridconnectivity?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity/samples)
 
 ## Getting started
 
@@ -24,16 +26,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-hybridconnectivity` package
 
-Install the Azure HybridConnectivityManagementApi client library for JavaScript with `npm`:
+Install the Azure HybridConnectivity client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-hybridconnectivity
 ```
 
-### Create and authenticate a `HybridConnectivityManagementAPI`
+### Create and authenticate a `HybridConnectivityClient`
 
-To create a client object to access the Azure HybridConnectivityManagementApi API, you will need the `endpoint` of your Azure HybridConnectivityManagementApi resource and a `credential`. The Azure HybridConnectivityManagementApi client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure HybridConnectivityManagementApi resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure HybridConnectivity API, you will need the `endpoint` of your Azure HybridConnectivity resource and a `credential`. The Azure HybridConnectivity client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure HybridConnectivity resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -43,42 +45,35 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure HybridConnectivityManagementApi** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
+You will also need to **register a new AAD application and grant access to Azure HybridConnectivity** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
-Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
+```javascript
+const { HybridConnectivityClient } = require("@azure/arm-hybridconnectivity");
+const { DefaultAzureCredential } = require("@azure/identity");
+// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
-```ts snippet:ReadmeSampleCreateClient_Node
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-import { DefaultAzureCredential } from "@azure/identity";
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const client = new HybridConnectivityClient(new DefaultAzureCredential(), subscriptionId);
 
-const client = new HybridConnectivityManagementAPI(new DefaultAzureCredential());
+// For client-side applications running in the browser, use this code instead:
+// const credential = new InteractiveBrowserCredential({
+//   tenantId: "<YOUR_TENANT_ID>",
+//   clientId: "<YOUR_CLIENT_ID>"
+// });
+// const client = new HybridConnectivityClient(credential, subscriptionId);
 ```
 
-For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
-
-```ts snippet:ReadmeSampleCreateClient_Browser
-import { InteractiveBrowserCredential } from "@azure/identity";
-import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
-
-const credential = new InteractiveBrowserCredential({
-  tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
-const client = new HybridConnectivityManagementAPI(credential);
-```
 
 ### JavaScript Bundle
-
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
-### HybridConnectivityManagementAPI
+### HybridConnectivityClient
 
-`HybridConnectivityManagementAPI` is the primary interface for developers using the Azure HybridConnectivityManagementApi client library. Explore the methods on this client object to understand the different features of the Azure HybridConnectivityManagementApi service that you can access.
+`HybridConnectivityClient` is the primary interface for developers using the Azure HybridConnectivity client library. Explore the methods on this client object to understand the different features of the Azure HybridConnectivity service that you can access.
 
 ## Troubleshooting
 
@@ -86,9 +81,8 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts snippet:SetLogLevel
-import { setLogLevel } from "@azure/logger";
-
+```javascript
+const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
 
@@ -96,7 +90,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -106,8 +100,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-[azure_cli]: https://learn.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity

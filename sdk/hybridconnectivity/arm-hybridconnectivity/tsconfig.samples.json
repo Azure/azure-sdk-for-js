@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-hybridconnectivity": ["./dist/esm"]
+      "@azure/arm-hybridconnectivity": [
+        "./dist/esm"
+      ]
     }
   }
 }
