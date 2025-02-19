@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all of the peering services under the given subscription and resource group.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListPeeringServicesByResourceGroup.json
  */
-async function listPeeringServicesInAResourceGroup() {
+async function listPeeringServicesInAResourceGroup(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const credential = new DefaultAzureCredential();

@@ -13,9 +13,7 @@ import {
   AzureMapsManagementClient
 } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates the Maps Creator resource. Only a subset of the parameters may be updated after creation, such as Tags.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates the Maps Creator resource. Only a subset of the parameters may be updated after creation, such as Tags.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/UpdateMapsCreator.json
  */
-async function updateCreatorResource() {
+async function updateCreatorResource(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -46,7 +44,7 @@ async function updateCreatorResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateCreatorResource();
 }
 

@@ -7,9 +7,7 @@
  */
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete a run command.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary The operation to delete a run command.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/runCommand/RunCommands_Delete.json
  */
-async function deleteAMachineRunCommand() {
+async function deleteAMachineRunCommand(): Promise<void> {
   const subscriptionId = process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName = process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const machineName = "myMachine";
@@ -32,7 +30,7 @@ async function deleteAMachineRunCommand() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAMachineRunCommand();
 }
 

@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, ResourceLinksImpl } from "./operations";
-import { Operations, ResourceLinks } from "./operationsInterfaces";
-import { ManagementLinkClientOptionalParams } from "./models";
+import { OperationsImpl, ResourceLinksImpl } from "./operations/index.js";
+import { Operations, ResourceLinks } from "./operationsInterfaces/index.js";
+import { ManagementLinkClientOptionalParams } from "./models/index.js";
 
 export class ManagementLinkClient extends coreClient.ServiceClient {
   $host: string;

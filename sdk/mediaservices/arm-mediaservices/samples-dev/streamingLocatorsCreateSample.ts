@@ -8,9 +8,7 @@
 import type { StreamingLocator } from "@azure/arm-mediaservices";
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a Streaming Locator in the Media Services account
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a Streaming Locator in the Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-create-clear.json
  */
-async function createsAStreamingLocatorWithClearStreaming() {
+async function createsAStreamingLocatorWithClearStreaming(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -45,7 +43,7 @@ async function createsAStreamingLocatorWithClearStreaming() {
  * @summary Create a Streaming Locator in the Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-create-secure.json
  */
-async function createsAStreamingLocatorWithSecureStreaming() {
+async function createsAStreamingLocatorWithSecureStreaming(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -74,7 +72,7 @@ async function createsAStreamingLocatorWithSecureStreaming() {
  * @summary Create a Streaming Locator in the Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/streaming-locators-create-secure-userDefinedContentKeys.json
  */
-async function createsAStreamingLocatorWithUserDefinedContentKeys() {
+async function createsAStreamingLocatorWithUserDefinedContentKeys(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -113,7 +111,7 @@ async function createsAStreamingLocatorWithUserDefinedContentKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createsAStreamingLocatorWithClearStreaming();
   await createsAStreamingLocatorWithSecureStreaming();
   await createsAStreamingLocatorWithUserDefinedContentKeys();

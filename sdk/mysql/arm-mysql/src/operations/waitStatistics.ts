@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { WaitStatistics } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { WaitStatistics } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MySQLManagementClient } from "../mySQLManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MySQLManagementClient } from "../mySQLManagementClient.js";
 import {
   WaitStatistic,
   WaitStatisticsInput,
@@ -22,7 +22,7 @@ import {
   WaitStatisticsGetOptionalParams,
   WaitStatisticsGetResponse,
   WaitStatisticsListByServerNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WaitStatistics operations. */

@@ -12,7 +12,7 @@ import {
   ServiceListOptionalParams,
   ServiceGetOptionalParams,
   ServiceGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Service. */

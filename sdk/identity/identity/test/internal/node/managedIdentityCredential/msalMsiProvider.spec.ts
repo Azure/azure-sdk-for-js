@@ -10,6 +10,7 @@ import { AuthenticationRequiredError, CredentialUnavailableError } from "../../.
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 import type { IdentityClient } from "../../../../src/client/identityClient.js";
+import { serviceFabricErrorMessage } from "../../../../src/credentials/managedIdentityCredential/utils.js";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: MockInstance<
@@ -91,6 +92,27 @@ describe("ManagedIdentityCredential (MSAL)", function () {
         assert.throws(
           () => new ManagedIdentityCredential({ objectId: "id" }),
           /Specifying a user-assigned managed identity is not supported for CloudShell at runtime/,
+        );
+      });
+    });
+
+    describe("when using ServiceFabric Managed Identity", function () {
+      it("throws when user-assigned IDs are provided", function () {
+        vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+          "ServiceFabric",
+        );
+
+        assert.throws(
+          () => new ManagedIdentityCredential({ clientId: "id" }),
+          `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
+        );
+        assert.throws(
+          () => new ManagedIdentityCredential({ resourceId: "id" }),
+          `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
+        );
+        assert.throws(
+          () => new ManagedIdentityCredential({ objectId: "id" }),
+          `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
         );
       });
     });

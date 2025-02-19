@@ -21,7 +21,7 @@ import {
   ManagedDatabaseSensitivityLabelsEnableRecommendationOptionalParams,
   SensitivityLabelUpdateList,
   ManagedDatabaseSensitivityLabelsUpdateOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedDatabaseSensitivityLabels. */

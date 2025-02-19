@@ -33,7 +33,7 @@ import {
   LiveOutput as LiveOutputMapper,
   StreamingEndpoint as StreamingEndpointMapper,
   StreamingEntityScaleUnit as StreamingEntityScaleUnitMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

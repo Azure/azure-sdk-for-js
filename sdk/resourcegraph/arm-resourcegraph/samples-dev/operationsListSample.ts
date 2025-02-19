@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all of the available REST API operations.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/OperationsList.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ResourceGraphClient(credential);
   const resArray = new Array();

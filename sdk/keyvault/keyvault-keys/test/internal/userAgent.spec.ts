@@ -6,7 +6,7 @@ import { SDK_VERSION } from "../../src/constants.js";
 import { describe, it, assert } from "vitest";
 
 describe("Keys client's user agent", () => {
-  it("SDK_VERSION and user-agent should match", async function () {
+  it("SDK_VERSION and user-agent should match", async () => {
     let userAgent: string | undefined;
     const client = new KeyClient(
       "https://myvault.vault.azure.net",

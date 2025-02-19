@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List all the databases in a given server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/DatabasesListByServer.json
  */
-async function listDatabasesInAServer() {
+async function listDatabasesInAServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,7 +37,7 @@ async function listDatabasesInAServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDatabasesInAServer();
 }
 

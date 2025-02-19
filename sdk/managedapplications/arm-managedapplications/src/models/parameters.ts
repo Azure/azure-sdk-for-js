@@ -20,7 +20,7 @@ import {
   ApplicationDefinitionPatchable as ApplicationDefinitionPatchableMapper,
   JitRequestDefinition as JitRequestDefinitionMapper,
   JitRequestPatchable as JitRequestPatchableMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

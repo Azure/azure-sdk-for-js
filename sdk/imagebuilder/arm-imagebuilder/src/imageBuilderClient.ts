@@ -18,13 +18,13 @@ import {
   VirtualMachineImageTemplatesImpl,
   TriggersImpl,
   OperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   VirtualMachineImageTemplates,
   Triggers,
   Operations,
-} from "./operationsInterfaces";
-import { ImageBuilderClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ImageBuilderClientOptionalParams } from "./models/index.js";
 
 export class ImageBuilderClient extends coreClient.ServiceClient {
   $host: string;

@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Initialize Peering Service for Connection Monitor functionality
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/InitializeConnectionMonitor.json
  */
-async function initializePeeringServiceForConnectionMonitorFunctionality() {
+async function initializePeeringServiceForConnectionMonitorFunctionality(): Promise<void> {
   const subscriptionId = "subId";
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);

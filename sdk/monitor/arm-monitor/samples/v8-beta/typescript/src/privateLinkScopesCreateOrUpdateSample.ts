@@ -13,9 +13,7 @@ import {
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates (or updates) a Azure Monitor PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates (or updates) a Azure Monitor PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateLinkScopesCreate.json
  */
-async function privateLinkScopeCreate() {
+async function privateLinkScopeCreate(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "86dc51d3-92ed-4d7e-947a-775ea79b4919";
@@ -54,7 +52,7 @@ async function privateLinkScopeCreate() {
  * @summary Creates (or updates) a Azure Monitor PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateLinkScopesUpdate.json
  */
-async function privateLinkScopeUpdate() {
+async function privateLinkScopeUpdate(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "86dc51d3-92ed-4d7e-947a-775ea79b4919";
@@ -80,7 +78,7 @@ async function privateLinkScopeUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateLinkScopeCreate();
   privateLinkScopeUpdate();
 }

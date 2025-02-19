@@ -7,9 +7,7 @@
  */
 import { AzureHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of Hardware Security Modules operations.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a list of Hardware Security Modules operations.
  * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/OperationsList.json
  */
-async function getAListOfDedicatedHsmOperations() {
+async function getAListOfDedicatedHsmOperations(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function getAListOfDedicatedHsmOperations() {
  * @summary Get a list of Hardware Security Modules operations.
  * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/OperationsList.json
  */
-async function getAListOfPaymentHsmOperations() {
+async function getAListOfPaymentHsmOperations(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -49,7 +47,7 @@ async function getAListOfPaymentHsmOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAListOfDedicatedHsmOperations();
   await getAListOfPaymentHsmOperations();
 }

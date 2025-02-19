@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List the authorization keys associated with this workspace.
  * x-ms-original-file: specification/machinelearning/resource-manager/Microsoft.MachineLearning/stable/2019-10-01/examples/ListWorkspaceKeys.json
  */
-async function listWorkspaceKeys() {
+async function listWorkspaceKeys(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const workspaceName = "testworkspace";
   const resourceGroupName = "myResourceGroup";

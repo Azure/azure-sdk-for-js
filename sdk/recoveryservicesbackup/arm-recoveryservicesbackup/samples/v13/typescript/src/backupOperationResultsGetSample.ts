@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides the status of the delete operations such as deleting backed up item. Once the operation has started, the
@@ -26,7 +24,7 @@ successful completion, the status code will be OK. This method expects Operation
 part of the Location header of the operation response.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/ProtectedItem_Delete_OperationResult.json
  */
-async function getResultForProtectedItemDeleteOperation() {
+async function getResultForProtectedItemDeleteOperation(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,7 +43,7 @@ async function getResultForProtectedItemDeleteOperation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getResultForProtectedItemDeleteOperation();
 }
 

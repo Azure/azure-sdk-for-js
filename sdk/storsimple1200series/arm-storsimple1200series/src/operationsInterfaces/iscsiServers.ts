@@ -22,7 +22,7 @@ import {
   IscsiServersCreateOrUpdateResponse,
   IscsiServersDeleteOptionalParams,
   IscsiServersBackupNowOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IscsiServers. */

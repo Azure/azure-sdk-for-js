@@ -7,9 +7,7 @@
  */
 import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the tenants for your account.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the tenants for your account.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/GetTenants.json
  */
-async function getAllTenants() {
+async function getAllTenants(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();
@@ -27,7 +25,7 @@ async function getAllTenants() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAllTenants();
 }
 

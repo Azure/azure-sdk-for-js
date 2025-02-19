@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates or updates a Template Spec version.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-05-01/examples/TemplateSpecVersionsCreate.json
  */
-async function templateSpecVersionsCreateUpdate() {
+async function templateSpecVersionsCreateUpdate(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "templateSpecRG";
   const templateSpecName = "simpleTemplateSpec";

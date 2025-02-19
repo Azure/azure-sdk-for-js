@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the secret resource identified by the name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the secret resource identified by the name.
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/secrets/delete.json
  */
-async function deleteSecret() {
+async function deleteSecret(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function deleteSecret() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteSecret();
 }
 

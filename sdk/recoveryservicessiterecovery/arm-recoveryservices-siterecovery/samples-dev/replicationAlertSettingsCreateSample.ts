@@ -8,9 +8,7 @@
 import type { ConfigureAlertRequest } from "@azure/arm-recoveryservices-siterecovery";
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update an email notification(alert) configuration.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update an email notification(alert) configuration.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationAlertSettings_Create.json
  */
-async function configuresEmailNotificationsForThisVault() {
+async function configuresEmailNotificationsForThisVault(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -44,7 +42,7 @@ async function configuresEmailNotificationsForThisVault() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await configuresEmailNotificationsForThisVault();
 }
 

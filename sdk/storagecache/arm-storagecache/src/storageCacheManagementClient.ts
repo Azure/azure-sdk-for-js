@@ -25,7 +25,7 @@ import {
   CachesImpl,
   StorageTargetsImpl,
   StorageTargetOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   AmlFilesystems,
   ImportJobs,
@@ -37,15 +37,15 @@ import {
   Caches,
   StorageTargets,
   StorageTargetOperations,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   StorageCacheManagementClientOptionalParams,
   CheckAmlFSSubnetsOptionalParams,
   GetRequiredAmlFSSubnetsSizeOptionalParams,
   GetRequiredAmlFSSubnetsSizeResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class StorageCacheManagementClient extends coreClient.ServiceClient {
   $host: string;

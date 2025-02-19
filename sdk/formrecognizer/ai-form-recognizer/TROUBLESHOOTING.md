@@ -125,7 +125,7 @@ setLogLevel("info");
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fformrecognizer%2Fai-form-recognizer%2FTROUBLESHOOTING.png)
+
 
 [`resterror`]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/src/restError.ts
 [fr-errors]: https://aka.ms/azsdk/formrecognizer/errors

@@ -19,21 +19,21 @@ import {
   SpatialAnchorsAccountsImpl,
   RemoteRenderingAccountsImpl,
   ObjectAnchorsAccountsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   SpatialAnchorsAccounts,
   RemoteRenderingAccounts,
   ObjectAnchorsAccounts
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   MixedRealityClientOptionalParams,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityLocalOptionalParams,
   CheckNameAvailabilityLocalResponse
-} from "./models";
+} from "./models/index.js";
 
 export class MixedRealityClient extends coreClient.ServiceClient {
   $host: string;

@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets details about a specified subscription.
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2016-06-01/examples/getSubscription.json
  */
-async function getSubscription() {
+async function getSubscription(): Promise<void> {
   const subscriptionId = "83aa47df-e3e9-49ff-877b-94304bf3d3ad";
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);

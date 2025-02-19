@@ -7,9 +7,7 @@
  */
 import { ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the provider permissions.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get the provider permissions.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/GetProviderPermissions.json
  */
-async function getProviderResourceTypes() {
+async function getProviderResourceTypes(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceProviderNamespace = "Microsoft.TestRP";
@@ -27,7 +25,7 @@ async function getProviderResourceTypes() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getProviderResourceTypes();
 }
 

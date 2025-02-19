@@ -135,4 +135,9 @@ export interface FeedOptions extends SharedOptions {
    * If set to true, scans partitions up to `maxDegreeOfParallelism`, adds results to the buffer, and returns what is available. If results are not ready, it returns an empty response.
    */
   enableQueryControl?: boolean;
+  /**
+   * @internal
+   * rid of the container.
+   */
+  containerRid?: string;
 }

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PurchaseRequest, AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Calculate price for placing a `ReservationOrder`.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Calculate price for placing a `ReservationOrder`.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/CalculateReservationOrder.json
  */
-async function calculatePrice() {
+async function calculatePrice(): Promise<void> {
   const body: PurchaseRequest = {
     appliedScopeType: "Shared",
     appliedScopes: [],
@@ -40,7 +38,7 @@ async function calculatePrice() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   calculatePrice();
 }
 

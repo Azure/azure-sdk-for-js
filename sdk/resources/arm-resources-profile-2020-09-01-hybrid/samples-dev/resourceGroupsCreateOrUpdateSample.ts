@@ -8,9 +8,7 @@
 import type { ResourceGroup } from "@azure/arm-resources-profile-2020-09-01-hybrid";
 import { ResourceManagementClient } from "@azure/arm-resources-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a resource group.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a resource group.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2019-10-01/examples/CreateResourceGroup.json
  */
-async function createOrUpdateAResourceGroup() {
+async function createOrUpdateAResourceGroup(): Promise<void> {
   const subscriptionId = process.env["RESOURCES_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["RESOURCES_RESOURCE_GROUP"] || "myResourceGroup";
   const parameters: ResourceGroup = { location: "eastus" };
@@ -28,7 +26,7 @@ async function createOrUpdateAResourceGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateAResourceGroup();
 }
 

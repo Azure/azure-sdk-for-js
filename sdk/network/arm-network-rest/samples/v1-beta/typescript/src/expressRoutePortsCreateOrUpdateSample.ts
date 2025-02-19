@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Creates or updates the specified ExpressRoutePort resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortCreate.json
  */
-async function expressRoutePortCreate() {
+async function expressRoutePortCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -51,7 +51,7 @@ expressRoutePortCreate().catch(console.error);
  * @summary Creates or updates the specified ExpressRoutePort resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortUpdateLink.json
  */
-async function expressRoutePortUpdateLink() {
+async function expressRoutePortUpdateLink(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

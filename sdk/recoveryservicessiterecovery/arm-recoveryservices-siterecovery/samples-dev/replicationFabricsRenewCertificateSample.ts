@@ -8,9 +8,7 @@
 import type { RenewCertificateInput } from "@azure/arm-recoveryservices-siterecovery";
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Renews the connection certificate for the ASR replication fabric.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Renews the connection certificate for the ASR replication fabric.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_RenewCertificate.json
  */
-async function renewsCertificateForTheFabric() {
+async function renewsCertificateForTheFabric(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -40,7 +38,7 @@ async function renewsCertificateForTheFabric() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await renewsCertificateForTheFabric();
 }
 

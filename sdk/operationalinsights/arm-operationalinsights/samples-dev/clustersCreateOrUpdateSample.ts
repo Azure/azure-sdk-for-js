@@ -8,9 +8,7 @@
 import type { Cluster } from "@azure/arm-operationalinsights";
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Log Analytics cluster.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a Log Analytics cluster.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersCreate.json
  */
-async function clustersCreate() {
+async function clustersCreate(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "oiautorest6685";
@@ -38,7 +36,7 @@ async function clustersCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await clustersCreate();
 }
 

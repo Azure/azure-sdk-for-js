@@ -8,9 +8,7 @@
 import type { LocalUser } from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUserCreate.json
  */
-async function createLocalUser() {
+async function createLocalUser(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
@@ -51,7 +49,7 @@ async function createLocalUser() {
  * @summary Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUserCreateNFSv3Enabled.json
  */
-async function createNfSv3EnabledLocalUser() {
+async function createNfSv3EnabledLocalUser(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
@@ -77,7 +75,7 @@ async function createNfSv3EnabledLocalUser() {
  * @summary Create or update the properties of a local user associated with the storage account. Properties for NFSv3 enablement and extended groups cannot be set with other properties.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/LocalUserUpdate.json
  */
-async function updateLocalUser() {
+async function updateLocalUser(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
@@ -103,7 +101,7 @@ async function updateLocalUser() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createLocalUser();
   await createNfSv3EnabledLocalUser();
   await updateLocalUser();

@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./keys";
-export * from "./managedHsmKeys";
-export * from "./vaults";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./managedHsms";
-export * from "./mhsmPrivateEndpointConnections";
-export * from "./mhsmPrivateLinkResources";
-export * from "./mhsmRegions";
-export * from "./operations";
-export * from "./secrets";
+export * from "./keys.js";
+export * from "./managedHsmKeys.js";
+export * from "./vaults.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./managedHsms.js";
+export * from "./mhsmPrivateEndpointConnections.js";
+export * from "./mhsmPrivateLinkResources.js";
+export * from "./mhsmRegions.js";
+export * from "./operations.js";
+export * from "./secrets.js";

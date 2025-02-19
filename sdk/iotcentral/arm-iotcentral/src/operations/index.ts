@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./apps";
-export * from "./privateEndpointConnections";
-export * from "./privateLinks";
-export * from "./operations";
+export * from "./apps.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinks.js";
+export * from "./operations.js";

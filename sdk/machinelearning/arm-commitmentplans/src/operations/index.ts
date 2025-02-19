@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./skus";
-export * from "./commitmentAssociations";
-export * from "./commitmentPlans";
-export * from "./usageHistory";
+export * from "./operations.js";
+export * from "./skus.js";
+export * from "./commitmentAssociations.js";
+export * from "./commitmentPlans.js";
+export * from "./usageHistory.js";

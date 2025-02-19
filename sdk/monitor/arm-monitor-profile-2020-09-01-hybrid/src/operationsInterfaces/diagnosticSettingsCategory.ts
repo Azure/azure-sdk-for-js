@@ -11,7 +11,7 @@ import {
   DiagnosticSettingsCategoryGetResponse,
   DiagnosticSettingsCategoryListOptionalParams,
   DiagnosticSettingsCategoryListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DiagnosticSettingsCategory. */
 export interface DiagnosticSettingsCategory {

@@ -7,9 +7,7 @@
  */
 import { LoadTestClient } from "@azure/arm-loadtesting";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists loadtests resources in a subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists loadtests resources in a subscription.
  * x-ms-original-file: specification/loadtestservice/resource-manager/Microsoft.LoadTestService/stable/2022-12-01/examples/LoadTests_ListBySubscription.json
  */
-async function loadTestsListBySubscription() {
+async function loadTestsListBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["LOADTESTSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function loadTestsListBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await loadTestsListBySubscription();
 }
 

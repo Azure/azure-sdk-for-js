@@ -11,19 +11,12 @@
 
 import * as opentelemetry from "@opentelemetry/api";
 import { Resource } from "@opentelemetry/resources";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-const provider = new BasicTracerProvider({
-  resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-  }),
-});
+import "dotenv/config";
 
 // Configure span processor to send spans to the exporter
 const exporter = new AzureMonitorTraceExporter({
@@ -32,7 +25,13 @@ const exporter = new AzureMonitorTraceExporter({
     process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
     "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
 });
-provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
+
+const provider = new BasicTracerProvider({
+  resource: new Resource({
+    [ATTR_SERVICE_NAME]: "basic-service",
+  }),
+  spanProcessors: [new SimpleSpanProcessor(exporter)],
+});
 
 /**
  * Initialize the OpenTelemetry APIs to use the BasicTracerProvider bindings.
@@ -46,20 +45,20 @@ provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
 provider.register();
 const tracer = opentelemetry.trace.getTracer("example-basic-tracer-node");
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a span. A span must be closed.
   const parentSpan = tracer.startSpan("main");
   for (let i = 0; i < 10; i += 1) {
     doWork(parentSpan);
   }
   // Be sure to end the span.
-  await parentSpan.end();
+  parentSpan.end();
 
   // flush and close the connection.
   await exporter.shutdown();
 }
 
-function doWork(parent: opentelemetry.Span) {
+function doWork(parent: opentelemetry.Span): void {
   // Start another span. In this example, the main method already started a
   // span, so that'll be the parent span, and this will be a child span.
   const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), parent);

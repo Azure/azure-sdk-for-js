@@ -8,9 +8,7 @@
 import type { CommunicationsListOptionalParams } from "@azure/arm-support";
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListCommunicationsForSubscriptionSupportTicket.json
  */
-async function listCommunicationsForASubscriptionSupportTicket() {
+async function listCommunicationsForASubscriptionSupportTicket(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
   const supportTicketName = "testticket";
@@ -37,7 +35,7 @@ async function listCommunicationsForASubscriptionSupportTicket() {
  * @summary Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListWebCommunicationsForSubscriptionSupportTicketCreatedOnOrAfter.json
  */
-async function listWebCommunicationCreatedOnOrAfterASpecificDateForASubscriptionSupportTicket() {
+async function listWebCommunicationCreatedOnOrAfterASpecificDateForASubscriptionSupportTicket(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
   const supportTicketName = "testticket";
@@ -58,7 +56,7 @@ async function listWebCommunicationCreatedOnOrAfterASpecificDateForASubscription
  * @summary Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListWebCommunicationsForSubscriptionSupportTicket.json
  */
-async function listWebCommunicationsForASubscriptionSupportTicket() {
+async function listWebCommunicationsForASubscriptionSupportTicket(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] || "132d901f-189d-4381-9214-fe68e27e05a1";
   const supportTicketName = "testticket";
@@ -73,7 +71,7 @@ async function listWebCommunicationsForASubscriptionSupportTicket() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listCommunicationsForASubscriptionSupportTicket();
   await listWebCommunicationCreatedOnOrAfterASpecificDateForASubscriptionSupportTicket();
   await listWebCommunicationsForASubscriptionSupportTicket();

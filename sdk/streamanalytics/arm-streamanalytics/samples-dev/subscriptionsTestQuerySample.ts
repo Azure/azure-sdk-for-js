@@ -8,9 +8,7 @@
 import type { TestQuery } from "@azure/arm-streamanalytics";
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Test the Stream Analytics query on a sample input.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Test the Stream Analytics query on a sample input.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Subscription_TestQuery.json
  */
-async function testTheStreamAnalyticsQuery() {
+async function testTheStreamAnalyticsQuery(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const location = "West US";
@@ -68,7 +66,7 @@ async function testTheStreamAnalyticsQuery() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await testTheStreamAnalyticsQuery();
 }
 

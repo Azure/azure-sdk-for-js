@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Use this method get the list of device security groups for the specified IoT Hub resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Use this method get the list of device security groups for the specified IoT Hub resource.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2019-08-01/examples/DeviceSecurityGroups/ListDeviceSecurityGroups_example.json
  */
-async function listAllDeviceSecurityGroupsForTheSpecifiedIoTHubResource() {
+async function listAllDeviceSecurityGroupsForTheSpecifiedIoTHubResource(): Promise<void> {
   const resourceId =
     "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/SampleRG/providers/Microsoft.Devices/iotHubs/sampleiothub";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function listAllDeviceSecurityGroupsForTheSpecifiedIoTHubResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllDeviceSecurityGroupsForTheSpecifiedIoTHubResource();
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-cache-persistence",
-  "version": "1.1.2",
+  "version": "1.2.1",
   "sdk-type": "client",
   "description": "A secure, persistent token cache for Azure Identity credentials that uses the OS secret-management API",
   "main": "./dist/commonjs/index.js",
@@ -57,8 +57,8 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
-    "@azure/identity": "^4.5.0",
-    "@azure/msal-node": "^2.16.2",
+    "@azure/identity": "^4.7.0",
+    "@azure/msal-node": "^3.2.2",
     "@azure/msal-node-extensions": "^1.5.0",
     "keytar": "^7.6.0",
     "tslib": "^2.8.1"
