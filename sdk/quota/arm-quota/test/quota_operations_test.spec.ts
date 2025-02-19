@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AzureQuotaExtensionAPI } from "../src/azureQuotaExtensionAPI.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -52,17 +48,17 @@ describe("quota test", () => {
     await recorder.stop();
   });
 
-  it("quota list test", async function () {
+  it("quota list test", async () => {
     const resArray = new Array();
-    for await (let item of client.quota.list(scope)) {
+    for await (const item of client.quota.list(scope)) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
 
-  it("usage list test", async function () {
+  it("usage list test", async () => {
     const resArray = new Array();
-    for await (let item of client.usages.list(scope)) {
+    for await (const item of client.usages.list(scope)) {
       resArray.push(item);
     }
     console.log(resArray);
