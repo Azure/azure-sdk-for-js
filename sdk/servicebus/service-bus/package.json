@@ -99,7 +99,7 @@
     "buffer": "^6.0.0",
     "is-buffer": "^2.0.3",
     "jssha": "^3.3.1",
-    "long": "^5.2.0",
+    "long": "^5.3.1",
     "process": "^0.11.10",
     "rhea-promise": "^3.0.0",
     "tslib": "^2.7.0"
