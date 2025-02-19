@@ -6,18 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { NetworkManagementClient } from "../src/networkManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -36,30 +31,30 @@ describe("Network test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: NetworkManagementClient;
-  let location: string;
   let resourceGroupName: string;
   let virtualNetworkName: string;
   let subnetName: string;
-  let ipGroupName: string;
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new NetworkManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroupName = "myjstest";
-      virtualNetworkName = "virtualnetworkzzz";
-      subnetName = "subnetzzz";
-      ipGroupName = "ipgroupyyy";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new NetworkManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
+    resourceGroupName = "myjstest";
+    virtualNetworkName = "virtualnetworkzzz";
+    subnetName = "subnetzzz";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
-  it("operations list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
@@ -67,80 +62,129 @@ describe("Network test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("virtualNetworks create test", async function () {
+  it("virtualNetworks create test", async () => {
+    const res = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      virtualNetworkName,
+      {
+        addressSpace: {
+          addressPrefixes: ["10.0.0.0/16"],
+        },
+        location: "eastus",
+      },
+      testPollingOptions,
+    );
+    assert.ok(res);
   });
 
-  it("subnets create test", async function () {
+  it("subnets create test", async () => {
+    await client.subnets.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      virtualNetworkName,
+      subnetName,
+      { addressPrefix: "10.0.0.0/24" },
+      testPollingOptions,
+    );
   });
 
-  it("ipGroups create test", async function () {
+  it("ipGroups create test", async () => {
+    await client.ipGroups.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      virtualNetworkName,
+      {
+        tags: {
+          key1: "value1",
+        },
+        location: "eastus",
+        ipAddresses: ["13.64.39.16/32", "40.74.146.80/31", "40.74.147.32/28"],
+      },
+      testPollingOptions,
+    );
   });
 
-  it("virtualNetworks get test", async function () {
+  it("virtualNetworks get test", async () => {
     const res = await client.virtualNetworks.get(resourceGroupName, virtualNetworkName);
     assert.equal(res.name, virtualNetworkName);
   });
 
-  it("subnets get test", async function () {
+  it("subnets get test", async () => {
     const res = await client.subnets.get(resourceGroupName, virtualNetworkName, subnetName);
     assert.equal(res.name, subnetName);
   });
 
-  it("ipGroups get test", async function () {
+  it("ipGroups get test", async () => {
     const res = await client.ipGroups.get(resourceGroupName, virtualNetworkName);
     assert.equal(res.type, "Microsoft.Network/IpGroups");
   });
 
-  it("virtualNetworks list test", async function () {
+  it("virtualNetworks list test", async () => {
     const resArray = new Array();
     for await (let item of client.virtualNetworks.list(resourceGroupName)) {
       resArray.push(item);
-    };
+    }
     assert.equal(resArray.length, 1);
   });
 
-  it("subnets list test", async function () {
+  it("subnets list test", async () => {
     const resArray = new Array();
     for await (let item of client.subnets.list(resourceGroupName, virtualNetworkName)) {
       resArray.push(item);
-    };
+    }
     assert.equal(resArray.length, 1);
   });
 
-  it("ipGroups list test", async function () {
+  it("ipGroups list test", async () => {
     const resArray = new Array();
     for await (let item of client.ipGroups.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
-    };
+    }
     assert.equal(resArray.length, 1);
   });
 
-  it("virtualNetworks updatetags test", async function () {
-    const res = await client.virtualNetworks.updateTags(resourceGroupName, virtualNetworkName, { tags: { tag1: "value1", tag2: "value2" } });
+  it("virtualNetworks updatetags test", async () => {
+    const res = await client.virtualNetworks.updateTags(resourceGroupName, virtualNetworkName, {
+      tags: { tag1: "value1", tag2: "value2" },
+    });
     assert.equal(res.name, virtualNetworkName);
   });
 
-  it("ipGroups beginDeleteAndWait test", async function () {
+  it("ipGroups beginDeleteAndWait test", async () => {
     const resArray = new Array();
+    await client.ipGroups.beginDeleteAndWait(
+      resourceGroupName,
+      virtualNetworkName,
+      testPollingOptions,
+    );
     for await (let item of client.ipGroups.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
-    };
+    }
     assert.equal(resArray.length, 0);
   });
 
-  it("subnets beginDeleteAndWait test", async function () {
+  it("subnets beginDeleteAndWait test", async () => {
     const resArray = new Array();
+    await client.subnets.beginDeleteAndWait(
+      resourceGroupName,
+      virtualNetworkName,
+      subnetName,
+      testPollingOptions,
+    );
     for await (let item of client.subnets.list(resourceGroupName, virtualNetworkName)) {
       resArray.push(item);
-    };
+    }
     assert.equal(resArray.length, 0);
   });
 
-  it("virtualNetworks beginDeleteAndWait test", async function () {
+  it("virtualNetworks beginDeleteAndWait test", async () => {
     const resArray = new Array();
+    await client.virtualNetworks.beginDeleteAndWait(
+      resourceGroupName,
+      virtualNetworkName,
+      testPollingOptions,
+    );
     for await (let item of client.virtualNetworks.list(resourceGroupName)) {
       resArray.push(item);
-    };
+    }
     assert.equal(resArray.length, 0);
   });
 });
