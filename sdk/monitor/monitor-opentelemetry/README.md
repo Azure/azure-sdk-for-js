@@ -85,19 +85,85 @@ const options: AzureMonitorOpenTelemetryOptions = {
 useAzureMonitor(options);
 ```
 
-| Property                        | Description                                                                                                                                                          | Default                                                                                                                                                                                                                                        |
-| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --- | --- |
-| azureMonitorExporterOptions     | Azure Monitor OpenTelemetry Exporter Configuration. [More info here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter) |                                                                                                                                                                                                                                                |     |     |
-| samplingRatio                   | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.                                     | 1                                                                                                                                                                                                                                              |
-| instrumentationOptions          | Allow configuration of OpenTelemetry Instrumentations.                                                                                                               | {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false },"bunyan": { enabled: false }, "winston": { enabled: false } } |
-| browserSdkLoaderOptions         | Allow configuration of Web Instrumentations.                                                                                                                         | { enabled: false, connectionString: "" }                                                                                                                                                                                                       |
-| resource                        | Opentelemetry Resource. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-resources)                              |                                                                                                                                                                                                                                                |
-| samplingRatio                   | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.                                     | 1                                                                                                                                                                                                                                              |
-| enableLiveMetrics               | Enable/Disable Live Metrics.                                                                                                                                         | true                                                                                                                                                                                                                                           |
-| enableStandardMetrics           | Enable/Disable Standard Metrics.                                                                                                                                     | true                                                                                                                                                                                                                                           |
-| logRecordProcessors             | Array of log record processors to register to the global logger provider.                                                                                            |                                                                                                                                                                                                                                                |
-| spanProcessors                  | Array of span processors to register to the global tracer provider.                                                                                                  |                                                                                                                                                                                                                                                |
-| enableTraceBasedSamplingForLogs | Enable log sampling based on trace.                                                                                                                                  | false                                                                                                                                                                                                                                          |     |
+<table>
+  <tr>
+    <th>Option</th>
+    <th>Description</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td><code>azureMonitorExporterOptions</code></td>
+    <td>Azure Monitor OpenTelemetry Exporter Configuration. <a href="https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter">More info here</a></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>samplingRatio</code></td>
+    <td>Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.</td>
+    <td><code>1</code></td>
+  </tr>
+  <tr>
+    <td><code>instrumentationOptions</code></td>
+    <td>Instrumentation libraries configuration. <a href="#instrumentation-libraries">More info here</a></td>
+    <td>
+      <pre><code class="language-javascript">
+{
+  http: { enabled: true },
+  azureSdk: { enabled: false },
+  mongoDb: { enabled: false },
+  mySql: { enabled: false },
+  postgreSql: { enabled: false },
+  redis: { enabled: false },
+  bunyan: { enabled: false }, 
+  winston: { enabled: false } 
+}
+      </code></pre>
+    </td>
+  </tr>
+  <tr>
+    <td><code>browserSdkLoaderOptions</code></td>
+    <td>Allow configuration of Web Instrumentations./td>
+    <td>
+      <pre>
+        <code class="language-javascript">
+{ 
+  enabled: false, 
+  connectionString: "" 
+}
+        </code>
+      </pre>
+    </td>
+  </tr>
+  <tr>
+    <td><code>resource</code></td>
+    <td>Opentelemetry Resource. <a href="https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-resources">More info here</a></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>enableLiveMetrics</code></td>
+    <td>Enable/Disable Live Metrics.</td>
+    <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>enableStandardMetrics</code></td>
+    <td>Enable/Disable Standard Metrics. </td>
+    <td><code>true</code></td>
+  </tr>
+  <tr>
+    <td><code>logRecordProcessors</code></td>
+    <td>Array of log record processors to register to the global logger provider. </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>spanProcessors</code></td>
+    <td>Array of span processors to register to the global tracer provider. </td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><code>enableTraceBasedSamplingForLogs</code></td>
+    <td>Enable log sampling based on trace.</td>
+    <td><code>false</code></td>
+  </tr>
+</table>
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances.
 
@@ -318,7 +384,10 @@ You might use the following ways to filter out telemetry before it leaves your a
     ```ts snippet:ReadmeSampleExcludeUrl
     import { HttpInstrumentationConfig } from "@opentelemetry/instrumentation-http";
     import { IncomingMessage, RequestOptions } from "node:http";
-    import { AzureMonitorOpenTelemetryOptions, useAzureMonitor } from "@azure/monitor-opentelemetry";
+    import {
+      AzureMonitorOpenTelemetryOptions,
+      useAzureMonitor,
+    } from "@azure/monitor-opentelemetry";
 
     const httpInstrumentationConfig: HttpInstrumentationConfig = {
       enabled: true,
