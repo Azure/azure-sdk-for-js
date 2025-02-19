@@ -7,9 +7,7 @@
  */
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of HybridIdentityMetadata of the given VM.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns the list of HybridIdentityMetadata of the given VM.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VmInstanceHybridIdentityMetadatas_ListByVirtualMachineInstance_MaximumSet_Gen.json
  */
-async function vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMaximumSet() {
+async function vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -36,7 +34,7 @@ async function vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMaxi
  * @summary Returns the list of HybridIdentityMetadata of the given VM.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VmInstanceHybridIdentityMetadatas_ListByVirtualMachineInstance_MinimumSet_Gen.json
  */
-async function vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMinimumSet() {
+async function vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -49,7 +47,7 @@ async function vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMini
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMaximumSet();
   await vmInstanceHybridIdentityMetadatasListByVirtualMachineInstanceMinimumSet();
 }

@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Gets all remediations for a resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListResourceScope.json
  */
-async function listRemediationsAtIndividualResourceScope() {
+async function listRemediationsAtIndividualResourceScope(): Promise<void> {
   const resourceId =
     "subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myResourceGroup/providers/microsoft.storage/storageaccounts/storAc1";
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function listRemediationsAtIndividualResourceScope() {
  * @summary Gets all remediations for a resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_ListResourceScope_WithQuery.json
  */
-async function listRemediationsAtIndividualResourceScopeWithQueryParameters() {
+async function listRemediationsAtIndividualResourceScopeWithQueryParameters(): Promise<void> {
   const resourceId =
     "subscriptions/35ee058e-5fa0-414c-8145-3ebb8d09b6e2/resourcegroups/myResourceGroup/providers/microsoft.storage/storageaccounts/storAc1";
   const top = 1;
@@ -58,7 +58,7 @@ async function listRemediationsAtIndividualResourceScopeWithQueryParameters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listRemediationsAtIndividualResourceScope();
   listRemediationsAtIndividualResourceScopeWithQueryParameters();
 }

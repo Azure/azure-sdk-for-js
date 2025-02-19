@@ -13,9 +13,7 @@ import {
   TimeSeriesInsightsClient
 } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update an event source under the specified environment.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update an event source under the specified environment.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EventSourcesCreateEventHub.json
  */
-async function createEventHubEventSource() {
+async function createEventHubEventSource(): Promise<void> {
   const subscriptionId =
     process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -63,7 +61,7 @@ async function createEventHubEventSource() {
  * @summary Create or update an event source under the specified environment.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/EventSourcesCreateEventHubWithCustomEnquedTime.json
  */
-async function eventSourcesCreateEventHubWithCustomEnquedTime() {
+async function eventSourcesCreateEventHubWithCustomEnquedTime(): Promise<void> {
   const subscriptionId =
     process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -94,7 +92,7 @@ async function eventSourcesCreateEventHubWithCustomEnquedTime() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createEventHubEventSource();
   eventSourcesCreateEventHubWithCustomEnquedTime();
 }

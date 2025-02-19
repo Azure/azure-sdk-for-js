@@ -15,7 +15,7 @@ import {
   AdaptiveApplicationControlsPutOptionalParams,
   AdaptiveApplicationControlsPutResponse,
   AdaptiveApplicationControlsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AdaptiveApplicationControls. */
 export interface AdaptiveApplicationControls {

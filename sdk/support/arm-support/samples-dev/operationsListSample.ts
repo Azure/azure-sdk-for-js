@@ -7,9 +7,7 @@
  */
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This lists all the available Microsoft Support REST API operations.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary This lists all the available Microsoft Support REST API operations.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/ListOperations.json
  */
-async function getAllOperations() {
+async function getAllOperations(): Promise<void> {
   const subscriptionId =
     process.env["SUPPORT_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getAllOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAllOperations();
 }
 

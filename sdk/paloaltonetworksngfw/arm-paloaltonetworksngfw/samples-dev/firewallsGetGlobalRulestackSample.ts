@@ -7,9 +7,7 @@
  */
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get Global Rulestack associated with the Firewall
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get Global Rulestack associated with the Firewall
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_getGlobalRulestack_MaximumSet_Gen.json
  */
-async function firewallsGetGlobalRulestackMaximumSetGen() {
+async function firewallsGetGlobalRulestackMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
@@ -34,7 +32,7 @@ async function firewallsGetGlobalRulestackMaximumSetGen() {
  * @summary Get Global Rulestack associated with the Firewall
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_getGlobalRulestack_MinimumSet_Gen.json
  */
-async function firewallsGetGlobalRulestackMinimumSetGen() {
+async function firewallsGetGlobalRulestackMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] || "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
   const resourceGroupName = process.env["PALOALTONETWORKSNGFW_RESOURCE_GROUP"] || "firewall-rg";
@@ -45,7 +43,7 @@ async function firewallsGetGlobalRulestackMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await firewallsGetGlobalRulestackMaximumSetGen();
   await firewallsGetGlobalRulestackMinimumSetGen();
 }

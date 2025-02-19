@@ -8,9 +8,7 @@
 import type { StorageAccountsGetPropertiesOptionalParams } from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetAsyncSkuConversionStatus.json
  */
-async function storageAccountGetAsyncSkuConversionStatus() {
+async function storageAccountGetAsyncSkuConversionStatus(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
@@ -34,7 +32,7 @@ async function storageAccountGetAsyncSkuConversionStatus() {
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetProperties.json
  */
-async function storageAccountGetProperties() {
+async function storageAccountGetProperties(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
@@ -50,7 +48,7 @@ async function storageAccountGetProperties() {
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetPropertiesCMKEnabled.json
  */
-async function storageAccountGetPropertiesCmkEnabled() {
+async function storageAccountGetPropertiesCmkEnabled(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
@@ -66,7 +64,7 @@ async function storageAccountGetPropertiesCmkEnabled() {
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetPropertiesCMKVersionExpirationTime.json
  */
-async function storageAccountGetPropertiesCmkVersionExpirationTime() {
+async function storageAccountGetPropertiesCmkVersionExpirationTime(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
@@ -82,7 +80,7 @@ async function storageAccountGetPropertiesCmkVersionExpirationTime() {
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetPropertiesGeoReplicationStatscanFailoverFalse.json
  */
-async function storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse() {
+async function storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
@@ -104,7 +102,7 @@ async function storageAccountGetPropertiesGeoReplicationStatscanFailoverFalse() 
  * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetPropertiesGeoReplicationStatscanFailoverTrue.json
  */
-async function storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue() {
+async function storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9407";
   const accountName = "sto8596";
@@ -120,7 +118,7 @@ async function storageAccountGetPropertiesGeoReplicationStatscanFailoverTrue() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await storageAccountGetAsyncSkuConversionStatus();
   await storageAccountGetProperties();
   await storageAccountGetPropertiesCmkEnabled();

@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the file server metrics.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/FileServersListMetrics.json
  */
-async function fileServersListMetrics() {
+async function fileServersListMetrics(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HSDK-DMNJB2PET0";
   const fileServerName = "HSDK-DMNJB2PET0";

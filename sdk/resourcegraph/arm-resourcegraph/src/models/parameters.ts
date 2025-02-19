@@ -14,7 +14,7 @@ import {
 import {
   QueryRequest as QueryRequestMapper,
   ResourcesHistoryRequest as ResourcesHistoryRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

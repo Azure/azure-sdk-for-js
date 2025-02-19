@@ -44,44 +44,48 @@ npm install --save @azure/monitor-query
 
 An authenticated client is required to query Logs or Metrics. To authenticate, the following example uses [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential) from the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package.
 
-```ts
+```ts snippet:ReadmeSampleCreateClient
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, MetricsQueryClient, MetricsBatchQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "@azure/monitor-query";
 
 const credential = new DefaultAzureCredential();
 
-const logsQueryClient: LogsQueryClient = new LogsQueryClient(credential);
-// or
-const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential);
-// or
-const endPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+// Create a LogsQueryClient
+const logsQueryClient = new LogsQueryClient(credential);
 
-const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(endPoint, credential);
+// Create a MetricsQueryClient
+const metricsQueryClient = new MetricsQueryClient(credential);
+
+// Create a MetricsClient
+const endpoint = " https://<endpoint>.monitor.azure.com/";
+const metricsClient = new MetricsClient(endpoint, credential);
 ```
 
 #### Configure client for Azure sovereign cloud
 
 By default, the library's clients are configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct endpoint and audience value when instantiating a client. For example:
 
-```ts
+```ts snippet:ReadmeSampleCreateClientSovereign
 import { DefaultAzureCredential } from "@azure/identity";
 import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "@azure/monitor-query";
 
 const credential = new DefaultAzureCredential();
 
+// Create a LogsQueryClient
 const logsQueryClient: LogsQueryClient = new LogsQueryClient(credential, {
   endpoint: "https://api.loganalytics.azure.cn/v1",
   audience: "https://api.loganalytics.azure.cn/.default",
 });
-// or
+
+// Create a MetricsQueryClient
 const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential, {
   endpoint: "https://management.chinacloudapi.cn",
   audience: "https://monitor.azure.cn/.default",
 });
-// or
-const endPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
 
-const metricsClient: MetricsClient = new MetricsClient(endPoint, credential, {
+// Create a MetricsClient
+const endpoint = " https://<endpoint>.monitor.azure.cn/";
+const metricsClient = new MetricsClient(endpoint, credential, {
   audience: "https://monitor.azure.cn/.default",
 });
 ```
@@ -137,52 +141,47 @@ You can query logs by Log Analytics workspace ID or Azure resource ID. The resul
 
 To query by workspace ID, use the `LogsQueryClient.queryWorkspace` method:
 
-```ts
+```ts snippet:ReadmeSampleLogsQuery
+import { LogsQueryClient, Durations, LogsQueryResultStatus } from "@azure/monitor-query";
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, LogsQueryClient, LogsQueryResultStatus, LogsTable } from "@azure/monitor-query";
 
-const azureLogAnalyticsWorkspaceId = "<the Workspace Id for your Azure Log Analytics resource>";
+const azureLogAnalyticsWorkspaceId = "<workspace_id>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
-async function run() {
-  const kustoQuery = "AppEvents | limit 1";
-  const result = await logsQueryClient.queryWorkspace(azureLogAnalyticsWorkspaceId, kustoQuery, {
-    duration: Durations.twentyFourHours,
-  });
+const kustoQuery = "AppEvents | limit 1";
+const result = await logsQueryClient.queryWorkspace(azureLogAnalyticsWorkspaceId, kustoQuery, {
+  duration: Durations.twentyFourHours,
+});
 
-  if (result.status === LogsQueryResultStatus.Success) {
-    const tablesFromResult: LogsTable[] = result.tables;
+if (result.status === LogsQueryResultStatus.Success) {
+  const tablesFromResult = result.tables;
 
-    if (tablesFromResult.length === 0) {
-      console.log(`No results for query '${kustoQuery}'`);
-      return;
-    }
-    console.log(`This query has returned table(s) - `);
-    processTables(tablesFromResult);
-  } else {
-    console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
-    if (result.partialTables.length > 0) {
-      console.log(`This query has also returned partial data in the following table(s) - `);
-      processTables(result.partialTables);
-    }
+  if (tablesFromResult.length === 0) {
+    console.log(`No results for query '${kustoQuery}'`);
+    return;
+  }
+  console.log(`This query has returned table(s) - `);
+  processTables(tablesFromResult);
+} else {
+  console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+  if (result.partialTables.length > 0) {
+    console.log(`This query has also returned partial data in the following table(s) - `);
+    processTables(result.partialTables);
   }
 }
 
-async function processTables(tablesFromResult: LogsTable[]) {
+function processTables(tablesFromResult) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
       .join("| ");
     console.log("| " + columnHeaderString);
-
     for (const row of table.rows) {
       const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
       console.log("| " + columnValuesString);
     }
   }
 }
-
-run().catch((err) => console.log("ERROR:", err));
 ```
 
 #### Resource-centric logs query
@@ -195,78 +194,57 @@ To find the resource ID:
 2. From the **Overview** blade, select the **JSON View** link.
 3. In the resulting JSON, copy the value of the `id` property.
 
-```ts
-/**
- * @summary Demonstrates how to run a query against a Log Analytics workspace, using an Azure resource ID.
- */
-
+```ts snippet:ReadmeSampleLogsQueryResource
 import { DefaultAzureCredential } from "@azure/identity";
-import {
-  Durations,
-  LogsQueryClient,
-  LogsTable,
-  LogsQueryOptions,
-  LogsQueryResultStatus,
-} from "@azure/monitor-query";
-import * as dotenv from "dotenv";
-dotenv.config();
+import { LogsQueryClient, Durations, LogsQueryResultStatus } from "@azure/monitor-query";
 
-const logsResourceId = process.env.LOGS_RESOURCE_ID;
+const logsResourceId = "<the Resource Id for your logs resource>";
 
-export async function main() {
-  const tokenCredential = new DefaultAzureCredential();
-  const logsQueryClient = new LogsQueryClient(tokenCredential);
+const tokenCredential = new DefaultAzureCredential();
+const logsQueryClient = new LogsQueryClient(tokenCredential);
 
-  if (!logsResourceId) {
-    throw new Error("LOGS_RESOURCE_ID must be set in the environment for this sample");
+const kustoQuery = `MyTable_CL | summarize count()`;
+
+console.log(`Running '${kustoQuery}' over the last One Hour`);
+const queryLogsOptions = {
+  // explicitly control the amount of time the server can spend processing the query.
+  serverTimeoutInSeconds: 600, // sets the timeout to 10 minutes
+  // optionally enable returning additional statistics about the query's execution.
+  // (by default, this is off)
+  includeQueryStatistics: true,
+};
+
+const result = await logsQueryClient.queryResource(
+  logsResourceId,
+  kustoQuery,
+  { duration: Durations.sevenDays },
+  queryLogsOptions,
+);
+
+const executionTime = (result as any)?.statistics?.query?.executionTime;
+
+console.log(
+  `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
+);
+
+if (result.status === LogsQueryResultStatus.Success) {
+  const tablesFromResult = result.tables;
+
+  if (tablesFromResult.length === 0) {
+    console.log(`No results for query '${kustoQuery}'`);
+    return;
   }
-
-  const kustoQuery = `MyTable_CL | summarize count()`;
-
-  console.log(`Running '${kustoQuery}' over the last One Hour`);
-  const queryLogsOptions: LogsQueryOptions = {
-    // explicitly control the amount of time the server can spend processing the query.
-    serverTimeoutInSeconds: 600, // sets the timeout to 10 minutes
-    // optionally enable returning additional statistics about the query's execution.
-    // (by default, this is off)
-    includeQueryStatistics: true,
-  };
-
-  const result = await logsQueryClient.queryResource(
-    logsResourceId,
-    kustoQuery,
-    { duration: Durations.sevenDays },
-    queryLogsOptions,
-  );
-
-  const executionTime =
-    result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
-
-  console.log(
-    `Results for query '${kustoQuery}', execution time: ${
-      executionTime == null ? "unknown" : executionTime
-    }`,
-  );
-
-  if (result.status === LogsQueryResultStatus.Success) {
-    const tablesFromResult: LogsTable[] = result.tables;
-
-    if (tablesFromResult.length === 0) {
-      console.log(`No results for query '${kustoQuery}'`);
-      return;
-    }
-    console.log(`This query has returned table(s) - `);
-    processTables(tablesFromResult);
-  } else {
-    console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
-    if (result.partialTables.length > 0) {
-      console.log(`This query has also returned partial data in the following table(s) - `);
-      processTables(result.partialTables);
-    }
+  console.log(`This query has returned table(s) - `);
+  processTables(tablesFromResult);
+} else {
+  console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+  if (result.partialTables.length > 0) {
+    console.log(`This query has also returned partial data in the following table(s) - `);
+    processTables(result.partialTables);
   }
 }
 
-async function processTables(tablesFromResult: LogsTable[]) {
+function processTables(tablesFromResult) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
@@ -279,11 +257,6 @@ async function processTables(tablesFromResult: LogsTable[]) {
     }
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-  process.exit(1);
-});
 ```
 
 #### Handle logs query response
@@ -321,8 +294,8 @@ LogsQueryPartialResult
 
 For example, to handle a response with tables:
 
-```ts
-async function processTables(tablesFromResult: LogsTable[]) {
+```ts snippet:ReadmeSampleProcessTables
+function processTables(tablesFromResult) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
@@ -343,73 +316,72 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 The following example demonstrates sending multiple queries at the same time using the batch query API. The queries can be represented as a list of `BatchQuery` objects.
 
-```ts
-export async function main() {
-  if (!monitorWorkspaceId) {
-    throw new Error("MONITOR_WORKSPACE_ID must be set in the environment for this sample");
-  }
+```ts snippet:ReadmeSampleLogsQueryBatch
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsQueryClient, LogsQueryResultStatus } from "@azure/monitor-query";
 
-  const tokenCredential = new DefaultAzureCredential();
-  const logsQueryClient = new LogsQueryClient(tokenCredential);
+const monitorWorkspaceId = "<workspace_id>";
 
-  const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
-  const queriesBatch = [
-    {
-      workspaceId: monitorWorkspaceId,
-      query: kqlQuery,
-      timespan: { duration: "P1D" },
-    },
-    {
-      workspaceId: monitorWorkspaceId,
-      query: "AzureActivity | summarize count()",
-      timespan: { duration: "PT1H" },
-    },
-    {
-      workspaceId: monitorWorkspaceId,
-      query:
-        "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
-      timespan: { duration: "PT1H" },
-    },
-    {
-      workspaceId: monitorWorkspaceId,
-      query: "AppRequests | take 2",
-      timespan: { duration: "PT1H" },
-      includeQueryStatistics: true,
-    },
-  ];
+const tokenCredential = new DefaultAzureCredential();
+const logsQueryClient = new LogsQueryClient(tokenCredential);
 
-  const result = await logsQueryClient.queryBatch(queriesBatch);
+const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
+const queriesBatch = [
+  {
+    workspaceId: monitorWorkspaceId,
+    query: kqlQuery,
+    timespan: { duration: "P1D" },
+  },
+  {
+    workspaceId: monitorWorkspaceId,
+    query: "AzureActivity | summarize count()",
+    timespan: { duration: "PT1H" },
+  },
+  {
+    workspaceId: monitorWorkspaceId,
+    query:
+      "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
+    timespan: { duration: "PT1H" },
+  },
+  {
+    workspaceId: monitorWorkspaceId,
+    query: "AppRequests | take 2",
+    timespan: { duration: "PT1H" },
+    includeQueryStatistics: true,
+  },
+];
 
-  if (result == null) {
-    throw new Error("No response for query");
-  }
+const result = await logsQueryClient.queryBatch(queriesBatch);
 
-  let i = 0;
-  for (const response of result) {
-    console.log(`Results for query with query: ${queriesBatch[i]}`);
-    if (response.status === LogsQueryResultStatus.Success) {
-      console.log(
-        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
-      );
-      processTables(response.tables);
-    } else if (response.status === LogsQueryResultStatus.PartialFailure) {
-      console.log(
-        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
-      );
-      processTables(response.partialTables);
-      console.log(
-        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
-      );
-    } else {
-      console.log(`Printing errors from query '${queriesBatch[i].query}'`);
-      console.log(` Query had errors:${response.message} with code ${response.code}`);
-    }
-    // next query
-    i++;
-  }
+if (result == null) {
+  throw new Error("No response for query");
 }
 
-async function processTables(tablesFromResult: LogsTable[]) {
+let i = 0;
+for (const response of result) {
+  console.log(`Results for query with query: ${queriesBatch[i]}`);
+  if (response.status === LogsQueryResultStatus.Success) {
+    console.log(
+      `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+    );
+    processTables(response.tables);
+  } else if (response.status === LogsQueryResultStatus.PartialFailure) {
+    console.log(
+      `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
+    );
+    processTables(response.partialTables);
+    console.log(
+      ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
+    );
+  } else {
+    console.log(`Printing errors from query '${queriesBatch[i].query}'`);
+    console.log(` Query had errors:${response.message} with code ${response.code}`);
+  }
+  // next query
+  i++;
+}
+
+function processTables(tablesFromResult) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
@@ -472,8 +444,10 @@ LogsQueryError
 
 For example, the following code handles a batch logs query response:
 
-```ts
-async function processBatchResult(result: LogsQueryBatchResult) {
+```ts snippet:ReadmeSampleProcessBatchResult
+import { LogsQueryResultStatus } from "@azure/monitor-query";
+
+async function processBatchResult(result, queriesBatch) {
   let i = 0;
   for (const response of result) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
@@ -499,7 +473,7 @@ async function processBatchResult(result: LogsQueryBatchResult) {
   }
 }
 
-async function processTables(tablesFromResult: LogsTable[]) {
+function processTables(tablesFromResult) {
   for (const table of tablesFromResult) {
     const columnHeaderString = table.columnDescriptors
       .map((column) => `${column.name}(${column.type}) `)
@@ -522,21 +496,31 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 Some logs queries take longer than 3 minutes to execute. The default server timeout is 3 minutes. You can increase the server timeout to a maximum of 10 minutes. In the following example, the `LogsQueryOptions` object's `serverTimeoutInSeconds` property is used to increase the server timeout to 10 minutes:
 
-```ts
+```ts snippet:ReadmeSampleLogsQueryTimeout
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsQueryClient, Durations } from "@azure/monitor-query";
+
+const azureLogAnalyticsWorkspaceId = "<workspace_id>";
+
+const tokenCredential = new DefaultAzureCredential();
+const logsQueryClient = new LogsQueryClient(tokenCredential);
+
+const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
+
 // setting optional parameters
-const queryLogsOptions: LogsQueryOptions = {
+const queryLogsOptions = {
   // explicitly control the amount of time the server can spend processing the query.
   serverTimeoutInSeconds: 600, // 600 seconds = 10 minutes
 };
 
 const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
-  kustoQuery,
+  kqlQuery,
   { duration: Durations.twentyFourHours },
   queryLogsOptions,
 );
 
-const tablesFromResult = result.tables;
+const status = result.status;
 ```
 
 #### Query multiple workspaces
@@ -551,18 +535,30 @@ The same logs query can be executed across multiple Log Analytics workspaces. In
 
 For example, the following query executes in three workspaces:
 
-```ts
-const queryLogsOptions: LogsQueryOptions = {
+```ts snippet:ReadmeSampleLogsQueryMultipleWorkspaces
+import { DefaultAzureCredential } from "@azure/identity";
+import { LogsQueryClient, Durations } from "@azure/monitor-query";
+
+const azureLogAnalyticsWorkspaceId = "<workspace_id>";
+
+const tokenCredential = new DefaultAzureCredential();
+const logsQueryClient = new LogsQueryClient(tokenCredential);
+
+const kqlQuery = "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1";
+
+// setting optional parameters
+const queryLogsOptions = {
   additionalWorkspaces: ["<workspace2>", "<workspace3>"],
 };
 
-const kustoQuery = "AppEvents | limit 10";
 const result = await logsQueryClient.queryWorkspace(
   azureLogAnalyticsWorkspaceId,
-  kustoQuery,
+  kqlQuery,
   { duration: Durations.twentyFourHours },
   queryLogsOptions,
 );
+
+const status = result.status;
 ```
 
 To view the results for each workspace, use the `TenantId` column to either order the results or filter them in the Kusto query.
@@ -590,7 +586,10 @@ To get logs query execution statistics, such as CPU and memory consumption:
 
 The following example prints the query execution time:
 
-```ts
+```ts snippet:ReadmeSampleLogsQueryStatistics
+import { LogsQueryClient, Durations } from "@azure/monitor-query";
+import { DefaultAzureCredential } from "@azure/identity";
+
 const monitorWorkspaceId = "<workspace_id>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
@@ -604,13 +603,10 @@ const result = await logsQueryClient.queryWorkspace(
   },
 );
 
-const executionTime =
-  result.statistics && result.statistics.query && result.statistics.query.executionTime;
+const executionTime = (result as any)?.statistics?.query?.executionTime;
 
 console.log(
-  `Results for query '${kustoQuery}', execution time: ${
-    executionTime == null ? "unknown" : executionTime
-  }`,
+  `Results for query '${kustoQuery}', execution time: ${executionTime == null ? "unknown" : executionTime}`,
 );
 ```
 
@@ -636,22 +632,26 @@ To get visualization data for logs queries using the [render operator](https://l
 
 For example:
 
-```ts
+```ts snippet:ReadmeSampleLogsQueryVisualization
+import { LogsQueryClient, Durations } from "@azure/monitor-query";
+import { DefaultAzureCredential } from "@azure/identity";
+
 const monitorWorkspaceId = "<workspace_id>";
 const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
 
 const result = await logsQueryClient.queryWorkspace(
-    monitorWorkspaceId,
-    `StormEvents
+  monitorWorkspaceId,
+  `StormEvents
         | summarize event_count = count() by State
         | where event_count > 10
         | project State, event_count
         | render columnchart`,
-    { duration: Durations.oneDay },
-    {
-      includeVisualization: true
-    }
-  );
+  { duration: Durations.oneDay },
+  {
+    includeVisualization: true,
+  },
+);
+
 console.log("visualization result:", result.visualization);
 ```
 
@@ -690,62 +690,47 @@ To find the resource URI:
 2. From the **Overview** blade, select the **JSON View** link.
 3. In the resulting JSON, copy the value of the `id` property.
 
-```ts
+```ts snippet:ReadmeSampleMetricsQuery
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
-import * as dotenv from "dotenv";
+import { MetricsQueryClient, Durations } from "@azure/monitor-query";
 
-dotenv.config();
+const metricsResourceId = "<the Resource Id for your metrics resource>";
 
-const metricsResourceId = process.env.METRICS_RESOURCE_ID;
+const tokenCredential = new DefaultAzureCredential();
+const metricsQueryClient = new MetricsQueryClient(tokenCredential);
 
-export async function main() {
-  const tokenCredential = new DefaultAzureCredential();
-  const metricsQueryClient = new MetricsQueryClient(tokenCredential);
-
-  if (!metricsResourceId) {
-    throw new Error("METRICS_RESOURCE_ID must be set in the environment for this sample");
-  }
-
-  const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
-  let result = await iterator.next();
-  let metricNames: string[] = [];
-  for await (const result of iterator) {
-    console.log(` metricDefinitions - ${result.id}, ${result.name}`);
-    if (result.name) {
-      metricNames.push(result.name);
-    }
-  }
-  const firstMetricName = metricNames[0];
-  const secondMetricName = metricNames[1];
-  if (firstMetricName && secondMetricName) {
-    console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
-    const metricsResponse = await metricsQueryClient.queryResource(
-      metricsResourceId,
-      [firstMetricName, secondMetricName],
-      {
-        granularity: "PT1M",
-        timespan: { duration: Durations.fiveMinutes },
-      },
-    );
-
-    console.log(
-      `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
-    );
-
-    const metrics: Metric[] = metricsResponse.metrics;
-    console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
-    const metric = metricsResponse.getMetricByName(firstMetricName);
-    console.log(`Selected Metric: ${firstMetricName}`, JSON.stringify(metric, undefined, 2));
-  } else {
-    console.error(`Metric names are not defined - ${firstMetricName} and ${secondMetricName}`);
+const metricNames = [];
+const metricDefinitions = metricsQueryClient.listMetricDefinitions(metricsResourceId);
+for await (const { id, name } of metricDefinitions) {
+  console.log(` metricDefinitions - ${id}, ${name}`);
+  if (name) {
+    metricNames.push(name);
   }
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-  process.exit(1);
-});
+const [firstMetricName, secondMetricName] = metricNames;
+if (firstMetricName && secondMetricName) {
+  console.log(`Picking an example metric to query: ${firstMetricName} and ${secondMetricName}`);
+  const metricsResponse = await metricsQueryClient.queryResource(
+    metricsResourceId,
+    [firstMetricName, secondMetricName],
+    {
+      granularity: "PT1M",
+      timespan: { duration: Durations.fiveMinutes },
+    },
+  );
+
+  console.log(
+    `Query cost: ${metricsResponse.cost}, interval: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
+  );
+
+  const metrics = metricsResponse.metrics;
+  console.log(`Metrics:`, JSON.stringify(metrics, undefined, 2));
+  const metric = metricsResponse.getMetricByName(firstMetricName);
+  console.log(`Selected Metric: ${firstMetricName}`, JSON.stringify(metric, undefined, 2));
+} else {
+  console.error(`Metric names are not defined - ${firstMetricName} and ${secondMetricName}`);
+}
 ```
 
 In the preceding sample, metric results in `metricsResponse` are ordered according to the order in which the user specifies the metric names in the `metricNames` array argument for the `queryResource` function. If the user specifies `[firstMetricName, secondMetricName]`, the result for `firstMetricName` will appear before the result for `secondMetricName` in the `metricResponse`.
@@ -782,58 +767,44 @@ QueryMetricsResult
 
 #### Example of handling response
 
-```ts
+```ts snippet:ReadmeSampleProcessMetricsResponse
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
-import * as dotenv from "dotenv";
-dotenv.config();
+import { MetricsQueryClient, Durations } from "@azure/monitor-query";
 
-const metricsResourceId = process.env.METRICS_RESOURCE_ID;
-export async function main() {
-  const tokenCredential = new DefaultAzureCredential();
-  const metricsQueryClient = new MetricsQueryClient(tokenCredential);
+const metricsResourceId = "<the Resource Id for your metrics resource>";
 
-  if (!metricsResourceId) {
-    throw new Error(
-      "METRICS_RESOURCE_ID for an Azure Metrics Advisor subscription must be set in the environment for this sample",
-    );
-  }
+const tokenCredential = new DefaultAzureCredential();
+const metricsQueryClient = new MetricsQueryClient(tokenCredential);
 
-  console.log(`Picking an example metric to query: MatchedEventCount`);
+console.log(`Picking an example metric to query: MatchedEventCount`);
 
-  const metricsResponse = await metricsQueryClient.queryResource(
-    metricsResourceId,
-    ["MatchedEventCount"],
-    {
-      timespan: {
-        duration: Durations.fiveMinutes,
-      },
-      granularity: "PT1M",
-      aggregations: ["Count"],
+const metricsResponse = await metricsQueryClient.queryResource(
+  metricsResourceId,
+  ["MatchedEventCount"],
+  {
+    timespan: {
+      duration: Durations.fiveMinutes,
     },
-  );
+    granularity: "PT1M",
+    aggregations: ["Count"],
+  },
+);
 
-  console.log(
-    `Query cost: ${metricsResponse.cost}, granularity: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
-  );
+console.log(
+  `Query cost: ${metricsResponse.cost}, granularity: ${metricsResponse.granularity}, time span: ${metricsResponse.timespan}`,
+);
 
-  const metrics: Metric[] = metricsResponse.metrics;
-  for (const metric of metrics) {
-    console.log(metric.name);
-    for (const timeseriesElement of metric.timeseries) {
-      for (const metricValue of timeseriesElement.data!) {
-        if (metricValue.count !== 0) {
-          console.log(`There are ${metricValue.count} matched events at ${metricValue.timeStamp}`);
-        }
+const metrics = metricsResponse.metrics;
+for (const metric of metrics) {
+  console.log(metric.name);
+  for (const timeseriesElement of metric.timeseries) {
+    for (const metricValue of timeseriesElement.data!) {
+      if (metricValue.count !== 0) {
+        console.log(`There are ${metricValue.count} matched events at ${metricValue.timeStamp}`);
       }
     }
   }
 }
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-  process.exit(1);
-});
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts).
@@ -855,26 +826,22 @@ Furthermore:
 - The user must be authorized to read monitoring data at the Azure subscription level. For example, the [Monitoring Reader role](https://learn.microsoft.com/azure/role-based-access-control/built-in-roles/monitor#monitoring-reader) on the subscription to be queried.
 - The metric namespace containing the metrics to be queried must be provided. For a list of metric namespaces, see [Supported metrics and log categories by resource type][metric_namespaces].
 
-```ts
-let resourceIds: string[] = [
+```ts snippet:ReadmeSampleMetricsQueryMultipleResources
+import { DefaultAzureCredential } from "@azure/identity";
+import { MetricsClient } from "@azure/monitor-query";
+
+const resourceIds = [
   "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs",
   "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs2",
 ];
-let metricsNamespace: string = "<YOUR_METRICS_NAMESPACE>";
-let metricNames: string[] = ["requests", "count"];
-const endpoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+const metricsNamespace = "<YOUR_METRICS_NAMESPACE>";
+const metricNames = ["requests", "count"];
+const endpoint = " https://<endpoint>.monitor.azure.com/";
 
 const credential = new DefaultAzureCredential();
-const metricsClient: MetricsClient = new MetricsClient(
-  endpoint,
-  credential
-);
+const metricsClient = new MetricsClient(endpoint, credential);
 
-const result: : MetricsQueryResult[] = await metricsClient.queryResources(
-  resourceIds,
-  metricNames,
-  metricsNamespace
-);
+const result = await metricsClient.queryResources(resourceIds, metricNames, metricsNamespace);
 ```
 
 For an inventory of metrics and dimensions available for each Azure resource type, see [Supported metrics with Azure Monitor](https://learn.microsoft.com/azure/azure-monitor/essentials/metrics-supported).
@@ -906,8 +873,6 @@ For more details, view our [tests](https://github.com/Azure/azure-sdk-for-js/blo
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 - [Azure Monitor][azure_monitor_overview]
-
-
 
 [azure_monitor_create_using_portal]: https://learn.microsoft.com/azure/azure-monitor/logs/quick-create-workspace
 [azure_monitor_overview]: https://learn.microsoft.com/azure/azure-monitor/overview

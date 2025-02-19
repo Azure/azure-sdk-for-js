@@ -15,7 +15,7 @@ import {
   SavedSearchesGetResponse,
   SavedSearchesListByWorkspaceOptionalParams,
   SavedSearchesListByWorkspaceResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SavedSearches. */
 export interface SavedSearches {

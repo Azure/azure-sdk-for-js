@@ -7,9 +7,7 @@
  */
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net).
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Checks whether or not the given search service name is available for use. Search service names must be globally unique since they are part of the service URI (https://<name>.search.windows.net).
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCheckNameAvailability.json
  */
-async function searchCheckNameAvailability() {
+async function searchCheckNameAvailability(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const name = "mysearchservice";
   const credential = new DefaultAzureCredential();
@@ -26,7 +24,7 @@ async function searchCheckNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await searchCheckNameAvailability();
 }
 

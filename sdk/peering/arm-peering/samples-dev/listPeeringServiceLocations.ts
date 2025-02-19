@@ -14,7 +14,7 @@
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function listPeeringServiceLocations() {
+async function listPeeringServiceLocations(): Promise<void> {
   const subscriptionId = "subId";
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);

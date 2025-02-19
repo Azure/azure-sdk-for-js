@@ -14,7 +14,7 @@ import {
   WorkspaceSqlAadAdminsCreateOrUpdateOptionalParams,
   WorkspaceSqlAadAdminsCreateOrUpdateResponse,
   WorkspaceSqlAadAdminsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a WorkspaceSqlAadAdmins. */
 export interface WorkspaceSqlAadAdmins {

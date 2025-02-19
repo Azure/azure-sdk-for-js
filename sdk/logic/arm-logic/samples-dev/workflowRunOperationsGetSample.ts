@@ -7,9 +7,7 @@
  */
 import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an operation for a run.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets an operation for a run.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/WorkflowRunOperations_Get.json
  */
-async function getARunOperation() {
+async function getARunOperation(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["LOGIC_RESOURCE_GROUP"] || "testResourceGroup";
@@ -35,7 +33,7 @@ async function getARunOperation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getARunOperation();
 }
 

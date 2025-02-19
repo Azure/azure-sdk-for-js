@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a record set from a Private DNS zone. This operation cannot be undone.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a record set from a Private DNS zone. This operation cannot be undone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetADelete.json
  */
-async function deletePrivateDnsZoneARecordSet() {
+async function deletePrivateDnsZoneARecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -45,7 +43,7 @@ async function deletePrivateDnsZoneARecordSet() {
  * @summary Deletes a record set from a Private DNS zone. This operation cannot be undone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAAAADelete.json
  */
-async function deletePrivateDnsZoneAaaaRecordSet() {
+async function deletePrivateDnsZoneAaaaRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -70,7 +68,7 @@ async function deletePrivateDnsZoneAaaaRecordSet() {
  * @summary Deletes a record set from a Private DNS zone. This operation cannot be undone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetCNAMEDelete.json
  */
-async function deletePrivateDnsZoneCnameRecordSet() {
+async function deletePrivateDnsZoneCnameRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -95,7 +93,7 @@ async function deletePrivateDnsZoneCnameRecordSet() {
  * @summary Deletes a record set from a Private DNS zone. This operation cannot be undone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetMXDelete.json
  */
-async function deletePrivateDnsZoneMxRecordSet() {
+async function deletePrivateDnsZoneMxRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -120,7 +118,7 @@ async function deletePrivateDnsZoneMxRecordSet() {
  * @summary Deletes a record set from a Private DNS zone. This operation cannot be undone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetPTRDelete.json
  */
-async function deletePrivateDnsZonePtrRecordSet() {
+async function deletePrivateDnsZonePtrRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -145,7 +143,7 @@ async function deletePrivateDnsZonePtrRecordSet() {
  * @summary Deletes a record set from a Private DNS zone. This operation cannot be undone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSRVDelete.json
  */
-async function deletePrivateDnsZoneSrvRecordSet() {
+async function deletePrivateDnsZoneSrvRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -170,7 +168,7 @@ async function deletePrivateDnsZoneSrvRecordSet() {
  * @summary Deletes a record set from a Private DNS zone. This operation cannot be undone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetTXTDelete.json
  */
-async function deletePrivateDnsZoneTxtRecordSet() {
+async function deletePrivateDnsZoneTxtRecordSet(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -189,7 +187,7 @@ async function deletePrivateDnsZoneTxtRecordSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletePrivateDnsZoneARecordSet();
   deletePrivateDnsZoneAaaaRecordSet();
   deletePrivateDnsZoneCnameRecordSet();

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PatchableDashboard, Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing Dashboard.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates an existing Dashboard.
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/updateDashboard.json
  */
-async function updateADashboard() {
+async function updateADashboard(): Promise<void> {
   const subscriptionId =
     process.env["PORTAL_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +37,7 @@ async function updateADashboard() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateADashboard();
 }
 

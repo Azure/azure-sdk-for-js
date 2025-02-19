@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get the keys to use with the Maps APIs. A key is used to authenticate and authorize access to the Maps REST APIs. Only one key is needed at a time; two are given to provide seamless key regeneration.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/ListKeys.json
  */
-async function listKeys() {
+async function listKeys(): Promise<void> {
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myMapsAccount";

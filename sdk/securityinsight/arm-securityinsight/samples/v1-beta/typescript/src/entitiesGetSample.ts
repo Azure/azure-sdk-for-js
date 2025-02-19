@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an entity.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetCloudApplicationEntityById.json
  */
-async function getACloudApplicationEntity() {
+async function getACloudApplicationEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -44,7 +42,7 @@ async function getACloudApplicationEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetDnsEntityById.json
  */
-async function getADnsEntity() {
+async function getADnsEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -68,7 +66,7 @@ async function getADnsEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetFileEntityById.json
  */
-async function getAFileEntity() {
+async function getAFileEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -92,7 +90,7 @@ async function getAFileEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetFileHashEntityById.json
  */
-async function getAFileHashEntity() {
+async function getAFileHashEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -116,7 +114,7 @@ async function getAFileHashEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetHostEntityById.json
  */
-async function getAHostEntity() {
+async function getAHostEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -140,7 +138,7 @@ async function getAHostEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMailClusterEntityById.json
  */
-async function getAMailClusterEntity() {
+async function getAMailClusterEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -164,7 +162,7 @@ async function getAMailClusterEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMailMessageEntityById.json
  */
-async function getAMailMessageEntity() {
+async function getAMailMessageEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -188,7 +186,7 @@ async function getAMailMessageEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMailboxEntityById.json
  */
-async function getAMailboxEntity() {
+async function getAMailboxEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -212,7 +210,7 @@ async function getAMailboxEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetMalwareEntityById.json
  */
-async function getAMalwareEntity() {
+async function getAMalwareEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -236,7 +234,7 @@ async function getAMalwareEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetProcessEntityById.json
  */
-async function getAProcessEntity() {
+async function getAProcessEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -260,7 +258,7 @@ async function getAProcessEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetRegistryKeyEntityById.json
  */
-async function getARegistryKeyEntity() {
+async function getARegistryKeyEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -284,7 +282,7 @@ async function getARegistryKeyEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetRegistryValueEntityById.json
  */
-async function getARegistryValueEntity() {
+async function getARegistryValueEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -308,7 +306,7 @@ async function getARegistryValueEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetSecurityAlertEntityById.json
  */
-async function getASecurityAlertEntity() {
+async function getASecurityAlertEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -332,7 +330,7 @@ async function getASecurityAlertEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetSecurityGroupEntityById.json
  */
-async function getASecurityGroupEntity() {
+async function getASecurityGroupEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -356,7 +354,7 @@ async function getASecurityGroupEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetSubmissionMailEntityById.json
  */
-async function getASubmissionMailEntity() {
+async function getASubmissionMailEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -380,7 +378,7 @@ async function getASubmissionMailEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetUrlEntityById.json
  */
-async function getAUrlEntity() {
+async function getAUrlEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -404,7 +402,7 @@ async function getAUrlEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetIoTDeviceEntityById.json
  */
-async function getAnIoTDeviceEntity() {
+async function getAnIoTDeviceEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -428,7 +426,7 @@ async function getAnIoTDeviceEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetAccountEntityById.json
  */
-async function getAnAccountEntity() {
+async function getAnAccountEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -452,7 +450,7 @@ async function getAnAccountEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetAzureResourceEntityById.json
  */
-async function getAnAzureResourceEntity() {
+async function getAnAzureResourceEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -476,7 +474,7 @@ async function getAnAzureResourceEntity() {
  * @summary Gets an entity.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/entities/GetIpEntityById.json
  */
-async function getAnIPEntity() {
+async function getAnIPEntity(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -494,7 +492,7 @@ async function getAnIPEntity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getACloudApplicationEntity();
   getADnsEntity();
   getAFileEntity();

@@ -13,9 +13,7 @@ import {
   NetAppManagementClient,
 } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Re-establish a previously deleted replication between 2 volumes that have a common ad-hoc or policy-based snapshots
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Volumes_ReestablishReplication.json
  */
-async function volumesReestablishReplication() {
+async function volumesReestablishReplication(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
@@ -47,7 +45,7 @@ async function volumesReestablishReplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   volumesReestablishReplication();
 }
 

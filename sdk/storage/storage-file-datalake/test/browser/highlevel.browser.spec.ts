@@ -148,6 +148,21 @@ describe("Highlevel browser only", () => {
   });
 
   it("upload should work with Blob, ArrayBuffer and ArrayBufferView", async () => {
+    async function assertSameBlob(actualBlob: Blob | undefined, expectedBlob: Blob) {
+      if (!actualBlob) {
+        throw new Error("actualBlob is undefined");
+      }
+      assert.equal(actualBlob.size, expectedBlob.size);
+      const actualData = new Uint8Array(await actualBlob.arrayBuffer());
+      const expectedData = new Uint8Array(await expectedBlob.arrayBuffer());
+
+      const actualValues = Array.from(actualData.values());
+      const expectedValues = Array.from(expectedData.values());
+
+      assert.deepStrictEqual(actualValues, expectedValues);
+      assert.ok(arrayBufferEqual(actualData.buffer, expectedData.buffer));
+    }
+
     const byteLength = 10;
     const arrayBuf = new ArrayBuffer(byteLength);
     const uint8Array = new Uint8Array(arrayBuf);
@@ -167,16 +182,17 @@ describe("Highlevel browser only", () => {
     const uint8ArrayPartial = new Uint8Array(arrayBuf, 1, 3);
     await fileClient.upload(uint8ArrayPartial);
     const downloadedBlob2 = await (await fileClient.read()).contentAsBlob!;
-    assert.ok(arrayBufferEqual(await downloadedBlob2.arrayBuffer(), uint8ArrayPartial.buffer));
+    await assertSameBlob(
+      downloadedBlob2,
+      new Blob([uint8ArrayPartial], { type: "application/octet-stream" }),
+    );
 
     const uint16Array = new Uint16Array(arrayBuf, 4, 2);
     await fileClient.upload(uint16Array);
     const downloadedBlob3 = await (await fileClient.read()).contentAsBlob!;
-    assert.ok(
-      arrayBufferEqual(
-        await downloadedBlob3.arrayBuffer(),
-        new Uint8Array(uint16Array.buffer, uint16Array.byteOffset, uint16Array.byteLength).buffer,
-      ),
+    await assertSameBlob(
+      downloadedBlob3,
+      new Blob([uint16Array], { type: "application/octet-stream" }),
     );
   });
 });

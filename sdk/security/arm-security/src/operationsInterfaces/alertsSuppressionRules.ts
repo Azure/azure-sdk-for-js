@@ -15,7 +15,7 @@ import {
   AlertsSuppressionRulesUpdateOptionalParams,
   AlertsSuppressionRulesUpdateResponse,
   AlertsSuppressionRulesDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AlertsSuppressionRules. */

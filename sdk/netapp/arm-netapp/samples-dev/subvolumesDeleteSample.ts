@@ -7,9 +7,7 @@
  */
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete subvolume
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Delete subvolume
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Subvolumes_Delete.json
  */
-async function subvolumesDelete() {
+async function subvolumesDelete(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] || "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
@@ -37,7 +35,7 @@ async function subvolumesDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await subvolumesDelete();
 }
 

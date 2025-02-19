@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an authorization rule for a namespace by rule name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets an authorization rule for a namespace by rule name.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/disasterRecoveryConfigs/SBAliasAuthorizationRuleGet.json
  */
-async function disasterRecoveryConfigsAuthorizationRuleGet() {
+async function disasterRecoveryConfigsAuthorizationRuleGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName =
@@ -39,7 +37,7 @@ async function disasterRecoveryConfigsAuthorizationRuleGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   disasterRecoveryConfigsAuthorizationRuleGet();
 }
 

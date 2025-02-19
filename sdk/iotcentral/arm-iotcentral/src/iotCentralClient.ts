@@ -19,14 +19,14 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinksImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Apps,
   PrivateEndpointConnections,
   PrivateLinks,
   Operations
-} from "./operationsInterfaces";
-import { IotCentralClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { IotCentralClientOptionalParams } from "./models/index.js";
 
 export class IotCentralClient extends coreClient.ServiceClient {
   $host: string;

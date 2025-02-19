@@ -7,9 +7,7 @@
  */
 import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of workflows by resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a list of workflows by resource group.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/Workflows_ListByResourceGroup.json
  */
-async function listAllWorkflowsInAResourceGroup() {
+async function listAllWorkflowsInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["LOGIC_RESOURCE_GROUP"] || "test-resource-group";
@@ -30,7 +28,7 @@ async function listAllWorkflowsInAResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAllWorkflowsInAResourceGroup();
 }
 

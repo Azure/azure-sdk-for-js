@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Managers } from "../operationsInterfaces";
+import { Managers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorSimple8000SeriesManagementClient } from "../storSimple8000SeriesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorSimple8000SeriesManagementClient } from "../storSimple8000SeriesManagementClient.js";
 import {
   Manager,
   ManagersListOptionalParams,
@@ -53,7 +53,7 @@ import {
   ManagersGetPublicEncryptionKeyResponse,
   ManagersRegenerateActivationKeyOptionalParams,
   ManagersRegenerateActivationKeyResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Managers operations. */

@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedNetworkProvisionsProvisionManagedNetworkOptionalParams,
   ManagedNetworkProvisionsProvisionManagedNetworkResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ManagedNetworkProvisions. */
 export interface ManagedNetworkProvisions {

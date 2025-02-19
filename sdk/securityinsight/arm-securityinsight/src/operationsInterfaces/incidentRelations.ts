@@ -15,7 +15,7 @@ import {
   IncidentRelationsCreateOrUpdateOptionalParams,
   IncidentRelationsCreateOrUpdateResponse,
   IncidentRelationsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IncidentRelations. */

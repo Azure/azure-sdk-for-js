@@ -8,9 +8,7 @@
 import type { MediaServiceUpdate } from "@azure/arm-mediaservices";
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing Media Services account
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates an existing Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/async-accounts-update.json
  */
-async function updateAMediaServicesAccounts() {
+async function updateAMediaServicesAccounts(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -34,7 +32,7 @@ async function updateAMediaServicesAccounts() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateAMediaServicesAccounts();
 }
 

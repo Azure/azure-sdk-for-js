@@ -29,7 +29,7 @@ import {
   TimeSettings,
   DeviceSettingsCreateOrUpdateTimeSettingsOptionalParams,
   DeviceSettingsCreateOrUpdateTimeSettingsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DeviceSettings. */
 export interface DeviceSettings {

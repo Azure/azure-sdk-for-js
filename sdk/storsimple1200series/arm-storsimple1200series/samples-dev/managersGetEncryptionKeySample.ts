@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Returns the symmetric encryption key of the manager.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/ManagersGetEncryptionKey.json
  */
-async function managersGetEncryptionKey() {
+async function managersGetEncryptionKey(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const resourceGroupName = "ResourceGroupForSDKTest";
   const managerName = "hAzureSDKOperations";

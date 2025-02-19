@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageMoverClient } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all Job Runs in a Job Definition.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all Job Runs in a Job Definition.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobRuns_List.json
  */
-async function jobRunsList() {
+async function jobRunsList(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -43,7 +41,7 @@ async function jobRunsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobRunsList();
 }
 

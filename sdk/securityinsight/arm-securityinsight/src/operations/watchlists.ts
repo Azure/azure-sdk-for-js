@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Watchlists } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Watchlists } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityInsights } from "../securityInsights";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityInsights } from "../securityInsights.js";
 import {
   Watchlist,
   WatchlistsListNextOptionalParams,
@@ -25,7 +25,7 @@ import {
   WatchlistsCreateOrUpdateOptionalParams,
   WatchlistsCreateOrUpdateResponse,
   WatchlistsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Watchlists operations. */
