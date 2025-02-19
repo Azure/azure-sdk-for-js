@@ -6,12 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { RelayAPI } from "../src/relayAPI.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -20,7 +15,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -46,34 +41,39 @@ describe("Relay test", () => {
   let authorizationRuleName: string;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      await recorder.start(recorderOptions);
-      subscriptionId = env.SUBSCRIPTION_ID || '';
-      // This is an example of how the environment variables are used
-      const credential = createTestCredential();
-      client = new RelayAPI(credential, subscriptionId, recorder.configureClientOptions({}));
-      location = "eastus";
-      resourceGroup = "myjstest";
-      relayName = "myrelayxxx";
-      namespaceName = "mynamespacexxx";
-      authorizationRuleName = "myauthorizationxxxx";
-    });
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderOptions);
+    subscriptionId = env.SUBSCRIPTION_ID || "";
+    // This is an example of how the environment variables are used
+    const credential = createTestCredential();
+    client = new RelayAPI(credential, subscriptionId, recorder.configureClientOptions({}));
+    location = "eastus";
+    resourceGroup = "myjstest";
+    relayName = "myrelayxxx";
+    namespaceName = "mynamespacexxx";
+    authorizationRuleName = "myauthorizationxxxx";
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("namespaces create test", async () => {
-    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup, namespaceName, {
-      location: location,
-      sku: {
-        name: "Standard",
-        tier: "Standard"
+    const res = await client.namespaces.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      namespaceName,
+      {
+        location: location,
+        sku: {
+          name: "Standard",
+          tier: "Standard",
+        },
+        tags: {
+          tag1: "value1",
+        },
       },
-      tags: {
-        tag1: "value1"
-      }
-    }, testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, namespaceName);
   });
 
@@ -94,8 +94,8 @@ describe("Relay test", () => {
       tags: {
         tag1: "value1",
         tag2: "value2",
-        tag3: "value3"
-      }
+        tag3: "value3",
+      },
     });
     assert.equal(res.type, "Microsoft.Relay/Namespaces");
   });
@@ -110,7 +110,13 @@ describe("Relay test", () => {
   });
 
   it("wCFRelays createOrUpdateAuthorizationRule test", async () => {
-    const res = await client.wCFRelays.createOrUpdateAuthorizationRule(resourceGroup, namespaceName, relayName, authorizationRuleName, { rights: ["Listen", "Send"] });
+    const res = await client.wCFRelays.createOrUpdateAuthorizationRule(
+      resourceGroup,
+      namespaceName,
+      relayName,
+      authorizationRuleName,
+      { rights: ["Listen", "Send"] },
+    );
     assert.equal(res.name, authorizationRuleName);
   });
 
@@ -120,7 +126,12 @@ describe("Relay test", () => {
   });
 
   it("wCFRelays getAuthorizationRule test", async () => {
-    const res = await client.wCFRelays.getAuthorizationRule(resourceGroup, namespaceName, relayName, authorizationRuleName);
+    const res = await client.wCFRelays.getAuthorizationRule(
+      resourceGroup,
+      namespaceName,
+      relayName,
+      authorizationRuleName,
+    );
     assert.equal(res.name, authorizationRuleName);
   });
 
@@ -134,7 +145,11 @@ describe("Relay test", () => {
 
   it("wCFRelays listAuthorizationRules test", async () => {
     const resArray = new Array();
-    for await (let item of client.wCFRelays.listAuthorizationRules(resourceGroup, namespaceName, relayName)) {
+    for await (let item of client.wCFRelays.listAuthorizationRules(
+      resourceGroup,
+      namespaceName,
+      relayName,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -142,7 +157,17 @@ describe("Relay test", () => {
 
   it("wCFRelays deleteAuthorizationRule test", async () => {
     const resArray = new Array();
-    for await (let item of client.wCFRelays.listAuthorizationRules(resourceGroup, namespaceName, relayName)) {
+    await client.wCFRelays.deleteAuthorizationRule(
+      resourceGroup,
+      namespaceName,
+      relayName,
+      authorizationRuleName,
+    );
+    for await (let item of client.wCFRelays.listAuthorizationRules(
+      resourceGroup,
+      namespaceName,
+      relayName,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -150,6 +175,7 @@ describe("Relay test", () => {
 
   it("wCFRelays delete test", async () => {
     const resArray = new Array();
+    await client.wCFRelays.delete(resourceGroup, namespaceName, relayName);
     for await (let item of client.wCFRelays.listByNamespace(resourceGroup, namespaceName)) {
       resArray.push(item);
     }
@@ -158,6 +184,7 @@ describe("Relay test", () => {
 
   it("namespaces delete test", async () => {
     const resArray = new Array();
+    await client.namespaces.beginDeleteAndWait(resourceGroup, namespaceName, testPollingOptions);
     for await (let item of client.namespaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
