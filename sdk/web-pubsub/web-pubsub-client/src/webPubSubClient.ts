@@ -41,12 +41,8 @@ import type {
 import type { WebPubSubClientProtocol } from "./protocols/index.js";
 import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
 import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
-import { WebSocketClientFactory } from "./websocket/websocketClient.js";
-import type {
-  WebSocketClientFactoryLike,
-  WebSocketClientLike,
-} from "./websocket/websocketClientLike.js";
 import { abortablePromise } from "./utils/abortablePromise.js";
+import { createWebSocketClient, type WebSocketClient } from "@azure/core-websockets";
 
 enum WebPubSubClientState {
   Stopped = "Stopped",
@@ -83,7 +79,7 @@ export class WebPubSubClient {
   private _activeKeepaliveTask: AbortableTask | undefined;
 
   // connection lifetime
-  private _wsClient?: WebSocketClientLike;
+  private _wsClient?: WebSocketClient<unknown>;
   private _uri?: string;
   private _lastCloseEvent?: { code: number; reason: string };
   private _lastDisconnectedMessage?: DisconnectedMessage;
@@ -176,7 +172,7 @@ export class WebPubSubClient {
     }
 
     try {
-      logger.verbose("Staring reconnecting.");
+      logger.verbose("Starting reconnecting.");
       await this._startCore(abortSignal);
     } catch (err) {
       this._changeState(WebPubSubClientState.Disconnected);
@@ -187,7 +183,7 @@ export class WebPubSubClient {
   private async _startCore(abortSignal?: AbortSignalLike): Promise<void> {
     this._changeState(WebPubSubClientState.Connecting);
 
-    logger.info("Staring a new connection");
+    logger.info("Starting a new connection");
     // Reset before a pure new connection
     this._sequenceId.reset();
     this._isInitialConnected = false;
@@ -223,7 +219,7 @@ export class WebPubSubClient {
 
     // TODO: Maybe we need a better logic for stopping control
     this._isStopping = true;
-    if (this._wsClient && this._wsClient.isOpen()) {
+    if (this._wsClient && this._wsClient.status === "connected") {
       this._wsClient.close();
     } else {
       this._isStopping = false;
@@ -537,10 +533,6 @@ export class WebPubSubClient {
     return { isDuplicated: false };
   }
 
-  private _getWebSocketClientFactory(): WebSocketClientFactoryLike {
-    return new WebSocketClientFactory();
-  }
-
   private async _trySendSequenceAck(): Promise<void> {
     if (!this._protocol.isReliableSubProtocol) {
       return;
@@ -560,213 +552,193 @@ export class WebPubSubClient {
     }
   }
 
-  private _connectCore(uri: string): Promise<void> {
+  private async _connectCore(uri: string): Promise<void> {
     if (this._isStopping) {
       throw new Error("Can't start a client during stopping");
     }
-
-    return new Promise<void>((resolve, reject) => {
-      // This part is executed sync
-      const client = (this._wsClient = this._getWebSocketClientFactory().create(
-        uri,
-        this._protocol.name,
-      ));
-      client.onopen(() => {
-        // There's a case that client called stop() before this method. We need to check and close it if it's the case.
-        if (this._isStopping) {
-          try {
-            client.close();
-          } catch {
-            /** empty */
+    this._wsClient = await createWebSocketClient(uri, {
+      autoReconnect: false,
+      protocols: this._protocol.name,
+      retryOptions: this._options.reconnectRetryOptions,
+      on: {
+        error: () => {
+          this._sequenceAckTask?.abort();
+        },
+        close: ({ code, reason }) => {
+          if (this._state === WebPubSubClientState.Connected) {
+            this._sequenceAckTask?.abort();
+            this._lastCloseEvent = { code: Number(code), reason: reason! };
+            this._handleConnectionClose.call(this);
           }
-
-          reject(new Error(`The client is stopped`));
-        }
-        logger.verbose("WebSocket connection has opened");
-        this._changeState(WebPubSubClientState.Connected);
-        if (this._protocol.isReliableSubProtocol) {
-          if (this._sequenceAckTask != null) {
-            this._sequenceAckTask.abort();
-          }
-          this._sequenceAckTask = new AbortableTask(async () => {
-            await this._trySendSequenceAck();
-          }, 1000);
-        }
-
-        resolve();
-      });
-
-      client.onerror((e) => {
-        if (this._sequenceAckTask != null) {
-          this._sequenceAckTask.abort();
-        }
-        reject(e);
-      });
-
-      client.onclose((code: number, reason: string) => {
-        if (this._state === WebPubSubClientState.Connected) {
-          logger.verbose("WebSocket closed after open");
-          if (this._sequenceAckTask != null) {
-            this._sequenceAckTask.abort();
-          }
-          logger.info(`WebSocket connection closed. Code: ${code}, Reason: ${reason}`);
-          this._lastCloseEvent = { code: code, reason: reason };
-          this._handleConnectionClose.call(this);
-        } else {
-          logger.verbose("WebSocket closed before open");
-          reject(new Error(`Failed to start WebSocket: ${code}`));
-        }
-      });
-
-      client.onmessage((data: any) => {
-        const handleAckMessage = (message: AckMessage): void => {
-          if (this._ackMap.has(message.ackId)) {
-            const entity = this._ackMap.get(message.ackId)!;
-            this._ackMap.delete(message.ackId);
-            const isDuplicated: boolean =
-              message.error != null && message.error.name === "Duplicate";
-            if (message.success || isDuplicated) {
-              entity.resolve({
-                ackId: message.ackId,
-                isDuplicated: isDuplicated,
-              } as WebPubSubResult);
-            } else {
-              entity.reject(
-                new SendMessageError("Failed to send message.", {
+        },
+        message: (data) => {
+          const handleAckMessage = (message: AckMessage): void => {
+            if (this._ackMap.has(message.ackId)) {
+              const entity = this._ackMap.get(message.ackId)!;
+              this._ackMap.delete(message.ackId);
+              const isDuplicated: boolean =
+                message.error != null && message.error.name === "Duplicate";
+              if (message.success || isDuplicated) {
+                entity.resolve({
                   ackId: message.ackId,
-                  errorDetail: message.error,
-                } as SendMessageErrorOptions),
-              );
+                  isDuplicated: isDuplicated,
+                } as WebPubSubResult);
+              } else {
+                entity.reject(
+                  new SendMessageError("Failed to send message.", {
+                    ackId: message.ackId,
+                    errorDetail: message.error,
+                  } as SendMessageErrorOptions),
+                );
+              }
             }
-          }
-        };
+          };
 
-        const handleConnectedMessage = async (message: ConnectedMessage): Promise<void> => {
-          this._connectionId = message.connectionId;
-          this._reconnectionToken = message.reconnectionToken;
+          const handleConnectedMessage = async (message: ConnectedMessage): Promise<void> => {
+            this._connectionId = message.connectionId;
+            this._reconnectionToken = message.reconnectionToken;
 
-          if (!this._isInitialConnected) {
-            this._isInitialConnected = true;
+            if (!this._isInitialConnected) {
+              this._isInitialConnected = true;
 
-            if (this._options.autoRejoinGroups) {
-              const groupPromises: Promise<void>[] = [];
-              this._groupMap.forEach((g) => {
-                if (g.isJoined) {
-                  groupPromises.push(
-                    (async () => {
-                      try {
-                        await this._joinGroupCore(g.name);
-                      } catch (err) {
-                        this._safeEmitRejoinGroupFailed(g.name, err);
-                      }
-                    })(),
-                  );
-                }
-              });
+              if (this._options.autoRejoinGroups) {
+                const groupPromises: Promise<void>[] = [];
+                this._groupMap.forEach((g) => {
+                  if (g.isJoined) {
+                    groupPromises.push(
+                      (async () => {
+                        try {
+                          await this._joinGroupCore(g.name);
+                        } catch (err) {
+                          this._safeEmitRejoinGroupFailed(g.name, err);
+                        }
+                      })(),
+                    );
+                  }
+                });
 
-              await Promise.all(groupPromises).catch(() => {
-                /** empty */
-              });
+                await Promise.all(groupPromises).catch(() => {
+                  /** empty */
+                });
+              }
+
+              this._safeEmitConnected(message.connectionId, message.userId);
             }
+          };
 
-            this._safeEmitConnected(message.connectionId, message.userId);
-          }
-        };
+          const handleDisconnectedMessage = (message: DisconnectedMessage): void => {
+            this._lastDisconnectedMessage = message;
+          };
 
-        const handleDisconnectedMessage = (message: DisconnectedMessage): void => {
-          this._lastDisconnectedMessage = message;
-        };
+          const handleGroupDataMessage = (message: GroupDataMessage): void => {
+            if (message.sequenceId != null) {
+              const diff = this._sequenceId.tryUpdate(message.sequenceId);
+              if (diff === 0) {
+                // drop duplicated message
+                return;
+              }
 
-        const handleGroupDataMessage = (message: GroupDataMessage): void => {
-          if (message.sequenceId != null) {
-            const diff = this._sequenceId.tryUpdate(message.sequenceId);
-            if (diff === 0) {
-              // drop duplicated message
-              return;
-            }
-
-            // If the diff is larger than the threshold, we must ack quicker to avoid slow client drop.
-            if (diff > this._quickSequenceAckDiff) {
-              this._trySendSequenceAck();
-            }
-          }
-
-          this._safeEmitGroupMessage(message);
-        };
-
-        const handleServerDataMessage = (message: ServerDataMessage): void => {
-          if (message.sequenceId != null) {
-            const diff = this._sequenceId.tryUpdate(message.sequenceId);
-            if (diff === 0) {
-              // drop duplicated message
-              return;
+              // If the diff is larger than the threshold, we must ack quicker to avoid slow client drop.
+              if (diff > this._quickSequenceAckDiff) {
+                this._trySendSequenceAck();
+              }
             }
 
-            // If the diff is larger than the threshold, we must ack quicker to avoid slow client drop.
-            if (diff > this._quickSequenceAckDiff) {
-              this._trySendSequenceAck();
+            this._safeEmitGroupMessage(message);
+          };
+
+          const handleServerDataMessage = (message: ServerDataMessage): void => {
+            if (message.sequenceId != null) {
+              const diff = this._sequenceId.tryUpdate(message.sequenceId);
+              if (diff === 0) {
+                // drop duplicated message
+                return;
+              }
+
+              // If the diff is larger than the threshold, we must ack quicker to avoid slow client drop.
+              if (diff > this._quickSequenceAckDiff) {
+                this._trySendSequenceAck();
+              }
             }
-          }
 
-          this._safeEmitServerMessage(message);
-        };
+            this._safeEmitServerMessage(message);
+          };
 
-        let messages: WebPubSubMessage[] | WebPubSubMessage | null;
-        try {
-          let convertedData: Buffer | ArrayBuffer | string;
-          if (Array.isArray(data)) {
-            convertedData = Buffer.concat(data);
-          } else {
-            convertedData = data;
-          }
-
-          messages = this._protocol.parseMessages(convertedData);
-          if (messages === null) {
-            // null means the message is not recognized.
-            return;
-          }
-        } catch (err) {
-          logger.warning("An error occurred while parsing the message from service", err);
-          throw err;
-        }
-
-        if (!Array.isArray(messages)) {
-          messages = [messages];
-        }
-
-        messages.forEach((message) => {
+          let messages: WebPubSubMessage[] | WebPubSubMessage | null;
           try {
-            switch (message.kind) {
-              case "ack": {
-                handleAckMessage(message as AckMessage);
-                break;
-              }
-              case "connected": {
-                handleConnectedMessage(message as ConnectedMessage);
-                break;
-              }
-              case "disconnected": {
-                handleDisconnectedMessage(message as DisconnectedMessage);
-                break;
-              }
-              case "groupData": {
-                handleGroupDataMessage(message as GroupDataMessage);
-                break;
-              }
-              case "serverData": {
-                handleServerDataMessage(message as ServerDataMessage);
-                break;
-              }
+            let convertedData: ArrayBuffer | string;
+            if (Array.isArray(data)) {
+              convertedData = Buffer.concat(data);
+            } else {
+              convertedData = data as ArrayBuffer | string;
+            }
+
+            messages = this._protocol.parseMessages(convertedData);
+            if (messages === null) {
+              // null means the message is not recognized.
+              return;
             }
           } catch (err) {
-            logger.warning(
-              `An error occurred while handling the message with kind: ${message.kind} from service`,
-              err,
-            );
+            logger.warning("An error occurred while parsing the message from service", err);
+            throw err;
           }
-        });
-      });
+
+          if (!Array.isArray(messages)) {
+            messages = [messages];
+          }
+
+          messages.forEach((message) => {
+            try {
+              switch (message.kind) {
+                case "ack": {
+                  handleAckMessage(message as AckMessage);
+                  break;
+                }
+                case "connected": {
+                  handleConnectedMessage(message as ConnectedMessage);
+                  break;
+                }
+                case "disconnected": {
+                  handleDisconnectedMessage(message as DisconnectedMessage);
+                  break;
+                }
+                case "groupData": {
+                  handleGroupDataMessage(message as GroupDataMessage);
+                  break;
+                }
+                case "serverData": {
+                  handleServerDataMessage(message as ServerDataMessage);
+                  break;
+                }
+              }
+            } catch (err) {
+              logger.warning(
+                `An error occurred while handling the message with kind: ${message.kind} from service`,
+                err,
+              );
+            }
+          });
+        },
+      },
     });
+    // There's a case that client called stop() before this method. We need to check and close it if it's the case.
+    if (this._isStopping) {
+      try {
+        await this._wsClient.close();
+      } catch {
+        /** empty */
+      }
+      throw new Error(`The client is stopped`);
+    }
+    this._changeState(WebPubSubClientState.Connected);
+    if (this._protocol.isReliableSubProtocol) {
+      if (this._sequenceAckTask != null) {
+        this._sequenceAckTask.abort();
+      }
+      this._sequenceAckTask = new AbortableTask(async () => {
+        await this._trySendSequenceAck();
+      }, 1000);
+    }
   }
 
   private async _handleConnectionCloseAndNoRecovery(): Promise<void> {
@@ -830,12 +802,12 @@ export class WebPubSubClient {
     message: WebPubSubMessage,
     abortSignal?: AbortSignalLike,
   ): Promise<void> {
-    if (!this._wsClient || !this._wsClient.isOpen()) {
+    if (!this._wsClient || this._wsClient.status !== "connected") {
       throw new Error("The connection is not connected.");
     }
 
     const payload = this._protocol.writeMessage(message);
-    await this._wsClient!.send(payload, abortSignal);
+    await this._wsClient!.send(payload, { abortSignal: abortSignal as AbortSignal | undefined });
   }
 
   private async _sendMessageWithAckId(
@@ -979,7 +951,9 @@ export class WebPubSubClient {
     } as OnRejoinGroupFailedArgs);
   }
 
-  private _buildDefaultOptions(clientOptions: WebPubSubClientOptions): WebPubSubClientOptions {
+  private _buildDefaultOptions(
+    clientOptions: WebPubSubClientOptions,
+  ): Required<WebPubSubClientOptions> {
     if (clientOptions.autoReconnect == null) {
       clientOptions.autoReconnect = true;
     }
@@ -995,7 +969,7 @@ export class WebPubSubClient {
     this._buildMessageRetryOptions(clientOptions);
     this._buildReconnectRetryOptions(clientOptions);
 
-    return clientOptions;
+    return clientOptions as Required<WebPubSubClientOptions>;
   }
 
   private _buildMessageRetryOptions(clientOptions: WebPubSubClientOptions): void {
