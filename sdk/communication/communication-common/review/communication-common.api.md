@@ -8,8 +8,7 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import type { AccessToken } from '@azure/core-auth';
 import { KeyCredential } from '@azure/core-auth';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/identity';
-import { TokenCredential as TokenCredential_2 } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
@@ -58,7 +57,7 @@ export interface CommunicationUserKind extends CommunicationUserIdentifier {
 export function createCommunicationAccessKeyCredentialPolicy(credential: KeyCredential): PipelinePolicy;
 
 // @public
-export function createCommunicationAuthPolicy(credential: KeyCredential | TokenCredential_2): PipelinePolicy;
+export function createCommunicationAuthPolicy(credential: KeyCredential | TokenCredential): PipelinePolicy;
 
 // @public
 export const createIdentifierFromRawId: (rawId: string) => CommunicationIdentifierKind;
@@ -197,7 +196,7 @@ export interface UnknownIdentifierKind extends UnknownIdentifier {
 // @public
 export type UrlWithCredential = {
     url: string;
-    credential: TokenCredential_2 | KeyCredential;
+    credential: TokenCredential | KeyCredential;
 };
 
 // (No @packageDocumentation comment for this package)
