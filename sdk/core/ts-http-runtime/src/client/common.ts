@@ -223,7 +223,13 @@ export type HttpBrowserStreamResponse = HttpResponse & {
  * a raw stream
  */
 export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
+  /**
+   * Returns the response body as a NodeJS stream. Only available in Node-like environments.
+   */
   asNodeStream: () => Promise<HttpNodeStreamResponse>;
+  /**
+   * Returns the response body as a browser stream. Only available in the browser.
+   */
   asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
 };
 

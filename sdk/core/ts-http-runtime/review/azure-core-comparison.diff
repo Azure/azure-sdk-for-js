@@ -489,7 +489,7 @@ index 30dac33..66ea99c 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 3676fc6..03dcd50 100644
+index 99d86a2..812f31f 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,17 @@
@@ -572,7 +572,7 @@ index 3676fc6..03dcd50 100644
     *
     * type MyClient = Client & {
     *   path: Routes;
-@@ -326,11 +307,9 @@ export type ClientOptions = PipelineOptions & {
+@@ -332,11 +313,9 @@ export type ClientOptions = PipelineOptions & {
       */
      apiKeyHeaderName?: string;
    };
