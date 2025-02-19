@@ -14,7 +14,7 @@
 import { PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function callLookingGlassToExecuteACommand() {
+async function callLookingGlassToExecuteACommand(): Promise<void> {
   const subscriptionId = "subId";
   const command = "Traceroute";
   const sourceType = "AzureRegion";

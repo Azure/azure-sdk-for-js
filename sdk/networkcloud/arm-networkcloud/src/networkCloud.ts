@@ -35,7 +35,7 @@ import {
   AgentPoolsImpl,
   KubernetesClusterFeaturesImpl,
   ConsolesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   BareMetalMachines,
@@ -57,8 +57,8 @@ import {
   AgentPools,
   KubernetesClusterFeatures,
   Consoles,
-} from "./operationsInterfaces";
-import { NetworkCloudOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { NetworkCloudOptionalParams } from "./models/index.js";
 
 export class NetworkCloud extends coreClient.ServiceClient {
   $host: string;

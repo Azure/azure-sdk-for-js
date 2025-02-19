@@ -7,9 +7,7 @@
  */
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Revert rulestack configuration
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Revert rulestack configuration
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_revert_MaximumSet_Gen.json
  */
-async function globalRulestackRevertMaximumSetGen() {
+async function globalRulestackRevertMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -31,7 +29,7 @@ async function globalRulestackRevertMaximumSetGen() {
  * @summary Revert rulestack configuration
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_revert_MinimumSet_Gen.json
  */
-async function globalRulestackRevertMinimumSetGen() {
+async function globalRulestackRevertMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -39,7 +37,7 @@ async function globalRulestackRevertMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await globalRulestackRevertMaximumSetGen();
   await globalRulestackRevertMinimumSetGen();
 }

@@ -7,9 +7,7 @@
  */
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all Azure resources associated to the same NewRelic organization and account as the target resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all Azure resources associated to the same NewRelic organization and account as the target resource.
  * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/LinkedResources_List.json
  */
-async function monitorsListLinkedResources() {
+async function monitorsListLinkedResources(): Promise<void> {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
@@ -32,7 +30,7 @@ async function monitorsListLinkedResources() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await monitorsListLinkedResources();
 }
 

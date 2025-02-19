@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./spacecrafts";
-export * from "./contacts";
-export * from "./contactProfiles";
-export * from "./availableGroundStations";
-export * from "./operationsResults";
+export * from "./operations.js";
+export * from "./spacecrafts.js";
+export * from "./contacts.js";
+export * from "./contactProfiles.js";
+export * from "./availableGroundStations.js";
+export * from "./operationsResults.js";

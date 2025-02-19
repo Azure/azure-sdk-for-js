@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all of the peerings under the given subscription.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListPeeringsBySubscription.json
  */
-async function listPeeringsInASubscription() {
+async function listPeeringsInASubscription(): Promise<void> {
   const subscriptionId = "subId";
   const credential = new DefaultAzureCredential();
   const client = new PeeringManagementClient(credential, subscriptionId);
