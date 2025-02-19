@@ -20,10 +20,7 @@ import {
   publicCloudConnectorsCreateOrUpdate,
   publicCloudConnectorsGet,
 } from "../../api/publicCloudConnectors/index.js";
-import {
-  OperationStatusResult,
-  PublicCloudConnector,
-} from "../../models/models.js";
+import { OperationStatusResult, PublicCloudConnector } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -72,9 +69,7 @@ export interface PublicCloudConnectorsOperations {
   ) => Promise<PublicCloudConnector>;
 }
 
-function _getPublicCloudConnectors(
-  context: HybridConnectivityManagementAPIContext,
-) {
+function _getPublicCloudConnectors(context: HybridConnectivityManagementAPIContext) {
   return {
     testPermissions: (
       resourceGroupName: string,
@@ -87,29 +82,17 @@ function _getPublicCloudConnectors(
         publicCloudConnector,
         options,
       ),
-    listBySubscription: (
-      options?: PublicCloudConnectorsListBySubscriptionOptionalParams,
-    ) => publicCloudConnectorsListBySubscription(context, options),
+    listBySubscription: (options?: PublicCloudConnectorsListBySubscriptionOptionalParams) =>
+      publicCloudConnectorsListBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: PublicCloudConnectorsListByResourceGroupOptionalParams,
-    ) =>
-      publicCloudConnectorsListByResourceGroup(
-        context,
-        resourceGroupName,
-        options,
-      ),
+    ) => publicCloudConnectorsListByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       publicCloudConnector: string,
       options?: PublicCloudConnectorsDeleteOptionalParams,
-    ) =>
-      publicCloudConnectorsDelete(
-        context,
-        resourceGroupName,
-        publicCloudConnector,
-        options,
-      ),
+    ) => publicCloudConnectorsDelete(context, resourceGroupName, publicCloudConnector, options),
     update: (
       resourceGroupName: string,
       publicCloudConnector: string,
@@ -140,13 +123,7 @@ function _getPublicCloudConnectors(
       resourceGroupName: string,
       publicCloudConnector: string,
       options?: PublicCloudConnectorsGetOptionalParams,
-    ) =>
-      publicCloudConnectorsGet(
-        context,
-        resourceGroupName,
-        publicCloudConnector,
-        options,
-      ),
+    ) => publicCloudConnectorsGet(context, resourceGroupName, publicCloudConnector, options),
   };
 }
 

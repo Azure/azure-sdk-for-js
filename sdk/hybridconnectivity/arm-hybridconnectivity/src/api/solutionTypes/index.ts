@@ -121,12 +121,7 @@ export function solutionTypesListByResourceGroup(
 ): PagedAsyncIterableIterator<SolutionTypeResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _solutionTypesListByResourceGroupSend(
-        context,
-        resourceGroupName,
-        options,
-      ),
+    () => _solutionTypesListByResourceGroupSend(context, resourceGroupName, options),
     _solutionTypesListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -176,11 +171,6 @@ export async function solutionTypesGet(
   solutionType: string,
   options: SolutionTypesGetOptionalParams = { requestOptions: {} },
 ): Promise<SolutionTypeResource> {
-  const result = await _solutionTypesGetSend(
-    context,
-    resourceGroupName,
-    solutionType,
-    options,
-  );
+  const result = await _solutionTypesGetSend(context, resourceGroupName, solutionType, options);
   return _solutionTypesGetDeserialize(result);
 }

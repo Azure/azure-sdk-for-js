@@ -13,14 +13,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function solutionConfigurationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new HybridConnectivityManagementAPI(
-    credential,
-    subscriptionId,
-  );
+  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.solutionConfigurations.SolutionConfigurations_list(
-    "ymuj",
-  )) {
+  for await (let item of client.solutionConfigurations.SolutionConfigurations_list("ymuj")) {
     resArray.push(item);
   }
 

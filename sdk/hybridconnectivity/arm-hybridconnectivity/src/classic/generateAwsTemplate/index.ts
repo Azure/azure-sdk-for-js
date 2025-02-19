@@ -15,9 +15,7 @@ export interface GenerateAwsTemplateOperations {
   ) => Promise<Record<string, any>>;
 }
 
-function _getGenerateAwsTemplate(
-  context: HybridConnectivityManagementAPIContext,
-) {
+function _getGenerateAwsTemplate(context: HybridConnectivityManagementAPIContext) {
   return {
     post: (
       generateAwsTemplateRequest: GenerateAwsTemplateRequest,

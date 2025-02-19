@@ -59,10 +59,6 @@ export async function generateAwsTemplatePost(
   generateAwsTemplateRequest: GenerateAwsTemplateRequest,
   options: GenerateAwsTemplatePostOptionalParams = { requestOptions: {} },
 ): Promise<Record<string, any>> {
-  const result = await _generateAwsTemplatePostSend(
-    context,
-    generateAwsTemplateRequest,
-    options,
-  );
+  const result = await _generateAwsTemplatePostSend(context, generateAwsTemplateRequest, options);
   return _generateAwsTemplatePostDeserialize(result);
 }

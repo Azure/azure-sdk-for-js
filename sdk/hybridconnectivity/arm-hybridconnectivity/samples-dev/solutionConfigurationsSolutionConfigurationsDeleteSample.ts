@@ -13,14 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function solutionConfigurationsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new HybridConnectivityManagementAPI(
-    credential,
-    subscriptionId,
-  );
-  await client.solutionConfigurations.SolutionConfigurations_delete(
-    "ymuj",
-    "stu",
-  );
+  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
+  await client.solutionConfigurations.SolutionConfigurations_delete("ymuj", "stu");
 }
 
 async function main(): Promise<void> {

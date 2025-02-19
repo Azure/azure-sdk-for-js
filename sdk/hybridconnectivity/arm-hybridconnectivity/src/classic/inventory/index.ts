@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import { HybridConnectivityManagementAPIContext } from "../../api/hybridConnectivityManagementAPIContext.js";
-import {
-  inventoryListBySolutionConfiguration,
-  inventoryGet,
-} from "../../api/inventory/index.js";
+import { inventoryListBySolutionConfiguration, inventoryGet } from "../../api/inventory/index.js";
 import {
   InventoryListBySolutionConfigurationOptionalParams,
   InventoryGetOptionalParams,
@@ -36,26 +33,13 @@ function _getInventory(context: HybridConnectivityManagementAPIContext) {
       resourceUri: string,
       solutionConfiguration: string,
       options?: InventoryListBySolutionConfigurationOptionalParams,
-    ) =>
-      inventoryListBySolutionConfiguration(
-        context,
-        resourceUri,
-        solutionConfiguration,
-        options,
-      ),
+    ) => inventoryListBySolutionConfiguration(context, resourceUri, solutionConfiguration, options),
     get: (
       resourceUri: string,
       solutionConfiguration: string,
       inventoryId: string,
       options?: InventoryGetOptionalParams,
-    ) =>
-      inventoryGet(
-        context,
-        resourceUri,
-        solutionConfiguration,
-        inventoryId,
-        options,
-      ),
+    ) => inventoryGet(context, resourceUri, solutionConfiguration, inventoryId, options),
   };
 }
 

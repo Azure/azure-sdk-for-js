@@ -13,27 +13,23 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function publicCloudConnectorsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5ACC4579-DB34-4C2F-8F8C-25061168F342";
-  const client = new HybridConnectivityManagementAPI(
-    credential,
-    subscriptionId,
-  );
-  const result =
-    await client.publicCloudConnectors.PublicCloudConnectors_createOrUpdate(
-      "rgpublicCloud",
-      "advjwoakdusalamomg",
-      {
-        properties: {
-          awsCloudProfile: {
-            accountId: "snbnuxckevyqpm",
-            excludedAccounts: ["rwgqpukglvbqmogqcliqolucp"],
-            isOrganizationalAccount: true,
-          },
-          hostType: "AWS",
+  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
+  const result = await client.publicCloudConnectors.PublicCloudConnectors_createOrUpdate(
+    "rgpublicCloud",
+    "advjwoakdusalamomg",
+    {
+      properties: {
+        awsCloudProfile: {
+          accountId: "snbnuxckevyqpm",
+          excludedAccounts: ["rwgqpukglvbqmogqcliqolucp"],
+          isOrganizationalAccount: true,
         },
-        tags: {},
-        location: "jpiglusfxynfcewcjwvvnn",
+        hostType: "AWS",
       },
-    );
+      tags: {},
+      location: "jpiglusfxynfcewcjwvvnn",
+    },
+  );
   console.log(result);
 }
 

@@ -75,23 +75,13 @@ export function solutionConfigurationsSyncNow(
   solutionConfiguration: string,
   options: SolutionConfigurationsSyncNowOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(
-    context,
-    _solutionConfigurationsSyncNowDeserialize,
-    ["202", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _solutionConfigurationsSyncNowSend(
-          context,
-          resourceUri,
-          solutionConfiguration,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+  return getLongRunningPoller(context, _solutionConfigurationsSyncNowDeserialize, ["202", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _solutionConfigurationsSyncNowSend(context, resourceUri, solutionConfiguration, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _solutionConfigurationsListSend(
@@ -100,10 +90,10 @@ export function _solutionConfigurationsListSend(
   options: SolutionConfigurationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
-    .path(
-      "/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations",
-      { value: resourceUri, allowReserved: true },
-    )
+    .path("/{resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations", {
+      value: resourceUri,
+      allowReserved: true,
+    })
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {

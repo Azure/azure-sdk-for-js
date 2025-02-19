@@ -214,12 +214,7 @@ export async function endpointsListCredentials(
   endpointName: string,
   options: EndpointsListCredentialsOptionalParams = { requestOptions: {} },
 ): Promise<EndpointAccessResource> {
-  const result = await _endpointsListCredentialsSend(
-    context,
-    resourceUri,
-    endpointName,
-    options,
-  );
+  const result = await _endpointsListCredentialsSend(context, resourceUri, endpointName, options);
   return _endpointsListCredentialsDeserialize(result);
 }
 
@@ -293,9 +288,7 @@ export function _endpointsDeleteSend(
     });
 }
 
-export async function _endpointsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _endpointsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -313,12 +306,7 @@ export async function endpointsDelete(
   endpointName: string,
   options: EndpointsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _endpointsDeleteSend(
-    context,
-    resourceUri,
-    endpointName,
-    options,
-  );
+  const result = await _endpointsDeleteSend(context, resourceUri, endpointName, options);
   return _endpointsDeleteDeserialize(result);
 }
 
@@ -476,11 +464,6 @@ export async function endpointsGet(
   endpointName: string,
   options: EndpointsGetOptionalParams = { requestOptions: {} },
 ): Promise<EndpointResource> {
-  const result = await _endpointsGetSend(
-    context,
-    resourceUri,
-    endpointName,
-    options,
-  );
+  const result = await _endpointsGetSend(context, resourceUri, endpointName, options);
   return _endpointsGetDeserialize(result);
 }

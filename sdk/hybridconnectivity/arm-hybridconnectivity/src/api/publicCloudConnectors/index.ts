@@ -196,12 +196,7 @@ export function publicCloudConnectorsListByResourceGroup(
 ): PagedAsyncIterableIterator<PublicCloudConnector> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _publicCloudConnectorsListByResourceGroupSend(
-        context,
-        resourceGroupName,
-        options,
-      ),
+    () => _publicCloudConnectorsListByResourceGroupSend(context, resourceGroupName, options),
     _publicCloudConnectorsListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

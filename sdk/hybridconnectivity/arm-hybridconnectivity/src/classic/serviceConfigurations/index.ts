@@ -62,21 +62,13 @@ export interface ServiceConfigurationsOperations {
   ) => Promise<ServiceConfigurationResource>;
 }
 
-function _getServiceConfigurations(
-  context: HybridConnectivityManagementAPIContext,
-) {
+function _getServiceConfigurations(context: HybridConnectivityManagementAPIContext) {
   return {
     listByEndpointResource: (
       resourceUri: string,
       endpointName: string,
       options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
-    ) =>
-      serviceConfigurationsListByEndpointResource(
-        context,
-        resourceUri,
-        endpointName,
-        options,
-      ),
+    ) => serviceConfigurationsListByEndpointResource(context, resourceUri, endpointName, options),
     delete: (
       resourceUri: string,
       endpointName: string,

@@ -52,10 +52,7 @@ export {
   endpointsGet,
 } from "./endpoints/index.js";
 export { generateAwsTemplatePost } from "./generateAwsTemplate/index.js";
-export {
-  inventoryListBySolutionConfiguration,
-  inventoryGet,
-} from "./inventory/index.js";
+export { inventoryListBySolutionConfiguration, inventoryGet } from "./inventory/index.js";
 export { operationsList } from "./operations/index.js";
 export {
   publicCloudConnectorsTestPermissions,

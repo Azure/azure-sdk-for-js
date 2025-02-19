@@ -13,14 +13,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function solutionConfigurationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new HybridConnectivityManagementAPI(
-    credential,
-    subscriptionId,
-  );
-  const result = await client.solutionConfigurations.SolutionConfigurations_get(
-    "ymuj",
-    "tks",
-  );
+  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
+  const result = await client.solutionConfigurations.SolutionConfigurations_get("ymuj", "tks");
   console.log(result);
 }
 

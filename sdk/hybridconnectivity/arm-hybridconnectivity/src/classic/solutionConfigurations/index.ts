@@ -18,10 +18,7 @@ import {
   solutionConfigurationsCreateOrUpdate,
   solutionConfigurationsGet,
 } from "../../api/solutionConfigurations/index.js";
-import {
-  SolutionConfiguration,
-  OperationStatusResult,
-} from "../../models/models.js";
+import { SolutionConfiguration, OperationStatusResult } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -66,36 +63,20 @@ export interface SolutionConfigurationsOperations {
   ) => Promise<SolutionConfiguration>;
 }
 
-function _getSolutionConfigurations(
-  context: HybridConnectivityManagementAPIContext,
-) {
+function _getSolutionConfigurations(context: HybridConnectivityManagementAPIContext) {
   return {
     syncNow: (
       resourceUri: string,
       solutionConfiguration: string,
       options?: SolutionConfigurationsSyncNowOptionalParams,
-    ) =>
-      solutionConfigurationsSyncNow(
-        context,
-        resourceUri,
-        solutionConfiguration,
-        options,
-      ),
-    list: (
-      resourceUri: string,
-      options?: SolutionConfigurationsListOptionalParams,
-    ) => solutionConfigurationsList(context, resourceUri, options),
+    ) => solutionConfigurationsSyncNow(context, resourceUri, solutionConfiguration, options),
+    list: (resourceUri: string, options?: SolutionConfigurationsListOptionalParams) =>
+      solutionConfigurationsList(context, resourceUri, options),
     delete: (
       resourceUri: string,
       solutionConfiguration: string,
       options?: SolutionConfigurationsDeleteOptionalParams,
-    ) =>
-      solutionConfigurationsDelete(
-        context,
-        resourceUri,
-        solutionConfiguration,
-        options,
-      ),
+    ) => solutionConfigurationsDelete(context, resourceUri, solutionConfiguration, options),
     update: (
       resourceUri: string,
       solutionConfiguration: string,
@@ -126,13 +107,7 @@ function _getSolutionConfigurations(
       resourceUri: string,
       solutionConfiguration: string,
       options?: SolutionConfigurationsGetOptionalParams,
-    ) =>
-      solutionConfigurationsGet(
-        context,
-        resourceUri,
-        solutionConfiguration,
-        options,
-      ),
+    ) => solutionConfigurationsGet(context, resourceUri, solutionConfiguration, options),
   };
 }
 

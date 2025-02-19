@@ -13,19 +13,15 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function publicCloudConnectorsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "5ACC4579-DB34-4C2F-8F8C-25061168F342";
-  const client = new HybridConnectivityManagementAPI(
-    credential,
-    subscriptionId,
+  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
+  const result = await client.publicCloudConnectors.PublicCloudConnectors_update(
+    "rgpublicCloud",
+    "svtirlbyqpepbzyessjenlueeznhg",
+    {
+      tags: {},
+      properties: { awsCloudProfile: { excludedAccounts: ["zrbtd"] } },
+    },
   );
-  const result =
-    await client.publicCloudConnectors.PublicCloudConnectors_update(
-      "rgpublicCloud",
-      "svtirlbyqpepbzyessjenlueeznhg",
-      {
-        tags: {},
-        properties: { awsCloudProfile: { excludedAccounts: ["zrbtd"] } },
-      },
-    );
   console.log(result);
 }
 

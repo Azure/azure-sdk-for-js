@@ -79,12 +79,7 @@ export function serviceConfigurationsListByEndpointResource(
   return buildPagedAsyncIterator(
     context,
     () =>
-      _serviceConfigurationsListByEndpointResourceSend(
-        context,
-        resourceUri,
-        endpointName,
-        options,
-      ),
+      _serviceConfigurationsListByEndpointResourceSend(context, resourceUri, endpointName, options),
     _serviceConfigurationsListByEndpointResourceDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -169,9 +164,7 @@ export function _serviceConfigurationsUpdateSend(
         ...options.requestOptions?.headers,
       },
       queryParameters: { "api-version": context.apiVersion },
-      body: serviceConfigurationResourcePatchSerializer(
-        serviceConfigurationResource,
-      ),
+      body: serviceConfigurationResourcePatchSerializer(serviceConfigurationResource),
     });
 }
 
@@ -233,9 +226,7 @@ export function _serviceConfigurationsCreateOrupdateSend(
         ...options.requestOptions?.headers,
       },
       queryParameters: { "api-version": context.apiVersion },
-      body: serviceConfigurationResourceSerializer(
-        serviceConfigurationResource,
-      ),
+      body: serviceConfigurationResourceSerializer(serviceConfigurationResource),
     });
 }
 
