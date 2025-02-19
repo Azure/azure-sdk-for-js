@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary This method checks whether a proposed migration name is valid and available.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/CheckMigrationNameAvailability.json
  */
-async function checkMigrationNameAvailability() {
+async function checkMigrationNameAvailability(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
@@ -35,7 +35,7 @@ async function checkMigrationNameAvailability() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await checkMigrationNameAvailability();
 }
 

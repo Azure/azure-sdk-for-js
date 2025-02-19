@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
-  "mainEntryPointFilePath": "./dist-esm/src/index.d.ts",
+  "mainEntryPointFilePath": "dist/esm/index.d.ts",
   "docModel": {
     "enabled": true
   },
@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/arm-policy-profile-2020-09-01-hybrid.d.ts"
+    "publicTrimmedFilePath": "dist/arm-policy-profile-2020-09-01-hybrid.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
