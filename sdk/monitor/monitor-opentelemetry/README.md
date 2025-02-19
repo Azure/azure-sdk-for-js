@@ -121,7 +121,7 @@ useAzureMonitor(options);
   </tr>
   <tr>
     <td><code>browserSdkLoaderOptions</code></td>
-    <td>Allow configuration of Web Instrumentations./td>
+    <td>Allow configuration of Web Instrumentations.</td>
     <td>
       <pre>
         <code class="language-javascript">
