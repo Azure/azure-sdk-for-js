@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ServiceUpgradeOptionalParams,
   ServiceUpgradeResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Service. */
 export interface Service {

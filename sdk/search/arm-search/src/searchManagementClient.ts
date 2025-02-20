@@ -26,7 +26,7 @@ import {
   UsagesImpl,
   NetworkSecurityPerimeterConfigurationsImpl,
   ServiceImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   Operations,
   Offerings,
@@ -39,14 +39,14 @@ import {
   Usages,
   NetworkSecurityPerimeterConfigurations,
   Service,
-} from "./operationsInterfaces/index.js";
-import * as Parameters from "./models/parameters.js";
-import * as Mappers from "./models/mappers.js";
+} from "./operationsInterfaces";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
 import {
   SearchManagementClientOptionalParams,
   UsageBySubscriptionSkuOptionalParams,
   UsageBySubscriptionSkuResponse,
-} from "./models/index.js";
+} from "./models";
 
 export class SearchManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -95,7 +95,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-search/4.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-search/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

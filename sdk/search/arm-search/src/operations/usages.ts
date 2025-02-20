@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { Usages } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { Usages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SearchManagementClient } from "../searchManagementClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SearchManagementClient } from "../searchManagementClient";
 import {
   QuotaUsageResult,
   UsagesListBySubscriptionNextOptionalParams,
   UsagesListBySubscriptionOptionalParams,
   UsagesListBySubscriptionResponse,
   UsagesListBySubscriptionNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Usages operations. */

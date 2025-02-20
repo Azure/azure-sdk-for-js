@@ -12,7 +12,7 @@ import {
   AdminKeyKind,
   AdminKeysRegenerateOptionalParams,
   AdminKeysRegenerateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a AdminKeys. */
 export interface AdminKeys {
