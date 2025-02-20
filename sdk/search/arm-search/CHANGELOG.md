@@ -1,6 +1,6 @@
 # Release History
     
-## 4.0.0-beta.2 (2025-02-11)
+## 3.3.0-beta.2 (2025-02-20)
 Compared with version 3.2.0
     
 ### Features Added
@@ -81,9 +81,6 @@ Compared with version 3.2.0
   - Added Enum KnownSharedPrivateLinkResourceProvisioningState
   - Added Enum KnownSharedPrivateLinkResourceStatus
   - Added Enum KnownSkuName
-
-### Breaking Changes
-
   - Class SearchManagementClient has a new signature
     
     
