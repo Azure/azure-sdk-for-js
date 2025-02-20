@@ -13,12 +13,12 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to List all certificates of given NGINX deployment
+ * This sample demonstrates how to List all API Keys of the given Nginx deployment
  *
- * @summary List all certificates of given NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Certificates_List.json
+ * @summary List all API Keys of the given Nginx deployment
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_List.json
  */
-async function certificatesList(): Promise<void> {
+async function apiKeysList(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -28,7 +28,7 @@ async function certificatesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.certificates.list(
+  for await (let item of client.apiKeys.list(
     resourceGroupName,
     deploymentName,
   )) {
@@ -38,7 +38,7 @@ async function certificatesList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await certificatesList();
+  await apiKeysList();
 }
 
 main().catch(console.error);

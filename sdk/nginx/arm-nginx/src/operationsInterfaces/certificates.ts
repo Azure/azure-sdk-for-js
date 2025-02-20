@@ -16,7 +16,7 @@ import {
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesCreateOrUpdateResponse,
   CertificatesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Certificates. */

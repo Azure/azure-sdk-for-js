@@ -13,32 +13,31 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to List all certificates of given NGINX deployment
+ * This sample demonstrates how to Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
  *
- * @summary List all certificates of given NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Certificates_List.json
+ * @summary Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_CreateOrUpdate.json
  */
-async function certificatesList(): Promise<void> {
+async function apiKeysCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
+  const apiKeyName = "myApiKey";
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.certificates.list(
+  const result = await client.apiKeys.createOrUpdate(
     resourceGroupName,
     deploymentName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    apiKeyName,
+  );
+  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await certificatesList();
+  await apiKeysCreateOrUpdate();
 }
 
 main().catch(console.error);
