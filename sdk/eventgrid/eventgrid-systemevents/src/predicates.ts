@@ -187,7 +187,7 @@ import type {
   AcsMessageDeliveryStatusUpdatedEventData,
   AcsMessageReceivedEventData,
   AcsRouterWorkerUpdatedEventData,
-} from "./cadl-generated/models/index.js";
+} from "./generated/models/index.js";
 
 import type { CloudEvent, EventGridEvent } from "./models.js";
 
