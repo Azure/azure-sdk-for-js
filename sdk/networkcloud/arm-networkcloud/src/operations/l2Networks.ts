@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper.js";
-import { L2Networks } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper";
+import { L2Networks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { NetworkCloud } from "../networkCloud.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { NetworkCloud } from "../networkCloud";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl.js";
+import { createLroSpec } from "../lroImpl";
 import {
   L2Network,
   L2NetworksListBySubscriptionNextOptionalParams,
@@ -37,7 +37,7 @@ import {
   L2NetworksUpdateResponse,
   L2NetworksListBySubscriptionNextResponse,
   L2NetworksListByResourceGroupNextResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing L2Networks operations. */

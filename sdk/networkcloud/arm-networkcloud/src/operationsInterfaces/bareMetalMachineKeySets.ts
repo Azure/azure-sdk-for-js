@@ -19,7 +19,7 @@ import {
   BareMetalMachineKeySetsDeleteResponse,
   BareMetalMachineKeySetsUpdateOptionalParams,
   BareMetalMachineKeySetsUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BareMetalMachineKeySets. */

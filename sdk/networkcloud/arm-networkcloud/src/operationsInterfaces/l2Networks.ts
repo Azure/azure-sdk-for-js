@@ -20,7 +20,7 @@ import {
   L2NetworksDeleteResponse,
   L2NetworksUpdateOptionalParams,
   L2NetworksUpdateResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a L2Networks. */
