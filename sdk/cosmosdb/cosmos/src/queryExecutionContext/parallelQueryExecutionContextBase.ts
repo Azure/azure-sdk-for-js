@@ -362,20 +362,17 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return new Promise<void>((resolve, reject) => {
       this.sem.take(async () => {
         if (this.err) {
-          this.sem.leave();
           reject(this.err);
           return;
         }
         this.updateStates(this.err);
 
         if (this.state === ParallelQueryExecutionContextBase.STATES.ended) {
-          this.sem.leave();
           resolve();
           return;
         }
 
         if (this.unfilledDocumentProducersQueue.size() === 0) {
-          this.sem.leave();
           resolve();
           return;
         }
@@ -400,7 +397,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               documentProducer = this.unfilledDocumentProducersQueue.deq();
             } catch (e: any) {
               this.err = e;
-              this.sem.leave();
               this.err.headers = this._getAndResetActiveResponseHeaders();
               reject(this.err);
               return;
@@ -433,7 +429,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 resolve();
               } else {
                 this.err = err;
-                this.sem.leave();
                 this.err.headers = this._getAndResetActiveResponseHeaders();
                 reject(err);
               }
@@ -449,15 +444,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             this.err.headers = this._getAndResetActiveResponseHeaders();
             reject(err);
             return;
-          } finally {
-            this.sem.leave();
           }
           resolve();
         } catch (err) {
-          this.sem.leave();
           this.err = err;
           this.err.headers = this._getAndResetActiveResponseHeaders();
           reject(err);
+        } finally {
+          this.sem.leave();
         }
       });
     });

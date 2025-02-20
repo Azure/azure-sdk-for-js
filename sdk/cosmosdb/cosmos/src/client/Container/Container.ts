@@ -112,10 +112,10 @@ export class Container {
    * @internal
    */
   public _rid: string;
-  /**
-   * @internal
-   */
-  public isEncryptionInitialized: boolean = false;
+
+  private isEncryptionInitialized: boolean = false;
+  private encryptionInitializationPromise: Promise<void>;
+
   /**
    * Returns a container instance. Note: You should get this from `database.container(id)`, rather than creating your own object.
    * @param database - The parent {@link Database}.
@@ -380,9 +380,7 @@ export class Container {
       const id = getIdFromLink(this.url);
       path = path + "/operations/partitionkeydelete";
       if (this.clientContext.enableEncryption) {
-        if (!this.isEncryptionInitialized) {
-          await this.initializeEncryption();
-        }
+        await this.checkAndInitializeEncryption();
         options = options || {};
         options.containerRid = this._rid;
         const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
@@ -417,7 +415,6 @@ export class Container {
     }, this.clientContext);
   }
   /**
-   * @hidden
    * Warms up encryption related caches for the container.
    */
   public async initializeEncryption(): Promise<void> {
@@ -476,6 +473,19 @@ export class Container {
       }, this.clientContext);
     }
   }
+
+  /**
+   * @internal
+   */
+  async checkAndInitializeEncryption(): Promise<void> {
+    if (!this.isEncryptionInitialized) {
+      if (!this.encryptionInitializationPromise) {
+        this.encryptionInitializationPromise = this.initializeEncryption();
+      }
+      await this.encryptionInitializationPromise;
+    }
+  }
+
   /**
    * @internal
    * This function handles the scenario where a container is deleted(say from different Client) and recreated with same Id but with different client encryption policy.
@@ -530,7 +540,7 @@ export class Container {
       await this.initializeEncryption();
       throw new ErrorResponse(
         "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details." +
-          errorResponse.message,
+        errorResponse.message,
       );
     }
   }
