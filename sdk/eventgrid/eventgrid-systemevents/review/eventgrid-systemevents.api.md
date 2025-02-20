@@ -251,10 +251,10 @@ export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEven
 
 // @public
 export interface AcsMessageEventData {
-    error: AcsMessageChannelEventError;
-    from?: string;
+    error?: AcsMessageChannelEventError;
+    from: string;
     receivedTimeStamp: Date;
-    to?: string;
+    to: string;
 }
 
 // @public
@@ -265,8 +265,8 @@ export interface AcsMessageInteractiveButtonReplyContent {
 
 // @public
 export interface AcsMessageInteractiveContent {
-    buttonReply: AcsMessageInteractiveButtonReplyContent;
-    listReply: AcsMessageInteractiveListReplyContent;
+    buttonReply?: AcsMessageInteractiveButtonReplyContent;
+    listReply?: AcsMessageInteractiveListReplyContent;
     replyKind: AcsInteractiveReplyKind;
 }
 
@@ -279,20 +279,30 @@ export interface AcsMessageInteractiveListReplyContent {
 
 // @public
 export interface AcsMessageMediaContent {
+    animated?: boolean;
     caption?: string;
     fileName?: string;
-    mediaId?: string;
-    mimeType?: string;
+    mediaId: string;
+    mimeType: string;
+}
+
+// @public
+export interface AcsMessageReactionContent {
+    emoji?: string;
+    messageId: string;
 }
 
 // @public
 export interface AcsMessageReceivedEventData extends AcsMessageEventData {
-    button: AcsMessageButtonContent;
+    button?: AcsMessageButtonContent;
     channelKind: AcsMessageChannelKind;
     content?: string;
-    context: AcsMessageContext;
-    interactiveContent: AcsMessageInteractiveContent;
-    mediaContent: AcsMessageMediaContent;
+    context?: AcsMessageContext;
+    interactiveContent?: AcsMessageInteractiveContent;
+    mediaContent?: AcsMessageMediaContent;
+    messageId?: string;
+    messageType: string;
+    reaction?: AcsMessageReactionContent;
 }
 
 // @public
@@ -1433,8 +1443,8 @@ export enum KnownAcsRouterUpdatedWorkerProperty {
 
 // @public
 export enum KnownAcsRouterWorkerSelectorState {
-    active = "active",
-    expired = "expired"
+    Active = "active",
+    Expired = "expired"
 }
 
 // @public
@@ -1693,6 +1703,14 @@ export enum KnownRecordingFormatType {
 }
 
 // @public
+export enum KnownServiceApiVersions {
+    // (undocumented)
+    v2018_01_01 = "2018-01-01",
+    // (undocumented)
+    v2024_01_01 = "2024-01-01"
+}
+
+// @public
 export enum KnownStampKind {
     AseV1 = "AseV1",
     AseV2 = "AseV2",
@@ -1779,10 +1797,10 @@ export interface MapsGeofenceEnteredEventData extends MapsGeofenceEvent {
 
 // @public
 export interface MapsGeofenceEvent {
-    expiredGeofenceGeometryId?: string[];
+    expiredGeofenceGeometryId: string[];
     geometries: MapsGeofenceGeometry[];
-    invalidPeriodGeofenceGeometryId?: string[];
-    isEventPublished?: boolean;
+    invalidPeriodGeofenceGeometryId: string[];
+    isEventPublished: boolean;
 }
 
 // @public
@@ -1791,11 +1809,11 @@ export interface MapsGeofenceExitedEventData extends MapsGeofenceEvent {
 
 // @public
 export interface MapsGeofenceGeometry {
-    deviceId?: string;
-    distance?: number;
-    geometryId?: string;
-    nearestLat?: number;
-    nearestLon?: number;
+    deviceId: string;
+    distance: number;
+    geometryId: string;
+    nearestLat: number;
+    nearestLon: number;
     udId?: string;
 }
 
@@ -2091,9 +2109,6 @@ export interface ResourceWriteSuccessEventData {
     subscriptionId?: string;
     tenantId?: string;
 }
-
-// @public
-export type ServiceApiVersions = "2018-01-01" | "2024-01-01";
 
 // @public
 export interface ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData {
