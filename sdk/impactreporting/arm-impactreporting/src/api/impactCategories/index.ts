@@ -73,8 +73,7 @@ export function impactCategoriesListBySubscription(
 ): PagedAsyncIterableIterator<ImpactCategory> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _impactCategoriesListBySubscriptionSend(context, resourceType, options),
+    () => _impactCategoriesListBySubscriptionSend(context, resourceType, options),
     _impactCategoriesListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -121,10 +120,6 @@ export async function impactCategoriesGet(
   impactCategoryName: string,
   options: ImpactCategoriesGetOptionalParams = { requestOptions: {} },
 ): Promise<ImpactCategory> {
-  const result = await _impactCategoriesGetSend(
-    context,
-    impactCategoryName,
-    options,
-  );
+  const result = await _impactCategoriesGetSend(context, impactCategoryName, options);
   return _impactCategoriesGetDeserialize(result);
 }

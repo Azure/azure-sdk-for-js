@@ -99,9 +99,7 @@ export function _connectorsDeleteSend(
     });
 }
 
-export async function _connectorsDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _connectorsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -166,12 +164,7 @@ export async function connectorsUpdate(
   properties: ConnectorUpdate,
   options: ConnectorsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Connector> {
-  const result = await _connectorsUpdateSend(
-    context,
-    connectorName,
-    properties,
-    options,
-  );
+  const result = await _connectorsUpdateSend(context, connectorName, properties, options);
   return _connectorsUpdateDeserialize(result);
 }
 
@@ -219,23 +212,13 @@ export function connectorsCreateOrUpdate(
   resource: Connector,
   options: ConnectorsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Connector>, Connector> {
-  return getLongRunningPoller(
-    context,
-    _connectorsCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _connectorsCreateOrUpdateSend(
-          context,
-          connectorName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<Connector>, Connector>;
+  return getLongRunningPoller(context, _connectorsCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _connectorsCreateOrUpdateSend(context, connectorName, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<Connector>, Connector>;
 }
 
 export function _connectorsGetSend(
@@ -259,9 +242,7 @@ export function _connectorsGetSend(
     });
 }
 
-export async function _connectorsGetDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Connector> {
+export async function _connectorsGetDeserialize(result: PathUncheckedResponse): Promise<Connector> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

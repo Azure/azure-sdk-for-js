@@ -14,10 +14,9 @@ async function connectorsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "74f5e23f-d4d9-410a-bb4d-8f0608adb10d";
   const client = new ImpactClient(credential, subscriptionId);
-  const result = await client.connectors.Connectors_createOrUpdate(
-    "testconnector1",
-    { properties: { connectorType: "AzureMonitor" } },
-  );
+  const result = await client.connectors.Connectors_createOrUpdate("testconnector1", {
+    properties: { connectorType: "AzureMonitor" },
+  });
   console.log(result);
 }
 

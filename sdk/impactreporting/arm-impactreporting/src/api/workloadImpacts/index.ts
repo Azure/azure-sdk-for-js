@@ -119,11 +119,7 @@ export async function workloadImpactsDelete(
   workloadImpactName: string,
   options: WorkloadImpactsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _workloadImpactsDeleteSend(
-    context,
-    workloadImpactName,
-    options,
-  );
+  const result = await _workloadImpactsDeleteSend(context, workloadImpactName, options);
   return _workloadImpactsDeleteDeserialize(result);
 }
 
@@ -167,11 +163,7 @@ export async function workloadImpactsGet(
   workloadImpactName: string,
   options: WorkloadImpactsGetOptionalParams = { requestOptions: {} },
 ): Promise<WorkloadImpact> {
-  const result = await _workloadImpactsGetSend(
-    context,
-    workloadImpactName,
-    options,
-  );
+  const result = await _workloadImpactsGetSend(context, workloadImpactName, options);
   return _workloadImpactsGetDeserialize(result);
 }
 
@@ -219,21 +211,11 @@ export function workloadImpactsCreate(
   resource: WorkloadImpact,
   options: WorkloadImpactsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<WorkloadImpact>, WorkloadImpact> {
-  return getLongRunningPoller(
-    context,
-    _workloadImpactsCreateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _workloadImpactsCreateSend(
-          context,
-          workloadImpactName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<WorkloadImpact>, WorkloadImpact>;
+  return getLongRunningPoller(context, _workloadImpactsCreateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _workloadImpactsCreateSend(context, workloadImpactName, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<WorkloadImpact>, WorkloadImpact>;
 }

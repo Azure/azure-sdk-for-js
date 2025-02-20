@@ -28,10 +28,7 @@ async function getInsightSampleForMitigationActionCategory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
-  const result = await client.insights.Insights_get(
-    "impactId",
-    "HPCUASucceeded",
-  );
+  const result = await client.insights.Insights_get("impactId", "HPCUASucceeded");
   console.log(result);
 }
 

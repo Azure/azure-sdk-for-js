@@ -33,16 +33,12 @@ function _getImpactCategories(context: ImpactContext) {
       resourceType: string,
       options?: ImpactCategoriesListBySubscriptionOptionalParams,
     ) => impactCategoriesListBySubscription(context, resourceType, options),
-    get: (
-      impactCategoryName: string,
-      options?: ImpactCategoriesGetOptionalParams,
-    ) => impactCategoriesGet(context, impactCategoryName, options),
+    get: (impactCategoryName: string, options?: ImpactCategoriesGetOptionalParams) =>
+      impactCategoriesGet(context, impactCategoryName, options),
   };
 }
 
-export function _getImpactCategoriesOperations(
-  context: ImpactContext,
-): ImpactCategoriesOperations {
+export function _getImpactCategoriesOperations(context: ImpactContext): ImpactCategoriesOperations {
   return {
     ..._getImpactCategories(context),
   };

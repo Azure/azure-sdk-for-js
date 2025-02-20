@@ -44,17 +44,12 @@ export interface WorkloadImpactsOperations {
 
 function _getWorkloadImpacts(context: ImpactContext) {
   return {
-    listBySubscription: (
-      options?: WorkloadImpactsListBySubscriptionOptionalParams,
-    ) => workloadImpactsListBySubscription(context, options),
-    delete: (
-      workloadImpactName: string,
-      options?: WorkloadImpactsDeleteOptionalParams,
-    ) => workloadImpactsDelete(context, workloadImpactName, options),
-    get: (
-      workloadImpactName: string,
-      options?: WorkloadImpactsGetOptionalParams,
-    ) => workloadImpactsGet(context, workloadImpactName, options),
+    listBySubscription: (options?: WorkloadImpactsListBySubscriptionOptionalParams) =>
+      workloadImpactsListBySubscription(context, options),
+    delete: (workloadImpactName: string, options?: WorkloadImpactsDeleteOptionalParams) =>
+      workloadImpactsDelete(context, workloadImpactName, options),
+    get: (workloadImpactName: string, options?: WorkloadImpactsGetOptionalParams) =>
+      workloadImpactsGet(context, workloadImpactName, options),
     create: (
       workloadImpactName: string,
       resource: WorkloadImpact,
@@ -63,9 +58,7 @@ function _getWorkloadImpacts(context: ImpactContext) {
   };
 }
 
-export function _getWorkloadImpactsOperations(
-  context: ImpactContext,
-): WorkloadImpactsOperations {
+export function _getWorkloadImpactsOperations(context: ImpactContext): WorkloadImpactsOperations {
   return {
     ..._getWorkloadImpacts(context),
   };

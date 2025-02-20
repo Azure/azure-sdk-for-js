@@ -47,9 +47,7 @@ export function connectorPropertiesSerializer(item: ConnectorProperties): any {
   return { connectorType: item["connectorType"] };
 }
 
-export function connectorPropertiesDeserializer(
-  item: any,
-): ConnectorProperties {
+export function connectorPropertiesDeserializer(item: any): ConnectorProperties {
   return {
     provisioningState: item["provisioningState"],
     connectorId: item["connectorId"],
@@ -160,9 +158,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -203,9 +199,7 @@ export interface ErrorResponse {
 
 export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : errorDetailDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
   };
 }
 
@@ -228,26 +222,20 @@ export function errorDetailDeserializer(item: any): ErrorDetail {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"]
-      ? item["details"]
-      : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailArrayDeserializer(
-  result: Array<ErrorDetail>,
-): any[] {
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
   return result.map((item) => {
     return errorDetailDeserializer(item);
   });
 }
 
-export function errorAdditionalInfoArrayDeserializer(
-  result: Array<ErrorAdditionalInfo>,
-): any[] {
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
   return result.map((item) => {
     return errorAdditionalInfoDeserializer(item);
   });
@@ -261,23 +249,17 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, any>;
 }
 
-export function errorAdditionalInfoDeserializer(
-  item: any,
-): ErrorAdditionalInfo {
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"]
-      ? item["info"]
-      : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
   };
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
 export interface _ErrorAdditionalInfoInfo {}
 
-export function _errorAdditionalInfoInfoDeserializer(
-  item: any,
-): _ErrorAdditionalInfoInfo {
+export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
 }
 
@@ -301,9 +283,7 @@ export interface ConnectorUpdateProperties {
   connectorType?: Platform;
 }
 
-export function connectorUpdatePropertiesSerializer(
-  item: ConnectorUpdateProperties,
-): any {
+export function connectorUpdatePropertiesSerializer(item: ConnectorUpdateProperties): any {
   return { connectorType: item["connectorType"] };
 }
 
@@ -315,9 +295,7 @@ export interface _ConnectorListResult {
   nextLink?: string;
 }
 
-export function _connectorListResultDeserializer(
-  item: any,
-): _ConnectorListResult {
+export function _connectorListResultDeserializer(item: any): _ConnectorListResult {
   return {
     value: connectorArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -395,16 +373,12 @@ export function insightPropertiesSerializer(item: InsightProperties): any {
     eventId: item["eventId"],
     groupId: item["groupId"],
     content: contentSerializer(item["content"]),
-    eventTime: !item["eventTime"]
-      ? item["eventTime"]
-      : item["eventTime"].toISOString(),
+    eventTime: !item["eventTime"] ? item["eventTime"] : item["eventTime"].toISOString(),
     insightUniqueId: item["insightUniqueId"],
     impact: impactDetailsSerializer(item["impact"]),
     additionalDetails: !item["additionalDetails"]
       ? item["additionalDetails"]
-      : _insightPropertiesAdditionalDetailsSerializer(
-          item["additionalDetails"],
-        ),
+      : _insightPropertiesAdditionalDetailsSerializer(item["additionalDetails"]),
   };
 }
 
@@ -416,16 +390,12 @@ export function insightPropertiesDeserializer(item: any): InsightProperties {
     eventId: item["eventId"],
     groupId: item["groupId"],
     content: contentDeserializer(item["content"]),
-    eventTime: !item["eventTime"]
-      ? item["eventTime"]
-      : new Date(item["eventTime"]),
+    eventTime: !item["eventTime"] ? item["eventTime"] : new Date(item["eventTime"]),
     insightUniqueId: item["insightUniqueId"],
     impact: impactDetailsDeserializer(item["impact"]),
     additionalDetails: !item["additionalDetails"]
       ? item["additionalDetails"]
-      : _insightPropertiesAdditionalDetailsDeserializer(
-          item["additionalDetails"],
-        ),
+      : _insightPropertiesAdditionalDetailsDeserializer(item["additionalDetails"]),
   };
 }
 
@@ -554,9 +524,7 @@ export interface ImpactCategoryProperties {
   requiredImpactProperties?: RequiredImpactProperties[];
 }
 
-export function impactCategoryPropertiesDeserializer(
-  item: any,
-): ImpactCategoryProperties {
+export function impactCategoryPropertiesDeserializer(item: any): ImpactCategoryProperties {
   return {
     provisioningState: item["provisioningState"],
     categoryId: item["categoryId"],
@@ -564,9 +532,7 @@ export function impactCategoryPropertiesDeserializer(
     description: item["description"],
     requiredImpactProperties: !item["requiredImpactProperties"]
       ? item["requiredImpactProperties"]
-      : requiredImpactPropertiesArrayDeserializer(
-          item["requiredImpactProperties"],
-        ),
+      : requiredImpactPropertiesArrayDeserializer(item["requiredImpactProperties"]),
   };
 }
 
@@ -586,9 +552,7 @@ export interface RequiredImpactProperties {
   allowedValues?: string[];
 }
 
-export function requiredImpactPropertiesDeserializer(
-  item: any,
-): RequiredImpactProperties {
+export function requiredImpactPropertiesDeserializer(item: any): RequiredImpactProperties {
   return {
     name: item["name"],
     allowedValues: !item["allowedValues"]
@@ -607,18 +571,14 @@ export interface _ImpactCategoryListResult {
   nextLink?: string;
 }
 
-export function _impactCategoryListResultDeserializer(
-  item: any,
-): _ImpactCategoryListResult {
+export function _impactCategoryListResultDeserializer(item: any): _ImpactCategoryListResult {
   return {
     value: impactCategoryArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function impactCategoryArrayDeserializer(
-  result: Array<ImpactCategory>,
-): any[] {
+export function impactCategoryArrayDeserializer(result: Array<ImpactCategory>): any[] {
   return result.map((item) => {
     return impactCategoryDeserializer(item);
   });
@@ -690,14 +650,10 @@ export interface WorkloadImpactProperties {
   clientIncidentDetails?: ClientIncidentDetails;
 }
 
-export function workloadImpactPropertiesSerializer(
-  item: WorkloadImpactProperties,
-): any {
+export function workloadImpactPropertiesSerializer(item: WorkloadImpactProperties): any {
   return {
     startDateTime: item["startDateTime"].toISOString(),
-    endDateTime: !item["endDateTime"]
-      ? item["endDateTime"]
-      : item["endDateTime"].toISOString(),
+    endDateTime: !item["endDateTime"] ? item["endDateTime"] : item["endDateTime"].toISOString(),
     impactedResourceId: item["impactedResourceId"],
     impactCategory: item["impactCategory"],
     impactDescription: item["impactDescription"],
@@ -714,15 +670,11 @@ export function workloadImpactPropertiesSerializer(
       : connectivitySerializer(item["connectivity"]),
     additionalProperties: !item["additionalProperties"]
       ? item["additionalProperties"]
-      : _workloadImpactPropertiesAdditionalPropertiesSerializer(
-          item["additionalProperties"],
-        ),
+      : _workloadImpactPropertiesAdditionalPropertiesSerializer(item["additionalProperties"]),
     errorDetails: !item["errorDetails"]
       ? item["errorDetails"]
       : errorDetailPropertiesSerializer(item["errorDetails"]),
-    workload: !item["workload"]
-      ? item["workload"]
-      : workloadSerializer(item["workload"]),
+    workload: !item["workload"] ? item["workload"] : workloadSerializer(item["workload"]),
     impactGroupId: item["impactGroupId"],
     confidenceLevel: item["confidenceLevel"],
     clientIncidentDetails: !item["clientIncidentDetails"]
@@ -731,15 +683,11 @@ export function workloadImpactPropertiesSerializer(
   };
 }
 
-export function workloadImpactPropertiesDeserializer(
-  item: any,
-): WorkloadImpactProperties {
+export function workloadImpactPropertiesDeserializer(item: any): WorkloadImpactProperties {
   return {
     provisioningState: item["provisioningState"],
     startDateTime: new Date(item["startDateTime"]),
-    endDateTime: !item["endDateTime"]
-      ? item["endDateTime"]
-      : new Date(item["endDateTime"]),
+    endDateTime: !item["endDateTime"] ? item["endDateTime"] : new Date(item["endDateTime"]),
     impactedResourceId: item["impactedResourceId"],
     impactUniqueId: item["impactUniqueId"],
     reportedTimeUtc: !item["reportedTimeUtc"]
@@ -760,15 +708,11 @@ export function workloadImpactPropertiesDeserializer(
       : connectivityDeserializer(item["connectivity"]),
     additionalProperties: !item["additionalProperties"]
       ? item["additionalProperties"]
-      : _workloadImpactPropertiesAdditionalPropertiesDeserializer(
-          item["additionalProperties"],
-        ),
+      : _workloadImpactPropertiesAdditionalPropertiesDeserializer(item["additionalProperties"]),
     errorDetails: !item["errorDetails"]
       ? item["errorDetails"]
       : errorDetailPropertiesDeserializer(item["errorDetails"]),
-    workload: !item["workload"]
-      ? item["workload"]
-      : workloadDeserializer(item["workload"]),
+    workload: !item["workload"] ? item["workload"] : workloadDeserializer(item["workload"]),
     impactGroupId: item["impactGroupId"],
     confidenceLevel: item["confidenceLevel"],
     clientIncidentDetails: !item["clientIncidentDetails"]
@@ -783,9 +727,7 @@ export function performanceArraySerializer(result: Array<Performance>): any[] {
   });
 }
 
-export function performanceArrayDeserializer(
-  result: Array<Performance>,
-): any[] {
+export function performanceArrayDeserializer(result: Array<Performance>): any[] {
   return result.map((item) => {
     return performanceDeserializer(item);
   });
@@ -912,12 +854,8 @@ export function connectivitySerializer(item: Connectivity): any {
   return {
     protocol: item["protocol"],
     port: item["port"],
-    source: !item["source"]
-      ? item["source"]
-      : sourceOrTargetSerializer(item["source"]),
-    target: !item["target"]
-      ? item["target"]
-      : sourceOrTargetSerializer(item["target"]),
+    source: !item["source"] ? item["source"] : sourceOrTargetSerializer(item["source"]),
+    target: !item["target"] ? item["target"] : sourceOrTargetSerializer(item["target"]),
   };
 }
 
@@ -925,12 +863,8 @@ export function connectivityDeserializer(item: any): Connectivity {
   return {
     protocol: item["protocol"],
     port: item["port"],
-    source: !item["source"]
-      ? item["source"]
-      : sourceOrTargetDeserializer(item["source"]),
-    target: !item["target"]
-      ? item["target"]
-      : sourceOrTargetDeserializer(item["target"]),
+    source: !item["source"] ? item["source"] : sourceOrTargetDeserializer(item["source"]),
+    target: !item["target"] ? item["target"] : sourceOrTargetDeserializer(item["target"]),
   };
 }
 
@@ -1009,15 +943,11 @@ export interface ErrorDetailProperties {
   errorMessage?: string;
 }
 
-export function errorDetailPropertiesSerializer(
-  item: ErrorDetailProperties,
-): any {
+export function errorDetailPropertiesSerializer(item: ErrorDetailProperties): any {
   return { errorCode: item["errorCode"], errorMessage: item["errorMessage"] };
 }
 
-export function errorDetailPropertiesDeserializer(
-  item: any,
-): ErrorDetailProperties {
+export function errorDetailPropertiesDeserializer(item: any): ErrorDetailProperties {
   return {
     errorCode: item["errorCode"],
     errorMessage: item["errorMessage"],
@@ -1111,18 +1041,14 @@ export interface ClientIncidentDetails {
   clientIncidentSource?: IncidentSource;
 }
 
-export function clientIncidentDetailsSerializer(
-  item: ClientIncidentDetails,
-): any {
+export function clientIncidentDetailsSerializer(item: ClientIncidentDetails): any {
   return {
     clientIncidentId: item["clientIncidentId"],
     clientIncidentSource: item["clientIncidentSource"],
   };
 }
 
-export function clientIncidentDetailsDeserializer(
-  item: any,
-): ClientIncidentDetails {
+export function clientIncidentDetailsDeserializer(item: any): ClientIncidentDetails {
   return {
     clientIncidentId: item["clientIncidentId"],
     clientIncidentSource: item["clientIncidentSource"],
@@ -1164,26 +1090,20 @@ export interface _WorkloadImpactListResult {
   nextLink?: string;
 }
 
-export function _workloadImpactListResultDeserializer(
-  item: any,
-): _WorkloadImpactListResult {
+export function _workloadImpactListResultDeserializer(item: any): _WorkloadImpactListResult {
   return {
     value: workloadImpactArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function workloadImpactArraySerializer(
-  result: Array<WorkloadImpact>,
-): any[] {
+export function workloadImpactArraySerializer(result: Array<WorkloadImpact>): any[] {
   return result.map((item) => {
     return workloadImpactSerializer(item);
   });
 }
 
-export function workloadImpactArrayDeserializer(
-  result: Array<WorkloadImpact>,
-): any[] {
+export function workloadImpactArrayDeserializer(result: Array<WorkloadImpact>): any[] {
   return result.map((item) => {
     return workloadImpactDeserializer(item);
   });
@@ -1197,9 +1117,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1230,9 +1148,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
