@@ -7,9 +7,7 @@
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Fetches the status of an operation such as triggering a backup, restore. The status can be in progress, completed
@@ -21,7 +19,7 @@ or failed. You can refer to the OperationStatus enum for all the possible states
 create jobs. This method returns the list of jobs associated with the operation.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ProtectedItemOperationStatus.json
  */
-async function getOperationStatusOfProtectedVM() {
+async function getOperationStatusOfProtectedVM(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "NetSDKTestRsVault";
@@ -43,7 +41,7 @@ async function getOperationStatusOfProtectedVM() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getOperationStatusOfProtectedVM();
 }
 

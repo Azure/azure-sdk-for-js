@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes a migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Delete.json
  */
-async function migrationsDelete() {
+async function migrationsDelete(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -32,7 +32,7 @@ async function migrationsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   migrationsDelete();
 }
 

@@ -9,7 +9,7 @@
 import {
   SolutionSelfHelpGetOptionalParams,
   SolutionSelfHelpGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SolutionSelfHelp. */
 export interface SolutionSelfHelp {

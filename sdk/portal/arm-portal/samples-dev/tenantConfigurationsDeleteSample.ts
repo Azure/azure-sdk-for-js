@@ -7,9 +7,7 @@
  */
 import { Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete the tenant configuration. User has to be a Tenant Admin for this operation.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Delete the tenant configuration. User has to be a Tenant Admin for this operation.
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/TenantConfiguration/DeleteTenantConfiguration.json
  */
-async function deleteTenantConfiguration() {
+async function deleteTenantConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["PORTAL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const configurationName = "default";
@@ -27,7 +25,7 @@ async function deleteTenantConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteTenantConfiguration();
 }
 

@@ -12,7 +12,7 @@ import {
   WorkspacePurgePurgeResponse,
   WorkspacePurgeGetPurgeStatusOptionalParams,
   WorkspacePurgeGetPurgeStatusResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a WorkspacePurge. */
 export interface WorkspacePurge {

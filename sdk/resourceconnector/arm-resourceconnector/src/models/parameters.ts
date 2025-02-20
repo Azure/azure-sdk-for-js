@@ -14,7 +14,7 @@ import {
 import {
   Appliance as ApplianceMapper,
   PatchableAppliance as PatchableApplianceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyNatRuleCollectionGroupGet.json
  */
-async function getFirewallPolicyNatRuleCollectionGroup() {
+async function getFirewallPolicyNatRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -40,7 +40,7 @@ getFirewallPolicyNatRuleCollectionGroup().catch(console.error);
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupGet.json
  */
-async function getFirewallPolicyRuleCollectionGroup() {
+async function getFirewallPolicyRuleCollectionGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -69,7 +69,7 @@ getFirewallPolicyRuleCollectionGroup().catch(console.error);
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsGet.json
  */
-async function getFirewallPolicyRuleCollectionGroupWithIPGroups() {
+async function getFirewallPolicyRuleCollectionGroupWithIPGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -98,7 +98,7 @@ getFirewallPolicyRuleCollectionGroupWithIPGroups().catch(console.error);
  * @summary Gets the specified FirewallPolicyRuleCollectionGroup.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesGet.json
  */
-async function getFirewallPolicyRuleCollectionGroupWithWebCategories() {
+async function getFirewallPolicyRuleCollectionGroupWithWebCategories(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

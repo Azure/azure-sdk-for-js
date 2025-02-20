@@ -19,14 +19,14 @@ import {
   StorageTasksImpl,
   StorageTaskAssignmentOperationsImpl,
   StorageTasksReportImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   StorageTasks,
   StorageTaskAssignmentOperations,
   StorageTasksReport,
-} from "./operationsInterfaces";
-import { StorageActionsManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { StorageActionsManagementClientOptionalParams } from "./models/index.js";
 
 export class StorageActionsManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -7,13 +7,13 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { LinkedServices } from "../operationsInterfaces";
+import { LinkedServices } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   LinkedService,
   LinkedServicesListByWorkspaceOptionalParams,
@@ -24,7 +24,7 @@ import {
   LinkedServicesDeleteResponse,
   LinkedServicesGetOptionalParams,
   LinkedServicesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LinkedServices operations. */

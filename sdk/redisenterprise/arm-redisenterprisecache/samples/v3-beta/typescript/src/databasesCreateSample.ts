@@ -13,9 +13,7 @@ import {
   RedisEnterpriseManagementClient,
 } from "@azure/arm-redisenterprisecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a database
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a database
  * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDatabasesCreate.json
  */
-async function redisEnterpriseDatabasesCreate() {
+async function redisEnterpriseDatabasesCreate(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
     "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
@@ -65,7 +63,7 @@ async function redisEnterpriseDatabasesCreate() {
  * @summary Creates a database
  * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDatabasesCreateWithGeoReplication.json
  */
-async function redisEnterpriseDatabasesCreateWithActiveGeoReplication() {
+async function redisEnterpriseDatabasesCreateWithActiveGeoReplication(): Promise<void> {
   const subscriptionId =
     process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
     "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
@@ -105,7 +103,7 @@ async function redisEnterpriseDatabasesCreateWithActiveGeoReplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   redisEnterpriseDatabasesCreate();
   redisEnterpriseDatabasesCreateWithActiveGeoReplication();
 }

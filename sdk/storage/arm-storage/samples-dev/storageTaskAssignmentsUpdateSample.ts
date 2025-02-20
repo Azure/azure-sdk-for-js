@@ -8,9 +8,7 @@
 import type { StorageTaskAssignmentUpdateParameters } from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update storage task assignment properties
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Update storage task assignment properties
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/storageTaskAssignmentsCrud/PatchStorageTaskAssignment.json
  */
-async function patchStorageTaskAssignment() {
+async function patchStorageTaskAssignment(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "1f31ba14-ce16-4281-b9b4-3e78da6e1616";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4228";
@@ -49,7 +47,7 @@ async function patchStorageTaskAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchStorageTaskAssignment();
 }
 

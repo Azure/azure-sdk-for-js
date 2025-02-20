@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all available code versions for Service Fabric cluster resources by location.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all available code versions for Service Fabric cluster resources by location.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ClusterVersionsList_example.json
  */
-async function listClusterVersions() {
+async function listClusterVersions(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,7 +29,7 @@ async function listClusterVersions() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listClusterVersions();
 }
 

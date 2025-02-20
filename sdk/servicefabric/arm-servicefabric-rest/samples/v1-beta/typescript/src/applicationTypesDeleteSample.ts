@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Delete a Service Fabric application type name resource with the specified name.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationTypeNameDeleteOperation_example.json
  */
-async function deleteAnApplicationType() {
+async function deleteAnApplicationType(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const clusterName = "myCluster";

@@ -25,7 +25,7 @@ import {
   PrivateLinkResourcesImpl,
   ObjectReplicationPoliciesOperationsImpl,
   EncryptionScopesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Skus,
@@ -37,8 +37,8 @@ import {
   PrivateLinkResources,
   ObjectReplicationPoliciesOperations,
   EncryptionScopes
-} from "./operationsInterfaces";
-import { StorageManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { StorageManagementClientOptionalParams } from "./models/index.js";
 
 export class StorageManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./dedicatedCloudNodes";
-export * from "./dedicatedCloudServices";
-export * from "./skusAvailability";
-export * from "./privateClouds";
-export * from "./customizationPolicies";
-export * from "./resourcePools";
-export * from "./virtualMachineTemplates";
-export * from "./virtualNetworks";
-export * from "./usages";
-export * from "./virtualMachines";
+export * from "./operations.js";
+export * from "./dedicatedCloudNodes.js";
+export * from "./dedicatedCloudServices.js";
+export * from "./skusAvailability.js";
+export * from "./privateClouds.js";
+export * from "./customizationPolicies.js";
+export * from "./resourcePools.js";
+export * from "./virtualMachineTemplates.js";
+export * from "./virtualNetworks.js";
+export * from "./usages.js";
+export * from "./virtualMachines.js";

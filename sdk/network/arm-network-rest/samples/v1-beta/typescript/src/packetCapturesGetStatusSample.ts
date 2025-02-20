@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Query the status of a running packet capture session.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherPacketCaptureQueryStatus.json
  */
-async function queryPacketCaptureStatus() {
+async function queryPacketCaptureStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
