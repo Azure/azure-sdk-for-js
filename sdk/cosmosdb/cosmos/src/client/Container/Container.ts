@@ -114,7 +114,6 @@ export class Container {
   public _rid: string;
 
   private isEncryptionInitialized: boolean = false;
-
   private encryptionInitializationPromise: Promise<void>;
 
   /**
@@ -541,7 +540,7 @@ export class Container {
       await this.initializeEncryption();
       throw new ErrorResponse(
         "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details." +
-          errorResponse.message,
+        errorResponse.message,
       );
     }
   }
