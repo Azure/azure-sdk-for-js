@@ -202,20 +202,21 @@ export interface WhatsAppMessageTemplateBindingsButton {
 }
 
 /** Request payload for adding participants to a conversation. */
-export interface AddParticipantsRequest {
+export interface AddParticipantsOptions {
   /** List of participants to add. */
-  participants: Array<Participant>;
+  participants: Array<ConversationParticipant>;
 }
 
 /** Advanced Messaging conversation participant. */
-export interface ParticipantParent {
+export interface ConversationParticipantParent {
   /** Participant display name. */
   displayName?: string;
   kind: ParticipantKind;
 }
 
 /** Internal conversation participant. */
-export interface InternalParticipant extends ParticipantParent {
+export interface InternalConversationParticipant
+  extends ConversationParticipantParent {
   /** Participant type is internal. */
   kind: "internal";
   /** The internal platform identifiers for the participant. */
@@ -250,15 +251,16 @@ export interface WhatsAppContact extends ContactParent {
 }
 
 /** External conversation participant. */
-export interface ExternalParticipant extends ParticipantParent {
+export interface ExternalConversationParticipant
+  extends ConversationParticipantParent {
   /** Participant type is external. */
-  kind: "External";
+  kind: "external";
   /** List of external platform identifiers for the participant. */
   contacts: Array<Contact>;
 }
 
 /** Request payload for removing participants from a conversation. */
-export interface RemoveParticipantsRequest {
+export interface RemoveParticipantsOptions {
   /** The participant IDs to remove. */
   participantIds: string[];
 }
@@ -276,7 +278,7 @@ export interface Conversation {
    */
   outboundDeliveryStrategy?: OutboundDeliveryStrategyKind;
   /** List of participants involved in the conversation. */
-  participants?: Array<Participant>;
+  participants?: Array<ConversationParticipant>;
 }
 
 /** Details of the conversation message content. */
@@ -347,7 +349,7 @@ export interface TemplateConversationMessageContent
 }
 
 /** Request payload for sending a conversation message. */
-export interface SendConversationMessageRequest {
+export interface SendConversationMessageOptions {
   /** Details of a send conversation message request. */
   request: ConversationMessageContent;
   /**
@@ -397,10 +399,10 @@ export type MessageTemplateBindings =
   | MessageTemplateBindingsParent
   | WhatsAppMessageTemplateBindings;
 /** Advanced Messaging conversation participant. */
-export type Participant =
-  | ParticipantParent
-  | InternalParticipant
-  | ExternalParticipant;
+export type ConversationParticipant =
+  | ConversationParticipantParent
+  | InternalConversationParticipant
+  | ExternalConversationParticipant;
 /** Details of an external platform contact. */
 export type Contact =
   | ContactParent

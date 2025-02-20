@@ -17,39 +17,55 @@ import { CommunicationTokenCredential } from "@azure/communication-common";
 import { EventEmitter } from "events";
 import { logger } from "./generated/src/logger.js";
 import { getSignalingClient } from "./signaling/signalingClient.js";
+import { MessagesServiceClientOptions } from "./generated/src/messagesServiceClient.js";
 
+export interface ConversationEventListener {
+  off(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
+  off(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
+  off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+  off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+  on(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
+  on(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
+  on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+  on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+  on(event: "realTimeNotificationConnected", listener: () => void): void;
+  on(event: "realTimeNotificationDisconnected", listener: () => void): void;
+  startRealtimeNotifications(): Promise<void>;
+  stopRealtimeNotifications(): Promise<void>;
+}
 
-declare interface InternalConversationMessagesClientOptions extends SignalingClientOptions {
-  gatewayApiVersion?: string;
+declare interface InternalConversationEventListenerOptions extends SignalingClientOptions {
+  signalingClientOptions?: SignalingClientOptions;
 }
 
 /**
  * The client to do chat operations
  */
-export class ConversationMessagesClient {
+class ConversationEventListenerImpl {
   private readonly tokenCredential: CommunicationTokenCredential;
-  private readonly clientOptions: InternalConversationMessagesClientOptions;
+  private readonly clientOptions: InternalConversationEventListenerOptions;
   private readonly signalingClient: SignalingClient | undefined = undefined;
   private readonly emitter = new EventEmitter();
   private isRealtimeNotificationsStarted: boolean = false;
 
-
   constructor(
     private readonly endpoint: string,
     credential: CommunicationTokenCredential,
-    options: InternalConversationMessagesClientOptions = {}
+    options: MessagesServiceClientOptions = {}
   ) {
     this.tokenCredential = credential;
-    this.clientOptions = {
-      ...options,
+
+    this.clientOptions = { ...options };
+    this.clientOptions.signalingClientOptions = {
+      ...this.clientOptions.signalingClientOptions,
       resourceEndpoint: this.endpoint,
-      gatewayApiVersion: options.gatewayApiVersion || "2024-03-07",
+      gatewayApiVersion: "2024-03-07",
     };
 
     this.signalingClient = getSignalingClient(
       this.tokenCredential,
       logger,
-      this.clientOptions,
+      this.clientOptions.signalingClientOptions,
     );
   }
 
@@ -217,4 +233,12 @@ export class ConversationMessagesClient {
       this.emitter.emit("participantsRemoved", payload);
     });
   }
+}
+
+export function createConversationEventListener(
+  endpoint: string,
+  credential: CommunicationTokenCredential,
+  options: MessagesServiceClientOptions = {}
+): ConversationEventListener {
+  return new ConversationEventListenerImpl(endpoint, credential, options)
 }

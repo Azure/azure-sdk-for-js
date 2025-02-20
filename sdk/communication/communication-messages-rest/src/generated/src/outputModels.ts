@@ -181,7 +181,7 @@ export interface WhatsAppMessageTemplateItemOutput
 }
 
 /** Advanced Messaging conversation participant. */
-export interface ParticipantOutputParent {
+export interface ConversationParticipantOutputParent {
   /** Participant Identifier. */
   readonly id: string;
   /** Participant display name. */
@@ -190,7 +190,8 @@ export interface ParticipantOutputParent {
 }
 
 /** Internal conversation participant. */
-export interface InternalParticipantOutput extends ParticipantOutputParent {
+export interface InternalConversationParticipantOutput
+  extends ConversationParticipantOutputParent {
   /** Participant type is internal. */
   kind: "internal";
   /** The internal platform identifiers for the participant. */
@@ -225,9 +226,10 @@ export interface WhatsAppContactOutput extends ContactOutputParent {
 }
 
 /** External conversation participant. */
-export interface ExternalParticipantOutput extends ParticipantOutputParent {
+export interface ExternalConversationParticipantOutput
+  extends ConversationParticipantOutputParent {
   /** Participant type is external. */
-  kind: "External";
+  kind: "external";
   /** List of external platform identifiers for the participant. */
   contacts: Array<ContactOutput>;
 }
@@ -235,11 +237,11 @@ export interface ExternalParticipantOutput extends ParticipantOutputParent {
 /** Response for the add participants operation. */
 export interface AddParticipantsResultOutput {
   /** List of Ids with Errors if failed to be added */
-  invalidParticipants: Array<ParticipantsResultOutput>;
+  invalidParticipants: Array<UpdateParticipantsResultOutput>;
 }
 
 /** Response for the remove participants operation. */
-export interface ParticipantsResultOutput {
+export interface UpdateParticipantsResultOutput {
   /** Participant User Id. */
   id: string;
   /** Error of the participant operation. */
@@ -249,7 +251,7 @@ export interface ParticipantsResultOutput {
 /** Response for the remove participants operation. */
 export interface RemoveParticipantsResultOutput {
   /** List of Ids with Errors if failed to be added */
-  invalidParticipants: Array<ParticipantsResultOutput>;
+  invalidParticipants: Array<UpdateParticipantsResultOutput>;
 }
 
 /** Paged collection of Conversation items */
@@ -275,7 +277,7 @@ export interface ConversationOutput {
    */
   outboundDeliveryStrategy?: OutboundDeliveryStrategyKindOutput;
   /** List of participants involved in the conversation. */
-  participants?: Array<ParticipantOutput>;
+  participants?: Array<ConversationParticipantOutput>;
 }
 
 /** Paged collection of ConversationMessageItem items */
@@ -376,7 +378,7 @@ export interface SendConversationMessageResultOutput {
 }
 
 /** Result of the get conversation messages AI Analysis operation. */
-export interface GetConversationMessagesAnalysisResultOutput {
+export interface GetConversationThreadAnalysisResultOutput {
   /** The AI summary of the conversation messages. */
   summary: string;
 }
@@ -399,10 +401,10 @@ export type MessageTemplateItemOutput =
   | MessageTemplateItemOutputParent
   | WhatsAppMessageTemplateItemOutput;
 /** Advanced Messaging conversation participant. */
-export type ParticipantOutput =
-  | ParticipantOutputParent
-  | InternalParticipantOutput
-  | ExternalParticipantOutput;
+export type ConversationParticipantOutput =
+  | ConversationParticipantOutputParent
+  | InternalConversationParticipantOutput
+  | ExternalConversationParticipantOutput;
 /** Details of an external platform contact. */
 export type ContactOutput =
   | ContactOutputParent

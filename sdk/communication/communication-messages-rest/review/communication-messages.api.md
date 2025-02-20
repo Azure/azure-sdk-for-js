@@ -19,7 +19,6 @@ import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
-import { SignalingClientOptions } from '@azure/communication-signaling';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -46,7 +45,7 @@ export interface AddParticipants207Response extends HttpResponse {
 
 // @public (undocumented)
 export interface AddParticipantsBodyParam {
-    body: AddParticipantsRequest;
+    body: AddParticipantsOptions;
 }
 
 // @public (undocumented)
@@ -77,17 +76,17 @@ export interface AddParticipantsHeaders {
     "x-ms-client-request-id"?: string;
 }
 
+// @public
+export interface AddParticipantsOptions {
+    participants: Array<ConversationParticipant>;
+}
+
 // @public (undocumented)
 export type AddParticipantsParameters = AddParticipantsHeaderParam & AddParticipantsBodyParam & RequestParameters;
 
 // @public
-export interface AddParticipantsRequest {
-    participants: Array<Participant>;
-}
-
-// @public
 export interface AddParticipantsResultOutput {
-    invalidParticipants: Array<ParticipantsResultOutput>;
+    invalidParticipants: Array<UpdateParticipantsResultOutput>;
 }
 
 // @public (undocumented)
@@ -104,7 +103,7 @@ export interface AnalyzeConversation200Headers {
 // @public
 export interface AnalyzeConversation200Response extends HttpResponse {
     // (undocumented)
-    body: GetConversationMessagesAnalysisResultOutput;
+    body: GetConversationThreadAnalysisResultOutput;
     // (undocumented)
     headers: RawHttpHeaders & AnalyzeConversation200Headers;
     // (undocumented)
@@ -222,8 +221,36 @@ export interface ContactParent {
 export interface Conversation {
     deliveryChannelIds?: string[];
     outboundDeliveryStrategy?: OutboundDeliveryStrategyKind;
-    participants?: Array<Participant>;
+    participants?: Array<ConversationParticipant>;
     topic?: string;
+}
+
+// @public (undocumented)
+export interface ConversationEventListener {
+    // (undocumented)
+    off(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
+    // (undocumented)
+    off(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
+    // (undocumented)
+    off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+    // (undocumented)
+    off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    // (undocumented)
+    on(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
+    // (undocumented)
+    on(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
+    // (undocumented)
+    on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
+    // (undocumented)
+    on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
+    // (undocumented)
+    on(event: "realTimeNotificationConnected", listener: () => void): void;
+    // (undocumented)
+    on(event: "realTimeNotificationDisconnected", listener: () => void): void;
+    // (undocumented)
+    startRealtimeNotifications(): Promise<void>;
+    // (undocumented)
+    stopRealtimeNotifications(): Promise<void>;
 }
 
 // @public
@@ -255,30 +282,33 @@ export interface ConversationMessageItemOutput {
 }
 
 // @public
-export class ConversationMessagesClient {
-    // Warning: (ae-forgotten-export) The symbol "InternalConversationMessagesClientOptions" needs to be exported by the entry point index.d.ts
-    constructor(endpoint: string, credential: CommunicationTokenCredential, options?: InternalConversationMessagesClientOptions);
-    off(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
-    off(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
-    off(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
-    off(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
-    on(event: "chatMessageReceived", listener: (e: ChatMessageReceivedEvent) => void): void;
-    on(event: "chatThreadPropertiesUpdated", listener: (e: ChatThreadPropertiesUpdatedEvent) => void): void;
-    on(event: "participantsAdded", listener: (e: ParticipantsAddedEvent) => void): void;
-    on(event: "participantsRemoved", listener: (e: ParticipantsRemovedEvent) => void): void;
-    on(event: "realTimeNotificationConnected", listener: () => void): void;
-    on(event: "realTimeNotificationDisconnected", listener: () => void): void;
-    startRealtimeNotifications(): Promise<void>;
-    stopRealtimeNotifications(): Promise<void>;
-}
-
-// @public
 export interface ConversationOutput {
     deliveryChannelIds?: string[];
     readonly id: string;
     outboundDeliveryStrategy?: OutboundDeliveryStrategyKindOutput;
-    participants?: Array<ParticipantOutput>;
+    participants?: Array<ConversationParticipantOutput>;
     topic?: string;
+}
+
+// @public
+export type ConversationParticipant = ConversationParticipantParent | InternalConversationParticipant | ExternalConversationParticipant;
+
+// @public
+export type ConversationParticipantOutput = ConversationParticipantOutputParent | InternalConversationParticipantOutput | ExternalConversationParticipantOutput;
+
+// @public
+export interface ConversationParticipantOutputParent {
+    displayName?: string;
+    readonly id: string;
+    // (undocumented)
+    kind: ParticipantKindOutput;
+}
+
+// @public
+export interface ConversationParticipantParent {
+    displayName?: string;
+    // (undocumented)
+    kind: ParticipantKind;
 }
 
 // @public
@@ -316,6 +346,9 @@ export interface CreateConversationDefaultResponse extends HttpResponse {
     // (undocumented)
     status: string;
 }
+
+// @public (undocumented)
+export function createConversationEventListener(endpoint: string, credential: CommunicationTokenCredential, options?: MessagesServiceClientOptions): ConversationEventListener;
 
 // @public (undocumented)
 export type CreateConversationParameters = CreateConversationBodyParam & RequestParameters;
@@ -396,15 +429,15 @@ export interface DocumentNotificationContent extends NotificationContentParent {
 }
 
 // @public
-export interface ExternalParticipant extends ParticipantParent {
+export interface ExternalConversationParticipant extends ConversationParticipantParent {
     contacts: Array<Contact>;
-    kind: "External";
+    kind: "external";
 }
 
 // @public
-export interface ExternalParticipantOutput extends ParticipantOutputParent {
+export interface ExternalConversationParticipantOutput extends ConversationParticipantOutputParent {
     contacts: Array<ContactOutput>;
-    kind: "External";
+    kind: "external";
 }
 
 // @public
@@ -457,13 +490,13 @@ export interface GetConversationHeaders {
     "x-ms-client-request-id"?: string;
 }
 
-// @public
-export interface GetConversationMessagesAnalysisResultOutput {
-    summary: string;
-}
-
 // @public (undocumented)
 export type GetConversationParameters = GetConversationHeaderParam & RequestParameters;
+
+// @public
+export interface GetConversationThreadAnalysisResultOutput {
+    summary: string;
+}
 
 // @public (undocumented)
 export interface GetMedia {
@@ -542,13 +575,13 @@ export interface ImageNotificationContent extends NotificationContentParent {
 }
 
 // @public
-export interface InternalParticipant extends ParticipantParent {
+export interface InternalConversationParticipant extends ConversationParticipantParent {
     contact: Contact;
     kind: "internal";
 }
 
 // @public
-export interface InternalParticipantOutput extends ParticipantOutputParent {
+export interface InternalConversationParticipantOutput extends ConversationParticipantOutputParent {
     contact: ContactOutput;
     kind: "internal";
 }
@@ -651,7 +684,7 @@ export interface ListConversationsQueryParam {
 // @public (undocumented)
 export interface ListConversationsQueryParamProperties {
     channelId?: string;
-    maxpagesize?: number;
+    maxPageSize?: number;
     participantId?: string;
 }
 
@@ -712,7 +745,7 @@ export interface ListMessagesQueryParam {
 
 // @public (undocumented)
 export interface ListMessagesQueryParamProperties {
-    maxpagesize?: number;
+    maxPageSize?: number;
     participantId?: string;
 }
 
@@ -773,7 +806,7 @@ export interface ListTemplatesQueryParam {
 
 // @public (undocumented)
 export interface ListTemplatesQueryParamProperties {
-    maxpagesize?: number;
+    maxPageSize?: number;
 }
 
 // @public @deprecated (undocumented)
@@ -1046,41 +1079,14 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
-export type Participant = ParticipantParent | InternalParticipant | ExternalParticipant;
-
-// @public
 export type ParticipantKind = string;
 
 // @public
 export type ParticipantKindOutput = string;
 
-// @public
-export type ParticipantOutput = ParticipantOutputParent | InternalParticipantOutput | ExternalParticipantOutput;
-
-// @public
-export interface ParticipantOutputParent {
-    displayName?: string;
-    readonly id: string;
-    // (undocumented)
-    kind: ParticipantKindOutput;
-}
-
-// @public
-export interface ParticipantParent {
-    displayName?: string;
-    // (undocumented)
-    kind: ParticipantKind;
-}
-
 export { ParticipantsAddedEvent }
 
 export { ParticipantsRemovedEvent }
-
-// @public
-export interface ParticipantsResultOutput {
-    error?: ErrorModel;
-    id: string;
-}
 
 // @public (undocumented)
 export interface RemoveParticipants {
@@ -1105,7 +1111,7 @@ export interface RemoveParticipants207Response extends HttpResponse {
 
 // @public (undocumented)
 export interface RemoveParticipantsBodyParam {
-    body: RemoveParticipantsRequest;
+    body: RemoveParticipantsOptions;
 }
 
 // @public (undocumented)
@@ -1136,17 +1142,17 @@ export interface RemoveParticipantsHeaders {
     "x-ms-client-request-id"?: string;
 }
 
+// @public
+export interface RemoveParticipantsOptions {
+    participantIds: string[];
+}
+
 // @public (undocumented)
 export type RemoveParticipantsParameters = RemoveParticipantsHeaderParam & RemoveParticipantsBodyParam & RequestParameters;
 
 // @public
-export interface RemoveParticipantsRequest {
-    participantIds: string[];
-}
-
-// @public
 export interface RemoveParticipantsResultOutput {
-    invalidParticipants: Array<ParticipantsResultOutput>;
+    invalidParticipants: Array<UpdateParticipantsResultOutput>;
 }
 
 // @public
@@ -1194,7 +1200,7 @@ export interface SendBodyParam {
 }
 
 // @public
-export interface SendConversationMessageRequest {
+export interface SendConversationMessageOptions {
     outboundDeliveryStrategy?: OutboundDeliveryStrategyKind;
     request: ConversationMessageContent;
 }
@@ -1255,7 +1261,7 @@ export interface SendMessage200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface SendMessageBodyParam {
-    body: SendConversationMessageRequest;
+    body: SendConversationMessageOptions;
 }
 
 // @public (undocumented)
@@ -1381,6 +1387,12 @@ export interface TextConversationMessageContentOutput extends ConversationMessag
 export interface TextNotificationContent extends NotificationContentParent {
     content: string;
     kind: "text";
+}
+
+// @public
+export interface UpdateParticipantsResultOutput {
+    error?: ErrorModel;
+    id: string;
 }
 
 // @public

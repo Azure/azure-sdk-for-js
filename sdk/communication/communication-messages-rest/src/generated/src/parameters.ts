@@ -5,9 +5,9 @@ import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { RequestParameters } from "@azure-rest/core-client";
 import type {
   NotificationContent,
-  AddParticipantsRequest,
-  RemoveParticipantsRequest,
-  SendConversationMessageRequest,
+  AddParticipantsOptions,
+  RemoveParticipantsOptions,
+  SendConversationMessageOptions,
   CreateConversationRequest,
 } from "./models.js";
 
@@ -51,7 +51,7 @@ export interface ListTemplatesHeaders {
 
 export interface ListTemplatesQueryParamProperties {
   /** Number of objects to return per page. */
-  maxpagesize?: number;
+  maxPageSize?: number;
 }
 
 export interface ListTemplatesQueryParam {
@@ -77,7 +77,7 @@ export interface AddParticipantsHeaders {
 
 export interface AddParticipantsBodyParam {
   /** Details of the payload for adding participants to a conversation. */
-  body: AddParticipantsRequest;
+  body: AddParticipantsOptions;
 }
 
 export interface AddParticipantsHeaderParam {
@@ -99,7 +99,7 @@ export interface RemoveParticipantsHeaders {
 
 export interface RemoveParticipantsBodyParam {
   /** Details of the request body for removing participants from a conversation. */
-  body: RemoveParticipantsRequest;
+  body: RemoveParticipantsOptions;
 }
 
 export interface RemoveParticipantsHeaderParam {
@@ -117,7 +117,7 @@ export interface ListConversationsHeaders {
 
 export interface ListConversationsQueryParamProperties {
   /** Number of objects to return per page. */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** The participant user ID */
   participantId?: string;
   /** The id of channel */
@@ -143,7 +143,7 @@ export interface ListMessagesHeaders {
 
 export interface ListMessagesQueryParamProperties {
   /** Number of objects to return per page. */
-  maxpagesize?: number;
+  maxPageSize?: number;
   /** The participant user ID */
   participantId?: string;
 }
@@ -171,7 +171,7 @@ export interface SendMessageHeaders {
 
 export interface SendMessageBodyParam {
   /** Details of the conversation message to send. */
-  body: SendConversationMessageRequest;
+  body: SendConversationMessageOptions;
 }
 
 export interface SendMessageHeaderParam {

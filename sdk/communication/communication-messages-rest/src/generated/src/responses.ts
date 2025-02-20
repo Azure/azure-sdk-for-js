@@ -12,7 +12,7 @@ import type {
   PagedConversationOutput,
   PagedConversationMessageItemOutput,
   SendConversationMessageResultOutput,
-  GetConversationMessagesAnalysisResultOutput,
+  GetConversationThreadAnalysisResultOutput,
   ConversationOutput,
 } from "./outputModels.js";
 
@@ -221,7 +221,7 @@ export interface AnalyzeConversation200Headers {
 /** The request has succeeded. */
 export interface AnalyzeConversation200Response extends HttpResponse {
   status: "200";
-  body: GetConversationMessagesAnalysisResultOutput;
+  body: GetConversationThreadAnalysisResultOutput;
   headers: RawHttpHeaders & AnalyzeConversation200Headers;
 }
 
