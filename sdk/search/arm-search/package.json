@@ -25,7 +25,7 @@
   ],
   "license": "MIT",
   "main": "./dist/index.js",
-  "module": "./dist-esm/index.js",
+  "module": "./dist-esm/src/index.js",
   "types": "./types/arm-search.d.ts",
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
