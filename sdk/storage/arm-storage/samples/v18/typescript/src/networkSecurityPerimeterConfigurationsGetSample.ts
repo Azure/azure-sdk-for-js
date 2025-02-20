@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Gets effective NetworkSecurityPerimeterConfiguration for association
  *
  * @summary Gets effective NetworkSecurityPerimeterConfiguration for association
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/NetworkSecurityPerimeterConfigurationGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/NetworkSecurityPerimeterConfigurationGet.json
  */
 async function networkSecurityPerimeterConfigurationGet(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function networkSecurityPerimeterConfigurationGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  networkSecurityPerimeterConfigurationGet();
+  await networkSecurityPerimeterConfigurationGet();
 }
 
 main().catch(console.error);

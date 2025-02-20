@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to List blob services of storage account. It returns a collection of one object named default.
  *
  * @summary List blob services of storage account. It returns a collection of one object named default.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobServicesList.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobServicesList.json
  */
 async function listBlobServices(): Promise<void> {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function listBlobServices(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listBlobServices();
+  await listBlobServices();
 }
 
 main().catch(console.error);

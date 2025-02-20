@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to List the object replication policies associated with the storage account.
  *
  * @summary List the object replication policies associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountListObjectReplicationPolicies.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountListObjectReplicationPolicies.json
  */
 async function storageAccountListObjectReplicationPolicies(): Promise<void> {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function storageAccountListObjectReplicationPolicies(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageAccountListObjectReplicationPolicies();
+  await storageAccountListObjectReplicationPolicies();
 }
 
 main().catch(console.error);
