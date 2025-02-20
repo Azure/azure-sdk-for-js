@@ -7,9 +7,7 @@
  */
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of inventoryItems in the given VmmServer.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns the list of inventoryItems in the given VmmServer.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/InventoryItems_ListByVmmServer_MaximumSet_Gen.json
  */
-async function inventoryItemsListByVmmServerMaximumSet() {
+async function inventoryItemsListByVmmServerMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";
   const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "rgscvmm";
@@ -40,7 +38,7 @@ async function inventoryItemsListByVmmServerMaximumSet() {
  * @summary Returns the list of inventoryItems in the given VmmServer.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/InventoryItems_ListByVmmServer_MinimumSet_Gen.json
  */
-async function inventoryItemsListByVmmServerMinimumSet() {
+async function inventoryItemsListByVmmServerMinimumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";
   const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "rgscvmm";
@@ -57,7 +55,7 @@ async function inventoryItemsListByVmmServerMinimumSet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await inventoryItemsListByVmmServerMaximumSet();
   await inventoryItemsListByVmmServerMinimumSet();
 }

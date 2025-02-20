@@ -7,9 +7,7 @@
  */
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List GlobalRulestackResource resources by Tenant
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List GlobalRulestackResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_List_MaximumSet_Gen.json
  */
-async function globalRulestackListMaximumSetGen() {
+async function globalRulestackListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
   const resArray = new Array();
@@ -33,7 +31,7 @@ async function globalRulestackListMaximumSetGen() {
  * @summary List GlobalRulestackResource resources by Tenant
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_List_MinimumSet_Gen.json
  */
-async function globalRulestackListMinimumSetGen() {
+async function globalRulestackListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
   const resArray = new Array();
@@ -43,7 +41,7 @@ async function globalRulestackListMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await globalRulestackListMaximumSetGen();
   await globalRulestackListMinimumSetGen();
 }

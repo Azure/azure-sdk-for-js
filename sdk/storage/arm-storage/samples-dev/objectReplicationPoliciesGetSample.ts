@@ -7,9 +7,7 @@
  */
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the object replication policy of the storage account by policy ID.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get the object replication policy of the storage account by policy ID.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountGetObjectReplicationPolicy.json
  */
-async function storageAccountGetObjectReplicationPolicies() {
+async function storageAccountGetObjectReplicationPolicies(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
   const accountName = "sto2527";
@@ -32,7 +30,7 @@ async function storageAccountGetObjectReplicationPolicies() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await storageAccountGetObjectReplicationPolicies();
 }
 

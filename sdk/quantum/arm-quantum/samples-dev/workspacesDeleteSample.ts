@@ -7,9 +7,7 @@
  */
 import { AzureQuantumManagementClient } from "@azure/arm-quantum";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a Workspace resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes a Workspace resource.
  * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesDelete.json
  */
-async function quantumWorkspacesDelete() {
+async function quantumWorkspacesDelete(): Promise<void> {
   const subscriptionId =
     process.env["QUANTUM_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["QUANTUM_RESOURCE_GROUP"] || "quantumResourcegroup";
@@ -28,7 +26,7 @@ async function quantumWorkspacesDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await quantumWorkspacesDelete();
 }
 

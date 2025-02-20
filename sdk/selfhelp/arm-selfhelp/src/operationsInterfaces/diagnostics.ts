@@ -12,7 +12,7 @@ import {
   DiagnosticsCreateResponse,
   DiagnosticsGetOptionalParams,
   DiagnosticsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Diagnostics. */
 export interface Diagnostics {

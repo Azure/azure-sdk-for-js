@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all network interfaces in a cloud service.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CloudServiceNetworkInterfaceList.json
  */
-async function listCloudServiceNetworkInterfaces() {
+async function listCloudServiceNetworkInterfaces(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of VirtualMachineTemplates in a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List of VirtualMachineTemplates in a subscription.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineTemplates_ListBySubscription_MaximumSet_Gen.json
  */
-async function virtualMachineTemplatesListBySubscriptionMaximumSet() {
+async function virtualMachineTemplatesListBySubscriptionMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] ||
     "79332E5A-630B-480F-A266-A941C015AB19";
@@ -39,7 +37,7 @@ async function virtualMachineTemplatesListBySubscriptionMaximumSet() {
  * @summary List of VirtualMachineTemplates in a subscription.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineTemplates_ListBySubscription_MinimumSet_Gen.json
  */
-async function virtualMachineTemplatesListBySubscriptionMinimumSet() {
+async function virtualMachineTemplatesListBySubscriptionMinimumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] ||
     "79332E5A-630B-480F-A266-A941C015AB19";
@@ -52,7 +50,7 @@ async function virtualMachineTemplatesListBySubscriptionMinimumSet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineTemplatesListBySubscriptionMaximumSet();
   virtualMachineTemplatesListBySubscriptionMinimumSet();
 }

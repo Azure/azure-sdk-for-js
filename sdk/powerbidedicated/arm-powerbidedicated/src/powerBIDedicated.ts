@@ -18,13 +18,13 @@ import {
   CapacitiesImpl,
   OperationsImpl,
   AutoScaleVCoresImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Capacities,
   Operations,
   AutoScaleVCores
-} from "./operationsInterfaces";
-import { PowerBIDedicatedOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { PowerBIDedicatedOptionalParams } from "./models/index.js";
 
 export class PowerBIDedicated extends coreClient.ServiceClient {
   $host: string;

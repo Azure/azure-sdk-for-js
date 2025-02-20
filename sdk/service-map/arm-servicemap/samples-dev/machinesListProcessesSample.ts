@@ -8,9 +8,7 @@
 import type { MachinesListProcessesOptionalParams } from "@azure/arm-servicemap";
 import { ServiceMap } from "@azure/arm-servicemap";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a collection of processes on the specified machine matching the specified conditions. The returned collection represents either processes that are active/live during the specified interval  of time (`live=true` and `startTime`/`endTime` are specified) or that are known to have existed at or  some time prior to the specified point in time (`live=false` and `timestamp` is specified).
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Returns a collection of processes on the specified machine matching the specified conditions. The returned collection represents either processes that are active/live during the specified interval  of time (`live=true` and `startTime`/`endTime` are specified) or that are known to have existed at or  some time prior to the specified point in time (`live=false` and `timestamp` is specified).
  * x-ms-original-file: specification/service-map/resource-manager/Microsoft.OperationalInsights/preview/2015-11-01-preview/examples/Machines/Processes/SMMachinesListProcessesGet.json
  */
-async function smMachinesListProcessesGet() {
+async function smMachinesListProcessesGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICE-MAP_SUBSCRIPTION_ID"] || "63BE4E24-FDF0-4E9C-9342-6A5D5A359722";
   const resourceGroupName = process.env["SERVICE-MAP_RESOURCE_GROUP"] || "rg-sm";
@@ -41,7 +39,7 @@ async function smMachinesListProcessesGet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await smMachinesListProcessesGet();
 }
 

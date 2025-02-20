@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Maps } from "../operationsInterfaces";
+import { Maps } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ServiceMap } from "../serviceMap";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ServiceMap } from "../serviceMap.js";
 import {
   MapRequestUnion,
   MapsGenerateOptionalParams,
   MapsGenerateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Maps operations. */
 export class MapsImpl implements Maps {

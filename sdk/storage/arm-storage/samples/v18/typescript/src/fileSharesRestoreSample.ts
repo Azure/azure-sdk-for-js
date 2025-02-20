@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DeletedShare, StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Restore a file share within a valid retention days if share soft delete is enabled
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Restore a file share within a valid retention days if share soft delete is enabled
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileSharesRestore.json
  */
-async function restoreShares() {
+async function restoreShares(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res3376";
@@ -41,7 +39,7 @@ async function restoreShares() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   restoreShares();
 }
 

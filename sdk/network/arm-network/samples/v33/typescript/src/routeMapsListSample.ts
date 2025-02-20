@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the details of all RouteMaps.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieves the details of all RouteMaps.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/RouteMapList.json
  */
-async function routeMapList() {
+async function routeMapList(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
@@ -36,7 +34,7 @@ async function routeMapList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   routeMapList();
 }
 

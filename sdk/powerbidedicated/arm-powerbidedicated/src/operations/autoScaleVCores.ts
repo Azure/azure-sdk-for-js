@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { AutoScaleVCores } from "../operationsInterfaces";
+import { AutoScaleVCores } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PowerBIDedicated } from "../powerBIDedicated";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PowerBIDedicated } from "../powerBIDedicated.js";
 import {
   AutoScaleVCore,
   AutoScaleVCoresListByResourceGroupOptionalParams,
@@ -26,7 +26,7 @@ import {
   AutoScaleVCoreUpdateParameters,
   AutoScaleVCoresUpdateOptionalParams,
   AutoScaleVCoresUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AutoScaleVCores operations. */

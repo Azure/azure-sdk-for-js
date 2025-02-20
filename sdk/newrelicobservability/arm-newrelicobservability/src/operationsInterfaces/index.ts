@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./accounts";
-export * from "./monitors";
-export * from "./organizations";
-export * from "./plans";
-export * from "./billingInfo";
-export * from "./connectedPartnerResources";
-export * from "./tagRules";
-export * from "./monitoredSubscriptions";
+export * from "./operations.js";
+export * from "./accounts.js";
+export * from "./monitors.js";
+export * from "./organizations.js";
+export * from "./plans.js";
+export * from "./billingInfo.js";
+export * from "./connectedPartnerResources.js";
+export * from "./tagRules.js";
+export * from "./monitoredSubscriptions.js";

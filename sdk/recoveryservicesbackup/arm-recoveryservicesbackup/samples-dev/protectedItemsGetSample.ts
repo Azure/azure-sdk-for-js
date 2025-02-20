@@ -7,9 +7,7 @@
  */
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides the details of the backed up item. This is an asynchronous operation. To know the status of the operation,
@@ -19,7 +17,7 @@ call the GetItemOperationResult API.
 call the GetItemOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ClassicCompute_ProtectedItem_Get.json
  */
-async function getProtectedClassicVirtualMachineDetails() {
+async function getProtectedClassicVirtualMachineDetails(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "PySDKBackupTestRsVault";
@@ -48,7 +46,7 @@ call the GetItemOperationResult API.
 call the GetItemOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/Compute_ProtectedItem_Get.json
  */
-async function getProtectedVirtualMachineDetails() {
+async function getProtectedVirtualMachineDetails(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "PySDKBackupTestRsVault";
@@ -69,7 +67,7 @@ async function getProtectedVirtualMachineDetails() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getProtectedClassicVirtualMachineDetails();
   await getProtectedVirtualMachineDetails();
 }
