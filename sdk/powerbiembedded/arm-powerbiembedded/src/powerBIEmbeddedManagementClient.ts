@@ -14,15 +14,15 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { WorkspaceCollectionsImpl, WorkspacesImpl } from "./operations";
-import { WorkspaceCollections, Workspaces } from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { WorkspaceCollectionsImpl, WorkspacesImpl } from "./operations/index.js";
+import { WorkspaceCollections, Workspaces } from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   PowerBIEmbeddedManagementClientOptionalParams,
   GetAvailableOperationsOptionalParams,
   GetAvailableOperationsResponse
-} from "./models";
+} from "./models/index.js";
 
 export class PowerBIEmbeddedManagementClient extends coreClient.ServiceClient {
   $host: string;

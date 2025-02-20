@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-networkcloud";
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deploy the cluster using the rack configuration provided during creation.
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary Deploy the cluster using the rack configuration provided during creation.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Deploy.json
  */
-async function deployCluster() {
+async function deployCluster(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -40,7 +38,7 @@ async function deployCluster() {
  * @summary Deploy the cluster using the rack configuration provided during creation.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/Clusters_Deploy_SkipValidation.json
  */
-async function deployClusterSkippingValidation() {
+async function deployClusterSkippingValidation(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] || "123e4567-e89b-12d3-a456-426655440000";
   const resourceGroupName = process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
@@ -55,7 +53,7 @@ async function deployClusterSkippingValidation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deployCluster();
   await deployClusterSkippingValidation();
 }

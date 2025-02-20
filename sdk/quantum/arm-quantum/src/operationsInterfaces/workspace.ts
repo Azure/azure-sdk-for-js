@@ -14,7 +14,7 @@ import {
   WorkspaceListKeysResponse,
   APIKeys,
   WorkspaceRegenerateKeysOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Workspace. */
 export interface Workspace {

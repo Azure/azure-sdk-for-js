@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Lists all flow log resources for the specified Network Watcher.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherFlowLogList.json
  */
-async function listConnectionMonitors() {
+async function listConnectionMonitors(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

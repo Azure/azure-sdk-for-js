@@ -14,9 +14,7 @@ import {
   ResourceMoverServiceAPI
 } from "@azure/arm-resourcemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a move collection.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Creates or updates a move collection.
  * x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/MoveCollections_Create.json
  */
-async function moveCollectionsCreate() {
+async function moveCollectionsCreate(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEMOVER_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -50,7 +48,7 @@ async function moveCollectionsCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   moveCollectionsCreate();
 }
 

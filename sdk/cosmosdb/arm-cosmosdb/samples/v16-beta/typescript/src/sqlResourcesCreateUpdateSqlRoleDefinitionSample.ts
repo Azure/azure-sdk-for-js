@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates an Azure Cosmos DB SQL Role Definition.
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBSqlRoleDefinitionCreateUpdate.json
  */
-async function cosmosDbSqlRoleDefinitionCreateUpdate() {
+async function cosmosDbSqlRoleDefinitionCreateUpdate(): Promise<void> {
   const subscriptionId =
     process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const roleDefinitionId = "myRoleDefinitionId";
@@ -55,7 +55,7 @@ async function cosmosDbSqlRoleDefinitionCreateUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbSqlRoleDefinitionCreateUpdate();
 }
 

@@ -21,8 +21,7 @@ async function createAnInvitationLinkForAUserForAStaticSite(): Promise<void> {
     process.env["APPSERVICE_SUBSCRIPTION_ID"] || "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = process.env["APPSERVICE_RESOURCE_GROUP"] || "rg";
   const name = "testStaticSite0";
-  const staticSiteUserRolesInvitationEnvelope: StaticSiteUserInvitationRequestResource =
-  {
+  const staticSiteUserRolesInvitationEnvelope: StaticSiteUserInvitationRequestResource = {
     domain: "happy-sea-15afae3e.azurestaticwebsites.net",
     numHoursToExpiration: 1,
     provider: "aad",

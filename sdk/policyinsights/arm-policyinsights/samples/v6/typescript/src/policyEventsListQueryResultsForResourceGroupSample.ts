@@ -21,7 +21,7 @@ import "dotenv/config";
  * @summary Queries policy events for the resources under the resource group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryResourceGroupScope.json
  */
-async function queryAtResourceGroupScope() {
+async function queryAtResourceGroupScope(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName =
@@ -45,7 +45,7 @@ async function queryAtResourceGroupScope() {
  * @summary Queries policy events for the resources under the resource group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyEvents_QueryResourceGroupScopeNextLink.json
  */
-async function queryAtResourceGroupScopeWithNextLink() {
+async function queryAtResourceGroupScopeWithNextLink(): Promise<void> {
   const policyEventsResource = "default";
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName =
@@ -68,7 +68,7 @@ async function queryAtResourceGroupScopeWithNextLink() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   queryAtResourceGroupScope();
   queryAtResourceGroupScopeWithNextLink();
 }

@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { StorageTasksReport } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { StorageTasksReport } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageActionsManagementClient } from "../storageActionsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageActionsManagementClient } from "../storageActionsManagementClient.js";
 import {
   StorageTaskReportInstance,
   StorageTasksReportListNextOptionalParams,
   StorageTasksReportListOptionalParams,
   StorageTasksReportListResponse,
   StorageTasksReportListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StorageTasksReport operations. */

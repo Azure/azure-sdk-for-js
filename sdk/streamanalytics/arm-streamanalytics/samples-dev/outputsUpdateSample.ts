@@ -8,9 +8,7 @@
 import type { Output } from "@azure/arm-streamanalytics";
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_DeltaLake.json
  */
-async function updateADeltaLakeOutput() {
+async function updateADeltaLakeOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -44,7 +42,7 @@ async function updateADeltaLakeOutput() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_DocumentDB.json
  */
-async function updateADocumentDbOutput() {
+async function updateADocumentDbOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7983";
@@ -68,7 +66,7 @@ async function updateADocumentDbOutput() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_PowerBI.json
  */
-async function updateAPowerBiOutput() {
+async function updateAPowerBiOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7983";
@@ -89,7 +87,7 @@ async function updateAPowerBiOutput() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_ServiceBusQueue.json
  */
-async function updateAServiceBusQueueOutputWithAvroSerialization() {
+async function updateAServiceBusQueueOutputWithAvroSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3410";
@@ -114,7 +112,7 @@ async function updateAServiceBusQueueOutputWithAvroSerialization() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_ServiceBusTopic.json
  */
-async function updateAServiceBusTopicOutputWithCsvSerialization() {
+async function updateAServiceBusTopicOutputWithCsvSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6450";
@@ -139,7 +137,7 @@ async function updateAServiceBusTopicOutputWithCsvSerialization() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_Blob.json
  */
-async function updateABlobOutputWithCsvSerialization() {
+async function updateABlobOutputWithCsvSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg5023";
@@ -164,7 +162,7 @@ async function updateABlobOutputWithCsvSerialization() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_AzureDataLakeStore.json
  */
-async function updateAnAzureDataLakeStoreOutputWithJsonSerialization() {
+async function updateAnAzureDataLakeStoreOutputWithJsonSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6912";
@@ -189,7 +187,7 @@ async function updateAnAzureDataLakeStoreOutputWithJsonSerialization() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_DataWarehouse.json
  */
-async function updateAnAzureDataWarehouseOutput() {
+async function updateAnAzureDataWarehouseOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -213,7 +211,7 @@ async function updateAnAzureDataWarehouseOutput() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_AzureFunction.json
  */
-async function updateAnAzureFunctionOutput() {
+async function updateAnAzureFunctionOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
@@ -237,7 +235,7 @@ async function updateAnAzureFunctionOutput() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_AzureSQL.json
  */
-async function updateAnAzureSqlDatabaseOutput() {
+async function updateAnAzureSqlDatabaseOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg2157";
@@ -261,7 +259,7 @@ async function updateAnAzureSqlDatabaseOutput() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_AzureTable.json
  */
-async function updateAnAzureTableOutput() {
+async function updateAnAzureTableOutput(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg5176";
@@ -285,7 +283,7 @@ async function updateAnAzureTableOutput() {
  * @summary Updates an existing output under an existing streaming job. This can be used to partially update (ie. update one or two properties) an output without affecting the rest the job or output definition.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Output_Update_EventHub.json
  */
-async function updateAnEventHubOutputWithJsonSerialization() {
+async function updateAnEventHubOutputWithJsonSerialization(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] || "56b5e0a9-b645-407d-99b0-c64f86013e3d";
   const resourceGroupName = process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6912";
@@ -304,7 +302,7 @@ async function updateAnEventHubOutputWithJsonSerialization() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateADeltaLakeOutput();
   await updateADocumentDbOutput();
   await updateAPowerBiOutput();
