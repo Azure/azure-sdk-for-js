@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ImpactClient } from "@azure/arm-impactreporting";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ImpactClient } = require("@azure/arm-impactreporting");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to list ImpactCategory resources by subscription
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list ImpactCategory resources by subscription
  * x-ms-original-file: 2024-05-01-preview/ImpactCategories_ListBySubscription.json
  */
-async function getImpactCategoriesListBySubscription(): Promise<void> {
+async function getImpactCategoriesListBySubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function getImpactCategoriesListBySubscription(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
+async function main() {
   getImpactCategoriesListBySubscription();
 }
 

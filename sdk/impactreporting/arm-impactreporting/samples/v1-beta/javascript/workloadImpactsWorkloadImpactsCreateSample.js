@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ImpactClient } from "@azure/arm-impactreporting";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ImpactClient } = require("@azure/arm-impactreporting");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to create a WorkloadImpact
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a WorkloadImpact
  * x-ms-original-file: 2024-05-01-preview/WorkloadArmOperation_create.json
  */
-async function reportingArmOperationFailure(): Promise<void> {
+async function reportingArmOperationFailure() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function reportingArmOperationFailure(): Promise<void> {
  * @summary create a WorkloadImpact
  * x-ms-original-file: 2024-05-01-preview/WorkloadAvailability_Create.json
  */
-async function reportingAvailabilityRelatedImpact(): Promise<void> {
+async function reportingAvailabilityRelatedImpact() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -65,7 +65,7 @@ async function reportingAvailabilityRelatedImpact(): Promise<void> {
  * @summary create a WorkloadImpact
  * x-ms-original-file: 2024-05-01-preview/WorkloadConnectivityImpact_Create.json
  */
-async function reportingAConnectivityImpact(): Promise<void> {
+async function reportingAConnectivityImpact() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -104,7 +104,7 @@ async function reportingAConnectivityImpact(): Promise<void> {
  * @summary create a WorkloadImpact
  * x-ms-original-file: 2024-05-01-preview/WorkloadPerformance_Create.json
  */
-async function reportingPerformanceRelatedImpact(): Promise<void> {
+async function reportingPerformanceRelatedImpact() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -126,7 +126,7 @@ async function reportingPerformanceRelatedImpact(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   reportingArmOperationFailure();
   reportingAvailabilityRelatedImpact();
   reportingAConnectivityImpact();

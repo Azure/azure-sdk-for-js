@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ImpactClient } from "@azure/arm-impactreporting";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ImpactClient } = require("@azure/arm-impactreporting");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to get Insight resources by workloadImpactName and insightName
@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get Insight resources by workloadImpactName and insightName
  * x-ms-original-file: 2024-05-01-preview/Insights_Get_diagnostics.json
  */
-async function getInsightSampleForDiagnosticsCategory(): Promise<void> {
+async function getInsightSampleForDiagnosticsCategory() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function getInsightSampleForDiagnosticsCategory(): Promise<void> {
  * @summary get Insight resources by workloadImpactName and insightName
  * x-ms-original-file: 2024-05-01-preview/Insights_Get_mitigationAction.json
  */
-async function getInsightSampleForMitigationActionCategory(): Promise<void> {
+async function getInsightSampleForMitigationActionCategory() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -38,7 +38,7 @@ async function getInsightSampleForMitigationActionCategory(): Promise<void> {
  * @summary get Insight resources by workloadImpactName and insightName
  * x-ms-original-file: 2024-05-01-preview/Insights_Get_servicehealth.json
  */
-async function getInsightSampleForServiceHealthCategory(): Promise<void> {
+async function getInsightSampleForServiceHealthCategory() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -46,7 +46,7 @@ async function getInsightSampleForServiceHealthCategory(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   getInsightSampleForDiagnosticsCategory();
   getInsightSampleForMitigationActionCategory();
   getInsightSampleForServiceHealthCategory();
