@@ -6,21 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Service } from "../operationsInterfaces";
+import { Service } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SearchManagementClient } from "../searchManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SearchManagementClient } from "../searchManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ServiceUpgradeOptionalParams,
   ServiceUpgradeResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Service operations. */
 export class ServiceImpl implements Service {

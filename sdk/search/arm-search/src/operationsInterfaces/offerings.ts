@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { OfferingsByRegion, OfferingsListOptionalParams } from "../models";
+import { OfferingsByRegion, OfferingsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Offerings. */
