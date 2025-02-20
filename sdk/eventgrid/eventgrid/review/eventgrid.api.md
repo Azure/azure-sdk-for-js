@@ -26,140 +26,140 @@ export interface AcsChatEventInThreadBase {
 }
 
 // @public
-export type AcsChatMessageDeletedEventData = AcsChatMessageEventBase & {
+export interface AcsChatMessageDeletedEventData extends AcsChatMessageEventBase {
     deleteTime: string;
-};
+}
 
 // @public
-export type AcsChatMessageDeletedInThreadEventData = AcsChatMessageEventInThreadBase & {
+export interface AcsChatMessageDeletedInThreadEventData extends AcsChatMessageEventInThreadBase {
     deleteTime: string;
-};
+}
 
 // @public
-export type AcsChatMessageEditedEventData = AcsChatMessageEventBase & {
+export interface AcsChatMessageEditedEventData extends AcsChatMessageEventBase {
+    editTime: string;
     messageBody: string;
     metadata: {
         [propertyName: string]: string;
     };
-    editTime: string;
-};
+}
 
 // @public
-export type AcsChatMessageEditedInThreadEventData = AcsChatMessageEventInThreadBase & {
+export interface AcsChatMessageEditedInThreadEventData extends AcsChatMessageEventInThreadBase {
+    editTime: string;
     messageBody: string;
     metadata: {
         [propertyName: string]: string;
     };
-    editTime: string;
-};
+}
 
 // @public
-export type AcsChatMessageEventBase = AcsChatEventBase & {
+export interface AcsChatMessageEventBase extends AcsChatEventBase {
+    composeTime: string;
     messageId: string;
     senderCommunicationIdentifier: CommunicationIdentifierModel;
     senderDisplayName: string;
-    composeTime: string;
     type: string;
     version: number;
-};
+}
 
 // @public
-export type AcsChatMessageEventInThreadBase = AcsChatEventInThreadBase & {
+export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBase {
+    composeTime: string;
     messageId: string;
     senderCommunicationIdentifier: CommunicationIdentifierModel;
     senderDisplayName: string;
-    composeTime: string;
     type: string;
     version: number;
-};
+}
 
 // @public
-export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {
+export interface AcsChatMessageReceivedEventData extends AcsChatMessageEventBase {
     messageBody: string;
     metadata: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
-export type AcsChatMessageReceivedInThreadEventData = AcsChatMessageEventInThreadBase & {
+export interface AcsChatMessageReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
     messageBody: string;
     metadata: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
-export type AcsChatParticipantAddedToThreadEventData = AcsChatEventInThreadBase & {
-    time: string;
+export interface AcsChatParticipantAddedToThreadEventData extends AcsChatEventInThreadBase {
     addedByCommunicationIdentifier: CommunicationIdentifierModel;
     participantAdded: AcsChatThreadParticipant;
+    time: string;
     version: number;
-};
+}
 
 // @public
-export type AcsChatParticipantAddedToThreadWithUserEventData = AcsChatThreadEventBase & {
-    time: string;
+export interface AcsChatParticipantAddedToThreadWithUserEventData extends AcsChatThreadEventBase {
     addedByCommunicationIdentifier: CommunicationIdentifierModel;
     participantAdded: AcsChatThreadParticipant;
-};
+    time: string;
+}
 
 // @public
-export type AcsChatParticipantRemovedFromThreadEventData = AcsChatEventInThreadBase & {
-    time: string;
-    removedByCommunicationIdentifier: CommunicationIdentifierModel;
+export interface AcsChatParticipantRemovedFromThreadEventData extends AcsChatEventInThreadBase {
     participantRemoved: AcsChatThreadParticipant;
+    removedByCommunicationIdentifier: CommunicationIdentifierModel;
+    time: string;
     version: number;
-};
+}
 
 // @public
-export type AcsChatParticipantRemovedFromThreadWithUserEventData = AcsChatThreadEventBase & {
-    time: string;
-    removedByCommunicationIdentifier: CommunicationIdentifierModel;
+export interface AcsChatParticipantRemovedFromThreadWithUserEventData extends AcsChatThreadEventBase {
     participantRemoved: AcsChatThreadParticipant;
-};
+    removedByCommunicationIdentifier: CommunicationIdentifierModel;
+    time: string;
+}
 
 // @public
-export type AcsChatThreadCreatedEventData = AcsChatThreadEventInThreadBase & {
+export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThreadBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
-    properties: {
-        [propertyName: string]: any;
-    };
     metadata: {
         [propertyName: string]: string;
     };
     participants: AcsChatThreadParticipant[];
-};
+    properties: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+}
 
 // @public
-export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBase & {
+export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEventBase {
     createdByCommunicationIdentifier: CommunicationIdentifierModel;
-    properties: {
-        [propertyName: string]: any;
-    };
     metadata: {
         [propertyName: string]: string;
     };
     participants: AcsChatThreadParticipant[];
-};
+    properties: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+}
 
 // @public
-export type AcsChatThreadDeletedEventData = AcsChatThreadEventInThreadBase & {
+export interface AcsChatThreadDeletedEventData extends AcsChatThreadEventInThreadBase {
     deletedByCommunicationIdentifier: CommunicationIdentifierModel;
     deleteTime: string;
-};
+}
 
 // @public
-export type AcsChatThreadEventBase = AcsChatEventBase & {
+export interface AcsChatThreadEventBase extends AcsChatEventBase {
     createTime: string;
     version: number;
-};
+}
 
 // @public
-export type AcsChatThreadEventInThreadBase = AcsChatEventInThreadBase & {
+export interface AcsChatThreadEventInThreadBase extends AcsChatEventInThreadBase {
     createTime: string;
     version: number;
-};
+}
 
 // @public
 export interface AcsChatThreadParticipant {
@@ -171,34 +171,34 @@ export interface AcsChatThreadParticipant {
 }
 
 // @public
-export type AcsChatThreadPropertiesUpdatedEventData = AcsChatThreadEventInThreadBase & {
-    editedByCommunicationIdentifier: CommunicationIdentifierModel;
-    editTime: string;
-    properties: {
-        [propertyName: string]: any;
-    };
-    metadata: {
-        [propertyName: string]: string;
-    };
-};
-
-// @public
-export type AcsChatThreadPropertiesUpdatedPerUserEventData = AcsChatThreadEventBase & {
+export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEventInThreadBase {
     editedByCommunicationIdentifier: CommunicationIdentifierModel;
     editTime: string;
     metadata: {
         [propertyName: string]: string;
     };
     properties: {
-        [propertyName: string]: any;
+        [propertyName: string]: Record<string, unknown>;
     };
-};
+}
 
 // @public
-export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
+export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatThreadEventBase {
+    editedByCommunicationIdentifier: CommunicationIdentifierModel;
+    editTime: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
+    properties: {
+        [propertyName: string]: Record<string, unknown>;
+    };
+}
+
+// @public
+export interface AcsChatThreadWithUserDeletedEventData extends AcsChatThreadEventBase {
     deletedByCommunicationIdentifier: CommunicationIdentifierModel;
     deleteTime: string;
-};
+}
 
 // @public
 export interface AcsEmailDeliveryReportReceivedEventData {
@@ -281,17 +281,17 @@ export interface AcsMessageContext {
 export type AcsMessageDeliveryStatus = string;
 
 // @public
-export type AcsMessageDeliveryStatusUpdatedEventData = AcsMessageEventData & {
+export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEventData {
+    channelKind: AcsMessageChannelKind;
     messageId: string;
     status: AcsMessageDeliveryStatus;
-    channelKind: AcsMessageChannelKind;
-};
+}
 
 // @public
 export interface AcsMessageEventData {
-    error: AcsMessageChannelEventError;
+    error?: AcsMessageChannelEventError;
     from: string;
-    receivedTimestamp: string;
+    receivedTimestamp?: string;
     to: string;
 }
 
@@ -317,21 +317,31 @@ export interface AcsMessageInteractiveListReplyContent {
 
 // @public
 export interface AcsMessageMediaContent {
-    caption: string;
-    fileName: string;
+    animated?: boolean;
+    caption?: string;
+    fileName?: string;
     mediaId: string;
     mimeType: string;
 }
 
 // @public
-export type AcsMessageReceivedEventData = AcsMessageEventData & {
-    content: string;
-    channelKind: AcsMessageChannelKind;
-    mediaContent: AcsMessageMediaContent;
-    context: AcsMessageContext;
-    button: AcsMessageButtonContent;
-    interactiveContent: AcsMessageInteractiveContent;
-};
+export interface AcsMessageReactionContent {
+    emoji?: string;
+    messageId: string;
+}
+
+// @public
+export interface AcsMessageReceivedEventData extends AcsMessageEventData {
+    button?: AcsMessageButtonContent;
+    channelKind?: AcsMessageChannelKind;
+    content?: string;
+    context?: AcsMessageContext;
+    interactiveContent?: AcsMessageInteractiveContent;
+    mediaContent?: AcsMessageMediaContent;
+    messageId?: string;
+    messageType: string;
+    reaction?: AcsMessageReactionContent;
+}
 
 // @public
 export interface AcsRecordingChunkInfo {
@@ -383,107 +393,108 @@ export interface AcsRouterEventData {
 }
 
 // @public
-export type AcsRouterJobCancelledEventData = AcsRouterJobEventData & {
-    note: string;
+export interface AcsRouterJobCancelledEventData extends AcsRouterJobEventData {
     dispositionCode: string;
-};
+    note: string;
+}
 
 // @public
-export type AcsRouterJobClassificationFailedEventData = AcsRouterJobEventData & {
+export interface AcsRouterJobClassificationFailedEventData extends AcsRouterJobEventData {
     classificationPolicyId: string;
     errors: AcsRouterCommunicationError[];
-};
+}
 
 // @public
-export type AcsRouterJobClassifiedEventData = AcsRouterJobEventData & {
-    queueDetails: AcsRouterQueueDetails;
+export interface AcsRouterJobClassifiedEventData extends AcsRouterJobEventData {
+    attachedWorkerSelectors: AcsRouterWorkerSelector[];
     classificationPolicyId: string;
     priority: number;
-    attachedWorkerSelectors: AcsRouterWorkerSelector[];
-};
+    queueDetails: AcsRouterQueueDetails;
+}
 
 // @public
-export type AcsRouterJobClosedEventData = AcsRouterJobEventData & {
+export interface AcsRouterJobClosedEventData extends AcsRouterJobEventData {
     assignmentId: string;
-    workerId: string;
     dispositionCode: string;
-};
+    workerId: string;
+}
 
 // @public
-export type AcsRouterJobCompletedEventData = AcsRouterJobEventData & {
+export interface AcsRouterJobCompletedEventData extends AcsRouterJobEventData {
     assignmentId: string;
     workerId: string;
-};
+}
 
 // @public
-export type AcsRouterJobDeletedEventData = AcsRouterJobEventData & {};
+export interface AcsRouterJobDeletedEventData extends AcsRouterJobEventData {
+}
 
 // @public
-export type AcsRouterJobEventData = AcsRouterEventData & {
-    queueId: string;
+export interface AcsRouterJobEventData extends AcsRouterEventData {
     labels: {
         [propertyName: string]: string;
     };
+    queueId: string;
     tags: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
-export type AcsRouterJobExceptionTriggeredEventData = AcsRouterJobEventData & {
-    ruleKey: string;
+export interface AcsRouterJobExceptionTriggeredEventData extends AcsRouterJobEventData {
     exceptionRuleId: string;
-};
+    ruleKey: string;
+}
 
 // @public
-export type AcsRouterJobQueuedEventData = AcsRouterJobEventData & {
-    priority: number;
+export interface AcsRouterJobQueuedEventData extends AcsRouterJobEventData {
     attachedWorkerSelectors: AcsRouterWorkerSelector[];
+    priority: number;
     requestedWorkerSelectors: AcsRouterWorkerSelector[];
-};
+}
 
 // @public
-export type AcsRouterJobReceivedEventData = AcsRouterJobEventData & {
-    jobStatus?: AcsRouterJobStatus;
+export interface AcsRouterJobReceivedEventData extends AcsRouterJobEventData {
     classificationPolicyId?: string;
+    jobStatus?: AcsRouterJobStatus;
     priority?: number;
     requestedWorkerSelectors?: AcsRouterWorkerSelector[];
     scheduledOn?: string;
     unavailableForMatching: boolean;
-};
+}
 
 // @public
-export type AcsRouterJobSchedulingFailedEventData = AcsRouterJobEventData & {
-    priority: number;
+export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEventData {
     expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
     expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
-    scheduledOn: string;
     failureReason: string;
-};
+    priority: number;
+    scheduledOn: string;
+}
 
 // @public
 export type AcsRouterJobStatus = string;
 
 // @public
-export type AcsRouterJobUnassignedEventData = AcsRouterJobEventData & {
+export interface AcsRouterJobUnassignedEventData extends AcsRouterJobEventData {
     assignmentId: string;
     workerId: string;
-};
+}
 
 // @public
-export type AcsRouterJobWaitingForActivationEventData = AcsRouterJobEventData & {
-    priority?: number;
+export interface AcsRouterJobWaitingForActivationEventData extends AcsRouterJobEventData {
     expiredAttachedWorkerSelectors?: AcsRouterWorkerSelector[];
     expiredRequestedWorkerSelectors?: AcsRouterWorkerSelector[];
+    priority?: number;
     scheduledOn?: string;
     unavailableForMatching: boolean;
-};
+}
 
 // @public
-export type AcsRouterJobWorkerSelectorsExpiredEventData = AcsRouterJobEventData & {
-    expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+export interface AcsRouterJobWorkerSelectorsExpiredEventData extends AcsRouterJobEventData {
     expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
-};
+    expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
+}
 
 // @public
 export type AcsRouterLabelOperator = string;
@@ -501,7 +512,8 @@ export interface AcsRouterQueueDetails {
 export type AcsRouterUpdatedWorkerProperty = string;
 
 // @public
-export type AcsRouterWorkerDeletedEventData = AcsRouterWorkerEventData & {};
+export interface AcsRouterWorkerDeletedEventData extends AcsRouterWorkerEventData {
+}
 
 // @public
 export interface AcsRouterWorkerDeregisteredEventData {
@@ -509,68 +521,68 @@ export interface AcsRouterWorkerDeregisteredEventData {
 }
 
 // @public
-export type AcsRouterWorkerEventData = AcsRouterEventData & {
+export interface AcsRouterWorkerEventData extends AcsRouterEventData {
     workerId: string;
-};
+}
 
 // @public
-export type AcsRouterWorkerOfferAcceptedEventData = AcsRouterWorkerEventData & {
-    queueId: string;
-    offerId: string;
+export interface AcsRouterWorkerOfferAcceptedEventData extends AcsRouterWorkerEventData {
     assignmentId: string;
+    jobLabels: {
+        [propertyName: string]: string;
+    };
     jobPriority: number;
+    jobTags: {
+        [propertyName: string]: string;
+    };
+    offerId: string;
+    queueId: string;
     workerLabels: {
         [propertyName: string]: string;
     };
     workerTags: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface AcsRouterWorkerOfferDeclinedEventData extends AcsRouterWorkerEventData {
+    offerId: string;
+    queueId: string;
+}
+
+// @public
+export interface AcsRouterWorkerOfferExpiredEventData extends AcsRouterWorkerEventData {
+    offerId: string;
+    queueId: string;
+}
+
+// @public
+export interface AcsRouterWorkerOfferIssuedEventData extends AcsRouterWorkerEventData {
+    expiresOn: string;
     jobLabels: {
         [propertyName: string]: string;
     };
-    jobTags: {
-        [propertyName: string]: string;
-    };
-};
-
-// @public
-export type AcsRouterWorkerOfferDeclinedEventData = AcsRouterWorkerEventData & {
-    queueId: string;
-    offerId: string;
-};
-
-// @public
-export type AcsRouterWorkerOfferExpiredEventData = AcsRouterWorkerEventData & {
-    queueId: string;
-    offerId: string;
-};
-
-// @public
-export type AcsRouterWorkerOfferIssuedEventData = AcsRouterWorkerEventData & {
-    queueId: string;
-    offerId: string;
     jobPriority: number;
-    workerLabels: {
+    jobTags: {
         [propertyName: string]: string;
     };
     offeredOn: string;
-    expiresOn: string;
+    offerId: string;
+    queueId: string;
+    workerLabels: {
+        [propertyName: string]: string;
+    };
     workerTags: {
         [propertyName: string]: string;
     };
-    jobLabels: {
-        [propertyName: string]: string;
-    };
-    jobTags: {
-        [propertyName: string]: string;
-    };
-};
+}
 
 // @public
-export type AcsRouterWorkerOfferRevokedEventData = AcsRouterWorkerEventData & {
-    queueId: string;
+export interface AcsRouterWorkerOfferRevokedEventData extends AcsRouterWorkerEventData {
     offerId: string;
-};
+    queueId: string;
+}
 
 // @public
 export interface AcsRouterWorkerRegisteredEventData {
@@ -591,7 +603,7 @@ export interface AcsRouterWorkerSelector {
     expirationTime: string;
     key: string;
     labelOperator: AcsRouterLabelOperator;
-    labelValue: any;
+    labelValue: Record<string, unknown>;
     state: AcsRouterWorkerSelectorState;
     ttlSeconds: number;
 }
@@ -622,13 +634,13 @@ export interface AcsSmsDeliveryAttempt {
 }
 
 // @public
-export type AcsSmsDeliveryReportReceivedEventData = AcsSmsEventBase & {
+export interface AcsSmsDeliveryReportReceivedEventData extends AcsSmsEventBase {
+    deliveryAttempts: AcsSmsDeliveryAttempt[];
     deliveryStatus: string;
     deliveryStatusDetails: string;
-    deliveryAttempts: AcsSmsDeliveryAttempt[];
     receivedTimestamp: string;
     tag: string;
-};
+}
 
 // @public
 export interface AcsSmsEventBase {
@@ -638,11 +650,11 @@ export interface AcsSmsEventBase {
 }
 
 // @public
-export type AcsSmsReceivedEventData = AcsSmsEventBase & {
+export interface AcsSmsReceivedEventData extends AcsSmsEventBase {
     message?: string;
     receivedTimestamp?: string;
     segmentCount: number;
-};
+}
 
 // @public
 export interface AcsUserDisconnectedEventData {
@@ -822,7 +834,8 @@ export interface AppConfigurationKeyValueModifiedEventData {
 }
 
 // @public
-export type AppConfigurationSnapshotCreatedEventData = AppConfigurationSnapshotEventData & {};
+export interface AppConfigurationSnapshotCreatedEventData extends AppConfigurationSnapshotEventData {
+}
 
 // @public
 export interface AppConfigurationSnapshotEventData {
@@ -832,7 +845,8 @@ export interface AppConfigurationSnapshotEventData {
 }
 
 // @public
-export type AppConfigurationSnapshotModifiedEventData = AppConfigurationSnapshotEventData & {};
+export interface AppConfigurationSnapshotModifiedEventData extends AppConfigurationSnapshotEventData {
+}
 
 // @public
 export interface AppEventTypeDetail {
@@ -853,10 +867,12 @@ export interface AppServicePlanEventTypeDetail {
 export type AsyncStatus = string;
 
 // @public
-export type AvsClusterCreatedEventData = AvsClusterEventData & {};
+export interface AvsClusterCreatedEventData extends AvsClusterEventData {
+}
 
 // @public
-export type AvsClusterDeletedEventData = AvsClusterEventData & {};
+export interface AvsClusterDeletedEventData extends AvsClusterEventData {
+}
 
 // @public
 export interface AvsClusterEventData {
@@ -867,15 +883,17 @@ export interface AvsClusterEventData {
 }
 
 // @public
-export type AvsClusterFailedEventData = AvsClusterEventData & {
+export interface AvsClusterFailedEventData extends AvsClusterEventData {
     failureMessage: string;
-};
+}
 
 // @public
-export type AvsClusterUpdatedEventData = AvsClusterEventData & {};
+export interface AvsClusterUpdatedEventData extends AvsClusterEventData {
+}
 
 // @public
-export type AvsClusterUpdatingEventData = AvsClusterEventData & {};
+export interface AvsClusterUpdatingEventData extends AvsClusterEventData {
+}
 
 // @public
 export interface AvsPrivateCloudEventData {
@@ -883,18 +901,21 @@ export interface AvsPrivateCloudEventData {
 }
 
 // @public
-export type AvsPrivateCloudFailedEventData = AvsPrivateCloudEventData & {
+export interface AvsPrivateCloudFailedEventData extends AvsPrivateCloudEventData {
     failureMessage: string;
-};
+}
 
 // @public
-export type AvsPrivateCloudUpdatedEventData = AvsPrivateCloudEventData & {};
+export interface AvsPrivateCloudUpdatedEventData extends AvsPrivateCloudEventData {
+}
 
 // @public
-export type AvsPrivateCloudUpdatingEventData = AvsPrivateCloudEventData & {};
+export interface AvsPrivateCloudUpdatingEventData extends AvsPrivateCloudEventData {
+}
 
 // @public
-export type AvsScriptExecutionCancelledEventData = AvsScriptExecutionEventData & {};
+export interface AvsScriptExecutionCancelledEventData extends AvsScriptExecutionEventData {
+}
 
 // @public
 export interface AvsScriptExecutionEventData {
@@ -904,19 +925,20 @@ export interface AvsScriptExecutionEventData {
 }
 
 // @public
-export type AvsScriptExecutionFailedEventData = AvsScriptExecutionEventData & {
+export interface AvsScriptExecutionFailedEventData extends AvsScriptExecutionEventData {
     failureMessage: string;
-};
+}
 
 // @public
-export type AvsScriptExecutionFinishedEventData = AvsScriptExecutionEventData & {
+export interface AvsScriptExecutionFinishedEventData extends AvsScriptExecutionEventData {
     namedOutputs: {
         [propertyName: string]: string;
     };
-};
+}
 
 // @public
-export type AvsScriptExecutionStartedEventData = AvsScriptExecutionEventData & {};
+export interface AvsScriptExecutionStartedEventData extends AvsScriptExecutionEventData {
+}
 
 export { AzureKeyCredential }
 
@@ -983,10 +1005,12 @@ export interface ContainerRegistryArtifactEventTarget {
 }
 
 // @public
-export type ContainerRegistryChartDeletedEventData = ContainerRegistryArtifactEventData & {};
+export interface ContainerRegistryChartDeletedEventData extends ContainerRegistryArtifactEventData {
+}
 
 // @public
-export type ContainerRegistryChartPushedEventData = ContainerRegistryArtifactEventData & {};
+export interface ContainerRegistryChartPushedEventData extends ContainerRegistryArtifactEventData {
+}
 
 // @public
 export interface ContainerRegistryEventActor {
@@ -1038,16 +1062,20 @@ export interface ContainerRegistryEventTarget {
 }
 
 // @public
-export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData & {};
+export interface ContainerRegistryImageDeletedEventData extends ContainerRegistryEventData {
+}
 
 // @public
-export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
+export interface ContainerRegistryImagePushedEventData extends ContainerRegistryEventData {
+}
 
 // @public
-export type ContainerServiceClusterSupportEndedEventData = ContainerServiceClusterSupportEventData & {};
+export interface ContainerServiceClusterSupportEndedEventData extends ContainerServiceClusterSupportEventData {
+}
 
 // @public
-export type ContainerServiceClusterSupportEndingEventData = ContainerServiceClusterSupportEventData & {};
+export interface ContainerServiceClusterSupportEndingEventData extends ContainerServiceClusterSupportEventData {
+}
 
 // @public
 export interface ContainerServiceClusterSupportEventData {
@@ -1068,13 +1096,16 @@ export interface ContainerServiceNodePoolRollingEventData {
 }
 
 // @public
-export type ContainerServiceNodePoolRollingFailedEventData = ContainerServiceNodePoolRollingEventData & {};
+export interface ContainerServiceNodePoolRollingFailedEventData extends ContainerServiceNodePoolRollingEventData {
+}
 
 // @public
-export type ContainerServiceNodePoolRollingStartedEventData = ContainerServiceNodePoolRollingEventData & {};
+export interface ContainerServiceNodePoolRollingStartedEventData extends ContainerServiceNodePoolRollingEventData {
+}
 
 // @public
-export type ContainerServiceNodePoolRollingSucceededEventData = ContainerServiceNodePoolRollingEventData & {};
+export interface ContainerServiceNodePoolRollingSucceededEventData extends ContainerServiceNodePoolRollingEventData {
+}
 
 // @public
 export interface DataBoxCopyCompletedEventData {
@@ -1122,7 +1153,7 @@ export interface DeviceLifeCycleEvent {
 
 // @public
 export interface DeviceTelemetryEvent {
-    body: any;
+    body: Record<string, unknown>;
     properties: {
         [propertyName: string]: string;
     };
@@ -1189,17 +1220,18 @@ export interface EventGridEvent<T> {
 }
 
 // @public
-export type EventGridMqttClientCreatedOrUpdatedEventData = EventGridMqttClientEventData & {
-    state: EventGridMqttClientState;
-    createdOn: string;
-    updatedOn: string;
+export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridMqttClientEventData {
     attributes: {
         [propertyName: string]: string;
     };
-};
+    createdOn: string;
+    state: EventGridMqttClientState;
+    updatedOn: string;
+}
 
 // @public
-export type EventGridMqttClientDeletedEventData = EventGridMqttClientEventData & {};
+export interface EventGridMqttClientDeletedEventData extends EventGridMqttClientEventData {
+}
 
 // @public
 export type EventGridMqttClientDisconnectionReason = string;
@@ -1212,17 +1244,17 @@ export interface EventGridMqttClientEventData {
 }
 
 // @public
-export type EventGridMqttClientSessionConnectedEventData = EventGridMqttClientEventData & {
+export interface EventGridMqttClientSessionConnectedEventData extends EventGridMqttClientEventData {
     clientSessionName: string;
     sequenceNumber: number;
-};
+}
 
 // @public
-export type EventGridMqttClientSessionDisconnectedEventData = EventGridMqttClientEventData & {
+export interface EventGridMqttClientSessionDisconnectedEventData extends EventGridMqttClientEventData {
     clientSessionName: string;
-    sequenceNumber: number;
     disconnectionReason: EventGridMqttClientDisconnectionReason;
-};
+    sequenceNumber: number;
+}
 
 // @public
 export type EventGridMqttClientState = string;
@@ -1334,19 +1366,24 @@ export interface InputSchemaToOptionsTypeMap {
 }
 
 // @public
-export type IotHubDeviceConnectedEventData = DeviceConnectionStateEvent & {};
+export interface IotHubDeviceConnectedEventData extends DeviceConnectionStateEvent {
+}
 
 // @public
-export type IotHubDeviceCreatedEventData = DeviceLifeCycleEvent & {};
+export interface IotHubDeviceCreatedEventData extends DeviceLifeCycleEvent {
+}
 
 // @public
-export type IotHubDeviceDeletedEventData = DeviceLifeCycleEvent & {};
+export interface IotHubDeviceDeletedEventData extends DeviceLifeCycleEvent {
+}
 
 // @public
-export type IotHubDeviceDisconnectedEventData = DeviceConnectionStateEvent & {};
+export interface IotHubDeviceDisconnectedEventData extends DeviceConnectionStateEvent {
+}
 
 // @public
-export type IotHubDeviceTelemetryEventData = DeviceTelemetryEvent & {};
+export interface IotHubDeviceTelemetryEventData extends DeviceTelemetryEvent {
+}
 
 // @public
 export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: EventGridEvent<unknown>): event is EventGridEvent<SystemEventNameToEventData[T]>;
@@ -1465,7 +1502,7 @@ export interface KeyVaultSecretNewVersionCreatedEventData {
 }
 
 // @public
-export const enum KnownAcsEmailDeliveryReportStatus {
+export enum KnownAcsEmailDeliveryReportStatus {
     Bounced = "Bounced",
     Delivered = "Delivered",
     Failed = "Failed",
@@ -1475,63 +1512,45 @@ export const enum KnownAcsEmailDeliveryReportStatus {
 }
 
 // @public
-export const enum KnownAcsInteractiveReplyKind {
+export enum KnownAcsInteractiveReplyKind {
     ButtonReply = "buttonReply",
     ListReply = "listReply",
     Unknown = "unknown"
 }
 
 // @public
-export const enum KnownAcsMessageChannelKind {
+export enum KnownAcsMessageChannelKind {
     Whatsapp = "whatsapp"
 }
 
 // @public
-export const enum KnownAcsMessageDeliveryStatus {
-    // (undocumented)
+export enum KnownAcsMessageDeliveryStatus {
     Delivered = "delivered",
-    // (undocumented)
     Failed = "failed",
-    // (undocumented)
     Read = "read",
-    // (undocumented)
     Sent = "sent",
-    // (undocumented)
     Unknown = "unknown",
-    // (undocumented)
     Warning = "warning"
 }
 
 // @public
-export const enum KnownAcsRouterJobStatus {
-    // (undocumented)
+export enum KnownAcsRouterJobStatus {
     Assigned = "Assigned",
-    // (undocumented)
     Cancelled = "Cancelled",
-    // (undocumented)
     ClassificationFailed = "ClassificationFailed",
-    // (undocumented)
     Closed = "Closed",
-    // (undocumented)
     Completed = "Completed",
-    // (undocumented)
     Created = "Created",
-    // (undocumented)
     PendingClassification = "PendingClassification",
-    // (undocumented)
     PendingSchedule = "PendingSchedule",
-    // (undocumented)
     Queued = "Queued",
-    // (undocumented)
     Scheduled = "Scheduled",
-    // (undocumented)
     ScheduleFailed = "ScheduleFailed",
-    // (undocumented)
     WaitingForActivation = "WaitingForActivation"
 }
 
 // @public
-export const enum KnownAcsRouterLabelOperator {
+export enum KnownAcsRouterLabelOperator {
     // (undocumented)
     Equal = "Equal",
     // (undocumented)
@@ -1546,37 +1565,29 @@ export const enum KnownAcsRouterLabelOperator {
 }
 
 // @public
-export const enum KnownAcsRouterUpdatedWorkerProperty {
-    // (undocumented)
+export enum KnownAcsRouterUpdatedWorkerProperty {
     AvailableForOffers = "AvailableForOffers",
-    // (undocumented)
     ChannelConfigurations = "ChannelConfigurations",
-    // (undocumented)
     Labels = "Labels",
-    // (undocumented)
     QueueAssignments = "QueueAssignments",
-    // (undocumented)
     Tags = "Tags",
-    // (undocumented)
     TotalCapacity = "TotalCapacity"
 }
 
 // @public
-export const enum KnownAcsRouterWorkerSelectorState {
+export enum KnownAcsRouterWorkerSelectorState {
     Active = "active",
     Expired = "expired"
 }
 
 // @public
-export const enum KnownAcsUserEngagement {
-    // (undocumented)
+export enum KnownAcsUserEngagement {
     Click = "click",
-    // (undocumented)
     View = "view"
 }
 
 // @public
-export const enum KnownAppAction {
+export enum KnownAppAction {
     ChangedAppSettings = "ChangedAppSettings",
     Completed = "Completed",
     Failed = "Failed",
@@ -1586,50 +1597,42 @@ export const enum KnownAppAction {
 }
 
 // @public
-export const enum KnownAppServicePlanAction {
+export enum KnownAppServicePlanAction {
     Updated = "Updated"
 }
 
 // @public
-export const enum KnownAsyncStatus {
+export enum KnownAsyncStatus {
     Completed = "Completed",
     Failed = "Failed",
     Started = "Started"
 }
 
 // @public
-export const enum KnownCommunicationCloudEnvironmentModel {
-    // (undocumented)
+export enum KnownCommunicationCloudEnvironmentModel {
     Dod = "dod",
-    // (undocumented)
     Gcch = "gcch",
-    // (undocumented)
     Public = "public"
 }
 
 // @public
-export const enum KnownCommunicationIdentifierModelKind {
-    // (undocumented)
+export enum KnownCommunicationIdentifierModelKind {
     CommunicationUser = "communicationUser",
-    // (undocumented)
     MicrosoftTeamsApp = "microsoftTeamsApp",
-    // (undocumented)
     MicrosoftTeamsUser = "microsoftTeamsUser",
-    // (undocumented)
     PhoneNumber = "phoneNumber",
-    // (undocumented)
     Unknown = "unknown"
 }
 
 // @public
-export const enum KnownDataBoxStageName {
+export enum KnownDataBoxStageName {
     CopyCompleted = "CopyCompleted",
     CopyStarted = "CopyStarted",
     OrderCompleted = "OrderCompleted"
 }
 
 // @public
-export const enum KnownEventGridMqttClientDisconnectionReason {
+export enum KnownEventGridMqttClientDisconnectionReason {
     ClientAuthenticationError = "ClientAuthenticationError",
     ClientAuthorizationError = "ClientAuthorizationError",
     ClientError = "ClientError",
@@ -1644,15 +1647,13 @@ export const enum KnownEventGridMqttClientDisconnectionReason {
 }
 
 // @public
-export const enum KnownEventGridMqttClientState {
-    // (undocumented)
+export enum KnownEventGridMqttClientState {
     Disabled = "Disabled",
-    // (undocumented)
     Enabled = "Enabled"
 }
 
 // @public
-export const enum KnownHealthcareFhirResourceType {
+export enum KnownHealthcareFhirResourceType {
     Account = "Account",
     ActivityDefinition = "ActivityDefinition",
     AdverseEvent = "AdverseEvent",
@@ -1817,61 +1818,47 @@ export const enum KnownHealthcareFhirResourceType {
 }
 
 // @public
-export const enum KnownRecordingChannelType {
-    // (undocumented)
+export enum KnownRecordingChannelType {
     Mixed = "Mixed",
-    // (undocumented)
     Unmixed = "Unmixed"
 }
 
 // @public
-export const enum KnownRecordingContentType {
-    // (undocumented)
+export enum KnownRecordingContentType {
     Audio = "Audio",
-    // (undocumented)
     AudioVideo = "AudioVideo"
 }
 
 // @public
-export const enum KnownRecordingFormatType {
-    // (undocumented)
+export enum KnownRecordingFormatType {
     Mp3 = "Mp3",
-    // (undocumented)
     Mp4 = "Mp4",
-    // (undocumented)
     Wav = "Wav"
 }
 
 // @public
-export const enum KnownStampKind {
+export enum KnownStampKind {
     AseV1 = "AseV1",
     AseV2 = "AseV2",
     Public = "Public"
 }
 
 // @public
-export const enum KnownStorageLifecycleCompletionStatus {
-    // (undocumented)
+export enum KnownStorageLifecycleCompletionStatus {
     Completed = "Completed",
-    // (undocumented)
     CompletedWithError = "CompletedWithError",
-    // (undocumented)
     Incomplete = "Incomplete"
 }
 
 // @public
-export const enum KnownStorageTaskAssignmentCompletedStatus {
-    // (undocumented)
+export enum KnownStorageTaskAssignmentCompletedStatus {
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
-export const enum KnownStorageTaskCompletedStatus {
-    // (undocumented)
+export enum KnownStorageTaskCompletedStatus {
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
@@ -1895,15 +1882,15 @@ export interface MachineLearningServicesModelDeployedEventData {
     modelIds: string;
     serviceComputeType: string;
     serviceName: string;
-    serviceProperties: any;
-    serviceTags: any;
+    serviceProperties: Record<string, unknown>;
+    serviceTags: Record<string, unknown>;
 }
 
 // @public
 export interface MachineLearningServicesModelRegisteredEventData {
     modelName: string;
-    modelProperties: any;
-    modelTags: any;
+    modelProperties: Record<string, unknown>;
+    modelTags: Record<string, unknown>;
     modelVersion: string;
 }
 
@@ -1912,8 +1899,8 @@ export interface MachineLearningServicesRunCompletedEventData {
     experimentId: string;
     experimentName: string;
     runId: string;
-    runProperties: any;
-    runTags: any;
+    runProperties: Record<string, unknown>;
+    runTags: Record<string, unknown>;
     runType: string;
 }
 
@@ -1922,14 +1909,15 @@ export interface MachineLearningServicesRunStatusChangedEventData {
     experimentId: string;
     experimentName: string;
     runId: string;
-    runProperties: any;
+    runProperties: Record<string, unknown>;
     runStatus: string;
-    runTags: any;
+    runTags: Record<string, unknown>;
     runType: string;
 }
 
 // @public
-export type MapsGeofenceEnteredEventData = MapsGeofenceEvent & {};
+export interface MapsGeofenceEnteredEventData extends MapsGeofenceEvent {
+}
 
 // @public
 export interface MapsGeofenceEvent {
@@ -1940,7 +1928,8 @@ export interface MapsGeofenceEvent {
 }
 
 // @public
-export type MapsGeofenceExitedEventData = MapsGeofenceEvent & {};
+export interface MapsGeofenceExitedEventData extends MapsGeofenceEvent {
+}
 
 // @public
 export interface MapsGeofenceGeometry {
@@ -1953,15 +1942,17 @@ export interface MapsGeofenceGeometry {
 }
 
 // @public
-export type MapsGeofenceResultEventData = MapsGeofenceEvent & {};
+export interface MapsGeofenceResultEventData extends MapsGeofenceEvent {
+}
 
 // @public
-export type MediaJobCanceledEventData = MediaJobStateChangeEventData & {
+export interface MediaJobCanceledEventData extends MediaJobStateChangeEventData {
     outputs: MediaJobOutputUnion[];
-};
+}
 
 // @public
-export type MediaJobCancelingEventData = MediaJobStateChangeEventData & {};
+export interface MediaJobCancelingEventData extends MediaJobStateChangeEventData {
+}
 
 // @public
 export interface MediaJobError {
@@ -1985,14 +1976,14 @@ export interface MediaJobErrorDetail {
 }
 
 // @public
-export type MediaJobErroredEventData = MediaJobStateChangeEventData & {
+export interface MediaJobErroredEventData extends MediaJobStateChangeEventData {
     outputs: MediaJobOutputUnion[];
-};
+}
 
 // @public
-export type MediaJobFinishedEventData = MediaJobStateChangeEventData & {
+export interface MediaJobFinishedEventData extends MediaJobStateChangeEventData {
     outputs: MediaJobOutputUnion[];
-};
+}
 
 // @public
 export interface MediaJobOutput {
@@ -2004,25 +1995,30 @@ export interface MediaJobOutput {
 }
 
 // @public
-export type MediaJobOutputAsset = MediaJobOutput & {
-    odataType: "#Microsoft.Media.JobOutputAsset";
+export interface MediaJobOutputAsset extends MediaJobOutput {
     assetName: string;
-};
+    odataType: "#Microsoft.Media.JobOutputAsset";
+}
 
 // @public
-export type MediaJobOutputCanceledEventData = MediaJobOutputStateChangeEventData & {};
+export interface MediaJobOutputCanceledEventData extends MediaJobOutputStateChangeEventData {
+}
 
 // @public
-export type MediaJobOutputCancelingEventData = MediaJobOutputStateChangeEventData & {};
+export interface MediaJobOutputCancelingEventData extends MediaJobOutputStateChangeEventData {
+}
 
 // @public
-export type MediaJobOutputErroredEventData = MediaJobOutputStateChangeEventData & {};
+export interface MediaJobOutputErroredEventData extends MediaJobOutputStateChangeEventData {
+}
 
 // @public
-export type MediaJobOutputFinishedEventData = MediaJobOutputStateChangeEventData & {};
+export interface MediaJobOutputFinishedEventData extends MediaJobOutputStateChangeEventData {
+}
 
 // @public
-export type MediaJobOutputProcessingEventData = MediaJobOutputStateChangeEventData & {};
+export interface MediaJobOutputProcessingEventData extends MediaJobOutputStateChangeEventData {
+}
 
 // @public
 export interface MediaJobOutputProgressEventData {
@@ -2034,7 +2030,8 @@ export interface MediaJobOutputProgressEventData {
 }
 
 // @public
-export type MediaJobOutputScheduledEventData = MediaJobOutputStateChangeEventData & {};
+export interface MediaJobOutputScheduledEventData extends MediaJobOutputStateChangeEventData {
+}
 
 // @public
 export interface MediaJobOutputStateChangeEventData {
@@ -2049,13 +2046,15 @@ export interface MediaJobOutputStateChangeEventData {
 export type MediaJobOutputUnion = MediaJobOutput | MediaJobOutputAsset;
 
 // @public
-export type MediaJobProcessingEventData = MediaJobStateChangeEventData & {};
+export interface MediaJobProcessingEventData extends MediaJobStateChangeEventData {
+}
 
 // @public
 export type MediaJobRetry = "DoNotRetry" | "MayRetry";
 
 // @public
-export type MediaJobScheduledEventData = MediaJobStateChangeEventData & {};
+export interface MediaJobScheduledEventData extends MediaJobStateChangeEventData {
+}
 
 // @public
 export type MediaJobState = "Canceled" | "Canceling" | "Error" | "Finished" | "Processing" | "Queued" | "Scheduled";
@@ -2354,13 +2353,16 @@ export interface ResourceHttpRequest {
 }
 
 // @public
-export type ResourceNotificationsContainerServiceEventResourcesScheduledEventData = ResourceNotificationsResourceUpdatedEventData & {};
+export interface ResourceNotificationsContainerServiceEventResourcesScheduledEventData extends ResourceNotificationsResourceUpdatedEventData {
+}
 
 // @public
-export type ResourceNotificationsHealthResourcesAnnotatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+export interface ResourceNotificationsHealthResourcesAnnotatedEventData extends ResourceNotificationsResourceUpdatedEventData {
+}
 
 // @public
-export type ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+export interface ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData extends ResourceNotificationsResourceUpdatedEventData {
+}
 
 // @public
 export interface ResourceNotificationsOperationalDetails {
@@ -2381,10 +2383,12 @@ export interface ResourceNotificationsResourceDeletedEventData {
 }
 
 // @public
-export type ResourceNotificationsResourceManagementCreatedOrUpdatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+export interface ResourceNotificationsResourceManagementCreatedOrUpdatedEventData extends ResourceNotificationsResourceUpdatedEventData {
+}
 
 // @public
-export type ResourceNotificationsResourceManagementDeletedEventData = ResourceNotificationsResourceDeletedEventData & {};
+export interface ResourceNotificationsResourceManagementDeletedEventData extends ResourceNotificationsResourceDeletedEventData {
+}
 
 // @public
 export interface ResourceNotificationsResourceUpdatedDetails {
@@ -2518,7 +2522,7 @@ export interface StorageAsyncOperationInitiatedEventData {
     identity: string;
     requestId: string;
     sequencer: string;
-    storageDiagnostics: any;
+    storageDiagnostics: Record<string, unknown>;
     url: string;
 }
 
@@ -2538,7 +2542,7 @@ export interface StorageBlobCreatedEventData {
     identity?: string;
     requestId?: string;
     sequencer?: string;
-    storageDiagnostics?: any;
+    storageDiagnostics?: Record<string, unknown>;
     url?: string;
 }
 
@@ -2551,7 +2555,7 @@ export interface StorageBlobDeletedEventData {
     identity: string;
     requestId: string;
     sequencer: string;
-    storageDiagnostics: any;
+    storageDiagnostics: Record<string, unknown>;
     url: string;
 }
 
@@ -2575,7 +2579,7 @@ export interface StorageBlobRenamedEventData {
     requestId: string;
     sequencer: string;
     sourceUrl: string;
-    storageDiagnostics: any;
+    storageDiagnostics: Record<string, unknown>;
 }
 
 // @public
@@ -2590,7 +2594,7 @@ export interface StorageBlobTierChangedEventData {
     previousTier: StorageBlobAccessTier;
     requestId?: string;
     sequencer?: string;
-    storageDiagnostics?: any;
+    storageDiagnostics?: Record<string, unknown>;
     url?: string;
 }
 
@@ -2602,7 +2606,7 @@ export interface StorageDirectoryCreatedEventData {
     identity: string;
     requestId: string;
     sequencer: string;
-    storageDiagnostics: any;
+    storageDiagnostics: Record<string, unknown>;
     url: string;
 }
 
@@ -2614,7 +2618,7 @@ export interface StorageDirectoryDeletedEventData {
     recursive: string;
     requestId: string;
     sequencer: string;
-    storageDiagnostics: any;
+    storageDiagnostics: Record<string, unknown>;
     url: string;
 }
 
@@ -2627,7 +2631,7 @@ export interface StorageDirectoryRenamedEventData {
     requestId: string;
     sequencer: string;
     sourceUrl: string;
-    storageDiagnostics: any;
+    storageDiagnostics: Record<string, unknown>;
 }
 
 // @public

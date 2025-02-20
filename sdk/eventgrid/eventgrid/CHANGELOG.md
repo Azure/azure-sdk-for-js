@@ -1,5 +1,16 @@
 # Release History
 
+## 5.11.0 (2025-02-21)
+
+### Features Added
+
+- properties added to `AcsMessageMediaContent`
+  - `animated`
+- properties added to `AcsMessageReceivedEventData`
+  - `messageId`
+  - `messageType`
+  - `reaction`
+
 ## 5.10.0 (2025-01-21)
 
 ### Features Added
