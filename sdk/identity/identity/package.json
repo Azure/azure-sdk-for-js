@@ -86,7 +86,7 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.0.0",
-    "@azure/msal-node": "^3.2.1",
+    "@azure/msal-node": "^3.2.3",
     "@azure/msal-browser": "^4.2.0",
     "events": "^3.0.0",
     "jws": "^4.0.0",
