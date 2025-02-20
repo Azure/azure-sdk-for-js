@@ -8,9 +8,7 @@
 import type { ThreatIntelligenceAppendTags } from "@azure/arm-securityinsight";
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Append tags to a threat intelligence indicator.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Append tags to a threat intelligence indicator.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/threatintelligence/AppendTagsThreatIntelligence.json
  */
-async function appendTagsToAThreatIntelligenceIndicator() {
+async function appendTagsToAThreatIntelligenceIndicator(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "bd794837-4d29-4647-9105-6339bfdb4e6a";
   const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
@@ -38,7 +36,7 @@ async function appendTagsToAThreatIntelligenceIndicator() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await appendTagsToAThreatIntelligenceIndicator();
 }
 

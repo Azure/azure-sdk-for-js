@@ -22,7 +22,7 @@ import {
   ProjectsImpl,
   JobDefinitionsImpl,
   JobRunsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   StorageMovers,
@@ -31,8 +31,8 @@ import {
   Projects,
   JobDefinitions,
   JobRuns,
-} from "./operationsInterfaces";
-import { StorageMoverClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { StorageMoverClientOptionalParams } from "./models/index.js";
 
 export class StorageMoverClient extends coreClient.ServiceClient {
   $host: string;

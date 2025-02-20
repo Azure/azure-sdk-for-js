@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes the specified rule from a route filter.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteFilterRuleDelete.json
  */
-async function routeFilterRuleDelete() {
+async function routeFilterRuleDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

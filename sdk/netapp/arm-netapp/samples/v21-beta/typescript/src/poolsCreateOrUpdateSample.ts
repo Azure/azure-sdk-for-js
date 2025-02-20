@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { CapacityPool, NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or Update a capacity pool
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create or Update a capacity pool
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Pools_CreateOrUpdate.json
  */
-async function poolsCreateOrUpdate() {
+async function poolsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
@@ -50,7 +48,7 @@ async function poolsCreateOrUpdate() {
  * @summary Create or Update a capacity pool
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Pools_CreateOrUpdate_CustomThroughput.json
  */
-async function poolsCreateOrUpdateCustomThroughput() {
+async function poolsCreateOrUpdateCustomThroughput(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
@@ -75,7 +73,7 @@ async function poolsCreateOrUpdateCustomThroughput() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   poolsCreateOrUpdate();
   poolsCreateOrUpdateCustomThroughput();
 }

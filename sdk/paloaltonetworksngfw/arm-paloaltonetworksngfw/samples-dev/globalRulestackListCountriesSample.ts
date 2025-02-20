@@ -8,9 +8,7 @@
 import type { GlobalRulestackListCountriesOptionalParams } from "@azure/arm-paloaltonetworksngfw";
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of countries for Rulestack
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary List of countries for Rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listCountries_MaximumSet_Gen.json
  */
-async function globalRulestackListCountriesMaximumSetGen() {
+async function globalRulestackListCountriesMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const skip = "a6a321";
   const top = 20;
@@ -35,7 +33,7 @@ async function globalRulestackListCountriesMaximumSetGen() {
  * @summary List of countries for Rulestack
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listCountries_MinimumSet_Gen.json
  */
-async function globalRulestackListCountriesMinimumSetGen() {
+async function globalRulestackListCountriesMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential);
@@ -43,7 +41,7 @@ async function globalRulestackListCountriesMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await globalRulestackListCountriesMaximumSetGen();
   await globalRulestackListCountriesMinimumSetGen();
 }

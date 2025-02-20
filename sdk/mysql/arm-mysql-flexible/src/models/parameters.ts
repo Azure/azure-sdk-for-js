@@ -29,7 +29,7 @@ import {
   VirtualNetworkSubnetUsageParameter as VirtualNetworkSubnetUsageParameterMapper,
   NameAvailabilityRequest as NameAvailabilityRequestMapper,
   MaintenanceUpdate as MaintenanceUpdateMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

@@ -13,9 +13,7 @@ import {
   StorageCacheManagementClient,
 } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/StorageTargets_CreateOrUpdate.json
  */
-async function storageTargetsCreateOrUpdate() {
+async function storageTargetsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -70,7 +68,7 @@ async function storageTargetsCreateOrUpdate() {
  * @summary Create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/StorageTargets_CreateOrUpdate_BlobNfs.json
  */
-async function storageTargetsCreateOrUpdateBlobNfs() {
+async function storageTargetsCreateOrUpdateBlobNfs(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -106,7 +104,7 @@ async function storageTargetsCreateOrUpdateBlobNfs() {
  * @summary Create or update a Storage Target. This operation is allowed at any time, but if the cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the cache is healthy again.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/StorageTargets_CreateOrUpdate_NoJunctions.json
  */
-async function storageTargetsCreateOrUpdateNoJunctions() {
+async function storageTargetsCreateOrUpdateNoJunctions(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -133,7 +131,7 @@ async function storageTargetsCreateOrUpdateNoJunctions() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   storageTargetsCreateOrUpdate();
   storageTargetsCreateOrUpdateBlobNfs();
   storageTargetsCreateOrUpdateNoJunctions();

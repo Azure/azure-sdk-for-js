@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { CosmosDBManagementClient } from "../src/cosmosDBManagementClient.js";
 import { afterEach, assert, beforeEach, describe, it } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -40,13 +36,17 @@ describe("Cosmosdb test", () => {
   let accountName: string;
   let databaseName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new CosmosDBManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastasia";
     resourceGroupName = "myjstest";
     accountName = "myaccountxxyz3";
@@ -58,66 +58,106 @@ describe("Cosmosdb test", () => {
   });
 
   it("databaseAccounts create for mongoDBResources test", async () => {
-    const res = await client.databaseAccounts.beginCreateOrUpdateAndWait(resourceGroupName, accountName, {
-      kind: "MongoDB",
-      databaseAccountOfferType: "Standard",
-      locations: [
-        {
-          failoverPriority: 0,
-          locationName: "eastasia",
-          isZoneRedundant: false
-        }
-      ],
-      location: location,
-      apiProperties: {},
-      createMode: "Default"
-    }, testPollingOptions);
+    const res = await client.databaseAccounts.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      accountName,
+      {
+        kind: "MongoDB",
+        databaseAccountOfferType: "Standard",
+        locations: [
+          {
+            failoverPriority: 0,
+            locationName: "eastasia",
+            isZoneRedundant: false,
+          },
+        ],
+        location: location,
+        apiProperties: {},
+        createMode: "Default",
+      },
+      testPollingOptions,
+    );
     assert.equal(res.name, accountName);
   });
 
   it("mongoDBResources create test", async () => {
-    const res = await client.mongoDBResources.beginCreateUpdateMongoDBDatabaseAndWait(resourceGroupName, accountName, databaseName, {
-      location: location,
-      resource: {
-        id: databaseName
+    const res = await client.mongoDBResources.beginCreateUpdateMongoDBDatabaseAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      {
+        location: location,
+        resource: {
+          id: databaseName,
+        },
+        options: {
+          throughput: 2000,
+        },
       },
-      options: {
-        throughput: 2000
-      }
-    }, testPollingOptions);
-    assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases")
+      testPollingOptions,
+    );
+    assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases");
   });
 
   it("mongoDBResources update test", async () => {
-    const res = await client.mongoDBResources.beginUpdateMongoDBDatabaseThroughputAndWait(resourceGroupName, accountName, databaseName, {
-      location: location,
-      resource: {
-        throughput: 400
-      }
-    }, testPollingOptions);
+    const res = await client.mongoDBResources.beginUpdateMongoDBDatabaseThroughputAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      {
+        location: location,
+        resource: {
+          throughput: 400,
+        },
+      },
+      testPollingOptions,
+    );
     assert.equal(res.resource?.throughput, 400);
   });
 
   it("mongoDBResources get test", async () => {
-    const res = await client.mongoDBResources.getMongoDBDatabase(resourceGroupName, accountName, databaseName);
+    const res = await client.mongoDBResources.getMongoDBDatabase(
+      resourceGroupName,
+      accountName,
+      databaseName,
+    );
     assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases");
   });
 
   it("mongoDBResources list test", async () => {
-    for await (let item of client.mongoDBResources.listMongoDBDatabases(resourceGroupName, accountName)) {
+    for await (const item of client.mongoDBResources.listMongoDBDatabases(
+      resourceGroupName,
+      accountName,
+    )) {
       assert.equal(item.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases");
     }
   });
 
   it("mongoDBResources migrate test", async () => {
-    const res = await client.mongoDBResources.beginMigrateMongoDBDatabaseToAutoscaleAndWait(resourceGroupName, accountName, databaseName, testPollingOptions);
-    assert.equal(res.type, "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings/migrateToAutoscale");
+    const res = await client.mongoDBResources.beginMigrateMongoDBDatabaseToAutoscaleAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      testPollingOptions,
+    );
+    assert.equal(
+      res.type,
+      "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings/migrateToAutoscale",
+    );
   });
 
   it("mongoDBResources delete test", async () => {
-    await client.mongoDBResources.beginDeleteMongoDBDatabaseAndWait(resourceGroupName, accountName, databaseName, testPollingOptions);
+    await client.mongoDBResources.beginDeleteMongoDBDatabaseAndWait(
+      resourceGroupName,
+      accountName,
+      databaseName,
+      testPollingOptions,
+    );
     const resArray = new Array();
-    for await (let item of client.mongoDBResources.listMongoDBDatabases(resourceGroupName, accountName)) {
+    for await (const item of client.mongoDBResources.listMongoDBDatabases(
+      resourceGroupName,
+      accountName,
+    )) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -127,10 +167,10 @@ describe("Cosmosdb test", () => {
     await client.databaseAccounts.beginDeleteAndWait(
       resourceGroupName,
       accountName,
-      testPollingOptions
+      testPollingOptions,
     );
     const resArray = new Array();
-    for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)) {
+    for await (const item of client.databaseAccounts.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

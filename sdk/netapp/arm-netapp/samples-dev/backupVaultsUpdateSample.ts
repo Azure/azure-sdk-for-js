@@ -8,9 +8,7 @@
 import type { BackupVaultPatch } from "@azure/arm-netapp";
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patch the specified NetApp Backup Vault
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Patch the specified NetApp Backup Vault
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/BackupVaults_Update.json
  */
-async function backupVaultsUpdate() {
+async function backupVaultsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] || "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const resourceGroupName = process.env["NETAPP_RESOURCE_GROUP"] || "myRG";
@@ -36,7 +34,7 @@ async function backupVaultsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await backupVaultsUpdate();
 }
 

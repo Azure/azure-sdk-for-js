@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get properties of the provided cloud services network.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get properties of the provided cloud services network.
  * x-ms-original-file: specification/networkcloud/resource-manager/Microsoft.NetworkCloud/preview/2024-06-01-preview/examples/CloudServicesNetworks_Get.json
  */
-async function getCloudServicesNetwork() {
+async function getCloudServicesNetwork(): Promise<void> {
   const subscriptionId =
     process.env["NETWORKCLOUD_SUBSCRIPTION_ID"] ||
     "123e4567-e89b-12d3-a456-426655440000";
@@ -36,7 +34,7 @@ async function getCloudServicesNetwork() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getCloudServicesNetwork();
 }
 

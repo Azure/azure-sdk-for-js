@@ -22,7 +22,7 @@ import {
   StreamingJobsStartOptionalParams,
   StreamingJobsStopOptionalParams,
   StreamingJobsScaleOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StreamingJobs. */

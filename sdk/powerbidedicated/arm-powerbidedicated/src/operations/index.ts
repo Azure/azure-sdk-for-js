@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./capacities";
-export * from "./operations";
-export * from "./autoScaleVCores";
+export * from "./capacities.js";
+export * from "./operations.js";
+export * from "./autoScaleVCores.js";

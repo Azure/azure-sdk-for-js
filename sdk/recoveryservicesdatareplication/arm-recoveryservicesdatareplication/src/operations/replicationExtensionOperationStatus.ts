@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ReplicationExtensionOperationStatus } from "../operationsInterfaces";
+import { ReplicationExtensionOperationStatus } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureSiteRecoveryManagementServiceAPI } from "../azureSiteRecoveryManagementServiceAPI.js";
 import {
   ReplicationExtensionOperationStatusGetOptionalParams,
   ReplicationExtensionOperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ReplicationExtensionOperationStatus operations. */
 export class ReplicationExtensionOperationStatusImpl

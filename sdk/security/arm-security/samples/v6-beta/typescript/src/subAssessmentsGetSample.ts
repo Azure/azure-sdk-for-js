@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a security sub-assessment on your scanned resource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a security sub-assessment on your scanned resource
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/SubAssessments/GetSubAssessment_example.json
  */
-async function getSecurityRecommendationTaskFromSecurityDataLocation() {
+async function getSecurityRecommendationTaskFromSecurityDataLocation(): Promise<void> {
   const scope =
     "subscriptions/212f9889-769e-45ae-ab43-6da33674bd26/resourceGroups/DEMORG/providers/Microsoft.Compute/virtualMachines/vm2";
   const assessmentName = "1195afff-c881-495e-9bc5-1486211ae03f";
@@ -35,7 +33,7 @@ async function getSecurityRecommendationTaskFromSecurityDataLocation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSecurityRecommendationTaskFromSecurityDataLocation();
 }
 

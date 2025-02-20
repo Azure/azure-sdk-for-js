@@ -13,9 +13,7 @@ import {
   MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing tenant action group's tags. To update other fields use the CreateOrUpdate method.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates an existing tenant action group's tags. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2023-05-01-preview/examples/patchTenantActionGroup.json
  */
-async function patchATenantActionGroup() {
+async function patchATenantActionGroup(): Promise<void> {
   const managementGroupId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
   const tenantActionGroupName = "testTenantActionGroup";
   const xMsClientTenantId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
@@ -42,7 +40,7 @@ async function patchATenantActionGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchATenantActionGroup();
 }
 

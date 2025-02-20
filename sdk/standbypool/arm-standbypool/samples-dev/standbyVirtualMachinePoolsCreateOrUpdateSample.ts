@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a StandbyVirtualMachinePoolResource
  * x-ms-original-file: 2024-03-01/StandbyVirtualMachinePools_CreateOrUpdate.json
  */
-async function standbyVirtualMachinePoolsCreateOrUpdate() {
+async function standbyVirtualMachinePoolsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
@@ -27,7 +27,7 @@ async function standbyVirtualMachinePoolsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await standbyVirtualMachinePoolsCreateOrUpdate();
 }
 

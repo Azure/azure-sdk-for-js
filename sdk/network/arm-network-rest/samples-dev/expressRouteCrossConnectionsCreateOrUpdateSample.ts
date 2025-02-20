@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Update the specified ExpressRouteCrossConnection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCrossConnectionUpdate.json
  */
-async function updateExpressRouteCrossConnection() {
+async function updateExpressRouteCrossConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

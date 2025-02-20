@@ -14,9 +14,7 @@ import {
   NginxManagementClient,
 } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Analyze an NGINX configuration without applying it to the NGINXaaS deployment
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Analyze an NGINX configuration without applying it to the NGINXaaS deployment
  * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Configurations_Analysis.json
  */
-async function configurationsAnalysis() {
+async function configurationsAnalysis(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -51,7 +49,7 @@ async function configurationsAnalysis() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   configurationsAnalysis();
 }
 

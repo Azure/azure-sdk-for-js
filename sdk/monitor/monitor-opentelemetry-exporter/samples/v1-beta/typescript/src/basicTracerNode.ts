@@ -11,30 +11,27 @@
 
 import * as opentelemetry from "@opentelemetry/api";
 import { Resource } from "@opentelemetry/resources";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { ApplicationInsightsSampler, AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
+import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-// Sampler expects a sample rate of between 0 and 1 inclusive
-// A rate of 0.75 means approximately 75 % of your traces will be sent
-const aiSampler = new ApplicationInsightsSampler(0.75);
-const provider = new BasicTracerProvider({
-  sampler: aiSampler,
-  resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-  }),
-});
+import "dotenv/config";
 
 // Configure span processor to send spans to the exporter
 const exporter = new AzureMonitorTraceExporter({
   connectionString:
-    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
+    // Replace with your Application Insights Connection String
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] ||
+    "InstrumentationKey=00000000-0000-0000-0000-000000000000;",
 });
-provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
+
+const provider = new BasicTracerProvider({
+  resource: new Resource({
+    [ATTR_SERVICE_NAME]: "basic-service",
+  }),
+  spanProcessors: [new SimpleSpanProcessor(exporter)],
+});
 
 /**
  * Initialize the OpenTelemetry APIs to use the BasicTracerProvider bindings.
@@ -48,7 +45,7 @@ provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
 provider.register();
 const tracer = opentelemetry.trace.getTracer("example-basic-tracer-node");
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a span. A span must be closed.
   const parentSpan = tracer.startSpan("main");
   for (let i = 0; i < 10; i += 1) {
@@ -58,10 +55,10 @@ export async function main() {
   parentSpan.end();
 
   // flush and close the connection.
-  exporter.shutdown();
+  await exporter.shutdown();
 }
 
-function doWork(parent: opentelemetry.Span) {
+function doWork(parent: opentelemetry.Span): void {
   // Start another span. In this example, the main method already started a
   // span, so that'll be the parent span, and this will be a child span.
   const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), parent);

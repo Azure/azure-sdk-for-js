@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns list of connector which connects to the resource, which supports to config the target service during the resource provision.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns list of connector which connects to the resource, which supports to config the target service during the resource provision.
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/ConnectorList.json
  */
-async function connectorList() {
+async function connectorList(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["SERVICELINKER_RESOURCE_GROUP"] || "test-rg";
@@ -38,7 +36,7 @@ async function connectorList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   connectorList();
 }
 

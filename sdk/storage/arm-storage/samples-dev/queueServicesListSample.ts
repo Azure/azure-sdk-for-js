@@ -7,9 +7,7 @@
  */
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all queue services for the storage account
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List all queue services for the storage account
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/QueueServicesList.json
  */
-async function queueServicesList() {
+async function queueServicesList(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
   const accountName = "sto1590";
@@ -27,7 +25,7 @@ async function queueServicesList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queueServicesList();
 }
 

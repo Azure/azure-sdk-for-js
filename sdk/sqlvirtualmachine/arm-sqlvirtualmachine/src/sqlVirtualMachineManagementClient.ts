@@ -20,15 +20,15 @@ import {
   SqlVirtualMachineGroupsImpl,
   SqlVirtualMachinesImpl,
   SqlVirtualMachineTroubleshootImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   AvailabilityGroupListeners,
   Operations,
   SqlVirtualMachineGroups,
   SqlVirtualMachines,
   SqlVirtualMachineTroubleshoot
-} from "./operationsInterfaces";
-import { SqlVirtualMachineManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { SqlVirtualMachineManagementClientOptionalParams } from "./models/index.js";
 
 export class SqlVirtualMachineManagementClient extends coreClient.ServiceClient {
   $host: string;

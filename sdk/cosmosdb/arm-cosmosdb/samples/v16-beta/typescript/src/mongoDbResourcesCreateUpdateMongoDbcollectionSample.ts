@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update an Azure Cosmos DB MongoDB Collection
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMongoDBCollectionCreateUpdate.json
  */
-async function cosmosDbMongoDbcollectionCreateUpdate() {
+async function cosmosDbMongoDbcollectionCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -61,7 +61,7 @@ async function cosmosDbMongoDbcollectionCreateUpdate() {
  * @summary Create or update an Azure Cosmos DB MongoDB Collection
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBMongoDBCollectionRestore.json
  */
-async function cosmosDbMongoDbcollectionRestore() {
+async function cosmosDbMongoDbcollectionRestore(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -96,7 +96,7 @@ async function cosmosDbMongoDbcollectionRestore() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbMongoDbcollectionCreateUpdate();
   cosmosDbMongoDbcollectionRestore();
 }

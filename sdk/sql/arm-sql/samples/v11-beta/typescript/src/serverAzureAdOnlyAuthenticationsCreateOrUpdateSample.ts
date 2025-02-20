@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Sets Server Active Directory only authentication property or updates an existing server Active Directory only authentication property.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/AzureADOnlyAuthCreateOrUpdate.json
  */
-async function createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject() {
+async function createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -46,7 +44,7 @@ async function createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsOrUpdatesAzureActiveDirectoryOnlyAuthenticationObject();
 }
 

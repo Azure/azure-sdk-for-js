@@ -13,9 +13,7 @@ import {
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing QueryPack's tags. To update other fields use the CreateOrUpdate method.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates an existing QueryPack's tags. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPacksUpdateTagsOnly.json
  */
-async function queryPackUpdateTagsOnly() {
+async function queryPackUpdateTagsOnly(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -45,7 +43,7 @@ async function queryPackUpdateTagsOnly() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   queryPackUpdateTagsOnly();
 }
 
