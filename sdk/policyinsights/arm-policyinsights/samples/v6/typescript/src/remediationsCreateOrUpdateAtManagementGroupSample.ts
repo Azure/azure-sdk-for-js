@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates a remediation at management group scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CreateManagementGroupScope.json
  */
-async function createRemediationAtManagementGroupScope() {
+async function createRemediationAtManagementGroupScope(): Promise<void> {
   const managementGroupId = "financeMg";
   const remediationName = "storageRemediation";
   const parameters: Remediation = {
@@ -35,7 +35,7 @@ async function createRemediationAtManagementGroupScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createRemediationAtManagementGroupScope();
 }
 

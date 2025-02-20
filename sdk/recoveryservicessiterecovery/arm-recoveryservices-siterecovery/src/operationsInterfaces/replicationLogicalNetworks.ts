@@ -12,7 +12,7 @@ import {
   ReplicationLogicalNetworksListByReplicationFabricsOptionalParams,
   ReplicationLogicalNetworksGetOptionalParams,
   ReplicationLogicalNetworksGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationLogicalNetworks. */

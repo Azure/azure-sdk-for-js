@@ -30,7 +30,7 @@ import {
   OperationsImpl,
   NodeTypesImpl,
   NodeTypeSkusImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   ApplicationTypes,
   ApplicationTypeVersions,
@@ -47,8 +47,8 @@ import {
   Operations,
   NodeTypes,
   NodeTypeSkus,
-} from "./operationsInterfaces";
-import { ServiceFabricManagedClustersManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ServiceFabricManagedClustersManagementClientOptionalParams } from "./models/index.js";
 
 export class ServiceFabricManagedClustersManagementClient extends coreClient.ServiceClient {
   $host: string;

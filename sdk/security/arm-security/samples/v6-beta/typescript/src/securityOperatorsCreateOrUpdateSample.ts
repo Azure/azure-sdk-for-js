@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates Microsoft Defender for Cloud security operator on the given scope.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates Microsoft Defender for Cloud security operator on the given scope.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-01-01-preview/examples/SecurityOperators/PutSecurityOperatorByName_example.json
  */
-async function createASecurityOperatorOnTheGivenScope() {
+async function createASecurityOperatorOnTheGivenScope(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -35,7 +33,7 @@ async function createASecurityOperatorOnTheGivenScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createASecurityOperatorOnTheGivenScope();
 }
 

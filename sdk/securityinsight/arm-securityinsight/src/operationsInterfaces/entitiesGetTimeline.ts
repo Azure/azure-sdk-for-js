@@ -10,7 +10,7 @@ import {
   EntityTimelineParameters,
   EntitiesGetTimelineListOptionalParams,
   EntitiesGetTimelineListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a EntitiesGetTimeline. */
 export interface EntitiesGetTimeline {

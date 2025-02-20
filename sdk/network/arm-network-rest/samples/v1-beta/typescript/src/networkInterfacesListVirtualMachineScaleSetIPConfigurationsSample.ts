@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Get the specified network interface ip configuration in a virtual machine scale set.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VmssNetworkInterfaceIpConfigList.json
  */
-async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
+async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Gets the specified authorization from the specified express route circuit.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitAuthorizationGet.json
  */
-async function getExpressRouteCircuitAuthorization() {
+async function getExpressRouteCircuitAuthorization(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

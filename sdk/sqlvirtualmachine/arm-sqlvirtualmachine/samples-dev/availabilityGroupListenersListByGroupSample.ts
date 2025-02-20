@@ -7,9 +7,7 @@
  */
 import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all availability group listeners in a SQL virtual machine group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all availability group listeners in a SQL virtual machine group.
  * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/ListByGroupAvailabilityGroupListener.json
  */
-async function listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup() {
+async function listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
@@ -34,7 +32,7 @@ async function listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listsAllAvailabilityGroupListenersInASqlVirtualMachineGroup();
 }
 

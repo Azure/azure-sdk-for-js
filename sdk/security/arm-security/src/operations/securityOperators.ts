@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SecurityOperators } from "../operationsInterfaces";
+import { SecurityOperators } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityCenter } from "../securityCenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityCenter } from "../securityCenter.js";
 import {
   SecurityOperatorsListOptionalParams,
   SecurityOperatorsListResponse,
@@ -19,7 +19,7 @@ import {
   SecurityOperatorsCreateOrUpdateOptionalParams,
   SecurityOperatorsCreateOrUpdateResponse,
   SecurityOperatorsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing SecurityOperators operations. */
 export class SecurityOperatorsImpl implements SecurityOperators {

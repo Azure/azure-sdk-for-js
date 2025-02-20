@@ -7,9 +7,7 @@
  */
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Archiving a `Reservation` moves it to `Archived` state.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Archiving a `Reservation` moves it to `Archived` state.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/Archive.json
  */
-async function archive() {
+async function archive(): Promise<void> {
   const reservationOrderId = "276e7ae4-84d0-4da6-ab4b-d6b94f3557da";
   const reservationId = "356e7ae4-84d0-4da6-ab4b-d6b94f3557da";
   const credential = new DefaultAzureCredential();
@@ -26,7 +24,7 @@ async function archive() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await archive();
 }
 

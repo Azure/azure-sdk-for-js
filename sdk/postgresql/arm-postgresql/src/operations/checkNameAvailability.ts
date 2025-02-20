@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CheckNameAvailability } from "../operationsInterfaces";
+import { CheckNameAvailability } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { PostgreSQLManagementClient } from "../postgreSQLManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { PostgreSQLManagementClient } from "../postgreSQLManagementClient.js";
 import {
   NameAvailabilityRequest,
   CheckNameAvailabilityExecuteOptionalParams,
   CheckNameAvailabilityExecuteResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing CheckNameAvailability operations. */
 export class CheckNameAvailabilityImpl implements CheckNameAvailability {

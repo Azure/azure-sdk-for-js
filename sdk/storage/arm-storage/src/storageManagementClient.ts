@@ -39,7 +39,7 @@ import {
   StorageTaskAssignmentsImpl,
   StorageTaskAssignmentsInstancesReportImpl,
   StorageTaskAssignmentInstancesReportImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   BlobServices,
   BlobContainers,
@@ -65,8 +65,8 @@ import {
   StorageTaskAssignments,
   StorageTaskAssignmentsInstancesReport,
   StorageTaskAssignmentInstancesReport,
-} from "./operationsInterfaces";
-import { StorageManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { StorageManagementClientOptionalParams } from "./models/index.js";
 
 export class StorageManagementClient extends coreClient.ServiceClient {
   $host: string;

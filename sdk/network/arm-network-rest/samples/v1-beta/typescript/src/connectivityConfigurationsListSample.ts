@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Lists all the network manager connectivity configuration in a specified network manager.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectivityConfigurationList.json
  */
-async function connectivityConfigurationsList() {
+async function connectivityConfigurationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

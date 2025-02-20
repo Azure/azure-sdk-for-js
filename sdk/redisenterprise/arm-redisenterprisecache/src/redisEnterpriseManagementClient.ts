@@ -22,7 +22,7 @@ import {
   AccessPolicyAssignmentOperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   OperationsStatus,
@@ -31,8 +31,8 @@ import {
   AccessPolicyAssignmentOperations,
   PrivateEndpointConnections,
   PrivateLinkResources,
-} from "./operationsInterfaces";
-import { RedisEnterpriseManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { RedisEnterpriseManagementClientOptionalParams } from "./models/index.js";
 
 export class RedisEnterpriseManagementClient extends coreClient.ServiceClient {
   $host: string;

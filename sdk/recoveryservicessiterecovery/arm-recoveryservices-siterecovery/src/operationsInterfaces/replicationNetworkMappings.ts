@@ -21,7 +21,7 @@ import {
   UpdateNetworkMappingInput,
   ReplicationNetworkMappingsUpdateOptionalParams,
   ReplicationNetworkMappingsUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationNetworkMappings. */

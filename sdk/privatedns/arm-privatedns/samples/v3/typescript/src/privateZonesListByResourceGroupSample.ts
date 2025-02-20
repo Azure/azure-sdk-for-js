@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the Private DNS zones within a resource group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the Private DNS zones within a resource group.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/PrivateZoneListInResourceGroup.json
  */
-async function getPrivateDnsZoneByResourceGroup() {
+async function getPrivateDnsZoneByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -36,7 +34,7 @@ async function getPrivateDnsZoneByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPrivateDnsZoneByResourceGroup();
 }
 

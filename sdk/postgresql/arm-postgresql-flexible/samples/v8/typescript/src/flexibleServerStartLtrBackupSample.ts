@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Start the Long Term Retention Backup operation
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/LongTermRetentionBackup.json
  */
-async function sampleExecuteBackup() {
+async function sampleExecuteBackup(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -42,7 +42,7 @@ async function sampleExecuteBackup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   sampleExecuteBackup();
 }
 

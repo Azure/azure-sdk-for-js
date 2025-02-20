@@ -7,9 +7,7 @@
  */
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a cluster instance.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes a cluster instance.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2021-06-01/examples/ClustersDelete.json
  */
-async function clustersDelete() {
+async function clustersDelete(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "oiautorest6685";
@@ -28,7 +26,7 @@ async function clustersDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await clustersDelete();
 }
 

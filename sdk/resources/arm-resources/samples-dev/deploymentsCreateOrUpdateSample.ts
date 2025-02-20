@@ -8,9 +8,7 @@
 import type { Deployment } from "@azure/arm-resources";
 import { ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to You can provide the template and parameters directly in the request or link to JSON files.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutDeploymentResourceGroup.json
  */
-async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString() {
+async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000001";
   const resourceGroupName = process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
@@ -50,7 +48,7 @@ async function createADeploymentThatWillDeployATemplateWithAUriAndQueryString() 
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutDeploymentResourceGroupTemplateSpecsWithId.json
  */
-async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId() {
+async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000001";
   const resourceGroupName = process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
@@ -80,7 +78,7 @@ async function createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceI
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutDeploymentWithOnErrorDeploymentSpecificDeployment.json
  */
-async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure() {
+async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
@@ -112,7 +110,7 @@ async function createADeploymentThatWillRedeployAnotherDeploymentOnFailure() {
  * @summary You can provide the template and parameters directly in the request or link to JSON files.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/PutDeploymentWithOnErrorDeploymentLastSuccessful.json
  */
-async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure() {
+async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFailure(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["RESOURCES_RESOURCE_GROUP"] || "my-resource-group";
@@ -135,7 +133,7 @@ async function createADeploymentThatWillRedeployTheLastSuccessfulDeploymentOnFai
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createADeploymentThatWillDeployATemplateWithAUriAndQueryString();
   await createADeploymentThatWillDeployATemplateSpecWithTheGivenResourceId();
   await createADeploymentThatWillRedeployAnotherDeploymentOnFailure();

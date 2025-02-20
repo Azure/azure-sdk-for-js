@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the encryption scopes available under the specified storage account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all the encryption scopes available under the specified storage account.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountEncryptionScopeList.json
  */
-async function storageAccountEncryptionScopeList() {
+async function storageAccountEncryptionScopeList(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function storageAccountEncryptionScopeList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   storageAccountEncryptionScopeList();
 }
 
