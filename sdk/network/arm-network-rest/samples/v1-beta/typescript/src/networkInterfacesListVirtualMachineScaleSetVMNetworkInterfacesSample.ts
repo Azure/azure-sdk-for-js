@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesParameters,
   paginate,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Gets information about all network interfaces in a virtual machine in a virtual machine scale set.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VmssVmNetworkInterfaceList.json
  */
-async function listVirtualMachineScaleSetVMNetworkInterfaces() {
+async function listVirtualMachineScaleSetVMNetworkInterfaces(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

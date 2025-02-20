@@ -1,33 +1,13 @@
 {
-  "compilerOptions": {
-    "module": "es6",
-    "moduleResolution": "node",
-    "strict": true,
-    "target": "es6",
-    "sourceMap": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
-    "declaration": true,
-    "outDir": "./dist-esm",
-    "importHelpers": true,
-    "paths": {
-      "@azure/arm-hybridconnectivity": [
-        "./src/index"
-      ]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
+    },
+    {
+      "path": "./tsconfig.samples.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
     }
-  },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "samples-dev/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
   ]
 }

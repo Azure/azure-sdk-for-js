@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a FabricCapacity
  * x-ms-original-file: 2023-11-01/FabricCapacities_Update.json
  */
-async function updateCapacityProperties() {
+async function updateCapacityProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function updateCapacityProperties() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateCapacityProperties();
 }
 

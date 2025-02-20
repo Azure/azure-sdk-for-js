@@ -131,7 +131,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     });
   }
 
-  it("can restore a secret (Malformed Backup Bytes)", async function () {
+  it("can restore a secret (Malformed Backup Bytes)", async () => {
     const backup = new Uint8Array(4728);
     let error;
     try {

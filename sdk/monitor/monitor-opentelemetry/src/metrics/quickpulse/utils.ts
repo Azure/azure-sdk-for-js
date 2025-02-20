@@ -64,6 +64,7 @@ import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
 import type { LogAttributes } from "@opentelemetry/api-logs";
 import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils";
+import { Logger } from "../../shared/logging";
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {
@@ -228,8 +229,12 @@ function getRequestData(span: ReadableSpan): RequestData {
   const grpcStatusCode = span.attributes[SEMATTRS_RPC_GRPC_STATUS_CODE];
   if (httpMethod) {
     requestData.Url = getUrl(span.attributes);
-    const urlObj = new URL(requestData.Url);
-    requestData.Name = `${httpMethod} ${urlObj.pathname}`;
+    if (URL.canParse(requestData.Url)) {
+      const urlObj = new URL(requestData.Url);
+      requestData.Name = `${httpMethod} ${urlObj.pathname}`;
+    } else {
+      Logger.getInstance().info("Request data sent to live metrics has no valid URL field.");
+    }
     const httpStatusCode = span.attributes[SEMATTRS_HTTP_STATUS_CODE];
     if (httpStatusCode) {
       requestData.ResponseCode = Number(httpStatusCode);
@@ -268,11 +273,11 @@ function getDependencyData(span: ReadableSpan): DependencyData {
   if (httpMethod) {
     const httpUrl = span.attributes[SEMATTRS_HTTP_URL];
     if (httpUrl) {
-      try {
+      if (URL.canParse(String(httpUrl))) {
         const dependencyUrl = new URL(String(httpUrl));
         dependencyData.Name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex: any) {
-        /* no-op */
+      } else {
+        Logger.getInstance().info("Dependency data sent to live metrics has no valid URL field.");
       }
     }
     dependencyData.Type = DependencyTypes.Http;
@@ -361,12 +366,15 @@ export function getLogData(log: LogRecord): ExceptionData | TraceData {
   const customDims = createCustomDimsFromAttributes(log.attributes);
   if (isExceptionTelemetry(log)) {
     return {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       Message: String(log.attributes[SEMATTRS_EXCEPTION_MESSAGE]),
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       StackTrace: String(log.attributes[SEMATTRS_EXCEPTION_STACKTRACE]),
       CustomDimensions: customDims,
     };
   } else {
     return {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       Message: String(log.body),
       CustomDimensions: customDims,
     };
@@ -455,6 +463,7 @@ function createCustomDimsFromAttributes(
           key === SEMATTRS_EXCEPTION_STACKTRACE
         )
       ) {
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         customDims.set(key, String(attributes[key]));
       }
     }

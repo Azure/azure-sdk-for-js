@@ -52,14 +52,13 @@ export class KeyVaultBackupClient {
    * Creates an instance of the KeyVaultBackupClient.
    *
    * Example usage:
-   * ```ts
-   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+   * ```ts snippet:ReadmeSampleCreateBackupClient
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
    *
-   * let vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
-   * let credentials = new DefaultAzureCredential();
-   *
-   * let client = new KeyVaultBackupClient(vaultUrl, credentials);
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
    * ```
    * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`. You should validate that this URL references a valid Key Vault or Managed HSM resource. See https://aka.ms/azsdk/blog/vault-uri for details.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
@@ -81,21 +80,23 @@ export class KeyVaultBackupClient {
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the Key Vault backup is generated.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultBackupClient(url, credentials);
+   * ```ts snippet:ReadmeSampleBeginBackup_SAS
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
    *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const sasToken = "<sas-token>";
    * const poller = await client.beginBackup(blobStorageUri, sasToken);
    *
    * // Serializing the poller
-   * //
-   * //   const serialized = poller.toString();
-   * //
+   * const serialized = poller.toString();
+   *
    * // A new poller can be created with:
-   * //
-   * //   await client.beginBackup(blobStorageUri, sasToken, { resumeFrom: serialized });
-   * //
+   * await client.beginBackup(blobStorageUri, sasToken, { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * const backupUri = await poller.pollUntilDone();
@@ -119,21 +120,22 @@ export class KeyVaultBackupClient {
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the Key Vault backup is generated.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultBackupClient(url, credentials);
+   * ```ts snippet:ReadmeSampleBeginBackup_NonSAS
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
    *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
-   * const sasToken = "<sas-token>";
    * const poller = await client.beginBackup(blobStorageUri);
    *
    * // Serializing the poller
-   * //
-   * //   const serialized = poller.toString();
-   * //
+   * const serialized = poller.toString();
+   *
    * // A new poller can be created with:
-   * //
-   * //   await client.beginBackup(blobStorageUri, { resumeFrom: serialized });
-   * //
+   * await client.beginBackup(blobStorageUri, { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * const backupUri = await poller.pollUntilDone();
@@ -186,21 +188,23 @@ export class KeyVaultBackupClient {
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the Key Vault restore operation is complete.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultBackupClient(url, credentials);
+   * ```ts snippet:ReadmeSampleBeginRestore_SAS
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
    *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
    * const sasToken = "<sas-token>";
    * const poller = await client.beginRestore(blobStorageUri, sasToken);
    *
    * // The poller can be serialized with:
-   * //
-   * //   const serialized = poller.toString();
-   * //
+   * const serialized = poller.toString();
+   *
    * // A new poller can be created with:
-   * //
-   * //   await client.beginRestore(blobStorageUri, sasToken, { resumeFrom: serialized });
-   * //
+   * await client.beginRestore(blobStorageUri, sasToken, { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * const backupUri = await poller.pollUntilDone();
@@ -224,21 +228,22 @@ export class KeyVaultBackupClient {
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the Key Vault restore operation is complete.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultBackupClient(url, credentials);
+   * ```ts snippet:ReadmeSampleBeginRestore_NonSAS
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
    *
    * const blobStorageUri = "<blob-storage-uri>"; // <Blob storage URL>/<folder name>
-   * const sasToken = "<sas-token>";
    * const poller = await client.beginRestore(blobStorageUri);
    *
    * // The poller can be serialized with:
-   * //
-   * //   const serialized = poller.toString();
-   * //
+   * const serialized = poller.toString();
+   *
    * // A new poller can be created with:
-   * //
-   * //   await client.beginRestore(blobStorageUri, { resumeFrom: serialized });
-   * //
+   * await client.beginRestore(blobStorageUri, { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * const backupUri = await poller.pollUntilDone();
@@ -297,8 +302,13 @@ export class KeyVaultBackupClient {
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the Key Vault selective restore is complete.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultBackupClient(url, credentials);
+   * ```ts snippet:ReadmeSampleBeginSelectiveKeyRestore_SAS
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
    *
    * const blobStorageUri = "<blob-storage-uri>";
    * const sasToken = "<sas-token>";
@@ -306,13 +316,12 @@ export class KeyVaultBackupClient {
    * const poller = await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken);
    *
    * // Serializing the poller
-   * //
-   * //   const serialized = poller.toString();
-   * //
+   * const serialized = poller.toString();
+   *
    * // A new poller can be created with:
-   * //
-   * //   await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken, { resumeFrom: serialized });
-   * //
+   * await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken, {
+   *   resumeFrom: serialized,
+   * });
    *
    * // Waiting until it's done
    * await poller.pollUntilDone();
@@ -339,22 +348,23 @@ export class KeyVaultBackupClient {
    * This function returns a Long Running Operation poller that allows you to wait indefinitely until the Key Vault selective restore is complete.
    *
    * Example usage:
-   * ```ts
-   * const client = new KeyVaultBackupClient(url, credentials);
+   * ```ts snippet:ReadmeSampleBeginSelectiveKeyRestore_NonSAS
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+   *
+   * const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+   * const credentials = new DefaultAzureCredential();
+   * const client = new KeyVaultBackupClient(vaultUrl, credentials);
    *
    * const blobStorageUri = "<blob-storage-uri>";
-   * const sasToken = "<sas-token>";
    * const keyName = "<key-name>";
-   * const poller = await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken);
+   * const poller = await client.beginSelectiveKeyRestore(keyName, blobStorageUri);
    *
    * // Serializing the poller
-   * //
-   * //   const serialized = poller.toString();
-   * //
+   * const serialized = poller.toString();
+   *
    * // A new poller can be created with:
-   * //
-   * //   await client.beginSelectiveKeyRestore(keyName, blobStorageUri, sasToken, { resumeFrom: serialized });
-   * //
+   * await client.beginSelectiveKeyRestore(keyName, blobStorageUri, { resumeFrom: serialized });
    *
    * // Waiting until it's done
    * await poller.pollUntilDone();

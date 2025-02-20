@@ -15,7 +15,7 @@ import {
   EventGetByTenantIdAndTrackingIdResponse,
   EventFetchDetailsByTenantIdAndTrackingIdOptionalParams,
   EventFetchDetailsByTenantIdAndTrackingIdResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a EventOperations. */
 export interface EventOperations {

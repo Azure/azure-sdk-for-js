@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  PrivateEndpointsGetParameters,
-} from "@azure-rest/arm-network";
+import type { PrivateEndpointsGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the specified private endpoint by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGet.json
  */
-async function getPrivateEndpoint() {
+async function getPrivateEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -42,7 +38,7 @@ getPrivateEndpoint().catch(console.error);
  * @summary Gets the specified private endpoint by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGetWithASG.json
  */
-async function getPrivateEndpointWithApplicationSecurityGroups() {
+async function getPrivateEndpointWithApplicationSecurityGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -69,7 +65,7 @@ getPrivateEndpointWithApplicationSecurityGroups().catch(console.error);
  * @summary Gets the specified private endpoint by resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateEndpointGetForManualApproval.json
  */
-async function getPrivateEndpointWithManualApprovalConnection() {
+async function getPrivateEndpointWithManualApprovalConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

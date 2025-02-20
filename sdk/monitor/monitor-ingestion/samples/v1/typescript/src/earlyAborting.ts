@@ -15,7 +15,7 @@ import {
 
 require("dotenv").config();
 
-async function main() {
+async function main(): Promise<void> {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
   const streamName = process.env.STREAM_NAME || "data_stream_name";
   const credential = new DefaultAzureCredential();

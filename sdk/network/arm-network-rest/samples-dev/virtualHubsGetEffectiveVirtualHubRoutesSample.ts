@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VirtualHubsGetEffectiveVirtualHubRoutesParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { VirtualHubsGetEffectiveVirtualHubRoutesParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/EffectiveRoutesListForConnection.json
  */
-async function effectiveRoutesForAConnectionResource() {
+async function effectiveRoutesForAConnectionResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -50,7 +45,7 @@ effectiveRoutesForAConnectionResource().catch(console.error);
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/EffectiveRoutesListForRouteTable.json
  */
-async function effectiveRoutesForARouteTableResource() {
+async function effectiveRoutesForARouteTableResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -84,7 +79,7 @@ effectiveRoutesForARouteTableResource().catch(console.error);
  * @summary Gets the effective routes configured for the Virtual Hub resource or the specified resource .
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/EffectiveRoutesListForVirtualHub.json
  */
-async function effectiveRoutesForTheVirtualHub() {
+async function effectiveRoutesForTheVirtualHub(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

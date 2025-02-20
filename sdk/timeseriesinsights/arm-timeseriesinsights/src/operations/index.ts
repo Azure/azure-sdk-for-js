@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./environments";
-export * from "./eventSources";
-export * from "./referenceDataSets";
-export * from "./accessPolicies";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
+export * from "./operations.js";
+export * from "./environments.js";
+export * from "./eventSources.js";
+export * from "./referenceDataSets.js";
+export * from "./accessPolicies.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Downloads and installs the updates on the device.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/DevicesInstallUpdates.json
  */
-async function devicesInstallUpdates() {
+async function devicesInstallUpdates(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "sugattdeviceforSDK";
   const resourceGroupName = "ResourceGroupForSDKTest";

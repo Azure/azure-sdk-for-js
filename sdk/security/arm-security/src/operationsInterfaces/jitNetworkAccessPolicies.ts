@@ -21,7 +21,7 @@ import {
   JitNetworkAccessPolicyInitiateRequest,
   JitNetworkAccessPoliciesInitiateOptionalParams,
   JitNetworkAccessPoliciesInitiateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JitNetworkAccessPolicies. */

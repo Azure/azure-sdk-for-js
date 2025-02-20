@@ -18,13 +18,13 @@ import {
   OperationsImpl,
   AzureLargeInstanceOperationsImpl,
   AzureLargeStorageInstanceOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   AzureLargeInstanceOperations,
   AzureLargeStorageInstanceOperations,
-} from "./operationsInterfaces";
-import { LargeInstanceManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { LargeInstanceManagementClientOptionalParams } from "./models/index.js";
 
 export class LargeInstanceManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -155,8 +155,8 @@ There are constructor overloads to support different ways of instantiating these
 
 One of the constructor overloads takes a connection string of the form `Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;` and entity name to your Event Hub instance. You can create a consumer group and get the connection string as well as the entity name from the [Azure portal](https://learn.microsoft.com/azure/event-hubs/event-hubs-get-connection-string#get-connection-string-from-the-portal).
 
-```javascript
-const { EventHubProducerClient, EventHubConsumerClient } = require("@azure/event-hubs");
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { EventHubProducerClient, EventHubConsumerClient } from "@azure/event-hubs";
 
 const producerClient = new EventHubProducerClient("my-connection-string", "my-event-hub");
 const consumerClient = new EventHubConsumerClient(
@@ -172,8 +172,8 @@ Another constructor overload takes the connection string corresponding to the sh
 This connection string will be of the form `Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name`.
 The key difference in the connection string format from the previous constructor overload is the `;EntityPath=my-event-hub-name`.
 
-```javascript
-const { EventHubProducerClient, EventHubConsumerClient } = require("@azure/event-hubs");
+```ts snippet:ReadmeSampleCreateClient_ConnectionStringWithEntityPath
+import { EventHubProducerClient, EventHubConsumerClient } from "@azure/event-hubs";
 
 const producerClient = new EventHubProducerClient("my-connection-string-with-entity-path");
 const consumerClient = new EventHubConsumerClient(
@@ -186,10 +186,10 @@ const consumerClient = new EventHubConsumerClient(
 
 This constructor overload takes the host name and entity name of your Event Hub instance and credential that implements the TokenCredential interface. This allows you to authenticate using an Azure Active Directory principal. There are implementations of the `TokenCredential` interface available in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) package. The host name is of the format `<yournamespace>.servicebus.windows.net`. When using Azure Active Directory, your principal must be assigned a role which allows access to Event Hubs, such as the Azure Event Hubs Data Owner role. For more information about using Azure Active Directory authorization with Event Hubs, please refer to [the associated documentation](https://learn.microsoft.com/azure/event-hubs/authorize-access-azure-active-directory).
 
-```javascript
-const { EventHubProducerClient, EventHubConsumerClient } = require("@azure/event-hubs");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import { EventHubProducerClient, EventHubConsumerClient } from "@azure/event-hubs";
 
-const { DefaultAzureCredential } = require("@azure/identity");
 const credential = new DefaultAzureCredential();
 const producerClient = new EventHubProducerClient("my-host-name", "my-event-hub", credential);
 const consumerClient = new EventHubConsumerClient(
@@ -260,18 +260,14 @@ To understand what partitions are available, you query the Event Hub using eithe
 
 In the below example, we are using an `EventHubProducerClient`.
 
-```javascript
-const { EventHubProducerClient } = require("@azure/event-hubs");
+```ts snippet:ReadmeSampleInspectEventHub
+import { EventHubProducerClient } from "@azure/event-hubs";
 
-async function main() {
-  const client = new EventHubProducerClient("connectionString", "eventHubName");
+const client = new EventHubProducerClient("connectionString", "eventHubName");
 
-  const partitionIds = await client.getPartitionIds();
+const partitionIds = await client.getPartitionIds();
 
-  await client.close();
-}
-
-main();
+await client.close();
 ```
 
 ### Publish events to an Event Hub
@@ -288,28 +284,24 @@ You may publish events to a specific partition, or allow the Event Hubs service 
 
 In the below example, we attempt to send 10 events to Azure Event Hubs.
 
-```javascript
-const { EventHubProducerClient } = require("@azure/event-hubs");
+```ts snippet:ReadmeSamplePublishEvents
+import { EventHubProducerClient } from "@azure/event-hubs";
 
-async function main() {
-  const producerClient = new EventHubProducerClient("connectionString", "eventHubName");
+const producerClient = new EventHubProducerClient("connectionString", "eventHubName");
 
-  const eventDataBatch = await producerClient.createBatch();
-  let numberOfEventsToSend = 10;
+const eventDataBatch = await producerClient.createBatch();
+let numberOfEventsToSend = 10;
 
-  while (numberOfEventsToSend > 0) {
-    const wasAdded = eventDataBatch.tryAdd({ body: "my-event-body" });
-    if (!wasAdded) {
-      break;
-    }
-    numberOfEventsToSend--;
+while (numberOfEventsToSend > 0) {
+  const wasAdded = eventDataBatch.tryAdd({ body: "my-event-body" });
+  if (!wasAdded) {
+    break;
   }
-
-  await producerClient.sendBatch(eventDataBatch);
-  await producerClient.close();
+  numberOfEventsToSend--;
 }
 
-main();
+await producerClient.sendBatch(eventDataBatch);
+await producerClient.close();
 ```
 
 There are options you can pass at different stages to control the process of sending events to Azure Event Hubs.
@@ -346,43 +338,35 @@ consuming events.
 The `subscribe` method takes callbacks to process events as they are received from Azure Event Hubs.
 To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
-```javascript
-const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
+```ts snippet:ReadmeSampleConsumeEvents
+import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
 
-async function main() {
-  const client = new EventHubConsumerClient(
-    "my-consumer-group",
-    "connectionString",
-    "eventHubName",
-  );
+const client = new EventHubConsumerClient("my-consumer-group", "connectionString", "eventHubName");
 
-  // In this sample, we use the position of earliest available event to start from
-  // Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
-  const subscriptionOptions = {
-    startPosition: earliestEventPosition,
-  };
+// In this sample, we use the position of earliest available event to start from
+// Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
+const subscriptionOptions = {
+  startPosition: earliestEventPosition,
+};
 
-  const subscription = client.subscribe(
-    {
-      processEvents: async (events, context) => {
-        // event processing code goes here
-      },
-      processError: async (err, context) => {
-        // error reporting/handling code here
-      },
+const subscription = client.subscribe(
+  {
+    processEvents: async (events, context) => {
+      // event processing code goes here
     },
-    subscriptionOptions,
-  );
+    processError: async (err, context) => {
+      // error reporting/handling code here
+    },
+  },
+  subscriptionOptions,
+);
 
-  // Wait for a few seconds to receive events before closing
-  setTimeout(async () => {
-    await subscription.close();
-    await client.close();
-    console.log(`Exiting sample`);
-  }, 3 * 1000);
-}
-
-main();
+// Wait for a few seconds to receive events before closing
+setTimeout(async () => {
+  await subscription.close();
+  await client.close();
+  console.log(`Exiting sample`);
+}, 3 * 1000);
 ```
 
 #### Consume events with load balanced across multiple processes
@@ -402,10 +386,10 @@ which implements the required read/writes to a durable store by using Azure Blob
 The `subscribe` method takes callbacks to process events as they are received from Azure Event Hubs.
 To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
-```javascript
-const { EventHubConsumerClient } = require("@azure/event-hubs");
-const { ContainerClient } = require("@azure/storage-blob");
-const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
+```ts snippet:ReadmeSampleConsumeEventsLoadBalancing
+import { ContainerClient } from "@azure/storage-blob";
+import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
+import { EventHubConsumerClient } from "@azure/event-hubs";
 
 const storageAccountConnectionString = "storage-account-connection-string";
 const containerName = "container-name";
@@ -413,53 +397,49 @@ const eventHubConnectionString = "eventhub-connection-string";
 const consumerGroup = "my-consumer-group";
 const eventHubName = "eventHubName";
 
-async function main() {
-  const blobContainerClient = new ContainerClient(storageAccountConnectionString, containerName);
+const blobContainerClient = new ContainerClient(storageAccountConnectionString, containerName);
 
-  if (!(await blobContainerClient.exists())) {
-    await blobContainerClient.create();
-  }
-
-  const checkpointStore = new BlobCheckpointStore(blobContainerClient);
-  const consumerClient = new EventHubConsumerClient(
-    consumerGroup,
-    eventHubConnectionString,
-    eventHubName,
-    checkpointStore,
-  );
-
-  const subscription = consumerClient.subscribe({
-    processEvents: async (events, context) => {
-      // event processing code goes here
-      if (events.length === 0) {
-        // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
-        // will pass you an empty array.
-        return;
-      }
-
-      // Checkpointing will allow your service to pick up from
-      // where it left off when restarting.
-      //
-      // You'll want to balance how often you checkpoint with the
-      // performance of your underlying checkpoint store.
-      await context.updateCheckpoint(events[events.length - 1]);
-    },
-    processError: async (err, context) => {
-      // handle any errors that occur during the course of
-      // this subscription
-      console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
-    },
-  });
-
-  // Wait for a few seconds to receive events before closing
-  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
-
-  await subscription.close();
-  await consumerClient.close();
-  console.log(`Exiting sample`);
+if (!(await blobContainerClient.exists())) {
+  await blobContainerClient.create();
 }
 
-main();
+const checkpointStore = new BlobCheckpointStore(blobContainerClient);
+const consumerClient = new EventHubConsumerClient(
+  consumerGroup,
+  eventHubConnectionString,
+  eventHubName,
+  checkpointStore,
+);
+
+const subscription = consumerClient.subscribe({
+  processEvents: async (events, context) => {
+    // event processing code goes here
+    if (events.length === 0) {
+      // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
+      // will pass you an empty array.
+      return;
+    }
+
+    // Checkpointing will allow your service to pick up from
+    // where it left off when restarting.
+    //
+    // You'll want to balance how often you checkpoint with the
+    // performance of your underlying checkpoint store.
+    await context.updateCheckpoint(events[events.length - 1]);
+  },
+  processError: async (err, context) => {
+    // handle any errors that occur during the course of
+    // this subscription
+    console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
+  },
+});
+
+// Wait for a few seconds to receive events before closing
+await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+
+await subscription.close();
+await consumerClient.close();
+console.log(`Exiting sample`);
 ```
 
 Please see [Balance partition load across multiple instances of your application](https://learn.microsoft.com/azure/event-hubs/event-processor-balance-partition-load)
@@ -475,45 +455,37 @@ In the below example, we are using the first partition.
 The `subscribe` method takes callbacks to process events as they are received from Azure Event Hubs.
 To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
-```javascript
-const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
+```ts snippet:ReadmeSampleConsumeEventsFromPartition
+import { EventHubConsumerClient, earliestEventPosition } from "@azure/event-hubs";
 
-async function main() {
-  const client = new EventHubConsumerClient(
-    "my-consumer-group",
-    "connectionString",
-    "eventHubName",
-  );
-  const partitionIds = await client.getPartitionIds();
+const client = new EventHubConsumerClient("my-consumer-group", "connectionString", "eventHubName");
+const partitionIds = await client.getPartitionIds();
 
-  // In this sample, we use the position of earliest available event to start from
-  // Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
-  const subscriptionOptions = {
-    startPosition: earliestEventPosition,
-  };
+// In this sample, we use the position of earliest available event to start from
+// Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
+const subscriptionOptions = {
+  startPosition: earliestEventPosition,
+};
 
-  const subscription = client.subscribe(
-    partitionIds[0],
-    {
-      processEvents: async (events, context) => {
-        // event processing code goes here
-      },
-      processError: async (err, context) => {
-        // error reporting/handling code here
-      },
+const subscription = client.subscribe(
+  partitionIds[0],
+  {
+    processEvents: async (events, context) => {
+      // event processing code goes here
     },
-    subscriptionOptions,
-  );
+    processError: async (err, context) => {
+      // error reporting/handling code here
+    },
+  },
+  subscriptionOptions,
+);
 
-  // Wait for a few seconds to receive events before closing
-  setTimeout(async () => {
-    await subscription.close();
-    await client.close();
-    console.log(`Exiting sample`);
-  }, 3 * 1000);
-}
-
-main();
+// Wait for a few seconds to receive events before closing
+setTimeout(async () => {
+  await subscription.close();
+  await client.close();
+  console.log(`Exiting sample`);
+}, 3 * 1000);
 ```
 
 ### Use EventHubConsumerClient to work with IotHub
@@ -526,23 +498,21 @@ hence sending events is not possible.
   [Event Hub-compatible endpoint](https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
   (e.g. "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name")
 
-```javascript
-const { EventHubConsumerClient } = require("@azure/event-hubs");
+```ts snippet:ReadmeSampleConsumeEventsFromIotHub
+import { EventHubConsumerClient } from "@azure/event-hubs";
 
-async function main() {
-  const client = new EventHubConsumerClient(
-    "my-consumer-group",
-    "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name",
-  );
-  await client.getEventHubProperties();
-  // retrieve partitionIds from client.getEventHubProperties() or client.getPartitionIds()
-  const partitionId = "0";
-  await client.getPartitionProperties(partitionId);
+const client = new EventHubConsumerClient(
+  "my-consumer-group",
+  "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name",
+);
 
-  await client.close();
-}
+await client.getEventHubProperties();
 
-main();
+// retrieve partitionIds from client.getEventHubProperties() or client.getPartitionIds()
+const partitionId = "0";
+await client.getPartitionProperties(partitionId);
+
+await client.close();
 ```
 
 ## Troubleshooting
@@ -557,6 +527,14 @@ You can set the `AZURE_LOG_LEVEL` environment variable to enable logging to `std
 
 ```bash
 export AZURE_LOG_LEVEL=verbose
+```
+
+Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the
@@ -604,5 +582,3 @@ directory for detailed examples of how to use this library to send and receive e
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2FREADME.png)

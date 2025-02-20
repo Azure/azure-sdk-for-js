@@ -13,9 +13,7 @@ import {
   ScVmm,
 } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete a virtual machine instance.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary The operation to delete a virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_Delete_MaximumSet_Gen.json
  */
-async function virtualMachineInstancesDeleteMaximumSet() {
+async function virtualMachineInstancesDeleteMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const force = "true";
   const deleteFromHost = "true";
@@ -46,7 +44,7 @@ async function virtualMachineInstancesDeleteMaximumSet() {
  * @summary The operation to delete a virtual machine instance.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_Delete_MinimumSet_Gen.json
  */
-async function virtualMachineInstancesDeleteMinimumSet() {
+async function virtualMachineInstancesDeleteMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const credential = new DefaultAzureCredential();
   const client = new ScVmm(credential);
@@ -55,7 +53,7 @@ async function virtualMachineInstancesDeleteMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   virtualMachineInstancesDeleteMaximumSet();
   virtualMachineInstancesDeleteMinimumSet();
 }

@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ImportImageParameters,
-  ContainerRegistryManagementClient
-} from "@azure/arm-containerregistry";
+import type { ImportImageParameters } from "@azure/arm-containerregistry";
+import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +19,8 @@ import "dotenv/config";
  */
 async function importImageByManifestDigest(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const parameters: ImportImageParameters = {
     mode: "Force",
@@ -34,20 +28,17 @@ async function importImageByManifestDigest(): Promise<void> {
       resourceId:
         "/subscriptions/10000000-0000-0000-0000-000000000000/resourceGroups/sourceResourceGroup/providers/Microsoft.ContainerRegistry/registries/sourceRegistry",
       sourceImage:
-        "sourceRepository@sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        "sourceRepository@sha256:0000000000000000000000000000000000000000000000000000000000000000",
     },
     targetTags: ["targetRepository:targetTag"],
-    untaggedTargetRepositories: ["targetRepository1"]
+    untaggedTargetRepositories: ["targetRepository1"],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.registries.beginImportImageAndWait(
     resourceGroupName,
     registryName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -60,30 +51,25 @@ async function importImageByManifestDigest(): Promise<void> {
  */
 async function importImageByTag(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const parameters: ImportImageParameters = {
     mode: "Force",
     source: {
       resourceId:
         "/subscriptions/10000000-0000-0000-0000-000000000000/resourceGroups/sourceResourceGroup/providers/Microsoft.ContainerRegistry/registries/sourceRegistry",
-      sourceImage: "sourceRepository:sourceTag"
+      sourceImage: "sourceRepository:sourceTag",
     },
     targetTags: ["targetRepository:targetTag"],
-    untaggedTargetRepositories: ["targetRepository1"]
+    untaggedTargetRepositories: ["targetRepository1"],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.registries.beginImportImageAndWait(
     resourceGroupName,
     registryName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -96,29 +82,24 @@ async function importImageByTag(): Promise<void> {
  */
 async function importImageFromPublicRegistry(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const parameters: ImportImageParameters = {
     mode: "Force",
     source: {
       registryUri: "registry.hub.docker.com",
-      sourceImage: "library/hello-world"
+      sourceImage: "library/hello-world",
     },
     targetTags: ["targetRepository:targetTag"],
-    untaggedTargetRepositories: ["targetRepository1"]
+    untaggedTargetRepositories: ["targetRepository1"],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
   const result = await client.registries.beginImportImageAndWait(
     resourceGroupName,
     registryName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

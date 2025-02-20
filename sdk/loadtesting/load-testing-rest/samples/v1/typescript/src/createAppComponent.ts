@@ -11,7 +11,7 @@ import AzureLoadTesting, { isUnexpected } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
 import { v4 as uuidv4 } from "uuid";
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env["LOADTESTSERVICE_ENDPOINT"] || "";
   const displayName = "some-load-test";
   const testId = uuidv4(); // ID to be assigned to a test

@@ -28,7 +28,7 @@ import {
   FileWorkspacesNoSubscriptionImpl,
   FilesImpl,
   FilesNoSubscriptionImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Services,
@@ -43,8 +43,8 @@ import {
   FileWorkspacesNoSubscription,
   Files,
   FilesNoSubscription,
-} from "./operationsInterfaces";
-import { MicrosoftSupportOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MicrosoftSupportOptionalParams } from "./models/index.js";
 
 export class MicrosoftSupport extends coreClient.ServiceClient {
   $host: string;

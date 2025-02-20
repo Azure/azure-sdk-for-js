@@ -13,9 +13,9 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  * Creates an instance of MapsSearchClient from a subscription key.
  *
  * @example
- * ```ts
- * import MapsSearch from "@azure-rest/maps-search";
+ * ```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
  * import { AzureKeyCredential } from "@azure/core-auth";
+ * import MapsSearch from "@azure-rest/maps-search";
  *
  * const credential = new AzureKeyCredential("<subscription-key>");
  * const client = MapsSearch(credential);
@@ -32,9 +32,9 @@ export default function MapsSearch(
  * Creates an instance of MapsSearch from an Azure Identity `TokenCredential`.
  *
  * @example
- * ```ts
- * import MapsSearch from "@azure-rest/maps-search";
+ * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import MapsSearch from "@azure-rest/maps-search";
  *
  * const credential = new DefaultAzureCredential();
  * const client = MapsSearch(credential, "<maps-account-client-id>");
@@ -53,9 +53,9 @@ export default function MapsSearch(
  * Creates an instance of MapsSearch from an Azure Identity `AzureSASCredential`.
  *
  * @example
- * ```ts
- * import MapsSearch from "@azure-rest/maps-search";
+ * ```ts snippet:ReadmeSampleCreateClient_SASToken
  * import { AzureSASCredential } from "@azure/core-auth";
+ * import MapsSearch from "@azure-rest/maps-search";
  *
  * const credential = new AzureSASCredential("<SAS Token>");
  * const client = MapsSearch(credential);

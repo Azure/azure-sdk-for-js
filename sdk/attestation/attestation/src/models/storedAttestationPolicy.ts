@@ -1,12 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- *
- */
-
 import { stringToBytes } from "../utils/utf8.js";
 import { TypeDeserializer } from "../utils/typeDeserializer.js";
 

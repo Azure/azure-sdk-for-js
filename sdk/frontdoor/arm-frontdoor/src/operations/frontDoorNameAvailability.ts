@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { FrontDoorNameAvailability } from "../operationsInterfaces";
+import { FrontDoorNameAvailability } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FrontDoorManagementClient } from "../frontDoorManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
 import {
   CheckNameAvailabilityInput,
   FrontDoorNameAvailabilityCheckOptionalParams,
   FrontDoorNameAvailabilityCheckResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing FrontDoorNameAvailability operations. */
 export class FrontDoorNameAvailabilityImpl

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import ContainerServiceManagementClient, {
   getLongRunningPoller,
 } from "@azure-rest/arm-containerservice";
@@ -19,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Rotates the service account signing keys of a managed cluster.
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/preview/2022-05-02-preview/examples/ManagedClustersRotateServiceAccountSigningKeys.json
  */
-async function rotateClusterServiceAccountSigningKeys() {
+async function rotateClusterServiceAccountSigningKeys(): Promise<void> {
   const subscriptionId = "subid1";
   const resourceGroupName = "rg1";
   const resourceName = "clustername1";

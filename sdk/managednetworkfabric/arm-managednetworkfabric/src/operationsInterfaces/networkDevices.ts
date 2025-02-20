@@ -31,7 +31,7 @@ import {
   UpdateVersion,
   NetworkDevicesUpgradeOptionalParams,
   NetworkDevicesUpgradeResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetworkDevices. */

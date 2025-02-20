@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +11,7 @@ import "dotenv/config";
  * @summary Gets information about all network interfaces in a role instance in a cloud service.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CloudServiceRoleInstanceNetworkInterfaceList.json
  */
-async function listCloudServiceRoleInstanceNetworkInterfaces() {
+async function listCloudServiceRoleInstanceNetworkInterfaces(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

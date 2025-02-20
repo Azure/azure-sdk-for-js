@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to get all licenses of a non-Azure machine
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary The operation to get all licenses of a non-Azure machine
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/license/License_ListByResourceGroup.json
  */
-async function getAllMachineExtensions() {
+async function getAllMachineExtensions(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
   const resourceGroupName =
@@ -36,7 +34,7 @@ async function getAllMachineExtensions() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAllMachineExtensions();
 }
 

@@ -10,19 +10,19 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary lists trusted signing accounts within a subscription.
  * x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_ListBySubscription.json
  */
-async function listsTrustedSigningAccountsWithinASubscription() {
+async function listsTrustedSigningAccountsWithinASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.codeSigningAccounts.listBySubscription()) {
+  for await (const item of client.codeSigningAccounts.listBySubscription()) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listsTrustedSigningAccountsWithinASubscription();
 }
 

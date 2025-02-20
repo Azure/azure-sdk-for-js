@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DataBoxEdgeDevice,
-  DataBoxEdgeManagementClient
-} from "@azure/arm-databoxedge";
+import type { DataBoxEdgeDevice } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -27,14 +23,14 @@ async function dataBoxEdgeDevicePut(): Promise<void> {
   const dataBoxEdgeDevice: DataBoxEdgeDevice = {
     location: "WUS",
     sku: { name: "Edge", tier: "Standard" },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const result = await client.devices.createOrUpdate(
     deviceName,
     resourceGroupName,
-    dataBoxEdgeDevice
+    dataBoxEdgeDevice,
   );
   console.log(result);
 }
@@ -55,14 +51,14 @@ async function dataBoxEdgeDevicePutWithDataResidency(): Promise<void> {
     dataResidency: { type: "ZoneReplication" },
     location: "WUS",
     sku: { name: "Edge", tier: "Standard" },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const result = await client.devices.createOrUpdate(
     deviceName,
     resourceGroupName,
-    dataBoxEdgeDevice
+    dataBoxEdgeDevice,
   );
   console.log(result);
 }

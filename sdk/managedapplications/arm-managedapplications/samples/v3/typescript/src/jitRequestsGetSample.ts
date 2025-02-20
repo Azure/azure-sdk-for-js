@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ApplicationClient } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the JIT request.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the JIT request.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/getJitRequest.json
  */
-async function getsTheJitRequest() {
+async function getsTheJitRequest(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function getsTheJitRequest() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsTheJitRequest();
 }
 

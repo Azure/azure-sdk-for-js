@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getScheduledActionsOperations,
   ScheduledActionsOperations,
 } from "./classic/scheduledActions/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   createComputeSchedule,
   ComputeScheduleContext,
   ComputeScheduleClientOptionalParams,
 } from "./api/index.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 
 export { ComputeScheduleClientOptionalParams } from "./api/computeScheduleContext.js";
 
@@ -30,18 +30,18 @@ export class ComputeScheduleClient {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
-    this._client = createComputeSchedule(credential, {
+      : `azsdk-js-client`;
+    this._client = createComputeSchedule(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.scheduledActions = getScheduledActionsOperations(this._client);
     this.operations = getOperationsOperations(this._client);
-    this.scheduledActions = getScheduledActionsOperations(this._client, subscriptionId);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for ScheduledActions */
+  /** The operation groups for scheduledActions */
   public readonly scheduledActions: ScheduledActionsOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }

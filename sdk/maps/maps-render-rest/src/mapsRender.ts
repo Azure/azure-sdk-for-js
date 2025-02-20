@@ -13,8 +13,9 @@ import createClient from "./generated/mapsRenderClient.js";
  * Creates an instance of MapsRenderClient from a subscription key.
  *
  * @example
- * ```ts
- * import MapsRender from "@azure-rest/maps-Render";
+ * ```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
+ * import { AzureKeyCredential } from "@azure/core-auth";
+ * import MapsRender from "@azure-rest/maps-render";
  *
  * const credential = new AzureKeyCredential("<subscription-key>");
  * const client = MapsRender(credential);
@@ -31,9 +32,9 @@ export default function MapsRender(
  * Creates an instance of MapsRender from an Azure Identity `TokenCredential`.
  *
  * @example
- * ```ts
- * import MapsRenderClient from "@azure-rest/maps-render";
+ * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import MapsRender from "@azure-rest/maps-render";
  *
  * const credential = new DefaultAzureCredential();
  * const client = MapsRender(credential, "<maps-account-client-id>");
@@ -52,9 +53,9 @@ export default function MapsRender(
  * Creates an instance of MapsRender from an Azure Identity `AzureSASCredential`.
  *
  * @example
- * ```ts
- * import MapsRender from "@azure-rest/maps-render";
+ * ```ts snippet:ReadmeSampleCreateClient_SASToken
  * import { AzureSASCredential } from "@azure/core-auth";
+ * import MapsRender from "@azure-rest/maps-render";
  *
  * const credential = new AzureSASCredential("<SAS Token>");
  * const client = MapsRender(credential);

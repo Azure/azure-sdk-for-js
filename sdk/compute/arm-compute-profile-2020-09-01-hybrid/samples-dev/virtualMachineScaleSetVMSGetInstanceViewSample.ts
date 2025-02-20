@@ -32,7 +32,7 @@ async function getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicated
 }
 
 async function main(): Promise<void> {
-  await getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement()
+  await getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement();
 }
 
 main().catch(console.error);

@@ -9,7 +9,7 @@
 import {
   AllTrafficFiltersListOptionalParams,
   AllTrafficFiltersListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AllTrafficFilters. */
 export interface AllTrafficFilters {

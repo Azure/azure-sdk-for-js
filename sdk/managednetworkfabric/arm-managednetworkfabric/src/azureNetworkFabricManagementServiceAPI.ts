@@ -39,7 +39,7 @@ import {
   NetworkTapsImpl,
   OperationsImpl,
   RoutePoliciesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   AccessControlLists,
   InternetGateways,
@@ -65,8 +65,8 @@ import {
   NetworkTaps,
   Operations,
   RoutePolicies
-} from "./operationsInterfaces";
-import { AzureNetworkFabricManagementServiceAPIOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureNetworkFabricManagementServiceAPIOptionalParams } from "./models/index.js";
 
 export class AzureNetworkFabricManagementServiceAPI extends coreClient.ServiceClient {
   $host: string;

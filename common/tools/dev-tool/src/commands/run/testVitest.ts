@@ -6,7 +6,6 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { runTestsWithProxyTool } from "../../util/testUtils";
 import { createPrinter } from "../../util/printer";
 import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer";
-import { runTestProxyCommand } from "../../util/testProxyUtils";
 
 const log = createPrinter("test:vitest");
 
@@ -91,12 +90,6 @@ export default leafCommand(commandInfo, async (options) => {
   try {
     if (options["test-proxy"]) {
       if (options["test-proxy-debug"]) process.env["Logging__LogLevel__Default"] = "Debug";
-
-      // restore recordings first in CI to avoid impacting the first playback test
-      if (process.env["BUILD_BUILDNUMBER"]) {
-        log.info(`restoring recordings before testing`);
-        await runTestProxyCommand(["restore", "-a", "assets.json"]);
-      }
 
       return await runTestsWithProxyTool(command);
     }

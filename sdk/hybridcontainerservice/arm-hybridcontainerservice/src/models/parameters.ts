@@ -19,7 +19,7 @@ import {
   VmSkuProfile as VmSkuProfileMapper,
   VirtualNetwork as VirtualNetworkMapper,
   VirtualNetworksPatch as VirtualNetworksPatchMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

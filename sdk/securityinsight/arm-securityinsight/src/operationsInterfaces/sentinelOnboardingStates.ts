@@ -14,7 +14,7 @@ import {
   SentinelOnboardingStatesDeleteOptionalParams,
   SentinelOnboardingStatesListOptionalParams,
   SentinelOnboardingStatesListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SentinelOnboardingStates. */
 export interface SentinelOnboardingStates {

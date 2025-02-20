@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a PrefixListGlobalRulestackResource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a PrefixListGlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListGlobalRulestack_Get_MaximumSet_Gen.json
  */
-async function prefixListGlobalRulestackGetMaximumSetGen() {
+async function prefixListGlobalRulestackGetMaximumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const name = "armid1";
   const credential = new DefaultAzureCredential();
@@ -38,7 +36,7 @@ async function prefixListGlobalRulestackGetMaximumSetGen() {
  * @summary Get a PrefixListGlobalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListGlobalRulestack_Get_MinimumSet_Gen.json
  */
-async function prefixListGlobalRulestackGetMinimumSetGen() {
+async function prefixListGlobalRulestackGetMinimumSetGen(): Promise<void> {
   const globalRulestackName = "praval";
   const name = "armid1";
   const credential = new DefaultAzureCredential();
@@ -50,7 +48,7 @@ async function prefixListGlobalRulestackGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   prefixListGlobalRulestackGetMaximumSetGen();
   prefixListGlobalRulestackGetMinimumSetGen();
 }

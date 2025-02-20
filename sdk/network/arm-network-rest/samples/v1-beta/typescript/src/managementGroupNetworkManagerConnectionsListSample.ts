@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ManagementGroupNetworkManagerConnectionsListParameters,
   paginate,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary List all network manager connections created by this management group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectionManagementGroupList.json
  */
-async function listManagementGroupNetworkManagerConnection() {
+async function listManagementGroupNetworkManagerConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const managementGroupId = "managementGroupA";

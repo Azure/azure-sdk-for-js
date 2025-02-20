@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ManagedServiceIdentityClient } from "@azure/arm-msi";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the federated identity credential.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the federated identity credential.
  * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialDelete.json
  */
-async function federatedIdentityCredentialDelete() {
+async function federatedIdentityCredentialDelete(): Promise<void> {
   const subscriptionId = process.env["MSI_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MSI_RESOURCE_GROUP"] || "rgName";
   const resourceName = "resourceName";
@@ -35,7 +33,7 @@ async function federatedIdentityCredentialDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   federatedIdentityCredentialDelete();
 }
 

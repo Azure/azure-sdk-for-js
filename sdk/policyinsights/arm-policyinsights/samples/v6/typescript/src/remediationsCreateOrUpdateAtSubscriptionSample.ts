@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Creates or updates a remediation at subscription scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CreateSubscriptionScope.json
  */
-async function createRemediationAtSubscriptionScope() {
+async function createRemediationAtSubscriptionScope(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
     "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
@@ -42,7 +42,7 @@ async function createRemediationAtSubscriptionScope() {
  * @summary Creates or updates a remediation at subscription scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CreateSubscriptionScope_AllProperties.json
  */
-async function createRemediationAtSubscriptionScopeWithAllProperties() {
+async function createRemediationAtSubscriptionScopeWithAllProperties(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
     "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
@@ -72,7 +72,7 @@ async function createRemediationAtSubscriptionScopeWithAllProperties() {
  * @summary Creates or updates a remediation at subscription scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Remediations_CreateSubscriptionScope_ResourceIdsFilter.json
  */
-async function createRemediationAtSubscriptionScopeWithResourceIdsFilter() {
+async function createRemediationAtSubscriptionScopeWithResourceIdsFilter(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
     "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
@@ -106,7 +106,7 @@ async function createRemediationAtSubscriptionScopeWithResourceIdsFilter() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createRemediationAtSubscriptionScope();
   createRemediationAtSubscriptionScopeWithAllProperties();
   createRemediationAtSubscriptionScopeWithResourceIdsFilter();

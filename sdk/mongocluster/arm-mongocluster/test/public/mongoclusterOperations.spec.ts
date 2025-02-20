@@ -3,7 +3,8 @@
  * Licensed under the MIT License.
  */
 
-import { env, Recorder, isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode, delay } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { MongoClusterManagementClient } from "../../src/mongoClusterManagementClient.js";
@@ -39,21 +40,21 @@ describe("MongoCluster test", () => {
     fireWallName = "testfilerule";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (recorder?.recordingId) {
       await recorder.stop();
     }
   });
 
-  it("operations list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
 
-  it("mongoClusters create test", async function () {
+  it("mongoClusters create test", async () => {
     const res = await client.mongoClusters.createOrUpdate(
       resourceGroup,
       resourcename,
@@ -77,7 +78,7 @@ describe("MongoCluster test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it("firerules create test", async function () {
+  it("firerules create test", async () => {
     const res = await client.firewallRules.createOrUpdate(
       resourceGroup,
       resourcename,
@@ -94,34 +95,34 @@ describe("MongoCluster test", () => {
     assert.equal(res.name, fireWallName);
   });
 
-  it("mongoClusters get test", async function () {
+  it("mongoClusters get test", async () => {
     const res = await client.mongoClusters.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("firerules get test", async function () {
+  it("firerules get test", async () => {
     const res = await client.firewallRules.get(resourceGroup, resourcename, fireWallName);
     console.log(res);
     assert.equal(res.name, fireWallName);
   });
 
-  it("mongoClusters list test", async function () {
+  it("mongoClusters list test", async () => {
     const resArray = new Array();
-    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("firewallRules list test", async function () {
+  it("firewallRules list test", async () => {
     const resArray = new Array();
-    for await (let item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
+    for await (const item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("mongoClusters update test", async function () {
+  it("mongoClusters update test", async () => {
     const res = await client.mongoClusters.update(resourceGroup, resourcename, {
       tags: {},
     });
@@ -129,19 +130,19 @@ describe("MongoCluster test", () => {
     assert.deepEqual(res.tags, {});
   });
 
-  it("firewallRules delete test", async function () {
+  it("firewallRules delete test", async () => {
     const resArray = new Array();
     await client.firewallRules.delete(resourceGroup, resourcename, fireWallName);
-    for await (let item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
+    for await (const item of client.firewallRules.listByMongoCluster(resourceGroup, resourcename)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
 
-  it("mongoClusters delete test", async function () {
+  it("mongoClusters delete test", async () => {
     const resArray = new Array();
     await client.mongoClusters.delete(resourceGroup, resourcename);
-    for await (let item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.mongoClusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

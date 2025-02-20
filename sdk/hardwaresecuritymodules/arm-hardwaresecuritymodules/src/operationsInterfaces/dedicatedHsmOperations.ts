@@ -22,7 +22,7 @@ import {
   DedicatedHsmDeleteResponse,
   DedicatedHsmGetOptionalParams,
   DedicatedHsmGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DedicatedHsmOperations. */

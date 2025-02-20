@@ -31,7 +31,7 @@ A `PipelineResponse` describes the HTTP response (body, headers, and status code
 
 A `SendRequest` method is a method that given a `PipelineRequest` can asynchronously return a `PipelineResponse`.
 
-```ts snippet:send_request
+```ts snippet:ReadmeSampleSendRequest
 import { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
@@ -41,7 +41,7 @@ type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 An `HttpClient` is any object that satisfies the following interface to implement a `SendRequest` method:
 
-```ts snippet:http_request
+```ts snippet:ReadmeSampleHttpRequest
 import { SendRequest } from "@azure/core-rest-pipeline";
 
 interface HttpClient {
@@ -58,7 +58,7 @@ interface HttpClient {
 
 A `PipelinePolicy` is a simple object that implements the following interface:
 
-```ts snippet:pipeline_policy
+```ts snippet:ReadmeSamplePipelinePolicy
 import { PipelineRequest, SendRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 interface PipelinePolicy {
@@ -81,7 +81,7 @@ One can view the role of policies as that of `middleware`, a concept that is fam
 
 The `sendRequest` implementation can both transform the outgoing request as well as the incoming response:
 
-```ts snippet:custom_policy
+```ts snippet:ReadmeSampleCustomPolicy
 import { PipelineRequest, SendRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 const customPolicy = {
@@ -108,7 +108,7 @@ You can think of policies being applied like a stack (first-in/last-out.) The fi
 
 A `Pipeline` satisfies the following interface:
 
-```ts snippet:pipeline
+```ts snippet:ReadmeSamplePipeline
 import {
   PipelinePolicy,
   AddPipelineOptions,
@@ -140,7 +140,7 @@ Phases occur in the above order, with serialization policies being applied first
 
 When adding a policy to the pipeline you can specify not only what phase a policy is in, but also if it has any dependencies:
 
-```ts snippet:add_policy_options
+```ts snippet:ReadmeSampleAddPipelineOptions
 import { PipelinePhase } from "@azure/core-rest-pipeline";
 
 interface AddPipelineOptions {
@@ -174,5 +174,3 @@ If you run into issues while using this library, please feel free to [file an is
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-rest-pipeline%2FREADME.png)

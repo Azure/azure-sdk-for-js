@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnSiteLinksListByVpnSiteParameters,
   paginate,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Lists all the vpnSiteLinks in a resource group for a vpn site.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSiteLinkListByVpnSite.json
  */
-async function vpnSiteLinkListByVpnSite() {
+async function vpnSiteLinkListByVpnSite(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

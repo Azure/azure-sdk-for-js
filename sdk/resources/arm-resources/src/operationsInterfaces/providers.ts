@@ -22,7 +22,7 @@ import {
   ProvidersGetResponse,
   ProvidersGetAtTenantScopeOptionalParams,
   ProvidersGetAtTenantScopeResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Providers. */

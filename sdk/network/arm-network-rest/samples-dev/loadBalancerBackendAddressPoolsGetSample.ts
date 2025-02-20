@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  LoadBalancerBackendAddressPoolsGetParameters,
-} from "@azure-rest/arm-network";
+import type { LoadBalancerBackendAddressPoolsGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +11,7 @@ import "dotenv/config";
  * @summary Gets load balancer backend address pool.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LBBackendAddressPoolWithBackendAddressesGet.json
  */
-async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
+async function loadBalancerWithBackendAddressPoolWithBackendAddresses(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -44,7 +40,7 @@ loadBalancerWithBackendAddressPoolWithBackendAddresses().catch(console.error);
  * @summary Gets load balancer backend address pool.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerBackendAddressPoolGet.json
  */
-async function loadBalancerBackendAddressPoolGet() {
+async function loadBalancerBackendAddressPoolGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
