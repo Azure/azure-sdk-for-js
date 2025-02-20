@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Triggers a ping event to be sent to the webhook.
  *
  * @summary Triggers a ping event to be sent to the webhook.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/WebhookPing.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/WebhookPing.json
  */
 async function webhookPing() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function webhookPing() {
 }
 
 async function main() {
-  webhookPing();
+  await webhookPing();
 }
 
 main().catch(console.error);

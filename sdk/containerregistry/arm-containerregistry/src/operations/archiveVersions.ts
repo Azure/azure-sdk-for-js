@@ -16,7 +16,7 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -30,7 +30,7 @@ import {
   ArchiveVersionsCreateResponse,
   ArchiveVersionsDeleteOptionalParams,
   ArchiveVersionsDeleteResponse,
-  ArchiveVersionsListNextResponse
+  ArchiveVersionsListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,14 +59,14 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     registryName: string,
     packageType: string,
     archiveName: string,
-    options?: ArchiveVersionsListOptionalParams
+    options?: ArchiveVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<ArchiveVersion> {
     const iter = this.listPagingAll(
       resourceGroupName,
       registryName,
       packageType,
       archiveName,
-      options
+      options,
     );
     return {
       next() {
@@ -85,9 +85,9 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
           packageType,
           archiveName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -97,7 +97,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     packageType: string,
     archiveName: string,
     options?: ArchiveVersionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ArchiveVersion[]> {
     let result: ArchiveVersionsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +107,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
         registryName,
         packageType,
         archiveName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -121,7 +121,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
         packageType,
         archiveName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -135,14 +135,14 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     registryName: string,
     packageType: string,
     archiveName: string,
-    options?: ArchiveVersionsListOptionalParams
+    options?: ArchiveVersionsListOptionalParams,
   ): AsyncIterableIterator<ArchiveVersion> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
       packageType,
       archiveName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -161,11 +161,11 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     registryName: string,
     packageType: string,
     archiveName: string,
-    options?: ArchiveVersionsListOptionalParams
+    options?: ArchiveVersionsListOptionalParams,
   ): Promise<ArchiveVersionsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, packageType, archiveName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -184,7 +184,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     packageType: string,
     archiveName: string,
     archiveVersionName: string,
-    options?: ArchiveVersionsGetOptionalParams
+    options?: ArchiveVersionsGetOptionalParams,
   ): Promise<ArchiveVersionsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -193,9 +193,9 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
         packageType,
         archiveName,
         archiveVersionName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -214,7 +214,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     packageType: string,
     archiveName: string,
     archiveVersionName: string,
-    options?: ArchiveVersionsCreateOptionalParams
+    options?: ArchiveVersionsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArchiveVersionsCreateResponse>,
@@ -223,21 +223,20 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ArchiveVersionsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -246,8 +245,8 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -255,8 +254,8 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -268,9 +267,9 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
         packageType,
         archiveName,
         archiveVersionName,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ArchiveVersionsCreateResponse,
@@ -278,7 +277,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -299,7 +298,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     packageType: string,
     archiveName: string,
     archiveVersionName: string,
-    options?: ArchiveVersionsCreateOptionalParams
+    options?: ArchiveVersionsCreateOptionalParams,
   ): Promise<ArchiveVersionsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
@@ -307,7 +306,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
       packageType,
       archiveName,
       archiveVersionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -327,7 +326,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     packageType: string,
     archiveName: string,
     archiveVersionName: string,
-    options?: ArchiveVersionsDeleteOptionalParams
+    options?: ArchiveVersionsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ArchiveVersionsDeleteResponse>,
@@ -336,21 +335,20 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ArchiveVersionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -359,8 +357,8 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -368,8 +366,8 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -381,9 +379,9 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
         packageType,
         archiveName,
         archiveVersionName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       ArchiveVersionsDeleteResponse,
@@ -391,7 +389,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -412,7 +410,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     packageType: string,
     archiveName: string,
     archiveVersionName: string,
-    options?: ArchiveVersionsDeleteOptionalParams
+    options?: ArchiveVersionsDeleteOptionalParams,
   ): Promise<ArchiveVersionsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -420,7 +418,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
       packageType,
       archiveName,
       archiveVersionName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -440,7 +438,7 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
     packageType: string,
     archiveName: string,
     nextLink: string,
-    options?: ArchiveVersionsListNextOptionalParams
+    options?: ArchiveVersionsListNextOptionalParams,
   ): Promise<ArchiveVersionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -449,9 +447,9 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
         packageType,
         archiveName,
         nextLink,
-        options
+        options,
       },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -459,40 +457,15 @@ export class ArchiveVersionsImpl implements ArchiveVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}/versions",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}/versions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArchiveVersionListResult
+      bodyMapper: Mappers.ArchiveVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName,
-    Parameters.packageType,
-    Parameters.archiveName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}/versions/{archiveVersionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ArchiveVersion
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -502,31 +475,53 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.packageType,
     Parameters.archiveName,
-    Parameters.archiveVersionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}/versions/{archiveVersionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ArchiveVersion,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.packageType,
+    Parameters.archiveName,
+    Parameters.archiveVersionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}/versions/{archiveVersionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}/versions/{archiveVersionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ArchiveVersion
+      bodyMapper: Mappers.ArchiveVersion,
     },
     201: {
-      bodyMapper: Mappers.ArchiveVersion
+      bodyMapper: Mappers.ArchiveVersion,
     },
     202: {
-      bodyMapper: Mappers.ArchiveVersion
+      bodyMapper: Mappers.ArchiveVersion,
     },
     204: {
-      bodyMapper: Mappers.ArchiveVersion
+      bodyMapper: Mappers.ArchiveVersion,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -536,31 +531,30 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.packageType,
     Parameters.archiveName,
-    Parameters.archiveVersionName
+    Parameters.archiveVersionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}/versions/{archiveVersionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/packages/{packageType}/archives/{archiveName}/versions/{archiveVersionName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.ArchiveVersionsDeleteHeaders
+      headersMapper: Mappers.ArchiveVersionsDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.ArchiveVersionsDeleteHeaders
+      headersMapper: Mappers.ArchiveVersionsDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.ArchiveVersionsDeleteHeaders
+      headersMapper: Mappers.ArchiveVersionsDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.ArchiveVersionsDeleteHeaders
+      headersMapper: Mappers.ArchiveVersionsDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -570,21 +564,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.packageType,
     Parameters.archiveName,
-    Parameters.archiveVersionName
+    Parameters.archiveVersionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ArchiveVersionListResult
+      bodyMapper: Mappers.ArchiveVersionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -593,8 +587,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.packageType,
     Parameters.archiveName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

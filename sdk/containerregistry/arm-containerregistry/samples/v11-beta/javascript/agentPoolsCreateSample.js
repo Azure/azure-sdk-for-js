@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates an agent pool for a container registry with the specified parameters.
@@ -37,13 +37,13 @@ async function agentPoolsCreate() {
     resourceGroupName,
     registryName,
     agentPoolName,
-    agentPool
+    agentPool,
   );
   console.log(result);
 }
 
 async function main() {
-  agentPoolsCreate();
+  await agentPoolsCreate();
 }
 
 main().catch(console.error);

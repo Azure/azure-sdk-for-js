@@ -16,7 +16,7 @@ import { ContainerRegistryManagementClient } from "../containerRegistryManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl.js";
 import {
@@ -29,7 +29,7 @@ import {
   ImportPipelinesCreateOptionalParams,
   ImportPipelinesCreateResponse,
   ImportPipelinesDeleteOptionalParams,
-  ImportPipelinesListNextResponse
+  ImportPipelinesListNextResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
   public list(
     resourceGroupName: string,
     registryName: string,
-    options?: ImportPipelinesListOptionalParams
+    options?: ImportPipelinesListOptionalParams,
   ): PagedAsyncIterableIterator<ImportPipeline> {
     const iter = this.listPagingAll(resourceGroupName, registryName, options);
     return {
@@ -72,9 +72,9 @@ export class ImportPipelinesImpl implements ImportPipelines {
           resourceGroupName,
           registryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
     resourceGroupName: string,
     registryName: string,
     options?: ImportPipelinesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ImportPipeline[]> {
     let result: ImportPipelinesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
         resourceGroupName,
         registryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class ImportPipelinesImpl implements ImportPipelines {
   private async *listPagingAll(
     resourceGroupName: string,
     registryName: string,
-    options?: ImportPipelinesListOptionalParams
+    options?: ImportPipelinesListOptionalParams,
   ): AsyncIterableIterator<ImportPipeline> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       registryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +130,11 @@ export class ImportPipelinesImpl implements ImportPipelines {
   private _list(
     resourceGroupName: string,
     registryName: string,
-    options?: ImportPipelinesListOptionalParams
+    options?: ImportPipelinesListOptionalParams,
   ): Promise<ImportPipelinesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -149,11 +149,11 @@ export class ImportPipelinesImpl implements ImportPipelines {
     resourceGroupName: string,
     registryName: string,
     importPipelineName: string,
-    options?: ImportPipelinesGetOptionalParams
+    options?: ImportPipelinesGetOptionalParams,
   ): Promise<ImportPipelinesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, importPipelineName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,7 +170,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
     registryName: string,
     importPipelineName: string,
     importPipelineCreateParameters: ImportPipeline,
-    options?: ImportPipelinesCreateOptionalParams
+    options?: ImportPipelinesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ImportPipelinesCreateResponse>,
@@ -179,21 +179,20 @@ export class ImportPipelinesImpl implements ImportPipelines {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ImportPipelinesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +201,8 @@ export class ImportPipelinesImpl implements ImportPipelines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,8 +210,8 @@ export class ImportPipelinesImpl implements ImportPipelines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -223,9 +222,9 @@ export class ImportPipelinesImpl implements ImportPipelines {
         registryName,
         importPipelineName,
         importPipelineCreateParameters,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ImportPipelinesCreateResponse,
@@ -233,7 +232,7 @@ export class ImportPipelinesImpl implements ImportPipelines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -252,14 +251,14 @@ export class ImportPipelinesImpl implements ImportPipelines {
     registryName: string,
     importPipelineName: string,
     importPipelineCreateParameters: ImportPipeline,
-    options?: ImportPipelinesCreateOptionalParams
+    options?: ImportPipelinesCreateOptionalParams,
   ): Promise<ImportPipelinesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       registryName,
       importPipelineName,
       importPipelineCreateParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -275,25 +274,24 @@ export class ImportPipelinesImpl implements ImportPipelines {
     resourceGroupName: string,
     registryName: string,
     importPipelineName: string,
-    options?: ImportPipelinesDeleteOptionalParams
+    options?: ImportPipelinesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -302,8 +300,8 @@ export class ImportPipelinesImpl implements ImportPipelines {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -311,20 +309,20 @@ export class ImportPipelinesImpl implements ImportPipelines {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, registryName, importPipelineName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -341,13 +339,13 @@ export class ImportPipelinesImpl implements ImportPipelines {
     resourceGroupName: string,
     registryName: string,
     importPipelineName: string,
-    options?: ImportPipelinesDeleteOptionalParams
+    options?: ImportPipelinesDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       registryName,
       importPipelineName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -363,11 +361,11 @@ export class ImportPipelinesImpl implements ImportPipelines {
     resourceGroupName: string,
     registryName: string,
     nextLink: string,
-    options?: ImportPipelinesListNextOptionalParams
+    options?: ImportPipelinesListNextOptionalParams,
   ): Promise<ImportPipelinesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -375,38 +373,15 @@ export class ImportPipelinesImpl implements ImportPipelines {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportPipelineListResult
+      bodyMapper: Mappers.ImportPipelineListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.registryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ImportPipeline
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -414,31 +389,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.importPipelineName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImportPipeline,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.importPipelineName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportPipeline
+      bodyMapper: Mappers.ImportPipeline,
     },
     201: {
-      bodyMapper: Mappers.ImportPipeline
+      bodyMapper: Mappers.ImportPipeline,
     },
     202: {
-      bodyMapper: Mappers.ImportPipeline
+      bodyMapper: Mappers.ImportPipeline,
     },
     204: {
-      bodyMapper: Mappers.ImportPipeline
+      bodyMapper: Mappers.ImportPipeline,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.importPipelineCreateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -447,15 +442,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.importPipelineName
+    Parameters.importPipelineName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/importPipelines/{importPipelineName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -463,8 +457,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -472,29 +466,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.importPipelineName
+    Parameters.importPipelineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ImportPipelineListResult
+      bodyMapper: Mappers.ImportPipelineListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.registryName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

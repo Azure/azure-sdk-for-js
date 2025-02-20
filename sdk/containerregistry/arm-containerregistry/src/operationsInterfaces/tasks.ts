@@ -20,7 +20,7 @@ import {
   TasksUpdateOptionalParams,
   TasksUpdateResponse,
   TasksGetDetailsOptionalParams,
-  TasksGetDetailsResponse
+  TasksGetDetailsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Tasks {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: TasksListOptionalParams
+    options?: TasksListOptionalParams,
   ): PagedAsyncIterableIterator<Task>;
   /**
    * Get the properties of a specified task.
@@ -48,7 +48,7 @@ export interface Tasks {
     resourceGroupName: string,
     registryName: string,
     taskName: string,
-    options?: TasksGetOptionalParams
+    options?: TasksGetOptionalParams,
   ): Promise<TasksGetResponse>;
   /**
    * Creates a task for a container registry with the specified parameters.
@@ -63,7 +63,7 @@ export interface Tasks {
     registryName: string,
     taskName: string,
     taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
+    options?: TasksCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<TasksCreateResponse>, TasksCreateResponse>
   >;
@@ -80,7 +80,7 @@ export interface Tasks {
     registryName: string,
     taskName: string,
     taskCreateParameters: Task,
-    options?: TasksCreateOptionalParams
+    options?: TasksCreateOptionalParams,
   ): Promise<TasksCreateResponse>;
   /**
    * Deletes a specified task.
@@ -93,7 +93,7 @@ export interface Tasks {
     resourceGroupName: string,
     registryName: string,
     taskName: string,
-    options?: TasksDeleteOptionalParams
+    options?: TasksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified task.
@@ -106,7 +106,7 @@ export interface Tasks {
     resourceGroupName: string,
     registryName: string,
     taskName: string,
-    options?: TasksDeleteOptionalParams
+    options?: TasksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a task with the specified parameters.
@@ -121,7 +121,7 @@ export interface Tasks {
     registryName: string,
     taskName: string,
     taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
+    options?: TasksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<TasksUpdateResponse>, TasksUpdateResponse>
   >;
@@ -138,7 +138,7 @@ export interface Tasks {
     registryName: string,
     taskName: string,
     taskUpdateParameters: TaskUpdateParameters,
-    options?: TasksUpdateOptionalParams
+    options?: TasksUpdateOptionalParams,
   ): Promise<TasksUpdateResponse>;
   /**
    * Returns a task with extended information that includes all secrets.
@@ -151,6 +151,6 @@ export interface Tasks {
     resourceGroupName: string,
     registryName: string,
     taskName: string,
-    options?: TasksGetDetailsOptionalParams
+    options?: TasksGetDetailsOptionalParams,
   ): Promise<TasksGetDetailsResponse>;
 }

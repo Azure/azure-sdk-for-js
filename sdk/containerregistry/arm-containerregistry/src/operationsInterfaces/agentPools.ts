@@ -20,7 +20,7 @@ import {
   AgentPoolsUpdateOptionalParams,
   AgentPoolsUpdateResponse,
   AgentPoolsGetQueueStatusOptionalParams,
-  AgentPoolsGetQueueStatusResponse
+  AgentPoolsGetQueueStatusResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface AgentPools {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: AgentPoolsListOptionalParams
+    options?: AgentPoolsListOptionalParams,
   ): PagedAsyncIterableIterator<AgentPool>;
   /**
    * Gets the detailed information for a given agent pool.
@@ -48,7 +48,7 @@ export interface AgentPools {
     resourceGroupName: string,
     registryName: string,
     agentPoolName: string,
-    options?: AgentPoolsGetOptionalParams
+    options?: AgentPoolsGetOptionalParams,
   ): Promise<AgentPoolsGetResponse>;
   /**
    * Creates an agent pool for a container registry with the specified parameters.
@@ -63,7 +63,7 @@ export interface AgentPools {
     registryName: string,
     agentPoolName: string,
     agentPool: AgentPool,
-    options?: AgentPoolsCreateOptionalParams
+    options?: AgentPoolsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolsCreateResponse>,
@@ -83,7 +83,7 @@ export interface AgentPools {
     registryName: string,
     agentPoolName: string,
     agentPool: AgentPool,
-    options?: AgentPoolsCreateOptionalParams
+    options?: AgentPoolsCreateOptionalParams,
   ): Promise<AgentPoolsCreateResponse>;
   /**
    * Deletes a specified agent pool resource.
@@ -96,7 +96,7 @@ export interface AgentPools {
     resourceGroupName: string,
     registryName: string,
     agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams
+    options?: AgentPoolsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified agent pool resource.
@@ -109,7 +109,7 @@ export interface AgentPools {
     resourceGroupName: string,
     registryName: string,
     agentPoolName: string,
-    options?: AgentPoolsDeleteOptionalParams
+    options?: AgentPoolsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates an agent pool with the specified parameters.
@@ -124,7 +124,7 @@ export interface AgentPools {
     registryName: string,
     agentPoolName: string,
     updateParameters: AgentPoolUpdateParameters,
-    options?: AgentPoolsUpdateOptionalParams
+    options?: AgentPoolsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AgentPoolsUpdateResponse>,
@@ -144,7 +144,7 @@ export interface AgentPools {
     registryName: string,
     agentPoolName: string,
     updateParameters: AgentPoolUpdateParameters,
-    options?: AgentPoolsUpdateOptionalParams
+    options?: AgentPoolsUpdateOptionalParams,
   ): Promise<AgentPoolsUpdateResponse>;
   /**
    * Gets the count of queued runs for a given agent pool.
@@ -157,6 +157,6 @@ export interface AgentPools {
     resourceGroupName: string,
     registryName: string,
     agentPoolName: string,
-    options?: AgentPoolsGetQueueStatusOptionalParams
+    options?: AgentPoolsGetQueueStatusOptionalParams,
   ): Promise<AgentPoolsGetQueueStatusResponse>;
 }

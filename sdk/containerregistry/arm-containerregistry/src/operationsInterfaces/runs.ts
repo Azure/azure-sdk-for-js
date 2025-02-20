@@ -18,7 +18,7 @@ import {
   RunsUpdateResponse,
   RunsGetLogSasUrlOptionalParams,
   RunsGetLogSasUrlResponse,
-  RunsCancelOptionalParams
+  RunsCancelOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Runs {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: RunsListOptionalParams
+    options?: RunsListOptionalParams,
   ): PagedAsyncIterableIterator<Run>;
   /**
    * Gets the detailed information for a given run.
@@ -46,7 +46,7 @@ export interface Runs {
     resourceGroupName: string,
     registryName: string,
     runId: string,
-    options?: RunsGetOptionalParams
+    options?: RunsGetOptionalParams,
   ): Promise<RunsGetResponse>;
   /**
    * Patch the run properties.
@@ -61,7 +61,7 @@ export interface Runs {
     registryName: string,
     runId: string,
     runUpdateParameters: RunUpdateParameters,
-    options?: RunsUpdateOptionalParams
+    options?: RunsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RunsUpdateResponse>, RunsUpdateResponse>
   >;
@@ -78,7 +78,7 @@ export interface Runs {
     registryName: string,
     runId: string,
     runUpdateParameters: RunUpdateParameters,
-    options?: RunsUpdateOptionalParams
+    options?: RunsUpdateOptionalParams,
   ): Promise<RunsUpdateResponse>;
   /**
    * Gets a link to download the run logs.
@@ -91,7 +91,7 @@ export interface Runs {
     resourceGroupName: string,
     registryName: string,
     runId: string,
-    options?: RunsGetLogSasUrlOptionalParams
+    options?: RunsGetLogSasUrlOptionalParams,
   ): Promise<RunsGetLogSasUrlResponse>;
   /**
    * Cancel an existing run.
@@ -104,7 +104,7 @@ export interface Runs {
     resourceGroupName: string,
     registryName: string,
     runId: string,
-    options?: RunsCancelOptionalParams
+    options?: RunsCancelOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Cancel an existing run.
@@ -117,6 +117,6 @@ export interface Runs {
     resourceGroupName: string,
     registryName: string,
     runId: string,
-    options?: RunsCancelOptionalParams
+    options?: RunsCancelOptionalParams,
   ): Promise<void>;
 }
