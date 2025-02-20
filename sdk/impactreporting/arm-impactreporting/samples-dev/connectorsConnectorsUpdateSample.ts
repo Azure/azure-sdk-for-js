@@ -10,18 +10,18 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a Connector
  * x-ms-original-file: 2024-05-01-preview/Connectors_Update.json
  */
-async function connectorsUpdate(): Promise<void> {
+async function connectorsUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "74f5e23f-d4d9-410a-bb4d-8f0608adb10d";
   const client = new ImpactClient(credential, subscriptionId);
-  const result = await client.connectors.update("testconnector1", {
+  const result = await client.connectors.Connectors_update("testconnector1", {
     properties: { connectorType: "AzureMonitor" },
   });
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await connectorsUpdate();
+async function main() {
+  connectorsUpdate();
 }
 
 main().catch(console.error);

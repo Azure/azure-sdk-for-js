@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list WorkloadImpact resources by subscription ID
  * x-ms-original-file: 2024-05-01-preview/WorkloadImpacts_ListBySubscription.json
  */
-async function listWorkloadImpactResourcesBySubscription(): Promise<void> {
+async function listWorkloadImpactResourcesBySubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -22,8 +22,8 @@ async function listWorkloadImpactResourcesBySubscription(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await listWorkloadImpactResourcesBySubscription();
+async function main() {
+  listWorkloadImpactResourcesBySubscription();
 }
 
 main().catch(console.error);

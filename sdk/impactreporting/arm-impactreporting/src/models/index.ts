@@ -16,6 +16,8 @@ export {
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
+  ConnectorUpdate,
+  ConnectorUpdateProperties,
   Insight,
   InsightProperties,
   Content,

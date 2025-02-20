@@ -10,22 +10,22 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list ImpactCategory resources by subscription
  * x-ms-original-file: 2024-05-01-preview/ImpactCategories_ListBySubscription.json
  */
-async function getImpactCategoriesListBySubscription(): Promise<void> {
+async function getImpactCategoriesListBySubscription() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.impactCategories.ImpactCategories_listBySubscription({
-    resourceType: "microsoft.compute/virtualmachines",
-  })) {
+  for await (let item of client.impactCategories.ImpactCategories_listBySubscription(
+    "microsoft.compute/virtualmachines",
+  )) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await getImpactCategoriesListBySubscription();
+async function main() {
+  getImpactCategoriesListBySubscription();
 }
 
 main().catch(console.error);

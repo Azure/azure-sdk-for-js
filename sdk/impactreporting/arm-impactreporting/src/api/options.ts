@@ -4,7 +4,8 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ConnectorsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface ConnectorsListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ConnectorsDeleteOptionalParams extends OperationOptions {}
@@ -13,7 +14,8 @@ export interface ConnectorsDeleteOptionalParams extends OperationOptions {}
 export interface ConnectorsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ConnectorsCreateOrUpdateOptionalParams extends OperationOptions {
+export interface ConnectorsCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -28,24 +30,25 @@ export interface InsightsDeleteOptionalParams extends OperationOptions {}
 export interface InsightsCreateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface InsightsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface InsightsListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface InsightsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ImpactCategoriesListBySubscriptionOptionalParams extends OperationOptions {
+export interface ImpactCategoriesListBySubscriptionOptionalParams
+  extends OperationOptions {
   /** Filter by category name */
   categoryName?: string;
-  /** Filter by resource type */
-  resourceType?: string;
 }
 
 /** Optional parameters. */
 export interface ImpactCategoriesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface WorkloadImpactsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface WorkloadImpactsListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface WorkloadImpactsDeleteOptionalParams extends OperationOptions {}

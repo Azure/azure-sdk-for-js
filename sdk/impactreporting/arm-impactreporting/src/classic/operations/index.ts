@@ -10,16 +10,21 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {
   /** List the operations for the provider */
-  list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
+  list: (
+    options?: OperationsListOptionalParams,
+  ) => PagedAsyncIterableIterator<Operation>;
 }
 
 function _getOperations(context: ImpactContext) {
   return {
-    list: (options?: OperationsListOptionalParams) => operationsList(context, options),
+    list: (options?: OperationsListOptionalParams) =>
+      operationsList(context, options),
   };
 }
 
-export function _getOperationsOperations(context: ImpactContext): OperationsOperations {
+export function _getOperationsOperations(
+  context: ImpactContext,
+): OperationsOperations {
   return {
     ..._getOperations(context),
   };

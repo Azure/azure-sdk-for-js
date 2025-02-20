@@ -26,6 +26,7 @@ import {
 
 export function _impactCategoriesListBySubscriptionSend(
   context: Client,
+  resourceType: string,
   options: ImpactCategoriesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
@@ -44,7 +45,7 @@ export function _impactCategoriesListBySubscriptionSend(
       queryParameters: {
         "api-version": context.apiVersion,
         categoryName: options?.categoryName,
-        resourceType: options?.resourceType,
+        resourceType: resourceType,
       },
     });
 }
@@ -65,13 +66,15 @@ export async function _impactCategoriesListBySubscriptionDeserialize(
 /** List ImpactCategory resources by subscription */
 export function impactCategoriesListBySubscription(
   context: Client,
+  resourceType: string,
   options: ImpactCategoriesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
 ): PagedAsyncIterableIterator<ImpactCategory> {
   return buildPagedAsyncIterator(
     context,
-    () => _impactCategoriesListBySubscriptionSend(context, options),
+    () =>
+      _impactCategoriesListBySubscriptionSend(context, resourceType, options),
     _impactCategoriesListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -118,6 +121,10 @@ export async function impactCategoriesGet(
   impactCategoryName: string,
   options: ImpactCategoriesGetOptionalParams = { requestOptions: {} },
 ): Promise<ImpactCategory> {
-  const result = await _impactCategoriesGetSend(context, impactCategoryName, options);
+  const result = await _impactCategoriesGetSend(
+    context,
+    impactCategoryName,
+    options,
+  );
   return _impactCategoriesGetDeserialize(result);
 }

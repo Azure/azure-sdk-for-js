@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-05-01-preview/Operations_List.json
  */
-async function operationsList(): Promise<void> {
+async function operationsList() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -22,8 +22,8 @@ async function operationsList(): Promise<void> {
   console.log(resArray);
 }
 
-async function main(): Promise<void> {
-  await operationsList();
+async function main() {
+  operationsList();
 }
 
 main().catch(console.error);

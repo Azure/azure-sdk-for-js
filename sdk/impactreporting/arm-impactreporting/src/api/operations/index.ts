@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ImpactContext as Client, OperationsListOptionalParams } from "../index.js";
+import {
+  ImpactContext as Client,
+  OperationsListOptionalParams,
+} from "../index.js";
 import {
   errorResponseDeserializer,
   _OperationListResult,
@@ -23,14 +26,16 @@ export function _operationsListSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context.path("/providers/Microsoft.Impact/operations").get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    queryParameters: { "api-version": context.apiVersion },
-  });
+  return context
+    .path("/providers/Microsoft.Impact/operations")
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
 export async function _operationsListDeserialize(

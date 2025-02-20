@@ -9,7 +9,7 @@ import {
   connectorsCreateOrUpdate,
   connectorsGet,
 } from "../../api/connectors/index.js";
-import { Connector } from "../../models/models.js";
+import { Connector, ConnectorUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -27,11 +27,14 @@ export interface ConnectorsOperations {
     options?: ConnectorsListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<Connector>;
   /** Delete a Connector */
-  delete: (connectorName: string, options?: ConnectorsDeleteOptionalParams) => Promise<void>;
+  delete: (
+    connectorName: string,
+    options?: ConnectorsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Update a Connector */
   update: (
     connectorName: string,
-    properties: Connector,
+    properties: ConnectorUpdate,
     options?: ConnectorsUpdateOptionalParams,
   ) => Promise<Connector>;
   /** Create a Connector */
@@ -41,18 +44,22 @@ export interface ConnectorsOperations {
     options?: ConnectorsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Connector>, Connector>;
   /** Get a Connector */
-  get: (connectorName: string, options?: ConnectorsGetOptionalParams) => Promise<Connector>;
+  get: (
+    connectorName: string,
+    options?: ConnectorsGetOptionalParams,
+  ) => Promise<Connector>;
 }
 
 function _getConnectors(context: ImpactContext) {
   return {
-    listBySubscription: (options?: ConnectorsListBySubscriptionOptionalParams) =>
-      connectorsListBySubscription(context, options),
+    listBySubscription: (
+      options?: ConnectorsListBySubscriptionOptionalParams,
+    ) => connectorsListBySubscription(context, options),
     delete: (connectorName: string, options?: ConnectorsDeleteOptionalParams) =>
       connectorsDelete(context, connectorName, options),
     update: (
       connectorName: string,
-      properties: Connector,
+      properties: ConnectorUpdate,
       options?: ConnectorsUpdateOptionalParams,
     ) => connectorsUpdate(context, connectorName, properties, options),
     createOrUpdate: (
@@ -65,7 +72,9 @@ function _getConnectors(context: ImpactContext) {
   };
 }
 
-export function _getConnectorsOperations(context: ImpactContext): ConnectorsOperations {
+export function _getConnectorsOperations(
+  context: ImpactContext,
+): ConnectorsOperations {
   return {
     ..._getConnectors(context),
   };

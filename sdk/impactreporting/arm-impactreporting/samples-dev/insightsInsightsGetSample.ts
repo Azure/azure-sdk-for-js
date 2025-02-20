@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get Insight resources by workloadImpactName and insightName
  * x-ms-original-file: 2024-05-01-preview/Insights_Get_diagnostics.json
  */
-async function getInsightSampleForDiagnosticsCategory(): Promise<void> {
+async function getInsightSampleForDiagnosticsCategory() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -24,11 +24,14 @@ async function getInsightSampleForDiagnosticsCategory(): Promise<void> {
  * @summary get Insight resources by workloadImpactName and insightName
  * x-ms-original-file: 2024-05-01-preview/Insights_Get_mitigationAction.json
  */
-async function getInsightSampleForMitigationActionCategory(): Promise<void> {
+async function getInsightSampleForMitigationActionCategory() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
-  const result = await client.insights.Insights_get("impactId", "HPCUASucceeded");
+  const result = await client.insights.Insights_get(
+    "impactId",
+    "HPCUASucceeded",
+  );
   console.log(result);
 }
 
@@ -38,7 +41,7 @@ async function getInsightSampleForMitigationActionCategory(): Promise<void> {
  * @summary get Insight resources by workloadImpactName and insightName
  * x-ms-original-file: 2024-05-01-preview/Insights_Get_servicehealth.json
  */
-async function getInsightSampleForServiceHealthCategory(): Promise<void> {
+async function getInsightSampleForServiceHealthCategory() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -46,10 +49,10 @@ async function getInsightSampleForServiceHealthCategory(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
-  await getInsightSampleForDiagnosticsCategory();
-  await getInsightSampleForMitigationActionCategory();
-  await getInsightSampleForServiceHealthCategory();
+async function main() {
+  getInsightSampleForDiagnosticsCategory();
+  getInsightSampleForMitigationActionCategory();
+  getInsightSampleForServiceHealthCategory();
 }
 
 main().catch(console.error);

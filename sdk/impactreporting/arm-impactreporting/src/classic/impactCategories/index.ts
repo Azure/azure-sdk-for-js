@@ -17,6 +17,7 @@ import {
 export interface ImpactCategoriesOperations {
   /** List ImpactCategory resources by subscription */
   listBySubscription: (
+    resourceType: string,
     options?: ImpactCategoriesListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<ImpactCategory>;
   /** Get a ImpactCategory */
@@ -28,14 +29,20 @@ export interface ImpactCategoriesOperations {
 
 function _getImpactCategories(context: ImpactContext) {
   return {
-    listBySubscription: (options?: ImpactCategoriesListBySubscriptionOptionalParams) =>
-      impactCategoriesListBySubscription(context, options),
-    get: (impactCategoryName: string, options?: ImpactCategoriesGetOptionalParams) =>
-      impactCategoriesGet(context, impactCategoryName, options),
+    listBySubscription: (
+      resourceType: string,
+      options?: ImpactCategoriesListBySubscriptionOptionalParams,
+    ) => impactCategoriesListBySubscription(context, resourceType, options),
+    get: (
+      impactCategoryName: string,
+      options?: ImpactCategoriesGetOptionalParams,
+    ) => impactCategoriesGet(context, impactCategoryName, options),
   };
 }
 
-export function _getImpactCategoriesOperations(context: ImpactContext): ImpactCategoriesOperations {
+export function _getImpactCategoriesOperations(
+  context: ImpactContext,
+): ImpactCategoriesOperations {
   return {
     ..._getImpactCategories(context),
   };
