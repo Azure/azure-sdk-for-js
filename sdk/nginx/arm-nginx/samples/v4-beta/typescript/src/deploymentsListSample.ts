@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to List the NGINX deployments resources
  *
  * @summary List the NGINX deployments resources
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Deployments_List.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_List.json
  */
 async function deploymentsList(): Promise<void> {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function deploymentsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsList();
+  await deploymentsList();
 }
 
 main().catch(console.error);

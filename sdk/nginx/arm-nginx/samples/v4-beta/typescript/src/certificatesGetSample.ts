@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get a certificate of given NGINX deployment
  *
  * @summary Get a certificate of given NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Certificates_Get.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Certificates_Get.json
  */
 async function certificatesGet(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function certificatesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  certificatesGet();
+  await certificatesGet();
 }
 
 main().catch(console.error);
