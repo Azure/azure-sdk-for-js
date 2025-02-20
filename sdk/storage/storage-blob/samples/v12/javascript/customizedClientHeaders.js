@@ -74,7 +74,7 @@ async function main() {
   pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
 
   const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net${accountSas}`,
+    `https://${account}.blob.core.windows.net?${accountSas}`,
     pipeline
   );
 
