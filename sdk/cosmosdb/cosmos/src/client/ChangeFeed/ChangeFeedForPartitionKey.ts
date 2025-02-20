@@ -51,9 +51,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
   private async instantiateIterator(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     await this.setIteratorRid(diagnosticNode);
     if (this.clientContext.enableEncryption) {
-      if (!this.container.isEncryptionInitialized) {
-        await this.container.initializeEncryption();
-      }
+      await this.container.checkAndInitializeEncryption();
       // returns copy of object to avoid encryption of original partition key passed
       this.partitionKey = copyObject(this.partitionKey);
       this.partitionKey = await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
