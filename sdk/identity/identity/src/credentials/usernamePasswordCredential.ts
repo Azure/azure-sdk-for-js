@@ -41,7 +41,7 @@ export class UsernamePasswordCredential implements TokenCredential {
    * @param password - The user account's account password
    * @param options - Options for configuring the client which makes the authentication request.
    *
-   * @deprecated UsernamePasswordCredential is deprecated. Please use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details.
+   * @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details.
    */
   constructor(
     tenantId: string,

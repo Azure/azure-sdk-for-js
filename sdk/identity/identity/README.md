@@ -318,7 +318,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 
 #### Username and password
 
-> **Warning**: Username and password authentication doesn't support multifactor authentication and is **deprecated**.
+> **Warning**: Username and password authentication doesn't support multifactor authentication and is **deprecated**. For more details, see [Planning for mandatory multifactor authentication](https://aka.ms/azsdk/identity/mfa).
 
 | Variable name     | Value                                          |
 | ----------------- | ---------------------------------------------- |

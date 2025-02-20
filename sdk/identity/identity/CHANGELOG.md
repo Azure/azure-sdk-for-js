@@ -9,7 +9,7 @@
 ### Bugs Fixed
 
 ### Other Changes
-- Deprecated `UsernamePasswordCredential`. This credential does not support multifactor authentication (MFA) which is required by Microsoft Entra ID for most authentication scenarios. [#33136](https://github.com/Azure/azure-sdk-for-js/pull/33136)
+- Deprecated `UsernamePasswordCredential`, as it doesn't support multifactor authentication (MFA). MFA will soon be enforced on all Microsoft Entra tenants. For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure). [#33136](https://github.com/Azure/azure-sdk-for-js/pull/33136)
   
 ## 4.7.0 (2025-02-18)
 
