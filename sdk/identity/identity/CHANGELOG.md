@@ -9,13 +9,15 @@
 ### Bugs Fixed
 
 ### Other Changes
-
+- Deprecated `UsernamePasswordCredential`, as it doesn't support multifactor authentication (MFA). MFA will soon be enforced on all Microsoft Entra tenants. For more details, see [Planning for mandatory MFA](https://aka.ms/mfaforazure). [#33136](https://github.com/Azure/azure-sdk-for-js/pull/33136)
+  
 ## 4.7.0 (2025-02-18)
 
 ### Features Added
 
 - Added `subscription` property in `AzureCliCredentialOptions` [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
-- - `ManagedIdentityCredential` will now log the configured user-assigned identity if one is set. [#33144](https://github.com/Azure/azure-sdk-for-js/pull/33144)
+- `ManagedIdentityCredential` will now log the configured user-assigned identity if one is set. [#33144](https://github.com/Azure/azure-sdk-for-js/pull/33144)
+
 ### Bugs Fixed
 
 - Fixed the logic to return authority without the scheme and tenant ID [#31540](https://github.com/Azure/azure-sdk-for-js/pull/31540)
