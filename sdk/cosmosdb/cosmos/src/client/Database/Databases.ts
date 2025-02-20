@@ -15,7 +15,7 @@ import { DatabaseResponse } from "./DatabaseResponse";
 import { validateOffer } from "../../utils/offers";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import { EncryptionManager } from "../../encryption/EncryptionManager";
+import type { EncryptionManager } from "../../encryption/EncryptionManager";
 
 /**
  * Operations for creating new databases, and reading/querying all databases
@@ -44,14 +44,18 @@ export class Databases {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
-   * ```typescript
+   * ```ts snippet:DatabasesQueryDatabases
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @db",
-   *   parameters: [
-   *     {name: "@db", value: "Todo"}
-   *   ]
+   *   query: "SELECT FROM root r WHERE r.id = @container",
+   *   parameters: [{ name: "@container", value: "Todo" }],
    * };
-   * const {body: databaseList} = await client.databases.query(querySpec).fetchAll();
+   * const { resources: databaseList } = await client.databases.query(querySpec).fetchAll();
    * ```
    */
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -61,14 +65,18 @@ export class Databases {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
-   * ```typescript
+   * ```ts snippet:DatabasesQueryDatabases
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @db",
-   *   parameters: [
-   *     {name: "@db", value: "Todo"}
-   *   ]
+   *   query: "SELECT FROM root r WHERE r.id = @container",
+   *   parameters: [{ name: "@container", value: "Todo" }],
    * };
-   * const {body: databaseList} = await client.databases.query(querySpec).fetchAll();
+   * const { resources: databaseList } = await client.databases.query(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -230,8 +238,14 @@ export class Databases {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all databases in an array or iterate over them one at a time.
    * @example Read all databases to array.
-   * ```typescript
-   * const {body: databaseList} = await client.databases.readAll().fetchAll();
+   * ```ts snippet:DatabasesReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resources: databaseList } = await client.databases.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<DatabaseDefinition & Resource> {

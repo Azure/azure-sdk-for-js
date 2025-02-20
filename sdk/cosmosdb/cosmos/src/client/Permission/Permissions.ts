@@ -59,8 +59,16 @@ export class Permissions {
   /**
    * Read all permissions.
    * @example Read all permissions to array.
-   * ```typescript
-   * const {body: permissionList} = await user.permissions.readAll().fetchAll();
+   * ```ts snippet:PermissionsReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { resources: permissionList } = await database.user("user1").permissions.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<PermissionDefinition & Resource> {

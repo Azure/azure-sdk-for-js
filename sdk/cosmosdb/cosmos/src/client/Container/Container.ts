@@ -16,6 +16,7 @@ import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { convertToInternalPartitionKey } from "../../documents";
 import type { SqlQuerySpec } from "../../queryExecutionContext";
 import type { QueryIterator } from "../../queryIterator";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import type { FeedOptions, RequestOptions, Response } from "../../request";
 import { ResourceResponse } from "../../request";
 import type { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
@@ -62,8 +63,21 @@ export class Container {
    * For reading, replacing, or deleting an existing item, use `.item(id)`.
    *
    * @example Create a new item
-   * ```typescript
-   * const {body: createdItem} = await container.items.create({id: "<item id>", properties: {}});
+   * ```ts snippet:ContainerItems
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
+   * const { resource: createdItem } = await container.items.create({
+   *   id: "<item id>",
+   *   properties: {},
+   * });
    * ```
    */
   public get items(): Items {

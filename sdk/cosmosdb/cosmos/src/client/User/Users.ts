@@ -57,8 +57,16 @@ export class Users {
   /**
    * Read all users.-
    * @example Read all users to array.
-   * ```typescript
-   * const {body: usersList} = await database.users.readAll().fetchAll();
+   * ```ts snippet:UsersReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { resources: usersList } = await database.users.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<UserDefinition & Resource> {

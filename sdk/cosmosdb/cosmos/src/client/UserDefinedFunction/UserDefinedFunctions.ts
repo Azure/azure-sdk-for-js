@@ -58,8 +58,18 @@ export class UserDefinedFunctions {
   /**
    * Read all User Defined Functions.
    * @example Read all User Defined Functions to array.
-   * ```typescript
-   * const {body: udfList} = await container.userDefinedFunctions.readAll().fetchAll();
+   * ```ts snippet:UserDefinedFunctionsReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
+   * const { resources: udfList } = await container.scripts.userDefinedFunctions.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<UserDefinedFunctionDefinition & Resource> {

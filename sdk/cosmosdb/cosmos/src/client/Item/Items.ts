@@ -17,6 +17,7 @@ import {
 import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
 import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import type { FeedOptions, RequestOptions, Response } from "../../request";
 import type { Container, PartitionKeyRange } from "../Container";
 import { Item } from "./Item";
@@ -95,14 +96,22 @@ export class Items {
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
-   * ```typescript
+   * ```ts snippet:ItemsQueryItems
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
    * const querySpec: SqlQuerySpec = {
    *   query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
-   *   parameters: [
-   *     {name: "@lastName", value: "Hendricks"}
-   *   ]
+   *   parameters: [{ name: "@lastName", value: "Hendricks" }],
    * };
-   * const {result: items} = await items.query(querySpec).fetchAll();
+   * const { resources: items } = await container.items.query(querySpec).fetchAll();
    * ```
    */
 
@@ -113,14 +122,22 @@ export class Items {
    * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
-   * ```typescript
+   * ```ts snippet:ItemsQueryItems
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT firstname FROM Families f WHERE f.lastName = @lastName",
-   *   parameters: [
-   *     {name: "@lastName", value: "Hendricks"}
-   *   ]
+   *   query: "SELECT * FROM Families f WHERE f.lastName = @lastName",
+   *   parameters: [{ name: "@lastName", value: "Hendricks" }],
    * };
-   * const {result: items} = await items.query<{firstName: string}>(querySpec).fetchAll();
+   * const { resources: items } = await container.items.query(querySpec).fetchAll();
    * ```
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -172,11 +189,23 @@ export class Items {
    * @param queryBuilder - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to build a query on encrypted properties.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
-   * ```typescript
-   * const queryBuilder = new EncryptionQueryBuilder("SELECT firstname FROM Families f WHERE f.lastName = @lastName");
+   * ```ts snippet:ItemsQueryEncryptedItems
+   * import { CosmosClient, EncryptionQueryBuilder } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
+   * const queryBuilder = new EncryptionQueryBuilder(
+   *   "SELECT firstname FROM Families f WHERE f.lastName = @lastName",
+   * );
    * queryBuilder.addStringParameter("@lastName", "Hendricks", "/lastname");
-   * const queryIterator = await items.getEncryptionQueryIterator<{firstName: string}>(queryBuilder);
-   * const {result: items} = await queryIterator.fetchAll();
+   * const queryIterator = await container.items.getEncryptionQueryIterator(queryBuilder);
+   * const { resources: items } = await queryIterator.fetchAll();
    * ```
    */
   public async getEncryptionQueryIterator(
@@ -218,7 +247,7 @@ export class Items {
    * @deprecated Use `getChangeFeedIterator` instead.
    *
    * @example Read from the beginning of the change feed.
-   * ```javascript
+   * ```ts snippet:ignore
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
    * const firstPage = await iterator.fetchNext();
    * const firstPageResults = firstPage.result
@@ -263,7 +292,7 @@ export class Items {
    * Create a `ChangeFeedIterator` to iterate over pages of changes
    * @deprecated Use `getChangeFeedIterator` instead.
    * @example Read from the beginning of the change feed.
-   * ```javascript
+   * ```ts snippet:ignore
    * const iterator = items.readChangeFeed({ startFromBeginning: true });
    * const firstPage = await iterator.fetchNext();
    * const firstPageResults = firstPage.result
@@ -340,8 +369,18 @@ export class Items {
    *
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
-   * ```typescript
-   * const {body: containerList} = await items.readAll().fetchAll();
+   * ```ts snippet:ItemsReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
+   * const { resources: containerList } = await container.items.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
@@ -355,8 +394,18 @@ export class Items {
    *
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    * @example Read all items to array.
-   * ```typescript
-   * const {body: containerList} = await items.readAll().fetchAll();
+   * ```ts snippet:ItemsReadAll
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
+   * const { resources: containerList } = await container.items.readAll().fetchAll();
    * ```
    */
   public readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
@@ -606,21 +655,31 @@ export class Items {
    * The choices are: Create, Upsert, Read, Replace, and Delete
    *
    * Usage example:
-   * ```typescript
+   * ```ts snippet:ItemsBulk
+   * import { CosmosClient, OperationInput } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
    * // partitionKey is optional at the top level if present in the resourceBody
    * const operations: OperationInput[] = [
-   *    {
-   *       operationType: "Create",
-   *       resourceBody: { id: "doc1", name: "sample", key: "A" }
-   *    },
-   *    {
-   *       operationType: "Upsert",
-   *       partitionKey: 'A',
-   *       resourceBody: { id: "doc2", name: "other", key: "A" }
-   *    }
-   * ]
+   *   {
+   *     operationType: "Create",
+   *     resourceBody: { id: "doc1", name: "sample", key: "A" },
+   *   },
+   *   {
+   *     operationType: "Upsert",
+   *     partitionKey: "A",
+   *     resourceBody: { id: "doc2", name: "other", key: "A" },
+   *   },
+   * ];
    *
-   * await database.container.items.bulk(operations)
+   * await container.items.bulk(operations);
    * ```
    *
    * @param operations - List of operations. Limit 100
@@ -904,20 +963,30 @@ export class Items {
    * The choices are: Create, Upsert, Read, Replace, and Delete
    *
    * Usage example:
-   * ```typescript
+   * ```ts snippet:ItemsBatch
+   * import { CosmosClient, OperationInput } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
    * // The partitionKey is a required second argument. If it’s undefined, it defaults to the expected partition key format.
    * const operations: OperationInput[] = [
-   *    {
-   *       operationType: "Create",
-   *       resourceBody: { id: "doc1", name: "sample", key: "A" }
-   *    },
-   *    {
-   *       operationType: "Upsert",
-   *       resourceBody: { id: "doc2", name: "other", key: "A" }
-   *    }
-   * ]
+   *   {
+   *     operationType: "Create",
+   *     resourceBody: { id: "doc1", name: "sample", key: "A" },
+   *   },
+   *   {
+   *     operationType: "Upsert",
+   *     resourceBody: { id: "doc2", name: "other", key: "A" },
+   *   },
+   * ];
    *
-   * await database.container.items.batch(operations, "A")
+   * await container.items.batch(operations, "A");
    * ```
    *
    * @param operations - List of operations. Limit 100
