@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a WorkloadImpact
  * x-ms-original-file: 2024-05-01-preview/WorkloadArmOperation_create.json
  */
-async function reportingArmOperationFailure() {
+async function reportingArmOperationFailure(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -41,7 +41,7 @@ async function reportingArmOperationFailure() {
  * @summary create a WorkloadImpact
  * x-ms-original-file: 2024-05-01-preview/WorkloadAvailability_Create.json
  */
-async function reportingAvailabilityRelatedImpact() {
+async function reportingAvailabilityRelatedImpact(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -71,7 +71,7 @@ async function reportingAvailabilityRelatedImpact() {
  * @summary create a WorkloadImpact
  * x-ms-original-file: 2024-05-01-preview/WorkloadConnectivityImpact_Create.json
  */
-async function reportingAConnectivityImpact() {
+async function reportingAConnectivityImpact(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -113,7 +113,7 @@ async function reportingAConnectivityImpact() {
  * @summary create a WorkloadImpact
  * x-ms-original-file: 2024-05-01-preview/WorkloadPerformance_Create.json
  */
-async function reportingPerformanceRelatedImpact() {
+async function reportingPerformanceRelatedImpact(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -138,7 +138,7 @@ async function reportingPerformanceRelatedImpact() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   reportingArmOperationFailure();
   reportingAvailabilityRelatedImpact();
   reportingAConnectivityImpact();

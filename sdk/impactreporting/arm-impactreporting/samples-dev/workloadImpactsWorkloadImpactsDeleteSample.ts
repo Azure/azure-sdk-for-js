@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a WorkloadImpact
  * x-ms-original-file: 2024-05-01-preview/WorkloadImpact_Delete.json
  */
-async function deleteWorkloadImpactResourceByNameExample() {
+async function deleteWorkloadImpactResourceByNameExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
   await client.workloadImpacts.WorkloadImpacts_delete("impact-001");
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteWorkloadImpactResourceByNameExample();
 }
 

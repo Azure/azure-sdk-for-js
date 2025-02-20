@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get Insight resources by workloadImpactName and insightName
  * x-ms-original-file: 2024-05-01-preview/Insights_Get_diagnostics.json
  */
-async function getInsightSampleForDiagnosticsCategory() {
+async function getInsightSampleForDiagnosticsCategory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function getInsightSampleForDiagnosticsCategory() {
  * @summary get Insight resources by workloadImpactName and insightName
  * x-ms-original-file: 2024-05-01-preview/Insights_Get_mitigationAction.json
  */
-async function getInsightSampleForMitigationActionCategory() {
+async function getInsightSampleForMitigationActionCategory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -41,7 +41,7 @@ async function getInsightSampleForMitigationActionCategory() {
  * @summary get Insight resources by workloadImpactName and insightName
  * x-ms-original-file: 2024-05-01-preview/Insights_Get_servicehealth.json
  */
-async function getInsightSampleForServiceHealthCategory() {
+async function getInsightSampleForServiceHealthCategory(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -49,7 +49,7 @@ async function getInsightSampleForServiceHealthCategory() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getInsightSampleForDiagnosticsCategory();
   getInsightSampleForMitigationActionCategory();
   getInsightSampleForServiceHealthCategory();

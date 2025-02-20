@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a ImpactCategory
  * x-ms-original-file: 2024-05-01-preview/ImpactCategories_Get.json
  */
-async function getWorkloadImpactResourceByName() {
+async function getWorkloadImpactResourceByName(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -20,7 +20,7 @@ async function getWorkloadImpactResourceByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getWorkloadImpactResourceByName();
 }
 

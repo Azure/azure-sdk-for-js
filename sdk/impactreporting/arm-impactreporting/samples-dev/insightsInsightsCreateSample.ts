@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create Insight resource, This is Admin only operation
  * x-ms-original-file: 2024-05-01-preview/Insights_Create.json
  */
-async function creatingAnInsight() {
+async function creatingAnInsight(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -41,7 +41,7 @@ async function creatingAnInsight() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   creatingAnInsight();
 }
 

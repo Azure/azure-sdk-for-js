@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list Insight resources by workloadImpactName
  * x-ms-original-file: 2024-05-01-preview/Insights_ListBySubscription.json
  */
-async function listInsightResourcesByWorkloadImpactName() {
+async function listInsightResourcesByWorkloadImpactName(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function listInsightResourcesByWorkloadImpactName() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listInsightResourcesByWorkloadImpactName();
 }
 
