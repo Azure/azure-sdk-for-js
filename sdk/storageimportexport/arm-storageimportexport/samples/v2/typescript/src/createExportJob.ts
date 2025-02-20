@@ -20,7 +20,7 @@ import {
 } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function createExportJob() {
+async function createExportJob(): Promise<void> {
   const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const jobName = "myExportJob";
   const resourceGroupName = "myResourceGroup";

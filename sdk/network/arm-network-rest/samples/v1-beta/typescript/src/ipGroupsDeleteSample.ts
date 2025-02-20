@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes the specified ipGroups.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/IpGroupsDelete.json
  */
-async function deleteIPGroups() {
+async function deleteIPGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

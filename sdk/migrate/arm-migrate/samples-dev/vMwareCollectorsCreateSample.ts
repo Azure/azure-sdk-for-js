@@ -8,9 +8,7 @@
 import type { VMwareCollector, VMwareCollectorsCreateOptionalParams } from "@azure/arm-migrate";
 import { AzureMigrateV2 } from "@azure/arm-migrate";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or Update VMware collector
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or Update VMware collector
  * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/VMwareCollectors_Create.json
  */
-async function vMwareCollectorsCreate() {
+async function vMwareCollectorsCreate(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATE_SUBSCRIPTION_ID"] || "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
   const resourceGroupName = process.env["MIGRATE_RESOURCE_GROUP"] || "abgoyal-westEurope";
@@ -52,7 +50,7 @@ async function vMwareCollectorsCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await vMwareCollectorsCreate();
 }
 

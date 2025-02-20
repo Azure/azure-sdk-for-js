@@ -27,7 +27,7 @@ import {
   L3IsolationDomainsValidateConfigurationResponse,
   L3IsolationDomainsCommitConfigurationOptionalParams,
   L3IsolationDomainsCommitConfigurationResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a L3IsolationDomains. */

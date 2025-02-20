@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Retrieve the query statistic for specified identifier.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2018-06-01/examples/TopQueryStatisticsGet.json
  */
-async function topQueryStatisticsGet() {
+async function topQueryStatisticsGet(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "testResourceGroupName";
   const serverName = "testServerName";

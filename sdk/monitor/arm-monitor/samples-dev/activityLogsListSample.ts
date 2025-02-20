@@ -8,9 +8,7 @@
 import type { ActivityLogsListOptionalParams } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides the list of records from the activity logs.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Provides the list of records from the activity logs.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/GetActivityLogsFiltered.json
  */
-async function getActivityLogsWithFilter() {
+async function getActivityLogsWithFilter(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "089bd33f-d4ec-47fe-8ba5-0753aa5c5b33";
   const filter =
@@ -38,7 +36,7 @@ async function getActivityLogsWithFilter() {
  * @summary Provides the list of records from the activity logs.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/GetActivityLogsFilteredAndSelected.json
  */
-async function getActivityLogsWithFilterAndSelect() {
+async function getActivityLogsWithFilterAndSelect(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "089bd33f-d4ec-47fe-8ba5-0753aa5c5b33";
   const filter =
@@ -55,7 +53,7 @@ async function getActivityLogsWithFilterAndSelect() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getActivityLogsWithFilter();
   await getActivityLogsWithFilterAndSelect();
 }

@@ -17,7 +17,7 @@ import {
   SpringbootserversModel as SpringbootserversModelMapper,
   SpringbootserversPatch as SpringbootserversPatchMapper,
   SpringbootappsPatch as SpringbootappsPatchMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

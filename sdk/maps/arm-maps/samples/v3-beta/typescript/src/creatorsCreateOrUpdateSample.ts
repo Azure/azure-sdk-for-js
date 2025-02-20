@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create or update a Maps Creator resource. Creator resource will manage Azure resources required to populate a custom set of mapping data. It requires an account to exist before it can be created.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/CreateMapsCreator.json
  */
-async function createCreatorResource() {
+async function createCreatorResource(): Promise<void> {
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myMapsAccount";

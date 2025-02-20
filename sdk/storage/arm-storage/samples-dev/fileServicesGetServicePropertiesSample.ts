@@ -7,9 +7,7 @@
  */
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/FileServicesGet.json
  */
-async function getFileServices() {
+async function getFileServices(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
@@ -27,7 +25,7 @@ async function getFileServices() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getFileServices();
 }
 

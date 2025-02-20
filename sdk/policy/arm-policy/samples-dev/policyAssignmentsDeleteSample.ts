@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary This operation deletes a policy assignment, given its name and the scope it was created in. The scope of a policy assignment is the part of its ID preceding '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/deletePolicyAssignment.json
  */
-async function deleteAPolicyAssignment() {
+async function deleteAPolicyAssignment(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2";
@@ -26,7 +26,7 @@ async function deleteAPolicyAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAPolicyAssignment();
 }
 

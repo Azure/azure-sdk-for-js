@@ -10,7 +10,7 @@ import type { LatLon } from "@azure/maps-common";
 import { describe, it, assert } from "vitest";
 
 describe("toColonDelimitedLatLonString", function () {
-  it("should compose the string correctly", function () {
+  it("should compose the string correctly", () => {
     const input: LatLon[] = [
       [-122.123, 47.123],
       [-122.123, 47.123],
@@ -21,7 +21,7 @@ describe("toColonDelimitedLatLonString", function () {
     assert.equal(actual, expected);
   });
 
-  it("should return empty string if input is empty", function () {
+  it("should return empty string if input is empty", () => {
     const input: LatLon[] = [];
     const expected = "";
     const actual = toColonDelimitedLatLonString(input);
@@ -31,7 +31,7 @@ describe("toColonDelimitedLatLonString", function () {
 });
 
 describe("createRouteDirectionsBatchRequest", function () {
-  it("should compose the request correctly", function () {
+  it("should compose the request correctly", () => {
     const input: RouteGetRouteDirectionsQueryParamProperties[] = [
       {
         query: "-122.123,47.123:-122.123,47.123",

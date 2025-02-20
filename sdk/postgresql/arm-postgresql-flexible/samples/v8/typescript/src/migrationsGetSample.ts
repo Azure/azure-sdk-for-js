@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets details of a migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Get.json
  */
-async function migrationsGet() {
+async function migrationsGet(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -38,7 +38,7 @@ async function migrationsGet() {
  * @summary Gets details of a migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_GetMigrationWithSuccessfulValidationAndMigration.json
  */
-async function migrationsGetMigrationWithSuccessfulValidationAndMigration() {
+async function migrationsGetMigrationWithSuccessfulValidationAndMigration(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -61,7 +61,7 @@ async function migrationsGetMigrationWithSuccessfulValidationAndMigration() {
  * @summary Gets details of a migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_GetMigrationWithSuccessfulValidationButMigrationFailure.json
  */
-async function migrationsGetMigrationWithSuccessfulValidationButMigrationFailure() {
+async function migrationsGetMigrationWithSuccessfulValidationButMigrationFailure(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -85,7 +85,7 @@ async function migrationsGetMigrationWithSuccessfulValidationButMigrationFailure
  * @summary Gets details of a migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_GetMigrationWithSuccessfulValidationOnly.json
  */
-async function migrationsGetMigrationWithSuccessfulValidationOnly() {
+async function migrationsGetMigrationWithSuccessfulValidationOnly(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -108,7 +108,7 @@ async function migrationsGetMigrationWithSuccessfulValidationOnly() {
  * @summary Gets details of a migration.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_GetMigrationWithValidationFailures.json
  */
-async function migrationsGetMigrationWithValidationFailures() {
+async function migrationsGetMigrationWithValidationFailures(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -125,7 +125,7 @@ async function migrationsGetMigrationWithValidationFailures() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   migrationsGet();
   migrationsGetMigrationWithSuccessfulValidationAndMigration();
   migrationsGetMigrationWithSuccessfulValidationButMigrationFailure();

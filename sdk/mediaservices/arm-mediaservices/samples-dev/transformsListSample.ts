@@ -8,9 +8,7 @@
 import type { TransformsListOptionalParams } from "@azure/arm-mediaservices";
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the Transforms in the account.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Lists the Transforms in the account.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/transforms-list-all.json
  */
-async function listsTheTransforms() {
+async function listsTheTransforms(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -38,7 +36,7 @@ async function listsTheTransforms() {
  * @summary Lists the Transforms in the account.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/transforms-list-all-filter-by-created.json
  */
-async function listsTheTransformsFilterByCreated() {
+async function listsTheTransformsFilterByCreated(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -62,7 +60,7 @@ async function listsTheTransformsFilterByCreated() {
  * @summary Lists the Transforms in the account.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/transforms-list-all-filter-by-lastmodified.json
  */
-async function listsTheTransformsFilterByLastmodified() {
+async function listsTheTransformsFilterByLastmodified(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -86,7 +84,7 @@ async function listsTheTransformsFilterByLastmodified() {
  * @summary Lists the Transforms in the account.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/transforms-list-all-filter-by-name.json
  */
-async function listsTheTransformsFilterByName() {
+async function listsTheTransformsFilterByName(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -103,7 +101,7 @@ async function listsTheTransformsFilterByName() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listsTheTransforms();
   await listsTheTransformsFilterByCreated();
   await listsTheTransformsFilterByLastmodified();

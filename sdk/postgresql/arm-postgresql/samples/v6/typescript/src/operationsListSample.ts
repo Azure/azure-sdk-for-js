@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all of the available REST API operations.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/OperationList.json
  */
-async function operationList() {
+async function operationList(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new PostgreSQLManagementClient(credential, subscriptionId);

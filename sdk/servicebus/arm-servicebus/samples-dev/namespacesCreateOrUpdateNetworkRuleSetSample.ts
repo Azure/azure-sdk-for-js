@@ -8,9 +8,7 @@
 import type { NetworkRuleSet } from "@azure/arm-servicebus";
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update NetworkRuleSet for a Namespace.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update NetworkRuleSet for a Namespace.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetCreate.json
  */
-async function nameSpaceNetworkRuleSetCreate() {
+async function nameSpaceNetworkRuleSetCreate(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "Subscription";
   const resourceGroupName = process.env["SERVICEBUS_RESOURCE_GROUP"] || "ResourceGroup";
   const namespaceName = "sdk-Namespace-6019";
@@ -62,7 +60,7 @@ async function nameSpaceNetworkRuleSetCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await nameSpaceNetworkRuleSetCreate();
 }
 

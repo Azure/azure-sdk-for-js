@@ -9,7 +9,7 @@
 import {
   ServiceTagsListOptionalParams,
   ServiceTagsListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ServiceTags. */
 export interface ServiceTags {

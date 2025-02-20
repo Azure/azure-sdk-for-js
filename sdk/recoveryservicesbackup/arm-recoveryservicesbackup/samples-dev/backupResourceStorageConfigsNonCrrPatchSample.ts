@@ -8,9 +8,7 @@
 import type { BackupResourceConfigResource } from "@azure/arm-recoveryservicesbackup";
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates vault storage model type.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates vault storage model type.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/Common/BackupStorageConfig_Patch.json
  */
-async function updateVaultStorageConfiguration() {
+async function updateVaultStorageConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const vaultName = "PySDKBackupTestRsVault";
@@ -40,7 +38,7 @@ async function updateVaultStorageConfiguration() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updateVaultStorageConfiguration();
 }
 

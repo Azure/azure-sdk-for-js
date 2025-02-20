@@ -7,9 +7,7 @@
  */
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the default and current subscription quota limit
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get the default and current subscription quota limit
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/QuotaLimits_Get.json
  */
-async function quotaLimits() {
+async function quotaLimits(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] || "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const location = "eastus";
@@ -28,7 +26,7 @@ async function quotaLimits() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await quotaLimits();
 }
 

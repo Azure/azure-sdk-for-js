@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Check the give namespace name availability.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/StorageSyncServiceCheckNameAvailability_AlreadyExists.json
  */
-async function storageSyncServiceCheckNameAvailabilityAlreadyExists() {
+async function storageSyncServiceCheckNameAvailabilityAlreadyExists(): Promise<void> {
   const subscriptionId = "5c6bc8e1-1eaf-4192-94d8-58ce463ac86c";
   const locationName = "westus";
   const parameters: CheckNameAvailabilityParameters = {
@@ -36,7 +36,7 @@ storageSyncServiceCheckNameAvailabilityAlreadyExists().catch(console.error);
  * @summary Check the give namespace name availability.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/StorageSyncServiceCheckNameAvailability_Available.json
  */
-async function storageSyncServiceCheckNameAvailabilityAvailable() {
+async function storageSyncServiceCheckNameAvailabilityAvailable(): Promise<void> {
   const subscriptionId = "5c6bc8e1-1eaf-4192-94d8-58ce463ac86c";
   const locationName = "westus";
   const parameters: CheckNameAvailabilityParameters = {

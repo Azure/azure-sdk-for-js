@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get the subscription tenant policy for the user's tenant.
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/getTenantPolicyList.json
  */
-async function getTenantPolicyList() {
+async function getTenantPolicyList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();

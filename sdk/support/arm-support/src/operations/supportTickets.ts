@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { SupportTickets } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { SupportTickets } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftSupport } from "../microsoftSupport";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftSupport } from "../microsoftSupport.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SupportTicketDetails,
   SupportTicketsListNextOptionalParams,
@@ -35,7 +35,7 @@ import {
   SupportTicketsCreateOptionalParams,
   SupportTicketsCreateResponse,
   SupportTicketsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SupportTickets operations. */

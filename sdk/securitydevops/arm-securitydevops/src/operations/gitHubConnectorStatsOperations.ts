@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GitHubConnectorStatsOperations } from "../operationsInterfaces";
+import { GitHubConnectorStatsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftSecurityDevOps } from "../microsoftSecurityDevOps";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftSecurityDevOps } from "../microsoftSecurityDevOps.js";
 import {
   GitHubConnectorStatsGetOptionalParams,
   GitHubConnectorStatsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing GitHubConnectorStatsOperations operations. */
 export class GitHubConnectorStatsOperationsImpl

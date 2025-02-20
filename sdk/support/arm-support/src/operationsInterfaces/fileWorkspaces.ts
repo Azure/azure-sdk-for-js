@@ -11,7 +11,7 @@ import {
   FileWorkspacesGetResponse,
   FileWorkspacesCreateOptionalParams,
   FileWorkspacesCreateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FileWorkspaces. */
 export interface FileWorkspaces {

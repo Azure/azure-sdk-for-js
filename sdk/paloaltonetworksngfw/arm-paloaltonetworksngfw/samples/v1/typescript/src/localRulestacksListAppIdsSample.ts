@@ -13,9 +13,7 @@ import {
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of AppIds for LocalRulestack ApiVersion
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List of AppIds for LocalRulestack ApiVersion
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listAppIds_MaximumSet_Gen.json
  */
-async function localRulestacksListAppIdsMaximumSetGen() {
+async function localRulestacksListAppIdsMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -59,7 +57,7 @@ async function localRulestacksListAppIdsMaximumSetGen() {
  * @summary List of AppIds for LocalRulestack ApiVersion
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listAppIds_MinimumSet_Gen.json
  */
-async function localRulestacksListAppIdsMinimumSetGen() {
+async function localRulestacksListAppIdsMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -78,7 +76,7 @@ async function localRulestacksListAppIdsMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   localRulestacksListAppIdsMaximumSetGen();
   localRulestacksListAppIdsMinimumSetGen();
 }

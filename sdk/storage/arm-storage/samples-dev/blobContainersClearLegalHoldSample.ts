@@ -8,9 +8,7 @@
 import type { LegalHold } from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent operation. ClearLegalHold clears out only the specified tags in the request.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent operation. ClearLegalHold clears out only the specified tags in the request.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersClearLegalHold.json
  */
-async function clearLegalHoldContainers() {
+async function clearLegalHoldContainers(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4303";
   const accountName = "sto7280";
@@ -35,7 +33,7 @@ async function clearLegalHoldContainers() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await clearLegalHoldContainers();
 }
 

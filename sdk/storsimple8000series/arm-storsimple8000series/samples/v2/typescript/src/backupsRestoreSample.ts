@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Restores the backup on the device.
  * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/BackupsRestore.json
  */
-async function backupsRestore() {
+async function backupsRestore(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "Device05ForSDKTest";
   const backupName = "880e1774-94a8-4f3e-85e6-a61e6b94a8b7";

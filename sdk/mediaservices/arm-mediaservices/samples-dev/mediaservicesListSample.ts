@@ -7,9 +7,7 @@
  */
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List Media Services accounts in the resource group
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List Media Services accounts in the resource group
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/accounts-list-all-accounts.json
  */
-async function listAllMediaServicesAccounts() {
+async function listAllMediaServicesAccounts(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -30,7 +28,7 @@ async function listAllMediaServicesAccounts() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listAllMediaServicesAccounts();
 }
 

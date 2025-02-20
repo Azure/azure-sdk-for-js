@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a private endpoint connection with a given name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a private endpoint connection with a given name.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateEndpointConnectionDelete.json
  */
-async function deletesAPrivateEndpointConnectionWithAGivenName() {
+async function deletesAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -38,7 +36,7 @@ async function deletesAPrivateEndpointConnectionWithAGivenName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletesAPrivateEndpointConnectionWithAGivenName();
 }
 

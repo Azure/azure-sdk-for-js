@@ -7,9 +7,7 @@
  */
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an autoscale setting
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets an autoscale setting
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/examples/getAutoscaleSetting.json
  */
-async function getAnAutoscaleSetting() {
+async function getAnAutoscaleSetting(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "TestingMetricsScaleSet";
@@ -28,7 +26,7 @@ async function getAnAutoscaleSetting() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAnAutoscaleSetting();
 }
 

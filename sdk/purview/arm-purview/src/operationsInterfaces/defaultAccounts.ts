@@ -14,7 +14,7 @@ import {
   DefaultAccountsSetModelOptionalParams,
   DefaultAccountsSetModelResponse,
   DefaultAccountsRemoveOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DefaultAccounts. */
 export interface DefaultAccounts {

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { RecoveryServicesBackupClient } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the status of async operations of tiering cost
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the status of async operations of tiering cost
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/GetTieringCostOperationStatus.json
  */
-async function fetchTieringCostOperationStatus() {
+async function fetchTieringCostOperationStatus(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "04cf684a-d41f-4550-9f70-7708a3a2283b";
@@ -38,7 +36,7 @@ async function fetchTieringCostOperationStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   fetchTieringCostOperationStatus();
 }
 

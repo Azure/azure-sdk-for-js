@@ -22,7 +22,7 @@ import {
   NetworkVirtualAppliancesCreateOrUpdateResponse,
   NetworkVirtualAppliancesRestartOptionalParams,
   NetworkVirtualAppliancesRestartResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetworkVirtualAppliances. */

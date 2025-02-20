@@ -20,7 +20,7 @@ import {
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function storageSyncServiceCheckNameAvailabilityAvailable() {
+async function storageSyncServiceCheckNameAvailabilityAvailable(): Promise<void> {
   const subscriptionId = "5c6bc8e1-1eaf-4192-94d8-58ce463ac86c";
   const locationName = "westus";
   const parameters: CheckNameAvailabilityParameters = {
