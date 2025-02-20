@@ -356,7 +356,8 @@ describe("snippets", () => {
     try {
       await container.items.create({ id: "existing-item-id" });
     } catch (error) {
-      if (error.code === 409) {
+      const err = error as ErrorResponse | RestError;
+      if (err.code === 409) {
         console.log("There was a conflict with an existing item");
       }
     }
