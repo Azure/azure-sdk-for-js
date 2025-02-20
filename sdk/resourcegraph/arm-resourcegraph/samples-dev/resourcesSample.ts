@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesPropertiesQuery.json
  */
-async function accessAPropertiesField() {
+async function accessAPropertiesField(): Promise<void> {
   const query: QueryRequest = {
     query:
       "Resources | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by tostring(properties.storageProfile.osDisk.osType)",
@@ -35,7 +35,7 @@ accessAPropertiesField().catch(console.error);
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesMgBasicQuery.json
  */
-async function basicManagementGroupQuery() {
+async function basicManagementGroupQuery(): Promise<void> {
   const query: QueryRequest = {
     managementGroups: ["e927f598-c1d4-4f72-8541-95d83a6a4ac8", "ProductionMG"],
     query: "Resources | project id, name, type, location, tags | limit 3",
@@ -54,7 +54,7 @@ basicManagementGroupQuery().catch(console.error);
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesBasicQuery.json
  */
-async function basicQuery() {
+async function basicQuery(): Promise<void> {
   const query: QueryRequest = {
     query: "Resources | project id, name, type, location, tags | limit 3",
     subscriptions: ["cfbbd179-59d2-4052-aa06-9270a38aa9d6"],
@@ -73,7 +73,7 @@ basicQuery().catch(console.error);
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesTenantBasicQuery.json
  */
-async function basicTenantQuery() {
+async function basicTenantQuery(): Promise<void> {
   const query: QueryRequest = {
     query: "Resources | project id, name, type, location, tags | limit 3",
   };
@@ -91,7 +91,7 @@ basicTenantQuery().catch(console.error);
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesComplexQuery.json
  */
-async function complexQuery() {
+async function complexQuery(): Promise<void> {
   const query: QueryRequest = {
     query:
       "Resources | project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by location | top 3 by count_",
@@ -111,7 +111,7 @@ complexQuery().catch(console.error);
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesFilterQuery.json
  */
-async function filterResources() {
+async function filterResources(): Promise<void> {
   const query: QueryRequest = {
     query:
       "Resources | project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | limit 3",
@@ -131,7 +131,7 @@ filterResources().catch(console.error);
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesFirstPageQuery.json
  */
-async function firstPageQuery() {
+async function firstPageQuery(): Promise<void> {
   const query: QueryRequest = {
     options: { skip: 0, top: 3 },
     query: "Resources | where name contains 'test' | project id, name, type, location",
@@ -151,7 +151,7 @@ firstPageQuery().catch(console.error);
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesNextPageQuery.json
  */
-async function nextPageQuery() {
+async function nextPageQuery(): Promise<void> {
   const query: QueryRequest = {
     options: {
       skipToken: "eyAibm8iOiAibHVjayIsICJidXQiOiAibmljZSIsICJ0cnkiOiAiISIgfQ==",
@@ -173,7 +173,7 @@ nextPageQuery().catch(console.error);
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesFacetQuery.json
  */
-async function queryWithAFacetRequest() {
+async function queryWithAFacetRequest(): Promise<void> {
   const query: QueryRequest = {
     facets: [
       { expression: "location", options: { top: 3, sortOrder: "desc" } },
@@ -212,7 +212,7 @@ queryWithAFacetRequest().catch(console.error);
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesRandomPageQuery.json
  */
-async function randomPageQuery() {
+async function randomPageQuery(): Promise<void> {
   const query: QueryRequest = {
     options: { skip: 10, top: 2 },
     query: "Resources | where name contains 'test' | project id, name, type, location",
@@ -232,7 +232,7 @@ randomPageQuery().catch(console.error);
  * @summary Queries the resources managed by Azure Resource Manager for scopes specified in the request.
  * x-ms-original-file: specification/resourcegraph/resource-manager/Microsoft.ResourceGraph/preview/2021-06-01-preview/examples/ResourcesSummarizeQuery.json
  */
-async function summarizeResourcesByLocation() {
+async function summarizeResourcesByLocation(): Promise<void> {
   const query: QueryRequest = {
     query: "Resources | project id, name, type, location | summarize by location",
     subscriptions: ["cfbbd179-59d2-4052-aa06-9270a38aa9d6"],

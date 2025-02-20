@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MediaService, AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Media Services account
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a Media Services account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/async-accounts-create.json
  */
-async function createAMediaServicesAccount() {
+async function createAMediaServicesAccount(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -71,7 +69,7 @@ async function createAMediaServicesAccount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAMediaServicesAccount();
 }
 

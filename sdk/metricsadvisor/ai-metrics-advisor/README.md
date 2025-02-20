@@ -73,12 +73,12 @@ In addition, you will also need the per-user api key from your Metrics Advisor w
 
 Once you have the two keys and the endpoint, you can use the `MetricsAdvisorKeyCredential` class to authenticate the clients as follows:
 
-```javascript
-const {
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient,
-} = require("@azure/ai-metrics-advisor");
+} from "@azure/ai-metrics-advisor";
 
 const credential = new MetricsAdvisorKeyCredential("<subscription Key>", "<API key>");
 
@@ -99,14 +99,15 @@ To authenticate using a service principal, you will also need to register an AAD
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET.
 We also support Authentication by Azure Active Directoty Credential. You will need the Azure Tenant ID, Azure Client ID and Azure Client Secret as environment variables.
 
-```javascript
-const {
-  MetricsAdvisorKeyCredential,
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import {
   MetricsAdvisorClient,
   MetricsAdvisorAdministrationClient,
-} = require("@azure/ai-metrics-advisor");
-const { DefaultAzureCredential } = require("@azure/identity");
+} from "@azure/ai-metrics-advisor";
+
 const credential = new DefaultAzureCredential();
+
 const client = new MetricsAdvisorClient("<endpoint>", credential);
 const adminClient = new MetricsAdvisorAdministrationClient("<endpoint>", credential);
 ```
@@ -166,29 +167,24 @@ The following section provides several JavaScript code snippets illustrating com
 
 Metrics Advisor supports connecting different types of data sources. Here is a sample to ingest data from SQL Server.
 
-```javascript
-const {
+```ts snippet:ReadmeSampleCreateDataFeed
+import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-} = require("@azure/ai-metrics-advisor");
+} from "@azure/ai-metrics-advisor";
 
-async function main() {
-  // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
-  const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
-  const apiKey = process.env["METRICS_ADVISOR_API_KEY"] || "<api key>";
-  const sqlServerConnectionString =
-    process.env["METRICS_ADVISOR_SQL_SERVER_CONNECTION_STRING"] ||
-    "<connection string to SQL Server>";
-  const sqlServerQuery =
-    process.env["METRICS_ADVISOR_AZURE_SQL_SERVER_QUERY"] || "<SQL Server query to retrive data>";
-  const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
+const endpoint = "<service endpoint>";
+const subscriptionKey = "<subscription key>";
+const apiKey = "<api key>";
+const sqlServerConnectionString = "<connection string to SQL Server>";
+const sqlServerQuery = "<SQL Server query to retrive data>";
 
-  const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
+const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
 
-  const created = await createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery);
-  console.log(`Data feed created: ${created.id}`);
-}
+const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
+
+const created = await createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery);
+console.log(`Data feed created: ${created.id}`);
 
 async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQuery) {
   console.log("Creating Datafeed...");
@@ -240,9 +236,7 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
     accessMode: "Private",
     admins: ["xyz@example.com"],
   };
-  const result = await adminClient.createDataFeed(dataFeed);
-
-  return result;
+  return adminClient.createDataFeed(dataFeed);
 }
 ```
 
@@ -250,28 +244,26 @@ async function createDataFeed(adminClient, sqlServerConnectionString, sqlServerQ
 
 After we start the data ingestion, we can check the ingestion status.
 
-```javascript
-const {
+```ts snippet:ReadmeSampleCheckIngestionStatus
+import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-} = require("@azure/ai-metrics-advisor");
+} from "@azure/ai-metrics-advisor";
 
-async function main() {
-  // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
-  const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
-  const apiKey = process.env["METRICS_ADVISOR_API_KEY"] || "<api key>";
-  const dataFeedId = process.env["METRICS_DATAFEED_ID"] || "<data feed id>";
-  const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
+const endpoint = "<service endpoint>";
+const subscriptionKey = "<subscription key>";
+const apiKey = "<api key>";
+const dataFeedId = "<data feed id>";
 
-  const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
-  await checkIngestionStatus(
-    adminClient,
-    dataFeedId,
-    new Date(Date.UTC(2020, 8, 1)),
-    new Date(Date.UTC(2020, 8, 12)),
-  );
-}
+const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
+
+const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
+await checkIngestionStatus(
+  adminClient,
+  dataFeedId,
+  new Date(Date.UTC(2020, 8, 1)),
+  new Date(Date.UTC(2020, 8, 12)),
+);
 
 async function checkIngestionStatus(adminClient, datafeedId, startTime, endTime) {
   // This shows how to use for-await-of syntax to list status
@@ -288,25 +280,23 @@ async function checkIngestionStatus(adminClient, datafeedId, startTime, endTime)
 We need an anomaly detection configuration to determine whether a point in the time series is an anomaly.
 While a default detection configuration is automatically applied to each metric, you can tune the detection modes used on your data by creating a customized anomaly detection configuration.
 
-```javascript
-const {
+```ts snippet:ReadmeSampleCreateDetectionConfig
+import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-} = require("@azure/ai-metrics-advisor");
+} from "@azure/ai-metrics-advisor";
 
-async function main() {
-  // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
-  const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
-  const apiKey = process.env["METRICS_ADVISOR_API_KEY"] || "<api key>";
-  const metricId = process.env["METRICS_ADVISOR_METRIC_ID"] || "<metric id>";
-  const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
+const endpoint = "<service endpoint>";
+const subscriptionKey = "<subscription key>";
+const apiKey = "<api key>";
+const metricId = "<metric id>";
 
-  const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
+const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
 
-  const detectionConfig = await configureAnomalyDetectionConfiguration(adminClient, metricId);
-  console.log(`Detection configuration created: ${detectionConfig.id}`);
-}
+const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
+
+const detectionConfig = await configureAnomalyDetectionConfiguration(adminClient, metricId);
+console.log(`Detection configuration created: ${detectionConfig.id}`);
 
 async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
@@ -333,23 +323,21 @@ async function configureAnomalyDetectionConfiguration(adminClient, metricId) {
 
 We use hooks subscribe to real-time alerts. In this example, we create a webhook for the Metrics Advisor service to POST the alert to.
 
-```javascript
-const {
+```ts snippet:ReadmeSampleCreateWebhookHook
+import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-} = require("@azure/ai-metrics-advisor");
+} from "@azure/ai-metrics-advisor";
 
-async function main() {
-  // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
-  const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
-  const apiKey = process.env["METRICS_ADVISOR_API_KEY"] || "<api key>";
-  const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
+const endpoint = "<service endpoint>";
+const subscriptionKey = "<subscription key>";
+const apiKey = "<api key>";
 
-  const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
-  const hook = await createWebhookHook(adminClient);
-  console.log(`Webhook hook created: ${hook.id}`);
-}
+const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
+
+const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
+const hook = await createWebhookHook(adminClient);
+console.log(`Webhook hook created: ${hook.id}`);
 
 async function createWebhookHook(adminClient) {
   console.log("Creating a webhook hook");
@@ -365,7 +353,6 @@ async function createWebhookHook(adminClient) {
       // certificatePassword: "certificate password"
     },
   };
-
   return adminClient.createHook(hook);
 }
 ```
@@ -374,25 +361,23 @@ async function createWebhookHook(adminClient) {
 
 Then let's configure in which conditions an alert needs to be triggered and which hooks to send the alert.
 
-```javascript
-const {
+```ts snippet:ReadmeSampleCreateAlertConfig
+import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-} = require("@azure/ai-metrics-advisor");
+} from "@azure/ai-metrics-advisor";
 
-async function main() {
-  // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
-  const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
-  const apiKey = process.env["METRICS_ADVISOR_API_KEY"] || "<api key>";
-  const detectionConfigId = process.env["METRICS_ADVISOR_DETECTION_CONFIG_ID"] || "<detection id>";
-  const hookId = process.env["METRICS_ADVISOR_HOOK_ID"] || "<hook id>";
-  const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
+const endpoint = "<service endpoint>";
+const subscriptionKey = "<subscription key>";
+const apiKey = "<api key>";
+const detectionConfigId = "<detection id>";
+const hookId = "<hook id>";
 
-  const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
-  const alertConfig = await configureAlertConfiguration(adminClient, detectionConfigId, [hookId]);
-  console.log(`Alert configuration created: ${alertConfig.id}`);
-}
+const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
+
+const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
+const alertConfig = await configureAlertConfiguration(adminClient, detectionConfigId, [hookId]);
+console.log(`Alert configuration created: ${alertConfig.id}`);
 
 async function configureAlertConfiguration(adminClient, detectionConfigId, hookIds) {
   console.log("Creating a new alerting configuration...");
@@ -426,32 +411,30 @@ async function configureAlertConfiguration(adminClient, detectionConfigId, hookI
 
 We can query the alerts and anomalies.
 
-```javascript
-const { MetricsAdvisorKeyCredential, MetricsAdvisorClient } = require("@azure/ai-metrics-advisor");
+```ts snippet:ReadmeSampleQueryAnomalies
+import { MetricsAdvisorKeyCredential, MetricsAdvisorClient } from "@azure/ai-metrics-advisor";
 
-async function main() {
-  // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
-  const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
-  const apiKey = process.env["METRICS_ADVISOR_API_KEY"] || "<api key>";
-  const alertConfigId = process.env["METRICS_ADVISOR_ALERT_CONFIG_ID"] || "<alert config id>";
-  const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
+const endpoint = "<service endpoint>";
+const subscriptionKey = "<subscription key>";
+const apiKey = "<api key>";
+const alertConfigId = "<alert config id>";
 
-  const client = new MetricsAdvisorClient(endpoint, credential);
+const credential = new MetricsAdvisorKeyCredential(subscriptionKey, apiKey);
 
-  const alerts = await queryAlerts(
-    client,
-    alertConfigId,
-    new Date(Date.UTC(2020, 8, 1)),
-    new Date(Date.UTC(2020, 8, 12)),
-  );
+const client = new MetricsAdvisorClient(endpoint, credential);
 
-  if (alerts.length > 1) {
-    // query anomalies using an alert id.
-    await queryAnomaliesByAlert(client, alerts[0]);
-  } else {
-    console.log("No alerts during the time period");
-  }
+const alerts = await queryAlerts(
+  client,
+  alertConfigId,
+  new Date(Date.UTC(2020, 8, 1)),
+  new Date(Date.UTC(2020, 8, 12)),
+);
+
+if (alerts.length > 1) {
+  // query anomalies using an alert id.
+  await queryAnomaliesByAlert(client, alerts[0]);
+} else {
+  console.log("No alerts during the time period");
 }
 
 async function queryAlerts(client, alertConfigId, startTime, endTime) {
@@ -460,7 +443,6 @@ async function queryAlerts(client, alertConfigId, startTime, endTime) {
   for await (const alert of iterator) {
     alerts.push(alert);
   }
-
   return alerts;
 }
 
@@ -483,8 +465,8 @@ async function queryAnomaliesByAlert(client, alert) {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -505,8 +487,6 @@ the code.
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

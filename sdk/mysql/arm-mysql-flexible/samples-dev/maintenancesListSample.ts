@@ -7,9 +7,7 @@
  */
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List maintenances.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List maintenances.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Maintenance/preview/2023-10-01-preview/examples/MaintenancesListByServer.json
  */
-async function listMaintenancesOnAServer() {
+async function listMaintenancesOnAServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
@@ -31,7 +29,7 @@ async function listMaintenancesOnAServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listMaintenancesOnAServer();
 }
 

@@ -20,7 +20,7 @@ import {
   SyncAgentsDeleteOptionalParams,
   SyncAgentsGenerateKeyOptionalParams,
   SyncAgentsGenerateKeyResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SyncAgents. */

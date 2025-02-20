@@ -7,9 +7,7 @@
  */
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes an Asset Filter associated with the specified Asset.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes an Asset Filter associated with the specified Asset.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/assetFilters-delete.json
  */
-async function deleteAnAssetFilter() {
+async function deleteAnAssetFilter(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contoso";
@@ -35,7 +33,7 @@ async function deleteAnAssetFilter() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAnAssetFilter();
 }
 

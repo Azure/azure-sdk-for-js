@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Create or update an Azure Cosmos DB Cassandra keyspace
  * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBCassandraKeyspaceCreateUpdate.json
  */
-async function cosmosDbCassandraKeyspaceCreateUpdate() {
+async function cosmosDbCassandraKeyspaceCreateUpdate(): Promise<void> {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["COSMOSDB_RESOURCE_GROUP"] || "rg1";
   const accountName = "ddb1";
@@ -42,7 +42,7 @@ async function cosmosDbCassandraKeyspaceCreateUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cosmosDbCassandraKeyspaceCreateUpdate();
 }
 

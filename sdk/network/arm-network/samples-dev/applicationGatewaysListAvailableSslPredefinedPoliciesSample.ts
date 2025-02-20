@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all SSL predefined policies for configuring Ssl policy.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all SSL predefined policies for configuring Ssl policy.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPoliciesGet.json
  */
-async function getAvailableSslPredefinedPolicies() {
+async function getAvailableSslPredefinedPolicies(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -28,7 +26,7 @@ async function getAvailableSslPredefinedPolicies() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAvailableSslPredefinedPolicies();
 }
 

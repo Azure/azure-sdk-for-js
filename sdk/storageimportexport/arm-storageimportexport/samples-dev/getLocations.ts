@@ -14,7 +14,7 @@
 import { StorageImportExport } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function getLocations() {
+async function getLocations(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const locationName = "West US";
   const credential = new DefaultAzureCredential();

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the default and current limits for quotas
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the default and current limits for quotas
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/QuotaLimits_List.json
  */
-async function quotaLimits() {
+async function quotaLimits(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
@@ -34,7 +32,7 @@ async function quotaLimits() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   quotaLimits();
 }
 

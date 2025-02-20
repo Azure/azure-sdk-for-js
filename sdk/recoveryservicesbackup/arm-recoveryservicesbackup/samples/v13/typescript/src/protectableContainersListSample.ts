@@ -13,9 +13,7 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the containers that can be registered to Recovery Services Vault.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the containers that can be registered to Recovery Services Vault.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureStorage/ProtectableContainers_List.json
  */
-async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage() {
+async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -48,7 +46,7 @@ async function listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage(
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listProtectableItemsWithBackupManagementTypeFilterAsAzureStorage();
 }
 

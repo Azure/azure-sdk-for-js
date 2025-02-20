@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { PolicyDefinitionsImpl, PolicyAssignmentsImpl } from "./operations";
-import { PolicyDefinitions, PolicyAssignments } from "./operationsInterfaces";
-import { PolicyClientOptionalParams } from "./models";
+import { PolicyDefinitionsImpl, PolicyAssignmentsImpl } from "./operations/index.js";
+import { PolicyDefinitions, PolicyAssignments } from "./operationsInterfaces/index.js";
+import { PolicyClientOptionalParams } from "./models/index.js";
 
 export class PolicyClient extends coreClient.ServiceClient {
   $host: string;

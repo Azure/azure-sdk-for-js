@@ -8,9 +8,7 @@
 import type { DatastoresListOptionalParams } from "@azure/arm-machinelearning";
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List datastores.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary List datastores.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/list.json
  */
-async function listDatastores() {
+async function listDatastores(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
@@ -46,7 +44,7 @@ async function listDatastores() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listDatastores();
 }
 

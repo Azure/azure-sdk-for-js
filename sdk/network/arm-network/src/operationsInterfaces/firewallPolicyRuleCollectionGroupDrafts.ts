@@ -13,7 +13,7 @@ import {
   FirewallPolicyRuleCollectionGroupDraftsCreateOrUpdateResponse,
   FirewallPolicyRuleCollectionGroupDraftsGetOptionalParams,
   FirewallPolicyRuleCollectionGroupDraftsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FirewallPolicyRuleCollectionGroupDrafts. */
 export interface FirewallPolicyRuleCollectionGroupDrafts {

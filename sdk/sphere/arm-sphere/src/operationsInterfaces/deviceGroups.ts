@@ -24,7 +24,7 @@ import {
   DeviceGroupsClaimDevicesResponse,
   DeviceGroupsCountDevicesOptionalParams,
   DeviceGroupsCountDevicesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeviceGroups. */

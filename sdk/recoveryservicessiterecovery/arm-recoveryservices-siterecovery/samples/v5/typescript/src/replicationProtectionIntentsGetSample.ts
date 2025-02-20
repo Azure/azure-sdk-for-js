@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the details of an ASR replication protection intent.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the details of an ASR replication protection intent.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionIntents_Get.json
  */
-async function getsTheDetailsOfAReplicationProtectionIntentItem() {
+async function getsTheDetailsOfAReplicationProtectionIntentItem(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "509099b2-9d2c-4636-b43e-bd5cafb6be69";
@@ -39,7 +37,7 @@ async function getsTheDetailsOfAReplicationProtectionIntentItem() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsTheDetailsOfAReplicationProtectionIntentItem();
 }
 

@@ -7,9 +7,7 @@
  */
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a server's security alert policy.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a server's security alert policy.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ServerSecurityAlertsGet.json
  */
-async function getAServerThreatDetectionPolicy() {
+async function getAServerThreatDetectionPolicy(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "securityalert-4799";
@@ -33,7 +31,7 @@ async function getAServerThreatDetectionPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAServerThreatDetectionPolicy();
 }
 

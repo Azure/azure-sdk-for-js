@@ -17,7 +17,7 @@ import {
   GitHubOwnerCreateOrUpdateResponse,
   GitHubOwnerUpdateOptionalParams,
   GitHubOwnerUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GitHubOwnerOperations. */

@@ -13,9 +13,7 @@ import {
   StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a Stream Analytics Private Endpoint or replaces an already existing Private Endpoint.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a Stream Analytics Private Endpoint or replaces an already existing Private Endpoint.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2020-03-01-preview/examples/PrivateEndpoint_Create.json
  */
-async function createAPrivateEndpoint() {
+async function createAPrivateEndpoint(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -56,7 +54,7 @@ async function createAPrivateEndpoint() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAPrivateEndpoint();
 }
 

@@ -12,7 +12,7 @@ import {
   SimplifiedSolutionsCreateResponse,
   SimplifiedSolutionsGetOptionalParams,
   SimplifiedSolutionsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SimplifiedSolutions. */
 export interface SimplifiedSolutions {

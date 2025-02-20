@@ -7,9 +7,7 @@
  */
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List database schemas
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List database schemas
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DatabaseSchemaListByDatabase.json
  */
-async function listDatabaseSchemas() {
+async function listDatabaseSchemas(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "myRG";
@@ -36,7 +34,7 @@ async function listDatabaseSchemas() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listDatabaseSchemas();
 }
 

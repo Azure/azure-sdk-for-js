@@ -8,9 +8,7 @@
 import type { ReachabilityAnalysisIntent } from "@azure/arm-network";
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates Reachability Analysis Intent.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates Reachability Analysis Intent.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ReachabilityAnalysisIntentPut.json
  */
-async function reachabilityAnalysisIntentCreate() {
+async function reachabilityAnalysisIntentCreate(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
@@ -53,7 +51,7 @@ async function reachabilityAnalysisIntentCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await reachabilityAnalysisIntentCreate();
 }
 

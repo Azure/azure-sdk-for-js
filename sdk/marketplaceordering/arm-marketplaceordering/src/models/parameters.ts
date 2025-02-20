@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { AgreementTerms as AgreementTermsMapper } from "../models/mappers";
+import { AgreementTerms as AgreementTermsMapper } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

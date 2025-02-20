@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/examples/DatabaseCreate.json
  */
-async function databaseCreate() {
+async function databaseCreate(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "TestGroup";
   const serverName = "testserver";

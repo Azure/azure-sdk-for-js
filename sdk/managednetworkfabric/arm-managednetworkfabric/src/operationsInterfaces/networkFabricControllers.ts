@@ -21,7 +21,7 @@ import {
   NetworkFabricControllersUpdateResponse,
   NetworkFabricControllersDeleteOptionalParams,
   NetworkFabricControllersDeleteResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetworkFabricControllers. */

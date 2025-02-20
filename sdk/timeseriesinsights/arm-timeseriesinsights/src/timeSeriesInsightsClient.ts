@@ -22,7 +22,7 @@ import {
   AccessPoliciesImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Environments,
@@ -31,8 +31,8 @@ import {
   AccessPolicies,
   PrivateEndpointConnections,
   PrivateLinkResources
-} from "./operationsInterfaces";
-import { TimeSeriesInsightsClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { TimeSeriesInsightsClientOptionalParams } from "./models/index.js";
 
 export class TimeSeriesInsightsClient extends coreClient.ServiceClient {
   $host: string;

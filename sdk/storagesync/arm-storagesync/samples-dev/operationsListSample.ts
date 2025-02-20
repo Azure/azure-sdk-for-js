@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all of the available Storage Sync Rest API operations.
  * x-ms-original-file: specification/storagesync/resource-manager/Microsoft.StorageSync/stable/2020-09-01/examples/Operations_List.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftStorageSync(credential, subscriptionId);

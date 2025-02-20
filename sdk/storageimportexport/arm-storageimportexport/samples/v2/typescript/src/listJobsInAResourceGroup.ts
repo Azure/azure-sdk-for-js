@@ -17,7 +17,7 @@
 import { StorageImportExport } from "@azure/arm-storageimportexport";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function listJobsInAResourceGroup() {
+async function listJobsInAResourceGroup(): Promise<void> {
   const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const resourceGroupName = "myResourceGroup";
   const credential = new DefaultAzureCredential();
