@@ -8,9 +8,7 @@
 import type { BlobContainersListOptionalParams } from "@azure/arm-storage";
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersList.json
  */
-async function listContainers() {
+async function listContainers(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
   const accountName = "sto1590";
@@ -37,7 +35,7 @@ async function listContainers() {
  * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/DeletedBlobContainersList.json
  */
-async function listDeletedContainers() {
+async function listDeletedContainers(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9290";
   const accountName = "sto1590";
@@ -52,7 +50,7 @@ async function listDeletedContainers() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listContainers();
   await listDeletedContainers();
 }

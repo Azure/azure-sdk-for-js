@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary This operation deletes the policy definition in the given management group with the given name.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2021-06-01/examples/deletePolicyDefinitionAtManagementGroup.json
  */
-async function deleteAPolicyDefinitionAtManagementGroupLevel() {
+async function deleteAPolicyDefinitionAtManagementGroupLevel(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const policyDefinitionName = "ResourceNaming";
@@ -29,7 +29,7 @@ async function deleteAPolicyDefinitionAtManagementGroupLevel() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteAPolicyDefinitionAtManagementGroupLevel();
 }
 

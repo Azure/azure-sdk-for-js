@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayConnectionsList.json
  */
-async function listVirtualNetworkGatewayConnectionsinResourceGroup() {
+async function listVirtualNetworkGatewayConnectionsinResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

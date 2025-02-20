@@ -14,7 +14,7 @@ import {
   GitLabGroupsListAvailableResponse,
   GitLabGroupsGetOptionalParams,
   GitLabGroupsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GitLabGroups. */

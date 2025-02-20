@@ -7,9 +7,7 @@
  */
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the protection container mappings for a protection container.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists the protection container mappings for a protection container.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainerMappings_ListByReplicationProtectionContainers.json
  */
-async function getsTheListOfProtectionContainerMappingsForAProtectionContainer() {
+async function getsTheListOfProtectionContainerMappingsForAProtectionContainer(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -40,7 +38,7 @@ async function getsTheListOfProtectionContainerMappingsForAProtectionContainer()
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsTheListOfProtectionContainerMappingsForAProtectionContainer();
 }
 

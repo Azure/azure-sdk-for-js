@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets load balancer backend address pool.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets load balancer backend address pool.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/LBBackendAddressPoolWithBackendAddressesGet.json
  */
-async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
+async function loadBalancerWithBackendAddressPoolWithBackendAddresses(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const loadBalancerName = "lb";
@@ -41,7 +39,7 @@ async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
  * @summary Gets load balancer backend address pool.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/LoadBalancerBackendAddressPoolGet.json
  */
-async function loadBalancerBackendAddressPoolGet() {
+async function loadBalancerBackendAddressPoolGet(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "testrg";
   const loadBalancerName = "lb";
@@ -56,7 +54,7 @@ async function loadBalancerBackendAddressPoolGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   loadBalancerWithBackendAddressPoolWithBackendAddresses();
   loadBalancerBackendAddressPoolGet();
 }

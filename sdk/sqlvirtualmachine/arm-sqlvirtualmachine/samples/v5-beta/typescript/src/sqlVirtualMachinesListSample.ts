@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all SQL virtual machines in a subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all SQL virtual machines in a subscription.
  * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/ListSubscriptionSqlVirtualMachine.json
  */
-async function getsAllSqlVirtualMachinesInASubscription() {
+async function getsAllSqlVirtualMachinesInASubscription(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -36,7 +34,7 @@ async function getsAllSqlVirtualMachinesInASubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsAllSqlVirtualMachinesInASubscription();
 }
 

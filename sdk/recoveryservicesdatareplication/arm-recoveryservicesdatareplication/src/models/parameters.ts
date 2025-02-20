@@ -24,7 +24,7 @@ import {
   DeploymentPreflightModel as DeploymentPreflightModelMapper,
   VaultModel as VaultModelMapper,
   VaultModelUpdate as VaultModelUpdateMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

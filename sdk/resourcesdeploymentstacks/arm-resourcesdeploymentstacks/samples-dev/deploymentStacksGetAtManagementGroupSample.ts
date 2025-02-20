@@ -7,9 +7,7 @@
  */
 import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a Deployment stack with a given name at Management Group scope.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a Deployment stack with a given name at Management Group scope.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackManagementGroupGet.json
  */
-async function deploymentStacksManagementGroupGet() {
+async function deploymentStacksManagementGroupGet(): Promise<void> {
   const managementGroupId = "myMg";
   const deploymentStackName = "simpleDeploymentStack";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function deploymentStacksManagementGroupGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deploymentStacksManagementGroupGet();
 }
 

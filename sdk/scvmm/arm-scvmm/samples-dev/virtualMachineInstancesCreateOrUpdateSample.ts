@@ -8,9 +8,7 @@
 import type { VirtualMachineInstance } from "@azure/arm-scvmm";
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary The operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function virtualMachineInstancesCreateOrUpdateMaximumSet() {
+async function virtualMachineInstancesCreateOrUpdateMaximumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const resource: VirtualMachineInstance = {
     extendedLocation: {
@@ -113,7 +111,7 @@ async function virtualMachineInstancesCreateOrUpdateMaximumSet() {
  * @summary The operation to create or update a virtual machine instance. Please note some properties can be set only during virtual machine instance creation.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_CreateOrUpdate_MinimumSet_Gen.json
  */
-async function virtualMachineInstancesCreateOrUpdateMinimumSet() {
+async function virtualMachineInstancesCreateOrUpdateMinimumSet(): Promise<void> {
   const resourceUri = "gtgclehcbsyave";
   const resource: VirtualMachineInstance = { extendedLocation: {} };
   const credential = new DefaultAzureCredential();
@@ -125,7 +123,7 @@ async function virtualMachineInstancesCreateOrUpdateMinimumSet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await virtualMachineInstancesCreateOrUpdateMaximumSet();
   await virtualMachineInstancesCreateOrUpdateMinimumSet();
 }

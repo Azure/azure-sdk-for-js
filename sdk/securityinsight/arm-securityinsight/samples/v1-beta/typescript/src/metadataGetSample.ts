@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a Metadata.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a Metadata.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/metadata/GetMetadata.json
  */
-async function getSingleMetadataByName() {
+async function getSingleMetadataByName(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "2e1dc338-d04d-4443-b721-037eff4fdcac";
@@ -38,7 +36,7 @@ async function getSingleMetadataByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSingleMetadataByName();
 }
 

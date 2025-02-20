@@ -13,9 +13,7 @@ import {
   ServiceFabricManagedClustersManagementClient,
 } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Service Fabric managed application resource with the specified name.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update a Service Fabric managed application resource with the specified name.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationPutOperation_example_max.json
  */
-async function putAnApplicationWithMaximumParameters() {
+async function putAnApplicationWithMaximumParameters(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -89,7 +87,7 @@ async function putAnApplicationWithMaximumParameters() {
  * @summary Create or update a Service Fabric managed application resource with the specified name.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationPutOperation_example_min.json
  */
-async function putAnApplicationWithMinimumParameters() {
+async function putAnApplicationWithMinimumParameters(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -116,7 +114,7 @@ async function putAnApplicationWithMinimumParameters() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   putAnApplicationWithMaximumParameters();
   putAnApplicationWithMinimumParameters();
 }

@@ -29,7 +29,7 @@ import {
   ReservationUpdateResponse,
   ReservationArchiveOptionalParams,
   ReservationUnarchiveOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Reservation. */

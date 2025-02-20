@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates an authorization rule for a namespace
@@ -39,7 +37,7 @@ async function namespacesCreateOrUpdateAuthorizationRule() {
 }
 
 async function main() {
-  namespacesCreateOrUpdateAuthorizationRule();
+  await namespacesCreateOrUpdateAuthorizationRule();
 }
 
 main().catch(console.error);
