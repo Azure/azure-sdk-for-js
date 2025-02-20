@@ -7,6 +7,7 @@
  */
 
 export * from "./operations.js";
+export * from "./offerings.js";
 export * from "./adminKeys.js";
 export * from "./queryKeys.js";
 export * from "./services.js";
@@ -15,3 +16,4 @@ export * from "./privateEndpointConnections.js";
 export * from "./sharedPrivateLinkResources.js";
 export * from "./usages.js";
 export * from "./networkSecurityPerimeterConfigurations.js";
+export * from "./service.js";
