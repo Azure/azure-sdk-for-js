@@ -13,10 +13,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to List all operations provided by Nginx.NginxPlus for the 2024-01-01-preview api version.
+ * This sample demonstrates how to List all operations provided by Nginx.NginxPlus for the 2024-11-01-preview api version.
  *
- * @summary List all operations provided by Nginx.NginxPlus for the 2024-01-01-preview api version.
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Operations_List.json
+ * @summary List all operations provided by Nginx.NginxPlus for the 2024-11-01-preview api version.
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Operations_List.json
  */
 async function operationsList(): Promise<void> {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function operationsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  operationsList();
+  await operationsList();
 }
 
 main().catch(console.error);

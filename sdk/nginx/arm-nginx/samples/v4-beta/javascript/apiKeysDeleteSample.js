@@ -13,25 +13,25 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
 
 /**
- * This sample demonstrates how to List all operations provided by Nginx.NginxPlus for the 2024-11-01-preview api version.
+ * This sample demonstrates how to Delete API key for Nginx deployment
  *
- * @summary List all operations provided by Nginx.NginxPlus for the 2024-11-01-preview api version.
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Operations_List.json
+ * @summary Delete API key for Nginx deployment
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_Delete.json
  */
-async function operationsList() {
+async function apiKeysDelete() {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
+  const deploymentName = "myDeployment";
+  const apiKeyName = "myApiKey";
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.operations.list()) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.apiKeys.delete(resourceGroupName, deploymentName, apiKeyName);
+  console.log(result);
 }
 
 async function main() {
-  await operationsList();
+  await apiKeysDelete();
 }
 
 main().catch(console.error);

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to List all NGINX deployments under the specified resource group.
  *
  * @summary List all NGINX deployments under the specified resource group.
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Deployments_ListByResourceGroup.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_ListByResourceGroup.json
  */
 async function deploymentsListByResourceGroup(): Promise<void> {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function deploymentsListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deploymentsListByResourceGroup();
+  await deploymentsListByResourceGroup();
 }
 
 main().catch(console.error);

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Reset the NGINX configuration of given NGINX deployment to default
  *
  * @summary Reset the NGINX configuration of given NGINX deployment to default
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Configurations_Delete.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_Delete.json
  */
 async function configurationsDelete(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function configurationsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationsDelete();
+  await configurationsDelete();
 }
 
 main().catch(console.error);

@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Get the NGINX configuration of given NGINX deployment
  *
  * @summary Get the NGINX configuration of given NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Configurations_Get.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Configurations_Get.json
  */
 async function configurationsGet(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function configurationsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  configurationsGet();
+  await configurationsGet();
 }
 
 main().catch(console.error);
