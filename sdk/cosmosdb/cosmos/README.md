@@ -555,7 +555,7 @@ When you interact with Cosmos DB errors returned by the service correspond to th
 For example, if you try to create an item using an `id` that's already in use in your Cosmos DB database, a `409` error is returned, indicating the conflict. In the following snippet, the error is handled gracefully by catching the exception and displaying additional information about the error.
 
 ```ts snippet:ReadmeSampleErrorHandlingConflicts
-import { CosmosClient } from "@azure/cosmos";
+import { CosmosClient, ErrorResponse, RestError } from "@azure/cosmos";
 
 const endpoint = "https://your-account.documents.azure.com";
 const key = "<database account masterkey>";
@@ -568,7 +568,8 @@ const { container } = await database.containers.createIfNotExists({ id: "Test Da
 try {
   await container.items.create({ id: "existing-item-id" });
 } catch (error) {
-  if (error.code === 409) {
+  const err = error as ErrorResponse | RestError;
+  if (err.code === 409) {
     console.log("There was a conflict with an existing item");
   }
 }
