@@ -96,7 +96,11 @@ export class ManagedIdentityCredential implements TokenCredential {
     this.objectId = (_options as ManagedIdentityCredentialObjectIdOptions)?.objectId;
 
     // For JavaScript users.
-    const providedIds = [this.clientId, this.resourceId, this.objectId].filter(Boolean);
+    const providedIds = [
+      { key: "clientId", value: this.clientId },
+      { key: "resourceId", value: this.resourceId },
+      { key: "objectId", value: this.objectId },
+    ].filter((id) => id.value);
     if (providedIds.length > 1) {
       throw new Error(
         `ManagedIdentityCredential: only one of 'clientId', 'resourceId', or 'objectId' can be provided. Received values: ${JSON.stringify(
@@ -176,6 +180,14 @@ export class ManagedIdentityCredential implements TokenCredential {
           `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
         );
       }
+    }
+
+    logger.info(`Using ${managedIdentitySource} managed identity.`);
+
+    // Check if either clientId, resourceId or objectId was provided and log the value used
+    if (providedIds.length === 1) {
+      const { key, value } = providedIds[0];
+      logger.info(`${managedIdentitySource} with ${key}: ${value}`);
     }
   }
 
