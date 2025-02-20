@@ -1318,6 +1318,10 @@ packages:
     resolution: {integrity: sha512-bTNxJaS000wjtbLlH/nju3Off9uSybYeRVLvx1Y5k3ajb1rqVGUcsIduSEz1JBf+dRQx9pHRDCAEAXs/hOvzpg==}
     engines: {node: '>=8.0.0'}
 
+  '@azure/communication-signaling@1.0.0-beta.31':
+    resolution: {integrity: sha512-4zdDo8nyt9b+s8aieXHypEvrdS9OYSlvbyJG9tJz/fOpyXH7lbWvB/m/SNueX2b/M8ESeQdLjibzBxMJIQYFUw==}
+    engines: {node: '>=8.0.0'}
+
   '@azure/core-auth@1.9.0':
     resolution: {integrity: sha512-FPwHpZywuyasDSLMqJ6fhbOK3TqUdviZNF8OqRGA4W5Ewib2lEEZ+pBsYcBa88B2NGO/SEnYPGhyBqNlE8ilSw==}
     engines: {node: '>=18.0.0'}
@@ -2696,7 +2700,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-vision-face@file:projects/ai-vision-face.tgz':
-    resolution: {integrity: sha512-N3EavlzO0cK3jmcOHIIanQJ8ff3dHEzLEOD9YSmw5lLkqhE2MBTZ8wZzmx3yPNku7n0gyxIu871CcQPrk/C1XA==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-35MLspEjo3srhk6oFk7t9K+NTSb2H/VYXLKgHPmAJ1JmakroQlu8TCiLM6l5qQCKKZNS5FzgsoQGsWZal7Y6aQ==, tarball: file:projects/ai-vision-face.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-vision-image-analysis@file:projects/ai-vision-image-analysis.tgz':
@@ -3088,23 +3092,23 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-extendedlocation@file:projects/arm-extendedlocation.tgz':
-    resolution: {integrity: sha512-j2XY+SuSD2mFdpJeHSDpX3rP39/uansqBWn4zeYllMO+BtzMeAczXukLb3tuSfhpYKa50osJGDIm8DhoEfclWA==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-mhaJ6Omd/viOSXvzaWdju3lxQJzXJ8DDQ4sdWdkcoNu5fyv24s7VEvHN3QrVP6Nxjv9dE6d9EAQYfBRI8pX0Aw==, tarball: file:projects/arm-extendedlocation.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fabric@file:projects/arm-fabric.tgz':
-    resolution: {integrity: sha512-o6WRdWb4e75b/Z6dlGiUz83ERFWmiLj/TrDXgieN+u9EiE+5m7yJI/GqUehcWmHH76QzEM878SMSktTNLGEI/w==, tarball: file:projects/arm-fabric.tgz}
+    resolution: {integrity: sha512-Ui6w9WJQr2ZwxrzLUea5E7vwRrNBzhgzz3op3yiVKlG3QWK9cwxvRHqXjquCLfL5ovZgJptfCq/s921v6rT0gw==, tarball: file:projects/arm-fabric.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-features@file:projects/arm-features.tgz':
-    resolution: {integrity: sha512-JB9mIUQCRRthC4OAqnOakaomm7kyjWa63Z+qLTsnxLOmx9C51e+3L/XOhiz1Wkb9lXBup3u8sRO7EafJ7AZCEQ==, tarball: file:projects/arm-features.tgz}
+    resolution: {integrity: sha512-pE7eAt/UvSYEVzapZNtFeXNxDaOhdyVfuTLkAPMhwdAUG5IIl7r8R82ihB9vTF3sCP9cgznf1TU0jOj2rLsmpA==, tarball: file:projects/arm-features.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-fluidrelay@file:projects/arm-fluidrelay.tgz':
-    resolution: {integrity: sha512-+3LWAZXR19QHGAJJTNnBLwXmxepD/P4C5TPucly8Of11DOXdNNgK9ghsI30qpoRPEe4Ez/ErFFmev/n9bfUAKA==, tarball: file:projects/arm-fluidrelay.tgz}
+    resolution: {integrity: sha512-sJ+cJ2RkRQnS7IorubYXuQ5GAXixekxK9Br/N6ivGxn14L9Ln4ggsFvtcbOvMjnWwxVzxsuJRDV9T8p4TtRcYQ==, tarball: file:projects/arm-fluidrelay.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-frontdoor@file:projects/arm-frontdoor.tgz':
-    resolution: {integrity: sha512-3P5oCAtem5LfzguU1jrL5AgsOYJJvsUuJPQ7mNNbAa7KWQgL8wIj70P192wWJfVccjIGj3KxJIH/We1UDvLcDg==, tarball: file:projects/arm-frontdoor.tgz}
+    resolution: {integrity: sha512-MZNDS4ngndcDzI/kewkyDWB9S2/xMRXoAz1ByKeJHVqbUoUl3LPF6KdE67+0KLOfpnVX34tHNvZroCJ6EaLqkw==, tarball: file:projects/arm-frontdoor.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-graphservices@file:projects/arm-graphservices.tgz':
@@ -3748,7 +3752,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz':
-    resolution: {integrity: sha512-aYvCPiB8wTkDCOzu+6wetTjq8MFilDirGK9DMEGsc0hgcHxwakRxUOnYR/n28eq05fhfNFMlecw2H4F2pgZ9AA==, tarball: file:projects/communication-messages.tgz}
+    resolution: {integrity: sha512-SWfjV4acAFed3tifJLitCJP99T//0QFidmbsgvCL4s038LfqoJ7qX06fp1fHsfc43irrKrbecW2X9muBTr/Oow==, tarball: file:projects/communication-messages.tgz}
     version: 0.0.0
 
   '@rush-temp/communication-phone-numbers@file:projects/communication-phone-numbers.tgz':
@@ -4024,7 +4028,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-jayeVd5uwRMKpPlpcpfe18IH7vq9LLcRBIcumGtKOe9IoCu4/WHkFslqF7QIr7II0wFC3fqLzhDMp9CV5eGcLA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-mPX1Aau04IC1JPC68Y9/c4IlQfRSDotxS4i5iHYeKYyG/iBQWiBP4rHNJAFJA/ubzp4fLxXLG3YTzpK/t+7sAA==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -8692,6 +8696,21 @@ snapshots:
       - supports-color
 
   '@azure/communication-signaling@1.0.0-beta.29':
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-rest-pipeline': 1.18.2
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/logger': 1.1.4
+      events: 3.3.0
+      tslib: 2.8.1
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/communication-signaling@1.0.0-beta.31':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.9.0
@@ -17855,6 +17874,7 @@ snapshots:
 
   '@rush-temp/communication-messages@file:projects/communication-messages.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@5.4.14(@types/node@22.7.9))(yaml@2.7.0)':
     dependencies:
+      '@azure/communication-signaling': 1.0.0-beta.31
       '@types/node': 18.19.74
       '@vitest/browser': 3.0.5(@types/node@18.19.74)(playwright@1.50.1)(typescript@5.7.3)(vite@5.4.14(@types/node@22.7.9))(vitest@3.0.5)
       '@vitest/coverage-istanbul': 3.0.5(vitest@3.0.5)

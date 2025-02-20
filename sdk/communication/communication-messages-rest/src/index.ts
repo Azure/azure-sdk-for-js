@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import MessagesServiceClient from "./messagesServiceClient.js";
+export * from "./conversationEventListener.js";
+export * from "./signaling/events.js";
 export * from "./generated/src/messagesServiceClient.js";
 export * from "./generated/src/parameters.js";
 export * from "./generated/src/responses.js";
