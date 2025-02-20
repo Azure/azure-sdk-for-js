@@ -20,15 +20,15 @@ import {
   ConfigurationsImpl,
   DeploymentsImpl,
   OperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   ApiKeys,
   Certificates,
   Configurations,
   Deployments,
   Operations,
-} from "./operationsInterfaces";
-import { NginxManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { NginxManagementClientOptionalParams } from "./models/index.js";
 
 export class NginxManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiKeys } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApiKeys } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NginxManagementClient } from "../nginxManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NginxManagementClient } from "../nginxManagementClient.js";
 import {
   NginxDeploymentApiKeyResponse,
   ApiKeysListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   ApiKeysGetOptionalParams,
   ApiKeysGetResponse,
   ApiKeysListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiKeys operations. */

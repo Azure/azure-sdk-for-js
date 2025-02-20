@@ -18,7 +18,7 @@ import {
   AnalysisCreate as AnalysisCreateMapper,
   NginxDeployment as NginxDeploymentMapper,
   NginxDeploymentUpdateParameters as NginxDeploymentUpdateParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
