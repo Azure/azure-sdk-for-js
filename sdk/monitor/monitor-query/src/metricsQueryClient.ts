@@ -167,24 +167,18 @@ export class MetricsQueryClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
+   * ```ts snippet:MetricQueryClientListMetricDefinitions
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsQueryClient } from "@azure/monitor-query";
+   *
+   * const metricsResourceId = "<the Resource Id for your metrics resource>";
+   *
+   * const tokenCredential = new DefaultAzureCredential();
    * const metricsQueryClient = new MetricsQueryClient(tokenCredential);
-   * const metricDefinitions = client.listMetricDefinitions(resourceUri, options);
-   * let i = 1;
-   * for await (const metricDefinition of metricDefinitions) {
-   *   console.log(`metricDefinition ${i++}:`);
-   *   console.log(metricDefinition);
-   * }
-   * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listMetricDefinitions(resourceUri, options);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` metricDefinitions - ${result.value.id}, ${result.value.name}`);
-   *   result = await iter.next();
+   * const metricDefinitions = metricsQueryClient.listMetricDefinitions(metricsResourceId);
+   * for await (const { id, name } of metricDefinitions) {
+   *   console.log(` metricDefinitions - ${id}, ${name}`);
    * }
    * ```
    *
@@ -254,26 +248,21 @@ export class MetricsQueryClient {
    *
    * Example using `for await` syntax:
    *
-   * ```js
+   * ```ts snippet:MetricQueryClientListMetricNamespaces
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { MetricsQueryClient } from "@azure/monitor-query";
+   *
+   * const metricsResourceId = "<the Resource Id for your metrics resource>";
+   *
+   * const tokenCredential = new DefaultAzureCredential();
    * const metricsQueryClient = new MetricsQueryClient(tokenCredential);
-   * const metricNamespaces = client.listMetricNamespaces(resourceUri, options);
-   * let i = 1;
-   * for await (const metricNamespace of metricNamespaces) {
-   *   console.log(`metricNamespace ${i++}:`);
-   *   console.log(metricNamespace);
+   *
+   * const metricNamespaces = metricsQueryClient.listMetricNamespaces(metricsResourceId);
+   * for await (const { id, name } of metricNamespaces) {
+   *   console.log(` metricNamespaces - ${id}, ${name}`);
    * }
    * ```
    *
-   * Example using `iter.next()`:
-   *
-   * ```js
-   * let iter = client.listMetricNamespaces(resourceUri, options);
-   * let result = await iter.next();
-   * while (!result.done) {
-   *   console.log(` metricNamespace - ${result.value.id}, ${result.value.name}`);
-   *   result = await iter.next();
-   * }
-   * ```
    * Get a list of metric namespaces, given a resource URI.
    * @param resourceUri - The resource URI to get metric namespaces for.
    * @param options - Options for getting metric namespaces.

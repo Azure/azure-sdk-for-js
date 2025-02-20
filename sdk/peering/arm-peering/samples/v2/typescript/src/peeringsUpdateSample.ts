@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Updates tags for a peering with the specified name under the given subscription and resource group.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/UpdatePeeringTags.json
  */
-async function updatePeeringTags() {
+async function updatePeeringTags(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringName = "peeringName";

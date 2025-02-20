@@ -9,7 +9,7 @@
 import {
   FabricOperationsStatusGetOptionalParams,
   FabricOperationsStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FabricOperationsStatus. */
 export interface FabricOperationsStatus {

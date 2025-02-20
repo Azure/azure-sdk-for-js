@@ -16,9 +16,7 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Provides the details of the tiering related sizes and cost.
@@ -28,7 +26,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForRehydrate.json
  */
-async function getTheRehydrationCostForRecoveryPoint() {
+async function getTheRehydrationCostForRecoveryPoint(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -63,7 +61,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForPolicy.json
  */
-async function getTheTieringSavingsCostInfoForPolicy() {
+async function getTheTieringSavingsCostInfoForPolicy(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -94,7 +92,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForProtectedItem.json
  */
-async function getTheTieringSavingsCostInfoForProtectedItem() {
+async function getTheTieringSavingsCostInfoForProtectedItem(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -127,7 +125,7 @@ Status of the operation can be fetched using GetTieringCostOperationStatus API a
 Status of the operation can be fetched using GetTieringCostOperationStatus API and result using GetTieringCostOperationResult API.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/TieringCost/FetchTieringCostForVault.json
  */
-async function getTheTieringSavingsCostInfoForVault() {
+async function getTheTieringSavingsCostInfoForVault(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -149,7 +147,7 @@ async function getTheTieringSavingsCostInfoForVault() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTheRehydrationCostForRecoveryPoint();
   getTheTieringSavingsCostInfoForPolicy();
   getTheTieringSavingsCostInfoForProtectedItem();

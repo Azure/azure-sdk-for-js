@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Triggers a policy evaluation scan for all the resources under the resource group.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/PolicyStates_TriggerResourceGroupEvaluation.json
  */
-async function triggerEvaluationsForAllResourcesInAResourceGroup() {
+async function triggerEvaluationsForAllResourcesInAResourceGroup(): Promise<void> {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName =
     process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
@@ -32,7 +32,7 @@ async function triggerEvaluationsForAllResourcesInAResourceGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   triggerEvaluationsForAllResourcesInAResourceGroup();
 }
 

@@ -23,7 +23,7 @@ import {
   ProductsDeleteOptionalParams,
   ProductsCountDevicesOptionalParams,
   ProductsCountDevicesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Products. */

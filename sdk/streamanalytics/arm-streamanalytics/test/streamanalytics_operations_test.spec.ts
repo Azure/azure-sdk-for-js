@@ -10,13 +10,11 @@ import {
   env,
   Recorder,
   RecorderStartOptions,
-  delay,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { StreamAnalyticsManagementClient } from "../src/streamAnalyticsManagementClient";
+import { StreamAnalyticsManagementClient } from "../src/streamAnalyticsManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -45,8 +43,8 @@ describe("StreamAnalytics test", () => {
   let resourceGroup: string;
   let resourcename: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
@@ -58,11 +56,11 @@ describe("StreamAnalytics test", () => {
 
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("clusters create test", async function () {
+  it("clusters create test", async () => {
     const res = await client.clusters.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
@@ -73,16 +71,16 @@ describe("StreamAnalytics test", () => {
       },
       testPollingOptions);
     assert.equal(res.name, resourcename);
-  }).timeout(7200000);
+  });
 
-  it("clusters get test", async function () {
+  it("clusters get test", async () => {
     const res = await client.clusters.get(
       resourceGroup,
       resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("clusters list test", async function () {
+  it("clusters list test", async () => {
     const resArray = new Array();
     for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -90,10 +88,9 @@ describe("StreamAnalytics test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("clusters delete test", async function () {
+  it("clusters delete test", async () => {
     const resArray = new Array();
-    const res = await client.clusters.beginDeleteAndWait(resourceGroup, resourcename
-    )
+    await client.clusters.beginDeleteAndWait(resourceGroup, resourcename);
     for await (let item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

@@ -7,9 +7,7 @@
  */
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a Service Fabric application resource created or in the process of being created in the Service Fabric cluster resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a Service Fabric application resource created or in the process of being created in the Service Fabric cluster resource.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ApplicationGetOperation_example.json
  */
-async function getAnApplication() {
+async function getAnApplication(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
@@ -29,7 +27,7 @@ async function getAnApplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAnApplication();
 }
 

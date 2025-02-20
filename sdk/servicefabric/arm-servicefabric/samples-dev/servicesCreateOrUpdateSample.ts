@@ -8,9 +8,7 @@
 import type { ServiceResource } from "@azure/arm-servicefabric";
 import { ServiceFabricManagementClient } from "@azure/arm-servicefabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Service Fabric service resource with the specified name.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a Service Fabric service resource with the specified name.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ServicePutOperation_example_max.json
  */
-async function putAServiceWithMaximumParameters() {
+async function putAServiceWithMaximumParameters(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
@@ -56,7 +54,7 @@ async function putAServiceWithMaximumParameters() {
  * @summary Create or update a Service Fabric service resource with the specified name.
  * x-ms-original-file: specification/servicefabric/resource-manager/Microsoft.ServiceFabric/stable/2021-06-01/examples/ServicePutOperation_example_min.json
  */
-async function putAServiceWithMinimumParameters() {
+async function putAServiceWithMinimumParameters(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRIC_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["SERVICEFABRIC_RESOURCE_GROUP"] || "resRg";
@@ -81,7 +79,7 @@ async function putAServiceWithMinimumParameters() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await putAServiceWithMaximumParameters();
   await putAServiceWithMinimumParameters();
 }

@@ -8,9 +8,7 @@
 import type { SearchService } from "@azure/arm-search";
 import { SearchManagementClient } from "@azure/arm-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateService.json
  */
-async function searchCreateOrUpdateService() {
+async function searchCreateOrUpdateService(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -46,7 +44,7 @@ async function searchCreateOrUpdateService() {
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateServiceAuthOptions.json
  */
-async function searchCreateOrUpdateServiceAuthOptions() {
+async function searchCreateOrUpdateServiceAuthOptions(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -77,7 +75,7 @@ async function searchCreateOrUpdateServiceAuthOptions() {
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateServiceDisableLocalAuth.json
  */
-async function searchCreateOrUpdateServiceDisableLocalAuth() {
+async function searchCreateOrUpdateServiceDisableLocalAuth(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -106,7 +104,7 @@ async function searchCreateOrUpdateServiceDisableLocalAuth() {
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints.json
  */
-async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints() {
+async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -135,7 +133,7 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPrivateEndpoints() {
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs.json
  */
-async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs() {
+async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -166,7 +164,7 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPs() {
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
  */
-async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass() {
+async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -198,7 +196,7 @@ async function searchCreateOrUpdateServiceToAllowAccessFromPublicCustomIPsAndByp
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateServiceWithCmkEnforcement.json
  */
-async function searchCreateOrUpdateServiceWithCmkEnforcement() {
+async function searchCreateOrUpdateServiceWithCmkEnforcement(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -227,7 +225,7 @@ async function searchCreateOrUpdateServiceWithCmkEnforcement() {
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateServiceWithDataExfiltration.json
  */
-async function searchCreateOrUpdateServiceWithDataExfiltration() {
+async function searchCreateOrUpdateServiceWithDataExfiltration(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -256,7 +254,7 @@ async function searchCreateOrUpdateServiceWithDataExfiltration() {
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateServiceWithIdentity.json
  */
-async function searchCreateOrUpdateServiceWithIdentity() {
+async function searchCreateOrUpdateServiceWithIdentity(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -291,7 +289,7 @@ async function searchCreateOrUpdateServiceWithIdentity() {
  * @summary Creates or updates a search service in the given resource group. If the search service already exists, all properties will be updated with the given values.
  * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateWithSemanticSearch.json
  */
-async function searchCreateOrUpdateWithSemanticSearch() {
+async function searchCreateOrUpdateWithSemanticSearch(): Promise<void> {
   const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
@@ -314,7 +312,7 @@ async function searchCreateOrUpdateWithSemanticSearch() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await searchCreateOrUpdateService();
   await searchCreateOrUpdateServiceAuthOptions();
   await searchCreateOrUpdateServiceDisableLocalAuth();

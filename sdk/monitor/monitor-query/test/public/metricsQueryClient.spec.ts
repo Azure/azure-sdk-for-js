@@ -18,7 +18,7 @@ describe("MetricsClient live tests", function () {
   let metricsQueryClient: MetricsQueryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(ctx);
     const recordedClient: RecorderAndMetricsClient = await createRecorderAndMetricsClient(recorder);
@@ -26,7 +26,7 @@ describe("MetricsClient live tests", function () {
     metricsQueryClient = recordedClient.client;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     loggerForTest.verbose("Recorder: stopping");
     await recorder.stop();
   });

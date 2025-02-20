@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/PromoteReplicaAsForcedStandaloneServer.json
  */
-async function promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAReplicaServerImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync() {
+async function promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAReplicaServerImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -47,7 +47,7 @@ async function promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAR
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/PromoteReplicaAsPlannedStandaloneServer.json
  */
-async function promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForReplicationToComplete() {
+async function promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForReplicationToComplete(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -76,7 +76,7 @@ async function promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForR
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerUpdate.json
  */
-async function serverUpdate() {
+async function serverUpdate(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -109,7 +109,7 @@ async function serverUpdate() {
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerUpdateWithAadAuthEnabled.json
  */
-async function serverUpdateWithAadAuthEnabled() {
+async function serverUpdateWithAadAuthEnabled(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -147,7 +147,7 @@ async function serverUpdateWithAadAuthEnabled() {
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerUpdateWithCustomerMaintenanceWindow.json
  */
-async function serverUpdateWithCustomerMaintenanceWindow() {
+async function serverUpdateWithCustomerMaintenanceWindow(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -182,7 +182,7 @@ async function serverUpdateWithCustomerMaintenanceWindow() {
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerUpdateWithDataEncryptionEnabled.json
  */
-async function serverUpdateWithDataEncryptionEnabled() {
+async function serverUpdateWithDataEncryptionEnabled(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -234,7 +234,7 @@ async function serverUpdateWithDataEncryptionEnabled() {
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerUpdateWithMajorVersionUpgrade.json
  */
-async function serverUpdateWithMajorVersionUpgrade() {
+async function serverUpdateWithMajorVersionUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -261,7 +261,7 @@ async function serverUpdateWithMajorVersionUpgrade() {
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/PromoteReplicaAsForcedSwitchover.json
  */
-async function switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOriginalPrimaryAsReplicaImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync() {
+async function switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOriginalPrimaryAsReplicaImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -290,7 +290,7 @@ async function switchOverAReplicaServerAsForcedIEItWillReplicaAsPrimaryAndOrigin
  * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/PromoteReplicaAsPlannedSwitchover.json
  */
-async function switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToCompleteBeforePromotingReplicaAsPrimaryAndOriginalPrimaryAsReplica() {
+async function switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToCompleteBeforePromotingReplicaAsPrimaryAndOriginalPrimaryAsReplica(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -313,7 +313,7 @@ async function switchOverAReplicaServerAsPlannedIEItWillWaitForReplicationToComp
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   promoteAReplicaServerAsAStandaloneServerAsForcedIEItWillPromoteAReplicaServerImmediatelyWithoutWaitingForPrimaryAndReplicaToBeInSync();
   promoteAReplicaServerAsAStandaloneServerAsPlannedIEItWillWaitForReplicationToComplete();
   serverUpdate();

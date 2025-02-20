@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete the specified volume group only if there are no volumes under volume group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete the specified volume group only if there are no volumes under volume group.
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/VolumeGroups_Delete.json
  */
-async function volumeGroupsDelete() {
+async function volumeGroupsDelete(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
@@ -37,7 +35,7 @@ async function volumeGroupsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   volumeGroupsDelete();
 }
 
