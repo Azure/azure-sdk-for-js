@@ -17,13 +17,12 @@ import {
   RecognizedForm
 } from "@azure/ai-form-recognizer";
 
-import * as fs from "fs";
+import * as fs from "node:fs";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";

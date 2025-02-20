@@ -173,7 +173,7 @@ export interface TaxUs1098TFiler {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-tax.us.1098T",
     description:
