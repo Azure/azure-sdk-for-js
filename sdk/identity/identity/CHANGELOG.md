@@ -15,7 +15,7 @@
 ### Features Added
 
 - Added `subscription` property in `AzureCliCredentialOptions` [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
-
+- - `ManagedIdentityCredential` will now log the configured user-assigned identity if one is set. [#33144](https://github.com/Azure/azure-sdk-for-js/pull/33144)
 ### Bugs Fixed
 
 - Fixed the logic to return authority without the scheme and tenant ID [#31540](https://github.com/Azure/azure-sdk-for-js/pull/31540)
