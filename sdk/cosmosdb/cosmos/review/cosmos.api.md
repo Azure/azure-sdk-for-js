@@ -786,7 +786,7 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
-    encryptionPolicy?: EncryptionPolicy;
+    encryptionParameters?: EncryptionParameters;
     endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
@@ -1090,11 +1090,10 @@ export class EncryptionKeyWrapMetadata {
 }
 
 // @public
-export interface EncryptionPolicy {
-    enableEncryption: boolean;
-    encryptionKeyResolverName?: string;
+export interface EncryptionParameters {
+    encryptionKeyResolverName: string;
     encryptionKeyTimeToLive?: EncryptionTimeToLive;
-    keyEncryptionKeyResolver?: EncryptionKeyResolver;
+    keyEncryptionKeyResolver: EncryptionKeyResolver;
 }
 
 // @public

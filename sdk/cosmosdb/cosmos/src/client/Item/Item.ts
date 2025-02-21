@@ -12,12 +12,15 @@ import {
   ResourceType,
   StatusCodes,
 } from "../../common";
-import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } from "../../documents";
-import { ErrorResponse, RequestOptions, Response } from "../../request";
-import { PatchOperationType, PatchRequestBody } from "../../utils/patch";
-import { Container } from "../Container";
-import { Resource } from "../Resource";
-import { ItemDefinition } from "./ItemDefinition";
+import type { PartitionKey, PartitionKeyInternal } from "../../documents";
+import { convertToInternalPartitionKey } from "../../documents";
+import type { RequestOptions, Response } from "../../request";
+import { ErrorResponse } from "../../request";
+import type { PatchRequestBody } from "../../utils/patch";
+import { PatchOperationType } from "../../utils/patch";
+import type { Container } from "../Container";
+import type { Resource } from "../Resource";
+import type { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 import { setPartitionKeyIfUndefined } from "../../extractPartitionKey";
@@ -86,18 +89,30 @@ export class Item {
         this.partitionKey,
       );
       let url = this.url;
+      let partitionKey = this.partitionKey;
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
-          this.partitionKey =
+          let count = 0;
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+          );
+          const { partitionKeyList: encryptedPartitionKey, encryptedCount } =
             await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
               this.partitionKey,
             );
-          url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+          partitionKey = encryptedPartitionKey;
+          count += encryptedCount;
+          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
+            url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+            count++;
+          }
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+            count,
+          );
         }
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
@@ -107,7 +122,7 @@ export class Item {
           resourceType: ResourceType.item,
           resourceId: id,
           options,
-          partitionKey: this.partitionKey,
+          partitionKey: partitionKey,
           diagnosticNode,
         });
       } catch (error: any) {
@@ -120,10 +135,15 @@ export class Item {
         response = error;
       }
       if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
+        const { body, propertiesDecryptedCount } = await this.container.encryptionProcessor.decrypt(
           response.result,
-          diagnosticNode,
         );
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsDecryptOperation,
+          propertiesDecryptedCount,
+        );
+        response.result = body;
       }
       return new ItemResponse(
         response.result,
@@ -173,6 +193,7 @@ export class Item {
         this.container,
         this.partitionKey,
       );
+      let partitionKey = this.partitionKey;
       const err = {};
       if (!isItemResourceValid(body, err)) {
         throw err;
@@ -185,16 +206,30 @@ export class Item {
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);
           options = options || {};
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
-          body = await this.container.encryptionProcessor.encrypt(body, diagnosticNode);
-          this.partitionKey =
+          let count = 0;
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+          );
+          const { body: encryptedBody, propertiesEncryptedCount } =
+            await this.container.encryptionProcessor.encrypt(body);
+          body = encryptedBody;
+          count += propertiesEncryptedCount;
+          const { partitionKeyList: encryptedPartitionKeyList, encryptedCount } =
             await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
               this.partitionKey,
             );
-          url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+          partitionKey = encryptedPartitionKeyList;
+          count += encryptedCount;
+          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
+            url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+            count++;
+          }
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+            count,
+          );
         }
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
@@ -205,7 +240,7 @@ export class Item {
           resourceType: ResourceType.item,
           resourceId: id,
           options,
-          partitionKey: this.partitionKey,
+          partitionKey: partitionKey,
           diagnosticNode,
         });
       } catch (error: any) {
@@ -217,10 +252,15 @@ export class Item {
       if (this.clientContext.enableEncryption) {
         try {
           // try block for decrypting response. This is done so that we can throw special error message in case of decryption failure
-
-          response.result = await this.container.encryptionProcessor.decrypt(
-            response.result,
-            diagnosticNode,
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+          const { body: result, propertiesDecryptedCount } =
+            await this.container.encryptionProcessor.decrypt(response.result);
+          response.result = result;
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+            propertiesDecryptedCount,
           );
         } catch (error) {
           const decryptionError = new ErrorResponse(
@@ -258,19 +298,31 @@ export class Item {
         this.container,
         this.partitionKey,
       );
+      let partitionKey = this.partitionKey;
       let url = this.url;
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
-          this.partitionKey =
+          let count = 0;
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+          );
+          const { partitionKeyList, encryptedCount } =
             await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
               this.partitionKey,
             );
-          url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+          partitionKey = partitionKeyList;
+          count += encryptedCount;
+          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
+            url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+            count++;
+          }
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsEncryptOperation,
+            count,
+          );
         }
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
@@ -280,7 +332,7 @@ export class Item {
           resourceType: ResourceType.item,
           resourceId: id,
           options,
-          partitionKey: this.partitionKey,
+          partitionKey: partitionKey,
           diagnosticNode,
         });
       } catch (error: any) {
@@ -288,13 +340,6 @@ export class Item {
           await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
         }
         throw error;
-      }
-
-      if (this.clientContext.enableEncryption) {
-        response.result = await this.container.encryptionProcessor.decrypt(
-          response.result,
-          diagnosticNode,
-        );
       }
 
       return new ItemResponse(
@@ -327,13 +372,11 @@ export class Item {
         this.partitionKey,
       );
       let url = this.url;
-
+      let partitionKey = this.partitionKey;
       let response: Response<T & Resource>;
       try {
         if (this.clientContext.enableEncryption) {
-          if (!this.container.isEncryptionInitialized) {
-            await this.container.initializeEncryption();
-          }
+          await this.container.checkAndInitializeEncryption();
           options.containerRid = this.container._rid;
           // returns copy to avoid encryption of original body passed
           body = copyObject(body);
@@ -365,15 +408,18 @@ export class Item {
             }
             propertiesEncryptedCount++;
           }
+          const { partitionKeyList, encryptedCount } =
+            await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKey);
+          partitionKey = partitionKeyList;
+          propertiesEncryptedCount += encryptedCount;
+          if (await this.container.encryptionProcessor.isPathEncrypted("/id")) {
+            url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
+            propertiesEncryptedCount++;
+          }
           diagnosticNode.endEncryptionDiagnostics(
             Constants.Encryption.DiagnosticsEncryptOperation,
             propertiesEncryptedCount,
           );
-          this.partitionKey =
-            await this.container.encryptionProcessor.getEncryptedPartitionKeyValue(
-              this.partitionKey,
-            );
-          url = await this.container.encryptionProcessor.getEncryptedUrl(this.url);
         }
         const path = getPathFromLink(url);
         const id = getIdFromLink(url);
@@ -383,7 +429,7 @@ export class Item {
           resourceType: ResourceType.item,
           resourceId: id,
           options,
-          partitionKey: this.partitionKey,
+          partitionKey: partitionKey,
           diagnosticNode,
         });
       } catch (error: any) {
@@ -394,9 +440,15 @@ export class Item {
       }
       if (this.clientContext.enableEncryption) {
         try {
-          response.result = await this.container.encryptionProcessor.decrypt(
-            response.result,
-            diagnosticNode,
+          diagnosticNode.beginEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+          );
+          const { body: result, propertiesDecryptedCount } =
+            await this.container.encryptionProcessor.decrypt(response.result);
+          response.result = result;
+          diagnosticNode.endEncryptionDiagnostics(
+            Constants.Encryption.DiagnosticsDecryptOperation,
+            propertiesDecryptedCount,
           );
         } catch (error) {
           const decryptionError = new ErrorResponse(
