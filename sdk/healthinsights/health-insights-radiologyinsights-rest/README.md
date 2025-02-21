@@ -39,243 +39,262 @@ To authenticate with AAD, you must first `npm` install [`@azure/identity`][ident
 
 After setup, you can choose which type of [credential][credential] from `@azure/identity` to use.
 As an example, [DefaultAzureCredential][defaultazurecredential]
-can be used to authenticate the client. See more info on defaultAzureCredentials [default_information]. 
+can be used to authenticate the client. See more info on defaultAzureCredentials [default_information].
 Managed Identities can also be used to authenticate through DefaultAzureCredential [managed_identity].
 
 ## Examples
 
 ### Create a RadiologyInsights asynchronous client
 
-```typescript
-const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
+```ts snippet:ReadmeSampleCreateClient_Node
+import { DefaultAzureCredential } from "@azure/identity";
+import RadiologyInsightsRestClient from "@azure-rest/health-insights-radiologyinsights";
+
+const endpoint = "https://<your-endpoint>";
 const credential = new DefaultAzureCredential();
 const client = RadiologyInsightsRestClient(endpoint, credential);
 ```
 
-
 ### Build a request, send it to the client and print out the description of a Critical Result Inference
 
-```typescript
+```ts snippet:ReadmeSampleCriticalResultInference
+import { DefaultAzureCredential } from "@azure/identity";
+import RadiologyInsightsRestClient, {
+  ClinicalDocumentTypeEnum,
+  isUnexpected,
+  getLongRunningPoller,
+  RadiologyProcedureInference,
+  Coding,
+  ImagingProcedure,
+} from "@azure-rest/health-insights-radiologyinsights";
 
-export async function main() {
-  const credential = new DefaultAzureCredential();
-  const client = AzureHealthInsightsClient(endpoint, credential);
- 
- // if you want to use DefaultAzureCredential in you test, you can use the createTestCredential to do the correct switches between node and browser tests
-  import { createTestCredential } from "@azure-tools/test-credential";
+const endpoint = "https://<your-endpoint>";
+const credential = new DefaultAzureCredential();
+const client = RadiologyInsightsRestClient(endpoint, credential);
 
-  export async function createTestClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
-  const endpoint = assertEnvironmentVariable("HEALTH_INSIGHTS_ENDPOINT");
-  const credential = createTestCredential();
-  return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
-}
+const codingData = {
+  system: "Http://hl7.org/fhir/ValueSet/cpt-all",
+  code: "24727-0",
+  display: "CT HEAD W CONTRAST IV",
+};
 
-  // Create request body
-  const radiologyInsightsParameter = createRequestBody();
+const code = {
+  coding: [codingData],
+};
 
-  // Initiate radiology insights job and retrieve results
-  // The jobID can be adapted by preference of the client, there are restrictions in size and it cannot contain spaces
-    const dateString = Date.now();
-    const jobID = "jobId-" + dateString;
-    const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
-  if (isUnexpected(initialResponse)) {
-    throw initialResponse;
-  }
-  const poller = await getLongRunningPoller(client, initialResponse);
-  const RadiologyInsightsResult = await poller.pollUntilDone();
-  if (isUnexpected(RadiologyInsightsResult)) {
-    throw RadiologyInsightsResult;
-  }
-  const resultBody = RadiologyInsightsResult.body;
-  printResults(resultBody);
-}
+const patientInfo = {
+  sex: "female",
+  birthDate: new Date("1959-11-11T19:00:00+00:00"),
+};
 
-function createRequestBody(): CreateJobParameters {
+const encounterData = {
+  id: "encounterid1",
+  period: {
+    start: "2021-8-28T00:00:00",
+    end: "2021-8-28T00:00:00",
+  },
+  class: "inpatient",
+};
 
-  const codingData = {
-    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-    code: "USPELVIS",
-    display: "US PELVIS COMPLETE"
-  };
-
-  const code = {
-    coding: [codingData]
-  };
-
-  const patientInfo = {
-    sex: "female",
-    birthDate: new Date("1959-11-11T19:00:00+00:00"),
-  };
-
-  const encounterData = {
-    id: "encounterid1",
-    period: {
-      "start": "2021-8-28T00:00:00",
-      "end": "2021-8-28T00:00:00"
-    },
-    class: "inpatient"
-  };
-
-  const authorData = {
+const authorData = {
   id: "authorid1",
   fullName: "authorname1",
 };
 
-  const orderedProceduresData = {
-    code: code,
-    description: "US PELVIS COMPLETE"
-  };
+const orderedProceduresData = {
+  code: code,
+  description: "CT HEAD W CONTRAST IV",
+};
 
-  const administrativeMetadata = {
-    orderedProcedures: [orderedProceduresData],
-    encounterId: "encounterid1"
-  };
+const administrativeMetadata = {
+  orderedProcedures: [orderedProceduresData],
+  encounterId: "encounterid1",
+};
 
-  const content = {
-    sourceType: "inline",
-    value: `CLINICAL HISTORY:   
-  20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy.
-   
-  COMPARISON:   
-  Right upper quadrant sonographic performed 1 day prior.
-   
-  TECHNIQUE:   
-  Transabdominal grayscale pelvic sonography with duplex color Doppler 
-  and spectral waveform analysis of the ovaries.
-   
-  FINDINGS:   
-  The uterus is unremarkable given the transabdominal technique with 
-  endometrial echo complex within physiologic normal limits. The 
-  ovaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the 
-  left measuring 2.8 x 1.5 x 1.9 cm.
-   
-  On duplex imaging, Doppler signal is symmetric.
-   
-  IMPRESSION:   
-  1. Normal pelvic sonography. Findings of testicular torsion.
-  A new US pelvis within the next 6 months is recommended.
+const content = {
+  sourceType: "inline",
+  value: ` Exam:  Head CT with Contrast
 
-  These results have been discussed with Dr. Jones at 3 PM on November 5 2020.`,
-  };
+    History:  Headaches for 2 months
+    Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast.
+    IV contrast:  100 mL IV Omnipaque 300.
 
-  const patientDocumentData = {
-    type: "note",
-    clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
-    id: "docid1",
-    language: "en",
-    authors: [authorData],
-    specialtyType: "radiology",
-    administrativeMetadata: administrativeMetadata,
-    content: content,
-    createdAt: new Date("2021-05-31T16:00:00.000Z"),
-    orderedProceduresAsCsv: "US PELVIS COMPLETE"
-  };
+    Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast.
+    However, there is no evidence of enhancing lesion in either internal auditory canal.
+    Impression: Negative CT of the brain without IV contrast.
+    I recommend a new brain CT within nine months.`,
+};
 
+const patientDocumentData = {
+  type: "note",
+  clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
+  id: "docid1",
+  language: "en",
+  authors: [authorData],
+  specialtyType: "radiology",
+  administrativeMetadata: administrativeMetadata,
+  content: content,
+  createdAt: new Date("2021-05-31T16:00:00.000Z"),
+  orderedProceduresAsCsv: "CT HEAD W CONTRAST IV",
+};
 
-  const patientData = {
-    id: "Samantha Jones",
-    details: patientInfo,
-    encounters: [encounterData],
-    patientDocuments: [patientDocumentData]
-  };
+const patientData = {
+  id: "Samantha Jones",
+  details: patientInfo,
+  encounters: [encounterData],
+  patientDocuments: [patientDocumentData],
+};
 
-  const inferenceTypes = [
-    "finding",
-    "ageMismatch",
-    "lateralityDiscrepancy",
-    "sexMismatch",
-    "completeOrderDiscrepancy",
-    "limitedOrderDiscrepancy",
-    "criticalResult",
-    "criticalRecommendation",
-    "followupRecommendation",
-    "followupCommunication",
-    "radiologyProcedure"];
+const inferenceTypes = [
+  "finding",
+  "ageMismatch",
+  "lateralityDiscrepancy",
+  "sexMismatch",
+  "completeOrderDiscrepancy",
+  "limitedOrderDiscrepancy",
+  "criticalResult",
+  "criticalRecommendation",
+  "followupRecommendation",
+  "followupCommunication",
+  "radiologyProcedure",
+];
 
-  const followupRecommendationOptions = {
-    includeRecommendationsWithNoSpecifiedModality: true,
-    includeRecommendationsInReferences: true,
-    provideFocusedSentenceEvidence: true
-  };
+const followupRecommendationOptions = {
+  includeRecommendationsWithNoSpecifiedModality: true,
+  includeRecommendationsInReferences: true,
+  provideFocusedSentenceEvidence: true,
+};
 
-  const findingOptions = {
-    provideFocusedSentenceEvidence: true
-  };
+const findingOptions = {
+  provideFocusedSentenceEvidence: true,
+};
 
-  const inferenceOptions = {
-    followupRecommendationOptions: followupRecommendationOptions,
-    findingOptions: findingOptions
-  };
+const inferenceOptions = {
+  followupRecommendationOptions: followupRecommendationOptions,
+  findingOptions: findingOptions,
+};
 
-  const configuration = {
-    inferenceOptions: inferenceOptions,
-    inferenceTypes: inferenceTypes,
-    locale: "en-US",
-    verbose: false,
-    includeEvidence: true
-  };
+// Create RI Configuration
+const configuration = {
+  inferenceOptions: inferenceOptions,
+  inferenceTypes: inferenceTypes,
+  locale: "en-US",
+  verbose: false,
+  includeEvidence: true,
+};
 
-  const radiologyInsightsData = {
+// create RI Data
+const radiologyInsightsJob = {
+  jobData: {
     patients: [patientData],
-    configuration: configuration
-  };
+    configuration: configuration,
+  },
+};
 
-  return {
-    body: radiologyInsightsData
-  }
+// Create request body
+const radiologyInsightsParameter = { body: radiologyInsightsJob };
 
+// Initiate radiology insights job and retrieve results
+const dateString = Date.now();
+const jobID = "jobId-" + dateString;
+const initialResponse = await client
+  .path("/radiology-insights/jobs/{id}", jobID)
+  .put(radiologyInsightsParameter);
+
+if (isUnexpected(initialResponse)) {
+  throw initialResponse.body.error;
 }
 
-function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
-  if (radiologyInsightsResult.status === "succeeded") {
-    const results = radiologyInsightsResult.result;
-    if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
-              }
+const poller = await getLongRunningPoller(client, initialResponse);
+const radiologyInsightsResult = await poller.pollUntilDone();
+
+if (isUnexpected(radiologyInsightsResult)) {
+  throw radiologyInsightsResult.body.error;
+}
+
+const result = radiologyInsightsResult.body.result;
+
+if (result) {
+  for (const patientResult of result.patientResults) {
+    if (patientResult.inferences) {
+      for (const inference of patientResult.inferences) {
+        if (inference.kind === "radiologyProcedure") {
+          console.log("Radiology Procedure Inference found");
+          const radiologyProcedureInference = inference as RadiologyProcedureInference;
+          for (const procedureCode of radiologyProcedureInference?.procedureCodes || []) {
+            console.log("   Procedure Codes: ");
+            displayCodes(procedureCode.coding);
+          }
+
+          if (radiologyProcedureInference.imagingProcedures) {
+            console.log("   Imaging Procedure Codes: ");
+            for (const imagingProcedure of radiologyProcedureInference.imagingProcedures) {
+              displayImaging(imagingProcedure);
             }
-          });
+          }
+
+          if (radiologyProcedureInference.orderedProcedure) {
+            console.log("   Ordered Procedure Codes: ");
+            displayCodes(radiologyProcedureInference.orderedProcedure.code?.coding);
+          }
+
+          if (radiologyProcedureInference.orderedProcedure.description) {
+            console.log(
+              `   Description: ${radiologyProcedureInference.orderedProcedure.description}`,
+            );
+          }
         }
-      });
+      }
     }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
-    }
+  }
+}
+
+function displayCodes(codingList: Coding[] | undefined) {
+  for (const coding of codingList || []) {
+    console.log(`      Coding: ${coding.code} , ${coding.display} (${coding.system})`);
+  }
+}
+
+function displayImaging(images: ImagingProcedure): void {
+  console.log("     Modality Codes: ");
+  displayCodes(images.modality.coding);
+  console.log("     Anatomy Codes: ");
+  displayCodes(images.anatomy.coding);
+  if (images.laterality) {
+    console.log("     Laterality Codes: ");
+    displayCodes(images.laterality.coding);
+  }
+  if (images.contrast) {
+    console.log("     Contrast Codes: ");
+    displayCodes(images.contrast.code.coding);
+  }
+  if (images.view) {
+    console.log("     View Codes: ");
+    displayCodes(images.view.code.coding);
   }
 }
 ```
+
 ### Print out the Age Mismatch Inference evidences
-```typescript
+
+```ts snippet:ReadmeSampleAgeMismatch
+import {
+  RadiologyInsightsJobOutput,
+  ExtensionOutput,
+} from "@azure-rest/health-insights-radiologyinsights";
+
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput, content: string): void {
-  if (radiologyInsightsResult.status === "succeeded") {
-    const results = radiologyInsightsResult.result;
-    if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference: any) => {
-            if (inference.kind === "ageMismatch") {
-              console.log("Age Mismatch Inference found: ");
-              const evidence = findAgeEvidence(inference.extension, content);
-              console.log("   Evidence: " + evidence);
-            }
-          });
-        }
-      });
-    }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
+  for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+    for (const inference of patientResult?.inferences || []) {
+      if (inference.kind === "ageMismatch") {
+        console.log("Age Mismatch Inference found: ");
+        const evidence = findAgeEvidence(inference.extension, content);
+        console.log("   Evidence: " + evidence);
+      }
     }
   }
 
-  function findAgeEvidence(extensions: any, content: string) {
+  function findAgeEvidence(extensions: ExtensionOutput[], content: string) {
     let offset = -1;
     let length = -1;
     let piece = "";
@@ -296,460 +315,413 @@ function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput, conte
     }
     return evidence;
   }
-
 }
 ```
 
 ### Print out the Complete Order Discrepancy Inference ordertype and its missing Body Parts and missing Body Part Measurements
 
-```typescript
+```ts snippet:ReadmeSampleCompleteOrderDiscrepancy
+import {
+  RadiologyInsightsJobOutput,
+  CompleteOrderDiscrepancyInference,
+  CodeableConcept,
+} from "@azure-rest/health-insights-radiologyinsights";
+
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
-  if (radiologyInsightsResult.status === "succeeded") {
-    const results = radiologyInsightsResult.result;
-    if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference: any) => {
-            if (inference.kind === "completeOrderDiscrepancy") {
-              console.log("Complete Order Discrepancy Inference found: ");
-              if ("orderType" in inference) {
-                console.log("   Ordertype: ");
-                displayCodes({ codeableConcept: inference.orderType });
-              };
+  for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+    for (const inference of patientResult?.inferences || []) {
+      if (inference.kind === "completeOrderDiscrepancy") {
+        const completeOrderDiscrepancyInference = inference as CompleteOrderDiscrepancyInference;
+        console.log("Complete Order Discrepancy Inference found: ");
+        console.log("   Ordertype: ");
+        displayCodes({ codeableConcept: completeOrderDiscrepancyInference.orderType });
 
-              inference.missingBodyParts?.forEach((bodyparts: any) => {
-                console.log("   Missing Body Parts: ");
-                displayCodes({ codeableConcept: bodyparts });
-              });
-
-              inference.missingBodyPartMeasurements?.forEach((bodymeasure: any) => {
-                console.log("   Missing Body Part Measurements: ");
-                displayCodes({ codeableConcept: bodymeasure });
-              });
-            }
-          });
+        for (const missingBodyPart of completeOrderDiscrepancyInference.missingBodyParts) {
+          console.log("   Missing Body Parts: ");
+          displayCodes({ codeableConcept: missingBodyPart });
         }
-      });
-    }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
-    }
-  }
 
-  function displayCodes({ codeableConcept }: { codeableConcept: any; }): void {
-    codeableConcept.coding?.forEach((coding: any) => {
-      if ("code" in coding) {
-        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+        for (const missingBodymeasure of completeOrderDiscrepancyInference.missingBodyPartMeasurements) {
+          console.log("   Missing Body Part Measurements: ");
+          displayCodes({ codeableConcept: missingBodymeasure });
+        }
       }
-    });
+    }
   }
 
+  function displayCodes({ codeableConcept }: { codeableConcept: CodeableConcept }): void {
+    for (const coding of codeableConcept.coding || []) {
+      console.log(`      Coding: ${coding.code}, ${coding.display} (${coding.system})`);
+    }
+  }
 }
 ```
 
 ### Print out the Finding Inference code, interpretation, Component codes and the section info
 
-```typescript
+```ts snippet:ReadmeSampleFindingInference
+import {
+  RadiologyInsightsJobOutput,
+  FindingInference,
+  CodeableConcept,
+  Extension,
+} from "@azure-rest/health-insights-radiologyinsights";
+
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
-  if (radiologyInsightsResult.status === "succeeded") {
-    const results = radiologyInsightsResult.result;
-    if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "finding") {
-              console.log("Finding Inference found: ");
+  if (radiologyInsightsResult.result) {
+    for (const patientResult of radiologyInsightsResult.result.patientResults) {
+      if (patientResult.inferences) {
+        for (const inference of patientResult.inferences) {
+          console.log("Finding Inference found: ");
+          if (inference.kind === "finding") {
+            const findingInference = inference as FindingInference;
 
-              let find = inference.finding;
-              if ("code" in find) {
-                let fcode = find.code;
-                console.log("   Code: ");
-                displayCodes(fcode);
-              }
-
-              find.interpretation?.forEach((inter: any) => {
-                console.log("   Interpretation: ");
-                displayCodes(inter);
-              });
-
-              inference.finding.component?.forEach((comp: { code: any; valueCodeableConcept: any }) => {
-                console.log("   Component code: ");
-                displayCodes(comp.code);
-                if ("valueCodeableConcept" in comp) {
-                  console.log("     Value component codeable concept: ");
-                  displayCodes(comp.valueCodeableConcept);
-                }
-              });
-
-              if ("extension" in inference) {
-                displaySectionInfo(inference);
-              };
-
+            if (findingInference.finding.code) {
+              console.log("   Code: ");
+              displayCodes(findingInference.finding.code);
             }
-          });
-        }
-      });
-    }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
-    }
-  }
 
-  function displayCodes(codeableConcept: any): void {
-    codeableConcept.coding?.forEach((coding: any) => {
-      if ("code" in coding) {
-        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
-      }
-    });
-  }
+            for (const interpretation of findingInference.finding.interpretation) {
+              console.log("   Interpretation: ");
+              displayCodes(interpretation);
+            }
 
-  function displaySectionInfo(inference: { extension: any[]; }) {
-    inference.extension?.forEach((ext: any) => {
-      if ("url" in ext && ext.url === "section") {
-        console.log("   Section:");
-        ext.extension?.forEach((subextension: { url: string; valueString: string; }) => {
-          if ("url" in subextension && "valueString" in subextension) {
-            console.log("      " + subextension.url + ": " + subextension.valueString);
+            for (const component of findingInference.finding.component) {
+              console.log("   Component code: ");
+              displayCodes(component.code);
+              if (component.valueCodeableConcept) {
+                console.log("     Value component codeable concept: ");
+                displayCodes(component.valueCodeableConcept);
+              }
+            }
+
+            if (findingInference.extension) {
+              displaySectionInfo(findingInference);
+            }
           }
-        });
+        }
       }
-    });
+    }
   }
 
+  function displayCodes(codeableConcept: CodeableConcept): void {
+    for (const coding of codeableConcept.coding || []) {
+      console.log(`      Coding: ${coding.code}, ${coding.display} (${coding.system})`);
+    }
+  }
+
+  function displaySectionInfo(inference: { extension?: Extension[] }) {
+    for (const extension of inference.extension || []) {
+      if (extension.url === "section") {
+        console.log("   Section:");
+        for (const { url, valueString } of extension.extension || []) {
+          console.log(`      ${url}: ${valueString}`);
+        }
+      }
+    }
+  }
 }
 ```
 
 ### Print out the Follow Up Communication Inference date and recipient
 
-```typescript
+```ts snippet:ReadmeSampleFollowUpCommunication
+import {
+  RadiologyInsightsJobOutput,
+  FollowupCommunicationInference,
+} from "@azure-rest/health-insights-radiologyinsights";
+
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
-  if (radiologyInsightsResult.status === "succeeded") {
-    const results = radiologyInsightsResult.result;
-    if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach((inference: { kind: string; communicatedAt: any[]; recipient: any[]; wasAcknowledged: string; }) => {
-          if (inference.kind === "followupCommunication") {
-            console.log("Followup Communication Inference found");
-            if ("communicatedAt" in inference) {
-              console.log("Communicated at: " + inference.communicatedAt.join(" "));
-            }
-            if ("recipient" in inference) {
-              console.log("Recipient: " + inference.recipient.join(" "));
-            }
-            console.log("   Aknowledged: " + inference.wasAcknowledged);
-          }
-        });
-      });
-    }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
+  for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+    for (const inference of patientResult?.inferences || []) {
+      if (inference.kind === "followupCommunication") {
+        const followupCommunicationInference = inference as FollowupCommunicationInference;
+        console.log("Followup Communication Inference found");
+        if (followupCommunicationInference.communicatedAt) {
+          console.log(
+            `Communicated at: ${followupCommunicationInference.communicatedAt.join(" ")}`,
+          );
+        }
+        if (followupCommunicationInference.recipient) {
+          console.log(`Recipient: ${followupCommunicationInference.recipient.join(" ")}`);
+        }
+        console.log(`   Acknowledged: ${followupCommunicationInference.wasAcknowledged}`);
+      }
     }
   }
-
 }
 ```
 
 ### Print out the Follow Up Recommendation Inference booleans, Generic Procedure code, description and Imaging Procedure codes
 
-```typescript
+```ts snippet:ReadmeSampleFollowUpRecommendation
+import {
+  RadiologyInsightsJobOutput,
+  FollowupRecommendationInference,
+  GenericProcedureRecommendation,
+  ImagingProcedureRecommendation,
+  CodeableConcept,
+  ImagingProcedure,
+} from "@azure-rest/health-insights-radiologyinsights";
+
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
-  if (radiologyInsightsResult.status === "succeeded") {
-    const results = radiologyInsightsResult.result;
-    if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach((inference: { kind: string; isConditional: any; isGuideline: any; isHedging: any; isOption: any; recommendedProcedure: any; }) => {
-          if (inference.kind === "followupRecommendation") {
-            console.log("Follow Up Recommendation Inference found");
-            console.log("   Is conditional: ", inference.isConditional);
-            console.log("   Is guidline: ", inference.isGuideline);
-            console.log("   Is hedging: ", inference.isHedging);
-            console.log("   Is option: ", inference.isOption);
+  for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+    for (const inference of patientResult?.inferences || []) {
+      if (inference.kind === "followupRecommendation") {
+        const followupRecommendationInference = inference as FollowupRecommendationInference;
 
-            var procedure = inference.recommendedProcedure;
-            if ("kind" in procedure && procedure.kind === "genericProcedureRecommendation") {
-              if ("code" in procedure) {
-                console.log("   Recommended Generic Procedure: ", procedure.code);
-              }
-              if ("description" in procedure) {
-                console.log("   Description: ", procedure.description);
-              }
-            } else if ("kind" in procedure && procedure.kind === "imagingProcedureRecommendation") {
-              procedure.procedureCodes?.forEach((procedureCode: any) => {
-                console.log("   Recommended Procedure Codes: ");
-                displayCodes(procedureCode);
-              });
+        console.log("Follow Up Recommendation Inference found");
+        console.log(`   Is conditional: ${followupRecommendationInference.isConditional}`);
+        console.log(`   Is guideline: ${followupRecommendationInference.isGuideline}`);
+        console.log(`   Is hedging: ${followupRecommendationInference.isHedging}`);
+        console.log(`   Is option: ${followupRecommendationInference.isOption}`);
 
-              if ("imagingProcedures" in procedure) {
-                procedure.imagingProcedures?.forEach((imagingProcedure: any) => {
-                  console.log("   Recommended Imaging Procedure Codes: ");
-                  displayImaging(imagingProcedure);
-                });
-              }
-            }
+        const procedure = followupRecommendationInference.recommendedProcedure;
+        if (procedure.kind === "genericProcedureRecommendation") {
+          const genericProcedureRecommendation = procedure as GenericProcedureRecommendation;
+          console.log(`   Recommended Generic Procedure: ${genericProcedureRecommendation.code}`);
+          console.log(`   Description: ${genericProcedureRecommendation.description}`);
+        } else if (procedure.kind === "imagingProcedureRecommendation") {
+          const imagingProcedureRecommendation = procedure as ImagingProcedureRecommendation;
+
+          for (const procedureCode of imagingProcedureRecommendation?.procedureCodes || []) {
+            console.log("   Recommended Procedure Codes: ");
+            displayCodes(procedureCode);
           }
-        });
-      });
-    }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
-    }
-  }
 
-  function displayCodes(codeableConcept: any): void {
-    codeableConcept.coding?.forEach((coding: any) => {
-      if ("code" in coding) {
-        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+          for (const imagingProcedure of imagingProcedureRecommendation?.imagingProcedures || []) {
+            console.log("   Recommended Imaging Procedure Codes: ");
+            displayImaging(imagingProcedure);
+          }
+        }
       }
-    });
+    }
   }
 
-  function displayImaging(images: { modality: { coding: any[]; }; anatomy: { coding: any[]; }; laterality: { coding: any[]; }; contrast: { code: { coding: any[]; }; }; view: { code: { coding: any[]; }; }; }) {
+  function displayCodes(codeableConcept: CodeableConcept): void {
+    for (const coding of codeableConcept.coding || []) {
+      console.log(`      Coding: ${coding.code}, ${coding.display} (${coding.system})`);
+    }
+  }
+
+  function displayImaging(images: ImagingProcedure): void {
     console.log("   Modality Codes: ");
     displayCodes(images.modality);
     console.log("   Anatomy Codes: ");
     displayCodes(images.anatomy);
-    if ("laterality" in images) {
+    if (images.laterality) {
       console.log("   Laterality Codes: ");
       displayCodes(images.laterality);
     }
-    if ("contrast" in images) {
+    if (images.contrast) {
       console.log("   Contrast Codes: ");
       displayCodes(images.contrast.code);
     }
-    if ("view" in images) {
+    if (images.view) {
       console.log("   View Codes: ");
       displayCodes(images.view.code);
     }
   }
-
 }
 ```
 
 ### Print out the Laterality Discrepancy Inference code
 
-```typescript
+```ts snippet:ReadmeSampleLateralityDiscrepancy
+import {
+  RadiologyInsightsJobOutput,
+  LateralityDiscrepancyInference,
+  CodeableConcept,
+} from "@azure-rest/health-insights-radiologyinsights";
+
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
-  if (radiologyInsightsResult.status === "succeeded") {
-    const results = radiologyInsightsResult.result;
-    if (results !== undefined) {
-      results.patientResults.forEach((patientResult: any) => {
-        patientResult.inferences.forEach((inference: { kind: string; lateralityIndication: any }) => {
-          if (inference.kind === "lateralityDiscrepancy") {
-            console.log("Laterality Discrepancy Inference found: ");
-            displayCodes(inference.lateralityIndication);
-          }
-        });
-      });
-    }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
-    }
-  }
-
-  function displayCodes(codeableConcept: any): void {
-    codeableConcept.coding?.forEach((coding: any) => {
-      if ("code" in coding) {
-        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + "), type: " + coding.type);
+  for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+    for (const inference of patientResult?.inferences || []) {
+      if (inference.kind === "lateralityDiscrepancy") {
+        const lateralityDiscrepancyInference = inference as LateralityDiscrepancyInference;
+        console.log("Laterality Discrepancy Inference found: ");
+        displayCodes(lateralityDiscrepancyInference.lateralityIndication);
       }
-    });
+    }
   }
 
+  function displayCodes(codeableConcept: CodeableConcept): void {
+    for (const coding of codeableConcept.coding || []) {
+      console.log(`      Coding: ${coding.code}, ${coding.display} (${coding.system})`);
+    }
+  }
 }
 ```
 
 ### Print out the Limited Order Discrepancy Inference ordertype with present Body Parts and present Body Part Measurements
 
-```typescript
+```ts snippet:ReadmeSampleLimitedOrderDiscrepancy
+import {
+  RadiologyInsightsJobOutput,
+  LimitedOrderDiscrepancyInference,
+  CodeableConcept,
+} from "@azure-rest/health-insights-radiologyinsights";
+
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
-  if (radiologyInsightsResult.status === "succeeded") {
-    const results = radiologyInsightsResult.result;
-    if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "limitedOrderDiscrepancy") {
-              console.log("Limited Order Discrepancy Inference found: ");
-              if ("orderType" in inference) {
-                console.log("   Ordertype: ");
-                displayCodes(inference.orderType);
-              };
+  for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+    for (const inference of patientResult?.inferences || []) {
+      if (inference.kind === "limitedOrderDiscrepancy") {
+        const limitedOrderDiscrepancyInference = inference as LimitedOrderDiscrepancyInference;
 
-              inference.presentBodyParts?.forEach((bodyparts: any) => {
-                console.log("   Present Body Parts: ");
-                displayCodes(bodyparts);
-              });
+        console.log("Limited Order Discrepancy Inference found: ");
+        console.log("   Ordertype: ");
+        displayCodes(limitedOrderDiscrepancyInference.orderType);
 
-              inference.presentBodyPartMeasurements?.forEach((bodymeasure: any) => {
-                console.log("   Present Body Part Measurements: ");
-                displayCodes(bodymeasure);
-              });
-            }
-          });
+        for (const presentBodyParts of limitedOrderDiscrepancyInference?.presentBodyParts || []) {
+          console.log("   Present Body Parts: ");
+          displayCodes(presentBodyParts);
         }
-      });
-    }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
-    }
-  }
 
-  function displayCodes(codeableConcept: any): void {
-    codeableConcept.coding?.forEach((coding: any) => {
-      if ("code" in coding) {
-        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+        for (const presentBodymeasure of limitedOrderDiscrepancyInference?.presentBodyPartMeasurements ||
+          []) {
+          console.log("   Present Body Part Measurements: ");
+          displayCodes(presentBodymeasure);
+        }
       }
-    });
+    }
   }
 
+  function displayCodes(codeableConcept: CodeableConcept): void {
+    for (const coding of codeableConcept.coding || []) {
+      console.log(`      Coding: ${coding.code}, ${coding.display} (${coding.system})`);
+    }
+  }
 }
 ```
 
 ### Print out the Radiology Procedure Inference codes, Imaging Procedure codes and Order Procedure Codes and its description
 
-```typescript
+```ts snippet:ReadmeSampleRadiologyProcedure
+import {
+  RadiologyInsightsJobOutput,
+  RadiologyProcedureInference,
+  CodeableConcept,
+  ImagingProcedure,
+} from "@azure-rest/health-insights-radiologyinsights";
+
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
-  if (radiologyInsightsResult.status === "succeeded") {
-    const results = radiologyInsightsResult.result;
-    if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "radiologyProcedure") {
-              console.log("Radiology Procedure Inference found");
-              inference.procedureCodes?.forEach((procedureCode: any) => {
-                console.log("   Procedure Codes: ");
-                displayCodes(procedureCode);
-              });
+  for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+    for (const inference of patientResult?.inferences || []) {
+      if (inference.kind === "radiologyProcedure") {
+        const radiologyProcedureInference = inference as RadiologyProcedureInference;
+        console.log("Radiology Procedure Inference found");
 
-              if ("imagingProcedures" in inference) {
-                inference.imagingProcedures?.forEach((imagingProcedure: any) => {
-                  console.log("   Imaging Procedure Codes: ");
-                  displayImaging(imagingProcedure);
-                });
-              }
-
-              if ("orderedProcedure" in inference) {
-                console.log("   Ordered procedures: ");
-                if ("code" in inference.orderedProcedure) {
-                  displayCodes(inference.orderedProcedure.code);
-                }
-              }
-
-              if ("description" in inference.orderedProcedure) {
-                console.log("   Description: " + inference.orderedProcedure.description);
-              }
-            }
-          });
+        for (const procedureCode of radiologyProcedureInference?.procedureCodes || []) {
+          console.log("   Procedure Codes: ");
+          displayCodes(procedureCode);
         }
-      });
-    }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
-    }
-  }
 
-  function displayCodes(codeableConcept: any): void {
-    codeableConcept.coding?.forEach((coding: any) => {
-      if ("code" in coding) {
-        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+        for (const imagingProcedure of radiologyProcedureInference?.imagingProcedures || []) {
+          console.log("   Imaging Procedure Codes: ");
+          displayImaging(imagingProcedure);
+        }
+
+        if (radiologyProcedureInference.orderedProcedure) {
+          console.log("   Ordered Procedure Codes: ");
+          displayCodes(radiologyProcedureInference.orderedProcedure.code);
+        }
+
+        if (radiologyProcedureInference.orderedProcedure.description) {
+          console.log(
+            `   Description: ${radiologyProcedureInference.orderedProcedure.description}`,
+          );
+        }
       }
-    });
+    }
   }
 
-  function displayImaging(images: any): void {
+  function displayCodes(codeableConcept: CodeableConcept): void {
+    for (const coding of codeableConcept.coding || []) {
+      console.log(`      Coding: ${coding.code}, ${coding.display} (${coding.system})`);
+    }
+  }
+
+  function displayImaging(images: ImagingProcedure): void {
     console.log("   Modality Codes: ");
     displayCodes(images.modality);
     console.log("   Anatomy Codes: ");
     displayCodes(images.anatomy);
-    if ("laterality" in images) {
+    if (images.laterality) {
       console.log("   Laterality Codes: ");
       displayCodes(images.laterality);
     }
-    if ("contrast" in images) {
+    if (images.contrast) {
       console.log("   Contrast Codes: ");
       displayCodes(images.contrast.code);
     }
-    if ("view" in images) {
+    if (images.view) {
       console.log("   View Codes: ");
       displayCodes(images.view.code);
     }
   }
-
 }
 ```
 
 ### Print out the Sex Mismatch Inference code
 
-```typescript
+```ts snippet:ReadmeSampleSexMismatch
+import {
+  RadiologyInsightsJobOutput,
+  SexMismatchInference,
+  CodeableConcept,
+} from "@azure-rest/health-insights-radiologyinsights";
+
 function printResults(radiologyInsightsResult: RadiologyInsightsJobOutput): void {
-  if (radiologyInsightsResult.status === "succeeded") {
-    const results = radiologyInsightsResult.result;
-    if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "sexMismatch") {
-              console.log("Sex Mismatch Inference found: ");
-              if ("sexIndication" in inference) {
-                displayCodes(inference.sexIndication)
-              }
-            }
-          });
-        }
-      });
-    }
-  } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
-    }
-  }
-
-  function displayCodes(codeableConcept: any): void {
-    codeableConcept.coding?.forEach((coding: any) => {
-      if ("code" in coding) {
-        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+  for (const patientResult of radiologyInsightsResult?.result?.patientResults || []) {
+    for (const inference of patientResult?.inferences || []) {
+      if (inference.kind === "sexMismatch") {
+        const sexMismatchInference = inference as SexMismatchInference;
+        console.log("Sex Mismatch Inference found: ");
+        displayCodes(sexMismatchInference.sexIndication);
       }
-    });
+    }
   }
 
+  function displayCodes(codeableConcept: CodeableConcept): void {
+    for (const coding of codeableConcept.coding || []) {
+      console.log(`      Coding: ${coding.code}, ${coding.display} (${coding.system})`);
+    }
+  }
 }
-
 ```
+
 ## Using a Managed Identity require changes in adding the clientID of your managed identity as a const, adding it to you DefaultAzureCredential and add the Authorization Header
 
-```typescript
-const clientID = process.env["MANAGED_IDENTITY_CLIENT_ID"] || "";
-...
+```ts snippet:ReadmeSampleManagedIdentity
+import { DefaultAzureCredential } from "@azure/identity";
+import RadiologyInsightsRestClient from "@azure-rest/health-insights-radiologyinsights";
 
-//Create Managed Identity Credential
-  const credential = new DefaultAzureCredential(
-    clientID ? { managedIdentityClientId: clientID } : undefined,
-  );
-  const tokenResponse = await credential.getToken('https://cognitiveservices.azure.com/.default');
-  logger.info(null, `Got token for Cognitive Services ${tokenResponse?.token}`);
+const managedIdentityClientId = "<client-id>";
+const endpoint = "https://<your-endpoint>";
+const credential = new DefaultAzureCredential({ managedIdentityClientId });
+const client = RadiologyInsightsRestClient(endpoint, credential);
 
-  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter, {
+const tokenResponse = await credential.getToken("https://cognitiveservices.azure.com/.default");
+
+const jobID = "jobId-123456789";
+const radiologyInsightsJob = {
+  jobData: {
+    patients: [],
+    configuration: {},
+  },
+};
+
+// Create request body
+const radiologyInsightsParameter = { body: radiologyInsightsJob };
+// Create request body
+const initialResponse = await client
+  .path("/radiology-insights/jobs/{id}", jobID)
+  .put(radiologyInsightsParameter, {
     headers: {
-      'Authorization': `Bearer ${tokenResponse?.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${tokenResponse?.token}`,
+      "Content-Type": "application/json",
     },
   });
-
 ```
 
 ## Troubleshooting
@@ -758,8 +730,8 @@ const clientID = process.env["MANAGED_IDENTITY_CLIENT_ID"] || "";
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -767,13 +739,14 @@ setLogLevel("info");
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 <!-- LINKS -->
+
 [health_insights]: https://learn.microsoft.com/azure/azure-health-insights/overview
 [radiology_insights_docs]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/
 [Source code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest
 [Package (NPM)]: https://www.npmjs.com/package/@azure-rest/health-insights-radiologyinsights
 [API reference documentation]: https://learn.microsoft.com/rest/api/cognitiveservices/healthinsights/operation-groups?view=rest-cognitiveservices-healthinsights-2024-04-01
 [Product Information]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/overview
-[Samples]:https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1
+[Samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
 [identity]: https://www.npmjs.com/package/@azure/identity
 [token_credential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token
