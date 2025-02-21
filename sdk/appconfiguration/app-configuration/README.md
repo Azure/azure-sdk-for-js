@@ -4,9 +4,9 @@
 
 ## Azure App Configuration Provider
 
-For most applications, we recommend starting with the [@azure/app-configuration-provider](https://www.npmjs.com/package/@azure/app-configuration-provider) library. The configuration provider library a higher-level abstraction built on top of `@azure/app-configuration`(this SDK). It simplifies the process of loading configuration settings into your application by integrating them into a unified, read-only `Map`-like configuration object and supports [additional features](https://learn.microsoft.com/azure/azure-app-configuration/configuration-provider-overview#feature-development-status). For more information, please go to the [Quickstart](https://learn.microsoft.com/azure/azure-app-configuration/quickstart-javascript-provider)
+For most applications, we recommend starting with the [@azure/app-configuration-provider](https://www.npmjs.com/package/@azure/app-configuration-provider) library. The configuration provider library a higher-level abstraction built on top of `@azure/app-configuration`(this SDK). It simplifies the process of loading configuration settings into your application by integrating them into a unified, read-only `Map`-like configuration object and supports [additional features](https://learn.microsoft.com/azure/azure-app-configuration/configuration-provider-overview#feature-development-status). For more information, please go to the [Quickstart: Create a JavaScript app with Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/quickstart-javascript-provider)
 
-**Note**: If you use feature flags in Azure App Configuration, we recommend you to use the configuration provider alongside the [feature management](https://www.npmjs.com/package/@microsoft/feature-management) library, which are designed to work together.
+**Note**: If you use feature flags in Azure App Configuration, we recommend you to use the configuration provider alongside the [feature management](https://www.npmjs.com/package/@microsoft/feature-management) library, which are designed to work together. For more information, please go to the [Quickstart: Add feature flags to a JavaScript app](https://learn.microsoft.com/azure/azure-app-configuration/quickstart-feature-flag-javascript).
 
 ## When to use this SDK?
 
@@ -20,7 +20,7 @@ Use [`@azure/app-configuration-provider`](https://www.npmjs.com/package/@azure/a
 - Load configuration data effortlessly
 - Integrate with feature management
 
-Both packages complement each other and can even be used together in more complex scenarios, but they cater to different needs depending on whether you’re managing or simply using configuration data.
+Both libraries complement each other and can even be used together in more complex scenarios.
 
 ## Getting started
 
