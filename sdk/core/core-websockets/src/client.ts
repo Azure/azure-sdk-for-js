@@ -96,10 +96,10 @@ function buildClient<WebSocketT>(
 
   return {
     undici: (options: Undici.WebSocketClientUndiciOptions = {}) => {
-      const { undiciOptions: undiciOptions } = options;
+      const { undiciOptions } = options;
       try {
         return withConnectionManager(
-          createUndici(urlObj, { protocols, undiciOptions: undiciOptions }),
+          createUndici(urlObj, { protocols, undiciOptions }),
           restOptions,
         ) as ReturnType<WebsocketClientAdapter<unknown>["undici"]>;
       } catch (err) {

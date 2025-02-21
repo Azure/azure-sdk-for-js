@@ -8,15 +8,15 @@ import { buildWebSocketClientTests } from "../webSocketClient.js";
 import { getSecureServerAddress } from "../../utils/injectables.js";
 import { createTestFullName } from "@azure-tools/test-utils-vitest";
 
-buildWebSocketClientTests("ws", (url, options) => createWebSocketClient(url, options).undici());
+buildWebSocketClientTests("undici", (url, options) => createWebSocketClient(url, options).undici());
 
-const nodeVersion = Number(process.versions.node.split(".")[0]);
+const [nodeVersion, minorVersion] = process.versions.node.split(".").map(Number);
 if (nodeVersion >= 23) {
   buildWebSocketClientTests("NodeJS Native", (url, options) =>
     createWebSocketClient(url, options).web(),
   );
-} else {
-  describe("[web] Is not available in NodeJS < v23", () => {
+} else if (minorVersion < 10 && nodeVersion <= 20) {
+  describe("[web] Is not available in NodeJS < v20.10", () => {
     const secureServerUrl = getSecureServerAddress();
     let identifier: string;
     beforeEach(async (test) => {

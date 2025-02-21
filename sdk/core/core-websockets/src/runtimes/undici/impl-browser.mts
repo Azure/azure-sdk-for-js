@@ -6,7 +6,6 @@ import type { WebSocketData } from "../../models/public.js";
 import type { WebSocketImplOptions, WithSocket } from "../../models/internal.js";
 import type { WebSocketClientUndiciOptions } from "./models.js";
 
-
 export function create(
   _url: string,
   _options: WebSocketImplOptions & WebSocketClientUndiciOptions = {},
