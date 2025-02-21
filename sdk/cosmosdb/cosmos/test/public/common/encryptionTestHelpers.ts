@@ -556,7 +556,6 @@ export async function validateQueryResults(
   const docs: TestDoc[] = [];
   while (iterator.hasMoreResults()) {
     const response = await iterator.fetchNext();
-    // console.log(response)
     totalDocs += response.resources.length;
     if (response.resources.length !== 0) {
       verifyDiagnostics(

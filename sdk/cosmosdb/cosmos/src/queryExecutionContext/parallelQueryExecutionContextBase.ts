@@ -112,9 +112,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
         logger.info(
           "Query starting against " +
-          targetPartitionRanges.length +
-          " ranges with parallelism of " +
-          maxDegreeOfParallelism,
+            targetPartitionRanges.length +
+            " ranges with parallelism of " +
+            maxDegreeOfParallelism,
         );
 
         let filteredPartitionKeyRanges = [];
@@ -383,12 +383,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         try {
           const maxDegreeOfParallelism =
             this.options.maxDegreeOfParallelism === undefined ||
-              this.options.maxDegreeOfParallelism < 1
+            this.options.maxDegreeOfParallelism < 1
               ? this.unfilledDocumentProducersQueue.size()
               : Math.min(
-                this.options.maxDegreeOfParallelism,
-                this.unfilledDocumentProducersQueue.size(),
-              );
+                  this.options.maxDegreeOfParallelism,
+                  this.unfilledDocumentProducersQueue.size(),
+                );
 
           const documentProducers: DocumentProducer[] = [];
           while (

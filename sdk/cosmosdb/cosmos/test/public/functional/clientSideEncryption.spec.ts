@@ -550,9 +550,9 @@ describe("ClientSideEncryption", function (this: Suite) {
 
     const queryBuilder = new EncryptionQueryBuilder(
       "SELECT * FROM c where c.sensitive_StringFormat = @sensitive_StringFormat AND c.sensitive_ArrayFormat = @sensitive_ArrayFormat" +
-      " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
-      " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
-      " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
+        " AND c.sensitive_IntFormat = @sensitive_IntFormat" +
+        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_StringFormatL2 = @sensitive_StringFormatL2" +
+        " AND c.sensitive_NestedObjectFormatL1.sensitive_NestedObjectFormatL2.sensitive_DecimalFormatL2 = @sensitive_DecimalFormatL2",
     );
     // null parameters should also work with other add methods
     queryBuilder.addStringParameter(
@@ -666,11 +666,13 @@ describe("ClientSideEncryption", function (this: Suite) {
       testDoc1.sensitive_FloatFormat,
       "/sensitive_FloatFormat",
     );
-    await validateQueryResults(encryptionQueryContainer, queryBuilder, [
-      testDoc1,
-      testDoc2,
-      testDoc3,
-    ], true, 36);
+    await validateQueryResults(
+      encryptionQueryContainer,
+      queryBuilder,
+      [testDoc1, testDoc2, testDoc3],
+      true,
+      36,
+    );
 
     // with encrypted int and non encrypted properties
     const testDoc4 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
@@ -687,10 +689,12 @@ describe("ClientSideEncryption", function (this: Suite) {
 
     // without adding param
     queryBuilder = new EncryptionQueryBuilder("SELECT c.sensitive_DateFormat FROM c");
-    const expectedRes = [{ sensitive_DateFormat: testDoc1.sensitive_DateFormat },
-    { sensitive_DateFormat: testDoc2.sensitive_DateFormat },
-    { sensitive_DateFormat: testDoc3.sensitive_DateFormat },
-    { sensitive_DateFormat: testDoc4.sensitive_DateFormat }];
+    const expectedRes = [
+      { sensitive_DateFormat: testDoc1.sensitive_DateFormat },
+      { sensitive_DateFormat: testDoc2.sensitive_DateFormat },
+      { sensitive_DateFormat: testDoc3.sensitive_DateFormat },
+      { sensitive_DateFormat: testDoc4.sensitive_DateFormat },
+    ];
     await validateQueryResults(encryptionQueryContainer, queryBuilder, expectedRes, true, 4);
   });
 
