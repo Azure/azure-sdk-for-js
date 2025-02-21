@@ -37,7 +37,7 @@ import {
   DatabasesFlushOptionalParams,
   DatabasesUpgradeDBRedisVersionOptionalParams,
   DatabasesUpgradeDBRedisVersionResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Databases. */

@@ -7,9 +7,7 @@
  */
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a server's blob auditing policy.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a server's blob auditing policy.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ServerBlobAuditingGet.json
  */
-async function getAServerBlobAuditingPolicy() {
+async function getAServerBlobAuditingPolicy(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "blobauditingtest-4799";
@@ -28,7 +26,7 @@ async function getAServerBlobAuditingPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAServerBlobAuditingPolicy();
 }
 

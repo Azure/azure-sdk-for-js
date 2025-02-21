@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified network security group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the specified network security group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkSecurityGroupDelete.json
  */
-async function deleteNetworkSecurityGroup() {
+async function deleteNetworkSecurityGroup(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const networkSecurityGroupName = "testnsg";
@@ -33,7 +31,7 @@ async function deleteNetworkSecurityGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteNetworkSecurityGroup();
 }
 

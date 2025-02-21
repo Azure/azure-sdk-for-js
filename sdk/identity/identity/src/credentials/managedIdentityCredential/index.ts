@@ -15,7 +15,7 @@ import { formatSuccess, formatError, credentialLogger } from "../../util/logging
 import { tracingClient } from "../../util/tracing.js";
 import { imdsMsi } from "./imdsMsi.js";
 import { tokenExchangeMsi } from "./tokenExchangeMsi.js";
-import { mapScopesToResource } from "./utils.js";
+import { mapScopesToResource, serviceFabricErrorMessage } from "./utils.js";
 import type { MsalToken, ValidMsalToken } from "../../msal/types.js";
 import type {
   ManagedIdentityCredentialClientIdOptions,
@@ -141,8 +141,9 @@ export class ManagedIdentityCredential implements TokenCredential {
       },
     });
 
+    const managedIdentitySource = this.managedIdentityApp.getManagedIdentitySource();
     // CloudShell MSI will ignore any user-assigned identity passed as parameters. To avoid confusion, we prevent this from happening as early as possible.
-    if (this.managedIdentityApp.getManagedIdentitySource() === "CloudShell") {
+    if (managedIdentitySource === "CloudShell") {
       if (this.clientId || this.resourceId || this.objectId) {
         logger.warning(
           `CloudShell MSI detected with user-provided IDs - throwing. Received values: ${JSON.stringify(
@@ -155,6 +156,24 @@ export class ManagedIdentityCredential implements TokenCredential {
         );
         throw new CredentialUnavailableError(
           "ManagedIdentityCredential: Specifying a user-assigned managed identity is not supported for CloudShell at runtime. When using Managed Identity in CloudShell, omit the clientId, resourceId, and objectId parameters.",
+        );
+      }
+    }
+
+    // ServiceFabric does not support specifying user-assigned managed identity by client ID or resource ID. The managed identity selected is based on the resource configuration.
+    if (managedIdentitySource === "ServiceFabric") {
+      if (this.clientId || this.resourceId || this.objectId) {
+        logger.warning(
+          `Service Fabric detected with user-provided IDs - throwing. Received values: ${JSON.stringify(
+            {
+              clientId: this.clientId,
+              resourceId: this.resourceId,
+              objectId: this.objectId,
+            },
+          )}.`,
+        );
+        throw new CredentialUnavailableError(
+          `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
         );
       }
     }

@@ -8,9 +8,7 @@
 import type { CommunicationDetails } from "@azure/arm-support";
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Adds a new customer communication to an Azure support ticket.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Adds a new customer communication to an Azure support ticket.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/CreateNoSubscriptionSupportTicketCommunication.json
  */
-async function addCommunicationToNoSubscriptionTicket() {
+async function addCommunicationToNoSubscriptionTicket(): Promise<void> {
   const supportTicketName = "testticket";
   const communicationName = "testcommunication";
   const createCommunicationParameters: CommunicationDetails = {
@@ -36,7 +34,7 @@ async function addCommunicationToNoSubscriptionTicket() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await addCommunicationToNoSubscriptionTicket();
 }
 

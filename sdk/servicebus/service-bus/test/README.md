@@ -25,5 +25,3 @@ The live tests in this project will create queues, topics and subscriptions in t
 - In the Azure portal, go to your Azure Service Bus namespace and assign the **Azure Service Bus Data Owner** role to your user or managed identity.
 - This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Service Bus namespace in the azure-portal)
 - For more information on Service Bus RBAC setup: [Learn more](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-role-based-access-control)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2Ftest%2FREADME.png)

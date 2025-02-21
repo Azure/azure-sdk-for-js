@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ValidateOperationRequestResource,
   ValidateOperationTriggerOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ValidateOperation. */
 export interface ValidateOperation {

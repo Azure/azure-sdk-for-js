@@ -3,9 +3,7 @@
 
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * @summary Demonstrate how to  request the geometry data such as a city or country outline for a set of entities, previously retrieved from an Online Search request in GeoJSON format.

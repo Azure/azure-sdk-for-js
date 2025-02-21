@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Contains data from encryption.keyVaultProperties as well as information about which private endpoint is used by each encryption sibling set. Response from this endpoint can be modified and used as request body for POST request.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Contains data from encryption.keyVaultProperties as well as information about which private endpoint is used by each encryption sibling set. Response from this endpoint can be modified and used as request body for POST request.
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Accounts_GetChangeKeyVaultInformation.json
  */
-async function accountsGetChangeKeyVaultInformation() {
+async function accountsGetChangeKeyVaultInformation(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
@@ -35,7 +33,7 @@ async function accountsGetChangeKeyVaultInformation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   accountsGetChangeKeyVaultInformation();
 }
 

@@ -24,7 +24,7 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   ObjectReplicationPolicy as ObjectReplicationPolicyMapper,
   EncryptionScope as EncryptionScopeMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

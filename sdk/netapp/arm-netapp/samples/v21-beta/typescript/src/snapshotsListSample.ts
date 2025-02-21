@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetAppManagementClient } from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all snapshots associated with the volume
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all snapshots associated with the volume
  * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2024-07-01-preview/examples/Snapshots_List.json
  */
-async function snapshotsList() {
+async function snapshotsList(): Promise<void> {
   const subscriptionId =
     process.env["NETAPP_SUBSCRIPTION_ID"] ||
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
@@ -42,7 +40,7 @@ async function snapshotsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   snapshotsList();
 }
 

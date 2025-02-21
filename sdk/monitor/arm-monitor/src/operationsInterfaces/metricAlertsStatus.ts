@@ -11,7 +11,7 @@ import {
   MetricAlertsStatusListResponse,
   MetricAlertsStatusListByNameOptionalParams,
   MetricAlertsStatusListByNameResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MetricAlertsStatus. */
 export interface MetricAlertsStatus {

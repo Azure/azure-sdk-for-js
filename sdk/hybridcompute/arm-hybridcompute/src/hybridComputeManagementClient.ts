@@ -19,7 +19,7 @@ import {
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
+import { createLroSpec } from "./lroImpl.js";
 import {
   LicensesImpl,
   MachinesImpl,
@@ -35,7 +35,7 @@ import {
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
   NetworkSecurityPerimeterConfigurationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Licenses,
   Machines,
@@ -51,14 +51,14 @@ import {
   PrivateLinkResources,
   PrivateEndpointConnections,
   NetworkSecurityPerimeterConfigurations,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   HybridComputeManagementClientOptionalParams,
   MachineExtensionUpgrade,
   UpgradeExtensionsOptionalParams,
-} from "./models";
+} from "./models/index.js";
 
 export class HybridComputeManagementClient extends coreClient.ServiceClient {
   $host: string;

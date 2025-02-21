@@ -13,11 +13,11 @@ import { describe, it, assert, beforeEach, afterEach } from "vitest";
 describe("Authentication", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -44,15 +44,15 @@ describe("Authentication", function () {
 describe("Endpoint can be overwritten", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should be executed without specifying baseUrl", async function () {
+  it("should be executed without specifying baseUrl", async () => {
     const client = createClient(recorder.configureClientOptions({}));
     const response = await client.path("/timezone/byId/{format}", "json").get({
       queryParameters: { query: "America/New_York" },
@@ -61,7 +61,7 @@ describe("Endpoint can be overwritten", function () {
     assert.isOk(!isUnexpected(response));
   });
 
-  it("should be executed with different baseUrl", async function () {
+  it("should be executed with different baseUrl", async () => {
     const client = createClient(
       recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" }),
     );
@@ -77,16 +77,16 @@ describe("MapsTimeZone", () => {
   let recorder: Recorder;
   let client: ReturnType<typeof MapsTimeZone>;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("can get timezone by ID", async function () {
+  it("can get timezone by ID", async () => {
     const response = await client.path("/timezone/byId/{format}", "json").get({
       queryParameters: { query: "America/New_York" },
     });
@@ -100,7 +100,7 @@ describe("MapsTimeZone", () => {
     }
   });
 
-  it("can get timezone by coordinates", async function () {
+  it("can get timezone by coordinates", async () => {
     const response = await client.path("/timezone/byCoordinates/{format}", "json").get({
       queryParameters: { query: [40.7128, -74.006] },
     });
@@ -113,7 +113,7 @@ describe("MapsTimeZone", () => {
     }
   });
 
-  it("can get Windows timezone IDs", async function () {
+  it("can get Windows timezone IDs", async () => {
     const response = await client.path("/timezone/enumWindows/{format}", "json").get();
 
     if (isUnexpected(response)) {
@@ -123,7 +123,7 @@ describe("MapsTimeZone", () => {
     }
   });
 
-  it("can get IANA timezone IDs", async function () {
+  it("can get IANA timezone IDs", async () => {
     const response = await client.path("/timezone/enumIana/{format}", "json").get();
 
     if (isUnexpected(response)) {
@@ -133,7 +133,7 @@ describe("MapsTimeZone", () => {
     }
   });
 
-  it("can get IANA version", async function () {
+  it("can get IANA version", async () => {
     const response = await client.path("/timezone/ianaVersion/{format}", "json").get();
 
     if (isUnexpected(response)) {
@@ -143,7 +143,7 @@ describe("MapsTimeZone", () => {
     }
   });
 
-  it("can convert Windows timezone to IANA", async function () {
+  it("can convert Windows timezone to IANA", async () => {
     const response = await client.path("/timezone/windowsToIana/{format}", "json").get({
       queryParameters: { query: "Eastern Standard Time" },
     });

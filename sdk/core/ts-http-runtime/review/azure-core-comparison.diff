@@ -849,27 +849,23 @@ index 4ee4778..dc3b0f5 100644
      onUploadProgress: options.onUploadProgress,
      onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
-index 61ee1c1..e81a30d 100644
+index 261e271..e81a30d 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.18.3";
+-export const SDK_VERSION: string = "1.19.1";
 +export const SDK_VERSION: string = "0.1.0";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
-index 2a2bd41..6066e07 100644
+index fefe550..fb56a78 100644
 --- a/src/createPipelineFromOptions.ts
 +++ b/src/createPipelineFromOptions.ts
-@@ -3,18 +3,16 @@
- 
- import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
- import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
--import type { PipelineRetryOptions, TlsSettings, ProxySettings } from "./interfaces.js";
-+import type { PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
+@@ -6,16 +6,14 @@ import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
+ import type { Agent, PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
  import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
  import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
 -import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
@@ -880,13 +876,14 @@ index 2a2bd41..6066e07 100644
 +import { isNodeLike } from "./util/checkEnvironment.js";
  import { proxyPolicy } from "./policies/proxyPolicy.js";
 -import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
+ import { agentPolicy } from "./policies/agentPolicy.js";
  import { tlsPolicy } from "./policies/tlsPolicy.js";
 -import { tracingPolicy } from "./policies/tracingPolicy.js";
 +import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
  
  /**
   * Defines options that are used to configure the HTTP pipeline for
-@@ -88,15 +86,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
+@@ -95,15 +93,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
  
    pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
    pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
@@ -903,7 +900,7 @@ index 2a2bd41..6066e07 100644
      // Both XHR and Fetch expect to handle redirects automatically,
      // so only include this policy when we're in Node.
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index e9751e2..e4f8769 100644
+index 0c8c805..7086724 100644
 --- a/src/fetchHttpClient.ts
 +++ b/src/fetchHttpClient.ts
 @@ -1,7 +1,7 @@
@@ -916,10 +913,10 @@ index e9751e2..e4f8769 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index aa95065..65e7734 100644
+index 92a7ee9..65e7734 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,115 +9,71 @@ declare global {
+@@ -9,116 +9,71 @@ declare global {
    interface TransformStream<I = any, O = any> {}
  }
  
@@ -1062,6 +1059,7 @@ index aa95065..65e7734 100644
 -  type AuxiliaryAuthenticationHeaderPolicyOptions,
 -  auxiliaryAuthenticationHeaderPolicyName,
 -} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
+-export { agentPolicy, agentPolicyName } from "./policies/agentPolicy.js";
 -export {
 -  createFile,
 -  createFileFromStream,
@@ -1337,7 +1335,7 @@ index 3e33a3b..3654566 100644
 +  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(logLevel as any);
  }
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index 1ac007a..66abe50 100644
+index 0a4c224..e1cab2f 100644
 --- a/src/nodeHttpClient.ts
 +++ b/src/nodeHttpClient.ts
 @@ -5,7 +5,7 @@ import * as http from "node:http";
@@ -3210,7 +3208,7 @@ index bd11d61..3f6a12b 100644
  interface Crypto {
    randomUUID(): string;
 diff --git a/src/xhrHttpClient.ts b/src/xhrHttpClient.ts
-index 71bc439..c82fcb7 100644
+index 7e4d563..223f257 100644
 --- a/src/xhrHttpClient.ts
 +++ b/src/xhrHttpClient.ts
 @@ -1,7 +1,7 @@

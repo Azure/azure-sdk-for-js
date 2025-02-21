@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Portal } from "@azure/arm-portal";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets list of items that violate tenant's configuration.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets list of items that violate tenant's configuration.
  * x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/TenantConfiguration/GetListOfTenantConfigurationViolations.json
  */
-async function getListOfItemsThatViolateTenantConfiguration() {
+async function getListOfItemsThatViolateTenantConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["PORTAL_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function getListOfItemsThatViolateTenantConfiguration() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getListOfItemsThatViolateTenantConfiguration();
 }
 

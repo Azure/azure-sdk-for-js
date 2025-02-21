@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { CryptoCertificates } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { CryptoCertificates } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { IoTFirmwareDefenseClient } from "../ioTFirmwareDefenseClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { IoTFirmwareDefenseClient } from "../ioTFirmwareDefenseClient.js";
 import {
   CryptoCertificateResource,
   CryptoCertificatesListByFirmwareNextOptionalParams,
   CryptoCertificatesListByFirmwareOptionalParams,
   CryptoCertificatesListByFirmwareResponse,
   CryptoCertificatesListByFirmwareNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CryptoCertificates operations. */

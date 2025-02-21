@@ -7,9 +7,7 @@
  */
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the HDInsight clusters under the subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists all the HDInsight clusters under the subscription.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetLinuxHadoopAllClusters.json
  */
-async function getAllHadoopOnLinuxClusters() {
+async function getAllHadoopOnLinuxClusters(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
@@ -28,7 +26,7 @@ async function getAllHadoopOnLinuxClusters() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAllHadoopOnLinuxClusters();
 }
 

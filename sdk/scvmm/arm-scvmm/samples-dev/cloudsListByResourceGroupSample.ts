@@ -7,9 +7,7 @@
  */
 import { ScVmm } from "@azure/arm-scvmm";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of Clouds in a resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List of Clouds in a resource group.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/Clouds_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function cloudsListByResourceGroupMaximumSet() {
+async function cloudsListByResourceGroupMaximumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";
   const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "rgscvmm";
@@ -36,7 +34,7 @@ async function cloudsListByResourceGroupMaximumSet() {
  * @summary List of Clouds in a resource group.
  * x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/Clouds_ListByResourceGroup_MinimumSet_Gen.json
  */
-async function cloudsListByResourceGroupMinimumSet() {
+async function cloudsListByResourceGroupMinimumSet(): Promise<void> {
   const subscriptionId =
     process.env["SCVMM_SUBSCRIPTION_ID"] || "79332E5A-630B-480F-A266-A941C015AB19";
   const resourceGroupName = process.env["SCVMM_RESOURCE_GROUP"] || "rgscvmm";
@@ -49,7 +47,7 @@ async function cloudsListByResourceGroupMinimumSet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await cloudsListByResourceGroupMaximumSet();
   await cloudsListByResourceGroupMinimumSet();
 }

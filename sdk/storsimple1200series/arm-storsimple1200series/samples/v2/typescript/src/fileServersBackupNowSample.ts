@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Backup the file server now.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/FileServersBackupNow.json
  */
-async function fileServersBackupNow() {
+async function fileServersBackupNow(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HSDK-4XY4FI2IVG";
   const fileServerName = "HSDK-4XY4FI2IVG";

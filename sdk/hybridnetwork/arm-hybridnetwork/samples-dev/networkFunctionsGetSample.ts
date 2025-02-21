@@ -7,9 +7,7 @@
  */
 import { HybridNetworkManagementClient } from "@azure/arm-hybridnetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about the specified network function resource.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets information about the specified network function resource.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/NetworkFunctionGet.json
  */
-async function getNetworkFunctionResource() {
+async function getNetworkFunctionResource(): Promise<void> {
   const subscriptionId = process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
   const networkFunctionName = "testNf";
@@ -33,7 +31,7 @@ async function getNetworkFunctionResource() {
  * @summary Gets information about the specified network function resource.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/AzureCore/VirtualNetworkFunctionGet.json
  */
-async function getVirtualNetworkFunctionResourceOnAzureCore() {
+async function getVirtualNetworkFunctionResourceOnAzureCore(): Promise<void> {
   const subscriptionId = process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
   const networkFunctionName = "testNf";
@@ -49,7 +47,7 @@ async function getVirtualNetworkFunctionResourceOnAzureCore() {
  * @summary Gets information about the specified network function resource.
  * x-ms-original-file: specification/hybridnetwork/resource-manager/Microsoft.HybridNetwork/stable/2023-09-01/examples/AzureOperatorNexus/VirtualNetworkFunctionGet.json
  */
-async function getVirtualNetworkFunctionResourceOnAzureOperatorNexus() {
+async function getVirtualNetworkFunctionResourceOnAzureOperatorNexus(): Promise<void> {
   const subscriptionId = process.env["HYBRIDNETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HYBRIDNETWORK_RESOURCE_GROUP"] || "rg";
   const networkFunctionName = "testNf";
@@ -59,7 +57,7 @@ async function getVirtualNetworkFunctionResourceOnAzureOperatorNexus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getNetworkFunctionResource();
   await getVirtualNetworkFunctionResourceOnAzureCore();
   await getVirtualNetworkFunctionResourceOnAzureOperatorNexus();

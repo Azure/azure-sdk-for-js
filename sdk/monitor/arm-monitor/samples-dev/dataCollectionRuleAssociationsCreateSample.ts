@@ -11,9 +11,7 @@ import type {
 } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an association.
@@ -21,7 +19,7 @@ dotenv.config();
  * @summary Creates or updates an association.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRuleAssociationsCreate.json
  */
-async function createOrUpdateAssociation() {
+async function createOrUpdateAssociation(): Promise<void> {
   const resourceUri =
     "subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm";
   const associationName = "myAssociation";
@@ -40,7 +38,7 @@ async function createOrUpdateAssociation() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateAssociation();
 }
 

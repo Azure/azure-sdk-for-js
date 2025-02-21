@@ -25,7 +25,7 @@ import {
   TestOutput,
   SubscriptionsTestOutputOptionalParams,
   SubscriptionsTestOutputResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Subscriptions. */
 export interface Subscriptions {

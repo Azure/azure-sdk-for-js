@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Create or Update Subscription tenant policy for user's tenant.
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2021-10-01/examples/changeTenantPolicy.json
  */
-async function tenantPolicy() {
+async function tenantPolicy(): Promise<void> {
   const body: PutTenantPolicyRequestProperties = {
     blockSubscriptionsIntoTenant: true,
     blockSubscriptionsLeavingTenant: true,

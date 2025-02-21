@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { SqlVirtualMachineManagementClient } from "./sqlVirtualMachineManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { SqlVirtualMachineManagementClient } from "./sqlVirtualMachineManagementClient.js";
+export * from "./operationsInterfaces/index.js";

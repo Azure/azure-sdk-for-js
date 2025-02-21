@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ResourceManagementClient } from "@azure/arm-resources";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the entire set of tags on a resource or subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the entire set of tags on a resource or subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/GetTagsResource.json
  */
-async function getTagsOnAResource() {
+async function getTagsOnAResource(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function getTagsOnAResource() {
  * @summary Gets the entire set of tags on a resource or subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/GetTagsSubscription.json
  */
-async function getTagsOnASubscription() {
+async function getTagsOnASubscription(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -49,7 +47,7 @@ async function getTagsOnASubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getTagsOnAResource();
   getTagsOnASubscription();
 }

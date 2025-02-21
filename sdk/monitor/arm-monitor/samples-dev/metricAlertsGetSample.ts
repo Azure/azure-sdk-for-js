@@ -7,9 +7,7 @@
  */
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve an alert rule definition.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Retrieve an alert rule definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getDynamicMetricAlertMultipleResource.json
  */
-async function getADynamicAlertRuleForMultipleResources() {
+async function getADynamicAlertRuleForMultipleResources(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -34,7 +32,7 @@ async function getADynamicAlertRuleForMultipleResources() {
  * @summary Retrieve an alert rule definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getDynamicMetricAlertSingleResource.json
  */
-async function getADynamicAlertRuleForSingleResource() {
+async function getADynamicAlertRuleForSingleResource(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -51,7 +49,7 @@ async function getADynamicAlertRuleForSingleResource() {
  * @summary Retrieve an alert rule definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getWebTestMetricAlert.json
  */
-async function getAWebTestAlertRule() {
+async function getAWebTestAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789101";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "rg-example";
@@ -68,7 +66,7 @@ async function getAWebTestAlertRule() {
  * @summary Retrieve an alert rule definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getMetricAlertMultipleResource.json
  */
-async function getAnAlertRuleForMultipleResources() {
+async function getAnAlertRuleForMultipleResources(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -85,7 +83,7 @@ async function getAnAlertRuleForMultipleResources() {
  * @summary Retrieve an alert rule definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getMetricAlertSingleResource.json
  */
-async function getAnAlertRuleForSingleResource() {
+async function getAnAlertRuleForSingleResource(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -102,7 +100,7 @@ async function getAnAlertRuleForSingleResource() {
  * @summary Retrieve an alert rule definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getMetricAlertResourceGroup.json
  */
-async function getAnAlertRuleOnResourceGroupS() {
+async function getAnAlertRuleOnResourceGroupS(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest1";
@@ -119,7 +117,7 @@ async function getAnAlertRuleOnResourceGroupS() {
  * @summary Retrieve an alert rule definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/getMetricAlertSubscription.json
  */
-async function getAnAlertRuleOnSubscription() {
+async function getAnAlertRuleOnSubscription(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -130,7 +128,7 @@ async function getAnAlertRuleOnSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getADynamicAlertRuleForMultipleResources();
   await getADynamicAlertRuleForSingleResource();
   await getAWebTestAlertRule();

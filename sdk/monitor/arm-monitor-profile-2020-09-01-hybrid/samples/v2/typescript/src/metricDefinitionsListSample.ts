@@ -13,9 +13,7 @@ import {
   MonitorClient
 } from "@azure/arm-monitor-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the metric definitions for the resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the metric definitions for the resource.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetricDefinitionsApplicationInsights.json
  */
-async function getApplicationInsightsMetricDefinitionsWithoutFilter() {
+async function getApplicationInsightsMetricDefinitionsWithoutFilter(): Promise<void> {
   const resourceUri =
     "subscriptions/182c901a-129a-4f5d-86e4-cc6b294590a2/resourceGroups/hyr-log/providers/microsoft.insights/components/f1-bill/providers/microsoft.insights/metricdefinitions";
   const metricnamespace = "microsoft.insights/components";
@@ -43,7 +41,7 @@ async function getApplicationInsightsMetricDefinitionsWithoutFilter() {
  * @summary Lists the metric definitions for the resource.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetricDefinitions.json
  */
-async function getMetricDefinitionsWithoutFilter() {
+async function getMetricDefinitionsWithoutFilter(): Promise<void> {
   const resourceUri =
     "subscriptions/07c0b09d-9f69-4e6e-8d05-f59f67299cb2/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/alertruleTest/providers/microsoft.insights/metricDefinitions";
   const metricnamespace = "Microsoft.Web/sites";
@@ -63,7 +61,7 @@ async function getMetricDefinitionsWithoutFilter() {
  * @summary Lists the metric definitions for the resource.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetricDefinitionsMetricClass.json
  */
-async function getStorageCacheMetricDefinitionsWithMetricClass() {
+async function getStorageCacheMetricDefinitionsWithMetricClass(): Promise<void> {
   const resourceUri =
     "subscriptions/46841c0e-69c8-4b17-af46-6626ecb15fc2/resourceGroups/adgarntptestrg/providers/Microsoft.StorageCache/caches/adgarntptestcache";
   const metricnamespace = "microsoft.storagecache/caches";
@@ -77,7 +75,7 @@ async function getStorageCacheMetricDefinitionsWithMetricClass() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getApplicationInsightsMetricDefinitionsWithoutFilter();
   getMetricDefinitionsWithoutFilter();
   getStorageCacheMetricDefinitionsWithMetricClass();

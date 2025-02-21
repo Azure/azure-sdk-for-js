@@ -7,9 +7,7 @@
  */
 import { ServiceLinkerManagementClient } from "@azure/arm-servicelinker";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to get a dryrun job
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary get a dryrun job
  * x-ms-original-file: specification/servicelinker/resource-manager/Microsoft.ServiceLinker/preview/2024-07-01-preview/examples/GetDryrun.json
  */
-async function getDryrun() {
+async function getDryrun(): Promise<void> {
   const resourceUri =
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Web/sites/test-app";
   const dryrunName = "dryrunName";
@@ -27,7 +25,7 @@ async function getDryrun() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getDryrun();
 }
 

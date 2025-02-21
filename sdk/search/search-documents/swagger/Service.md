@@ -13,7 +13,7 @@ source-code-folder-path: ./src/generated/service
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/14531a7cf6101c1dd57e7c1c83103a047bb8f5bb/specification/search/data-plane/Azure.Search/preview/2024-11-01-preview/searchservice.json
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.27"
+  "@autorest/typescript": "6.0.34"
 core-http-compat-mode: true
 package-version: 12.2.0-beta.2
 disable-async-iterators: true
@@ -21,6 +21,7 @@ api-version-parameter: choice
 v3: true
 hide-clients: true
 use-core-v2: true
+module-kind: esm
 ```
 
 ## Customizations for Track 2 Generator

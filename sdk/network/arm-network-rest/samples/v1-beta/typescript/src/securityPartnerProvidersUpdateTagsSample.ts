@@ -12,7 +12,7 @@ import "dotenv/config";
  * @summary Updates tags of a Security Partner Provider resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/SecurityPartnerProviderUpdateTags.json
  */
-async function updateSecurityPartnerProviderTags() {
+async function updateSecurityPartnerProviderTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

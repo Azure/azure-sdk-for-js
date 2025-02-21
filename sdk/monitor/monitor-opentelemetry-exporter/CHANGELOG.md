@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.29 ()
+
+### Features Added
+
+- Support the AMW de-duping flag in AKS auto-attach scenarios.
+
+### Other Changes
+
+- Removed faulty span exception exporting logic.
+
 ## 1.0.0-beta.28 (2025-01-28)
 
 ### Features Added

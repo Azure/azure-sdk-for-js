@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Transform, AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a Transform.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates a Transform.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/transforms-update.json
  */
-async function updateATransform() {
+async function updateATransform(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -51,7 +49,7 @@ async function updateATransform() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateATransform();
 }
 

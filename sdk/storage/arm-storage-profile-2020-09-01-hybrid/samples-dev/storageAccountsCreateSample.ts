@@ -8,9 +8,7 @@
 import type { StorageAccountCreateParameters } from "@azure/arm-storage-profile-2020-09-01-hybrid";
 import { StorageManagementClient } from "@azure/arm-storage-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Asynchronously creates a new storage account with the specified parameters. If an account is already created and a subsequent create request is issued with different properties, the account properties will be updated. If an account is already created and a subsequent create or update request is issued with the exact same set of properties, the request will succeed.
  * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2019-06-01/examples/StorageAccountCreate.json
  */
-async function storageAccountCreate() {
+async function storageAccountCreate(): Promise<void> {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9101";
   const accountName = "sto4445";
@@ -55,7 +53,7 @@ async function storageAccountCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await storageAccountCreate();
 }
 

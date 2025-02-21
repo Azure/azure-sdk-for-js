@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary deletes a mongo cluster.
  * x-ms-original-file: 2024-07-01/MongoClusters_Delete.json
  */
-async function deletesAMongoClusterResource() {
+async function deletesAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
   await client.mongoClusters.delete("TestResourceGroup", "myMongoCluster");
 }
 
-async function main() {
+async function main(): Promise<void> {
   deletesAMongoClusterResource();
 }
 

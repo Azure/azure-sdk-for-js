@@ -14,7 +14,7 @@
 import { MachineLearningWorkspacesManagementClient } from "@azure/arm-workspaces";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function workspaceGetBySubscription() {
+async function workspaceGetBySubscription(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const credential = new DefaultAzureCredential();
   const client = new MachineLearningWorkspacesManagementClient(credential, subscriptionId);

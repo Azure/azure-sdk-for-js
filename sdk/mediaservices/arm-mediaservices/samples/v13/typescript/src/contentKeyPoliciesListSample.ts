@@ -13,9 +13,7 @@ import {
   AzureMediaServices
 } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the Content Key Policies in the account
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Lists the Content Key Policies in the account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-list-by-lastModified.json
  */
-async function listsContentKeyPoliciesOrderedByLastModified() {
+async function listsContentKeyPoliciesOrderedByLastModified(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -51,7 +49,7 @@ async function listsContentKeyPoliciesOrderedByLastModified() {
  * @summary Lists the Content Key Policies in the account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-list-in-date-range.json
  */
-async function listsContentKeyPoliciesWithCreatedAndLastModifiedFilters() {
+async function listsContentKeyPoliciesWithCreatedAndLastModifiedFilters(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -80,7 +78,7 @@ async function listsContentKeyPoliciesWithCreatedAndLastModifiedFilters() {
  * @summary Lists the Content Key Policies in the account
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Metadata/stable/2022-08-01/examples/content-key-policies-list-all.json
  */
-async function listsAllContentKeyPolicies() {
+async function listsAllContentKeyPolicies(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -99,7 +97,7 @@ async function listsAllContentKeyPolicies() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsContentKeyPoliciesOrderedByLastModified();
   listsContentKeyPoliciesWithCreatedAndLastModifiedFilters();
   listsAllContentKeyPolicies();

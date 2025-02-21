@@ -28,7 +28,7 @@ import {
   FqdnListLocalRulestackResource as FqdnListLocalRulestackResourceMapper,
   LocalRulesResource as LocalRulesResourceMapper,
   PrefixListResource as PrefixListResourceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -15,7 +15,7 @@ import {
   ConnectedCluster as ConnectedClusterMapper,
   ConnectedClusterPatch as ConnectedClusterPatchMapper,
   ListClusterUserCredentialProperties as ListClusterUserCredentialPropertiesMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
