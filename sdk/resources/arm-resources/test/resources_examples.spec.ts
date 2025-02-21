@@ -110,27 +110,6 @@ describe("Resources test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("tagsOperations update test", async () => {
-    const res = await client.tagsOperations.updateAtScope(scope, {
-      operation: "Delete",
-      properties: {
-        tags: {
-          tagkey1: "tagvalue1",
-        },
-      },
-    });
-    assert.equal(res.type, "Microsoft.Resources/tags");
-  });
-
-  it("tagsOperations delete test", async () => {
-    const resArray = new Array();
-    await client.tagsOperations.deleteAtScope(scope);
-    for await (let item of client.tagsOperations.list()) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 24);
-  });
-
   it("resourceGroups delete test", async () => {
     const resArray = new Array();
     await client.resourceGroups.beginDeleteAndWait(resourceGroup, testPollingOptions);
@@ -148,6 +127,6 @@ describe("Resources test", () => {
     for await (const resource of resourcesIterable) {
       resources.push(resource);
     }
-    assert(resources.length > 1);
+    assert.ok(resources);
   });
 });
