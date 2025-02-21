@@ -162,7 +162,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
+    "karma-sourcemap-loader": "^0.4.0",
     "mocha": "^11.0.2",
     "nyc": "^17.0.0",
     "puppeteer": "^24.0.0",
