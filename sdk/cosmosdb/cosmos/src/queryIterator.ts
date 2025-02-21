@@ -5,7 +5,7 @@
 import type { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
-import {
+import type {
   CosmosHeaders,
   ExecutionContext,
   FetchFunctionCallback,
