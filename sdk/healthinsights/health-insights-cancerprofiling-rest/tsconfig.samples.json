@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/health-insights-cancerprofiling": ["./dist/esm"]
+      "@azure-rest/health-insights-cancerprofiling": [
+        "./dist/esm"
+      ]
     }
   }
 }
