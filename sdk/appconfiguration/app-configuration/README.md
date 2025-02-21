@@ -1,13 +1,28 @@
-# App Configuration client library for JavaScript
+# Azure App Configuration SDK for JavaScript
 
 [Azure App Configuration](https://learn.microsoft.com/azure/azure-app-configuration/overview) is a managed service that helps developers centralize their application and feature settings simply and securely.
 
-Use the client library for App Configuration to:
+## Azure App Configuration Provider
 
-- Create flexible key representations and mappings
-- Tag keys with labels
-- Replay settings from any point in time
-- Manage snapshots of an app's configuration
+For most applications, we recommend starting with the [@azure/app-configuration-provider](https://www.npmjs.com/package/@azure/app-configuration-provider) library. The configuration provider library a higher-level abstraction built on top of `@azure/app-configuration`(this SDK). It simplifies the process of loading configuration settings into your application by integrating them into a unified, read-only `Map`-like configuration object and supports [additional features](https://learn.microsoft.com/azure/azure-app-configuration/configuration-provider-overview#feature-development-status). For more information, please go to the [Quickstart](https://learn.microsoft.com/azure/azure-app-configuration/quickstart-javascript-provider)
+
+**Note**: If you use feature flags in Azure App Configuration, we recommend you to use the configuration provider alongside the [feature management](https://www.npmjs.com/package/@microsoft/feature-management) library, which are designed to work together.
+
+## When to use this SDK?
+
+The `@azure/app-configuration` is the core SDK for Azure App Configuration in JavaScript. It provides a low-level interface to interact directly with the Azure App Configuration service. It allows you to programmatically manage configuration settings stored in an Azure App Configuration instance.
+
+Use `@azure/app-configuration`(this SDK) to:
+- Manage configuration settings programmatically
+- Manage snapshots programmatically
+
+Use [`@azure/app-configuration-provider`](https://www.npmjs.com/package/@azure/app-configuration-provider) to:
+- Load configuration data effortlessly
+- Integrate with feature management
+
+Both packages complement each other and can even be used together in more complex scenarios, but they cater to different needs depending on whether you’re managing or simply using configuration data.
+
+## Getting started
 
 Key links:
 
@@ -16,8 +31,6 @@ Key links:
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/app-configuration)
 - [Product documentation](https://learn.microsoft.com/azure/azure-app-configuration/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples)
-
-## Getting started
 
 ### Install the package
 
