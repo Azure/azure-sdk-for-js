@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a BrokerAuthorizationResource
  *
  * @summary create a BrokerAuthorizationResource
- * x-ms-original-file: 2024-09-15-preview/BrokerAuthorization_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2024-11-01/BrokerAuthorization_CreateOrUpdate_Complex.json
  */
-async function brokerAuthorizationCreateOrUpdateComplex() {
+async function brokerAuthorizationCreateOrUpdateComplex(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -79,9 +79,9 @@ async function brokerAuthorizationCreateOrUpdateComplex() {
  * This sample demonstrates how to create a BrokerAuthorizationResource
  *
  * @summary create a BrokerAuthorizationResource
- * x-ms-original-file: 2024-09-15-preview/BrokerAuthorization_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/BrokerAuthorization_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function brokerAuthorizationCreateOrUpdate() {
+async function brokerAuthorizationCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -126,9 +126,9 @@ async function brokerAuthorizationCreateOrUpdate() {
  * This sample demonstrates how to create a BrokerAuthorizationResource
  *
  * @summary create a BrokerAuthorizationResource
- * x-ms-original-file: 2024-09-15-preview/BrokerAuthorization_CreateOrUpdate_Simple.json
+ * x-ms-original-file: 2024-11-01/BrokerAuthorization_CreateOrUpdate_Simple.json
  */
-async function brokerAuthorizationCreateOrUpdateSimple() {
+async function brokerAuthorizationCreateOrUpdateSimple(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -168,10 +168,10 @@ async function brokerAuthorizationCreateOrUpdateSimple() {
   console.log(result);
 }
 
-async function main() {
-  brokerAuthorizationCreateOrUpdateComplex();
-  brokerAuthorizationCreateOrUpdate();
-  brokerAuthorizationCreateOrUpdateSimple();
+async function main(): Promise<void> {
+  await brokerAuthorizationCreateOrUpdateComplex();
+  await brokerAuthorizationCreateOrUpdate();
+  await brokerAuthorizationCreateOrUpdateSimple();
 }
 
 main().catch(console.error);

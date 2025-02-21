@@ -6,8 +6,8 @@
  *
  */
 
-import { createRuleTester } from "../ruleTester";
-import rule from "../../src/rules/ts-apisurface-standardized-verbs";
+import { createRuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-apisurface-standardized-verbs.js";
 
 //------------------------------------------------------------------------------
 // Tests

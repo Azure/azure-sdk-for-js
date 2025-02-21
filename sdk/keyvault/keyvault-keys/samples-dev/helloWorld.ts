@@ -7,14 +7,12 @@
 
 import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
-
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
-  // See https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
+  // See https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest for more information
   // about DefaultAzureCredential and the other credentials that are available for use.
   const credential = new DefaultAzureCredential();
 
@@ -43,8 +41,8 @@ export async function main(): Promise<void> {
 
   // Or list the keys we have
   for await (const keyProperties of client.listPropertiesOfKeys()) {
-    const key = await client.getKey(keyProperties.name);
-    console.log("key: ", key);
+    const innerKey = await client.getKey(keyProperties.name);
+    console.log("key: ", innerKey);
   }
 
   // Update the key

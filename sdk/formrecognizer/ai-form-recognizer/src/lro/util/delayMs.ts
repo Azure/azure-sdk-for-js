@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
-import { maybemap } from "../../util";
+import { maybemap } from "../../util.js";
 
 type CancellationToken = Parameters<typeof clearTimeout>[0];
 

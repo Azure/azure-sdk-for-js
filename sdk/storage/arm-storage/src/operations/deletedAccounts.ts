@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { DeletedAccounts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { DeletedAccounts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageManagementClient } from "../storageManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageManagementClient } from "../storageManagementClient.js";
 import {
   DeletedAccount,
   DeletedAccountsListNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   DeletedAccountsGetOptionalParams,
   DeletedAccountsGetResponse,
   DeletedAccountsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DeletedAccounts operations. */

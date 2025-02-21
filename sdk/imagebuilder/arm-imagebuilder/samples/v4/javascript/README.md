@@ -73,6 +73,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualmachineimagetemplateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesListSample.js
 [virtualmachineimagetemplatesrunsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesRunSample.js
 [virtualmachineimagetemplatesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-imagebuilder?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-imagebuilder?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/imagebuilder/arm-imagebuilder/README.md

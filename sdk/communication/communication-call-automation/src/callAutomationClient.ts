@@ -10,7 +10,7 @@ import {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
-import { logger } from "./models/logger";
+import { logger } from "./models/logger.js";
 import {
   AnswerCallRequest,
   CallAutomationApiClient,
@@ -19,18 +19,18 @@ import {
   CreateCallRequest,
   RedirectCallRequest,
   RejectCallRequest,
-} from "./generated/src";
-import { CallConnection } from "./callConnection";
-import { CallRecording } from "./callRecording";
+} from "./generated/src/index.js";
+import { CallConnection } from "./callConnection.js";
+import { CallRecording } from "./callRecording.js";
 import {
   AnswerCallOptions,
   ConnectCallOptions,
   CreateCallOptions,
   RedirectCallOptions,
   RejectCallOptions,
-} from "./models/options";
-import { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses";
-import { CallConnectionProperties, CallInvite, CallLocator } from "./models/models";
+} from "./models/options.js";
+import { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses.js";
+import { CallConnectionProperties, CallInvite, CallLocator } from "./models/models.js";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
@@ -38,7 +38,7 @@ import {
   communicationUserIdentifierModelConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
-} from "./utli/converters";
+} from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
 
 /**

@@ -5,17 +5,14 @@
  * @summary This sample demonstrates Detection Configuration CRUD operations.
  */
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
   AnomalyDetectionConfiguration,
   MetricDetectionCondition,
   MetricSeriesGroupDetectionCondition,
-  MetricSingleSeriesDetectionCondition
+  MetricSingleSeriesDetectionCondition,
 } from "@azure/ai-metrics-advisor";
 
 main()
@@ -27,7 +24,7 @@ main()
     console.log(err);
   });
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -53,8 +50,8 @@ export async function main() {
 
 async function getDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  detectionConfigId: string
-) {
+  detectionConfigId: string,
+): Promise<void> {
   console.log("Retrieving an existing detection configuration...");
   const result = await adminClient.getDetectionConfig(detectionConfigId);
   console.log(result);
@@ -64,8 +61,8 @@ async function getDetectionConfig(
 // create a new detection configuration
 async function createDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  metricId: string
-) {
+  metricId: string,
+): Promise<void> {
   const wholeSeriesDetectionCondition: MetricDetectionCondition = {
     conditionOperator: "AND",
     smartDetectionCondition: {
@@ -73,21 +70,21 @@ async function createDetectionConfig(
       anomalyDetectorDirection: "Both",
       suppressCondition: {
         minNumber: 5,
-        minRatio: 50
-      }
+        minRatio: 50,
+      },
     },
     changeThresholdCondition: {
       anomalyDetectorDirection: "Both",
       shiftPoint: 1,
       changePercentage: 33,
       withinRange: true,
-      suppressCondition: { minNumber: 2, minRatio: 2 }
+      suppressCondition: { minNumber: 2, minRatio: 2 },
     },
     hardThresholdCondition: {
       anomalyDetectorDirection: "Up",
       upperBound: 400,
-      suppressCondition: { minNumber: 2, minRatio: 2 }
-    }
+      suppressCondition: { minNumber: 2, minRatio: 2 },
+    },
   };
   const seriesGroupDetectionConditions: MetricSeriesGroupDetectionCondition[] = [
     {
@@ -98,9 +95,9 @@ async function createDetectionConfig(
         shiftPoint: 1,
         changePercentage: 33,
         withinRange: true,
-        suppressCondition: { minNumber: 2, minRatio: 2 }
-      }
-    }
+        suppressCondition: { minNumber: 2, minRatio: 2 },
+      },
+    },
   ];
   const seriesDetectionConditions: MetricSingleSeriesDetectionCondition[] = [
     {
@@ -109,9 +106,9 @@ async function createDetectionConfig(
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
         upperBound: 400,
-        suppressCondition: { minNumber: 2, minRatio: 2 }
-      }
-    }
+        suppressCondition: { minNumber: 2, minRatio: 2 },
+      },
+    },
   ];
 
   const config: Omit<AnomalyDetectionConfiguration, "id"> = {
@@ -120,7 +117,7 @@ async function createDetectionConfig(
     metricId,
     wholeSeriesDetectionCondition,
     seriesGroupDetectionConditions,
-    seriesDetectionConditions
+    seriesDetectionConditions,
   };
   console.log("Creating a new anomaly detection configuration...");
   return await adminClient.createDetectionConfig(config);
@@ -129,8 +126,8 @@ async function createDetectionConfig(
 // updating an detection configuration
 async function updateDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  configId: string
-) {
+  configId: string,
+): Promise<void> {
   const patch: Omit<AnomalyDetectionConfiguration, "id" | "metricId"> = {
     name: "new Name",
     description: "new description",
@@ -141,13 +138,13 @@ async function updateDetectionConfig(
         shiftPoint: 2,
         withinRange: true,
         changePercentage: 44,
-        suppressCondition: { minNumber: 4, minRatio: 4 }
+        suppressCondition: { minNumber: 4, minRatio: 4 },
       },
       hardThresholdCondition: {
         anomalyDetectorDirection: "Up",
         upperBound: 500,
-        suppressCondition: { minNumber: 5, minRatio: 5 }
-      }
+        suppressCondition: { minNumber: 5, minRatio: 5 },
+      },
     },
     seriesGroupDetectionConditions: [
       {
@@ -156,9 +153,9 @@ async function updateDetectionConfig(
         hardThresholdCondition: {
           anomalyDetectorDirection: "Up",
           upperBound: 400,
-          suppressCondition: { minNumber: 2, minRatio: 2 }
-        }
-      }
+          suppressCondition: { minNumber: 2, minRatio: 2 },
+        },
+      },
     ],
     seriesDetectionConditions: [
       {
@@ -169,10 +166,10 @@ async function updateDetectionConfig(
           shiftPoint: 1,
           changePercentage: 33,
           withinRange: true,
-          suppressCondition: { minNumber: 2, minRatio: 2 }
-        }
-      }
-    ]
+          suppressCondition: { minNumber: 2, minRatio: 2 },
+        },
+      },
+    ],
   };
   console.log(`Updating existing detection configuration '${configId}'`);
   const result = await adminClient.updateDetectionConfig(configId, patch);
@@ -182,16 +179,16 @@ async function updateDetectionConfig(
 
 async function deleteDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  detectionConfigId: string
-) {
+  detectionConfigId: string,
+): Promise<void> {
   console.log(`Deleting detection configuration '${detectionConfigId}'`);
   await adminClient.deleteDetectionConfig(detectionConfigId);
 }
 
 async function listDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  metricId: string
-) {
+  metricId: string,
+): Promise<void> {
   console.log(`Listing detection configurations for metric '${metricId}'...`);
   let i = 1;
   const iterator = adminClient.listDetectionConfigs(metricId);

@@ -103,6 +103,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualnetworksretrievesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcontainerservice/arm-hybridcontainerservice/samples/v1/javascript/virtualNetworksRetrieveSample.js
 [virtualnetworksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcontainerservice/arm-hybridcontainerservice/samples/v1/javascript/virtualNetworksUpdateSample.js
 [vmskuslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/hybridcontainerservice/arm-hybridcontainerservice/samples/v1/javascript/vmSkusListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-hybridcontainerservice?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-hybridcontainerservice?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridcontainerservice/arm-hybridcontainerservice/README.md

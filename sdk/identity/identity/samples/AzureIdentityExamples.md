@@ -92,8 +92,8 @@ Authenticating user accounts is the easiest way to get started with minimal set 
 | Credential with example                                                                | Usage                                                                                                                                                                                                                                                                                                                                                 | Setup                                                                                                                                                                                                                                                                           |
 | -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [AzureDeveloperCliCredential](#authenticating-a-user-account-with-azure-developer-cli) | Authenticate in a development environment with Azure Developer CLI.                                                                                                                                                                                                                                                                                   | [Install the Azure Developer CLI](https://learn.microsoft.com/azure/developer/azure-developer-cli/install-azd) and login using the [`azd auth login` command](https://learn.microsoft.com/azure/developer/azure-developer-cli/reference?source=recommendations#azd-auth-login). |
-| [AzureCliCredential](#authenticating-a-user-account-with-azure-cli)                    | Authenticate in a development environment with the Azure CLI.                                                                                                                                                                                                                                                                                         | [Install Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli) and [login using az cli command](https://docs.microsoft.com/cli/azure/authenticate-azure-cli)                                                                                                       |
-| [AzurePowerShellCredential](#authenticating-a-user-account-with-azure-powershell)      | Authenticate in a development environment with Azure PowerShell.                                                                                                                                                                                                                                                                                      | [Install Azure PowerShell](https://docs.microsoft.com/powershell/azure/install-az-ps) and [login using the `Connect-AzAccount` cmdlet](https://docs.microsoft.com/powershell/azure/authenticate-azureps)                                                                        |
+| [AzureCliCredential](#authenticating-a-user-account-with-azure-cli)                    | Authenticate in a development environment with the Azure CLI.                                                                                                                                                                                                                                                                                         | [Install Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) and [login using az cli command](https://learn.microsoft.com/cli/azure/authenticate-azure-cli)                                                                                                     |
+| [AzurePowerShellCredential](#authenticating-a-user-account-with-azure-powershell)      | Authenticate in a development environment with Azure PowerShell.                                                                                                                                                                                                                                                                                      | [Install Azure PowerShell](https://learn.microsoft.com/powershell/azure/install-az-ps) and [login using the `Connect-AzAccount` cmdlet](https://learn.microsoft.com/powershell/azure/authenticate-azureps)                                                                      |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                  | Tries `AzureDeveloperCliCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals, or managed identity based on what's available in the current environment without changing your code. |
 
 ### Authenticating Service Principals
@@ -202,7 +202,7 @@ function withClientSecretCredential() {
   const credential = new ClientSecretCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
-    "<YOUR_CLIENT_SECRET>"
+    "<YOUR_CLIENT_SECRET>",
   );
   const client = new ServiceBusClient("<your-service-bus-endpoint>", credential);
 }
@@ -255,7 +255,7 @@ function withClientCertificateCredential() {
   let credential = new ClientCertificateCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
-    "<PATH_TO_CERTIFICATE>"
+    "<PATH_TO_CERTIFICATE>",
   );
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
@@ -298,7 +298,7 @@ async function getAssertion(): Promise<string> {
   const jwtoken = await createJWTTokenFromCertificate(
     "<AUTHORITY_HOST>",
     "<YOUR_CLIENT_ID>",
-    "<YOUR_CERTIFICATE_PATH>"
+    "<YOUR_CERTIFICATE_PATH>",
   );
   return jwtoken;
 }
@@ -317,7 +317,7 @@ import ms from "ms";
 async function createJWTTokenFromCertificate(
   authorityHost: string,
   clientId: string,
-  certificatePath: string
+  certificatePath: string,
 ) {
   const privateKeyPemCert = fs.readFileSync(certificatePath);
   const audience = `${authorityHost}/v2.0`;
@@ -373,7 +373,7 @@ function withDeviceCodeCredential() {
     // In this scenario you may also omit this parameter since the default behavior is to log the message to the console
     (deviceCodeInfo) => {
       console.log(deviceCodeInfo.message);
-    }
+    },
   );
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
@@ -394,7 +394,7 @@ function withUsernamePasswordCredential() {
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
     "<USERNAME>",
-    "<PASSWORD>"
+    "<PASSWORD>",
   );
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
@@ -423,7 +423,7 @@ function withAuthCodeCredential() {
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
     "<AUTH_CODE_FROM_QUERY_PARAMETERS>",
-    "<REDIRECT_URL>"
+    "<REDIRECT_URL>",
   );
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
@@ -612,7 +612,9 @@ To authenticate with a user-assigned managed identity, specify one of the follow
  * Authenticate with a user-assigned managed identity using a client ID
  */
 function withUserManagedIdentityCredential() {
-  const credential = new ManagedIdentityCredential({ clientId: "<USER_ASSIGNED_MANAGED_IDENTITY_CLIENT_ID>" });
+  const credential = new ManagedIdentityCredential({
+    clientId: "<USER_ASSIGNED_MANAGED_IDENTITY_CLIENT_ID>",
+  });
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
@@ -621,7 +623,9 @@ function withUserManagedIdentityCredential() {
  * Authenticate with a user-assigned managed identity using a resource ID
  */
 function withUserManagedIdentityCredential() {
-  const credential = new ManagedIdentityCredential({ resourceId: "<USER_ASSIGNED_MANAGED_IDENTITY_RESOURCE_ID>" });
+  const credential = new ManagedIdentityCredential({
+    resourceId: "<USER_ASSIGNED_MANAGED_IDENTITY_RESOURCE_ID>",
+  });
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
@@ -630,7 +634,9 @@ function withUserManagedIdentityCredential() {
  * Authenticate with a user-assigned managed identity using an object ID
  */
 function withUserManagedIdentityCredential() {
-  const credential = new ManagedIdentityCredential({ objectId: "<USER_ASSIGNED_MANAGED_IDENTITY_OBJECT_ID>" });
+  const credential = new ManagedIdentityCredential({
+    objectId: "<USER_ASSIGNED_MANAGED_IDENTITY_OBJECT_ID>",
+  });
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
@@ -702,7 +708,7 @@ function withAzurePipelinesCredential() {
     tenantId,
     clientId,
     serviceConnectionId,
-    systemAccessToken
+    systemAccessToken,
   );
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
@@ -713,17 +719,7 @@ function withAzurePipelinesCredential() {
 
 ## Chaining credentials
 
-The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. The following example demonstrates creating a credential that will attempt to authenticate a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using managed identity and fall back to certificate authentication if a managed identity is unavailable in the current environment.
-
-```ts
-function withChainedTokenCredential() {
-  const credential = new ChainedTokenCredential(
-    new ManagedIdentityCredential("<YOUR_CLIENT_ID>"),
-    new ClientSecretCredential("<YOUR_TENANT_ID>", "<YOUR_CLIENT_ID>", "<YOUR_CLIENT_SECRET>")
-  );
-  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
-}
-```
+The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. For more information, see [ChainedTokenCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-chainedtokencredential-for-granularity).
 
 ## Authenticating With Azure Stack using Azure Identity
 
@@ -763,7 +759,7 @@ function main() {
     "<YOUR_CLIENT_SECRET>",
     {
       authorityHost: "Azure Stack Authority Host From Previous Step",
-    }
+    },
   );
 
   const client = new SecretClient("<KEYVAULT_URL_IN_AZURE_STACK>", credential);
@@ -814,7 +810,7 @@ const mySimpleCredential = {
 
 There are cases in which it's convenient to create custom credentials. For example, when a token is pre-fetched, a custom `TokenCredential` can return that token as an `AccessToken` to the Azure SDK clients.
 
-In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an [AccessToken](https://docs.microsoft.com/javascript/api/@azure/core-auth/accesstoken) and returns that from its implementation of `getToken()`.
+In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an [AccessToken](https://learn.microsoft.com/javascript/api/@azure/core-auth/accesstoken) and returns that from its implementation of `getToken()`.
 
 **Prerequisites**
 
@@ -902,7 +898,7 @@ async function main() {
 
   const client = new SecretClient(
     "https://myvault.vault.azure.net/",
-    new ConfidentialClientCredential(confidentialClient)
+    new ConfidentialClientCredential(confidentialClient),
   );
 }
 ```
@@ -1010,9 +1006,9 @@ async function main() {
 
 Azure Key Vault supports creating secure certificates that can be used to authenticate Azure SDK clients.
 
-There are different ways to create Key Vault certificates. For example, through the Azure CLI: [Quickstart: Set and retrieve a certificate from Azure Key Vault using Azure CLI](https://docs.microsoft.com/azure/key-vault/certificates/quick-create-cli).
+There are different ways to create Key Vault certificates. For example, through the Azure CLI: [Quickstart: Set and retrieve a certificate from Azure Key Vault using Azure CLI](https://learn.microsoft.com/azure/key-vault/certificates/quick-create-cli).
 
-Once you have a certificate, you may export the certificate with the Azure CLI following the steps at [Export certificates from Azure Key Vault](https://docs.microsoft.com/azure/key-vault/certificates/how-to-export-certificate?tabs=azure-cli).
+Once you have a certificate, you may export the certificate with the Azure CLI following the steps at [Export certificates from Azure Key Vault](https://learn.microsoft.com/azure/key-vault/certificates/how-to-export-certificate?tabs=azure-cli).
 
 You can also export your certificate through the Azure portal. Navigate to your Key Vault resource, go to a specific certificate, then download the certificate in PFX/PEM format.
 
@@ -1024,7 +1020,7 @@ After that, you can authenticate by pointing the `@azure/identity`'s `ClientCert
 const credential = new ClientCertificateCredential(
   "<your-tenant-id>",
   "<your-client-id>",
-  "<the-path-to-your-certificate-in-PEM-format>"
+  "<the-path-to-your-certificate-in-PEM-format>",
 );
 ```
 
@@ -1065,7 +1061,7 @@ class RotatableCertificateCredential implements TokenCredential {
     this.credential = new ClientCertificateCredential(
       this.tenantId,
       this.clientId,
-      PEMCertificatePath
+      PEMCertificatePath,
     );
   }
 }
@@ -1118,7 +1114,7 @@ class RotatingCertificateCredential implements TokenCredential {
             this.credential = new ClientCertificateCredential(
               this.tenantId,
               this.clientId,
-              this.certificatePath
+              this.certificatePath,
             );
             this.promise = null;
           }
@@ -1321,7 +1317,7 @@ export async function main(): Promise<void> {
     },
   });
   const authRecord: AuthenticationRecord = await credential.authenticate(
-    "https://service/.default"
+    "https://service/.default",
   );
   const content = serializeAuthenticationRecord(authRecord);
   writeFileSsync(path.join(process.cwd(), AUTH_RECORD_PATH), content);
@@ -1415,7 +1411,7 @@ const credential = new ClientSecretCredential(
   "<YOUR_CLIENT_SECRET>",
   {
     authorityHost: AzureAuthorityHosts.AzureGovernment,
-  }
+  },
 );
 ```
 
@@ -1432,15 +1428,15 @@ To learn more about Azure Authentication for National Clouds, see [National clou
 
 <!-- LINKS -->
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [secrets_client_library]: https://www.npmjs.com/package/@azure/keyvault-secrets
 [service_bus_client_library]: https://www.npmjs.com/package/@azure/service-bus
 [azure_managed_identities]: https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview
-[service_principal_azure_cli]: https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli
+[service_principal_azure_cli]: https://learn.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli
 [device_code_flow]: https://github.com/Azure/azure-sdk-for-java/wiki/Set-up-Your-Environment-for-Authentication#enable-applications-for-device-code-flow
 [quickstart-register-app]: https://learn.microsoft.com/entra/identity-platform/quickstart-register-app
 [app-register-service-principal]: https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals
-[service_principal_azure_powershell]: https://docs.microsoft.com/powershell/azure/create-azure-service-principal-azureps
+[service_principal_azure_powershell]: https://learn.microsoft.com/powershell/azure/create-azure-service-principal-azureps
 [msal_node_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/master/lib/msal-node
 [msal_node_npm]: https://www.npmjs.com/package/@azure/msal-node
 [msal_browser_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/master/lib/msal-browser

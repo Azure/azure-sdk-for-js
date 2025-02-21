@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ListActiveConnectivityConfigurationsParameters
+  ListActiveConnectivityConfigurationsParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists active connectivity configurations in a network manager.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Lists active connectivity configurations in a network manager.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerActiveConnectivityConfigurationsList.json
  */
-async function listActiveConnectivityConfigurations() {
+async function listActiveConnectivityConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,14 +20,14 @@ async function listActiveConnectivityConfigurations() {
   const networkManagerName = "testNetworkManager";
   const options: ListActiveConnectivityConfigurationsParameters = {
     body: { regions: ["westus"], skipToken: "fakeSkipTokenCode" },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations",
       subscriptionId,
       resourceGroupName,
-      networkManagerName
+      networkManagerName,
     )
     .post(options);
   console.log(result);

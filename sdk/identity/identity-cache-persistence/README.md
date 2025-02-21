@@ -52,8 +52,10 @@ const credential = new DeviceCodeCredential({
     enabled: true,
   },
 });
+
 // We'll use the Microsoft Graph scope as an example
 const scope = "https://graph.microsoft.com/.default";
+
 // Print out part of the access token
 console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
 ```
@@ -79,5 +81,3 @@ If you encounter bugs or have suggestions, please [open an issue](https://github
 ## Contributing
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

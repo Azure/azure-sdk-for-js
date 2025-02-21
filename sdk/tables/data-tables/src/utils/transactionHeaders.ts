@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { getBaseTransactionHeaders } from "./baseTransactionHeaders";
+import { getBaseTransactionHeaders } from "./baseTransactionHeaders.js";
 
 /**
  * @internal

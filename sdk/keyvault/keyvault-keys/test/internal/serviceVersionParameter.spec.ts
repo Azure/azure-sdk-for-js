@@ -11,7 +11,7 @@ import type {
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
 import type { MockInstance } from "vitest";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("The Keys client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyvaultname.vault.azure.net`;
@@ -43,7 +43,7 @@ describe("The Keys client should set the serviceVersion", () => {
     vi.restoreAllMocks();
   });
 
-  it("it should default to the latest API version", async function () {
+  it("it should default to the latest API version", async () => {
     const client = new KeyClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient,
     });
@@ -56,7 +56,7 @@ describe("The Keys client should set the serviceVersion", () => {
     );
   });
 
-  it("it should allow us to specify an API version from a specific set of versions", async function () {
+  it("it should allow us to specify an API version from a specific set of versions", async () => {
     const client = new KeyClient(keyVaultUrl, credential, {
       serviceVersion: "7.0",
       httpClient: mockHttpClient,

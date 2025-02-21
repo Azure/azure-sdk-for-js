@@ -74,7 +74,7 @@ import type {
   DeleteWorkerDefaultResponse,
   ListWorkers200Response,
   ListWorkersDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "PATCH /routing/classificationPolicies/{classificationPolicyId}": ["200", "201"],
@@ -395,7 +395,6 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
       matchedValue = value;
     }
   }
-
   return matchedValue;
 }
 

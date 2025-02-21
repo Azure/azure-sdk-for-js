@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  VirtualNetworkTapsGetParameters
+  VirtualNetworkTapsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about the specified virtual network tap.
@@ -17,21 +12,21 @@ dotenv.config();
  * @summary Gets information about the specified virtual network tap.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkTapGet.json
  */
-async function getVirtualNetworkTap() {
+async function getVirtualNetworkTap(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
   const resourceGroupName = "rg1";
   const tapName = "testvtap";
   const options: VirtualNetworkTapsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
       subscriptionId,
       resourceGroupName,
-      tapName
+      tapName,
     )
     .get(options);
   console.log(result);

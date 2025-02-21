@@ -15,7 +15,7 @@ import {
   RoleManagementPolicyAssignmentsCreateOptionalParams,
   RoleManagementPolicyAssignmentsCreateResponse,
   RoleManagementPolicyAssignmentsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a RoleManagementPolicyAssignments. */

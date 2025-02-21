@@ -13,9 +13,7 @@ import {
   SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to start the test failover of a recovery plan.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary The operation to start the test failover of a recovery plan.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_TestFailover.json
  */
-async function executeTestFailoverOfTheRecoveryPlan() {
+async function executeTestFailoverOfTheRecoveryPlan(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "c183865e-6077-46f2-a3b1-deb0f4f4650a";
@@ -52,7 +50,7 @@ async function executeTestFailoverOfTheRecoveryPlan() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   executeTestFailoverOfTheRecoveryPlan();
 }
 

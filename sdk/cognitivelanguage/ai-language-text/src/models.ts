@@ -33,8 +33,8 @@ import type {
   TextDocumentBatchStatistics,
   TextDocumentStatistics,
   TokenSentimentLabel,
-} from "./generated";
-import { KnownErrorCode, KnownInnerErrorCode } from "./generated";
+} from "./generated/index.js";
+import { KnownErrorCode, KnownInnerErrorCode } from "./generated/index.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { OperationState, SimplePollerLike } from "@azure/core-lro";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -372,7 +372,7 @@ export interface SentimentAnalysisSuccessResult extends TextAnalysisSuccessResul
 
 /**
  * The predicted sentiment for a given span of text. For more information
- * regarding text sentiment, see {@link https://docs.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}.
+ * regarding text sentiment, see {@link https://learn.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}.
  */
 export interface SentenceSentiment {
   /**

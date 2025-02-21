@@ -3,7 +3,7 @@
 
 import type { PollOperationState, PollerLike } from "@azure/core-lro";
 import type { OperationOptions } from "@azure/core-client";
-import { FormRecognizerError } from "../error";
+import { FormRecognizerError } from "../error.js";
 import type {
   DocumentModelDetails,
   OperationStatus,
@@ -12,9 +12,9 @@ import type {
   DocumentModelComposeOperationDetails,
   DocumentClassifierDetails,
   DocumentClassifierBuildOperationDetails,
-} from "../generated";
-import type { PollerOptions } from "../options/PollerOptions";
-import type { OperationContext } from "./util/poller";
+} from "../generated/index.js";
+import type { PollerOptions } from "../options/PollerOptions.js";
+import type { OperationContext } from "./util/poller.js";
 
 /**
  * The possible types of all administration operation states.

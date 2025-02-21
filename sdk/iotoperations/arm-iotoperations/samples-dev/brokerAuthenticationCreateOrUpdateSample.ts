@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a BrokerAuthenticationResource
  *
  * @summary create a BrokerAuthenticationResource
- * x-ms-original-file: 2024-09-15-preview/BrokerAuthentication_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2024-11-01/BrokerAuthentication_CreateOrUpdate_Complex.json
  */
-async function brokerAuthenticationCreateOrUpdateComplex() {
+async function brokerAuthenticationCreateOrUpdateComplex(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -61,9 +61,9 @@ async function brokerAuthenticationCreateOrUpdateComplex() {
  * This sample demonstrates how to create a BrokerAuthenticationResource
  *
  * @summary create a BrokerAuthenticationResource
- * x-ms-original-file: 2024-09-15-preview/BrokerAuthentication_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/BrokerAuthentication_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function brokerAuthenticationCreateOrUpdate() {
+async function brokerAuthenticationCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -105,9 +105,9 @@ async function brokerAuthenticationCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
-  brokerAuthenticationCreateOrUpdateComplex();
-  brokerAuthenticationCreateOrUpdate();
+async function main(): Promise<void> {
+  await brokerAuthenticationCreateOrUpdateComplex();
+  await brokerAuthenticationCreateOrUpdate();
 }
 
 main().catch(console.error);

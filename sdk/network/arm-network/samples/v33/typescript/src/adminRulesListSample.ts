@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all network manager security configuration admin rules.
  *
  * @summary List all network manager security configuration admin rules.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerAdminRuleList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerAdminRuleList.json
  */
-async function listSecurityAdminRules() {
+async function listSecurityAdminRules(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function listSecurityAdminRules() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSecurityAdminRules();
 }
 

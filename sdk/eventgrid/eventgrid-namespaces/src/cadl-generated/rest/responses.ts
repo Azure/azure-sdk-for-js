@@ -10,7 +10,7 @@ import type {
   ReleaseResultOutput,
   RejectResultOutput,
   RenewCloudEventLocksResultOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface PublishCloudEvent200Response extends HttpResponse {

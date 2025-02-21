@@ -57,7 +57,7 @@ export interface QueueSASSignatureValues {
   /**
    * Optional. The name of the access policy on the queue this SAS references if any.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
    */
   identifier?: string;
 }

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { BackupVaults } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { BackupVaults } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetAppManagementClient } from "../netAppManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetAppManagementClient } from "../netAppManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   BackupVault,
   BackupVaultsListByNetAppAccountNextOptionalParams,
@@ -34,7 +34,7 @@ import {
   BackupVaultsDeleteOptionalParams,
   BackupVaultsDeleteResponse,
   BackupVaultsListByNetAppAccountNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BackupVaults operations. */
@@ -549,7 +549,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body34,
+  requestBody: Parameters.body36,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -582,7 +582,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body35,
+  requestBody: Parameters.body37,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

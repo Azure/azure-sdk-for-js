@@ -966,6 +966,12 @@ export const ServerForUpdate: coreClient.CompositeMapper = {
           value: { type: { name: "String" } },
         },
       },
+      administratorLogin: {
+        serializedName: "properties.administratorLogin",
+        type: {
+          name: "String",
+        },
+      },
       administratorLoginPassword: {
         serializedName: "properties.administratorLoginPassword",
         type: {
@@ -2024,97 +2030,6 @@ export const PrivateLinkResourceListResult: coreClient.CompositeMapper = {
       nextLink: {
         serializedName: "nextLink",
         readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const QuotaUsagesListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QuotaUsagesListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "QuotaUsage",
-            },
-          },
-        },
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const QuotaUsage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "QuotaUsage",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "Composite",
-          className: "NameProperty",
-        },
-      },
-      limit: {
-        serializedName: "limit",
-        type: {
-          name: "Number",
-        },
-      },
-      unit: {
-        defaultValue: "Count",
-        serializedName: "unit",
-        type: {
-          name: "String",
-        },
-      },
-      currentValue: {
-        serializedName: "currentValue",
-        type: {
-          name: "Number",
-        },
-      },
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const NameProperty: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NameProperty",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String",
-        },
-      },
-      localizedValue: {
-        serializedName: "localizedValue",
         type: {
           name: "String",
         },
@@ -3663,6 +3578,36 @@ export const AdministratorsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AdministratorsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const BackupsCreateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupsCreateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const BackupsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupsDeleteHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

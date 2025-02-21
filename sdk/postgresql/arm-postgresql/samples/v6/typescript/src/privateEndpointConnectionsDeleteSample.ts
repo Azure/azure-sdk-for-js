@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a private endpoint connection with a given name.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2018-06-01/examples/PrivateEndpointConnectionDelete.json
  */
-async function deletesAPrivateEndpointConnectionWithAGivenName() {
+async function deletesAPrivateEndpointConnectionWithAGivenName(): Promise<void> {
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = "Default";
   const serverName = "test-svr";

@@ -14,7 +14,7 @@ import {
   WorkflowsGetResponse,
   WorkflowsAbortOptionalParams,
   WorkflowsAbortResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workflows. */

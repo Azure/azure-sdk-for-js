@@ -4,11 +4,11 @@
 import * as msal from "@azure/msal-node";
 
 import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import type { AuthenticationRecord, CertificateParts } from "../types";
-import type { CredentialLogger } from "../../util/logging";
-import { credentialLogger, formatSuccess } from "../../util/logging";
-import type { PluginConfiguration } from "./msalPlugins";
-import { msalPlugins } from "./msalPlugins";
+import type { AuthenticationRecord, CertificateParts } from "../types.js";
+import type { CredentialLogger } from "../../util/logging.js";
+import { credentialLogger, formatSuccess } from "../../util/logging.js";
+import type { PluginConfiguration } from "./msalPlugins.js";
+import { msalPlugins } from "./msalPlugins.js";
 import {
   defaultLoggerCallback,
   ensureValidMsalToken,
@@ -19,18 +19,17 @@ import {
   handleMsalError,
   msalToPublic,
   publicToMsal,
-} from "../utils";
+} from "../utils.js";
 
-import { AuthenticationRequiredError } from "../../errors";
-import type { BrokerOptions } from "./brokerOptions";
-import type { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
-import { IdentityClient } from "../../client/identityClient";
-import type { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
-import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { calculateRegionalAuthority } from "../../regionalAuthority";
+import { AuthenticationRequiredError } from "../../errors.js";
+import type { BrokerOptions } from "./brokerOptions.js";
+import type { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions.js";
+import { IdentityClient } from "../../client/identityClient.js";
+import type { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions.js";
+import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions.js";
+import { calculateRegionalAuthority } from "../../regionalAuthority.js";
 import { getLogLevel } from "@azure/logger";
-import open from "open";
-import { resolveTenantId } from "../../util/tenantIdUtils";
+import { resolveTenantId } from "../../util/tenantIdUtils.js";
 
 /**
  * The default logger used if no logger was passed in by the credential.
@@ -245,14 +244,6 @@ export interface MsalClientOptions {
 }
 
 /**
- * A call to open(), but mockable
- * @internal
- */
-export const interactiveBrowserMockable = {
-  open,
-};
-
-/**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
  *
  * @param clientId - The client ID of the application.
@@ -427,27 +418,8 @@ export function createMsalClient(
     options: GetTokenOptions = {},
   ): Promise<msal.AuthenticationResult> {
     if (state.cachedAccount === null) {
-      state.logger.getToken.info(
-        "No cached account found in local state, attempting to load it from MSAL cache.",
-      );
-      const cache = app.getTokenCache();
-      const accounts = await cache.getAllAccounts();
-
-      if (accounts === undefined || accounts.length === 0) {
-        throw new AuthenticationRequiredError({ scopes });
-      }
-
-      if (accounts.length > 1) {
-        state.logger
-          .info(`More than one account was found authenticated for this Client ID and Tenant ID.
-However, no "authenticationRecord" has been provided for this credential,
-therefore we're unable to pick between these accounts.
-A new login attempt will be requested, to ensure the correct account is picked.
-To work with multiple accounts for the same Client ID and Tenant ID, please provide an "authenticationRecord" when initializing a credential to prevent this from happening.`);
-        throw new AuthenticationRequiredError({ scopes });
-      }
-
-      state.cachedAccount = accounts[0];
+      state.logger.getToken.info("No cached account found in local state.");
+      throw new AuthenticationRequiredError({ scopes });
     }
 
     // Keep track and reuse the claims we received across challenges
@@ -475,7 +447,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       silentRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
     }
     state.logger.getToken.info("Attempting to acquire token silently");
-    return app.acquireTokenSilent(silentRequest);
+    try {
+      return await app.acquireTokenSilent(silentRequest);
+    } catch (err: any) {
+      throw handleMsalError(scopes, err, options);
+    }
   }
 
   /**
@@ -835,7 +811,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     function createBaseInteractiveRequest(): msal.InteractiveRequest {
       return {
         openBrowser: async (url) => {
-          await interactiveBrowserMockable.open(url, { wait: true, newInstance: true });
+          const open = await import("open");
+          await open.default(url, { wait: true, newInstance: true });
         },
         scopes,
         authority: calculateRequestAuthority(options),
@@ -843,6 +820,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         loginHint: options?.loginHint,
         errorTemplate: options?.browserCustomizationOptions?.errorMessage,
         successTemplate: options?.browserCustomizationOptions?.successMessage,
+        prompt: options?.loginHint ? "login" : "select_account",
       };
     }
 

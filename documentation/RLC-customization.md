@@ -7,10 +7,12 @@ Follow [quickstart](https://aka.ms/azsdk/rlc/js) to generate the rest-level clie
 It's advised to put the generated code into the folder `generated`, add your customization code under the folder `src` and then export or re-export them as needed.
 
 ```yaml
-source-code-folder-path: ./src/generated
+source-code-folder-path: ./generated
 ```
 
 ## Custom authentication
+
+Before you customize the code, you should run ```npx dev-tool customization apply-v2``` to sync the generated src code from ./generated into ./src
 
 Some services require a custom authentication flow. For example, Metrics Advisor uses Key Authentication, however, MA requires 2 headers for key authentication `Ocp-Apim-Subscription-Key` and `x-api-key`, which is different to the usual key authentication which only requires a single key.
 
@@ -28,7 +30,7 @@ Here is the implementation in Metrics Advisor.
 The wrapping function looks like:
 
 ```typescript
-import MetricsAdvisor from "./generated/generatedClient";
+import MetricsAdvisor from "./generatedClient";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import {
@@ -118,9 +120,8 @@ The standard pagination pattern, assumes `GET` for getting the next pages. In th
 Here is the implementation in Metrics Advisor and remember to replace the `paginationMapping` as yours. The generated paging helper is hidden and the custom paginate helper is exposed.
 
 ```typescript
-import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
-import { PaginateReturn, PagingOptions } from "./generated/paginateHelper";
+import { PaginateReturn, PagingOptions, getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "./generated/paginateHelper";
 
 export function paginate<TResponse extends PathUncheckedResponse>(
   client: Client,

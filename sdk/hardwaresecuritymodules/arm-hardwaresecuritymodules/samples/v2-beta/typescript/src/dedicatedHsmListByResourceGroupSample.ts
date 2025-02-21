@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { AzureHSMResourceProvider } from "@azure/arm-hardwaresecuritymodules";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The List operation gets information about the dedicated hsms associated with the subscription and within the specified resource group.
  *
  * @summary The List operation gets information about the dedicated hsms associated with the subscription and within the specified resource group.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/DedicatedHsm_ListByResourceGroup.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/DedicatedHsm_ListByResourceGroup.json
  */
-async function listDedicatedHsmDevicesInAResourceGroup() {
+async function listDedicatedHsmDevicesInAResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -30,7 +28,7 @@ async function listDedicatedHsmDevicesInAResourceGroup() {
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.dedicatedHsmOperations.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -41,9 +39,9 @@ async function listDedicatedHsmDevicesInAResourceGroup() {
  * This sample demonstrates how to The List operation gets information about the dedicated hsms associated with the subscription and within the specified resource group.
  *
  * @summary The List operation gets information about the dedicated hsms associated with the subscription and within the specified resource group.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/PaymentHsm_ListByResourceGroup.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/PaymentHsm_ListByResourceGroup.json
  */
-async function listDedicatedHsmDevicesInAResourceGroupIncludingPaymentHsm() {
+async function listDedicatedHsmDevicesInAResourceGroupIncludingPaymentHsm(): Promise<void> {
   const subscriptionId =
     process.env["HARDWARESECURITYMODULES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -53,14 +51,14 @@ async function listDedicatedHsmDevicesInAResourceGroupIncludingPaymentHsm() {
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.dedicatedHsmOperations.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listDedicatedHsmDevicesInAResourceGroup();
   listDedicatedHsmDevicesInAResourceGroupIncludingPaymentHsm();
 }

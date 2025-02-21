@@ -14,7 +14,7 @@ import {
 import {
   AnalyzeConversationTask as AnalyzeConversationTaskMapper,
   AnalyzeConversationJobsInput as AnalyzeConversationJobsInputMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

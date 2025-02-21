@@ -195,6 +195,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workbooksrevisiongetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/applicationinsights/arm-appinsights/samples/v5-beta/javascript/workbooksRevisionGetSample.js
 [workbooksrevisionslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/applicationinsights/arm-appinsights/samples/v5-beta/javascript/workbooksRevisionsListSample.js
 [workbooksupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/applicationinsights/arm-appinsights/samples/v5-beta/javascript/workbooksUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appinsights?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appinsights?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/applicationinsights/arm-appinsights/README.md

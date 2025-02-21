@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./jobs";
-export * from "./providers";
-export * from "./storage";
-export * from "./quotas";
+export * from "./jobs.js";
+export * from "./providers.js";
+export * from "./storage.js";
+export * from "./quotas.js";

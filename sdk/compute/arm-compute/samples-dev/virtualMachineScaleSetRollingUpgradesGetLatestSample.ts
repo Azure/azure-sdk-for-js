@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the status of the latest virtual machine scale set rolling upgrade.
@@ -20,11 +16,9 @@ dotenv.config();
  * @summary Gets the status of the latest virtual machine scale set rolling upgrade.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_GetLatest_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetRollingUpgradeGetLatestMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetRollingUpgradeGetLatestMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -41,11 +35,9 @@ async function virtualMachineScaleSetRollingUpgradeGetLatestMaximumSetGen() {
  * @summary Gets the status of the latest virtual machine scale set rolling upgrade.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_GetLatest_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetRollingUpgradeGetLatestMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetRollingUpgradeGetLatestMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -56,9 +48,9 @@ async function virtualMachineScaleSetRollingUpgradeGetLatestMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetRollingUpgradeGetLatestMaximumSetGen();
-  virtualMachineScaleSetRollingUpgradeGetLatestMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetRollingUpgradeGetLatestMaximumSetGen();
+  await virtualMachineScaleSetRollingUpgradeGetLatestMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  ExpressRouteCrossConnectionsListRoutesTableParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { ExpressRouteCrossConnectionsListRoutesTableParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the currently advertised routes table associated with the express route cross connection in a resource group.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Gets the currently advertised routes table associated with the express route cross connection in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCrossConnectionsRouteTable.json
  */
-async function getExpressRouteCrossConnectionsRouteTable() {
+async function getExpressRouteCrossConnectionsRouteTable(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

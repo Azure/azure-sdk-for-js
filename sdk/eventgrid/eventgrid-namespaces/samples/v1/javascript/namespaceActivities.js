@@ -1,17 +1,6 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-/**
- * @summary Publish and Receive events to Event Grid.
- */
-
 const { EventGridSenderClient, EventGridReceiverClient } = require("@azure/eventgrid-namespaces");
 const { AzureKeyCredential } = require("@azure/core-auth");
-
-const dotenv = require("dotenv");
-
-// Load the .env file if it exists
-dotenv.config();
+require("dotenv/config");
 
 const endpoint = process.env["EVENT_GRID_NAMESPACES_ENDPOINT"] ?? "https://endpoint";
 const key = process.env["EVENT_GRID_NAMESPACES_KEY"] ?? "api_key";

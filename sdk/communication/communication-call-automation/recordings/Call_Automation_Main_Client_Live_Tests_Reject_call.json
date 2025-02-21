@@ -17,30 +17,53 @@
     "serverCallId": "sanitized",
     "callerDisplayName": "",
     "incomingCallContext": "sanitized",
-    "correlationId": "ca273979-9c45-4d89-a83a-9d5d7b3438ec"
+    "correlationId": "3a46da02-de42-4591-8beb-bb747850b25f"
   },
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/52006680-c9c5-4ab4-918b-764cce083351",
+      "source": "calling/callConnections/0a004680-12de-41a9-a8d7-ba2aa5a982f3",
       "type": "Microsoft.Communication.CallDisconnected",
       "data": {
         "version": "2024-09-15",
         "operationContext": "operationContextRejectCall",
         "resultInformation": {
           "code": 200,
-          "subCode": 0,
-          "message": ""
+          "subCode": 5002,
+          "message": "The conversation has ended. DiagCode: 0#5002.@"
         },
-        "callConnectionId": "52006680-c9c5-4ab4-918b-764cce083351",
+        "callConnectionId": "0a004680-12de-41a9-a8d7-ba2aa5a982f3",
         "serverCallId": "sanitized",
-        "correlationId": "ca273979-9c45-4d89-a83a-9d5d7b3438ec",
+        "correlationId": "3a46da02-de42-4591-8beb-bb747850b25f",
         "publicEventType": "Microsoft.Communication.CallDisconnected"
       },
-      "time": "2024-11-07T19:46:43.0993729+00:00",
+      "time": "2025-02-03T09:25:46.7907514+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/52006680-c9c5-4ab4-918b-764cce083351"
+      "subject": "calling/callConnections/0a004680-12de-41a9-a8d7-ba2aa5a982f3"
+    }
+  ],
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/0a004680-12de-41a9-a8d7-ba2aa5a982f3",
+      "type": "Microsoft.Communication.CreateCallFailed",
+      "data": {
+        "version": "2024-09-15",
+        "resultInformation": {
+          "code": 200,
+          "subCode": 5002,
+          "message": "The conversation has ended. DiagCode: 0#5002.@"
+        },
+        "callConnectionId": "0a004680-12de-41a9-a8d7-ba2aa5a982f3",
+        "serverCallId": "sanitized",
+        "correlationId": "3a46da02-de42-4591-8beb-bb747850b25f",
+        "publicEventType": "Microsoft.Communication.CreateCallFailed"
+      },
+      "time": "2025-02-03T09:25:46.7907514+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/0a004680-12de-41a9-a8d7-ba2aa5a982f3"
     }
   ]
 ]

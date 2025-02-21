@@ -6,14 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./licenses";
-export * from "./machines";
-export * from "./licenseProfiles";
-export * from "./machineExtensions";
-export * from "./extensionMetadata";
-export * from "./operations";
-export * from "./networkProfileOperations";
-export * from "./privateLinkScopes";
-export * from "./privateLinkResources";
-export * from "./privateEndpointConnections";
-export * from "./networkSecurityPerimeterConfigurations";
+export * from "./licenses.js";
+export * from "./machines.js";
+export * from "./licenseProfiles.js";
+export * from "./machineExtensions.js";
+export * from "./extensionMetadata.js";
+export * from "./operations.js";
+export * from "./networkProfileOperations.js";
+export * from "./machineRunCommands.js";
+export * from "./gateways.js";
+export * from "./settingsOperations.js";
+export * from "./privateLinkScopes.js";
+export * from "./privateLinkResources.js";
+export * from "./privateEndpointConnections.js";
+export * from "./networkSecurityPerimeterConfigurations.js";

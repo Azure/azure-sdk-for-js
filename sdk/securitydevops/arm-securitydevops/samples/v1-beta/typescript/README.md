@@ -129,7 +129,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [githubrepolistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/securitydevops/arm-securitydevops/samples/v1-beta/typescript/src/gitHubRepoListSample.ts
 [githubrepoupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/securitydevops/arm-securitydevops/samples/v1-beta/typescript/src/gitHubRepoUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/securitydevops/arm-securitydevops/samples/v1-beta/typescript/src/operationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-securitydevops?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-securitydevops?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/securitydevops/arm-securitydevops/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

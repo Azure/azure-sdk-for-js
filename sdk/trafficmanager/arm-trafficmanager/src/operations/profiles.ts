@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Profiles } from "../operationsInterfaces";
+import { Profiles } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { TrafficManagerManagementClient } from "../trafficManagerManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { TrafficManagerManagementClient } from "../trafficManagerManagementClient.js";
 import {
   Profile,
   ProfilesListByResourceGroupOptionalParams,
@@ -31,7 +31,7 @@ import {
   ProfilesDeleteResponse,
   ProfilesUpdateOptionalParams,
   ProfilesUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Profiles operations. */

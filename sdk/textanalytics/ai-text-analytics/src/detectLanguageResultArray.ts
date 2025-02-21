@@ -5,10 +5,10 @@ import type {
   LanguageResult,
   TextDocumentBatchStatistics,
   TextDocumentInput,
-} from "./generated/models";
-import type { DetectLanguageResult } from "./detectLanguageResult";
-import { makeDetectLanguageErrorResult, makeDetectLanguageResult } from "./detectLanguageResult";
-import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
+} from "./generated/models/index.js";
+import type { DetectLanguageResult } from "./detectLanguageResult.js";
+import { makeDetectLanguageErrorResult, makeDetectLanguageResult } from "./detectLanguageResult.js";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult.js";
 
 /**
  * Array of `DetectLanguageResult` objects corresponding to a batch of input documents, and

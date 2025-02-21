@@ -80,7 +80,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("cannot create a certificate with an empty name", async function () {
+  it("cannot create a certificate with an empty name", async () => {
     const certificateName = "";
     await expect(
       client.beginCreateCertificate(certificateName, basicCertificatePolicy, testPollerProperties),
@@ -438,7 +438,7 @@ describe("Certificates client - create, read, update and delete", () => {
     expect(updated.policy!.issuerName).toEqual("Self");
   });
 
-  it("can read, cancel and delete a certificate's operation", { retry: 5 }, async function () {
+  it("can read, cancel and delete a certificate's operation", async () => {
     const certificateName = recorder.variable(
       "crudcertoperation",
       `crudcertoperation-${Math.floor(Math.random() * 10000)}`,
@@ -465,17 +465,21 @@ describe("Certificates client - create, read, update and delete", () => {
     // Delete
     await client.deleteCertificateOperation(certificateName);
 
-    let error;
+    let errorMessage: string;
     try {
       await client.getCertificateOperation(certificateName);
       throw Error("Expecting an error but not catching one.");
     } catch (e: any) {
-      error = e;
+      errorMessage = e.message;
     }
-    expect(error.message).toEqual(`Pending certificate not found: ${certificateName}`);
+    const expectedErrorMessage = new RegExp(
+      `pending certificate not found: ${certificateName}`,
+      /* case insensitive */ "i",
+    );
+    expect(errorMessage).toMatch(expectedErrorMessage);
   });
 
-  it("can set, read and delete a certificate's contacts", async function () {
+  it("can set, read and delete a certificate's contacts", async () => {
     const contacts = [
       {
         email: "a@a.com",

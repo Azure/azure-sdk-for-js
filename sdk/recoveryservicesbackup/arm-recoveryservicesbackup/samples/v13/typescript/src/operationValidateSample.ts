@@ -13,9 +13,7 @@ import {
   RecoveryServicesBackupClient,
 } from "@azure/arm-recoveryservicesbackup";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Validate operation for specified backed up item. This is a synchronous operation.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Validate operation for specified backed up item. This is a synchronous operation.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk.json
  */
-async function validateOperation() {
+async function validateOperation(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -70,7 +68,7 @@ async function validateOperation() {
  * @summary Validate operation for specified backed up item. This is a synchronous operation.
  * x-ms-original-file: specification/recoveryservicesbackup/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/AzureIaasVm/ValidateOperation_RestoreDisk_IdentityBasedRestoreDetails.json
  */
-async function validateOperationWithIdentityBasedRestoreDetails() {
+async function validateOperationWithIdentityBasedRestoreDetails(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESBACKUP_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -113,7 +111,7 @@ async function validateOperationWithIdentityBasedRestoreDetails() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   validateOperation();
   validateOperationWithIdentityBasedRestoreDetails();
 }

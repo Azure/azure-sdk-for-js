@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { LogFiles } from "../operationsInterfaces";
+import { LogFiles } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MariaDBManagementClient } from "../mariaDBManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MariaDBManagementClient } from "../mariaDBManagementClient.js";
 import {
   LogFile,
   LogFilesListByServerOptionalParams,
   LogFilesListByServerResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LogFiles operations. */

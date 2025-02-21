@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { BastionHost, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the specified Bastion Host.
  *
  * @summary Creates or updates the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/BastionHostPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostPut.json
  */
-async function createBastionHost() {
+async function createBastionHost(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const bastionHostName = "bastionhosttenant";
@@ -51,9 +49,40 @@ async function createBastionHost() {
  * This sample demonstrates how to Creates or updates the specified Bastion Host.
  *
  * @summary Creates or updates the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/BastionHostPutWithZones.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostPutWithPrivateOnly.json
  */
-async function createBastionHostWithZones() {
+async function createBastionHostWithPrivateOnly(): Promise<void> {
+  const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
+  const bastionHostName = "bastionhosttenant";
+  const parameters: BastionHost = {
+    enablePrivateOnlyBastion: true,
+    ipConfigurations: [
+      {
+        name: "bastionHostIpConfiguration",
+        subnet: {
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/BastionHostSubnet",
+        },
+      },
+    ],
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new NetworkManagementClient(credential, subscriptionId);
+  const result = await client.bastionHosts.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    bastionHostName,
+    parameters,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates or updates the specified Bastion Host.
+ *
+ * @summary Creates or updates the specified Bastion Host.
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostPutWithZones.json
+ */
+async function createBastionHostWithZones(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const bastionHostName = "bastionhosttenant";
@@ -84,9 +113,9 @@ async function createBastionHostWithZones() {
  * This sample demonstrates how to Creates or updates the specified Bastion Host.
  *
  * @summary Creates or updates the specified Bastion Host.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/BastionHostDeveloperPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/BastionHostDeveloperPut.json
  */
-async function createDeveloperBastionHost() {
+async function createDeveloperBastionHost(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg2";
   const bastionHostName = "bastionhostdeveloper";
@@ -107,8 +136,9 @@ async function createDeveloperBastionHost() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createBastionHost();
+  createBastionHostWithPrivateOnly();
   createBastionHostWithZones();
   createDeveloperBastionHost();
 }

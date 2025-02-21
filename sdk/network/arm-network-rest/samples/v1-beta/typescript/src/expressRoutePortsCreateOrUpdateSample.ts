@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ExpressRoutePortsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the specified ExpressRoutePort resource.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates the specified ExpressRoutePort resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortCreate.json
  */
-async function expressRoutePortCreate() {
+async function expressRoutePortCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -31,17 +26,17 @@ async function expressRoutePortCreate() {
         bandwidthInGbps: 100,
         billingType: "UnlimitedData",
         encapsulation: "QinQ",
-        peeringLocation: "peeringLocationName"
-      }
+        peeringLocation: "peeringLocationName",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
       subscriptionId,
       resourceGroupName,
-      expressRoutePortName
+      expressRoutePortName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -56,7 +51,7 @@ expressRoutePortCreate().catch(console.error);
  * @summary Creates or updates the specified ExpressRoutePort resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRoutePortUpdateLink.json
  */
-async function expressRoutePortUpdateLink() {
+async function expressRoutePortUpdateLink(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -70,17 +65,17 @@ async function expressRoutePortUpdateLink() {
         billingType: "UnlimitedData",
         encapsulation: "QinQ",
         links: [{ name: "link1", properties: { adminState: "Enabled" } }],
-        peeringLocation: "peeringLocationName"
-      }
+        peeringLocation: "peeringLocationName",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
       subscriptionId,
       resourceGroupName,
-      expressRoutePortName
+      expressRoutePortName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -15,7 +15,7 @@ import {
   CustomersGetResponse,
   CustomersGetByBillingAccountOptionalParams,
   CustomersGetByBillingAccountResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Customers. */

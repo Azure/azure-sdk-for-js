@@ -21,7 +21,7 @@ const key = process.env["KEY"];
 const modelName = process.env["MODEL_NAME"];
 
 async function main() {
-  console.log("== Chat Completions Sample ==");
+  console.log("== Text Embeddings Sample ==");
 
   const client = createModelClient();
   const response = await client.path("/embeddings").post({
@@ -53,8 +53,7 @@ function createModelClient() {
     const scopes = [];
     if (endpoint.includes(".models.ai.azure.com")) {
       scopes.push("https://ml.azure.com");
-    }
-    else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+    } else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
       scopes.push("https://cognitiveservices.azure.com");
     }
 

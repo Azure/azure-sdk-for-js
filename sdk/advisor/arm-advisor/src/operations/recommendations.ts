@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Recommendations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Recommendations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AdvisorManagementClient } from "../advisorManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AdvisorManagementClient } from "../advisorManagementClient.js";
 import {
   ResourceRecommendationBase,
   RecommendationsListNextOptionalParams,
@@ -23,8 +23,8 @@ import {
   RecommendationsGetGenerateStatusOptionalParams,
   RecommendationsGetOptionalParams,
   RecommendationsGetResponse,
-  RecommendationsListNextResponse
-} from "../models";
+  RecommendationsListNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Recommendations operations. */
@@ -45,7 +45,7 @@ export class RecommendationsImpl implements Recommendations {
    * @param options The options parameters.
    */
   public list(
-    options?: RecommendationsListOptionalParams
+    options?: RecommendationsListOptionalParams,
   ): PagedAsyncIterableIterator<ResourceRecommendationBase> {
     const iter = this.listPagingAll(options);
     return {
@@ -60,13 +60,13 @@ export class RecommendationsImpl implements Recommendations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: RecommendationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ResourceRecommendationBase[]> {
     let result: RecommendationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class RecommendationsImpl implements Recommendations {
   }
 
   private async *listPagingAll(
-    options?: RecommendationsListOptionalParams
+    options?: RecommendationsListOptionalParams,
   ): AsyncIterableIterator<ResourceRecommendationBase> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -100,7 +100,7 @@ export class RecommendationsImpl implements Recommendations {
    * @param options The options parameters.
    */
   generate(
-    options?: RecommendationsGenerateOptionalParams
+    options?: RecommendationsGenerateOptionalParams,
   ): Promise<RecommendationsGenerateResponse> {
     return this.client.sendOperationRequest({ options }, generateOperationSpec);
   }
@@ -115,11 +115,11 @@ export class RecommendationsImpl implements Recommendations {
    */
   getGenerateStatus(
     operationId: string,
-    options?: RecommendationsGetGenerateStatusOptionalParams
+    options?: RecommendationsGetGenerateStatusOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { operationId, options },
-      getGenerateStatusOperationSpec
+      getGenerateStatusOperationSpec,
     );
   }
 
@@ -128,9 +128,7 @@ export class RecommendationsImpl implements Recommendations {
    * invoking generateRecommendations.
    * @param options The options parameters.
    */
-  private _list(
-    options?: RecommendationsListOptionalParams
-  ): Promise<RecommendationsListResponse> {
+  private _list(options?: RecommendationsListOptionalParams): Promise<RecommendationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
@@ -144,11 +142,11 @@ export class RecommendationsImpl implements Recommendations {
   get(
     resourceUri: string,
     recommendationId: string,
-    options?: RecommendationsGetOptionalParams
+    options?: RecommendationsGetOptionalParams,
   ): Promise<RecommendationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, recommendationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -159,113 +157,89 @@ export class RecommendationsImpl implements Recommendations {
    */
   private _listNext(
     nextLink: string,
-    options?: RecommendationsListNextOptionalParams
+    options?: RecommendationsListNextOptionalParams,
   ): Promise<RecommendationsListNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
-    );
+    return this.client.sendOperationRequest({ nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const generateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations",
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.RecommendationsGenerateHeaders
+      headersMapper: Mappers.RecommendationsGenerateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getGenerateStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations/{operationId}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/generateRecommendations/{operationId}",
   httpMethod: "GET",
   responses: {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.operationId
-  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId, Parameters.operationId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/recommendations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceRecommendationBaseListResult
+      bodyMapper: Mappers.ResourceRecommendationBaseListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skipToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top, Parameters.skipToken],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
+  path: "/{resourceUri}/providers/Microsoft.Advisor/recommendations/{recommendationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceRecommendationBase
+      bodyMapper: Mappers.ResourceRecommendationBase,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.recommendationId
-  ],
+  urlParameters: [Parameters.$host, Parameters.resourceUri, Parameters.recommendationId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceRecommendationBaseListResult
+      bodyMapper: Mappers.ResourceRecommendationBaseListResult,
     },
     default: {
-      bodyMapper: Mappers.ArmErrorResponse
-    }
+      bodyMapper: Mappers.ArmErrorResponse,
+    },
   },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
+  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

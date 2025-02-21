@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.2.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,13 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.2.0 (2025-02-18)
+
+### Other Changes
+
+- Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31647](https://github.com/Azure/azure-sdk-for-js/pull/31647)
+- Updated `@azure/msal-node` to the version `^3.2.2`
 
 ## 1.1.0 (2024-10-15)
 
@@ -25,9 +32,11 @@
 ## 1.0.0 (2023-11-07)
 
 ### Features Added
+
 - First GA release of the plugin package `@azure/identity-broker` to [support authentication through broker such as WAM](https://learn.microsoft.com/entra/identity-platform/scenario-desktop-acquire-token-wam). This plugin works with the [`brokerOptions` on `InteractiveBrowserCredential` added in the `@azure/identity` package](https://github.com/Azure/azure-sdk-for-js/pull/26091/).
 
 ## 1.0.0-beta.1 (2023-10-23)
 
 ### Features Added
+
 - Created a plugin package to [support authentication through broker such as WAM](https://learn.microsoft.com/entra/identity-platform/scenario-desktop-acquire-token-wam). This plugin works with the [`brokerOptions` on `InteractiveBrowserCredential` added in the `@azure/identity` package](https://github.com/Azure/azure-sdk-for-js/pull/26091).

@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  NetworkWatchersGetTroubleshootingParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { NetworkWatchersGetTroubleshootingParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Initiate troubleshooting on a specified resource.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Initiate troubleshooting on a specified resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherTroubleshootGet.json
  */
-async function getTroubleshooting() {
+async function getTroubleshooting(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

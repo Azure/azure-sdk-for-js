@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   DiskEncryptionSetsUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
@@ -29,30 +24,29 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
       identity: { type: "SystemAssigned" },
       properties: {
         activeKey: {
-          keyUrl:
-            "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1"
+          keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
         },
         encryptionType: "EncryptionAtRestWithCustomerKey",
-        rotationToLatestKeyVersionEnabled: true
-      }
+        rotationToLatestKeyVersionEnabled: true,
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
 updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
@@ -71,30 +65,29 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
       identity: { type: "SystemAssigned" },
       properties: {
         activeKey: {
-          keyUrl:
-            "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1"
+          keyUrl: "https://myvaultdifferentsub.vault-int.azure-int.net/keys/keyName/keyVersion1",
         },
         encryptionType: "EncryptionAtRestWithCustomerKey",
-        rotationToLatestKeyVersionEnabled: true
-      }
+        rotationToLatestKeyVersionEnabled: true,
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
 updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
@@ -112,28 +105,26 @@ async function updateADiskEncryptionSet() {
     body: {
       properties: {
         activeKey: {
-          keyUrl:
-            "https://myvmvault.vault-int.azure-int.net/keys/keyName/keyVersion",
+          keyUrl: "https://myvmvault.vault-int.azure-int.net/keys/keyName/keyVersion",
           sourceVault: {
-            id:
-              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault"
-          }
+            id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVMVault",
+          },
         },
-        encryptionType: "EncryptionAtRestWithCustomerKey"
+        encryptionType: "EncryptionAtRestWithCustomerKey",
       },
-      tags: { department: "Development", project: "Encryption" }
+      tags: { department: "Development", project: "Encryption" },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .patch(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

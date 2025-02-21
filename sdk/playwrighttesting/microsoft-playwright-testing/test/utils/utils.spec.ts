@@ -16,6 +16,7 @@ import {
   validateServiceUrl,
   validateMptPAT,
   exitWithFailureMessage,
+  warnIfAccessTokenCloseToExpiry,
   fetchOrValidateAccessToken,
   emitReportingUrl,
   populateValuesFromServiceUrl,
@@ -75,24 +76,21 @@ describe("Service Utils", () => {
       "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
-    const runName = "runName";
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&runName=${runName}&os=${os}&api-version=${API_VERSION}`;
-    expect(getServiceWSEndpoint(runId, runName, os)).to.equal(expected);
+    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${API_VERSION}`;
+    expect(getServiceWSEndpoint(runId, os)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
-  it("should escape special character in runName and runId", () => {
+  it("should escape special character in runId", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
     const escapeRunId = encodeURIComponent(runId);
-    const runName = "run#Name-12/09";
-    const escapeRunName = encodeURIComponent(runName);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&runName=${escapeRunName}&os=${os}&api-version=${API_VERSION}`;
-    expect(getServiceWSEndpoint(runId, runName, os)).to.equal(expected);
+    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${API_VERSION}`;
+    expect(getServiceWSEndpoint(runId, os)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
@@ -194,6 +192,38 @@ describe("Service Utils", () => {
     });
     expect(() => validateMptPAT(exitWithFailureMessage)).to.throw();
     expect(exitStub.calledWith(1)).to.be.true;
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  });
+  it("should log a warning if the token is close to expiry", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    const currentTime = Date.now();
+    sandbox.stub(Date, "now").returns(currentTime);
+    const fiveDaysFromNow = Math.floor((currentTime + 5 * 24 * 60 * 60 * 1000) / 1000);
+    sandbox.stub(utils, "parseJwt").returns({ exp: fiveDaysFromNow });
+    const consoleWarningSpy = sandbox.stub(console, "warn");
+    warnIfAccessTokenCloseToExpiry();
+    const expirationTime = fiveDaysFromNow * 1000;
+    const daysToExpiration = Math.ceil((expirationTime - currentTime) / (24 * 60 * 60 * 1000));
+    const expirationDate = new Date(expirationTime).toLocaleDateString();
+    const expirationWarning = `Warning: The access token used for this test run will expire in ${daysToExpiration} days on ${expirationDate}. Generate a new token from the portal to avoid failures. For a simpler, more secure solution, switch to Microsoft Entra ID and eliminate token management. https://learn.microsoft.com/en-us/entra/identity/`;
+    expect(consoleWarningSpy.calledOnce).to.be.true;
+    expect(consoleWarningSpy.calledWithExactly(expirationWarning)).to.be.true;
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
+  });
+
+  it("should not log a warning if the token is not close to expiry", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
+    const thirtyDaysFromNow = Math.ceil((Date.now() + 30 * 24 * 60 * 60 * 1000) / 1000);
+    sandbox.stub(utils, "parseJwt").returns({ exp: thirtyDaysFromNow });
+    sandbox
+      .stub(utils, "populateValuesFromServiceUrl")
+      .returns({ region: "eastus", accountId: "123456789" });
+
+    const consoleWarningSpy = sandbox.stub(console, "warn");
+
+    warnIfAccessTokenCloseToExpiry();
+    expect(consoleWarningSpy.called).to.be.false;
+
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
@@ -357,7 +387,7 @@ describe("Service Utils", () => {
     testRubrics.forEach(({ serviceUrl, reportingUrl }) => {
       process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = serviceUrl;
       emitReportingUrl();
-      expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_REPORTING_URL]).to.equal(
+      expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]).to.equal(
         reportingUrl,
       );
       delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -494,5 +524,12 @@ describe("Service Utils", () => {
   it("should return null if PLAYWRIGHT_SERVICE_URL is not set", () => {
     const result = populateValuesFromServiceUrl();
     expect(result).to.be.null;
+  });
+  it("should return the correct version from package.json", async () => {
+    const mockVersion = "1.0.0";
+    const packageJson = require("../../package.json");
+    sandbox.stub(packageJson, "version").value(mockVersion);
+    const version = utils.getPackageVersion();
+    expect(version).to.equal(mockVersion);
   });
 });

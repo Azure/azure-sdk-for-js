@@ -387,7 +387,6 @@ export async function retryForever<T>(
 
   // The retries are broken up into cycles, giving the user some control over how often
   // we actually attempt to retry.
-  // eslint-disable-next-line no-constant-condition
   while (true) {
     ++numRetryCycles;
 

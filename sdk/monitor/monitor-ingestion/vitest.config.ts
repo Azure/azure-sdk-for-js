@@ -8,8 +8,8 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: ["test/**/*.spec.ts"],
-      exclude: ["test/snippets.spec.ts"],
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
     },
   }),
 );

@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   RouteMapsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a RouteMap if it doesn't exist else updates the existing one.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates a RouteMap if it doesn't exist else updates the existing one.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteMapPut.json
  */
-async function routeMapPut() {
+async function routeMapPut(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -29,7 +24,7 @@ async function routeMapPut() {
     body: {
       properties: {
         associatedInboundConnections: [
-          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGateway1/expressRouteConnections/exrConn1"
+          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/expressRouteGateways/exrGateway1/expressRouteConnections/exrConn1",
         ],
         associatedOutboundConnections: [],
         rules: [
@@ -38,25 +33,23 @@ async function routeMapPut() {
             actions: [
               {
                 type: "Add",
-                parameters: [
-                  { asPath: ["22334"], community: [], routePrefix: [] }
-                ]
-              }
+                parameters: [{ asPath: ["22334"], community: [], routePrefix: [] }],
+              },
             ],
             matchCriteria: [
               {
                 asPath: [],
                 community: [],
                 matchCondition: "Contains",
-                routePrefix: ["10.0.0.0/8"]
-              }
+                routePrefix: ["10.0.0.0/8"],
+              },
             ],
-            nextStepIfMatched: "Continue"
-          }
-        ]
-      }
+            nextStepIfMatched: "Continue",
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -64,7 +57,7 @@ async function routeMapPut() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeMapName
+      routeMapName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

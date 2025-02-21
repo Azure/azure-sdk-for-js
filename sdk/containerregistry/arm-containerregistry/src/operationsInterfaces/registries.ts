@@ -44,7 +44,7 @@ import {
   RegistriesScheduleRunResponse,
   RegistriesGetBuildSourceUploadUrlOptionalParams,
   RegistriesGetBuildSourceUploadUrlResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Registries. */

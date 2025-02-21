@@ -4,7 +4,7 @@
 /**
  * Current version of the `@azure/identity` package.
  */
-export const SDK_VERSION = `4.5.1`;
+export const SDK_VERSION = `4.7.1`;
 
 /**
  * The default client ID for authentication
@@ -51,6 +51,12 @@ export enum AzureAuthorityHosts {
  * The default authority host.
  */
 export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
+
+/**
+ * @internal
+ * The default environment host for Azure Public Cloud
+ */
+export const DefaultAuthority = "login.microsoftonline.com";
 
 /**
  * @internal

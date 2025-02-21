@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ManagedPrivateEndpointUpdateParameters,
-  DashboardManagementClient
-} from "@azure/arm-dashboard";
+import type { ManagedPrivateEndpointUpdateParameters } from "@azure/arm-dashboard";
+import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a managed private endpoint for an existing grafana resource.
@@ -23,16 +17,14 @@ dotenv.config();
  * @summary Update a managed private endpoint for an existing grafana resource.
  * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/ManagedPrivateEndpoints_Patch.json
  */
-async function managedPrivateEndpointsPatch() {
+async function managedPrivateEndpointsPatch(): Promise<void> {
   const subscriptionId =
-    process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["DASHBOARD_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
   const workspaceName = "myWorkspace";
   const managedPrivateEndpointName = "myMPEName";
   const requestBodyParameters: ManagedPrivateEndpointUpdateParameters = {
-    tags: { environment: "Dev 2" }
+    tags: { environment: "Dev 2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
@@ -40,13 +32,13 @@ async function managedPrivateEndpointsPatch() {
     resourceGroupName,
     workspaceName,
     managedPrivateEndpointName,
-    requestBodyParameters
+    requestBodyParameters,
   );
   console.log(result);
 }
 
-async function main() {
-  managedPrivateEndpointsPatch();
+async function main(): Promise<void> {
+  await managedPrivateEndpointsPatch();
 }
 
 main().catch(console.error);

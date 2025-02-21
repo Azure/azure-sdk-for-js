@@ -17,7 +17,7 @@ import {
   MarketplaceSubscriptionsGetResponse,
   MarketplaceSubscriptionsCreateOrUpdateOptionalParams,
   MarketplaceSubscriptionsCreateOrUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a MarketplaceSubscriptions. */

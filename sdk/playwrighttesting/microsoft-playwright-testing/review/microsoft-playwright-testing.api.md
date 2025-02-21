@@ -4,6 +4,8 @@
 
 ```ts
 
+import type { ConnectOptions } from '@playwright/test';
+import type { PlaywrightTestConfig } from '@playwright/test';
 import type { TokenCredential } from '@azure/identity';
 
 // @public
@@ -15,16 +17,6 @@ export type BrowserConnectOptions = EndpointOptions & {
 };
 
 // @public
-export type ConnectOptions = {
-    headers?: {
-        [key: string]: string;
-    };
-    exposeNetwork?: string;
-    timeout?: number;
-    slowMo?: number;
-};
-
-// @public
 export type EndpointOptions = {
     wsEndpoint: string;
 };
@@ -33,31 +25,10 @@ export type EndpointOptions = {
 export const getConnectOptions: (options?: Omit<PlaywrightServiceAdditionalOptions, "serviceAuthType">) => Promise<BrowserConnectOptions>;
 
 // @public
-export const getServiceConfig: (config: PlaywrightConfigInput, options?: PlaywrightServiceAdditionalOptions) => PlaywrightConfig;
-
-// @public
-export interface MPTReporterConfig {
-    enableGitHubSummary?: boolean;
-    enableResultPublish?: boolean;
-}
+export const getServiceConfig: (config: PlaywrightTestConfig, options?: PlaywrightServiceAdditionalOptions) => PlaywrightTestConfig;
 
 // @public
 export type OsType = (typeof ServiceOS)[keyof typeof ServiceOS];
-
-// @public
-export type PlaywrightConfig = {
-    use?: {
-        connectOptions: BrowserConnectOptions;
-    };
-    globalSetup?: string;
-    globalTeardown?: string;
-};
-
-// @public
-export type PlaywrightConfigInput = {
-    globalSetup?: string;
-    globalTeardown?: string;
-};
 
 // @public
 export type PlaywrightServiceAdditionalOptions = {
@@ -73,6 +44,12 @@ export type PlaywrightServiceAdditionalOptions = {
 };
 
 // @public
+export type ReporterConfiguration = {
+    enableGitHubSummary?: boolean;
+    enableResultPublish?: boolean;
+};
+
+// @public
 export const ServiceAuth: {
     readonly ENTRA_ID: "ENTRA_ID";
     readonly ACCESS_TOKEN: "ACCESS_TOKEN";
@@ -80,11 +57,8 @@ export const ServiceAuth: {
 
 // @public
 export const ServiceEnvironmentVariable: {
-    PLAYWRIGHT_SERVICE_OS: string;
-    PLAYWRIGHT_SERVICE_EXPOSE_NETWORK_ENVIRONMENT_VARIABLE: string;
     PLAYWRIGHT_SERVICE_ACCESS_TOKEN: string;
     PLAYWRIGHT_SERVICE_URL: string;
-    PLAYWRIGHT_SERVICE_REPORTING_URL: string;
 };
 
 // @public

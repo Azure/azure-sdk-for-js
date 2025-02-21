@@ -16,7 +16,7 @@ import {
   IscsiPathsCreateOrUpdateOptionalParams,
   IscsiPathsCreateOrUpdateResponse,
   IscsiPathsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a IscsiPaths. */

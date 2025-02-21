@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  ResourceSkusListParameters,
-  paginate,
-} from "@azure-rest/arm-compute";
+import type { ResourceSkusListParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of Microsoft.Compute SKUs available for your Subscription.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkus.json
  */
-async function listsAllAvailableResourceSkUs() {
+async function listsAllAvailableResourceSkUs(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -43,7 +37,7 @@ listsAllAvailableResourceSkUs().catch(console.error);
  * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkusForARegion.json
  */
-async function listsAllAvailableResourceSkUsForTheSpecifiedRegion() {
+async function listsAllAvailableResourceSkUsForTheSpecifiedRegion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -71,7 +65,7 @@ listsAllAvailableResourceSkUsForTheSpecifiedRegion().catch(console.error);
  * @summary Gets the list of Microsoft.Compute SKUs available for your Subscription.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/Skus/stable/2021-07-01/examples/skus/ListAvailableResourceSkusWithExtendedLocations.json
  */
-async function listsAllAvailableResourceSkUsWithExtendedLocationInformation() {
+async function listsAllAvailableResourceSkUsWithExtendedLocationInformation(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

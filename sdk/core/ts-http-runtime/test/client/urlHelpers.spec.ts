@@ -117,6 +117,12 @@ describe("urlHelpers", () => {
     assert.equal(result, `https://example.org/foo?existing=hey&arrayQuery=`);
   });
 
+  it("should build url with dashes in path parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{settings-name}", ["example"]);
+
+    assert.equal(result, `https://example.org/foo/example`);
+  });
+
   it("should handle full urls as path", () => {
     const result = buildRequestUrl(mockBaseUrl, "https://example2.org", []);
     assert.equal(result, `https://example2.org`);

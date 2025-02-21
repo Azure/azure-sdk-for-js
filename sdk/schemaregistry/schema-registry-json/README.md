@@ -65,10 +65,10 @@ const { createEventDataAdapter } = require("@azure/event-hubs");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 const { JsonSchemaSerializer } = require("@azure/schema-registry-json");
 
-async function main(){
+async function main() {
   const client = new SchemaRegistryClient(
     "<fully qualified namespace>",
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
   const serializer = new JsonSchemaSerializer(client, {
     groupName: "<group>",
@@ -76,7 +76,7 @@ async function main(){
   });
 
   // Example Json schema
-  const schema = JSON.stringify({  
+  const schema = JSON.stringify({
     $schema: "http://json-schema.org/draft-04/schema#",
     $id: "person",
     title: "Student",
@@ -88,7 +88,7 @@ async function main(){
         description: "The name of the student",
       },
     },
-    required: ["name"]
+    required: ["name"],
   });
 
   // Example value that matches the Json schema above
@@ -104,11 +104,10 @@ async function main(){
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
 ```
 
-The serializer doesn't check whether the deserialized value matches the schema 
-but provides an option to implement such validation. The application can pass a 
+The serializer doesn't check whether the deserialized value matches the schema
+but provides an option to implement such validation. The application can pass a
 validation callback function as one of the options to the deserialize method where schema validation can be implemented.
 To see how the validation might be implemented, please checkout the [`schemaRegistryJsonWithValidation`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-json/samples-dev/schemaRegistryJsonWithValidation.ts)
 sample.
@@ -163,12 +162,12 @@ learn more about how to build and test the code.
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fschemaregistry%2Fschema-registry-json%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
-[resterror]: https://docs.microsoft.com/javascript/api/@azure/core-rest-pipeline/resterror?view=azure-node-latest
-[schema_registry]: https://docs.microsoft.com/javascript/api/overview/azure/schema-registry-readme?view=azure-node-latest
+[resterror]: https://learn.microsoft.com/javascript/api/@azure/core-rest-pipeline/resterror?view=azure-node-latest
+[schema_registry]: https://learn.microsoft.com/javascript/api/overview/azure/schema-registry-readme?view=azure-node-latest

@@ -30,23 +30,25 @@ To troubleshoot issues with Azure Monitor Query library, it's important to first
 
 To see a log of HTTP requests and responses:
 
- 1. Set the `AZURE_LOG_LEVEL` environment variable to `info` in your *.env* file:
+1.  Set the `AZURE_LOG_LEVEL` environment variable to `info` in your _.env_ file:
 
-  ```text
-  AZURE_LOG_LEVEL = info
-  ```
+```text
+AZURE_LOG_LEVEL = info
+```
+
 2. Add the following code to the app:
 
-```ts
-import * as dotenv from "dotenv";
-dotenv.config({ path: ".env" });
+```ts snippet:DotEnvSample
+import { config } from "dotenv";
+
+config({ path: ".env" });
 ```
 
 #### Logging using setLogLevel
 
 Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -69,7 +71,7 @@ For more help on troubleshooting authentication errors, see the Azure Identity c
 If you get an HTTP error with status code 403 (Forbidden), the provided credentials lack sufficient permissions to query the workspace.
 
 ```json
- {
+{
   "name": "RestError",
   "code": "InsufficientAccessError",
   "statusCode": 403,
@@ -106,7 +108,7 @@ If you get an HTTP error with status code 403 (Forbidden), the provided credenti
 ```
 
 1. Check that the application or user making the request has sufficient permissions:
-   - You can refer to this document to [manage access to workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
+   - You can refer to this document to [manage access to workspaces](https://learn.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
 2. If the user or application is granted sufficient privileges to query the workspace, ensure you're authenticating as that user/application. If you're authenticating using the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-with-the-defaultazurecredential), check the logs to verify the credential used is the one you expected. To enable logging, see the [Enable client logging](#enable-client-logging) section.
 
 ### Invalid Kusto query
@@ -161,7 +163,7 @@ If you get an HTTP error with status code 400 (Bad Request), you may have an err
 }
 ```
 
-The error message may include the line number and position where the Kusto query has an error (line 2, position 244 in the above example). You may also refer to the [Kusto Query Language](https://docs.microsoft.com/azure/data-explorer/kusto/query) reference docs to learn more about querying logs using KQL.
+The error message may include the line number and position where the Kusto query has an error (line 2, position 244 in the above example). You may also refer to the [Kusto Query Language](https://learn.microsoft.com/azure/data-explorer/kusto/query) reference docs to learn more about querying logs using KQL.
 
 ### Empty log query results
 
@@ -218,23 +220,26 @@ You may see an error as follows:
   },
   "message": "Gateway timeout"
 }
-
 ```
 
 The following code shows a sample of setting the server timeout to 10 minutes. By setting this server timeout, the Azure Monitor Query library automatically extends the client timeout to wait for 10 minutes for the server to respond. You don't need to configure your HTTP client to extend the response timeout, as shown in the previous section.
 
-```ts
+```ts snippet:TroubleShootingProcessServerTimeout
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient, Durations } from "@azure/monitor-query";
+
+const monitorWorkspaceId = "<workspace_id>";
+const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
 
 const credential = new DefaultAzureCredential();
 const logsQueryClient = new LogsQueryClient(credential);
+
 const result = await logsQueryClient.queryWorkspace(
-        monitorWorkspaceId,
-        kustoQuery,
-        { duration: Durations.oneHour },
-        {serverTimeoutInSeconds: 600}
-        );
+  monitorWorkspaceId,
+  kustoQuery,
+  { duration: Durations.oneHour },
+  { serverTimeoutInSeconds: 600 },
+);
 ```
 
 ### Partially successful logs query requests
@@ -243,50 +248,73 @@ By default, if the execution of a Kusto query resulted in a partially successful
 
 In the case of single query, there can be only two possibilities for the value of `status` field of `result` object: `Success` or `PartialFailure`. You can access the details of the partially successful results with the following code snippet:
 
-```ts
-const result = await logsQueryClient.queryWorkspace(${azureLogAnalyticsWorkspaceId}, ${kustoQuery}, {
-    duration: ${duration}
-  });
+```ts snippet:TroubleShootingProcessPartialResult
+import { LogsQueryClient, Durations, LogsQueryResultStatus } from "@azure/monitor-query";
+import { DefaultAzureCredential } from "@azure/identity";
 
-  if (result.status === LogsQueryResultStatus.Success) {
-    const tablesFromResult: LogsTable[] = result.tables;
+const azureLogAnalyticsWorkspaceId = "<workspace_id>";
+const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
 
-    if (tablesFromResult.length === 0) {
-      console.log(`No results for query '${kustoQuery}'`);
-      return;
-    }
-    console.log(`This query has returned table(s) - `);
-    processTables(tablesFromResult);
-  } else {
-    console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
-    if (result.partialTables.length > 0) {
-      console.log(`This query has also returned partial data in the following table(s) - `);
-      processTables(result.partialTables);
+const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
+const result = await logsQueryClient.queryWorkspace(azureLogAnalyticsWorkspaceId, kustoQuery, {
+  duration: Durations.twentyFourHours,
+});
+
+if (result.status === LogsQueryResultStatus.Success) {
+  const tablesFromResult = result.tables;
+
+  if (tablesFromResult.length === 0) {
+    console.log(`No results for query '${kustoQuery}'`);
+    return;
+  }
+  console.log(`This query has returned table(s) - `);
+  processTables(tablesFromResult);
+} else {
+  console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+  if (result.partialTables.length > 0) {
+    console.log(`This query has also returned partial data in the following table(s) - `);
+    processTables(result.partialTables);
+  }
+}
+
+function processTables(tablesFromResult) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
     }
   }
+}
 ```
 
 For more details on the response hierarchy for single query, see [Handle logs query response](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#handle-logs-query-response).
 
 In the case of multiple queries, there are three possibilities for the value of `status` field of `result` object: `Success`, `PartialFailure`, or `Failure`. You can access the details of the partially successful results by the following code snippet:
 
-```ts
-async function processBatchResult(result: LogsQueryBatchResult) {
+```ts snippet:TroubleShootingProcessBatchResult
+import { LogsQueryResultStatus } from "@azure/monitor-query";
+
+async function processBatchResult(result, queriesBatch) {
   let i = 0;
   for (const response of result) {
     console.log(`Results for query with query: ${queriesBatch[i]}`);
     if (response.status === LogsQueryResultStatus.Success) {
       console.log(
-        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.tables);
     } else if (response.status === LogsQueryResultStatus.PartialFailure) {
       console.log(
-        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`
+        `Printing partial results from query '${queriesBatch[i].query}' for '${queriesBatch[i].timespan}'`,
       );
       processTables(response.partialTables);
       console.log(
-        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`
+        ` Query had errors:${response.partialError.message} with code ${response.partialError.code}`,
       );
     } else {
       console.log(`Printing errors from query '${queriesBatch[i].query}'`);
@@ -294,6 +322,20 @@ async function processBatchResult(result: LogsQueryBatchResult) {
     }
     // next query
     i++;
+  }
+}
+
+function processTables(tablesFromResult) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
   }
 }
 ```
@@ -337,11 +379,10 @@ If you get an HTTP error with status code 403 (Forbidden), the provided credenti
   },
   "message": "The client '<client-id>' with object id '<object-id>' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
 }
-
 ```
 
 1. Check that the application or user making the request has sufficient permissions:
-   - You can refer to this document to [manage access to workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
+   - You can refer to this document to [manage access to workspaces](https://learn.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
 2. If the user or application is granted sufficient privileges to query the workspace, make sure you're authenticating as that user/application. If you're authenticating using the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/identity/azure-identity/README.md#authenticating-with-defaultazurecredential), check the logs to verify that the credential used is the one you expected. To enable logging, see the [Enable client logging](#enable-client-logging) section.
 
 ### Unsupported granularity for metrics query

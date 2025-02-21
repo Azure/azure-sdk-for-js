@@ -93,7 +93,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [moveresourceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcemover/arm-resourcemover/samples/v2/typescript/src/moveResourcesListSample.ts
 [operationsdiscoverygetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcemover/arm-resourcemover/samples/v2/typescript/src/operationsDiscoveryGetSample.ts
 [unresolveddependenciesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resourcemover/arm-resourcemover/samples/v2/typescript/src/unresolvedDependenciesGetSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resourcemover?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resourcemover?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcemover/arm-resourcemover/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

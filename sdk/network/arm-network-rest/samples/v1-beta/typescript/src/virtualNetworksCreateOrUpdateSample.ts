@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworksCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreate.json
  */
-async function createVirtualNetwork() {
+async function createVirtualNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -29,17 +24,17 @@ async function createVirtualNetwork() {
       location: "eastus",
       properties: {
         addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
-        flowTimeoutInMinutes: 10
-      }
+        flowTimeoutInMinutes: 10,
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -54,7 +49,7 @@ createVirtualNetwork().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateWithBgpCommunities.json
  */
-async function createVirtualNetworkWithBgpCommunities() {
+async function createVirtualNetworkWithBgpCommunities(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -66,19 +61,17 @@ async function createVirtualNetworkWithBgpCommunities() {
       properties: {
         addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
         bgpCommunities: { virtualNetworkCommunity: "12076:20000" },
-        subnets: [
-          { name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }
-        ]
-      }
+        subnets: [{ name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -93,7 +86,7 @@ createVirtualNetworkWithBgpCommunities().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateSubnetWithDelegation.json
  */
-async function createVirtualNetworkWithDelegatedSubnets() {
+async function createVirtualNetworkWithDelegatedSubnets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -112,22 +105,22 @@ async function createVirtualNetworkWithDelegatedSubnets() {
               delegations: [
                 {
                   name: "myDelegation",
-                  properties: { serviceName: "Microsoft.Sql/managedInstances" }
-                }
-              ]
-            }
-          }
-        ]
-      }
+                  properties: { serviceName: "Microsoft.Sql/managedInstances" },
+                },
+              ],
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -142,7 +135,7 @@ createVirtualNetworkWithDelegatedSubnets().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateWithEncryption.json
  */
-async function createVirtualNetworkWithEncryption() {
+async function createVirtualNetworkWithEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -154,19 +147,17 @@ async function createVirtualNetworkWithEncryption() {
       properties: {
         addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
         encryption: { enabled: true, enforcement: "AllowUnencrypted" },
-        subnets: [
-          { name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }
-        ]
-      }
+        subnets: [{ name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -181,7 +172,7 @@ createVirtualNetworkWithEncryption().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateServiceEndpoints.json
  */
-async function createVirtualNetworkWithServiceEndpoints() {
+async function createVirtualNetworkWithServiceEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -197,20 +188,20 @@ async function createVirtualNetworkWithServiceEndpoints() {
             name: "test-1",
             properties: {
               addressPrefix: "10.0.0.0/16",
-              serviceEndpoints: [{ service: "Microsoft.Storage" }]
-            }
-          }
-        ]
-      }
+              serviceEndpoints: [{ service: "Microsoft.Storage" }],
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -225,7 +216,7 @@ createVirtualNetworkWithServiceEndpoints().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateServiceEndpointPolicy.json
  */
-async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy() {
+async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -243,24 +234,23 @@ async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
               addressPrefix: "10.0.0.0/16",
               serviceEndpointPolicies: [
                 {
-                  id:
-                    "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1"
-                }
+                  id: "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1",
+                },
               ],
-              serviceEndpoints: [{ service: "Microsoft.Storage" }]
-            }
-          }
-        ]
-      }
+              serviceEndpoints: [{ service: "Microsoft.Storage" }],
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -268,16 +258,14 @@ async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
   console.log(result);
 }
 
-createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy().catch(
-  console.error
-);
+createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
  *
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateSubnet.json
  */
-async function createVirtualNetworkWithSubnet() {
+async function createVirtualNetworkWithSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -288,19 +276,17 @@ async function createVirtualNetworkWithSubnet() {
       location: "eastus",
       properties: {
         addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
-        subnets: [
-          { name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }
-        ]
-      }
+        subnets: [{ name: "test-1", properties: { addressPrefix: "10.0.0.0/24" } }],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -315,7 +301,7 @@ createVirtualNetworkWithSubnet().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateSubnetWithAddressPrefixes.json
  */
-async function createVirtualNetworkWithSubnetContainingAddressPrefixes() {
+async function createVirtualNetworkWithSubnetContainingAddressPrefixes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -329,19 +315,19 @@ async function createVirtualNetworkWithSubnetContainingAddressPrefixes() {
         subnets: [
           {
             name: "test-2",
-            properties: { addressPrefixes: ["10.0.0.0/28", "10.0.1.0/28"] }
-          }
-        ]
-      }
+            properties: { addressPrefixes: ["10.0.0.0/28", "10.0.1.0/28"] },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

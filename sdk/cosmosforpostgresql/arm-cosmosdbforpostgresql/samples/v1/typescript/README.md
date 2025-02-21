@@ -125,7 +125,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [roleslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/typescript/src/rolesListByClusterSample.ts
 [serversgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/typescript/src/serversGetSample.ts
 [serverslistbyclustersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/samples/v1/typescript/src/serversListByClusterSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-cosmosdbforpostgresql?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-cosmosdbforpostgresql?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure-rest/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
 import type { DeletionRecoveryLevel } from "./generated/models/index.js";
 import {
   JsonWebKeyOperation as KeyOperation,
   JsonWebKeyType as KeyType,
-  KnownJsonWebKeyType as KnownKeyTypes,
 } from "./generated/models/index.js";
 
 import type { KeyCurveName } from "./cryptographyClientModels.js";
 
-export { KeyType, KnownKeyTypes, KeyOperation };
+export { KeyType, KeyOperation };
 
 /**
  * The latest supported Key Vault service API version
@@ -605,6 +604,25 @@ export enum KnownKeyExportEncryptionAlgorithm {
   RsaAesKeyWrap256 = "RSA_AES_KEY_WRAP_256",
   /** RSA_AES_KEY_WRAP_384 Key Export Encryption Algorithm */
   RsaAesKeyWrap384 = "RSA_AES_KEY_WRAP_384",
+}
+
+/**
+ * JsonWebKey Key Type (kty), as defined in
+ * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
+ */
+export enum KnownKeyTypes {
+  /** Elliptic Curve. */
+  EC = "EC",
+  /** Elliptic Curve with a private key which is stored in the HSM. */
+  ECHSM = "EC-HSM",
+  /** RSA (https://tools.ietf.org/html/rfc3447) */
+  RSA = "RSA",
+  /** RSA with a private key which is stored in the HSM. */
+  RSAHSM = "RSA-HSM",
+  /** Octet sequence (used to represent symmetric keys) */
+  Oct = "oct",
+  /** Octet sequence (used to represent symmetric keys) which is stored the HSM. */
+  OctHSM = "oct-HSM",
 }
 
 /* eslint-disable tsdoc/syntax */

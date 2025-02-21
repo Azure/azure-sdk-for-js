@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventMessage } from "../../src/index.js";
+import type { EventMessage } from "../../src/index.js";
 import {
   assertAsyncIterable,
   genChunks,
@@ -18,7 +18,7 @@ import {
   genStrs,
   createRetry,
 } from "./util.js";
-import { describe, it, assert, SuiteCollector } from "vitest";
+import { describe, it, assert, type SuiteCollector } from "vitest";
 import { matrix } from "@azure-tools/test-utils-vitest";
 
 export function buildSseTests(

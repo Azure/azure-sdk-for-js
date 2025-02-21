@@ -300,6 +300,25 @@ describe("session tests", () => {
         err.name.should.equal("AbortError");
       }
     });
+
+    ["acceptSession", "acceptNextSession"].forEach((method) => {
+      it(`${method} on session id of empty string`, async () => {
+        serviceBusClient = createServiceBusClientForTests();
+        const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
+        const testMessage = TestMessage.getSessionSample();
+        testMessage.sessionId = "";
+        sender = serviceBusClient.test.addToCleanup(
+          serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
+        );
+        await sender.sendMessages(testMessage);
+        receiver =
+          method === "acceptSession"
+            ? await serviceBusClient.test.acceptSessionWithPeekLock(entityNames, "")
+            : await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
+        const msgs = await receiver.receiveMessages(10);
+        should.equal(msgs.length, 1, "Unexpected number of messages received");
+      });
+    });
   });
 });
 

@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import type { MsalClient } from "../msal/nodeFlows/msalClient";
-import { createMsalClient } from "../msal/nodeFlows/msalClient";
+import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../util/tenantIdUtils.js";
 
-import { CredentialUnavailableError } from "../errors";
-import type { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
-import { credentialLogger } from "../util/logging";
-import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
+import { CredentialUnavailableError } from "../errors.js";
+import type { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions.js";
+import { credentialLogger } from "../util/logging.js";
+import { ensureScopes } from "../util/scopeUtils.js";
+import { tracingClient } from "../util/tracing.js";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 
@@ -40,6 +40,8 @@ export class UsernamePasswordCredential implements TokenCredential {
    * @param username - The user account's e-mail address (user name).
    * @param password - The user account's account password
    * @param options - Options for configuring the client which makes the authentication request.
+   *
+   * @deprecated UsernamePasswordCredential is deprecated. Use a more secure credential. See https://aka.ms/azsdk/identity/mfa for details.
    */
   constructor(
     tenantId: string,

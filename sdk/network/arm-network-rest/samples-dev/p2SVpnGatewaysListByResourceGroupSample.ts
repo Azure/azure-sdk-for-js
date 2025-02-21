@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  P2SVpnGatewaysListByResourceGroupParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { P2SVpnGatewaysListByResourceGroupParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the P2SVpnGateways in a resource group.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Lists all the P2SVpnGateways in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/P2SVpnGatewayListByResourceGroup.json
  */
-async function p2SVpnGatewayListByResourceGroup() {
+async function p2SVpnGatewayListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

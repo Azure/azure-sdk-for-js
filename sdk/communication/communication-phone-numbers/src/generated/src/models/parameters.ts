@@ -16,7 +16,7 @@ import {
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
   PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper,
   OperatorInformationRequest as OperatorInformationRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -121,7 +121,7 @@ export const administrativeDivision: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-03-01-preview",
+    defaultValue: "2025-02-11",
     isConstant: true,
     serializedName: "api-version",
     type: {

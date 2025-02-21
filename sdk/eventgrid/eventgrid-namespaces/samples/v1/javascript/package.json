@@ -28,6 +28,6 @@
   "dependencies": {
     "@azure/eventgrid-namespaces": "latest",
     "dotenv": "latest",
-    "@azure/core-auth": "^1.7.0"
+    "@azure/core-auth": "^1.9.0"
   }
 }

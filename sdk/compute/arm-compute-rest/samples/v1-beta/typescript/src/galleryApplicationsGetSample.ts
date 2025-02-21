@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  GalleryApplicationsGetParameters
+  GalleryApplicationsGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about a gallery Application Definition.
@@ -25,7 +20,7 @@ async function getAGalleryApplication() {
   const galleryName = "myGalleryName";
   const galleryApplicationName = "myGalleryApplicationName";
   const options: GalleryApplicationsGetParameters = {
-    queryParameters: { "api-version": "2022-01-03" }
+    queryParameters: { "api-version": "2022-01-03" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getAGalleryApplication() {
       subscriptionId,
       resourceGroupName,
       galleryName,
-      galleryApplicationName
+      galleryApplicationName,
     )
     .get(options);
   console.log(result);

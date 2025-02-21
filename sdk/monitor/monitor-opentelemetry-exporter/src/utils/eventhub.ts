@@ -13,7 +13,7 @@ import { AzNamespace, MessageBusDestination } from "./constants/span/azAttribute
 /**
  * Average span.links[].attributes.enqueuedTime
  */
-const getTimeSinceEnqueued = (span: ReadableSpan) => {
+const getTimeSinceEnqueued = (span: ReadableSpan): number => {
   let countEnqueueDiffs = 0;
   let sumEnqueueDiffs = 0;
   const startTimeMs = hrTimeToMilliseconds(span.startTime);

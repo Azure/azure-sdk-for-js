@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Credits } from "../operationsInterfaces";
+import { Credits } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ConsumptionManagementClient } from "../consumptionManagementClient";
-import { CreditsGetOptionalParams, CreditsGetResponse } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ConsumptionManagementClient } from "../consumptionManagementClient.js";
+import { CreditsGetOptionalParams, CreditsGetResponse } from "../models/index.js";
 
 /** Class containing Credits operations. */
 export class CreditsImpl implements Credits {

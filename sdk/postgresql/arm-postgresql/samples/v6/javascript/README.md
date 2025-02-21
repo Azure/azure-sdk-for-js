@@ -139,6 +139,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [virtualnetworkrulesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql/samples/v6/javascript/virtualNetworkRulesDeleteSample.js
 [virtualnetworkrulesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql/samples/v6/javascript/virtualNetworkRulesGetSample.js
 [virtualnetworkruleslistbyserversample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/postgresql/arm-postgresql/samples/v6/javascript/virtualNetworkRulesListByServerSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-postgresql?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-postgresql?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/postgresql/arm-postgresql/README.md

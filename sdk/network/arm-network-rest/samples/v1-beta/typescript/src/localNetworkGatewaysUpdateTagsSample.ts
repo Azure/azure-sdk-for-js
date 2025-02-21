@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  LocalNetworkGatewaysUpdateTagsParameters
+  LocalNetworkGatewaysUpdateTagsParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a local network gateway tags.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Updates a local network gateway tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LocalNetworkGatewayUpdateTags.json
  */
-async function updateLocalNetworkGatewayTags() {
+async function updateLocalNetworkGatewayTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,14 +20,14 @@ async function updateLocalNetworkGatewayTags() {
   const localNetworkGatewayName = "lgw";
   const options: LocalNetworkGatewaysUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
       subscriptionId,
       resourceGroupName,
-      localNetworkGatewayName
+      localNetworkGatewayName,
     )
     .patch(options);
   console.log(result);

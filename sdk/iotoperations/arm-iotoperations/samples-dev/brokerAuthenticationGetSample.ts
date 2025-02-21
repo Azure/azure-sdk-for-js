@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a BrokerAuthenticationResource
  *
  * @summary get a BrokerAuthenticationResource
- * x-ms-original-file: 2024-09-15-preview/BrokerAuthentication_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/BrokerAuthentication_Get_MaximumSet_Gen.json
  */
-async function brokerAuthenticationGet() {
+async function brokerAuthenticationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -23,8 +23,8 @@ async function brokerAuthenticationGet() {
   console.log(result);
 }
 
-async function main() {
-  brokerAuthenticationGet();
+async function main(): Promise<void> {
+  await brokerAuthenticationGet();
 }
 
 main().catch(console.error);

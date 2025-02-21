@@ -6,496 +6,496 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApiRelease } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApiManagementClient } from "../apiManagementClient";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { ApiManagementClient } from "../apiManagementClient.js";
 import {
-  ApiReleaseContract,
-  ApiReleaseListByServiceNextOptionalParams,
-  ApiReleaseListByServiceOptionalParams,
-  ApiReleaseListByServiceResponse,
-  ApiReleaseGetEntityTagOptionalParams,
-  ApiReleaseGetEntityTagResponse,
-  ApiReleaseGetOptionalParams,
-  ApiReleaseGetResponse,
-  ApiReleaseCreateOrUpdateOptionalParams,
-  ApiReleaseCreateOrUpdateResponse,
-  ApiReleaseUpdateOptionalParams,
-  ApiReleaseUpdateResponse,
-  ApiReleaseDeleteOptionalParams,
-  ApiReleaseListByServiceNextResponse
-} from "../models";
+    ApiReleaseContract,
+    ApiReleaseCreateOrUpdateOptionalParams,
+    ApiReleaseCreateOrUpdateResponse,
+    ApiReleaseDeleteOptionalParams,
+    ApiReleaseGetEntityTagOptionalParams,
+    ApiReleaseGetEntityTagResponse,
+    ApiReleaseGetOptionalParams,
+    ApiReleaseGetResponse,
+    ApiReleaseListByServiceNextOptionalParams,
+    ApiReleaseListByServiceNextResponse,
+    ApiReleaseListByServiceOptionalParams,
+    ApiReleaseListByServiceResponse,
+    ApiReleaseUpdateOptionalParams,
+    ApiReleaseUpdateResponse
+} from "../models/index.js";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApiRelease } from "../operationsInterfaces/index.js";
+import { setContinuationToken } from "../pagingHelper.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiRelease operations. */
 export class ApiReleaseImpl implements ApiRelease {
-  private readonly client: ApiManagementClient;
+    private readonly client: ApiManagementClient;
 
-  /**
-   * Initialize a new instance of the class ApiRelease class.
-   * @param client Reference to the service client
-   */
-  constructor(client: ApiManagementClient) {
-    this.client = client;
-  }
+    /**
+     * Initialize a new instance of the class ApiRelease class.
+     * @param client Reference to the service client
+     */
+    constructor(client: ApiManagementClient) {
+        this.client = client;
+    }
 
-  /**
-   * Lists all releases of an API. An API release is created when making an API Revision current.
-   * Releases are also used to rollback to previous revisions. Results will be paged and can be
-   * constrained by the $top and $skip parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param options The options parameters.
-   */
-  public listByService(
-    resourceGroupName: string,
-    serviceName: string,
-    apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams
-  ): PagedAsyncIterableIterator<ApiReleaseContract> {
-    const iter = this.listByServicePagingAll(
-      resourceGroupName,
-      serviceName,
-      apiId,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByServicePagingPage(
-          resourceGroupName,
-          serviceName,
-          apiId,
-          options,
-          settings
+    /**
+     * Lists all releases of an API. An API release is created when making an API Revision current.
+     * Releases are also used to rollback to previous revisions. Results will be paged and can be
+     * constrained by the $top and $skip parameters.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param apiId API identifier. Must be unique in the current API Management service instance.
+     * @param options The options parameters.
+     */
+    public listByService(
+        resourceGroupName: string,
+        serviceName: string,
+        apiId: string,
+        options?: ApiReleaseListByServiceOptionalParams
+    ): PagedAsyncIterableIterator<ApiReleaseContract> {
+        const iter = this.listByServicePagingAll(
+            resourceGroupName,
+            serviceName,
+            apiId,
+            options
         );
-      }
-    };
-  }
-
-  private async *listByServicePagingPage(
-    resourceGroupName: string,
-    serviceName: string,
-    apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<ApiReleaseContract[]> {
-    let result: ApiReleaseListByServiceResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByService(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
+        return {
+            next() {
+                return iter.next();
+            },
+            [Symbol.asyncIterator]() {
+                return this;
+            },
+            byPage: (settings?: PageSettings) => {
+                if (settings?.maxPageSize) {
+                    throw new Error("maxPageSize is not supported by this operation.");
+                }
+                return this.listByServicePagingPage(
+                    resourceGroupName,
+                    serviceName,
+                    apiId,
+                    options,
+                    settings
+                );
+            }
+        };
     }
-    while (continuationToken) {
-      result = await this._listByServiceNext(
-        resourceGroupName,
-        serviceName,
-        apiId,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+
+    private async *listByServicePagingPage(
+        resourceGroupName: string,
+        serviceName: string,
+        apiId: string,
+        options?: ApiReleaseListByServiceOptionalParams,
+        settings?: PageSettings
+    ): AsyncIterableIterator<ApiReleaseContract[]> {
+        let result: ApiReleaseListByServiceResponse;
+        let continuationToken = settings?.continuationToken;
+        if (!continuationToken) {
+            result = await this._listByService(
+                resourceGroupName,
+                serviceName,
+                apiId,
+                options
+            );
+            let page = result.value || [];
+            continuationToken = result.nextLink;
+            setContinuationToken(page, continuationToken);
+            yield page;
+        }
+        while (continuationToken) {
+            result = await this._listByServiceNext(
+                resourceGroupName,
+                serviceName,
+                apiId,
+                continuationToken,
+                options
+            );
+            continuationToken = result.nextLink;
+            let page = result.value || [];
+            setContinuationToken(page, continuationToken);
+            yield page;
+        }
     }
-  }
 
-  private async *listByServicePagingAll(
-    resourceGroupName: string,
-    serviceName: string,
-    apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams
-  ): AsyncIterableIterator<ApiReleaseContract> {
-    for await (const page of this.listByServicePagingPage(
-      resourceGroupName,
-      serviceName,
-      apiId,
-      options
-    )) {
-      yield* page;
+    private async *listByServicePagingAll(
+        resourceGroupName: string,
+        serviceName: string,
+        apiId: string,
+        options?: ApiReleaseListByServiceOptionalParams
+    ): AsyncIterableIterator<ApiReleaseContract> {
+        for await (const page of this.listByServicePagingPage(
+            resourceGroupName,
+            serviceName,
+            apiId,
+            options
+        )) {
+            yield* page;
+        }
     }
-  }
 
-  /**
-   * Lists all releases of an API. An API release is created when making an API Revision current.
-   * Releases are also used to rollback to previous revisions. Results will be paged and can be
-   * constrained by the $top and $skip parameters.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param options The options parameters.
-   */
-  private _listByService(
-    resourceGroupName: string,
-    serviceName: string,
-    apiId: string,
-    options?: ApiReleaseListByServiceOptionalParams
-  ): Promise<ApiReleaseListByServiceResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, options },
-      listByServiceOperationSpec
-    );
-  }
+    /**
+     * Lists all releases of an API. An API release is created when making an API Revision current.
+     * Releases are also used to rollback to previous revisions. Results will be paged and can be
+     * constrained by the $top and $skip parameters.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param apiId API identifier. Must be unique in the current API Management service instance.
+     * @param options The options parameters.
+     */
+    private _listByService(
+        resourceGroupName: string,
+        serviceName: string,
+        apiId: string,
+        options?: ApiReleaseListByServiceOptionalParams
+    ): Promise<ApiReleaseListByServiceResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, apiId, options },
+            listByServiceOperationSpec
+        );
+    }
 
-  /**
-   * Returns the etag of an API release.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param releaseId Release identifier within an API. Must be unique in the current API Management
-   *                  service instance.
-   * @param options The options parameters.
-   */
-  getEntityTag(
-    resourceGroupName: string,
-    serviceName: string,
-    apiId: string,
-    releaseId: string,
-    options?: ApiReleaseGetEntityTagOptionalParams
-  ): Promise<ApiReleaseGetEntityTagResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, releaseId, options },
-      getEntityTagOperationSpec
-    );
-  }
+    /**
+     * Returns the etag of an API release.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param apiId API identifier. Must be unique in the current API Management service instance.
+     * @param releaseId Release identifier within an API. Must be unique in the current API Management
+     *                  service instance.
+     * @param options The options parameters.
+     */
+    getEntityTag(
+        resourceGroupName: string,
+        serviceName: string,
+        apiId: string,
+        releaseId: string,
+        options?: ApiReleaseGetEntityTagOptionalParams
+    ): Promise<ApiReleaseGetEntityTagResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, apiId, releaseId, options },
+            getEntityTagOperationSpec
+        );
+    }
 
-  /**
-   * Returns the details of an API release.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param releaseId Release identifier within an API. Must be unique in the current API Management
-   *                  service instance.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    serviceName: string,
-    apiId: string,
-    releaseId: string,
-    options?: ApiReleaseGetOptionalParams
-  ): Promise<ApiReleaseGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, releaseId, options },
-      getOperationSpec
-    );
-  }
+    /**
+     * Returns the details of an API release.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param apiId API identifier. Must be unique in the current API Management service instance.
+     * @param releaseId Release identifier within an API. Must be unique in the current API Management
+     *                  service instance.
+     * @param options The options parameters.
+     */
+    get(
+        resourceGroupName: string,
+        serviceName: string,
+        apiId: string,
+        releaseId: string,
+        options?: ApiReleaseGetOptionalParams
+    ): Promise<ApiReleaseGetResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, apiId, releaseId, options },
+            getOperationSpec
+        );
+    }
 
-  /**
-   * Creates a new Release for the API.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param releaseId Release identifier within an API. Must be unique in the current API Management
-   *                  service instance.
-   * @param parameters Create parameters.
-   * @param options The options parameters.
-   */
-  createOrUpdate(
-    resourceGroupName: string,
-    serviceName: string,
-    apiId: string,
-    releaseId: string,
-    parameters: ApiReleaseContract,
-    options?: ApiReleaseCreateOrUpdateOptionalParams
-  ): Promise<ApiReleaseCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, releaseId, parameters, options },
-      createOrUpdateOperationSpec
-    );
-  }
+    /**
+     * Creates a new Release for the API.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param apiId API identifier. Must be unique in the current API Management service instance.
+     * @param releaseId Release identifier within an API. Must be unique in the current API Management
+     *                  service instance.
+     * @param parameters Create parameters.
+     * @param options The options parameters.
+     */
+    createOrUpdate(
+        resourceGroupName: string,
+        serviceName: string,
+        apiId: string,
+        releaseId: string,
+        parameters: ApiReleaseContract,
+        options?: ApiReleaseCreateOrUpdateOptionalParams
+    ): Promise<ApiReleaseCreateOrUpdateResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, apiId, releaseId, parameters, options },
+            createOrUpdateOperationSpec
+        );
+    }
 
-  /**
-   * Updates the details of the release of the API specified by its identifier.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param releaseId Release identifier within an API. Must be unique in the current API Management
-   *                  service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   *                response of the GET request or it should be * for unconditional update.
-   * @param parameters API Release Update parameters.
-   * @param options The options parameters.
-   */
-  update(
-    resourceGroupName: string,
-    serviceName: string,
-    apiId: string,
-    releaseId: string,
-    ifMatch: string,
-    parameters: ApiReleaseContract,
-    options?: ApiReleaseUpdateOptionalParams
-  ): Promise<ApiReleaseUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        serviceName,
-        apiId,
-        releaseId,
-        ifMatch,
-        parameters,
-        options
-      },
-      updateOperationSpec
-    );
-  }
+    /**
+     * Updates the details of the release of the API specified by its identifier.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param apiId API identifier. Must be unique in the current API Management service instance.
+     * @param releaseId Release identifier within an API. Must be unique in the current API Management
+     *                  service instance.
+     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+     *                response of the GET request or it should be * for unconditional update.
+     * @param parameters API Release Update parameters.
+     * @param options The options parameters.
+     */
+    update(
+        resourceGroupName: string,
+        serviceName: string,
+        apiId: string,
+        releaseId: string,
+        ifMatch: string,
+        parameters: ApiReleaseContract,
+        options?: ApiReleaseUpdateOptionalParams
+    ): Promise<ApiReleaseUpdateResponse> {
+        return this.client.sendOperationRequest(
+            {
+                resourceGroupName,
+                serviceName,
+                apiId,
+                releaseId,
+                ifMatch,
+                parameters,
+                options
+            },
+            updateOperationSpec
+        );
+    }
 
-  /**
-   * Deletes the specified release in the API.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param releaseId Release identifier within an API. Must be unique in the current API Management
-   *                  service instance.
-   * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
-   *                response of the GET request or it should be * for unconditional update.
-   * @param options The options parameters.
-   */
-  delete(
-    resourceGroupName: string,
-    serviceName: string,
-    apiId: string,
-    releaseId: string,
-    ifMatch: string,
-    options?: ApiReleaseDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, releaseId, ifMatch, options },
-      deleteOperationSpec
-    );
-  }
+    /**
+     * Deletes the specified release in the API.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param apiId API identifier. Must be unique in the current API Management service instance.
+     * @param releaseId Release identifier within an API. Must be unique in the current API Management
+     *                  service instance.
+     * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
+     *                response of the GET request or it should be * for unconditional update.
+     * @param options The options parameters.
+     */
+    delete(
+        resourceGroupName: string,
+        serviceName: string,
+        apiId: string,
+        releaseId: string,
+        ifMatch: string,
+        options?: ApiReleaseDeleteOptionalParams
+    ): Promise<void> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, apiId, releaseId, ifMatch, options },
+            deleteOperationSpec
+        );
+    }
 
-  /**
-   * ListByServiceNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param serviceName The name of the API Management service.
-   * @param apiId API identifier. Must be unique in the current API Management service instance.
-   * @param nextLink The nextLink from the previous successful call to the ListByService method.
-   * @param options The options parameters.
-   */
-  private _listByServiceNext(
-    resourceGroupName: string,
-    serviceName: string,
-    apiId: string,
-    nextLink: string,
-    options?: ApiReleaseListByServiceNextOptionalParams
-  ): Promise<ApiReleaseListByServiceNextResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, apiId, nextLink, options },
-      listByServiceNextOperationSpec
-    );
-  }
+    /**
+     * ListByServiceNext
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param serviceName The name of the API Management service.
+     * @param apiId API identifier. Must be unique in the current API Management service instance.
+     * @param nextLink The nextLink from the previous successful call to the ListByService method.
+     * @param options The options parameters.
+     */
+    private _listByServiceNext(
+        resourceGroupName: string,
+        serviceName: string,
+        apiId: string,
+        nextLink: string,
+        options?: ApiReleaseListByServiceNextOptionalParams
+    ): Promise<ApiReleaseListByServiceNextResponse> {
+        return this.client.sendOperationRequest(
+            { resourceGroupName, serviceName, apiId, nextLink, options },
+            listByServiceNextOperationSpec
+        );
+    }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByServiceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiReleaseCollection
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiReleaseCollection
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.filter,
-    Parameters.top,
-    Parameters.skip,
-    Parameters.apiVersion
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.apiId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [
+        Parameters.filter,
+        Parameters.top,
+        Parameters.skip,
+        Parameters.apiVersion
+    ],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.apiId1
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const getEntityTagOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
-  httpMethod: "HEAD",
-  responses: {
-    200: {
-      headersMapper: Mappers.ApiReleaseGetEntityTagHeaders
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+    httpMethod: "HEAD",
+    responses: {
+        200: {
+            headersMapper: Mappers.ApiReleaseGetEntityTagHeaders
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.releaseId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.apiId1,
+        Parameters.releaseId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseGetHeaders
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiReleaseContract,
+            headersMapper: Mappers.ApiReleaseGetHeaders
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.releaseId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.apiId1,
+        Parameters.releaseId
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+    httpMethod: "PUT",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiReleaseContract,
+            headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders
+        },
+        201: {
+            bodyMapper: Mappers.ApiReleaseContract,
+            headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    201: {
-      bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseCreateOrUpdateHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.releaseId
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.parameters2,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.apiId1,
+        Parameters.releaseId
+    ],
+    headerParameters: [
+        Parameters.accept,
+        Parameters.contentType,
+        Parameters.ifMatch
+    ],
+    mediaType: "json",
+    serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiReleaseContract,
-      headersMapper: Mappers.ApiReleaseUpdateHeaders
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+    httpMethod: "PATCH",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiReleaseContract,
+            headersMapper: Mappers.ApiReleaseUpdateHeaders
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.releaseId
-  ],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch1
-  ],
-  mediaType: "json",
-  serializer
+    requestBody: Parameters.parameters2,
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.apiId1,
+        Parameters.releaseId
+    ],
+    headerParameters: [
+        Parameters.accept,
+        Parameters.contentType,
+        Parameters.ifMatch1
+    ],
+    mediaType: "json",
+    serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.apiId1,
-    Parameters.releaseId
-  ],
-  headerParameters: [Parameters.accept, Parameters.ifMatch1],
-  serializer
+    path:
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/apis/{apiId}/releases/{releaseId}",
+    httpMethod: "DELETE",
+    responses: {
+        200: {},
+        204: {},
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
+    },
+    queryParameters: [Parameters.apiVersion],
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.apiId1,
+        Parameters.releaseId
+    ],
+    headerParameters: [Parameters.accept, Parameters.ifMatch1],
+    serializer
 };
 const listByServiceNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ApiReleaseCollection
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+        200: {
+            bodyMapper: Mappers.ApiReleaseCollection
+        },
+        default: {
+            bodyMapper: Mappers.ErrorResponse
+        }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.apiId1
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+    urlParameters: [
+        Parameters.$host,
+        Parameters.resourceGroupName,
+        Parameters.serviceName,
+        Parameters.subscriptionId,
+        Parameters.nextLink,
+        Parameters.apiId1
+    ],
+    headerParameters: [Parameters.accept],
+    serializer
 };

@@ -6,17 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   ScheduledAction,
   ScheduledActionsCreateOrUpdateByScopeOptionalParams,
-  CostManagementClient
 } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a shared scheduled action within the given scope.
@@ -24,7 +20,7 @@ dotenv.config();
  * @summary Create or update a shared scheduled action within the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-insightAlert-createOrUpdate-shared.json
  */
-async function createOrUpdateInsightAlertScheduledActionByScope() {
+async function createOrUpdateInsightAlertScheduledActionByScope(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const name = "dailyAnomalyByResource";
   const ifMatch = "";
@@ -33,18 +29,18 @@ async function createOrUpdateInsightAlertScheduledActionByScope() {
     kind: "InsightAlert",
     notification: {
       subject: "Cost anomaly detected in the resource",
-      to: ["user@gmail.com", "team@gmail.com"]
+      to: ["user@gmail.com", "team@gmail.com"],
     },
     schedule: {
       endDate: new Date("2021-06-19T22:21:51.1287144Z"),
       frequency: "Daily",
-      startDate: new Date("2020-06-19T22:21:51.1287144Z")
+      startDate: new Date("2020-06-19T22:21:51.1287144Z"),
     },
     status: "Enabled",
-    viewId: "/providers/Microsoft.CostManagement/views/swaggerExample"
+    viewId: "/providers/Microsoft.CostManagement/views/swaggerExample",
   };
   const options: ScheduledActionsCreateOrUpdateByScopeOptionalParams = {
-    ifMatch
+    ifMatch,
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -52,7 +48,7 @@ async function createOrUpdateInsightAlertScheduledActionByScope() {
     scope,
     name,
     scheduledAction,
-    options
+    options,
   );
   console.log(result);
 }
@@ -63,7 +59,7 @@ async function createOrUpdateInsightAlertScheduledActionByScope() {
  * @summary Create or update a shared scheduled action within the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/scheduledActions/scheduledAction-createOrUpdate-shared.json
  */
-async function createOrUpdateScheduledActionByScope() {
+async function createOrUpdateScheduledActionByScope(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const name = "monthlyCostByResource";
   const ifMatch = "";
@@ -73,7 +69,7 @@ async function createOrUpdateScheduledActionByScope() {
     kind: "Email",
     notification: {
       subject: "Cost by resource this month",
-      to: ["user@gmail.com", "team@gmail.com"]
+      to: ["user@gmail.com", "team@gmail.com"],
     },
     schedule: {
       daysOfWeek: ["Monday"],
@@ -81,13 +77,13 @@ async function createOrUpdateScheduledActionByScope() {
       frequency: "Monthly",
       hourOfDay: 10,
       startDate: new Date("2020-06-19T22:21:51.1287144Z"),
-      weeksOfMonth: ["First", "Third"]
+      weeksOfMonth: ["First", "Third"],
     },
     status: "Enabled",
-    viewId: "/providers/Microsoft.CostManagement/views/swaggerExample"
+    viewId: "/providers/Microsoft.CostManagement/views/swaggerExample",
   };
   const options: ScheduledActionsCreateOrUpdateByScopeOptionalParams = {
-    ifMatch
+    ifMatch,
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -95,14 +91,14 @@ async function createOrUpdateScheduledActionByScope() {
     scope,
     name,
     scheduledAction,
-    options
+    options,
   );
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateInsightAlertScheduledActionByScope();
-  createOrUpdateScheduledActionByScope();
+async function main(): Promise<void> {
+  await createOrUpdateInsightAlertScheduledActionByScope();
+  await createOrUpdateScheduledActionByScope();
 }
 
 main().catch(console.error);

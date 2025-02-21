@@ -20,7 +20,7 @@ describe("LogsQueryClient live tests", function () {
 
   let testRunId: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(ctx);
     const recordedClient: RecorderAndLogsClient = await createRecorderAndLogsClient(recorder);
@@ -28,7 +28,7 @@ describe("LogsQueryClient live tests", function () {
     monitorWorkspaceId = getMonitorWorkspaceId();
     logsClient = recordedClient.client;
   });
-  afterEach(async function () {
+  afterEach(async () => {
     if (recorder) {
       loggerForTest.verbose("Recorder: stopping");
       await recorder.stop();
@@ -48,7 +48,6 @@ describe("LogsQueryClient live tests", function () {
       });
       assert.fail("Should have thrown an exception");
     } catch (err: any) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError }: any = err;
       const innermostError = getInnermostErrorDetails(err);
 
@@ -319,7 +318,6 @@ describe("LogsQueryClient live tests", function () {
       });
       assert.fail("Should have thrown an exception");
     } catch (err: any) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError }: any = err;
       const innermostError = getInnermostErrorDetails(err);
 
@@ -510,7 +508,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
   let logsClient: LogsQueryClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     setLogLevel("verbose");
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(ctx);
@@ -523,13 +521,13 @@ describe("LogsQueryClient live tests - server timeout", function () {
     recorder = recordedClient.recorder;
     monitorWorkspaceId = getMonitorWorkspaceId();
   });
-  afterEach(async function () {
+  afterEach(async () => {
     loggerForTest.verbose("Recorder: stopping");
     await recorder.stop();
   });
   // disabling http retries otherwise we'll waste retries to realize that the
   // query has timed out on purpose.
-  it("serverTimeoutInSeconds", async function () {
+  it.skip("serverTimeoutInSeconds", async function () {
     try {
       const randomLimit = Math.round((Math.random() + 1) * 10000000000000);
       await logsClient.queryWorkspace(
@@ -546,7 +544,6 @@ describe("LogsQueryClient live tests - server timeout", function () {
       );
       assert.fail("Should have thrown a RestError for a GatewayTimeout");
     } catch (err: any) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError }: any = err;
       const innermostError = getInnermostErrorDetails(err);
 

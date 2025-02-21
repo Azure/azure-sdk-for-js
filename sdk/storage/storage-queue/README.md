@@ -14,10 +14,10 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue)
 - [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-queue)
-- [Product documentation](https://docs.microsoft.com/azure/storage/queues/storage-queues-introduction)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/storage-queue)
+- [Product documentation](https://learn.microsoft.com/azure/storage/queues/storage-queues-introduction)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue/samples)
-- [Azure Storage Queue REST APIs](https://docs.microsoft.com/rest/api/storageservices/queue-service-rest-api)
+- [Azure Storage Queue REST APIs](https://learn.microsoft.com/rest/api/storageservices/queue-service-rest-api)
 
 ## Getting started
 
@@ -31,7 +31,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- A [Storage Account](https://docs.microsoft.com/azure/storage/common/storage-account-create)
+- A [Storage Account](https://learn.microsoft.com/azure/storage/common/storage-account-create)
 
 ### Install the package
 
@@ -88,7 +88,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ### CORS
 
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://learn.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
@@ -132,17 +132,17 @@ The `QueueServiceClient` requires an URL to the queue service and an access cred
 
 **Recommended way to instantiate a `QueueServiceClient`**
 
-Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://docs.microsoft.com/azure/storage/common/storage-auth-aad-app
+Setup : Reference - Authorize access to blobs and queues with Azure Active Directory from a client application - https://learn.microsoft.com/azure/storage/common/storage-auth-aad-app
 
 - Register a new AAD application and give permissions to access Azure Storage on behalf of the signed-in user
 
-  - Register a new application in the Azure Active Directory(in the azure-portal) - https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+  - Register a new application in the Azure Active Directory(in the azure-portal) - https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
   - In the `API permissions` section, select `Add a permission` and choose `Microsoft APIs`.
   - Pick `Azure Storage` and select the checkbox next to `user_impersonation` and then click `Add permissions`. This would allow the application to access Azure Storage on behalf of the signed-in user.
 
 - Grant access to Azure Storage Queue data with RBAC in the Azure Portal
 
-  - RBAC roles for blobs and queues - https://docs.microsoft.com/azure/storage/common/storage-auth-aad-rbac-portal.
+  - RBAC roles for blobs and queues - https://learn.microsoft.com/azure/storage/common/storage-auth-aad-rbac-portal.
   - In the azure portal, go to your storage-account and assign **Storage Queue Data Contributor** role to the registered AAD application from `Access control (IAM)` tab (in the left-side-navbar of your storage account in the azure-portal).
 
 - Environment setup for the sample
@@ -158,7 +158,7 @@ const credential = new DefaultAzureCredential();
 
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential
+  credential,
 );
 ```
 
@@ -197,8 +197,8 @@ const queueServiceClient = new QueueServiceClient(
   sharedKeyCredential,
   {
     retryOptions: { maxTries: 4 }, // Retry options
-    telemetry: { value: "BasicSample/V11.0.0" } // Customized telemetry string
-  }
+    telemetry: { value: "BasicSample/V11.0.0" }, // Customized telemetry string
+  },
 );
 ```
 
@@ -211,7 +211,7 @@ const { QueueServiceClient } = require("@azure/storage-queue");
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 const queueServiceClient = new QueueServiceClient(
-  `https://${account}.queue.core.windows.net${sas}`
+  `https://${account}.queue.core.windows.net${sas}`,
 );
 ```
 
@@ -229,7 +229,7 @@ const credential = new DefaultAzureCredential();
 
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential
+  credential,
 );
 
 async function main() {
@@ -255,7 +255,7 @@ const credential = new DefaultAzureCredential();
 
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential
+  credential,
 );
 
 async function main() {
@@ -286,7 +286,7 @@ const credential = new DefaultAzureCredential();
 
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential
+  credential,
 );
 
 const queueName = "<valid queue name>";
@@ -295,7 +295,7 @@ async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+    `Created queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
   );
 }
 
@@ -315,7 +315,7 @@ const credential = new DefaultAzureCredential();
 
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential
+  credential,
 );
 
 const queueName = "<valid queue name>";
@@ -325,7 +325,7 @@ async function main() {
   // Send a message into the queue using the sendMessage method.
   const sendMessageResponse = await queueClient.sendMessage("Hello World!");
   console.log(
-    `Sent message successfully, service assigned message Id: ${sendMessageResponse.messageId}, service assigned request Id: ${sendMessageResponse.requestId}`
+    `Sent message successfully, service assigned message Id: ${sendMessageResponse.messageId}, service assigned request Id: ${sendMessageResponse.requestId}`,
   );
 }
 
@@ -346,7 +346,7 @@ const credential = new DefaultAzureCredential();
 
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential
+  credential,
 );
 
 const queueName = "<valid queue name>";
@@ -378,7 +378,7 @@ const credential = new DefaultAzureCredential();
 
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential
+  credential,
 );
 
 const queueName = "<valid queue name>";
@@ -391,10 +391,10 @@ async function main() {
     console.log(`Processing & deleting message with content: ${receivedMessageItem.messageText}`);
     const deleteMessageResponse = await queueClient.deleteMessage(
       receivedMessageItem.messageId,
-      receivedMessageItem.popReceipt
+      receivedMessageItem.popReceipt,
     );
     console.log(
-      `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`
+      `Delete message successfully, service assigned request Id: ${deleteMessageResponse.requestId}`,
     );
   }
 }
@@ -413,7 +413,7 @@ const credential = new DefaultAzureCredential();
 
 const queueServiceClient = new QueueServiceClient(
   `https://${account}.queue.core.windows.net`,
-  credential
+  credential,
 );
 
 const queueName = "<valid queue name>";
@@ -422,7 +422,7 @@ async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Deleted queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+    `Deleted queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`,
   );
 }
 
@@ -453,5 +453,3 @@ More code samples
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 Also refer to [Storage specific guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/CONTRIBUTING.md) for additional information on setting up the test environment for storage libraries.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-queue%2FREADME.png)

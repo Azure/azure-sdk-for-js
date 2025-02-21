@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  LoadBalancersUpdateTagsParameters
+  LoadBalancersUpdateTagsParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a load balancer tags.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Updates a load balancer tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerUpdateTags.json
  */
-async function updateLoadBalancerTags() {
+async function updateLoadBalancerTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,14 +20,14 @@ async function updateLoadBalancerTags() {
   const loadBalancerName = "lb";
   const options: LoadBalancersUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .patch(options);
   console.log(result);

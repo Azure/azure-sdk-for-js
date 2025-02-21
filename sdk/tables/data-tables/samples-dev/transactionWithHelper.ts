@@ -9,13 +9,10 @@
  */
 
 import { TableClient, TableTransaction } from "@azure/data-tables";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-async function batchOperations() {
+async function batchOperations(): Promise<void> {
   console.log("== TableTransaction Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
@@ -32,21 +29,21 @@ async function batchOperations() {
   const transaction = new TableTransaction();
 
   // Add actions to the transaction
-  transaction.createEntity({
+  await transaction.createEntity({
     partitionKey,
     rowKey: "A1",
     name: "Marker Set",
     price: 5.0,
     quantity: 21,
   });
-  transaction.createEntity({
+  await transaction.createEntity({
     partitionKey,
     rowKey: "A2",
     name: "Pen Set",
     price: 2.0,
     quantity: 6,
   });
-  transaction.createEntity({
+  await transaction.createEntity({
     partitionKey,
     rowKey: "A3",
     name: "Pencil",

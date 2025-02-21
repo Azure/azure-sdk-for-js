@@ -12,9 +12,7 @@ import MapsRoute, {
   RouteGetRouteDirectionsBatch200Response,
   toColonDelimitedLatLonString,
 } from "@azure-rest/maps-route";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * We use "/route/directions/batch/" in this example.
@@ -67,7 +65,7 @@ async function main(): Promise<void> {
     body: request,
   });
 
-  const poller = getLongRunningPoller(client, response);
+  const poller = await getLongRunningPoller(client, response);
   /** Wait until the total request is done */
   const finalResult = await poller.pollUntilDone();
   logBatchResponse(finalResult as RouteGetRouteDirectionsBatch200Response);

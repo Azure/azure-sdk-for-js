@@ -19,8 +19,7 @@ export default class TestClient {
     await this.client.purgeDeletedCertificate(certificateName);
   }
   public async flushCertificate(certificateName: string): Promise<void> {
-    const that = this;
-    const poller = await that.client.beginDeleteCertificate(certificateName, testPollerProperties);
+    const poller = await this.client.beginDeleteCertificate(certificateName, testPollerProperties);
     await poller.pollUntilDone();
     await this.purgeCertificate(certificateName);
   }

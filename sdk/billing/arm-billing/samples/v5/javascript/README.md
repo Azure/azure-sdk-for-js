@@ -419,6 +419,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [transfersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billing/arm-billing/samples/v5/javascript/transfersGetSample.js
 [transfersinitiatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billing/arm-billing/samples/v5/javascript/transfersInitiateSample.js
 [transferslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/billing/arm-billing/samples/v5/javascript/transfersListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-billing?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-billing?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billing/arm-billing/README.md

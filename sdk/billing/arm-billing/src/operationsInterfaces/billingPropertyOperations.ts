@@ -12,7 +12,7 @@ import {
   BillingProperty,
   BillingPropertyUpdateOptionalParams,
   BillingPropertyUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BillingPropertyOperations. */
 export interface BillingPropertyOperations {

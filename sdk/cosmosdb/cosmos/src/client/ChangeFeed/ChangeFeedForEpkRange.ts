@@ -5,16 +5,15 @@ import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import type { PartitionKeyRangeCache } from "../../routing";
 import { QueryRange } from "../../routing";
 import { FeedRangeQueue } from "./FeedRangeQueue";
-import type { ClientContext } from "../../ClientContext";
-import type { Container, Resource } from "../../client";
+import { ClientContext } from "../../ClientContext";
+import { Container, Resource } from "../../client";
 import { Constants, SubStatusCodes, StatusCodes, ResourceType } from "../../common";
-import type { Response, FeedOptions } from "../../request";
-import { ErrorResponse } from "../../request";
+import { Response, FeedOptions, ErrorResponse } from "../../request";
 import { CompositeContinuationToken } from "./CompositeContinuationToken";
-import type { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
-import { extractOverlappingRanges } from "./changeFeedUtils";
-import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
-import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
+import { decryptChangeFeedResponse, extractOverlappingRanges } from "./changeFeedUtils";
+import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
+import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 import { ChangeFeedMode } from "./ChangeFeedMode";
 /**
@@ -188,6 +187,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       do {
         const [processedFeedRange, response] = await this.fetchNext(diagnosticNode);
         result = response;
+
         if (result !== undefined) {
           {
             if (firstNotModifiedFeedRange === undefined) {
@@ -200,6 +200,15 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
             if (result.statusCode === StatusCodes.Ok) {
               result.headers[Constants.HttpHeaders.ContinuationToken] =
                 this.generateContinuationToken();
+
+              if (this.clientContext.enableEncryption) {
+                await decryptChangeFeedResponse(
+                  result,
+                  diagnosticNode,
+                  this.changeFeedOptions.changeFeedMode,
+                  this.container.encryptionProcessor,
+                );
+              }
               return result;
             }
           }
@@ -421,6 +430,12 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     }
 
     const rangeId = await this.getPartitionRangeId(feedRange, diagnosticNode);
+    if (this.clientContext.enableEncryption) {
+      if (!this.container.isEncryptionInitialized) {
+        await this.container.initializeEncryption();
+      }
+      feedOptions.containerRid = this.container._rid;
+    }
     try {
       // startEpk and endEpk are only valid in case we want to fetch result for a part of partition and not the entire partition.
       const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
@@ -445,23 +460,22 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         getEmptyCosmosDiagnostics(),
       );
     } catch (err) {
-      if (err.code >= StatusCodes.BadRequest && err.code !== StatusCodes.Gone) {
-        const errorResponse = new ErrorResponse(err.message);
-        errorResponse.code = err.code;
-        errorResponse.headers = err.headers;
-
-        throw errorResponse;
+      // If partition split/merge is encountered, handle it gracefully and continue fetching results.
+      if (err.code === StatusCodes.Gone) {
+        return new ChangeFeedIteratorResponse(
+          [],
+          0,
+          err.code,
+          err.headers,
+          getEmptyCosmosDiagnostics(),
+          err.substatus,
+        );
       }
-
-      // If any other errors are encountered, eg. partition split or gone, handle it based on error code and not break the flow.
-      return new ChangeFeedIteratorResponse(
-        [],
-        0,
-        err.code,
-        err.headers,
-        getEmptyCosmosDiagnostics(),
-        err.substatus,
-      );
+      // If any other errors are encountered, throw the error.
+      const errorResponse = new ErrorResponse(err.message);
+      errorResponse.code = err.code;
+      errorResponse.headers = err.headers;
+      throw errorResponse;
     }
   }
 }

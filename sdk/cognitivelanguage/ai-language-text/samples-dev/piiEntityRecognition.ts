@@ -23,7 +23,7 @@ import {
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log(`Running recognizePii sample`);
 
   // You will need to set these environment variables or edit the following values

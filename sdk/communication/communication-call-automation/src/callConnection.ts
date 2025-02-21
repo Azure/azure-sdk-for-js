@@ -5,7 +5,7 @@ import {
   CommunicationIdentifier,
   createCommunicationAuthPolicy,
 } from "@azure/communication-common";
-import { CallMedia } from "./callMedia";
+import { CallMedia } from "./callMedia.js";
 import {
   AddParticipantRequest,
   CallAutomationApiClient,
@@ -14,14 +14,14 @@ import {
   MuteParticipantsRequest,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
-} from "./generated/src";
-import { CallConnectionImpl } from "./generated/src/operations";
+} from "./generated/src/index.js";
+import { CallConnectionImpl } from "./generated/src/operations/index.js";
 import {
   CallConnectionProperties,
   CallInvite,
   CallParticipant,
   CustomCallingContext,
-} from "./models/models";
+} from "./models/models.js";
 import {
   AddParticipantOptions,
   CancelAddParticipantOperationOptions,
@@ -31,7 +31,7 @@ import {
   MuteParticipantOption,
   RemoveParticipantsOption,
   TransferCallToParticipantOptions,
-} from "./models/options";
+} from "./models/options.js";
 import {
   ListParticipantsResult,
   TransferCallResult,
@@ -39,7 +39,7 @@ import {
   RemoveParticipantResult,
   MuteParticipantResult,
   CancelAddParticipantOperationResult,
-} from "./models/responses";
+} from "./models/responses.js";
 import {
   callParticipantConverter,
   communicationIdentifierConverter,
@@ -47,7 +47,7 @@ import {
   communicationUserIdentifierConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
-} from "./utli/converters";
+} from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 

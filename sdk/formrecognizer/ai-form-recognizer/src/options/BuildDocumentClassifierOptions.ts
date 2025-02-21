@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure/core-client";
-import type { DocumentClassifierOperationState } from "../lro/administration";
-import type { PollerOptions } from "./PollerOptions";
+import type { DocumentClassifierOperationState } from "../lro/administration.js";
+import type { PollerOptions } from "./PollerOptions.js";
 
 /**
  * Options for the document classifier build operation.

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DnsManagementClient } from "@azure/arm-dns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the DNSSEC configuration on a DNS zone. This operation cannot be undone.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes the DNSSEC configuration on a DNS zone. This operation cannot be undone.
  * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/DeleteDnssecConfig.json
  */
-async function deleteDnssecConfig() {
+async function deleteDnssecConfig(): Promise<void> {
   const subscriptionId = process.env["DNS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["DNS_RESOURCE_GROUP"] || "rg1";
   const zoneName = "zone1";
@@ -33,7 +31,7 @@ async function deleteDnssecConfig() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteDnssecConfig();
 }
 

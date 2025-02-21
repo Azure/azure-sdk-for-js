@@ -11,7 +11,7 @@ import {
   AvailableGroundStation,
   CapabilityParameter,
   AvailableGroundStationsListByCapabilityOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AvailableGroundStations. */

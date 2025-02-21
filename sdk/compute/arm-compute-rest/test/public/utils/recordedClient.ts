@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Context } from "mocha";
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
-
 import type { TokenCredential } from "@azure/core-auth";
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { ComputeManagementClient } from "../../../src/clientDefinitions";
-import createComputeManagementClient from "../../../src";
+import type { ComputeManagementClient } from "../../../src/clientDefinitions.js";
+import createComputeManagementClient from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -28,8 +26,8 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }

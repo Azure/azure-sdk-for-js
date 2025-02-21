@@ -7,9 +7,9 @@ $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/rel
 $GithubUri = "https://github.com/Azure/azure-sdk-for-js"
 $PackageRepositoryUri = "https://www.npmjs.com/package"
 $ReducedDependencyLookup = @{
-  'core' = @('@azure-rest/synapse-access-control', '@azure/arm-resources', '@azure/identity', '@azure/service-bus', '@azure/template')
+  'core'       = @('@azure-rest/synapse-access-control', '@azure/arm-resources', '@azure/identity', '@azure/service-bus', '@azure/template')
   'test-utils' = @('@azure-tests/perf-storage-blob', '@azure/arm-eventgrid', '@azure/ai-text-analytics', '@azure/identity', '@azure/template')
-  'identity' = @('@azure-tests/perf-storage-blob', '@azure/ai-text-analytics', '@azure/arm-resources', '@azure/identity-cache-persistence', '@azure/identity-vscode', '@azure/storage-blob', '@azure/template')
+  'identity'   = @('@azure-tests/perf-storage-blob', '@azure/ai-text-analytics', '@azure/arm-resources', '@azure/identity-cache-persistence', '@azure/identity-vscode', '@azure/storage-blob', '@azure/template')
 }
 
 . "$PSScriptRoot/docs/Docs-ToC.ps1"
@@ -32,11 +32,11 @@ function Get-javascript-EmitterAdditionalOptions([string]$projectDirectory) {
 
 function Get-javascript-AdditionalValidationPackagesFromPackageSet {
   param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     $LocatedPackages,
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     $diffObj,
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     $AllPkgProps
   )
   $additionalValidationPackages = @()
@@ -53,31 +53,50 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
     return $false
   }
 
+  $targetedFiles = $diffObj.ChangedFiles
+  if ($diff.DeletedFiles) {
+    if (-not $targetedFiles) {
+      $targetedFiles = @()
+    }
+    $targetedFiles += $diff.DeletedFiles
+  }
+
+  # The targetedFiles needs to filter out anything in the ExcludePaths
+  # otherwise it'll end up processing things below that it shouldn't be.
+  foreach ($excludePath in $diffObj.ExcludePaths) {
+    $targetedFiles = $targetedFiles | Where-Object { -not $_.StartsWith($excludePath.TrimEnd("/") + "/") }
+  }
+
   $changedServices = @()
-  foreach($file in $diffObj.ChangedFiles) {
+  foreach ($file in $targetedFiles) {
     $pathComponents = $file -split "/"
     # handle changes only in sdk/<service>/<file>/<extension>
     if ($pathComponents.Length -eq 3 -and $pathComponents[0] -eq "sdk") {
       $changedServices += $pathComponents[1]
     }
 
-    # handle any changes under sdk/<file>.<extension>
-    if ($pathComponents.Length -eq 2 -and $pathComponents[0] -eq "sdk") {
+    # handle any changes under sdk/<file>.<extension> or in the root of
+    # the repository
+    if (($pathComponents.Length -eq 2 -and $pathComponents[0] -eq "sdk") -or
+        ($pathComponents.Length -eq 1)) {
       $changedServices += "template"
     }
   }
+  $othersChanged = @()
 
-  $othersChanged = $diffObj.ChangedFiles | Where-Object { isOther $_ }
+  if ($targetedFiles) {
+    $othersChanged = $targetedFiles | Where-Object { isOther $_ }
+  }
   $changedServices = $changedServices | Get-Unique
 
   if ($othersChanged) {
-    $additionalPackages = $ReducedDependencyLookup["core"] | ForEach-Object { $me=$_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
+    $additionalPackages = $ReducedDependencyLookup["core"] | ForEach-Object { $me = $_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
     $additionalValidationPackages += $additionalPackages
   }
 
   foreach ($changedService in $changedServices) {
     if ($ReducedDependencyLookup.ContainsKey($changedService)) {
-      $additionalPackages = $ReducedDependencyLookup[$changedService] | ForEach-Object { $me=$_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
+      $additionalPackages = $ReducedDependencyLookup[$changedService] | ForEach-Object { $me = $_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
       $additionalValidationPackages += $additionalPackages
     }
     else {
@@ -102,36 +121,56 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
   return $uniqueResultSet
 }
 
-
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
-  $projectPath = Join-Path $pkgPath "package.json"
-  if (Test-Path $projectPath) {
-    $projectJson = Get-Content $projectPath | ConvertFrom-Json
-    $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
+  $projectPath = (Join-Path $pkgPath "package.json")
+  $packageProps = @()
 
-    $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
-    if ($projectJson.psobject.properties.name -contains 'sdk-type') {
-      $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
-    }
-    else {
-      $pkgProp.SdkType = "unknown"
-    }
-    $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
-    $pkgProp.ArtifactName = $jsStylePkgName
-
-
-    if ($ReducedDependencyLookup.ContainsKey($pkgProp.ServiceDirectory)) {
-      $pkgProp.AdditionalValidationPackages = $ReducedDependencyLookup[$pkgProp.ServiceDirectory]
+  if (-not (Test-Path $projectPath) -and $pkgPath.Contains("perf-test")) {
+    $subdirectories = Get-ChildItem -Path $pkgPath -Directory | Where-Object {
+      return Test-Path -Path (Join-Path $_.FullName "package.json")
     }
 
-    # the constructor for the package properties object attempts to initialize CI artifacts on instantiation
-    # of the class. however, due to the fact that we set the ArtifactName _after_ the constructor is called,
-    # we need to call it again here to ensure the CI artifacts are properly initialized
-    $pkgProp.InitializeCIArtifacts()
-
-    return $pkgProp
+    # Filter subdirectories to those containing a `package.json`
+    $projectPaths = $subdirectories | ForEach-Object {
+      return Join-Path $_.FullName "package.json"
+    }
   }
-  return $null
+  else {
+    $projectPaths = @($projectPath)
+  }
+
+  foreach ($projectPath in $projectPaths) {
+    if (Test-Path $projectPath) {
+      $projectJson = Get-Content $projectPath | ConvertFrom-Json
+      $projectDirectory = Split-Path $projectPath
+
+      $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
+
+      $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $projectDirectory, $serviceDirectory)
+      if ($projectJson.psobject.properties.name -contains 'sdk-type') {
+        $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
+      }
+      else {
+        $pkgProp.SdkType = "unknown"
+      }
+      $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
+      $pkgProp.ArtifactName = $jsStylePkgName
+
+
+      if ($ReducedDependencyLookup.ContainsKey($pkgProp.ServiceDirectory)) {
+        $pkgProp.AdditionalValidationPackages = $ReducedDependencyLookup[$pkgProp.ServiceDirectory]
+      }
+
+      # the constructor for the package properties object attempts to initialize CI artifacts on instantiation
+      # of the class. however, due to the fact that we set the ArtifactName _after_ the constructor is called,
+      # we need to call it again here to ensure the CI artifacts are properly initialized
+      $pkgProp.InitializeCIArtifacts()
+
+      $packageProps += $pkgProp
+    }
+  }
+
+  return $packageProps
 }
 
 # Returns the npm publish status of a package id and version.

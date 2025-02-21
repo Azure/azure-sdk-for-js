@@ -31,7 +31,7 @@ import {
   ArtifactChangeState as ArtifactChangeStateMapper,
   Site as SiteMapper,
   SiteNetworkService as SiteNetworkServiceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

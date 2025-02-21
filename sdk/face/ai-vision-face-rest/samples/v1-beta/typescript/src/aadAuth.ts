@@ -1,9 +1,11 @@
-import { readFileSync } from 'fs';
+import { readFileSync } from 'node:fs';
 import { DefaultAzureCredential } from '@azure/identity';
 
 import createFaceClient, {
     isUnexpected,
 } from '@azure-rest/ai-vision-face';
+
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to authenticate FaceClient using Microsoft Entra ID.

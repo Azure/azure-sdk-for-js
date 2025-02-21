@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { AppliancesImpl } from "./operations";
-import { Appliances } from "./operationsInterfaces";
-import { ResourceConnectorManagementClientOptionalParams } from "./models";
+import { AppliancesImpl } from "./operations/index.js";
+import { Appliances } from "./operationsInterfaces/index.js";
+import { ResourceConnectorManagementClientOptionalParams } from "./models/index.js";
 
 export class ResourceConnectorManagementClient extends coreClient.ServiceClient {
   $host: string;

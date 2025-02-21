@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ScopingConfiguration } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ScopingConfiguration } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AppComplianceAutomationToolForMicrosoft365 } from "../appComplianceAutomationToolForMicrosoft365";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AppComplianceAutomationToolForMicrosoft365 } from "../appComplianceAutomationToolForMicrosoft365.js";
 import {
   ScopingConfigurationResource,
   ScopingConfigurationListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   ScopingConfigurationCreateOrUpdateResponse,
   ScopingConfigurationDeleteOptionalParams,
   ScopingConfigurationListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScopingConfiguration operations. */

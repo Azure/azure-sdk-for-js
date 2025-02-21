@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   SecurityAdminConfigurationsDeleteParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a network manager security admin configuration.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Deletes a network manager security admin configuration.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerSecurityAdminConfigurationDelete.json
  */
-async function deleteNetworkManagerSecurityAdminConfiguration() {
+async function deleteNetworkManagerSecurityAdminConfiguration(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -26,7 +21,7 @@ async function deleteNetworkManagerSecurityAdminConfiguration() {
   const networkManagerName = "testNetworkManager";
   const configurationName = "myTestSecurityConfig";
   const options: SecurityAdminConfigurationsDeleteParameters = {
-    queryParameters: { "api-version": "2022-05-01", force: false }
+    queryParameters: { "api-version": "2022-05-01", force: false },
   };
   const initialResponse = await client
     .path(
@@ -34,7 +29,7 @@ async function deleteNetworkManagerSecurityAdminConfiguration() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName
+      configurationName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

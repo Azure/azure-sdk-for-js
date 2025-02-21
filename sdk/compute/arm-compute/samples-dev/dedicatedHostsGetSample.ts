@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DedicatedHostsGetOptionalParams,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { DedicatedHostsGetOptionalParams } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about a dedicated host.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Retrieves information about a dedicated host.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Get.json
  */
-async function getADedicatedHost() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function getADedicatedHost(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const hostGroupName = "myDedicatedHostGroup";
   const hostName = "myHost";
   const expand = "instanceView";
@@ -43,8 +35,8 @@ async function getADedicatedHost() {
   console.log(result);
 }
 
-async function main() {
-  getADedicatedHost();
+async function main(): Promise<void> {
+  await getADedicatedHost();
 }
 
 main().catch(console.error);

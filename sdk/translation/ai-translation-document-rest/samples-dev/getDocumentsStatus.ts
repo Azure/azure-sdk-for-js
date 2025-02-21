@@ -38,13 +38,13 @@ export async function main() {
   const targetInput = createTargetInput(targetUrl, "fr");
   const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
+  // Start translation
   const batchRequests = { inputs: [batchRequest] };
   const response = await StartTranslationAndWait(client, batchRequests);
   const operationLocationUrl = response.headers["operation-location"];
   const operationId = getTranslationOperationID(operationLocationUrl);
 
-  //get Documents Status
+  // get Documents Status
   const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
   if (isUnexpected(documentResponse)) {
     throw documentResponse.body;
@@ -55,8 +55,8 @@ export async function main() {
     console.log("Characters charged is: " + documentStatus.characterCharged);
     break;
   }
-
-  main().catch((err) => {
-    console.error(err);
-  });
 }
+
+main().catch((err) => {
+  console.error(err);
+});

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetMedia200Response,
   GetMediaDefaultResponse,
   Send202Response,
   SendDefaultResponse,
   ListTemplates200Response,
   ListTemplatesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /messages/streams/{id}": ["200"],

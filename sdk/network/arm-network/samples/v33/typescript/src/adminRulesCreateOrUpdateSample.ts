@@ -8,23 +8,17 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  DefaultAdminRule,
-  AdminRule,
-  NetworkManagementClient,
-} from "@azure/arm-network";
+import { AdminRule, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerDefaultAdminRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerAdminRulePut_NetworkGroupSource.json
  */
-async function createADefaultAdminRule() {
+async function createAAdminRuleWithNetworkGroupAsSourceOrDestination(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -32,10 +26,24 @@ async function createADefaultAdminRule() {
   const networkManagerName = "testNetworkManager";
   const configurationName = "myTestSecurityConfig";
   const ruleCollectionName = "testRuleCollection";
-  const ruleName = "SampleDefaultAdminRule";
-  const adminRule: DefaultAdminRule = {
-    flag: "AllowVnetInbound",
-    kind: "Default",
+  const ruleName = "SampleAdminRule";
+  const adminRule: AdminRule = {
+    description: "This is Sample Admin Rule",
+    access: "Deny",
+    destinationPortRanges: ["22"],
+    destinations: [
+      {
+        addressPrefix:
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/ng1",
+        addressPrefixType: "NetworkGroup",
+      },
+    ],
+    direction: "Inbound",
+    kind: "Custom",
+    priority: 1,
+    sourcePortRanges: ["0-65535"],
+    sources: [{ addressPrefix: "Internet", addressPrefixType: "ServiceTag" }],
+    protocol: "Tcp",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -54,9 +62,9 @@ async function createADefaultAdminRule() {
  * This sample demonstrates how to Creates or updates an admin rule.
  *
  * @summary Creates or updates an admin rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerAdminRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerAdminRulePut.json
  */
-async function createAnAdminRule() {
+async function createAnAdminRule(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -90,8 +98,8 @@ async function createAnAdminRule() {
   console.log(result);
 }
 
-async function main() {
-  createADefaultAdminRule();
+async function main(): Promise<void> {
+  createAAdminRuleWithNetworkGroupAsSourceOrDestination();
   createAnAdminRule();
 }
 

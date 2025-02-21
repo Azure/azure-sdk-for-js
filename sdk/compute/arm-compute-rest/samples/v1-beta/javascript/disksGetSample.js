@@ -27,7 +27,7 @@ async function getInformationAboutAManagedDisk() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .get(options);
   console.log(result);

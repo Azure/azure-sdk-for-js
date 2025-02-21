@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   PublicIPPrefixesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a static or dynamic public IP prefix.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates a static or dynamic public IP prefix.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpPrefixCreateCustomizedValues.json
  */
-async function createPublicIPPrefixAllocationMethod() {
+async function createPublicIPPrefixAllocationMethod(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -28,16 +23,16 @@ async function createPublicIPPrefixAllocationMethod() {
     body: {
       location: "westus",
       properties: { prefixLength: 30, publicIPAddressVersion: "IPv4" },
-      sku: { name: "Standard", tier: "Regional" }
+      sku: { name: "Standard", tier: "Regional" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
       subscriptionId,
       resourceGroupName,
-      publicIpPrefixName
+      publicIpPrefixName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -52,7 +47,7 @@ createPublicIPPrefixAllocationMethod().catch(console.error);
  * @summary Creates or updates a static or dynamic public IP prefix.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpPrefixCreateDefaults.json
  */
-async function createPublicIPPrefixDefaults() {
+async function createPublicIPPrefixDefaults(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -62,16 +57,16 @@ async function createPublicIPPrefixDefaults() {
     body: {
       location: "westus",
       properties: { prefixLength: 30 },
-      sku: { name: "Standard" }
+      sku: { name: "Standard" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
       subscriptionId,
       resourceGroupName,
-      publicIpPrefixName
+      publicIpPrefixName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

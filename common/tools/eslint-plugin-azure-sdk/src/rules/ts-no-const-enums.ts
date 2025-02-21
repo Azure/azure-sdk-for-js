@@ -5,7 +5,7 @@
  * @file Rule to forbid usage of TypeScript's const enums.
  */
 
-import { createRule } from "../utils/ruleCreator";
+import { createRule } from "../utils/ruleCreator.js";
 
 export default createRule({
   name: "ts-no-const-enums",

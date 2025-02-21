@@ -20,8 +20,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/tables/data-tables/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/data-tables)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/data-tables)
-- [Product documentation](https://docs.microsoft.com/azure/storage/tables/table-storage-overview/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/data-tables)
+- [Product documentation](https://learn.microsoft.com/azure/storage/tables/table-storage-overview/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/tables/data-tables/samples)
 
 ## Getting started
@@ -33,7 +33,7 @@ Currently supported environments:
 - LTS versions of Node.js
 - Latest versions of Safari, Chrome, Edge and Firefox
 
-You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal) or an [Azure CosmosDB database](https://docs.microsoft.com/azure/cosmos-db/create-cosmosdb-resources-portal) to use this package.
+You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://learn.microsoft.com/azure/storage/tables/table-storage-quickstart-portal) or an [Azure CosmosDB database](https://learn.microsoft.com/azure/cosmos-db/create-cosmosdb-resources-portal) to use this package.
 
 ### Install the `@azure/data-tables` package
 
@@ -68,7 +68,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 #### CORS
 
-You need to set up [Cross-Origin Resource Sharing (CORS)](https://docs.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
+You need to set up [Cross-Origin Resource Sharing (CORS)](https://learn.microsoft.com/rest/api/storageservices/cross-origin-resource-sharing--cors--support-for-the-azure-storage-services) rules for your storage account if you need to develop for browsers. Go to Azure portal and Azure Storage Explorer, find your storage account, create new CORS rules for blob/queue/file/table service(s).
 
 For example, you can create following CORS settings for debugging. But please customize the settings carefully according to your requirements in production environment.
 
@@ -137,7 +137,7 @@ const accountKey = "<accountkey>";
 const credential = new AzureNamedKeyCredential(account, accountKey);
 const serviceClient = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
-  credential
+  credential,
 );
 ```
 
@@ -165,7 +165,7 @@ const account = "<account name>";
 
 const clientWithAAD = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
-  credential
+  credential,
 );
 ```
 
@@ -181,7 +181,7 @@ const sas = "<service Shared Access Signature Token>";
 
 const serviceClientWithSAS = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
-  new AzureSASCredential(sas)
+  new AzureSASCredential(sas),
 );
 ```
 
@@ -198,7 +198,7 @@ const accountKey = "<accountkey>";
 const credential = new AzureNamedKeyCredential(account, accountKey);
 const serviceClient = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
-  credential
+  credential,
 );
 
 async function main() {
@@ -233,7 +233,7 @@ const accountKey = "<accountkey>";
 const credential = new AzureNamedKeyCredential(account, accountKey);
 const serviceClient = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
-  credential
+  credential,
 );
 
 async function main() {
@@ -256,7 +256,7 @@ const accountKey = "<accountkey>";
 const credential = new AzureNamedKeyCredential(account, accountKey);
 const serviceClient = new TableServiceClient(
   `https://${account}.table.core.windows.net`,
-  credential
+  credential,
 );
 
 async function main() {
@@ -266,7 +266,7 @@ async function main() {
       if (response.status === 409) {
         console.log(`Table ${tableName} already exists`);
       }
-    }
+    },
   });
 }
 
@@ -322,7 +322,7 @@ const tableName = "<tableName>";
 const clientWithAAD = new TableClient(
   `https://${account}.table.core.windows.net`,
   tableName,
-  credential
+  credential,
 );
 ```
 
@@ -340,7 +340,7 @@ const tableName = "<tableName>";
 const clientWithSAS = new TableClient(
   `https://${account}.table.core.windows.net`,
   tableName,
-  new AzureSASCredential(sas)
+  new AzureSASCredential(sas),
 );
 ```
 
@@ -370,7 +370,7 @@ const tableName = "<tableName>";
 const clientWithAAD = new TableClient(
   `https://${account}.table.core.windows.net`,
   tableName,
-  credential
+  credential,
 );
 ```
 
@@ -424,7 +424,7 @@ async function main() {
     partitionKey: "P1",
     rowKey: "R1",
     foo: "foo",
-    bar: 123
+    bar: 123,
   };
   await client.createEntity(testEntity);
 }
@@ -458,7 +458,7 @@ const client = new TableClient(
   "<Azurite-http-table-endpoint>",
   "myTable",
   new AzureNamedKeyCredential("<Azurite-account-name>", "<Azurite-account-key>"),
-  { allowInsecureConnection: true }
+  { allowInsecureConnection: true },
 );
 ```
 
@@ -467,7 +467,7 @@ const client = new TableClient(
 ### General
 
 When you interact with Tables service using the Javascript/Typescript SDK, errors returned by the service correspond to the same HTTP status codes returned for REST API requests:
-[Storage Table Service Error Codes](https://docs.microsoft.com/rest/api/storageservices/table-service-error-codes)
+[Storage Table Service Error Codes](https://learn.microsoft.com/rest/api/storageservices/table-service-error-codes)
 
 ### Logging
 
@@ -498,5 +498,3 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/tables/README.png)

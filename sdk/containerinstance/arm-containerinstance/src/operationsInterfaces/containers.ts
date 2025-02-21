@@ -14,7 +14,7 @@ import {
   ContainersExecuteCommandResponse,
   ContainersAttachOptionalParams,
   ContainersAttachResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Containers. */
 export interface Containers {

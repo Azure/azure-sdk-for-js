@@ -7,7 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { SipRoutingClientOptionalParams } from "./models";
+import { SipRoutingClientOptionalParams } from "./models/index.js";
 
 export class SipRoutingClientContext extends coreClient.ServiceClient {
   endpoint: string;
@@ -31,7 +31,7 @@ export class SipRoutingClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-communication-phone-numbers/1.2.1`;
+    const packageDetails = `azsdk-js-communication-phone-numbers/1.3.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

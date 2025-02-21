@@ -68,6 +68,9 @@ export {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
   VectorIndexType,
+  FullTextIndex,
+  FullTextPolicy,
+  FullTextPath,
 } from "./documents";
 
 export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
@@ -115,6 +118,7 @@ export {
   ClientSideRequestStatistics,
   ClientConfigDiagnostic,
   DiagnosticNode,
+  EncryptionDiagnostics,
 } from "./CosmosDiagnostics";
 
 export {
@@ -134,3 +138,23 @@ export { SasTokenPermissionKind } from "./common/constants";
 export { createAuthorizationSasToken } from "./utils/SasToken";
 export { RestError } from "@azure/core-rest-pipeline";
 export { AbortError } from "@azure/abort-controller";
+export * from "./encryption/enums";
+export * from "./encryption/ClientEncryptionKey";
+export * from "./encryption/EncryptionKeyResolver";
+export {
+  ClientEncryptionIncludedPath,
+  ClientEncryptionPolicy,
+  ClientEncryptionKeyProperties,
+  EncryptionKeyWrapMetadata,
+  EncryptionQueryBuilder,
+  ClientEncryptionKeyRequest,
+  ClientEncryptionKeyResponse,
+  ClientEncryptionKeyDefinition,
+  EncryptionKeyResolver,
+  AzureKeyVaultEncryptionKeyResolver,
+  EncryptionType,
+  EncryptionAlgorithm,
+  EncryptionKeyResolverName,
+  EncryptionTimeToLive,
+  EncryptionPolicy,
+} from "./encryption";

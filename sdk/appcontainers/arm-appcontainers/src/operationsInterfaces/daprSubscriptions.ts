@@ -15,7 +15,7 @@ import {
   DaprSubscriptionsCreateOrUpdateOptionalParams,
   DaprSubscriptionsCreateOrUpdateResponse,
   DaprSubscriptionsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DaprSubscriptions. */

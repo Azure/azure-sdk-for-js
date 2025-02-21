@@ -13,7 +13,7 @@ import {
   SecurityConnectorApplicationCreateOrUpdateOptionalParams,
   SecurityConnectorApplicationCreateOrUpdateResponse,
   SecurityConnectorApplicationDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SecurityConnectorApplication. */
 export interface SecurityConnectorApplication {

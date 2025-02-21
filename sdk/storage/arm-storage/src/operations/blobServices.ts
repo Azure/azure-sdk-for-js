@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { BlobServices } from "../operationsInterfaces";
+import { BlobServices } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageManagementClient } from "../storageManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageManagementClient } from "../storageManagementClient.js";
 import {
   BlobServiceProperties,
   BlobServicesListOptionalParams,
@@ -20,7 +20,7 @@ import {
   BlobServicesSetServicePropertiesResponse,
   BlobServicesGetServicePropertiesOptionalParams,
   BlobServicesGetServicePropertiesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BlobServices operations. */

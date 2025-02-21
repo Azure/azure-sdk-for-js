@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetMediaParameters,
   SendParameters,
   ListTemplatesParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   GetMedia200Response,
   GetMediaDefaultResponse,
   Send202Response,
   SendDefaultResponse,
   ListTemplates200Response,
   ListTemplatesDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetMedia {
   /** Download the Media payload from a User to Business message. */

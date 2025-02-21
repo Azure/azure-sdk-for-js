@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  AttachDetachDataDisksRequest,
-  ComputeManagementClient,
-} from "@azure/arm-compute";
+import type { AttachDetachDataDisksRequest } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Attach and detach data disks to/from a virtual machine in a VM scale set.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary Attach and detach data disks to/from a virtual machine in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_AttachDetachDataDisks_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "azure-vmscaleset";
   const instanceId = "0";
   const parameters: AttachDetachDataDisksRequest = {
@@ -68,13 +60,12 @@ async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    instanceId,
+    parameters,
+  );
   console.log(result);
 }
 
@@ -84,11 +75,9 @@ async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen() {
  * @summary Attach and detach data disks to/from a virtual machine in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_AttachDetachDataDisks_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "azure-vmscaleset";
   const instanceId = "0";
   const parameters: AttachDetachDataDisksRequest = {
@@ -107,19 +96,18 @@ async function virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      instanceId,
-      parameters,
-    );
+  const result = await client.virtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    instanceId,
+    parameters,
+  );
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen();
-  virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen();
+  await virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen();
 }
 
 main().catch(console.error);

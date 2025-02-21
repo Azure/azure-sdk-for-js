@@ -3,9 +3,7 @@
 
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * @summary Demonstrate how to search the coordinates of an address (a.k.a. Geocoding).
@@ -19,7 +17,7 @@ async function main(): Promise<void> {
    * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
    * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication. 
    *
-   * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
+   * More info is available at https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
   /** Microsoft Entra ID authentication (Recommended) */
   const credential = new DefaultAzureCredential();

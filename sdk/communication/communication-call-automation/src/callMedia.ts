@@ -20,9 +20,9 @@ import {
   SpeechOptions,
   HoldRequest,
   UnholdRequest,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
-import { CallMediaImpl } from "./generated/src/operations";
+import { CallMediaImpl } from "./generated/src/operations/index.js";
 
 import {
   CommunicationIdentifier,
@@ -30,7 +30,7 @@ import {
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
-import { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models";
+import { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models.js";
 import {
   PlayOptions,
   PlayToAllOptions,
@@ -42,9 +42,9 @@ import {
   CallMediaRecognizeSpeechOrDtmfOptions,
   HoldOptions,
   UnholdOptions,
-} from "./models/options";
+} from "./models/options.js";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { SendDtmfTonesResult } from "./models/responses";
+import { SendDtmfTonesResult } from "./models/responses.js";
 import { randomUUID } from "@azure/core-util";
 
 /**

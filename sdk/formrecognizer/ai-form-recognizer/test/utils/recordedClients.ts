@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Test } from "mocha";
-
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-
-import type { PollerOptions } from "../../src";
-import { AzureKeyCredential } from "../../src";
+import type { PollerOptions } from "../../src/index.js";
+import { AzureKeyCredential } from "../../src/index.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createClientLogger } from "@azure/logger";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -93,6 +90,7 @@ export const recorderOptions: RecorderStartOptions = {
       },
     ],
   },
+  removeCentralSanitizers: ["AZSDK3402", "AZSDK4001", "AZSDK2030"],
 };
 
 /**
@@ -104,14 +102,14 @@ export function makeCredential(useAad: boolean): TokenCredential | AzureKeyCrede
     : new AzureKeyCredential(assertEnvironmentVariable("FORM_RECOGNIZER_API_KEY"));
 }
 
-export async function createRecorder(currentTest?: Test): Promise<Recorder> {
+export async function createRecorder(currentTest?: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderOptions);
   return recorder;
 }
 
 export async function createRecordedClient<T>(
-  currentTest: Test | undefined,
+  currentTest: TestInfo | undefined,
   ctor: {
     new (
       endpoint: string,

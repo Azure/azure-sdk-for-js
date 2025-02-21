@@ -24,9 +24,9 @@ Tests that require a managed HSM will be skipped if the `AZURE_MANAGEDHSM_URI` e
 
 The Azure resource that is used by the tests in this project is:
 
-- An [Azure Key Vault](https://docs.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure Active Directory application needs to be added to the Access Policies of the Key Vault. The steps are provided [below](#aad-based-authentication).
-- An [Azure Key Vault Managed HSM](https://docs.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure Active Directory application needs to be added to the Access Policies of the Key Vault. The steps are provided [below](#aad-based-authentication).
-- An [Azure Web App for Containers](https://docs.microsoft.com/azure/app-service/tutorial-custom-container?pivots=container-linux) is used to deploy a mock attestation service that is used to generate tokens and verify tokens by the HSM. The source code for the attestation service is hosted on [GitHub](https://github.com/Azure/azure-sdk-tools/tree/main/tools/keyvault-mock-attestation) and is deployed by the same ARM template.
+- An [Azure Key Vault](https://learn.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure Active Directory application needs to be added to the Access Policies of the Key Vault. The steps are provided [below](#aad-based-authentication).
+- An [Azure Key Vault Managed HSM](https://learn.microsoft.com/azure/key-vault/general/basic-concepts). Your Azure Active Directory application needs to be added to the Access Policies of the Key Vault. The steps are provided [below](#aad-based-authentication).
+- An [Azure Web App for Containers](https://learn.microsoft.com/azure/app-service/tutorial-custom-container?pivots=container-linux) is used to deploy a mock attestation service that is used to generate tokens and verify tokens by the HSM. The source code for the attestation service is hosted on [GitHub](https://github.com/Azure/azure-sdk-tools/tree/main/tools/keyvault-mock-attestation) and is deployed by the same ARM template.
 
 To run the live tests, you will also need to set the below environment variables:
 
@@ -43,7 +43,7 @@ In addition, when running HSM based live tests the following environment variabl
 
 - `AZURE_MANAGEDHSM_URI`: The URI of the Azure Managed HSM to use in the Managed HSM tests.
 
-The live tests in this project will create, modify and delete [keys](https://docs.microsoft.com/azure/key-vault/keys/about-keys) inside of the provided Azure Key Vault.
+The live tests in this project will create, modify and delete [keys](https://learn.microsoft.com/azure/key-vault/keys/about-keys) inside of the provided Azure Key Vault.
 
 ## AAD based authentication
 
@@ -51,7 +51,7 @@ The following steps will help you setup the AAD credentials.
 
 ### Register a new application in AAD
 
-- Follow [Documentation to register a new application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
+- Follow [Documentation to register a new application](https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app) in the Azure Active Directory (in the Azure portal).
 - Note down the `CLIENT_ID` and `TENANT_ID`.
 - In the "Certificates & Secrets" tab, create a secret and note that down.
 
@@ -63,6 +63,4 @@ The following steps will help you setup the AAD credentials.
 - For the `Select principal` field, click on the `None selected`. A panel will appear at the right of the window. Search for your Azure Active Directory application, click the application on the search results, then click "Select" at the bottom.
 - Once your application is selected, click the "Add" button.
 - Click the `Save` button at the top of the Access Policies section of your Key Vault.
-- For more information on securing your Key Vault: [Learn more](https://docs.microsoft.com/azure/key-vault/general/secure-your-key-vault)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-keys%2Ftest%2FREADME.png)
+- For more information on securing your Key Vault: [Learn more](https://learn.microsoft.com/azure/key-vault/general/secure-your-key-vault)

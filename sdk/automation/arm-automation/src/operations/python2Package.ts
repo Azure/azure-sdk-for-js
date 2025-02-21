@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Python2Package } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Python2Package } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AutomationClient } from "../automationClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AutomationClient } from "../automationClient.js";
 import {
   Module,
   Python2PackageListByAutomationAccountNextOptionalParams,
@@ -28,7 +28,7 @@ import {
   Python2PackageUpdateOptionalParams,
   Python2PackageUpdateResponse,
   Python2PackageListByAutomationAccountNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Python2Package operations. */

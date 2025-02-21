@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { PrivateLinkScopedResources } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { PrivateLinkScopedResources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MonitorClient } from "../monitorClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MonitorClient } from "../monitorClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ScopedResource,
   PrivateLinkScopedResourcesListByPrivateLinkScopeNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   PrivateLinkScopedResourcesCreateOrUpdateResponse,
   PrivateLinkScopedResourcesDeleteOptionalParams,
   PrivateLinkScopedResourcesListByPrivateLinkScopeNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkScopedResources operations. */

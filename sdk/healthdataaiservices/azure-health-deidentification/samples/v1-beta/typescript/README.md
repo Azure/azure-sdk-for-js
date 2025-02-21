@@ -65,8 +65,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthdataaiservices/azure-health-deidentification/samples/v1-beta/typescript/src/helloWorld.ts
 [listcompletedfiles]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthdataaiservices/azure-health-deidentification/samples/v1-beta/typescript/src/listCompletedFiles.ts
 [listjobs]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthdataaiservices/azure-health-deidentification/samples/v1-beta/typescript/src/listJobs.ts
-[apiref]: https://docs.microsoft.com/javascript/api/
+[apiref]: https://learn.microsoft.com/javascript/api/
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_de-identificationservice]: https://docs.microsoft.com/javascript/api/
+[createinstance_de-identificationservice]: https://learn.microsoft.com/javascript/api/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/azure-health-deidentification/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

@@ -33,7 +33,7 @@ import {
   AppAttachPackageInfoImpl,
   MsixImagesImpl,
   AppAttachPackageOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Workspaces,
@@ -53,8 +53,8 @@ import {
   AppAttachPackageInfo,
   MsixImages,
   AppAttachPackageOperations,
-} from "./operationsInterfaces";
-import { DesktopVirtualizationAPIClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { DesktopVirtualizationAPIClientOptionalParams } from "./models/index.js";
 
 export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
   $host: string;

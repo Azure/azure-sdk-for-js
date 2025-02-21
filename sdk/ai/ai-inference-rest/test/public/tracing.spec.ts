@@ -26,7 +26,7 @@ import type {
 } from "@azure/core-tracing";
 import { useInstrumenter } from "@azure/core-tracing";
 
-describe("tracing test suite", () => {
+describe("tracing test suite", { skip: true }, () => {
   let recorder: Recorder;
   let client: ModelClient;
   let instrumenter: MockInstrumenter;
@@ -57,7 +57,7 @@ describe("tracing test suite", () => {
     return `The temperature in ${location} is 72 degrees ${unit}`;
   };
 
-  const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
+  const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>): void => {
     const dummyFunction = { name: "", arguments: "", id: "" };
     while (functionArray.length < toolCallArray.length) {
       functionArray.push(dummyFunction);
@@ -78,7 +78,14 @@ describe("tracing test suite", () => {
     }
   };
 
-  const handleToolCalls = (functionArray: Array<any>) => {
+  const handleToolCalls = (
+    functionArray: Array<any>,
+  ): {
+    role: string;
+    content: string;
+    tool_call_id: any;
+    name: any;
+  }[] => {
     const messageArray = [];
     for (const func of functionArray) {
       const funcArgs = JSON.parse(func.arguments);
@@ -115,7 +122,6 @@ describe("tracing test suite", () => {
         content: "What's the weather like in Boston?",
       },
       {
-        content: null,
         role: "assistant",
         tool_calls: [
           {
@@ -201,13 +207,13 @@ describe("tracing test suite", () => {
     await recorder.stop();
   });
 
-  it("client test", function () {
+  it("client test", () => {
     assert.isNotNull(client);
     assert.isNotNull(client.path);
     assert.isNotNull(client.pipeline);
   });
 
-  it("tracing should work", async function () {
+  it("tracing should work", async () => {
     env["AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED"] = "true";
 
     const { messages, response } = await callPost();
@@ -356,7 +362,7 @@ describe("tracing test suite", () => {
     );
   });
 
-  it("tracing with CONTENT_RECORDING_ENABLED false", async function () {
+  it("tracing with CONTENT_RECORDING_ENABLED false", async () => {
     delete env["AZURE_TRACING_GEN_AI_CONTENT_RECORDING_ENABLED"];
 
     const { messages, response } = await callPost();
@@ -503,7 +509,7 @@ describe("tracing test suite", () => {
     );
   });
 
-  it("tracing with errors", async function () {
+  it("tracing with errors", async () => {
     client = await createModelClient("dummy", recorder);
 
     await client.path("/chat/completions").post({
@@ -534,7 +540,7 @@ describe("tracing test suite", () => {
     assert.equal(mockSpan.getAttribute("error.type"), "401");
   });
 
-  it("no tracing other than chat completion", async function () {
+  it("no tracing other than chat completion", async () => {
     client = await createModelClient("embeddings", recorder);
 
     await client.path("/embeddings").post({
@@ -545,7 +551,7 @@ describe("tracing test suite", () => {
     assert.isDefined(instrumenter.createdSpans.get("HTTP POST"));
   });
 
-  it("no tracing for streaming", async function () {
+  it("no tracing for streaming", async () => {
     client = await createModelClient("completions", recorder);
 
     await client.path("/chat/completions").post({

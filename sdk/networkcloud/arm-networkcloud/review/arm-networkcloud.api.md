@@ -31,6 +31,11 @@ export interface AdministratorConfiguration {
 }
 
 // @public
+export interface AdministratorConfigurationPatch {
+    sshPublicKeys?: SshPublicKey[];
+}
+
+// @public
 export type AdvertiseToFabric = string;
 
 // @public
@@ -86,6 +91,7 @@ export type AgentPoolMode = string;
 
 // @public
 export interface AgentPoolPatchParameters {
+    administratorConfiguration?: NodePoolAdministratorConfigurationPatch;
     count?: number;
     tags?: {
         [propertyName: string]: string;
@@ -100,8 +106,8 @@ export type AgentPoolProvisioningState = string;
 export interface AgentPools {
     beginCreateOrUpdate(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, agentPoolParameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsCreateOrUpdateResponse>, AgentPoolsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, agentPoolParameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<AgentPoolsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<AgentPoolsDeleteResponse>;
     beginUpdate(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsUpdateResponse>, AgentPoolsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsUpdateOptionalParams): Promise<AgentPoolsUpdateResponse>;
     get(resourceGroupName: string, kubernetesClusterName: string, agentPoolName: string, options?: AgentPoolsGetOptionalParams): Promise<AgentPoolsGetResponse>;
@@ -134,6 +140,9 @@ export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
+export type AgentPoolsDeleteResponse = OperationStatusResult;
+
+// @public
 export interface AgentPoolsGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -157,6 +166,7 @@ export type AgentPoolsListByKubernetesClusterResponse = AgentPoolList;
 // @public
 export interface AgentPoolsUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -171,7 +181,9 @@ export type AgentPoolsUpdateResponse = AgentPool;
 
 // @public
 export interface AgentPoolUpgradeSettings {
+    drainTimeout?: number;
     maxSurge?: string;
+    maxUnavailable?: string;
 }
 
 // @public
@@ -207,8 +219,10 @@ export interface BareMetalMachine extends TrackedResource {
     readonly hybridAksClustersAssociatedIds?: string[];
     readonly kubernetesNodeName?: string;
     readonly kubernetesVersion?: string;
+    machineClusterVersion?: string;
     machineDetails: string;
     machineName: string;
+    readonly machineRoles?: string[];
     machineSkuId: string;
     readonly oamIpv4Address?: string;
     readonly oamIpv6Address?: string;
@@ -218,6 +232,8 @@ export interface BareMetalMachine extends TrackedResource {
     rackId: string;
     rackSlot: number;
     readonly readyState?: BareMetalMachineReadyState;
+    readonly runtimeProtectionStatus?: RuntimeProtectionStatus;
+    readonly secretRotationStatus?: SecretRotationStatus[];
     serialNumber: string;
     readonly serviceTag?: string;
     readonly virtualMachinesAssociatedIds?: string[];
@@ -303,8 +319,8 @@ export type BareMetalMachineKeySetProvisioningState = string;
 export interface BareMetalMachineKeySets {
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, bareMetalMachineKeySetParameters: BareMetalMachineKeySet, options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachineKeySetsCreateOrUpdateResponse>, BareMetalMachineKeySetsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, bareMetalMachineKeySetParameters: BareMetalMachineKeySet, options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams): Promise<BareMetalMachineKeySetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachineKeySetsDeleteResponse>, BareMetalMachineKeySetsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsDeleteOptionalParams): Promise<BareMetalMachineKeySetsDeleteResponse>;
     beginUpdate(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachineKeySetsUpdateResponse>, BareMetalMachineKeySetsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsUpdateOptionalParams): Promise<BareMetalMachineKeySetsUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, bareMetalMachineKeySetName: string, options?: BareMetalMachineKeySetsGetOptionalParams): Promise<BareMetalMachineKeySetsGetResponse>;
@@ -337,6 +353,9 @@ export interface BareMetalMachineKeySetsDeleteOptionalParams extends coreClient.
 }
 
 // @public
+export type BareMetalMachineKeySetsDeleteResponse = OperationStatusResult;
+
+// @public
 export interface BareMetalMachineKeySetsGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -360,6 +379,7 @@ export type BareMetalMachineKeySetsListByClusterResponse = BareMetalMachineKeySe
 // @public
 export interface BareMetalMachineKeySetsUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -437,8 +457,8 @@ export interface BareMetalMachines {
     beginCordonAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesCordonOptionalParams): Promise<BareMetalMachinesCordonResponse>;
     beginCreateOrUpdate(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineParameters: BareMetalMachine, options?: BareMetalMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesCreateOrUpdateResponse>, BareMetalMachinesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, bareMetalMachineName: string, bareMetalMachineParameters: BareMetalMachine, options?: BareMetalMachinesCreateOrUpdateOptionalParams): Promise<BareMetalMachinesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesDeleteResponse>, BareMetalMachinesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesDeleteOptionalParams): Promise<BareMetalMachinesDeleteResponse>;
     beginPowerOff(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesPowerOffResponse>, BareMetalMachinesPowerOffResponse>>;
     beginPowerOffAndWait(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesPowerOffOptionalParams): Promise<BareMetalMachinesPowerOffResponse>;
     beginReimage(resourceGroupName: string, bareMetalMachineName: string, options?: BareMetalMachinesReimageOptionalParams): Promise<SimplePollerLike<OperationState<BareMetalMachinesReimageResponse>, BareMetalMachinesReimageResponse>>;
@@ -503,6 +523,9 @@ export interface BareMetalMachinesDeleteOptionalParams extends coreClient.Operat
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type BareMetalMachinesDeleteResponse = OperationStatusResult;
 
 // @public
 export interface BareMetalMachinesGetOptionalParams extends coreClient.OperationOptions {
@@ -673,6 +696,7 @@ export type BareMetalMachinesUncordonResponse = OperationStatusResult;
 // @public
 export interface BareMetalMachinesUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -749,8 +773,8 @@ export type BmcKeySetProvisioningState = string;
 export interface BmcKeySets {
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, bmcKeySetName: string, bmcKeySetParameters: BmcKeySet, options?: BmcKeySetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BmcKeySetsCreateOrUpdateResponse>, BmcKeySetsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, bmcKeySetName: string, bmcKeySetParameters: BmcKeySet, options?: BmcKeySetsCreateOrUpdateOptionalParams): Promise<BmcKeySetsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<BmcKeySetsDeleteResponse>, BmcKeySetsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsDeleteOptionalParams): Promise<BmcKeySetsDeleteResponse>;
     beginUpdate(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<BmcKeySetsUpdateResponse>, BmcKeySetsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsUpdateOptionalParams): Promise<BmcKeySetsUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, bmcKeySetName: string, options?: BmcKeySetsGetOptionalParams): Promise<BmcKeySetsGetResponse>;
@@ -783,6 +807,9 @@ export interface BmcKeySetsDeleteOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
+export type BmcKeySetsDeleteResponse = OperationStatusResult;
+
+// @public
 export interface BmcKeySetsGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -806,6 +833,7 @@ export type BmcKeySetsListByClusterResponse = BmcKeySetList;
 // @public
 export interface BmcKeySetsUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -865,8 +893,8 @@ export type CloudServicesNetworkProvisioningState = string;
 export interface CloudServicesNetworks {
     beginCreateOrUpdate(resourceGroupName: string, cloudServicesNetworkName: string, cloudServicesNetworkParameters: CloudServicesNetwork, options?: CloudServicesNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudServicesNetworksCreateOrUpdateResponse>, CloudServicesNetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, cloudServicesNetworkName: string, cloudServicesNetworkParameters: CloudServicesNetwork, options?: CloudServicesNetworksCreateOrUpdateOptionalParams): Promise<CloudServicesNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<CloudServicesNetworksDeleteResponse>, CloudServicesNetworksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksDeleteOptionalParams): Promise<CloudServicesNetworksDeleteResponse>;
     beginUpdate(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<CloudServicesNetworksUpdateResponse>, CloudServicesNetworksUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksUpdateOptionalParams): Promise<CloudServicesNetworksUpdateResponse>;
     get(resourceGroupName: string, cloudServicesNetworkName: string, options?: CloudServicesNetworksGetOptionalParams): Promise<CloudServicesNetworksGetResponse>;
@@ -898,6 +926,9 @@ export interface CloudServicesNetworksDeleteOptionalParams extends coreClient.Op
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type CloudServicesNetworksDeleteResponse = OperationStatusResult;
 
 // @public
 export interface CloudServicesNetworksGetOptionalParams extends coreClient.OperationOptions {
@@ -937,6 +968,7 @@ export type CloudServicesNetworksListBySubscriptionResponse = CloudServicesNetwo
 // @public
 export interface CloudServicesNetworksUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -963,17 +995,22 @@ export interface Cluster extends TrackedResource {
     clusterServicePrincipal?: ServicePrincipalInformation;
     clusterType: ClusterType;
     clusterVersion: string;
+    commandOutputSettings?: CommandOutputSettings;
     computeDeploymentThreshold?: ValidationThreshold;
     computeRackDefinitions?: RackDefinition[];
     readonly detailedStatus?: ClusterDetailedStatus;
     readonly detailedStatusMessage?: string;
     extendedLocation: ExtendedLocation;
     readonly hybridAksExtendedLocation?: ExtendedLocation;
+    identity?: ManagedServiceIdentity;
     managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
     readonly manualActionCount?: number;
     networkFabricId: string;
     readonly provisioningState?: ClusterProvisioningState;
+    runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+    secretArchive?: ClusterSecretArchive;
     readonly supportExpiryDate?: string;
+    updateStrategy?: ClusterUpdateStrategy;
     readonly workloadResourceIds?: string[];
 }
 
@@ -1009,6 +1046,14 @@ export interface ClusterCapacity {
 export type ClusterConnectionStatus = string;
 
 // @public
+export type ClusterContinueUpdateVersionMachineGroupTargetingMode = string;
+
+// @public
+export interface ClusterContinueUpdateVersionParameters {
+    machineGroupTargetingMode?: ClusterContinueUpdateVersionMachineGroupTargetingMode;
+}
+
+// @public
 export interface ClusterDeployParameters {
     skipValidationsForMachines?: string[];
 }
@@ -1030,6 +1075,7 @@ export interface ClusterManager extends TrackedResource {
     readonly detailedStatus?: ClusterManagerDetailedStatus;
     readonly detailedStatusMessage?: string;
     fabricControllerId: string;
+    identity?: ManagedServiceIdentity;
     managedResourceGroupConfiguration?: ManagedResourceGroupConfiguration;
     readonly managerExtendedLocation?: ExtendedLocation;
     readonly provisioningState?: ClusterManagerProvisioningState;
@@ -1050,6 +1096,7 @@ export interface ClusterManagerList {
 
 // @public
 export interface ClusterManagerPatchParameters {
+    identity?: ManagedServiceIdentity;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1062,8 +1109,8 @@ export type ClusterManagerProvisioningState = string;
 export interface ClusterManagers {
     beginCreateOrUpdate(resourceGroupName: string, clusterManagerName: string, clusterManagerParameters: ClusterManager, options?: ClusterManagersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClusterManagersCreateOrUpdateResponse>, ClusterManagersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterManagerName: string, clusterManagerParameters: ClusterManager, options?: ClusterManagersCreateOrUpdateOptionalParams): Promise<ClusterManagersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ClusterManagersDeleteResponse>, ClusterManagersDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersDeleteOptionalParams): Promise<ClusterManagersDeleteResponse>;
     get(resourceGroupName: string, clusterManagerName: string, options?: ClusterManagersGetOptionalParams): Promise<ClusterManagersGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ClusterManagersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ClusterManager>;
     listBySubscription(options?: ClusterManagersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ClusterManager>;
@@ -1094,6 +1141,9 @@ export interface ClusterManagersDeleteOptionalParams extends coreClient.Operatio
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type ClusterManagersDeleteResponse = OperationStatusResult;
 
 // @public
 export interface ClusterManagersGetOptionalParams extends coreClient.OperationOptions {
@@ -1175,11 +1225,16 @@ export interface ClusterPatchParameters {
     aggregatorOrSingleRackDefinition?: RackDefinition;
     clusterLocation?: string;
     clusterServicePrincipal?: ServicePrincipalInformation;
+    commandOutputSettings?: CommandOutputSettings;
     computeDeploymentThreshold?: ValidationThreshold;
     computeRackDefinitions?: RackDefinition[];
+    identity?: ManagedServiceIdentity;
+    runtimeProtectionConfiguration?: RuntimeProtectionConfiguration;
+    secretArchive?: ClusterSecretArchive;
     tags?: {
         [propertyName: string]: string;
     };
+    updateStrategy?: ClusterUpdateStrategy;
 }
 
 // @public
@@ -1187,12 +1242,16 @@ export type ClusterProvisioningState = string;
 
 // @public
 export interface Clusters {
+    beginContinueUpdateVersion(resourceGroupName: string, clusterName: string, clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters, options?: ClustersContinueUpdateVersionOptionalParams): Promise<SimplePollerLike<OperationState<ClustersContinueUpdateVersionResponse>, ClustersContinueUpdateVersionResponse>>;
+    beginContinueUpdateVersionAndWait(resourceGroupName: string, clusterName: string, clusterContinueUpdateVersionParameters: ClusterContinueUpdateVersionParameters, options?: ClustersContinueUpdateVersionOptionalParams): Promise<ClustersContinueUpdateVersionResponse>;
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, clusterParameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, clusterParameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ClustersDeleteResponse>, ClustersDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<ClustersDeleteResponse>;
     beginDeploy(resourceGroupName: string, clusterName: string, options?: ClustersDeployOptionalParams): Promise<SimplePollerLike<OperationState<ClustersDeployResponse>, ClustersDeployResponse>>;
     beginDeployAndWait(resourceGroupName: string, clusterName: string, options?: ClustersDeployOptionalParams): Promise<ClustersDeployResponse>;
+    beginScanRuntime(resourceGroupName: string, clusterName: string, options?: ClustersScanRuntimeOptionalParams): Promise<SimplePollerLike<OperationState<ClustersScanRuntimeResponse>, ClustersScanRuntimeResponse>>;
+    beginScanRuntimeAndWait(resourceGroupName: string, clusterName: string, options?: ClustersScanRuntimeOptionalParams): Promise<ClustersScanRuntimeResponse>;
     beginUpdate(resourceGroupName: string, clusterName: string, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     beginUpdateVersion(resourceGroupName: string, clusterName: string, clusterUpdateVersionParameters: ClusterUpdateVersionParameters, options?: ClustersUpdateVersionOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateVersionResponse>, ClustersUpdateVersionResponse>>;
@@ -1201,6 +1260,28 @@ export interface Clusters {
     listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listBySubscription(options?: ClustersListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Cluster>;
 }
+
+// @public
+export interface ClusterScanRuntimeParameters {
+    scanActivity?: ClusterScanRuntimeParametersScanActivity;
+}
+
+// @public
+export type ClusterScanRuntimeParametersScanActivity = string;
+
+// @public
+export interface ClustersContinueUpdateVersionHeaders {
+    location?: string;
+}
+
+// @public
+export interface ClustersContinueUpdateVersionOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClustersContinueUpdateVersionResponse = OperationStatusResult;
 
 // @public
 export interface ClustersCreateOrUpdateHeaders {
@@ -1228,6 +1309,9 @@ export interface ClustersDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
+export type ClustersDeleteResponse = OperationStatusResult;
+
+// @public
 export interface ClustersDeployHeaders {
     location?: string;
 }
@@ -1241,6 +1325,15 @@ export interface ClustersDeployOptionalParams extends coreClient.OperationOption
 
 // @public
 export type ClustersDeployResponse = OperationStatusResult;
+
+// @public
+export interface ClusterSecretArchive {
+    keyVaultId: string;
+    useKeyVault?: ClusterSecretArchiveEnabled;
+}
+
+// @public
+export type ClusterSecretArchiveEnabled = string;
 
 // @public
 export interface ClustersGetOptionalParams extends coreClient.OperationOptions {
@@ -1278,8 +1371,24 @@ export interface ClustersListBySubscriptionOptionalParams extends coreClient.Ope
 export type ClustersListBySubscriptionResponse = ClusterList;
 
 // @public
+export interface ClustersScanRuntimeHeaders {
+    location?: string;
+}
+
+// @public
+export interface ClustersScanRuntimeOptionalParams extends coreClient.OperationOptions {
+    clusterScanRuntimeParameters?: ClusterScanRuntimeParameters;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ClustersScanRuntimeResponse = OperationStatusResult;
+
+// @public
 export interface ClustersUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -1310,8 +1419,26 @@ export type ClustersUpdateVersionResponse = OperationStatusResult;
 export type ClusterType = string;
 
 // @public
+export interface ClusterUpdateStrategy {
+    maxUnavailable?: number;
+    strategyType: ClusterUpdateStrategyType;
+    thresholdType: ValidationThresholdType;
+    thresholdValue: number;
+    waitTimeMinutes?: number;
+}
+
+// @public
+export type ClusterUpdateStrategyType = string;
+
+// @public
 export interface ClusterUpdateVersionParameters {
     targetClusterVersion: string;
+}
+
+// @public
+export interface CommandOutputSettings {
+    associatedIdentity?: IdentitySelector;
+    containerUrl?: string;
 }
 
 // @public
@@ -1357,8 +1484,8 @@ export type ConsoleProvisioningState = string;
 export interface Consoles {
     beginCreateOrUpdate(resourceGroupName: string, virtualMachineName: string, consoleName: string, consoleParameters: Console_2, options?: ConsolesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConsolesCreateOrUpdateResponse>, ConsolesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, virtualMachineName: string, consoleName: string, consoleParameters: Console_2, options?: ConsolesCreateOrUpdateOptionalParams): Promise<ConsolesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<ConsolesDeleteResponse>, ConsolesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesDeleteOptionalParams): Promise<ConsolesDeleteResponse>;
     beginUpdate(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ConsolesUpdateResponse>, ConsolesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesUpdateOptionalParams): Promise<ConsolesUpdateResponse>;
     get(resourceGroupName: string, virtualMachineName: string, consoleName: string, options?: ConsolesGetOptionalParams): Promise<ConsolesGetResponse>;
@@ -1391,6 +1518,9 @@ export interface ConsolesDeleteOptionalParams extends coreClient.OperationOption
 }
 
 // @public
+export type ConsolesDeleteResponse = OperationStatusResult;
+
+// @public
 export interface ConsolesGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1414,6 +1544,7 @@ export type ConsolesListByVirtualMachineResponse = ConsoleList;
 // @public
 export interface ConsolesUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -1439,6 +1570,7 @@ export interface ControlPlaneNodeConfiguration {
 
 // @public
 export interface ControlPlaneNodePatchConfiguration {
+    administratorConfiguration?: AdministratorConfigurationPatch;
     count?: number;
 }
 
@@ -1540,6 +1672,12 @@ export type HybridAksIpamEnabled = string;
 export type HybridAksPluginType = string;
 
 // @public
+export interface IdentitySelector {
+    identityType?: ManagedServiceIdentitySelectorType;
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
 export interface ImageRepositoryCredentials {
     password: string;
     registryUrl: string;
@@ -1577,6 +1715,7 @@ export interface KeySetUser {
     azureUserName: string;
     description?: string;
     sshPublicKey: SshPublicKey;
+    userPrincipalName?: string;
 }
 
 // @public
@@ -1777,8 +1916,14 @@ export enum KnownCloudServicesNetworkProvisioningState {
 // @public
 export enum KnownClusterConnectionStatus {
     Connected = "Connected",
+    Disconnected = "Disconnected",
     Timeout = "Timeout",
     Undefined = "Undefined"
+}
+
+// @public
+export enum KnownClusterContinueUpdateVersionMachineGroupTargetingMode {
+    AlphaByRack = "AlphaByRack"
 }
 
 // @public
@@ -1790,6 +1935,7 @@ export enum KnownClusterDetailedStatus {
     Failed = "Failed",
     PendingDeployment = "PendingDeployment",
     Running = "Running",
+    UpdatePaused = "UpdatePaused",
     Updating = "Updating"
 }
 
@@ -1846,9 +1992,27 @@ export enum KnownClusterProvisioningState {
 }
 
 // @public
+export enum KnownClusterScanRuntimeParametersScanActivity {
+    Scan = "Scan",
+    Skip = "Skip"
+}
+
+// @public
+export enum KnownClusterSecretArchiveEnabled {
+    False = "False",
+    True = "True"
+}
+
+// @public
 export enum KnownClusterType {
     MultiRack = "MultiRack",
     SingleRack = "SingleRack"
+}
+
+// @public
+export enum KnownClusterUpdateStrategyType {
+    PauseAfterRack = "PauseAfterRack",
+    Rack = "Rack"
 }
 
 // @public
@@ -1950,6 +2114,35 @@ export enum KnownKubernetesClusterDetailedStatus {
 }
 
 // @public
+export enum KnownKubernetesClusterFeatureAvailabilityLifecycle {
+    GenerallyAvailable = "GenerallyAvailable",
+    Preview = "Preview"
+}
+
+// @public
+export enum KnownKubernetesClusterFeatureDetailedStatus {
+    Error = "Error",
+    Installed = "Installed",
+    Provisioning = "Provisioning"
+}
+
+// @public
+export enum KnownKubernetesClusterFeatureProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownKubernetesClusterFeatureRequired {
+    False = "False",
+    True = "True"
+}
+
+// @public
 export enum KnownKubernetesClusterNodeDetailedStatus {
     Available = "Available",
     Error = "Error",
@@ -2042,6 +2235,20 @@ export enum KnownMachineSkuDiskConnectionType {
 }
 
 // @public
+export enum KnownManagedServiceIdentitySelectorType {
+    SystemAssignedIdentity = "SystemAssignedIdentity",
+    UserAssignedIdentity = "UserAssignedIdentity"
+}
+
+// @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -2076,6 +2283,8 @@ export enum KnownRackProvisioningState {
 
 // @public
 export enum KnownRackSkuProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
     Succeeded = "Succeeded"
 }
 
@@ -2097,6 +2306,15 @@ export enum KnownRemoteVendorManagementStatus {
     Disabled = "Disabled",
     Enabled = "Enabled",
     Unsupported = "Unsupported"
+}
+
+// @public
+export enum KnownRuntimeProtectionEnforcementLevel {
+    Audit = "Audit",
+    Disabled = "Disabled",
+    OnDemand = "OnDemand",
+    Passive = "Passive",
+    RealTime = "RealTime"
 }
 
 // @public
@@ -2274,6 +2492,120 @@ export interface KubernetesCluster extends TrackedResource {
 export type KubernetesClusterDetailedStatus = string;
 
 // @public
+export interface KubernetesClusterFeature extends TrackedResource {
+    readonly availabilityLifecycle?: KubernetesClusterFeatureAvailabilityLifecycle;
+    readonly detailedStatus?: KubernetesClusterFeatureDetailedStatus;
+    readonly detailedStatusMessage?: string;
+    options?: StringKeyValuePair[];
+    readonly provisioningState?: KubernetesClusterFeatureProvisioningState;
+    readonly required?: KubernetesClusterFeatureRequired;
+    readonly version?: string;
+}
+
+// @public
+export type KubernetesClusterFeatureAvailabilityLifecycle = string;
+
+// @public
+export type KubernetesClusterFeatureDetailedStatus = string;
+
+// @public
+export interface KubernetesClusterFeatureList {
+    nextLink?: string;
+    value?: KubernetesClusterFeature[];
+}
+
+// @public
+export interface KubernetesClusterFeaturePatchParameters {
+    options?: StringKeyValuePair[];
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export type KubernetesClusterFeatureProvisioningState = string;
+
+// @public
+export type KubernetesClusterFeatureRequired = string;
+
+// @public
+export interface KubernetesClusterFeatures {
+    beginCreateOrUpdate(resourceGroupName: string, kubernetesClusterName: string, featureName: string, kubernetesClusterFeatureParameters: KubernetesClusterFeature, options?: KubernetesClusterFeaturesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClusterFeaturesCreateOrUpdateResponse>, KubernetesClusterFeaturesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, featureName: string, kubernetesClusterFeatureParameters: KubernetesClusterFeature, options?: KubernetesClusterFeaturesCreateOrUpdateOptionalParams): Promise<KubernetesClusterFeaturesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClusterFeaturesDeleteResponse>, KubernetesClusterFeaturesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesDeleteOptionalParams): Promise<KubernetesClusterFeaturesDeleteResponse>;
+    beginUpdate(resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClusterFeaturesUpdateResponse>, KubernetesClusterFeaturesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesUpdateOptionalParams): Promise<KubernetesClusterFeaturesUpdateResponse>;
+    get(resourceGroupName: string, kubernetesClusterName: string, featureName: string, options?: KubernetesClusterFeaturesGetOptionalParams): Promise<KubernetesClusterFeaturesGetResponse>;
+    listByKubernetesCluster(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClusterFeaturesListByKubernetesClusterOptionalParams): PagedAsyncIterableIterator<KubernetesClusterFeature>;
+}
+
+// @public
+export interface KubernetesClusterFeaturesCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
+export interface KubernetesClusterFeaturesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type KubernetesClusterFeaturesCreateOrUpdateResponse = KubernetesClusterFeature;
+
+// @public
+export interface KubernetesClusterFeaturesDeleteHeaders {
+    location?: string;
+}
+
+// @public
+export interface KubernetesClusterFeaturesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type KubernetesClusterFeaturesDeleteResponse = OperationStatusResult;
+
+// @public
+export interface KubernetesClusterFeaturesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type KubernetesClusterFeaturesGetResponse = KubernetesClusterFeature;
+
+// @public
+export interface KubernetesClusterFeaturesListByKubernetesClusterNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type KubernetesClusterFeaturesListByKubernetesClusterNextResponse = KubernetesClusterFeatureList;
+
+// @public
+export interface KubernetesClusterFeaturesListByKubernetesClusterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type KubernetesClusterFeaturesListByKubernetesClusterResponse = KubernetesClusterFeatureList;
+
+// @public
+export interface KubernetesClusterFeaturesUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface KubernetesClusterFeaturesUpdateOptionalParams extends coreClient.OperationOptions {
+    kubernetesClusterFeatureUpdateParameters?: KubernetesClusterFeaturePatchParameters;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type KubernetesClusterFeaturesUpdateResponse = KubernetesClusterFeature;
+
+// @public
 export interface KubernetesClusterList {
     nextLink?: string;
     value?: KubernetesCluster[];
@@ -2306,6 +2638,7 @@ export type KubernetesClusterNodeDetailedStatus = string;
 
 // @public
 export interface KubernetesClusterPatchParameters {
+    administratorConfiguration?: AdministratorConfigurationPatch;
     controlPlaneNodeConfiguration?: ControlPlaneNodePatchConfiguration;
     kubernetesVersion?: string;
     tags?: {
@@ -2325,8 +2658,8 @@ export interface KubernetesClusterRestartNodeParameters {
 export interface KubernetesClusters {
     beginCreateOrUpdate(resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterParameters: KubernetesCluster, options?: KubernetesClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClustersCreateOrUpdateResponse>, KubernetesClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterParameters: KubernetesCluster, options?: KubernetesClustersCreateOrUpdateOptionalParams): Promise<KubernetesClustersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClustersDeleteResponse>, KubernetesClustersDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersDeleteOptionalParams): Promise<KubernetesClustersDeleteResponse>;
     beginRestartNode(resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters, options?: KubernetesClustersRestartNodeOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClustersRestartNodeResponse>, KubernetesClustersRestartNodeResponse>>;
     beginRestartNodeAndWait(resourceGroupName: string, kubernetesClusterName: string, kubernetesClusterRestartNodeParameters: KubernetesClusterRestartNodeParameters, options?: KubernetesClustersRestartNodeOptionalParams): Promise<KubernetesClustersRestartNodeResponse>;
     beginUpdate(resourceGroupName: string, kubernetesClusterName: string, options?: KubernetesClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<KubernetesClustersUpdateResponse>, KubernetesClustersUpdateResponse>>;
@@ -2360,6 +2693,9 @@ export interface KubernetesClustersDeleteOptionalParams extends coreClient.Opera
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type KubernetesClustersDeleteResponse = OperationStatusResult;
 
 // @public
 export interface KubernetesClustersGetOptionalParams extends coreClient.OperationOptions {
@@ -2413,6 +2749,7 @@ export type KubernetesClustersRestartNodeResponse = OperationStatusResult;
 // @public
 export interface KubernetesClustersUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -2484,8 +2821,8 @@ export type L2NetworkProvisioningState = string;
 export interface L2Networks {
     beginCreateOrUpdate(resourceGroupName: string, l2NetworkName: string, l2NetworkParameters: L2Network, options?: L2NetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<L2NetworksCreateOrUpdateResponse>, L2NetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, l2NetworkName: string, l2NetworkParameters: L2Network, options?: L2NetworksCreateOrUpdateOptionalParams): Promise<L2NetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, l2NetworkName: string, options?: L2NetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, l2NetworkName: string, options?: L2NetworksDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, l2NetworkName: string, options?: L2NetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<L2NetworksDeleteResponse>, L2NetworksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, l2NetworkName: string, options?: L2NetworksDeleteOptionalParams): Promise<L2NetworksDeleteResponse>;
     get(resourceGroupName: string, l2NetworkName: string, options?: L2NetworksGetOptionalParams): Promise<L2NetworksGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: L2NetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<L2Network>;
     listBySubscription(options?: L2NetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<L2Network>;
@@ -2516,6 +2853,9 @@ export interface L2NetworksDeleteOptionalParams extends coreClient.OperationOpti
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type L2NetworksDeleteResponse = OperationStatusResult;
 
 // @public
 export interface L2NetworksGetOptionalParams extends coreClient.OperationOptions {
@@ -2559,6 +2899,11 @@ export interface L2NetworksUpdateOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type L2NetworksUpdateResponse = L2Network;
+
+// @public
+export interface L2ServiceLoadBalancerConfiguration {
+    ipAddressPools?: IpAddressPool[];
+}
 
 // @public
 export interface L3Network extends TrackedResource {
@@ -2613,8 +2958,8 @@ export type L3NetworkProvisioningState = string;
 export interface L3Networks {
     beginCreateOrUpdate(resourceGroupName: string, l3NetworkName: string, l3NetworkParameters: L3Network, options?: L3NetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<L3NetworksCreateOrUpdateResponse>, L3NetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, l3NetworkName: string, l3NetworkParameters: L3Network, options?: L3NetworksCreateOrUpdateOptionalParams): Promise<L3NetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, l3NetworkName: string, options?: L3NetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, l3NetworkName: string, options?: L3NetworksDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, l3NetworkName: string, options?: L3NetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<L3NetworksDeleteResponse>, L3NetworksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, l3NetworkName: string, options?: L3NetworksDeleteOptionalParams): Promise<L3NetworksDeleteResponse>;
     get(resourceGroupName: string, l3NetworkName: string, options?: L3NetworksGetOptionalParams): Promise<L3NetworksGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: L3NetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<L3Network>;
     listBySubscription(options?: L3NetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<L3Network>;
@@ -2645,6 +2990,9 @@ export interface L3NetworksDeleteOptionalParams extends coreClient.OperationOpti
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type L3NetworksDeleteResponse = OperationStatusResult;
 
 // @public
 export interface L3NetworksGetOptionalParams extends coreClient.OperationOptions {
@@ -2730,11 +3078,27 @@ export interface ManagedResourceGroupConfiguration {
 }
 
 // @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentitySelectorType = string;
+
+// @public
+export type ManagedServiceIdentityType = string;
+
+// @public
 export interface MetricsConfigurations {
     beginCreateOrUpdate(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, metricsConfigurationParameters: ClusterMetricsConfiguration, options?: MetricsConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MetricsConfigurationsCreateOrUpdateResponse>, MetricsConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, metricsConfigurationParameters: ClusterMetricsConfiguration, options?: MetricsConfigurationsCreateOrUpdateOptionalParams): Promise<MetricsConfigurationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MetricsConfigurationsDeleteResponse>, MetricsConfigurationsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsDeleteOptionalParams): Promise<MetricsConfigurationsDeleteResponse>;
     beginUpdate(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MetricsConfigurationsUpdateResponse>, MetricsConfigurationsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsUpdateOptionalParams): Promise<MetricsConfigurationsUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, metricsConfigurationName: string, options?: MetricsConfigurationsGetOptionalParams): Promise<MetricsConfigurationsGetResponse>;
@@ -2767,6 +3131,9 @@ export interface MetricsConfigurationsDeleteOptionalParams extends coreClient.Op
 }
 
 // @public
+export type MetricsConfigurationsDeleteResponse = OperationStatusResult;
+
+// @public
 export interface MetricsConfigurationsGetOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2790,6 +3157,7 @@ export type MetricsConfigurationsListByClusterResponse = ClusterMetricsConfigura
 // @public
 export interface MetricsConfigurationsUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -2837,6 +3205,8 @@ export class NetworkCloud extends coreClient.ServiceClient {
     // (undocumented)
     consoles: Consoles;
     // (undocumented)
+    kubernetesClusterFeatures: KubernetesClusterFeatures;
+    // (undocumented)
     kubernetesClusters: KubernetesClusters;
     // (undocumented)
     l2Networks: L2Networks;
@@ -2876,6 +3246,7 @@ export interface NetworkConfiguration {
     cloudServicesNetworkId: string;
     cniNetworkId: string;
     dnsServiceIp?: string;
+    l2ServiceLoadBalancerConfiguration?: L2ServiceLoadBalancerConfiguration;
     podCidrs?: string[];
     serviceCidrs?: string[];
 }
@@ -2896,6 +3267,11 @@ export interface Nic {
     readonly lldpNeighbor?: LldpNeighbor;
     readonly macAddress?: string;
     readonly name?: string;
+}
+
+// @public
+export interface NodePoolAdministratorConfigurationPatch {
+    sshPublicKeys?: SshPublicKey[];
 }
 
 // @public
@@ -2942,14 +3318,18 @@ export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OperationStatusResult {
-    endTime?: Date;
-    error?: ErrorDetail;
-    id?: string;
-    name?: string;
-    operations?: OperationStatusResult[];
-    percentComplete?: number;
+    readonly endTime?: Date;
+    readonly error?: ErrorDetail;
+    readonly exitCode?: string;
+    readonly id?: string;
+    readonly name?: string;
+    readonly operations?: OperationStatusResult[];
+    readonly outputHead?: string;
+    readonly percentComplete?: number;
     readonly resourceId?: string;
-    startTime?: Date;
+    readonly resultRef?: string;
+    readonly resultUrl?: string;
+    readonly startTime?: Date;
     status: string;
 }
 
@@ -3018,8 +3398,8 @@ export type RackProvisioningState = string;
 export interface Racks {
     beginCreateOrUpdate(resourceGroupName: string, rackName: string, rackParameters: Rack, options?: RacksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RacksCreateOrUpdateResponse>, RacksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, rackName: string, rackParameters: Rack, options?: RacksCreateOrUpdateOptionalParams): Promise<RacksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, rackName: string, options?: RacksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, rackName: string, options?: RacksDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, rackName: string, options?: RacksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<RacksDeleteResponse>, RacksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, rackName: string, options?: RacksDeleteOptionalParams): Promise<RacksDeleteResponse>;
     beginUpdate(resourceGroupName: string, rackName: string, options?: RacksUpdateOptionalParams): Promise<SimplePollerLike<OperationState<RacksUpdateResponse>, RacksUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, rackName: string, options?: RacksUpdateOptionalParams): Promise<RacksUpdateResponse>;
     get(resourceGroupName: string, rackName: string, options?: RacksGetOptionalParams): Promise<RacksGetResponse>;
@@ -3051,6 +3431,9 @@ export interface RacksDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type RacksDeleteResponse = OperationStatusResult;
 
 // @public
 export interface RacksGetOptionalParams extends coreClient.OperationOptions {
@@ -3141,6 +3524,7 @@ export type RacksListBySubscriptionResponse = RackList;
 // @public
 export interface RacksUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -3165,6 +3549,39 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public
+export interface RuntimeProtectionConfiguration {
+    enforcementLevel?: RuntimeProtectionEnforcementLevel;
+}
+
+// @public
+export type RuntimeProtectionEnforcementLevel = string;
+
+// @public
+export interface RuntimeProtectionStatus {
+    readonly definitionsLastUpdated?: Date;
+    readonly definitionsVersion?: string;
+    readonly scanCompletedTime?: Date;
+    readonly scanScheduledTime?: Date;
+    readonly scanStartedTime?: Date;
+}
+
+// @public
+export interface SecretArchiveReference {
+    readonly keyVaultId?: string;
+    readonly secretName?: string;
+    readonly secretVersion?: string;
+}
+
+// @public
+export interface SecretRotationStatus {
+    readonly expirePeriodDays?: number;
+    readonly lastRotationTime?: Date;
+    readonly rotationPeriodDays?: number;
+    readonly secretArchiveReference?: SecretArchiveReference;
+    readonly secretType?: string;
 }
 
 // @public
@@ -3207,13 +3624,17 @@ export interface StorageAppliance extends TrackedResource {
     readonly detailedStatusMessage?: string;
     extendedLocation: ExtendedLocation;
     readonly managementIpv4Address?: string;
+    readonly manufacturer?: string;
+    readonly model?: string;
     readonly provisioningState?: StorageApplianceProvisioningState;
     rackId: string;
     rackSlot: number;
     readonly remoteVendorManagementFeature?: RemoteVendorManagementFeature;
     readonly remoteVendorManagementStatus?: RemoteVendorManagementStatus;
+    readonly secretRotationStatus?: SecretRotationStatus[];
     serialNumber: string;
     storageApplianceSkuId: string;
+    readonly version?: string;
 }
 
 // @public
@@ -3253,8 +3674,8 @@ export type StorageApplianceProvisioningState = string;
 export interface StorageAppliances {
     beginCreateOrUpdate(resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesCreateOrUpdateResponse>, StorageAppliancesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, storageApplianceName: string, storageApplianceParameters: StorageAppliance, options?: StorageAppliancesCreateOrUpdateOptionalParams): Promise<StorageAppliancesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesDeleteResponse>, StorageAppliancesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDeleteOptionalParams): Promise<StorageAppliancesDeleteResponse>;
     beginDisableRemoteVendorManagement(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesDisableRemoteVendorManagementResponse>, StorageAppliancesDisableRemoteVendorManagementResponse>>;
     beginDisableRemoteVendorManagementAndWait(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesDisableRemoteVendorManagementOptionalParams): Promise<StorageAppliancesDisableRemoteVendorManagementResponse>;
     beginEnableRemoteVendorManagement(resourceGroupName: string, storageApplianceName: string, options?: StorageAppliancesEnableRemoteVendorManagementOptionalParams): Promise<SimplePollerLike<OperationState<StorageAppliancesEnableRemoteVendorManagementResponse>, StorageAppliancesEnableRemoteVendorManagementResponse>>;
@@ -3290,6 +3711,9 @@ export interface StorageAppliancesDeleteOptionalParams extends coreClient.Operat
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type StorageAppliancesDeleteResponse = OperationStatusResult;
 
 // @public
 export interface StorageAppliancesDisableRemoteVendorManagementHeaders {
@@ -3365,6 +3789,7 @@ export type StorageAppliancesListBySubscriptionResponse = StorageApplianceList;
 // @public
 export interface StorageAppliancesUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -3381,6 +3806,12 @@ export type StorageAppliancesUpdateResponse = StorageAppliance;
 export interface StorageProfile {
     osDisk: OsDisk;
     volumeAttachments?: string[];
+}
+
+// @public
+export interface StringKeyValuePair {
+    key: string;
+    value: string;
 }
 
 // @public
@@ -3453,8 +3884,8 @@ export type TrunkedNetworkProvisioningState = string;
 export interface TrunkedNetworks {
     beginCreateOrUpdate(resourceGroupName: string, trunkedNetworkName: string, trunkedNetworkParameters: TrunkedNetwork, options?: TrunkedNetworksCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TrunkedNetworksCreateOrUpdateResponse>, TrunkedNetworksCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, trunkedNetworkName: string, trunkedNetworkParameters: TrunkedNetwork, options?: TrunkedNetworksCreateOrUpdateOptionalParams): Promise<TrunkedNetworksCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TrunkedNetworksDeleteResponse>, TrunkedNetworksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksDeleteOptionalParams): Promise<TrunkedNetworksDeleteResponse>;
     get(resourceGroupName: string, trunkedNetworkName: string, options?: TrunkedNetworksGetOptionalParams): Promise<TrunkedNetworksGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: TrunkedNetworksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<TrunkedNetwork>;
     listBySubscription(options?: TrunkedNetworksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<TrunkedNetwork>;
@@ -3485,6 +3916,9 @@ export interface TrunkedNetworksDeleteOptionalParams extends coreClient.Operatio
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type TrunkedNetworksDeleteResponse = OperationStatusResult;
 
 // @public
 export interface TrunkedNetworksGetOptionalParams extends coreClient.OperationOptions {
@@ -3528,6 +3962,12 @@ export interface TrunkedNetworksUpdateOptionalParams extends coreClient.Operatio
 
 // @public
 export type TrunkedNetworksUpdateResponse = TrunkedNetwork;
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // @public
 export interface ValidationThreshold {
@@ -3629,8 +4069,8 @@ export type VirtualMachineProvisioningState = string;
 export interface VirtualMachines {
     beginCreateOrUpdate(resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, virtualMachineName: string, virtualMachineParameters: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<VirtualMachinesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesDeleteResponse>, VirtualMachinesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<VirtualMachinesDeleteResponse>;
     beginPowerOff(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesPowerOffResponse>, VirtualMachinesPowerOffResponse>>;
     beginPowerOffAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesPowerOffOptionalParams): Promise<VirtualMachinesPowerOffResponse>;
     beginReimage(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesReimageOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesReimageResponse>, VirtualMachinesReimageResponse>>;
@@ -3673,6 +4113,9 @@ export interface VirtualMachinesDeleteOptionalParams extends coreClient.Operatio
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type VirtualMachinesDeleteResponse = OperationStatusResult;
 
 // @public
 export interface VirtualMachinesGetOptionalParams extends coreClient.OperationOptions {
@@ -3769,6 +4212,7 @@ export type VirtualMachinesStartResponse = OperationStatusResult;
 // @public
 export interface VirtualMachinesUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -3818,8 +4262,8 @@ export type VolumeProvisioningState = string;
 export interface Volumes {
     beginCreateOrUpdate(resourceGroupName: string, volumeName: string, volumeParameters: Volume, options?: VolumesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VolumesCreateOrUpdateResponse>, VolumesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, volumeName: string, volumeParameters: Volume, options?: VolumesCreateOrUpdateOptionalParams): Promise<VolumesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VolumesDeleteResponse>, VolumesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, volumeName: string, options?: VolumesDeleteOptionalParams): Promise<VolumesDeleteResponse>;
     get(resourceGroupName: string, volumeName: string, options?: VolumesGetOptionalParams): Promise<VolumesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: VolumesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Volume>;
     listBySubscription(options?: VolumesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Volume>;
@@ -3850,6 +4294,9 @@ export interface VolumesDeleteOptionalParams extends coreClient.OperationOptions
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type VolumesDeleteResponse = OperationStatusResult;
 
 // @public
 export interface VolumesGetOptionalParams extends coreClient.OperationOptions {

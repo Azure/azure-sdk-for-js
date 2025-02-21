@@ -7,22 +7,27 @@
  * @summary use the prebuilt "read" model to extract information about the text content of a document
  */
 
-import DocumentIntelligence, { AnalyzeResultOperationOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import type { AnalyzeOperationOutput } from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, {
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
 
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-async function main() {
+async function main(): Promise<void> {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" })
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
+  );
 
   const initialResponse = await client
     .path("/documentModels/{modelId}:analyze", "prebuilt-read")
     .post({
       contentType: "application/json",
       body: {
-        urlSource: "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf",
+        urlSource:
+          "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf",
       },
       queryParameters: { features: ["barcodes"] },
     });
@@ -30,18 +35,15 @@ async function main() {
   if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
   }
-  const poller = await getLongRunningPoller(client, initialResponse);
-  const analyzeResult = (
-    (await (poller).pollUntilDone()).body as AnalyzeResultOperationOutput
-  ).analyzeResult;
-
+  const poller = getLongRunningPoller(client, initialResponse);
+  const analyzeResult = ((await poller.pollUntilDone()).body as AnalyzeOperationOutput)
+    .analyzeResult;
 
   // The "prebuilt-read" model (`beginReadDocument` method) only extracts information about the textual content of the
   // document, such as page text elements and information about the language of the text.
   const pages = analyzeResult?.pages;
   const languages = analyzeResult?.languages;
   const styles = analyzeResult?.styles;
-
 
   if (!pages || pages.length <= 0) {
     console.log("No pages were extracted from the document.");
@@ -51,7 +53,7 @@ async function main() {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
       console.log(
-        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`
+        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`,
       );
 
       if (page.lines && page.lines.length > 0) {
@@ -70,7 +72,7 @@ async function main() {
     console.log("Languages:");
     for (const languageEntry of languages) {
       console.log(
-        `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`
+        `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`,
       );
     }
   }
@@ -81,7 +83,7 @@ async function main() {
     console.log("Styles:");
     for (const style of styles) {
       console.log(
-        `- Handwritten: ${style.isHandwritten ? "yes" : "no"} (confidence=${style.confidence})`
+        `- Handwritten: ${style.isHandwritten ? "yes" : "no"} (confidence=${style.confidence})`,
       );
     }
   }

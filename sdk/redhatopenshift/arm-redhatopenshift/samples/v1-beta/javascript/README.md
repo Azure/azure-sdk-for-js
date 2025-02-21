@@ -103,6 +103,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [syncsetsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redhatopenshift/arm-redhatopenshift/samples/v1-beta/javascript/syncSetsGetSample.js
 [syncsetslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redhatopenshift/arm-redhatopenshift/samples/v1-beta/javascript/syncSetsListSample.js
 [syncsetsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/redhatopenshift/arm-redhatopenshift/samples/v1-beta/javascript/syncSetsUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-redhatopenshift?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-redhatopenshift?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/redhatopenshift/arm-redhatopenshift/README.md

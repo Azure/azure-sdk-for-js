@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Slice, MobileNetworkManagementClient } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a network slice. Must be created in the same location as its parent mobile network.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a network slice. Must be created in the same location as its parent mobile network.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/SliceCreate.json
  */
-async function createNetworkSlice() {
+async function createNetworkSlice(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -44,7 +42,7 @@ async function createNetworkSlice() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createNetworkSlice();
 }
 

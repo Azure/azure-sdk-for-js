@@ -2,6 +2,8 @@
 
 Requires client method options parameter types to be suffixed with `Options` and prefixed with the method name.
 
+Exception: `OperationOptions` type is allowed when an operation doesn't need any custom options.
+
 ## Examples
 
 ### Good
@@ -15,6 +17,9 @@ class ServiceClient {
     /* code to return instance of Item */
   }
   upsertItem(options: UpsertItemOptions): Item {
+    /* code to return instance of Item */
+  }
+  deleteItem(options: OperationOptions): void {
     /* code to return instance of Item */
   }
 }

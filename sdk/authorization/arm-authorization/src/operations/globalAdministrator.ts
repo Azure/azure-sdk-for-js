@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { GlobalAdministrator } from "../operationsInterfaces";
+import { GlobalAdministrator } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AuthorizationManagementClient } from "../authorizationManagementClient";
-import { GlobalAdministratorElevateAccessOptionalParams } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AuthorizationManagementClient } from "../authorizationManagementClient.js";
+import { GlobalAdministratorElevateAccessOptionalParams } from "../models/index.js";
 
 /** Class containing GlobalAdministrator operations. */
 export class GlobalAdministratorImpl implements GlobalAdministrator {

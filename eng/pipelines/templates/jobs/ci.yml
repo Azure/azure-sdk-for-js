@@ -29,6 +29,9 @@ parameters:
 jobs:
   - job: "Build"
 
+    ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
+      timeoutInMinutes: 240
+
     pool:
       name: $(LINUXPOOL)
       image: $(LINUXVMIMAGE)
@@ -50,6 +53,9 @@ jobs:
           IncludeRelease: ${{ parameters.IncludeRelease }}
 
   - job: "Analyze"
+
+    ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
+      timeoutInMinutes: 240
 
     pool:
       name: $(LINUXPOOL)
@@ -84,6 +90,7 @@ jobs:
             TestProxy: ${{ parameters.TestProxy }}
           ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
             EnablePRGeneration: true
+            PRMatrixSparseIndirect: false
             PreGenerationSteps:
               - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
                 parameters:

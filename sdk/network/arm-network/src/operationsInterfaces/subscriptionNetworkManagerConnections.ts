@@ -15,7 +15,7 @@ import {
   SubscriptionNetworkManagerConnectionsGetOptionalParams,
   SubscriptionNetworkManagerConnectionsGetResponse,
   SubscriptionNetworkManagerConnectionsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SubscriptionNetworkManagerConnections. */

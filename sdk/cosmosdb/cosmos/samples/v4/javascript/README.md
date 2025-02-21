@@ -20,6 +20,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [ChangeFeedIterator\ChangeFeedHierarchicalPartitionKey.js][changefeediterator_changefeedhierarchicalpartitionkey]           | Demonstrates using a ChangeFeed for a partition key                                                                   |
 | [ChangeFeedIterator\ChangeFeedIteratorAllVersionsAndDeletes.js][changefeediterator_changefeediteratorallversionsanddeletes] | Demonstrates using a ChangeFeed in AllVersionsAndDeletes mode for entire container, a partition key, and an epk range |
 | [ChangeFeedIterator\ChangeFeedIteratorLatestVersion.js][changefeediterator_changefeediteratorlatestversion]                 | Demonstrates using a ChangeFeed in LatestVersion mode for entire container, a partition key, and an epk range         |
+| [ClientSideEncryption.js][clientsideencryption]                                                                             | Client-Side Encryption                                                                                                |
 | [ContainerManagement.js][containermanagement]                                                                               | Demonstrates container create, read, delete and reading all containers belonging to a database.                       |
 | [DatabaseManagement.js][databasemanagement]                                                                                 | Demonstrates database create, read, delete and reading all databases.                                                 |
 | [Diagnostics.js][diagnostics]                                                                                               | Demonstrates usage of CosmosDiagnostic Object.                                                                        |
@@ -88,7 +89,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [querythroughput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/QueryThroughput.js
 [sastokenauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/SasTokenAuth.js
 [serversidescripts]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cosmosdb/cosmos/samples/v4/javascript/ServerSideScripts.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/cosmos
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/cosmos
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurecosmosdbaccount]: https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account
+[createinstance_azurecosmosdbaccount]: https://learn.microsoft.com/azure/cosmos-db/how-to-manage-database-account#create-an-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/README.md

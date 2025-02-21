@@ -38,7 +38,7 @@ import type { DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { DefaultDiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
-
+import { getUserAgent } from "./common/platform";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -54,12 +54,18 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
+  /** boolean flag to support operations with client-side encryption */
+  public enableEncryption: boolean = false;
+
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
   ) {
+    if (cosmosClientOptions.encryptionPolicy?.enableEncryption) {
+      this.enableEncryption = true;
+    }
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
@@ -118,6 +124,12 @@ export class ClientContext {
       });
 
       request.headers = await this.buildHeaders(request);
+      if (resourceType === ResourceType.clientencryptionkey) {
+        request.headers[HttpHeaders.AllowCachedReadsHeader] = true;
+        if (options.databaseRid) {
+          request.headers[HttpHeaders.DatabaseRidHeader] = options.databaseRid;
+        }
+      }
       this.applySessionToken(request);
 
       // read will use ReadEndpoint since it uses GET operation
@@ -947,6 +959,7 @@ export class ClientContext {
         requestContext.partitionKey !== undefined
           ? convertToInternalPartitionKey(requestContext.partitionKey)
           : undefined, // TODO: Move this check from here to PartitionKey
+      operationType: requestContext.operationType,
     });
   }
 
@@ -977,5 +990,15 @@ export class ClientContext {
 
   public getClientConfig(): ClientConfigDiagnostic {
     return this.clientConfig;
+  }
+
+  /**
+   * @internal
+   */
+  public refreshUserAgent(hostFramework: string): void {
+    const updatedUserAgent = getUserAgent(this.cosmosClientOptions.userAgentSuffix, hostFramework);
+    this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.UserAgent] = updatedUserAgent;
+    this.cosmosClientOptions.defaultHeaders[Constants.HttpHeaders.CustomUserAgent] =
+      updatedUserAgent;
   }
 }

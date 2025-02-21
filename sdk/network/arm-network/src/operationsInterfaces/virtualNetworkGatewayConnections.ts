@@ -35,7 +35,7 @@ import {
   VirtualNetworkGatewayConnectionsGetIkeSasOptionalParams,
   VirtualNetworkGatewayConnectionsGetIkeSasResponse,
   VirtualNetworkGatewayConnectionsResetConnectionOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualNetworkGatewayConnections. */

@@ -5,16 +5,13 @@
  * @summary Update the capabilities of a purchased phone number.
  */
 
-import {
-  PhoneNumbersClient,
-  PhoneNumberCapabilitiesRequest,
-} from "@azure/communication-phone-numbers";
+import type { PhoneNumberCapabilitiesRequest } from "@azure/communication-phone-numbers";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Update Phone Number Capabilities Sample ==\n");
 
   // You will need to set this environment variable or edit the following values

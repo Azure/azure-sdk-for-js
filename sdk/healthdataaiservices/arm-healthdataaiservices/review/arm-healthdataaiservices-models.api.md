@@ -4,15 +4,8 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -37,57 +30,10 @@ export interface DeidServiceProperties {
 }
 
 // @public
-export interface DeidServicesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DeidServicesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DeidServicesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeidServicesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeidServicesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeidServicesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface DeidUpdate {
     identity?: ManagedServiceIdentityUpdate;
     properties?: DeidPropertiesUpdate;
     tags?: Record<string, string>;
-}
-
-// @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
-    readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
 }
 
 // @public
@@ -105,17 +51,17 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -134,10 +80,19 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
-export enum KnownResourceProvisioningState {
+export enum KnownProvisioningState {
+    Accepted = "Accepted",
     Canceled = "Canceled",
+    Deleting = "Deleting",
     Failed = "Failed",
-    Succeeded = "Succeeded"
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownVersions {
+    V2024_09_20 = "2024-09-20"
 }
 
 // @public
@@ -175,23 +130,7 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export interface PrivateEndpoint {
@@ -220,24 +159,6 @@ export interface PrivateEndpointConnectionResource extends ProxyResource {
 }
 
 // @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsListByDeidServiceOptionalParams extends OperationOptions {
-}
-
-// @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
@@ -260,11 +181,7 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
-export interface PrivateLinksListByDeidServiceOptionalParams extends OperationOptions {
-}
-
-// @public
-export type ProvisioningState = ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted" | string;
+export type ProvisioningState = string;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -280,9 +197,6 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
-
-// @public
-export type ResourceProvisioningState = string;
 
 // @public
 export interface SystemData {
@@ -305,9 +219,6 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type Versions = "2024-02-28-preview";
 
 // (No @packageDocumentation comment for this package)
 

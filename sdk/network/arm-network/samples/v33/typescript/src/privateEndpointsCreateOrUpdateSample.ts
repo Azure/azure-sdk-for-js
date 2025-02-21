@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { PrivateEndpoint, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
  *
  * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/PrivateEndpointCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PrivateEndpointCreate.json
  */
-async function createPrivateEndpoint() {
+async function createPrivateEndpoint(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const privateEndpointName = "testPe";
@@ -61,9 +59,9 @@ async function createPrivateEndpoint() {
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
  *
  * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/PrivateEndpointCreateWithASG.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PrivateEndpointCreateWithASG.json
  */
-async function createPrivateEndpointWithApplicationSecurityGroups() {
+async function createPrivateEndpointWithApplicationSecurityGroups(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const privateEndpointName = "testPe";
@@ -100,9 +98,9 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
  * This sample demonstrates how to Creates or updates an private endpoint in the specified resource group.
  *
  * @summary Creates or updates an private endpoint in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/PrivateEndpointCreateForManualApproval.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PrivateEndpointCreateForManualApproval.json
  */
-async function createPrivateEndpointWithManualApprovalConnection() {
+async function createPrivateEndpointWithManualApprovalConnection(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const privateEndpointName = "testPe";
@@ -139,7 +137,7 @@ async function createPrivateEndpointWithManualApprovalConnection() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createPrivateEndpoint();
   createPrivateEndpointWithApplicationSecurityGroups();
   createPrivateEndpointWithManualApprovalConnection();

@@ -1,20 +1,16 @@
 {
-  "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "paths": {
-      "@azure/schema-registry-avro": ["./src/index.js"]
+  "references": [
+    {
+      "path": "./tsconfig.src.json"
     },
-    "skipLibCheck": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
-    "./samples-dev/**/*.ts",
-    "./test/**/*.ts",
-    "./test/**/*.mts"
-  ]
+    {
+      "path": "./tsconfig.samples.json"
+    },
+    {
+      "path": "./tsconfig.test.json"
+    }
+  ],
+  "compilerOptions": {
+    "esModuleInterop": true
+  }
 }

@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ServiceEndpointPoliciesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a service Endpoint Policies.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates a service Endpoint Policies.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceEndpointPolicyCreate.json
  */
-async function createServiceEndpointPolicy() {
+async function createServiceEndpointPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -26,14 +21,14 @@ async function createServiceEndpointPolicy() {
   const serviceEndpointPolicyName = "testPolicy";
   const options: ServiceEndpointPoliciesCreateOrUpdateParameters = {
     body: { location: "westus" },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       subscriptionId,
       resourceGroupName,
-      serviceEndpointPolicyName
+      serviceEndpointPolicyName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -48,7 +43,7 @@ createServiceEndpointPolicy().catch(console.error);
  * @summary Creates or updates a service Endpoint Policies.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
  */
-async function createServiceEndpointPolicyWithDefinition() {
+async function createServiceEndpointPolicyWithDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -67,21 +62,21 @@ async function createServiceEndpointPolicyWithDefinition() {
               serviceResources: [
                 "/subscriptions/subid1",
                 "/subscriptions/subid1/resourceGroups/storageRg",
-                "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount"
-              ]
-            }
-          }
-        ]
-      }
+                "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount",
+              ],
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       subscriptionId,
       resourceGroupName,
-      serviceEndpointPolicyName
+      serviceEndpointPolicyName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

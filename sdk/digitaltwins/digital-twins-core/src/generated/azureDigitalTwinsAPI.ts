@@ -17,14 +17,14 @@ import {
   QueryImpl,
   DigitalTwinsImpl,
   EventRoutesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   DigitalTwinModels,
   Query,
   DigitalTwins,
   EventRoutes
-} from "./operationsInterfaces";
-import { AzureDigitalTwinsAPIOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureDigitalTwinsAPIOptionalParams } from "./models/index.js";
 
 export class AzureDigitalTwinsAPI extends coreClient.ServiceClient {
   $host: string;

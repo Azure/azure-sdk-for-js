@@ -17,7 +17,7 @@
 import { MicrosoftStorageSync } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function privateLinkResourcesList() {
+async function privateLinkResourcesList(): Promise<void> {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "res6977";
   const storageSyncServiceName = "sss2527";

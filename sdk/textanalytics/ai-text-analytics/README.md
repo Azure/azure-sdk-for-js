@@ -25,8 +25,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-text-analytics)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics)
-- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/ai-text-analytics)
+- [Product documentation](https://learn.microsoft.com/azure/cognitive-services/text-analytics/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/textanalytics/ai-text-analytics/samples)
 
 ## Getting started
@@ -306,7 +306,7 @@ async function main() {
             '"' + match.text + '"',
             "(Score:",
             match.confidenceScore,
-            ")"
+            ")",
           );
         }
       }
@@ -382,7 +382,7 @@ async function main() {
         primaryLanguage.iso6391Name,
         ", Score:",
         primaryLanguage.confidenceScore,
-        ")"
+        ")",
       );
     } else {
       console.error("Encountered an error:", result.error);
@@ -526,15 +526,15 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftextanalytics%2Fai-text-analytics%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[cognitive_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[cognitive_resource]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
-[cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
-[register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
+[cognitive_auth]: https://learn.microsoft.com/azure/cognitive-services/authentication
+[register_aad_app]: https://learn.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
-[data_limits]: https://docs.microsoft.com/azure/cognitive-services/text-analytics/overview#data-limits
+[data_limits]: https://learn.microsoft.com/azure/cognitive-services/text-analytics/overview#data-limits
 [analyze_sentiment_opinion_mining_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/analyzeSentimentWithOpinionMining.ts

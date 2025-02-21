@@ -27,7 +27,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMaximumSetGen() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/vmimages",
       subscriptionId,
       location,
-      edgeZone
+      edgeZone,
     )
     .get(options);
   console.log(result);
@@ -54,7 +54,7 @@ async function virtualMachineImagesEdgeZoneListByEdgeZoneMinimumSetGen() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/edgeZones/{edgeZone}/vmimages",
       subscriptionId,
       location,
-      edgeZone
+      edgeZone,
     )
     .get(options);
   console.log(result);

@@ -27,6 +27,7 @@ import type { Tags } from "../../src/types.js";
 import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../../src/types.js";
 import { Context, getInstance } from "../../src/platform/index.js";
 import { describe, it, assert } from "vitest";
+import { ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED } from "../../src/Declarations/Constants.js";
 
 const context = getInstance();
 const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");
@@ -37,7 +38,6 @@ class TestExporter extends AzureMonitorMetricExporter {
   constructor(options: AzureMonitorExporterOptions = {}) {
     super(options);
   }
-  // eslint-disable-next-line @typescript-eslint/require-await
   async export(metrics: ResourceMetrics): Promise<void> {
     testMetrics = metrics;
     testMetrics.resource = new Resource({
@@ -56,6 +56,7 @@ function assertEnvelope(
   expectedTags: Tags,
   expectedBaseData: Partial<RequestData | RemoteDependencyData>,
   expectedTime?: Date,
+  expectedProperties?: { [propertyName: string]: string },
 ): void {
   assert.strictEqual(Context.sdkVersion, packageJson.version);
   assert.ok(envelope);
@@ -82,9 +83,46 @@ function assertEnvelope(
     ...expectedTags,
   });
   assert.deepStrictEqual(envelope.data?.baseData?.metrics[0], expectedBaseData);
+  if (expectedProperties) {
+    assert.deepStrictEqual(envelope.data?.baseData?.properties, expectedProperties);
+  }
 }
 
 describe("metricUtil.ts", () => {
+  it("should not send custom metrics to Breeze if env var is set to disable", async () => {
+    const originalEnv = process.env;
+    const newEnv = <{ [id: string]: string }>{};
+    newEnv.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT = "http://localhost:4317";
+    newEnv.OTEL_METRICS_EXPORTER = "otlp";
+    newEnv.AZURE_MONITOR_AUTO_ATTACH = "true";
+    newEnv.AKS_ARM_NAMESPACE_ID = "test";
+    newEnv[ENV_APPLICATIONINSIGHTS_METRICS_TO_LOGANALYTICS_ENABLED] = "false";
+    process.env = newEnv;
+
+    const provider = new MeterProvider({
+      resource: new Resource({
+        [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+      }),
+    });
+    const exporter = new TestExporter({
+      connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+    });
+    const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+      exporter: exporter,
+    };
+    const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+    provider.addMetricReader(metricReader);
+    const meter = provider.getMeter("example-meter-node");
+    // Create Counter instrument with the meter
+    const counter = meter.createCounter("counter");
+    counter.add(1);
+    provider.forceFlush();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    const envelope = resourceMetricsToEnvelope(testMetrics, "ikey");
+    assert.strictEqual(envelope.length, 0);
+    process.env = originalEnv;
+  });
+
   const prefix = process.env["AZURE_MONITOR_PREFIX"] ? process.env["AZURE_MONITOR_PREFIX"] : "";
   const version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
     ? `ext${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`
@@ -128,7 +166,63 @@ describe("metricUtil.ts", () => {
         "MetricData",
         expectedTags,
         expectedBaseData,
+        undefined,
+        {},
       );
+    });
+    it("should add de-duping flag to resource metric envelopes", async () => {
+      const originalEnv = process.env;
+      const newEnv = <{ [id: string]: string }>{};
+      newEnv.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT = "http://localhost:4317";
+      newEnv.OTEL_METRICS_EXPORTER = "otlp";
+      newEnv.AZURE_MONITOR_AUTO_ATTACH = "true";
+      newEnv.AKS_ARM_NAMESPACE_ID = "test";
+      process.env = newEnv;
+
+      const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
+        "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
+      };
+      const expectedBaseData: Partial<RequestData> = {
+        name: "counter",
+        value: 1,
+        dataPointType: "Aggregation",
+        count: 1,
+      };
+      const expectedProperties = {
+        "_MS.SentToAMW": "True",
+      };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
+      const exporter = new TestExporter({
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      });
+      const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+        exporter: exporter,
+      };
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
+      const meter = provider.getMeter("example-meter-node");
+      // Create Counter instrument with the meter
+      const counter = meter.createCounter("counter");
+      counter.add(1);
+      provider.forceFlush();
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      const envelope = resourceMetricsToEnvelope(testMetrics, "ikey");
+      assertEnvelope(
+        envelope[0],
+        "Microsoft.ApplicationInsights.Metric",
+        100,
+        "MetricData",
+        expectedTags,
+        expectedBaseData,
+        undefined,
+        expectedProperties,
+      );
+      process.env = originalEnv;
     });
   });
 
@@ -171,6 +265,8 @@ describe("metricUtil.ts", () => {
         "MetricData",
         expectedTags,
         expectedBaseData,
+        undefined,
+        {},
       );
     });
     it("should create available bytes envelopes with the correct name", async () => {
@@ -211,6 +307,8 @@ describe("metricUtil.ts", () => {
         "MetricData",
         expectedTags,
         expectedBaseData,
+        undefined,
+        {},
       );
     });
     it("should create processor time envelopes with the correct name", async () => {
@@ -251,6 +349,8 @@ describe("metricUtil.ts", () => {
         "MetricData",
         expectedTags,
         expectedBaseData,
+        undefined,
+        {},
       );
     });
     it("should create process time envelopes with the correct name", async () => {
@@ -291,6 +391,8 @@ describe("metricUtil.ts", () => {
         "MetricData",
         expectedTags,
         expectedBaseData,
+        undefined,
+        {},
       );
     });
     it("should create request rate envelopes with the correct name", async () => {
@@ -331,6 +433,8 @@ describe("metricUtil.ts", () => {
         "MetricData",
         expectedTags,
         expectedBaseData,
+        undefined,
+        {},
       );
     });
     it("should create request duration envelopes with the correct name", async () => {
@@ -371,7 +475,63 @@ describe("metricUtil.ts", () => {
         "MetricData",
         expectedTags,
         expectedBaseData,
+        undefined,
+        {},
       );
+    });
+    it("should add de-duping flag to performance metric envelopes", async () => {
+      const originalEnv = process.env;
+      const newEnv = <{ [id: string]: string }>{};
+      newEnv.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT = "http://localhost:4317";
+      newEnv.OTEL_METRICS_EXPORTER = "otlp";
+      newEnv.AZURE_MONITOR_AUTO_ATTACH = "true";
+      newEnv.AKS_ARM_NAMESPACE_ID = "test";
+      process.env = newEnv;
+
+      const expectedTags: Tags = {
+        "ai.device.osVersion": os && `${os.type()} ${os.release()}`,
+        "ai.internal.sdkVersion": `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`,
+      };
+      const expectedBaseData = {
+        name: BreezePerformanceCounterNames.REQUEST_DURATION,
+        value: 1,
+        dataPointType: "Aggregation",
+        count: 1,
+      };
+      const expectedProperties = {
+        "_MS.SentToAMW": "True",
+      };
+      const provider = new MeterProvider({
+        resource: new Resource({
+          [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+        }),
+      });
+      const exporter = new TestExporter({
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      });
+      const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+        exporter: exporter,
+      };
+      const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
+      provider.addMetricReader(metricReader);
+      const meter = provider.getMeter("example-meter-node");
+      // Create Counter instrument with the meter
+      const counter = meter.createCounter(OTelPerformanceCounterNames.REQUEST_DURATION);
+      counter.add(1);
+      provider.forceFlush();
+      await new Promise((resolve) => setTimeout(resolve, 800));
+      const envelope = resourceMetricsToEnvelope(testMetrics, "ikey");
+      assertEnvelope(
+        envelope[0],
+        "Microsoft.ApplicationInsights.Metric",
+        100,
+        "MetricData",
+        expectedTags,
+        expectedBaseData,
+        undefined,
+        expectedProperties,
+      );
+      process.env = originalEnv;
     });
   });
 });

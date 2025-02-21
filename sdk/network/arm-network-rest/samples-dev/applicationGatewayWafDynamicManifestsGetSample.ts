@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  ApplicationGatewayWafDynamicManifestsGetParameters,
-  paginate,
-} from "@azure-rest/arm-network";
+import type { ApplicationGatewayWafDynamicManifestsGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { paginate } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the regional application gateway waf manifest.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Gets the regional application gateway waf manifest.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/GetApplicationGatewayWafDynamicManifests.json
  */
-async function getsWafManifests() {
+async function getsWafManifests(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

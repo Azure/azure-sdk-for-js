@@ -6,17 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   VirtualMachineInstanceUpdate,
   VirtualMachineInstancesUpdateOptionalParams,
-  AzureArcVMwareManagementServiceAPI
 } from "@azure/arm-connectedvmware";
+import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to update a virtual machine instance.
@@ -24,24 +20,21 @@ dotenv.config();
  * @summary The operation to update a virtual machine instance.
  * x-ms-original-file: specification/connectedvmware/resource-manager/Microsoft.ConnectedVMwarevSphere/stable/2023-10-01/examples/UpdateVirtualMachineInstance.json
  */
-async function updateVirtualMachine() {
+async function updateVirtualMachine(): Promise<void> {
   const resourceUri =
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM";
   const body: VirtualMachineInstanceUpdate = {
-    hardwareProfile: { memorySizeMB: 4196, numCPUs: 4 }
+    hardwareProfile: { memorySizeMB: 4196, numCPUs: 4 },
   };
   const options: VirtualMachineInstancesUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(credential);
-  const result = await client.virtualMachineInstances.beginUpdateAndWait(
-    resourceUri,
-    options
-  );
+  const result = await client.virtualMachineInstances.beginUpdateAndWait(resourceUri, options);
   console.log(result);
 }
 
-async function main() {
-  updateVirtualMachine();
+async function main(): Promise<void> {
+  await updateVirtualMachine();
 }
 
 main().catch(console.error);

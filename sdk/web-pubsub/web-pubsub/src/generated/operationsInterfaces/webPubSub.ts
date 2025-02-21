@@ -40,7 +40,7 @@ import {
   WebPubSubRemoveUserFromAllGroupsOptionalParams,
   WebPubSubRemoveUserFromGroupOptionalParams,
   WebPubSubAddUserToGroupOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a WebPubSub. */
 export interface WebPubSub {

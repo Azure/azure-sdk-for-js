@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AvailableProviderOperationsOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AvailableProviderOperationsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorSimpleManagementClient } from "../storSimpleManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorSimpleManagementClient } from "../storSimpleManagementClient.js";
 import {
   AvailableProviderOperation,
   AvailableProviderOperationsListNextOptionalParams,
   AvailableProviderOperationsListOptionalParams,
   AvailableProviderOperationsListResponse,
   AvailableProviderOperationsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailableProviderOperationsOperations operations. */

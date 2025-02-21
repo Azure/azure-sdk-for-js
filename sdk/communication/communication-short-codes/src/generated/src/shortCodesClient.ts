@@ -13,9 +13,9 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { ShortCodesImpl } from "./operations";
-import { ShortCodes } from "./operationsInterfaces";
-import { ShortCodesClientOptionalParams } from "./models";
+import { ShortCodesImpl } from "./operations/index.js";
+import { ShortCodes } from "./operationsInterfaces/index.js";
+import { ShortCodesClientOptionalParams } from "./models/index.js";
 
 export class ShortCodesClient extends coreClient.ServiceClient {
   endpoint: string;

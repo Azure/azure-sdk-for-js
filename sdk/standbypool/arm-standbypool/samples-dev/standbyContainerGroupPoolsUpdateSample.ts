@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a StandbyContainerGroupPoolResource
  * x-ms-original-file: 2024-03-01/StandbyContainerGroupPools_Update.json
  */
-async function standbyContainerGroupPoolsUpdate() {
+async function standbyContainerGroupPoolsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
@@ -34,8 +34,8 @@ async function standbyContainerGroupPoolsUpdate() {
   console.log(result);
 }
 
-async function main() {
-  standbyContainerGroupPoolsUpdate();
+async function main(): Promise<void> {
+  await standbyContainerGroupPoolsUpdate();
 }
 
 main().catch(console.error);

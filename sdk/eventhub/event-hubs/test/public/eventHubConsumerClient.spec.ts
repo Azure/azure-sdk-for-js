@@ -27,27 +27,27 @@ import { createConsumer, createProducer } from "../utils/clients.js";
 
 const debug = debugModule("azure:event-hubs:receiver-spec");
 
-describe("EventHubConsumerClient", function () {
+describe("EventHubConsumerClient", () => {
   let producerClient: EventHubProducerClient;
   let consumerClient: EventHubConsumerClient;
   let partitionIds: string[];
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     producerClient = createProducer().producer;
     consumerClient = createConsumer().consumer;
     partitionIds = await producerClient.getPartitionIds({});
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await producerClient.close();
     await consumerClient.close();
   });
 
-  describe("functional tests", function () {
+  describe("functional tests", () => {
     let clients: EventHubConsumerClient[];
     let subscriptions: Subscription[];
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
 
@@ -55,7 +55,7 @@ describe("EventHubConsumerClient", function () {
       subscriptions = [];
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       for (const subscription of subscriptions) {
         await subscription.close();
       }
@@ -64,8 +64,8 @@ describe("EventHubConsumerClient", function () {
       clients = [];
     });
 
-    describe("client options", function () {
-      it("the identifier option can be set", async function () {
+    describe("client options", () => {
+      it("the identifier option can be set", async () => {
         const identifier = "Test1";
         const client = createConsumer({
           options: {
@@ -76,8 +76,8 @@ describe("EventHubConsumerClient", function () {
       });
     });
 
-    describe("#close()", function () {
-      it("stops any actively running subscriptions", async function () {
+    describe("#close()", () => {
+      it("stops any actively running subscriptions", async () => {
         const client = createConsumer().consumer;
 
         // Spin up multiple subscriptions.
@@ -113,7 +113,7 @@ describe("EventHubConsumerClient", function () {
         );
       });
 
-      it("gracefully stops running subscriptions", async function () {
+      it("gracefully stops running subscriptions", async () => {
         const client = createConsumer().consumer;
 
         const startingPositions = await getStartingPositionsForTests(client);
@@ -183,8 +183,8 @@ describe("EventHubConsumerClient", function () {
       });
     });
 
-    describe("Reinitialize partition processing after error", function () {
-      it("when subscribed to single partition", async function () {
+    describe("Reinitialize partition processing after error", () => {
+      it("when subscribed to single partition", async () => {
         const partitionId = "0";
         const consumerClient1 = createConsumer().consumer;
         const consumerClient2 = createConsumer().consumer;
@@ -255,7 +255,7 @@ describe("EventHubConsumerClient", function () {
         handlerCalls.close.should.be.greaterThan(1);
       });
 
-      it("when subscribed to multiple partitions", async function () {
+      it("when subscribed to multiple partitions", async () => {
         const consumerClient1 = createConsumer({
           options: { loadBalancingOptions: { updateIntervalInMs: 1000 } },
         }).consumer;
@@ -377,7 +377,7 @@ describe("EventHubConsumerClient", function () {
       });
     });
 
-    it("Receive from specific partitions, no coordination", async function () {
+    it("Receive from specific partitions, no coordination", async () => {
       const logTester = new LogTester(
         [
           "EventHubConsumerClient subscribing to specific partition (0), no checkpoint store.",
@@ -406,7 +406,7 @@ describe("EventHubConsumerClient", function () {
       logTester.assert();
     });
 
-    it("Receive from all partitions, no coordination", async function () {
+    it("Receive from all partitions, no coordination", async () => {
       const logTester = new LogTester(
         ["EventHubConsumerClient subscribing to all partitions, no checkpoint store."],
         [
@@ -429,7 +429,7 @@ describe("EventHubConsumerClient", function () {
       logTester.assert();
     });
 
-    it("Receive from all partitions, no coordination but through multiple subscribe() calls", async function () {
+    it("Receive from all partitions, no coordination but through multiple subscribe() calls", async () => {
       const logTester = new LogTester(
         [
           ...partitionIds.map(
@@ -461,7 +461,7 @@ describe("EventHubConsumerClient", function () {
       logTester.assert();
     });
 
-    it("Receive from all partitions, coordinating with the same partition manager and using the default LoadBalancingStrategy", async function () {
+    it("Receive from all partitions, coordinating with the same partition manager and using the default LoadBalancingStrategy", async () => {
       // fast forward our partition manager so it starts reading from the latest offset
       // instead of the beginning of time.
       const logTester = new LogTester(
@@ -501,7 +501,7 @@ describe("EventHubConsumerClient", function () {
       logTester.assert();
     });
 
-    it("Receive from all partitions, coordinating with the same partition manager and using the GreedyLoadBalancingStrategy", async function () {
+    it("Receive from all partitions, coordinating with the same partition manager and using the GreedyLoadBalancingStrategy", async () => {
       // fast forward our partition manager so it starts reading from the latest offset
       // instead of the beginning of time.
       const logTester = new LogTester(
@@ -558,7 +558,7 @@ describe("EventHubConsumerClient", function () {
       logTester.assert();
     });
 
-    it("Stops receiving events if close is immediately called, single partition.", async function () {
+    it("Stops receiving events if close is immediately called, single partition.", async () => {
       const partitionId = "0";
       const client = createConsumer().consumer;
 
@@ -601,7 +601,7 @@ describe("EventHubConsumerClient", function () {
       );
     });
 
-    it("Stops receiving events if close is immediately called, multiple partitions.", async function () {
+    it("Stops receiving events if close is immediately called, multiple partitions.", async () => {
       const client = createConsumer().consumer;
 
       clients.push(client);
@@ -643,8 +643,8 @@ describe("EventHubConsumerClient", function () {
       );
     });
 
-    describe("processError", function () {
-      it("supports awaiting subscription.close on non partition-specific errors", async function () {
+    describe("processError", () => {
+      it("supports awaiting subscription.close on non partition-specific errors", async () => {
         // Use an invalid Event Hub name to trigger a non partition-specific error.
         const client = createConsumer({ eventhubName: "Fake-Hub" }).consumer;
 
@@ -668,7 +668,7 @@ describe("EventHubConsumerClient", function () {
         await client.close();
       });
 
-      it("supports awaiting subscription.close on partition-specific errors", async function () {
+      it("supports awaiting subscription.close on partition-specific errors", async () => {
         const client = createConsumer().consumer;
         let subscription: Subscription;
         const caughtErr: Error = await new Promise((resolve) => {
@@ -693,8 +693,8 @@ describe("EventHubConsumerClient", function () {
     });
   });
 
-  describe("subscribe() with partitionId 0 as number", function () {
-    it("should not throw an error", async function () {
+  describe("subscribe() with partitionId 0 as number", () => {
+    it("should not throw an error", async () => {
       let subscription: Subscription | undefined;
       await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
@@ -718,12 +718,12 @@ describe("EventHubConsumerClient", function () {
     });
   });
 
-  describe("subscribe() with EventPosition specified as", function () {
+  describe("subscribe() with EventPosition specified as", () => {
     let partitionId: string;
     let eventSentBeforeSubscribe: EventData;
     let eventsSentAfterSubscribe: EventData[];
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       partitionId = partitionIds[0];
 
       eventSentBeforeSubscribe = {
@@ -742,7 +742,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'from end of stream' should receive messages correctly", async function () {
+    it("'from end of stream' should receive messages correctly", async () => {
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
       const eventsReceived: ReceivedEventData[] = [];
@@ -792,7 +792,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'after a particular sequence number' should receive messages correctly", async function () {
+    it("'after a particular sequence number' should receive messages correctly", async () => {
       const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
@@ -843,7 +843,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'after a particular sequence number' with isInclusive should receive messages correctly", async function () {
+    it("'after a particular sequence number' with isInclusive should receive messages correctly", async () => {
       const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
@@ -901,7 +901,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'after a particular offset' should receive messages correctly", async function () {
+    it("'after a particular offset' should receive messages correctly", async () => {
       const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
@@ -952,7 +952,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'after a particular offset' with isInclusive should receive messages correctly", async function () {
+    it("'after a particular offset' with isInclusive should receive messages correctly", async () => {
       const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
@@ -1012,7 +1012,7 @@ describe("EventHubConsumerClient", function () {
       }
     });
 
-    it("'after a particular enqueued time' should receive messages correctly", async function () {
+    it("'after a particular enqueued time' should receive messages correctly", async () => {
       const partitionInfo = await consumerClient.getPartitionProperties(partitionId);
       let subscription: Subscription | undefined;
       let processEventsCalled = false;
@@ -1067,8 +1067,8 @@ describe("EventHubConsumerClient", function () {
     });
   });
 
-  describe("subscribe() with trackLastEnqueuedEventProperties", function () {
-    it("should have lastEnqueuedEventProperties populated", async function () {
+  describe("subscribe() with trackLastEnqueuedEventProperties", () => {
+    it("should have lastEnqueuedEventProperties populated", async () => {
       const partitionId = partitionIds[0];
 
       const eventData = { body: "Hello awesome world " + Math.random() };
@@ -1114,8 +1114,8 @@ describe("EventHubConsumerClient", function () {
     });
   });
 
-  describe("Negative scenarios", function () {
-    it("should throw MessagingEntityNotFoundError for non existing consumer group", async function () {
+  describe("Negative scenarios", () => {
+    it("should throw MessagingEntityNotFoundError for non existing consumer group", async () => {
       const badConsumerClient = createConsumer({ groupName: "boo" }).consumer;
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
@@ -1135,7 +1135,7 @@ describe("EventHubConsumerClient", function () {
       should.equal((caughtErr as MessagingError).code, "MessagingEntityNotFoundError");
     });
 
-    it(`should throw an invalid EventHub address error for invalid partition`, async function () {
+    it(`should throw an invalid EventHub address error for invalid partition`, async () => {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = consumerClient.subscribe("boo", {
@@ -1153,8 +1153,8 @@ describe("EventHubConsumerClient", function () {
     });
   });
 
-  describe("Types of received payloads", function () {
-    it(`Uint8Array is received as Buffer`, async function () {
+  describe("Types of received payloads", () => {
+    it(`Uint8Array is received as Buffer`, async () => {
       const partitionId = partitionIds[0];
       const startingPositions = await getStartingPositionsForTests(consumerClient);
       const data = [0, 1, 2];

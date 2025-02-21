@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Favorites } from "../operationsInterfaces";
+import { Favorites } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient.js";
 import {
   FavoritesListOptionalParams,
   FavoritesListResponse,
@@ -22,7 +22,7 @@ import {
   FavoritesUpdateOptionalParams,
   FavoritesUpdateResponse,
   FavoritesDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Favorites operations. */
 export class FavoritesImpl implements Favorites {

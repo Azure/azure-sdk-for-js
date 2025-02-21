@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AggregateAuthenticationError } from "../../src";
-import { assert } from "chai";
+import { AggregateAuthenticationError } from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("AggregateAuthenticationError", function () {
   it("produces a message containing details of the errors it contains", async () => {

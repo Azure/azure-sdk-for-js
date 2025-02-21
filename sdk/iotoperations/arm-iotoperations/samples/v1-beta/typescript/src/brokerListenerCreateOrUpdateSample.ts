@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a BrokerListenerResource
  *
  * @summary create a BrokerListenerResource
- * x-ms-original-file: 2024-09-15-preview/BrokerListener_CreateOrUpdate_Complex.json
+ * x-ms-original-file: 2024-11-01/BrokerListener_CreateOrUpdate_Complex.json
  */
-async function brokerListenerCreateOrUpdateComplex() {
+async function brokerListenerCreateOrUpdateComplex(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -64,9 +64,9 @@ async function brokerListenerCreateOrUpdateComplex() {
  * This sample demonstrates how to create a BrokerListenerResource
  *
  * @summary create a BrokerListenerResource
- * x-ms-original-file: 2024-09-15-preview/BrokerListener_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/BrokerListener_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function brokerListenerCreateOrUpdate() {
+async function brokerListenerCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -121,9 +121,9 @@ async function brokerListenerCreateOrUpdate() {
  * This sample demonstrates how to create a BrokerListenerResource
  *
  * @summary create a BrokerListenerResource
- * x-ms-original-file: 2024-09-15-preview/BrokerListener_CreateOrUpdate_Simple.json
+ * x-ms-original-file: 2024-11-01/BrokerListener_CreateOrUpdate_Simple.json
  */
-async function brokerListenerCreateOrUpdateSimple() {
+async function brokerListenerCreateOrUpdateSimple(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -143,7 +143,7 @@ async function brokerListenerCreateOrUpdateSimple() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   brokerListenerCreateOrUpdateComplex();
   brokerListenerCreateOrUpdate();
   brokerListenerCreateOrUpdateSimple();

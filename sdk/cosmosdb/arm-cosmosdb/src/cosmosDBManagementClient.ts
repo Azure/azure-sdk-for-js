@@ -15,6 +15,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ChaosFaultImpl,
   DatabaseAccountsImpl,
   OperationsImpl,
   DatabaseImpl,
@@ -59,9 +60,9 @@ import {
   ThroughputPoolImpl,
   ThroughputPoolAccountsImpl,
   ThroughputPoolAccountImpl,
-  ChaosFaultImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
+  ChaosFault,
   DatabaseAccounts,
   Operations,
   Database,
@@ -106,9 +107,8 @@ import {
   ThroughputPool,
   ThroughputPoolAccounts,
   ThroughputPoolAccount,
-  ChaosFault,
-} from "./operationsInterfaces";
-import { CosmosDBManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { CosmosDBManagementClientOptionalParams } from "./models/index.js";
 
 export class CosmosDBManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -118,7 +118,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -142,7 +142,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cosmosdb/17.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-cosmosdb/16.3.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -196,7 +196,8 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-09-01-preview";
+    this.apiVersion = options.apiVersion || "2024-12-01-preview";
+    this.chaosFault = new ChaosFaultImpl(this);
     this.databaseAccounts = new DatabaseAccountsImpl(this);
     this.operations = new OperationsImpl(this);
     this.database = new DatabaseImpl(this);
@@ -244,7 +245,6 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.throughputPool = new ThroughputPoolImpl(this);
     this.throughputPoolAccounts = new ThroughputPoolAccountsImpl(this);
     this.throughputPoolAccount = new ThroughputPoolAccountImpl(this);
-    this.chaosFault = new ChaosFaultImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -276,6 +276,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  chaosFault: ChaosFault;
   databaseAccounts: DatabaseAccounts;
   operations: Operations;
   database: Database;
@@ -320,5 +321,4 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
   throughputPool: ThroughputPool;
   throughputPoolAccounts: ThroughputPoolAccounts;
   throughputPoolAccount: ThroughputPoolAccount;
-  chaosFault: ChaosFault;
 }

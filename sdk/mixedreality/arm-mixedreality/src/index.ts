@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { MixedRealityClient } from "./mixedRealityClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { MixedRealityClient } from "./mixedRealityClient.js";
+export * from "./operationsInterfaces/index.js";

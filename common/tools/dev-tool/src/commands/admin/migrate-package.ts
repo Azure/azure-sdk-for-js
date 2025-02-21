@@ -10,6 +10,8 @@ import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
 import { codemods } from "../../util/admin/migrate-package/codemods";
+import { existsSync } from "node:fs";
+import { isWindows } from "../../util/platform";
 
 const log = createPrinter("migrate-package");
 
@@ -85,18 +87,20 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await prepareFiles(projectFolder, { browser });
   await applyCodemods(projectFolder);
 
-  log.info("Running `rush update`");
-  await run(["rush", "update"], { cwd: projectFolder });
   log.info("Formatting files");
-  await run(["rushx", "format"], { cwd: projectFolder });
-  await commitChanges(projectFolder, "rushx format");
+  await run(["npm", "run", "format"], { cwd: projectFolder, shell: isWindows() });
+  await commitChanges(projectFolder, "npm run format");
+
+  log.info(
+    "Done. Please run `rush update`, `rush build -t <project-name>`, and run tests to verify the changes.",
+  );
 
   return true;
 });
 
 async function prepareFiles(projectFolder: string, options: { browser: boolean }): Promise<void> {
   log.info("Migrating package.json, tsconfig.json, and api-extractor.json");
-  await upgradePackageJson(projectFolder, resolve(projectFolder, "package.json"));
+  await upgradePackageJson(projectFolder, resolve(projectFolder, "package.json"), options);
   await upgradeTypeScriptConfig(resolve(projectFolder, "tsconfig.json"));
   await fixApiExtractorConfig(resolve(projectFolder, "api-extractor.json"));
   await commitChanges(projectFolder, "Update package.json, tsconfig.json, and api-extractor.json");
@@ -106,6 +110,7 @@ async function prepareFiles(projectFolder: string, options: { browser: boolean }
     await writeBrowserTestConfig(projectFolder);
     await writeFile(resolve(projectFolder, "vitest.browser.config.ts"), VITEST_BROWSER_CONFIG);
   }
+  await writeFile(resolve(projectFolder, "vitest.esm.config.ts"), VITEST_ESM_CONFIG);
   await writeFile(resolve(projectFolder, "vitest.config.ts"), VITEST_CONFIG);
   await commitChanges(projectFolder, "Update test config");
 
@@ -117,13 +122,26 @@ async function prepareFiles(projectFolder: string, options: { browser: boolean }
 async function applyCodemods(projectFolder: string): Promise<void> {
   const project = new Project({ tsConfigFilePath: resolve(projectFolder, "tsconfig.json") });
 
+  const skipPatterns = [/^vitest.*\.config\.ts$/];
+
   // Apply the codemods, one at a time, to all source files in the project.
   // Commit the changes after each codemod is applied for ease of reviewing.
   // For more information on the codemods and how to contribute, see the `codemods` directory.
   for (const mod of codemods) {
     log.info(`Applying codemod: ${mod.name}`);
     for (const sourceFile of project.getSourceFiles()) {
+      // Skip config files
+      if (skipPatterns.some((pattern) => pattern.test(sourceFile.getBaseName()))) {
+        continue;
+      }
+
       mod(sourceFile);
+
+      // Clean up source file after applying the codemod
+      if (!sourceFile.getBaseName().includes("snippets.spec.ts")) {
+        sourceFile.fixUnusedIdentifiers();
+      }
+
       await sourceFile.save();
     }
     await commitChanges(projectFolder, `Apply codemod: "${mod.name}"`);
@@ -141,7 +159,8 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: ["test/**/*.spec.ts"],
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
     },
   }),
 );
@@ -158,30 +177,41 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: [
-        "dist-test/browser/test/**/*.spec.js",
-      ],
+      include: ["dist-test/browser/test/**/*.spec.js",],
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
     },
   }),
 );
 `;
 
+const VITEST_ESM_CONFIG = `
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import { mergeConfig } from "vitest/config";
+import vitestConfig from "./vitest.config.ts";
+import vitestEsmConfig from "../../../vitest.esm.shared.config.ts";
+
+export default mergeConfig(
+  vitestConfig,
+  vitestEsmConfig
+);
+`;
+
 async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
   const testConfig = {
-    extends: "./.tshy/build.json",
-    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts", "./test/**/*.mts"],
-    exclude: ["./test/**/node/**/*.ts"],
-    compilerOptions: {
-      outDir: "./dist-test/browser",
-      rootDir: ".",
-      skipLibCheck: true,
-    },
+    extends: ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"],
   };
 
   await saveJson(resolve(packageFolder, "tsconfig.browser.config.json"), testConfig);
 }
 
 async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void> {
+  if (!existsSync(apiExtractorJsonPath)) {
+    log.warn(`Could not find api-extractor.json at ${apiExtractorJsonPath}`);
+    return;
+  }
   const apiExtractorJson = JSON.parse(await readFile(apiExtractorJsonPath, "utf-8"));
 
   const oldPath = apiExtractorJson.dtsRollup.publicTrimmedFilePath;
@@ -198,7 +228,7 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
 
 async function cleanupFiles(projectFolder: string): Promise<void> {
   // Remove the old test files
-  const filesToRemove = ["karma.conf.js", ".nycrc"];
+  const filesToRemove = ["karma.conf.js", "karma.conf.cjs", ".nycrc"];
   for (const file of filesToRemove) {
     try {
       await unlink(resolve(projectFolder, file));
@@ -209,28 +239,55 @@ async function cleanupFiles(projectFolder: string): Promise<void> {
 }
 
 async function upgradeTypeScriptConfig(tsconfigPath: string): Promise<void> {
-  const tsConfig = JSON.parse(await readFile(tsconfigPath, "utf-8"));
+  const packageJson = JSON.parse(
+    await readFile(resolve(dirname(tsconfigPath), "package.json"), "utf-8"),
+  );
 
-  // Set module resolution
-  tsConfig.compilerOptions.module = "NodeNext";
-  tsConfig.compilerOptions.moduleResolution = "NodeNext";
-  tsConfig.compilerOptions.rootDir = ".";
-  tsConfig.include = [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.cts",
-    "samples-dev/**/*.ts", // TODO: Check if samples-dev is needed
-    "test/**/*.ts",
-  ];
-
-  // Remove old options
-  delete tsConfig.compilerOptions.outDir;
-  delete tsConfig.compilerOptions.declarationDir;
+  const tsConfig = {
+    references: [
+      {
+        path: "./tsconfig.src.json",
+      },
+      {
+        path: "./tsconfig.samples.json",
+      },
+      {
+        path: "./tsconfig.test.json",
+      },
+    ],
+  };
 
   await saveJson(tsconfigPath, tsConfig);
+
+  const tsSamplesConfig = {
+    extends: "../../../tsconfig.samples.base.json",
+    compilerOptions: {
+      paths: {
+        [`${packageJson.name}`]: ["./dist/esm"],
+      },
+    },
+  };
+
+  await saveJson(resolve(dirname(tsconfigPath), "tsconfig.samples.json"), tsSamplesConfig);
+
+  const tsConfigSrc = {
+    extends: "../../../tsconfig.lib.json",
+  };
+
+  await saveJson(resolve(dirname(tsconfigPath), "tsconfig.src.json"), tsConfigSrc);
+
+  const tsConfigTest = {
+    extends: ["./tsconfig.src.json", "../../../tsconfig.test.base.json"],
+  };
+
+  await saveJson(resolve(dirname(tsconfigPath), "tsconfig.test.json"), tsConfigTest);
 }
 
-async function upgradePackageJson(projectFolder: string, packageJsonPath: string): Promise<void> {
+async function upgradePackageJson(
+  projectFolder: string,
+  packageJsonPath: string,
+  options: { browser: boolean },
+): Promise<void> {
   const packageJson = JSON.parse(await readFile(packageJsonPath, "utf-8"));
 
   // Change the module type to ESM
@@ -240,36 +297,55 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   removeLegacyPackages(packageJson);
 
   // Add the new packages
-  await addNewPackages(packageJson);
+  await addNewPackages(packageJson, options);
 
   // Sort the devDependencies
-  sortDevDependencies(packageJson);
+  sortPackage(packageJson);
 
   // Add tshy
-  addTypeScriptHybridizer(packageJson);
+  addTypeScriptHybridizer(packageJson, options);
 
   // Set files
   setFilesSection(packageJson);
 
   // Set scripts
-  setScriptsSection(packageJson.scripts);
+  setScriptsSection(packageJson.scripts, {
+    ...options,
+    isArm: packageJson.name.includes("@azure/arm-"),
+  });
 
   // Rename files and rewrite browser field
   await renameFieldFiles("browser", "browser", projectFolder, packageJson);
   await renameFieldFiles("react-native", "native", projectFolder, packageJson);
   packageJson.browser = "./dist/browser/index.js";
-  delete packageJson["react-native"];
+  packageJson["react-native"] = "./dist/react-native/index.js";
+
+  if (!options.browser) {
+    packageJson.browser = undefined;
+    packageJson["react-native"] = undefined;
+  }
 
   // Save the updated package.json
   await saveJson(packageJsonPath, packageJson);
 }
 
-function setScriptsSection(scripts: PackageJson["scripts"]): void {
+function setScriptsSection(
+  scripts: PackageJson["scripts"],
+  options: { browser: boolean; isArm: boolean },
+): void {
   scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
-  scripts["unit-test:browser"] =
-    "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser";
+  if (options.browser) {
+    scripts["unit-test:browser"] =
+      "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser";
+  }
+
   scripts["unit-test:node"] = "dev-tool run test:vitest";
+
+  if (options.isArm) {
+    scripts["unit-test:browser"] = "echo skipped";
+    scripts["integration-test:node"] = "dev-tool run test:vitest --esm";
+  }
 
   for (const script of Object.keys(scripts)) {
     if (scripts[script].includes("tsc -p .")) {
@@ -282,11 +358,15 @@ function setScriptsSection(scripts: PackageJson["scripts"]): void {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setFilesSection(packageJson: any): void {
   packageJson.files = ["dist/", "README.md", "LICENSE"];
+  if (packageJson.name.includes("@azure/arm-")) {
+    packageJson.files.push("review/", "CHANGELOG.md");
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function addTypeScriptHybridizer(packageJson: any): void {
+function addTypeScriptHybridizer(packageJson: any, options: { browser: boolean }): void {
   packageJson["tshy"] = {
+    project: "./tsconfig.src.json",
     exports: {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
@@ -295,6 +375,11 @@ function addTypeScriptHybridizer(packageJson: any): void {
     esmDialects: ["browser", "react-native"],
     selfLink: false,
   };
+
+  // Remove the esmDialects for arm packages since we don't support ARM in the browser
+  if (!options.browser) {
+    delete packageJson["tshy"].esmDialects;
+  }
 
   // Check if there are subpath exports
   if (packageJson.exports) {
@@ -308,35 +393,84 @@ function addTypeScriptHybridizer(packageJson: any): void {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function addNewPackages(packageJson: any): Promise<void> {
-  const newPackages = {
+async function addNewPackages(packageJson: any, options: { browser: boolean }): Promise<void> {
+  // Update dev dependencies on the core projects
+  const newCorePackages: Record<string, string | undefined> = {
+    "@azure/abort-controller": undefined,
+    "@azure/core-auth": undefined,
+    "@azure/core-client": undefined,
+    "@azure/core-paging": undefined,
+    "@azure/core-rest-pipeline": undefined,
+    "@azure/core-tracing": undefined,
+    "@azure/core-util": undefined,
+    "@azure/logger": undefined,
+    tslib: undefined,
+  };
+
+  for (const [newPackage, desiredMinVersion] of Object.entries(newCorePackages)) {
+    if (packageJson.dependencies[newPackage]) {
+      let latestVersion = desiredMinVersion;
+      if (!latestVersion) {
+        // Get the latest version from npm
+        latestVersion = (
+          await run(["npm", "view", newPackage, "version"], {
+            captureOutput: true,
+            shell: isWindows(),
+          })
+        ).output;
+      }
+      packageJson.dependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
+    }
+  }
+
+  const newPackages: Record<string, string | undefined> = {
     "@azure-tools/test-utils-vitest": "1.0.0",
-    "@vitest/browser": undefined,
     "@vitest/coverage-istanbul": undefined,
-    playwright: undefined,
     vitest: undefined,
   };
+
+  if (options.browser) {
+    newPackages["@vitest/browser"] = undefined;
+    newPackages["playwright"] = undefined;
+  }
 
   for (const [newPackage, desiredMinVersion] of Object.entries(newPackages)) {
     let latestVersion = desiredMinVersion;
     if (!latestVersion) {
       // Get the latest version from npm
-      latestVersion = await run(["npm", "view", newPackage, "version"], {
-        captureOutput: true,
-      });
+      latestVersion = (
+        await run(["npm", "view", newPackage, "version"], {
+          captureOutput: true,
+          shell: isWindows(),
+        })
+      ).output;
     }
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
 
+  // Freeze these packages until we have a chance to update them
   const packagesToUpdate = [
-    { package: "@azure-tools/test-credential", version: "^2.0.0" },
-    { package: "@azure-tools/test-recorder", version: "^4.1.0" },
+    { package: "@azure-tools/test-credential", version: "2.0.0" },
+    { package: "@azure-tools/test-recorder", version: "4.1.0" },
+    { package: "@azure/identity", version: undefined },
+    { package: "@azure/logger", version: undefined },
+    { package: "@azure/core-util", version: undefined },
   ];
 
   // Update additional if there
   for (const { package: packageName, version } of packagesToUpdate) {
     if (packageJson.devDependencies[packageName]) {
-      packageJson.devDependencies[packageName] = version;
+      let latestVersion = version;
+      if (!latestVersion) {
+        // Get the latest version from npm
+        latestVersion = (
+          await run(["npm", "view", packageName, "version"], {
+            captureOutput: true,
+            shell: isWindows(),
+          })
+        ).output;
+      }
+      packageJson.devDependencies[packageName] = `^${latestVersion.replace("\n", "")}`;
     }
   }
 }
@@ -360,10 +494,12 @@ function removeLegacyPackages(packageJson: any): void {
     "karma-mocha",
     "karma-mocha-reporter",
     "karma-sourcemap-loader",
+    "karma-source-map-support",
     "nyc",
     "puppeteer",
     "source-map-support",
     "ts-node",
+    "tsx",
     "uglify-js",
     "@types/chai-as-promised",
     "@types/mocha",
@@ -384,9 +520,18 @@ function sortObjectByKeys(unsortedObj: { [key: string]: string }): { [key: strin
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sortDevDependencies(packageJson: any): void {
+function sortPackage(packageJson: any): void {
+  if (packageJson.dependencies) {
+    packageJson.dependencies = sortObjectByKeys(packageJson.dependencies);
+  }
   if (packageJson.devDependencies) {
     packageJson.devDependencies = sortObjectByKeys(packageJson.devDependencies);
+  }
+  if (packageJson.peerDependencies) {
+    packageJson.peerDependencies = sortObjectByKeys(packageJson.peerDependencies);
+  }
+  if (packageJson.scripts) {
+    packageJson.scripts = sortObjectByKeys(packageJson.scripts);
   }
 }
 

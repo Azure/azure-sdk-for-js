@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  VirtualMachineScaleSetVMExtension,
-  ComputeManagementClient
-} from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import type { VirtualMachineScaleSetVMExtension } from "@azure/arm-compute-profile-2020-09-01-hybrid";
+import { ComputeManagementClient } from "@azure/arm-compute-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create or update the VMSS VM extension.
@@ -23,11 +17,9 @@ dotenv.config();
  * @summary The operation to create or update the VMSS VM extension.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2020-06-01/examples/CreateOrUpdateVirtualMachineScaleSetVMExtensions.json
  */
-async function createVirtualMachineScaleSetVMExtension() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createVirtualMachineScaleSetVMExtension(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const vmScaleSetName = "myvmScaleSet";
   const instanceId = "0";
   const vmExtensionName = "myVMExtension";
@@ -36,7 +28,7 @@ async function createVirtualMachineScaleSetVMExtension() {
     autoUpgradeMinorVersion: true,
     publisher: "extPublisher",
     settings: { UserName: "xyz@microsoft.com" },
-    typeHandlerVersion: "1.2"
+    typeHandlerVersion: "1.2",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -45,13 +37,13 @@ async function createVirtualMachineScaleSetVMExtension() {
     vmScaleSetName,
     instanceId,
     vmExtensionName,
-    extensionParameters
+    extensionParameters,
   );
   console.log(result);
 }
 
-async function main() {
-  createVirtualMachineScaleSetVMExtension();
+async function main(): Promise<void> {
+  await createVirtualMachineScaleSetVMExtension();
 }
 
 main().catch(console.error);

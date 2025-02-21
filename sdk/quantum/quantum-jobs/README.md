@@ -8,9 +8,10 @@ Azure Quantum is a Microsoft Azure service that you can use to run quantum compu
 - Enumerate provider status and quotas
 
 Key links:
+
 - [Source code][source]
-- [API reference documentation](https://docs.microsoft.com/qsharp/api/)
-- [Product documentation](https://docs.microsoft.com/azure/quantum/)
+- [API reference documentation](https://learn.microsoft.com/qsharp/api/)
+- [Product documentation](https://learn.microsoft.com/azure/quantum/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/samples)
 
 ## Getting started
@@ -109,6 +110,7 @@ This step can be done in multiple ways and it is not in scope for this sample.
 [Quantum Intermediate Representation (QIR)](https://github.com/qir-alliance/qir-spec) is a [QIR Alliance](https://www.qir-alliance.org/) specification to represent quantum programs within the [LLVM](https://llvm.org/) Intermediate Representation (IR).
 
 A few methods to compile or generate a quantum program into QIR:
+
 - [Q# compiler](https://github.com/microsoft/qsharp-compiler/): Can be used to [compile Q# Code into QIR](https://github.com/microsoft/qsharp-compiler/tree/main/src/QsCompiler/QirGeneration).
 - [PyQIR](https://github.com/qir-alliance/pyqir): PyQIR is a set of APIs for generating, parsing, and evaluating Quantum Intermediate Representation (QIR).
 - [IQ#](https://github.com/microsoft/iqsharp): Can be used to compile a Q# program into QIR with the [%qir](https://learn.microsoft.com/qsharp/api/iqsharp-magic/qir) magic command.
@@ -160,7 +162,7 @@ Now that you've uploaded your problem definition to Azure Storage, you can use `
     const inputParams = {
       "entryPoint": "ENTRYPOINT__BellState",
       "arguments": [],
-      "targetCapability": "AdaptiveExecution",    
+      "targetCapability": "AdaptiveExecution",
     };
     const createJobDetails = {
       containerUri: containerUri,
@@ -201,7 +203,7 @@ To enumerate all the jobs in the workspace, use the `jobs.list` method.
 
 ## Next steps
 
-- Visit our [Product documentation](https://docs.microsoft.com/azure/quantum/) to learn more about Azure Quantum.
+- Visit our [Product documentation](https://learn.microsoft.com/azure/quantum/) to learn more about Azure Quantum.
 
 ## Contributing
 
@@ -225,14 +227,12 @@ All Quantum Jobs service operations will throw a RequestFailedException on failu
 <!-- LINKS -->
 
 [source]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/src
-[resource-groups]: https://docs.microsoft.com/azure/azure-resource-manager/management/manage-resource-groups-portal
-[workspaces]: https://docs.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal
+[resource-groups]: https://learn.microsoft.com/azure/azure-resource-manager/management/manage-resource-groups-portal
+[workspaces]: https://learn.microsoft.com/azure/quantum/how-to-create-quantum-workspaces-with-the-azure-portal
 [location]: https://azure.microsoft.com/global-infrastructure/services/?products=quantum
-[blob-storage]: https://docs.microsoft.com/azure/storage/blobs/storage-blobs-introduction
+[blob-storage]: https://learn.microsoft.com/azure/storage/blobs/storage-blobs-introduction
 [contributing]: https://github.com/Azure/azure-sdk-for-js/tree/main/CONTRIBUTING.md
 [subscriptions]: https://ms.portal.azure.com/#blade/Microsoft_Azure_Billing/SubscriptionsBlade
-[credentials]: https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credentials
-[style-guide-msft]: https://docs.microsoft.com/style-guide/capitalization
+[credentials]: https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credentials
+[style-guide-msft]: https://learn.microsoft.com/style-guide/capitalization
 [style-guide-cloud]: https://aka.ms/azsdk/cloud-style-guide
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fappconfiguration%2Fapp-configuration%2FREADME.png)

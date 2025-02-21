@@ -165,7 +165,7 @@ describe("With messaging clients", function () {
         }
       }
 
-      beforeEach(async function (ctx) {
+      beforeEach(async (ctx) => {
         httpClient = createDefaultHttpClient();
         pipeline = createPipelineWithCredential();
         recorder = new Recorder(ctx);
@@ -179,7 +179,7 @@ describe("With messaging clients", function () {
         });
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         schemaList.push(schemaName);
         await removeSchemas(schemaList, pipeline, httpClient);
       });
@@ -241,7 +241,6 @@ describe("With messaging clients", function () {
           writerSchema,
           readerSchema,
           processMessage: async (p: Promise<unknown>) =>
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             assert.deepStrictEqual(await p, (({ favorite_color, ...rest }) => rest)(value)),
         });
       });

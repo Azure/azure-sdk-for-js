@@ -7,17 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { VolumeQuotaRules } from "../operationsInterfaces";
+import { VolumeQuotaRules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetAppManagementClient } from "../netAppManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetAppManagementClient } from "../netAppManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   VolumeQuotaRule,
   VolumeQuotaRulesListByVolumeOptionalParams,
@@ -30,7 +30,7 @@ import {
   VolumeQuotaRulesUpdateOptionalParams,
   VolumeQuotaRulesUpdateResponse,
   VolumeQuotaRulesDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VolumeQuotaRules operations. */
@@ -588,7 +588,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body27,
+  requestBody: Parameters.body29,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -623,7 +623,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body28,
+  requestBody: Parameters.body30,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

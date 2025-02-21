@@ -14,7 +14,7 @@ import {
   FileServicesSetServicePropertiesResponse,
   FileServicesGetServicePropertiesOptionalParams,
   FileServicesGetServicePropertiesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FileServices. */
 export interface FileServices {

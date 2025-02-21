@@ -9,50 +9,18 @@ import {
   JsonWebKeyCurveName as KeyCurveName,
   KnownJsonWebKeyCurveName as KnownKeyCurveNames,
   KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms,
+  KnownJsonWebKeyEncryptionAlgorithm as KnownEncryptionAlgorithms,
   JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
 } from "./generated/models/index.js";
 
 export {
   KeyCurveName,
-  KnownKeyCurveNames,
   EncryptionAlgorithm,
+  KnownEncryptionAlgorithms,
   SignatureAlgorithm,
+  KnownKeyCurveNames,
   KnownSignatureAlgorithms,
 };
-
-/** Known values of {@link EncryptionAlgorithm} that the service accepts. */
-export enum KnownEncryptionAlgorithms {
-  /** Encryption Algorithm - RSA-OAEP */
-  RSAOaep = "RSA-OAEP",
-  /** Encryption Algorithm - RSA-OAEP-256 */
-  RSAOaep256 = "RSA-OAEP-256",
-  /** Encryption Algorithm - RSA1_5 */
-  RSA15 = "RSA1_5",
-  /** Encryption Algorithm - A128GCM */
-  A128GCM = "A128GCM",
-  /** Encryption Algorithm - A192GCM */
-  A192GCM = "A192GCM",
-  /** Encryption Algorithm - A256GCM */
-  A256GCM = "A256GCM",
-  /** Encryption Algorithm - A128KW */
-  A128KW = "A128KW",
-  /** Encryption Algorithm - A192KW */
-  A192KW = "A192KW",
-  /** Encryption Algorithm - A256KW */
-  A256KW = "A256KW",
-  /** Encryption Algorithm - A128CBC */
-  A128CBC = "A128CBC",
-  /** Encryption Algorithm - A192CBC */
-  A192CBC = "A192CBC",
-  /** Encryption Algorithm - A256CBC */
-  A256CBC = "A256CBC",
-  /** Encryption Algorithm - A128CBCPAD */
-  A128Cbcpad = "A128CBCPAD",
-  /** Encryption Algorithm - A192CBCPAD */
-  A192Cbcpad = "A192CBCPAD",
-  /** Encryption Algorithm - A256CBCPAD */
-  A256Cbcpad = "A256CBCPAD",
-}
 
 /**
  * Supported algorithms for key wrapping/unwrapping
@@ -350,7 +318,7 @@ export interface AesCbcDecryptParameters {
    */
   /**
    * The ciphertext to decrypt. Microsoft recommends you not use CBC without first ensuring the integrity of the ciphertext using an HMAC, for example.
-   * See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
+   * See https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information.
    */
   ciphertext: Uint8Array;
   /**

@@ -3,16 +3,16 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
-import type { PagedAnalyzeHealthcareEntitiesResult } from "../../analyzeHealthcareEntitiesResult";
-import { delay } from "../../util";
+import type { PagedAnalyzeHealthcareEntitiesResult } from "../../analyzeHealthcareEntitiesResult.js";
+import { delay } from "../../util.js";
 
-import type { AnalysisPollerOptions } from "../poller";
-import { AnalysisPoller } from "../poller";
+import type { AnalysisPollerOptions } from "../poller.js";
+import { AnalysisPoller } from "../poller.js";
 import type {
   AnalyzeHealthcareOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
-} from "./operation";
-import { BeginAnalyzeHealthcarePollerOperation } from "./operation";
+} from "./operation.js";
+import { BeginAnalyzeHealthcarePollerOperation } from "./operation.js";
 
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.

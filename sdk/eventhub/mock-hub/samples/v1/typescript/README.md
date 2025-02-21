@@ -71,6 +71,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [start]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/mock-hub/samples/v1/typescript/src/start.ts
 [apiref]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/mock-hub
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureeventhub]: https://docs.microsoft.com/azure/event-hubs/event-hubs-create
+[createinstance_azureeventhub]: https://learn.microsoft.com/azure/event-hubs/event-hubs-create
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/mock-hub/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

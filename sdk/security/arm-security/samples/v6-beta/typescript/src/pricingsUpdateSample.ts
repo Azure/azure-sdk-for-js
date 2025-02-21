@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Pricing, SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a provided Microsoft Defender for Cloud pricing configuration in the scope. Valid scopes are: subscription id or a specific resource id (Supported resources are: 'VirtualMachines, VMSS and ARC Machines' and only for plan='VirtualMachines' and subPlan='P1').
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates a provided Microsoft Defender for Cloud pricing configuration in the scope. Valid scopes are: subscription id or a specific resource id (Supported resources are: 'VirtualMachines, VMSS and ARC Machines' and only for plan='VirtualMachines' and subPlan='P1').
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/PutResourcePricingByNameVirtualMachines_example.json
  */
-async function updatePricingOnResourceExampleForVirtualMachinesPlan() {
+async function updatePricingOnResourceExampleForVirtualMachinesPlan(): Promise<void> {
   const scopeId =
     "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/DEMO/providers/Microsoft.Compute/virtualMachines/VM-1";
   const pricingName = "virtualMachines";
@@ -37,7 +35,7 @@ async function updatePricingOnResourceExampleForVirtualMachinesPlan() {
  * @summary Updates a provided Microsoft Defender for Cloud pricing configuration in the scope. Valid scopes are: subscription id or a specific resource id (Supported resources are: 'VirtualMachines, VMSS and ARC Machines' and only for plan='VirtualMachines' and subPlan='P1').
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/PutPricingByName_example.json
  */
-async function updatePricingOnSubscriptionExampleForCloudPosturePlan() {
+async function updatePricingOnSubscriptionExampleForCloudPosturePlan(): Promise<void> {
   const scopeId = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const pricingName = "CloudPosture";
   const pricing: Pricing = { pricingTier: "Standard" };
@@ -53,7 +51,7 @@ async function updatePricingOnSubscriptionExampleForCloudPosturePlan() {
  * @summary Updates a provided Microsoft Defender for Cloud pricing configuration in the scope. Valid scopes are: subscription id or a specific resource id (Supported resources are: 'VirtualMachines, VMSS and ARC Machines' and only for plan='VirtualMachines' and subPlan='P1').
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/PutPricingByNamePartialSuccess_example.json
  */
-async function updatePricingOnSubscriptionExampleForCloudPosturePlanPartialSuccess() {
+async function updatePricingOnSubscriptionExampleForCloudPosturePlanPartialSuccess(): Promise<void> {
   const scopeId = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const pricingName = "CloudPosture";
   const pricing: Pricing = { pricingTier: "Standard" };
@@ -69,7 +67,7 @@ async function updatePricingOnSubscriptionExampleForCloudPosturePlanPartialSucce
  * @summary Updates a provided Microsoft Defender for Cloud pricing configuration in the scope. Valid scopes are: subscription id or a specific resource id (Supported resources are: 'VirtualMachines, VMSS and ARC Machines' and only for plan='VirtualMachines' and subPlan='P1').
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2024-01-01/examples/Pricings/PutPricingVMsByName_example.json
  */
-async function updatePricingOnSubscriptionExampleForVirtualMachinesPlan() {
+async function updatePricingOnSubscriptionExampleForVirtualMachinesPlan(): Promise<void> {
   const scopeId = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const pricingName = "VirtualMachines";
   const pricing: Pricing = {
@@ -83,7 +81,7 @@ async function updatePricingOnSubscriptionExampleForVirtualMachinesPlan() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updatePricingOnResourceExampleForVirtualMachinesPlan();
   updatePricingOnSubscriptionExampleForCloudPosturePlan();
   updatePricingOnSubscriptionExampleForCloudPosturePlanPartialSuccess();

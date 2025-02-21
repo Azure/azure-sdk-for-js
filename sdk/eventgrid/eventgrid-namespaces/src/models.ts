@@ -11,7 +11,7 @@ import type {
   RenewCloudEventLocksOptionalParams,
   EventGridClientOptions as EventGridOptions,
   ReleaseDelay,
-} from "./cadl-generated";
+} from "./cadl-generated/index.js";
 
 /** Send Event Options */
 export interface SendEventOptions extends OperationOptions {

@@ -18,7 +18,7 @@ import {
   ReferenceDataSetsDeleteOptionalParams,
   ReferenceDataSetsListByEnvironmentOptionalParams,
   ReferenceDataSetsListByEnvironmentResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ReferenceDataSets. */
 export interface ReferenceDataSets {

@@ -21,7 +21,7 @@ import {
   SearchIndex as SearchIndexMapper,
   AnalyzeRequest as AnalyzeRequestMapper,
   SearchAlias as SearchAliasMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

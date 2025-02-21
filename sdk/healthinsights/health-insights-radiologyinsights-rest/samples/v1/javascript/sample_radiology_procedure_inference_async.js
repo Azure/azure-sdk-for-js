@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the radiology procedures of the Radiology Insights request.
+ * @summary Displays the radiology procedure of the Radiology Insights request.
  */
-
-const dotenv = require("dotenv");
-const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
-  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 const { DefaultAzureCredential } = require("@azure/identity");
+const dotenv = require("dotenv");
+
+const AzureHealthInsightsClient = require("../src").default,
+  { ClinicalDocumentTypeEnum, getLongRunningPoller, isUnexpected } = require("../src");
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ dotenv.config();
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the radiology procedure inferences
+ * Print the radiology procedure inference
  */
 
 function printResults(radiologyInsightsResult) {
@@ -35,7 +35,7 @@ function printResults(radiologyInsightsResult) {
               });
 
               if ("imagingProcedures" in inference) {
-                inference.imagingProcedures.forEach((imagingProcedure) => {
+                inference.imagingProcedures?.forEach((imagingProcedure) => {
                   console.log("   Imaging Procedure Codes: ");
                   displayImaging(imagingProcedure);
                 });
@@ -43,9 +43,9 @@ function printResults(radiologyInsightsResult) {
 
               if ("orderedProcedure" in inference) {
                 console.log("   Ordered procedures: ");
-                inference.orderedProcedure.code?.forEach((orderedProcedure) => {
-                  displayCodes(orderedProcedure);
-                });
+                if ("code" in inference.orderedProcedure) {
+                  displayCodes(inference.orderedProcedure.code);
+                }
               }
 
               if ("description" in inference.orderedProcedure) {
@@ -57,53 +57,52 @@ function printResults(radiologyInsightsResult) {
       });
     }
   } else {
-    const errors = radiologyInsightsResult.errors;
-    if (errors) {
-      for (const error of errors) {
-        console.log(error.code, ":", error.message);
+    const error = radiologyInsightsResult.error;
+    if (error) {
+      console.log(error.code, ":", error.message);
+    }
+  }
+
+  function displayCodes(codeableConcept) {
+    codeableConcept.coding?.forEach((coding) => {
+      if ("code" in coding) {
+        console.log(
+          "      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")",
+        );
       }
-    }
+    });
   }
-}
 
-function displayCodes(codeableConcept) {
-  codeableConcept.coding?.forEach((coding) => {
-    if ("code" in coding && "display" in coding && "system" in coding) {
-      console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+  function displayImaging(images) {
+    console.log("     Modality Codes: ");
+    displayCodes(images.modality);
+    console.log("     Anatomy Codes: ");
+    displayCodes(images.anatomy);
+    if ("laterality" in images) {
+      console.log("     Laterality Codes: ");
+      displayCodes(images.laterality);
     }
-  });
-}
-
-function displayImaging(images) {
-  console.log("     Modality Codes: ");
-  displayCodes(images.modality);
-  console.log("     Anatomy Codes: ");
-  displayCodes(images.anatomy);
-  if ("laterality" in images) {
-    console.log("     Laterality Codes: ");
-    displayCodes(images.laterality);
-  }
-  if ("contrast" in images) {
-    console.log("     Contrast Codes: ");
-    displayCodes(images.contrast.code);
-  }
-  if ("view" in images) {
-    console.log("     View Codes: ");
-    displayCodes(images.view.code);
+    if ("contrast" in images) {
+      console.log("     Contrast Codes: ");
+      displayCodes(images.contrast.code);
+    }
+    if ("view" in images) {
+      console.log("     View Codes: ");
+      displayCodes(images.view.code);
+    }
   }
 }
 
 // Create request body for radiology insights
 function createRequestBody() {
-
   const codingData = {
-    system: "Https://loinc.org",
+    system: "Http://hl7.org/fhir/ValueSet/cpt-all",
     code: "24727-0",
-    display: "CT HEAD W CONTRAST IV"
+    display: "CT HEAD W CONTRAST IV",
   };
 
   const code = {
-    coding: [codingData]
+    coding: [codingData],
   };
 
   const patientInfo = {
@@ -114,10 +113,10 @@ function createRequestBody() {
   const encounterData = {
     id: "encounterid1",
     period: {
-      "start": "2021-8-28T00:00:00",
-      "end": "2021-8-28T00:00:00"
+      start: "2021-8-28T00:00:00",
+      end: "2021-8-28T00:00:00",
     },
-    class: "inpatient"
+    class: "inpatient",
   };
 
   const authorData = {
@@ -127,22 +126,28 @@ function createRequestBody() {
 
   const orderedProceduresData = {
     code: code,
-    description: "CT HEAD W CONTRAST IV"
+    description: "CT HEAD W CONTRAST IV",
   };
 
   const administrativeMetadata = {
     orderedProcedures: [orderedProceduresData],
-    encounterId: "encounterid1"
+    encounterId: "encounterid1",
   };
 
   const content = {
     sourceType: "inline",
     value: ` Exam:  Head CT with Contrast
-    
+
+
+
+
     History:  Headaches for 2 months
     Technique: Axial, sagittal, and coronal images were reconstructed from helical CT through the head without IV contrast.
     IV contrast:  100 mL IV Omnipaque 300.
-    
+
+
+
+
     Findings: There is no mass effect. There is no abnormal enhancement of the brain or within injuries with IV contrast.
     However, there is no evidence of enhancing lesion in either internal auditory canal.
     Impression: Negative CT of the brain without IV contrast.
@@ -159,15 +164,14 @@ function createRequestBody() {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdAt: new Date("2021-05-31T16:00:00.000Z"),
-    orderedProceduresAsCsv: "CT HEAD W CONTRAST IV"
+    orderedProceduresAsCsv: "CT HEAD W CONTRAST IV",
   };
-
 
   const patientData = {
     id: "Samantha Jones",
     details: patientInfo,
     encounters: [encounterData],
-    patientDocuments: [patientDocumentData]
+    patientDocuments: [patientDocumentData],
   };
 
   const inferenceTypes = [
@@ -181,21 +185,22 @@ function createRequestBody() {
     "criticalRecommendation",
     "followupRecommendation",
     "followupCommunication",
-    "radiologyProcedure"];
+    "radiologyProcedure",
+  ];
 
   const followupRecommendationOptions = {
     includeRecommendationsWithNoSpecifiedModality: true,
     includeRecommendationsInReferences: true,
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const findingOptions = {
-    provideFocusedSentenceEvidence: true
+    provideFocusedSentenceEvidence: true,
   };
 
   const inferenceOptions = {
     followupRecommendationOptions: followupRecommendationOptions,
-    findingOptions: findingOptions
+    findingOptions: findingOptions,
   };
 
   // Create RI Configuration
@@ -204,27 +209,25 @@ function createRequestBody() {
     inferenceTypes: inferenceTypes,
     locale: "en-US",
     verbose: false,
-    includeEvidence: true
+    includeEvidence: true,
   };
 
+  // create RI Data
   const RadiologyInsightsJob = {
     jobData: {
       patients: [patientData],
       configuration: configuration,
-    }
+    },
   };
 
-
-
   return {
-    body: radiologyInsightsData
-  }
-
+    body: RadiologyInsightsJob,
+  };
 }
 
 async function main() {
   const credential = new DefaultAzureCredential();
-  const client = new AzureHealthInsightsClient(endpoint, credential);
+  const client = AzureHealthInsightsClient(endpoint, credential);
 
   // Create request body
   const radiologyInsightsParameter = createRequestBody();
@@ -232,7 +235,9 @@ async function main() {
   // Initiate radiology insights job and retrieve results
   const dateString = Date.now();
   const jobID = "jobId-" + dateString;
-  const initialResponse = await client.path("/radiology-insights/jobs/{id}", jobID).put(radiologyInsightsParameter);
+  const initialResponse = await client
+    .path("/radiology-insights/jobs/{id}", jobID)
+    .put(radiologyInsightsParameter);
   if (isUnexpected(initialResponse)) {
     throw initialResponse;
   }

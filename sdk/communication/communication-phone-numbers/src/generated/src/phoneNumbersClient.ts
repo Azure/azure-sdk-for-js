@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { PhoneNumbersImpl } from "./operations";
-import { PhoneNumbers } from "./operationsInterfaces";
-import { PhoneNumbersClientOptionalParams } from "./models";
+import { PhoneNumbersImpl } from "./operations/index.js";
+import { PhoneNumbers } from "./operationsInterfaces/index.js";
+import { PhoneNumbersClientOptionalParams } from "./models/index.js";
 
 export class PhoneNumbersClient extends coreClient.ServiceClient {
   endpoint: string;
@@ -38,7 +38,7 @@ export class PhoneNumbersClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-communication-phone-numbers/1.2.1`;
+    const packageDetails = `azsdk-js-communication-phone-numbers/1.3.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -57,7 +57,7 @@ export class PhoneNumbersClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2024-03-01-preview";
+    this.apiVersion = options.apiVersion || "2025-02-11";
     this.phoneNumbers = new PhoneNumbersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

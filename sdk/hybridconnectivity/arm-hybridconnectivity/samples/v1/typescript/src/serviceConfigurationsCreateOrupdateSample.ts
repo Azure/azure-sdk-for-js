@@ -13,9 +13,7 @@ import {
   HybridConnectivityManagementAPI
 } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a service in serviceConfiguration for the endpoint resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update a service in serviceConfiguration for the endpoint resource.
  * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsPutSSH.json
  */
-async function serviceConfigurationsPutSsh() {
+async function serviceConfigurationsPutSsh(): Promise<void> {
   const resourceUri =
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine/providers/Microsoft.HybridConnectivity/endpoints/default";
   const endpointName = "default";
@@ -49,7 +47,7 @@ async function serviceConfigurationsPutSsh() {
  * @summary Create or update a service in serviceConfiguration for the endpoint resource.
  * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsPutWAC.json
  */
-async function serviceConfigurationsPutWac() {
+async function serviceConfigurationsPutWac(): Promise<void> {
   const resourceUri =
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine/providers/Microsoft.HybridConnectivity/endpoints/default";
   const endpointName = "default";
@@ -69,7 +67,7 @@ async function serviceConfigurationsPutWac() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   serviceConfigurationsPutSsh();
   serviceConfigurationsPutWac();
 }

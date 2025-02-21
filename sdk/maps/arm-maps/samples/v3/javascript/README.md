@@ -75,6 +75,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [creatorsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/arm-maps/samples/v3/javascript/creatorsUpdateSample.js
 [mapslistoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/arm-maps/samples/v3/javascript/mapsListOperationsSample.js
 [mapslistsubscriptionoperationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/maps/arm-maps/samples/v3/javascript/mapsListSubscriptionOperationsSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-maps?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-maps?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/arm-maps/README.md

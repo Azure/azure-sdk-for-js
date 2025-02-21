@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ConnectionMonitorsUpdateTagsParameters
+  ConnectionMonitorsUpdateTagsParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update tags of the specified connection monitor.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Update tags of the specified connection monitor.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherConnectionMonitorUpdateTags.json
  */
-async function updateConnectionMonitorTags() {
+async function updateConnectionMonitorTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -26,7 +21,7 @@ async function updateConnectionMonitorTags() {
   const connectionMonitorName = "cm1";
   const options: ConnectionMonitorsUpdateTagsParameters = {
     body: { tags: { tag1: "value1", tag2: "value2" } },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -34,7 +29,7 @@ async function updateConnectionMonitorTags() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName
+      connectionMonitorName,
     )
     .patch(options);
   console.log(result);

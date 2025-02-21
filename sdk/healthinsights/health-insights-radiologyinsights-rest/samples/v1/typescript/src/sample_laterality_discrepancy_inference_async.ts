@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the laterality discrepancy of the Radiology Insights request.
+ * @summary Displays the laterality discrepancy of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -13,7 +13,7 @@ import AzureHealthInsightsClient, {
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "@azure-rest/health-insights-radiologyinsights";
+} from "../src";
 
 dotenv.config();
 
@@ -109,6 +109,7 @@ function createRequestBody(): CreateJobParameters {
     At the 6:00 position, 5 cm from the nipple, there is a 3 x 2 x 4 mm minimally hypoechoic mass with a peripheral calcification.
     This may correspond to the mammographic finding. No other cystic or solid masses visualized.`
   };
+
   const patientDocumentData = {
     type: "note",
     clinicalType: ClinicalDocumentTypeEnum.RadiologyReport,
@@ -175,7 +176,7 @@ function createRequestBody(): CreateJobParameters {
     }
   };
 
-  const param = {
+  return {
     body: RadiologyInsightsJob,
   };
 

@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   JobDetails,
   JobsListOptionalParams,
   JobsGetOptionalParams,
   JobsGetResponse,
   JobsCreateOptionalParams,
   JobsCreateResponse,
-  JobsCancelOptionalParams
-} from "../models";
+  JobsCancelOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Jobs. */
@@ -24,9 +24,7 @@ export interface Jobs {
    * List jobs.
    * @param options The options parameters.
    */
-  list(
-    options?: JobsListOptionalParams
-  ): PagedAsyncIterableIterator<JobDetails>;
+  list(options?: JobsListOptionalParams): PagedAsyncIterableIterator<JobDetails>;
   /**
    * Get job by id
    * @param jobId Id of the job.
@@ -42,7 +40,7 @@ export interface Jobs {
   create(
     jobId: string,
     job: JobDetails,
-    options?: JobsCreateOptionalParams
+    options?: JobsCreateOptionalParams,
   ): Promise<JobsCreateResponse>;
   /**
    * Cancel a job.

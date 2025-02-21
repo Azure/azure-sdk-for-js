@@ -10,8 +10,8 @@ import {
   RenderGetMapStaticImageParameters,
   RenderGetCopyrightFromBoundingBoxParameters,
   RenderGetCopyrightForTileParameters,
-  RenderGetCopyrightForWorldParameters
-} from "./parameters";
+  RenderGetCopyrightForWorldParameters,
+} from "./parameters.js";
 import {
   RenderGetMapTile200Response,
   RenderGetMapTileDefaultResponse,
@@ -30,8 +30,8 @@ import {
   RenderGetCopyrightForTile200Response,
   RenderGetCopyrightForTileDefaultResponse,
   RenderGetCopyrightForWorld200Response,
-  RenderGetCopyrightForWorldDefaultResponse
-} from "./responses";
+  RenderGetCopyrightForWorldDefaultResponse,
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetMapTile {
@@ -40,7 +40,7 @@ export interface GetMapTile {
    * The `Get Map Tiles` API in an HTTP GET request that allows users to request map tiles in vector or raster formats typically to be integrated  into a map control or SDK. Some example tiles that can be requested are Azure Maps road tiles, real-time  Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://aka.ms/amcreator). By default,  Azure Maps uses vector tiles for its web map control ([Web SDK](/azure/azure-maps/about-azure-maps#web-sdk)) and [Android SDK](/azure/azure-maps/about-azure-maps#android-sdk).
    */
   get(
-    options: RenderGetMapTileParameters
+    options: RenderGetMapTileParameters,
   ): StreamableMethod<
     RenderGetMapTile200Response | RenderGetMapTileDefaultResponse
   >;
@@ -52,7 +52,7 @@ export interface GetMapTileset {
    * The Get Map Tileset API allows users to request metadata for a tileset.
    */
   get(
-    options: RenderGetMapTilesetParameters
+    options: RenderGetMapTilesetParameters,
   ): StreamableMethod<
     RenderGetMapTileset200Response | RenderGetMapTilesetDefaultResponse
   >;
@@ -64,7 +64,7 @@ export interface GetMapAttribution {
    * The `Get Map Attribution` API allows users to request map copyright attribution information for a section of a tileset.
    */
   get(
-    options: RenderGetMapAttributionParameters
+    options: RenderGetMapAttributionParameters,
   ): StreamableMethod<
     RenderGetMapAttribution200Response | RenderGetMapAttributionDefaultResponse
   >;
@@ -76,7 +76,7 @@ export interface GetMapStateTile {
    * Fetches state tiles in vector format typically to be integrated into indoor maps module of map control or SDK. The map control will call this API after user turns on dynamic styling. For more information, see [Zoom Levels and Tile Grid](/azure/location-based-services/zoom-levels-and-tile-grid).
    */
   get(
-    options: RenderGetMapStateTileParameters
+    options: RenderGetMapStateTileParameters,
   ): StreamableMethod<
     RenderGetMapStateTile200Response | RenderGetMapStateTileDefaultResponse
   >;
@@ -90,7 +90,7 @@ export interface GetCopyrightCaption {
    * As an alternative to copyrights for map request, it can also return captions for displaying provider information on the map.
    */
   get(
-    options?: RenderGetCopyrightCaptionParameters
+    options?: RenderGetCopyrightCaptionParameters,
   ): StreamableMethod<
     | RenderGetCopyrightCaption200Response
     | RenderGetCopyrightCaptionDefaultResponse
@@ -138,7 +138,7 @@ export interface GetMapStaticImage {
    * _Note_ : Either **center** or **bbox** parameter must be supplied to the API.
    */
   get(
-    options?: RenderGetMapStaticImageParameters
+    options?: RenderGetMapStaticImageParameters,
   ): StreamableMethod<
     RenderGetMapStaticImage200Response | RenderGetMapStaticImageDefaultResponse
   >;
@@ -150,7 +150,7 @@ export interface GetCopyrightFromBoundingBox {
    * Returns copyright information for a given bounding box. Bounding-box requests should specify the minimum and maximum longitude and latitude (EPSG-3857) coordinates
    */
   get(
-    options: RenderGetCopyrightFromBoundingBoxParameters
+    options: RenderGetCopyrightFromBoundingBoxParameters,
   ): StreamableMethod<
     | RenderGetCopyrightFromBoundingBox200Response
     | RenderGetCopyrightFromBoundingBoxDefaultResponse
@@ -165,7 +165,7 @@ export interface GetCopyrightForTile {
    * Copyrights API is designed to serve copyright information for Render service. In addition to basic copyright for the whole map, API is serving specific groups of copyrights for some countries/regions.
    */
   get(
-    options: RenderGetCopyrightForTileParameters
+    options: RenderGetCopyrightForTileParameters,
   ): StreamableMethod<
     | RenderGetCopyrightForTile200Response
     | RenderGetCopyrightForTileDefaultResponse
@@ -180,7 +180,7 @@ export interface GetCopyrightForWorld {
    * Copyrights API is designed to serve copyright information for Render service. In addition to basic copyright for the whole map, API is serving specific groups of copyrights for some countries/regions.
    */
   get(
-    options?: RenderGetCopyrightForWorldParameters
+    options?: RenderGetCopyrightForWorldParameters,
   ): StreamableMethod<
     | RenderGetCopyrightForWorld200Response
     | RenderGetCopyrightForWorldDefaultResponse
@@ -199,24 +199,24 @@ export interface Routes {
   /** Resource for '/map/copyright/caption/\{format\}' has methods for the following verbs: get */
   (
     path: "/map/copyright/caption/{format}",
-    format: "json" | "xml"
+    format: "json" | "xml",
   ): GetCopyrightCaption;
   /** Resource for '/map/static' has methods for the following verbs: get */
   (path: "/map/static"): GetMapStaticImage;
   /** Resource for '/map/copyright/bounding/\{format\}' has methods for the following verbs: get */
   (
     path: "/map/copyright/bounding/{format}",
-    format: "json" | "xml"
+    format: "json" | "xml",
   ): GetCopyrightFromBoundingBox;
   /** Resource for '/map/copyright/tile/\{format\}' has methods for the following verbs: get */
   (
     path: "/map/copyright/tile/{format}",
-    format: "json" | "xml"
+    format: "json" | "xml",
   ): GetCopyrightForTile;
   /** Resource for '/map/copyright/world/\{format\}' has methods for the following verbs: get */
   (
     path: "/map/copyright/world/{format}",
-    format: "json" | "xml"
+    format: "json" | "xml",
   ): GetCopyrightForWorld;
 }
 

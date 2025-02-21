@@ -13,9 +13,7 @@ import {
   OperationalInsightsManagementClient
 } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a data export.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update a data export.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/DataExportCreateOrUpdate.json
  */
-async function dataExportCreate() {
+async function dataExportCreate(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-00000000000";
@@ -50,7 +48,7 @@ async function dataExportCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dataExportCreate();
 }
 

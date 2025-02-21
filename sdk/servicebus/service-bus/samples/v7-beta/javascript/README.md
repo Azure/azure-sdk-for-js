@@ -89,7 +89,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/movingMessagesToDLQ.js
 [advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/processMessageFromDLQ.js
 [exceedmaxdeliverycount]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/exceedMaxDeliveryCount.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/service-bus
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureservicebus]: https://docs.microsoft.com/azure/service-bus-messaging
+[createinstance_azureservicebus]: https://learn.microsoft.com/azure/service-bus-messaging
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/README.md

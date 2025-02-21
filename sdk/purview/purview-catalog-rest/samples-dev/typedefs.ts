@@ -10,13 +10,11 @@
 
 import PurviewCatalog from "@azure-rest/purview-catalog";
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 const endpoint = process.env["ENDPOINT"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== List entity typedefs sample ==");
   const client = PurviewCatalog(endpoint, new DefaultAzureCredential());
 

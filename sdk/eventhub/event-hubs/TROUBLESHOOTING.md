@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Troubleshoot Event Hubs issues
 
 This troubleshooting guide covers failure investigation techniques, common errors for the credential types in the Azure Event Hubs JavaScript client library, and mitigation steps to resolve these errors.
@@ -44,7 +46,6 @@ An [MessagingError][messagingerror] contains the following optional fields.
 - **code**: The error code that indicates the type of the error. A description of the errors can be found in the [error condition mapper][error_condition_mapper_docs] docs or the [OASIS AMQP 1.0 spec][amqpspec].
 - **retryable**: Whether or not trying to perform the same operation is possible. The client library applies the configured retry policies when the error is retryable.
 - **info**: Additional information about the error.
-- **name**: The name of the error, defaults to "MessagingError".
 - **address**: Address to where the network connection failed. Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
 - **errno**: System-provided error number. Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
 - **port**: The unavailable network connection port. Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
@@ -248,22 +249,22 @@ When filing GitHub issues, the following details are requested:
 [publisheventswithwebsockets]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/javascript/websockets.js
 [support]: https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md
 
-<!-- docs.microsoft.com links -->
+<!-- learn.microsoft.com links -->
 
-[error_condition_mapper_docs]: https://docs.microsoft.com/javascript/api/@azure/core-amqp/errornameconditionmapper
-[messagingerror]: https://docs.microsoft.com/javascript/api/@azure/core-amqp/messagingerror
-[amqptroubleshooting]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-troubleshoot
-[authorizesas]: https://docs.microsoft.com/azure/event-hubs/authorize-access-shared-access-signature
-[epoch]: https://docs.microsoft.com/azure/event-hubs/event-hubs-event-processor-host#epoch
-[eventhubsipaddresses]: https://docs.microsoft.com/azure/event-hubs/troubleshooting-guide#what-ip-addresses-do-i-need-to-allow
-[eventhubsmessagingexceptions]: https://docs.microsoft.com/azure/event-hubs/event-hubs-messaging-exceptions
-[eventhubstroubleshooting]: https://docs.microsoft.com/azure/event-hubs/troubleshooting-guide
-[getconnectionstring]: https://docs.microsoft.com/azure/event-hubs/event-hubs-get-connection-string
-[ioteventhubendpoint]: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin
-[iothubsas]: https://docs.microsoft.com/azure/iot-hub/iot-hub-dev-guide-sas#security-tokens
-[logging]: https://docs.microsoft.com/javascript/api/overview/azure/logger-readme
-[troubleshoot_authentication_authorization]: https://docs.microsoft.com/azure/event-hubs/troubleshoot-authentication-authorization
-[rbac_roles]: https://docs.microsoft.com/azure/event-hubs/authorize-access-azure-active-directory
+[error_condition_mapper_docs]: https://learn.microsoft.com/javascript/api/@azure/core-amqp/errornameconditionmapper
+[messagingerror]: https://learn.microsoft.com/javascript/api/@azure/core-amqp/messagingerror
+[amqptroubleshooting]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-amqp-troubleshoot
+[authorizesas]: https://learn.microsoft.com/azure/event-hubs/authorize-access-shared-access-signature
+[epoch]: https://learn.microsoft.com/azure/event-hubs/event-hubs-event-processor-host#epoch
+[eventhubsipaddresses]: https://learn.microsoft.com/azure/event-hubs/troubleshooting-guide#what-ip-addresses-do-i-need-to-allow
+[eventhubsmessagingexceptions]: https://learn.microsoft.com/azure/event-hubs/event-hubs-messaging-exceptions
+[eventhubstroubleshooting]: https://learn.microsoft.com/azure/event-hubs/troubleshooting-guide
+[getconnectionstring]: https://learn.microsoft.com/azure/event-hubs/event-hubs-get-connection-string
+[ioteventhubendpoint]: https://learn.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin
+[iothubsas]: https://learn.microsoft.com/azure/iot-hub/iot-hub-dev-guide-sas#security-tokens
+[logging]: https://learn.microsoft.com/javascript/api/overview/azure/logger-readme
+[troubleshoot_authentication_authorization]: https://learn.microsoft.com/azure/event-hubs/troubleshoot-authentication-authorization
+[rbac_roles]: https://learn.microsoft.com/azure/event-hubs/authorize-access-azure-active-directory
 
 <!-- external links -->
 

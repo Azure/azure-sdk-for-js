@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./managementGroups";
-export * from "./managementGroupSubscriptions";
-export * from "./hierarchySettingsOperations";
-export * from "./operations";
-export * from "./entities";
+export * from "./managementGroups.js";
+export * from "./managementGroupSubscriptions.js";
+export * from "./hierarchySettingsOperations.js";
+export * from "./operations.js";
+export * from "./entities.js";

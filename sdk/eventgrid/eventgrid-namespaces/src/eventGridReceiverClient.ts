@@ -7,8 +7,8 @@ import type {
   ReleaseResult,
   RejectResult,
   RenewLocksResult,
-} from "./cadl-generated/models";
-import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
+} from "./cadl-generated/models/index.js";
+import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient.js";
 import type {
   CloudEvent,
   ReceiveResult,
@@ -18,8 +18,8 @@ import type {
   RenewEventLocksOptions,
   EventGridReceiverClientOptions,
   ReceiveEventsOptions,
-} from "./models";
-import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
+} from "./models.js";
+import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy.js";
 import { tracingPolicyName } from "@azure/core-rest-pipeline";
 import { uint8ArrayToString } from "@azure/core-util";
 
