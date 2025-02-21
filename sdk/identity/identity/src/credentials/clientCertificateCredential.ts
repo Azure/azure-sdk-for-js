@@ -177,7 +177,7 @@ export class ClientCertificateCredential implements TokenCredential {
     }
 
     return {
-      thumbprint: parts.thumbprint,
+      thumbprintSha256: parts.thumbprintSha256,
       privateKey,
       x5c: parts.x5c,
     };
@@ -218,14 +218,14 @@ export async function parseCertificate(
     throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
   }
 
-  const thumbprint = createHash("sha1")
+  const thumbprintSha256 = createHash("sha256")
     .update(Buffer.from(publicKeys[0], "base64"))
     .digest("hex")
     .toUpperCase();
 
   return {
     certificateContents,
-    thumbprint,
+    thumbprintSha256,
     x5c,
   };
 }

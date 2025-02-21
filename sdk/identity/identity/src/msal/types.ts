@@ -80,9 +80,9 @@ export interface AuthenticationRecord {
  */
 export interface CertificateParts {
   /**
-   * Hex encoded X.509 SHA-1 thumbprint of the certificate.
+   * Hex encoded X.509 SHA-256 thumbprint of the certificate.
    */
-  thumbprint: string;
+  thumbprintSha256: string;
 
   /**
    * The PEM encoded private key.
