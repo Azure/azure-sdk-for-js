@@ -29,14 +29,14 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
 ): (
   opts?: ReliableConnectionOptions<ReceiveDataT>,
 ) => ReliableConnectionClient<SendDataT, ReceiveDataT> {
-  const { isRetryable, resolveOnUnsuccessful } = createOptions || {};
+  const { isRetryable = () => true, resolveOnUnsuccessful } = createOptions || {};
   type WritableClient = Writable<ReliableConnectionClient<SendDataT, ReceiveDataT>>;
   return ({
     retryOptions: inputRetryOptions,
     identifier,
     highWaterMark = DEFAULT_HIGH_WATER_MARK,
     on: listeners,
-    autoReconnect = true,
+    reconnectOnClosure = () => false,
   }: ReliableConnectionOptions<ReceiveDataT> = {}): ReliableConnectionClient<
     SendDataT,
     ReceiveDataT
@@ -46,11 +46,9 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
     /**
      * The client tries to be reliable and reconnects by default.
      */
-    let canReconnect: boolean = true;
+    let shouldAttemptReconnect: boolean = true;
     function isOpenRetryable(err: unknown): boolean {
-      const res = canReconnect && (isRetryable?.(err) ?? true);
-      canReconnect = true;
-      return res;
+      return shouldAttemptReconnect && isRetryable(err);
     }
     let openAbortSignal: AbortSignal | undefined;
     let openOrClosePromiseResolve: (() => void) | undefined;
@@ -142,14 +140,14 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
             /** The server is refusing to connect */
             logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
             rejectAndReset(createError(errMsg));
-            canReconnect = client.canReconnect(info);
+            shouldAttemptReconnect = reconnectOnClosure(info);
             break;
           }
           case "connected": {
             /** The server closed the connection */
             logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
-            canReconnect = client.canReconnect(info);
-            if (autoReconnect && canReconnect) {
+            shouldAttemptReconnect = reconnectOnClosure(info);
+            if (shouldAttemptReconnect) {
               reliableConnectionClient.open({ abortSignal: openAbortSignal }).catch(() => {
                 /** nothing else to do, give up */
               });
@@ -344,7 +342,7 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
         });
 
         reliableConnectionClient.status = "disconnected";
-        logger.info(`[${connectionId}] Client destroyed`);
+        logger.verbose(`[${connectionId}] Client destroyed`);
       },
     };
     return reliableConnectionClient;

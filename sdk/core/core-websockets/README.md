@@ -43,15 +43,15 @@ The `createWebSocketClient` function is the primary entry point for establishing
   - Await the connection to be established by using the Promise-like behavior.
 
 - **Underlying Implementations:**  
-  Depending on the environment and options provided, it returns access to different underlying WebSocket implementations (for example, ws, Node.js native WebSocket, or browser WebSocket via `asWs` and `asWebSocket` methods).
+  Depending on the environment and options provided, it returns access to different underlying WebSocket implementations (for example, undici, Node.js native WebSocket, or browser WebSocket via `undici` and `web` methods).
 
 ### What It Returns
 
 The function returns an object conforming to the `WebsocketClientWrapper` interface that includes:
 
 - **Event-based Methods:**  
-  - `asWs()`: Returns a Promise for a WebSocket client using a specific underlying implementation.
-  - `asWebSocket()`: Returns a Promise for the native WebSocket (when available).
+  - `undici()`: Returns a Promise for a WebSocket client using a specific underlying implementation.
+  - `web()`: Returns a Promise for the native WebSocket (when available).
 
 - **Promise Methods:**  
   The client object is "thenable" meaning you can call `.then()`, `.catch()`, and `.finally()` on it. This allows you to conveniently wait for the connection to open or handle an error if one occurs.

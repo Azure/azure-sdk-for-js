@@ -31,10 +31,6 @@ export interface ConnectionManager<SendDataT, ReceiveDataT>
    */
   send(data: SendDataT, opts?: WebSocketSendOptions): Promise<number>;
   /**
-   * Checks if the connection can reconnect when is disconnected.
-   */
-  canReconnect(info: WebSocketCloseDetails): boolean;
-  /**
    * Destroys the connection and it can't be opened again.
    */
   destroy(): void;
@@ -108,7 +104,7 @@ export interface ReliableConnectionOptions<ReceiveDataT> {
   /**
    * Whether to auto reconnect when the connection is closed.
    */
-  autoReconnect?: boolean;
+  reconnectOnClosure?: (info: WebSocketCloseDetails) => boolean;
 }
 
 /**

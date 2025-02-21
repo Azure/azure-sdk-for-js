@@ -8,19 +8,19 @@ import type {
   WebSocketClientOptions,
   WebsocketClientAdapter,
 } from "./models/public.js";
-import type { WebSocketClientAsWsOptions } from "./runtimes/ws/models.js";
+import type * as Undici from "./runtimes/undici/index.js";
+import { create as createWebSocket } from "./runtimes/web/impl.js";
+import { create as createUndici } from "./runtimes/undici/impl.js";
 import { createConnectionManager } from "./connectionManager.js";
 import { createReliableConnectionClient } from "./reliableConnectionClient.js";
 import { createUrl } from "./utils.js";
-import { createWebSocket } from "./webSocket.js";
-import { createWs } from "./ws.js";
 import { WEBSOCKET_CLIENT_TAG } from "./constants.js";
 
 async function withConnectionManager<WebSocketT>(
   connectionManager: WithSocket<WebSocketT, WebSocketData, WebSocketData>,
   options: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols"> = {},
 ): Promise<WebSocketClient<WebSocketT>> {
-  const { identifier, retryOptions, highWaterMark, abortSignal, on, autoReconnect } = options;
+  const { identifier, retryOptions, highWaterMark, abortSignal, on, reconnectOnClosure } = options;
   const reliableClientFactory = createReliableConnectionClient<WebSocketData, WebSocketData>(
     connectionManager.connectionManager,
     {
@@ -33,7 +33,7 @@ async function withConnectionManager<WebSocketT>(
     retryOptions,
     highWaterMark,
     on,
-    autoReconnect,
+    reconnectOnClosure,
   });
   await reliableClient.open({ abortSignal });
 
@@ -95,23 +95,23 @@ function buildClient<WebSocketT>(
   }
 
   return {
-    asWs: (options: WebSocketClientAsWsOptions = {}) => {
-      const { wsOptions } = options;
+    undici: (options: Undici.WebSocketClientUndiciOptions = {}) => {
+      const { undiciOptions: undiciOptions } = options;
       try {
         return withConnectionManager(
-          createWs(urlObj, { protocols, wsOptions }),
+          createUndici(urlObj, { protocols, undiciOptions: undiciOptions }),
           restOptions,
-        ) as ReturnType<WebsocketClientAdapter<unknown>["asWs"]>;
+        ) as ReturnType<WebsocketClientAdapter<unknown>["undici"]>;
       } catch (err) {
         return Promise.reject(err);
       }
     },
-    asWebSocket: () => {
+    web: () => {
       try {
         return withConnectionManager(
           createWebSocket(urlObj, { protocols }),
           restOptions,
-        ) as ReturnType<WebsocketClientAdapter<unknown>["asWebSocket"]>;
+        ) as ReturnType<WebsocketClientAdapter<unknown>["web"]>;
       } catch (err) {
         return Promise.reject(err);
       }
@@ -141,8 +141,8 @@ export function createWebSocketClient<WebSocketT>(
   } catch (err) {
     const rejectOnDemand = (): Promise<never> => Promise.reject(err);
     return {
-      asWs: rejectOnDemand,
-      asWebSocket: rejectOnDemand,
+      web: rejectOnDemand,
+      undici: rejectOnDemand,
       then: (onfulfilled, onrejected) => rejectOnDemand().then(onfulfilled, onrejected),
       catch: (onrejected) => rejectOnDemand().catch(onrejected),
       finally: (onfinally) => rejectOnDemand().finally(onfinally),

@@ -30,18 +30,17 @@ export interface WebSocketClient<WebSocketT> extends WebSocketEventRegistrar<Web
 
 // @public
 export interface WebsocketClientAdapter<WebSocketT> extends Promise<WebSocketClient<WebSocketT>> {
-    asWebSocket: () => Promise<WebSocketClient<WebSocket>>;
 }
 
 // @public
 export interface WebSocketClientOptions {
     abortSignal?: AbortSignal;
     allowInsecureConnection?: boolean;
-    autoReconnect?: boolean;
     highWaterMark?: number;
     identifier?: string;
     on?: Partial<WebSocketEventListeners<WebSocketData>>;
     protocols?: string | string[];
+    reconnectOnClosure?: (info: WebSocketCloseDetails) => boolean;
     retryOptions?: RetryOptions;
 }
 

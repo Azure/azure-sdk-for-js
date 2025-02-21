@@ -194,11 +194,11 @@ describe("ReliableConnectionClient", () => {
     });
   });
 
-  describe("canReconnect", () => {
+  describe("reconnectOnClosure", () => {
     it("reconnect when returns true", async () => {
       obj = createMockClient({
         identifier,
-        canReconnect: () => true,
+        reconnectOnClosure: () => true,
         retryOptions: { maxRetries: 1 },
       });
       await obj.client.open();
@@ -216,7 +216,7 @@ describe("ReliableConnectionClient", () => {
     it("doesn't reconnect when returns false", async () => {
       obj = createMockClient({
         identifier,
-        canReconnect: () => false,
+        reconnectOnClosure: () => false,
         retryOptions: { maxRetries: 1 },
       });
       await obj.client.open();
@@ -234,7 +234,7 @@ describe("ReliableConnectionClient", () => {
     it("reconnect can be aborted", async () => {
       obj = createMockClient({
         identifier,
-        canReconnect: () => true,
+        reconnectOnClosure: () => true,
         retryOptions: { maxRetries: 1 },
       });
       const aborter = new AbortController();
@@ -312,8 +312,8 @@ describe("ReliableConnectionClient", () => {
               }
             }, 0);
           },
+          reconnectOnClosure: () => true,
           retryOptions: { maxRetries: 1 },
-          canReconnect: () => true,
         });
         await assert.isFulfilled(obj.client.open());
         assert.equal(openCount, 2);
@@ -381,7 +381,6 @@ describe("ReliableConnectionClient", () => {
             }, 0);
           },
           retryOptions: { maxRetries: 1 },
-          canReconnect: () => false,
         });
         await assert.isRejected(obj.client.open(), /Disconnected/);
         assert.equal(openCount, 1);

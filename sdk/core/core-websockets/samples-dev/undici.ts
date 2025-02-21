@@ -6,9 +6,10 @@
  */
 import { delay } from "@azure/core-util";
 import { createWebSocketClient } from "@azure/core-websockets";
+import "@azure/core-websockets/runtimes/undici";
 
 async function main(): Promise<void> {
-  const client = await createWebSocketClient("wss://echo.websocket.org").asWebSocket();
+  const client = await createWebSocketClient("wss://echo.websocket.org").undici();
   console.log("Connected to:", client.websocket.url);
   client.on("message", (data) => {
     console.log("received:", data);

@@ -8,15 +8,15 @@ import { buildWebSocketClientTests } from "../webSocketClient.js";
 import { getSecureServerAddress } from "../../utils/injectables.js";
 import { createTestFullName } from "@azure-tools/test-utils-vitest";
 
-buildWebSocketClientTests("ws", (url, options) => createWebSocketClient(url, options).asWs());
+buildWebSocketClientTests("ws", (url, options) => createWebSocketClient(url, options).undici());
 
 const nodeVersion = Number(process.versions.node.split(".")[0]);
 if (nodeVersion >= 23) {
   buildWebSocketClientTests("NodeJS Native", (url, options) =>
-    createWebSocketClient(url, options).asWebSocket(),
+    createWebSocketClient(url, options).web(),
   );
 } else {
-  describe("[asWebSocket] Is not available in NodeJS < v23", () => {
+  describe("[web] Is not available in NodeJS < v23", () => {
     const secureServerUrl = getSecureServerAddress();
     let identifier: string;
     beforeEach(async (test) => {
@@ -24,7 +24,7 @@ if (nodeVersion >= 23) {
     });
     it("should throw an error", async () => {
       await assert.isRejected(
-        createWebSocketClient(secureServerUrl, { identifier }).asWebSocket(),
+        createWebSocketClient(secureServerUrl, { identifier }).web(),
         /The WebSocket Web API is not available in this runtime environment/,
       );
     });

@@ -8,11 +8,9 @@ import { buildWebSocketClientTests } from "../webSocketClient.js";
 import { getSecureServerAddress } from "../../utils/injectables.js";
 import { createTestFullName } from "@azure-tools/test-utils-vitest";
 
-buildWebSocketClientTests("Web API", (url, options) =>
-  createWebSocketClient(url, options).asWebSocket(),
-);
+buildWebSocketClientTests("Web API", (url, options) => createWebSocketClient(url, options).web());
 
-describe("[asWs] Is not available in the browser", () => {
+describe("[undici] Is not available in the browser", () => {
   const secureServerUrl = getSecureServerAddress();
   let identifier: string;
   beforeEach(async (test) => {
@@ -20,8 +18,8 @@ describe("[asWs] Is not available in the browser", () => {
   });
   it("should throw an error", async () => {
     await assert.isRejected(
-      createWebSocketClient(secureServerUrl, { identifier }).asWs(),
-      /The 'ws' module is not available in this runtime environment/,
+      createWebSocketClient(secureServerUrl, { identifier }).undici(),
+      /Undici WebSocket is not available in this runtime environment/,
     );
   });
 });

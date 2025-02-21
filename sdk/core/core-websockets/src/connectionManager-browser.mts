@@ -3,11 +3,11 @@
 
 import type { WebSocketImplOptions, WithSocket } from "./models/internal.js";
 import type { WebSocketData } from "./models/public.js";
-import { createWebSocket } from "./webSocket.js";
+import { create as createWeb } from "./runtimes/web/impl.js";
 
 export function createConnectionManager(
   url: string,
   options: WebSocketImplOptions = {},
 ): WithSocket<WebSocket, WebSocketData, WebSocketData> {
-  return createWebSocket(url, options);
+  return createWeb(url, options);
 }

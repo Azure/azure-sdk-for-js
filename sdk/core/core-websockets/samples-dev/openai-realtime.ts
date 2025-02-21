@@ -11,6 +11,7 @@
 import { createWebSocketClient } from "@azure/core-websockets";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 import "dotenv/config";
+import "@azure/core-websockets/runtimes/undici";
 
 async function main(): Promise<void> {
   const deploymentName = "gpt-4o-realtime-preview-1001";
@@ -21,7 +22,6 @@ async function main(): Promise<void> {
     new DefaultAzureCredential(),
     "https://cognitiveservices.azure.com/.default",
   );
-  url.searchParams.set("Authorization", `Bearer ${await getAzureADToken()}`);
   const webSocketClient = await createWebSocketClient(url.toString(), {
     on: {
       message: async (data) => {
@@ -50,6 +50,8 @@ async function main(): Promise<void> {
       close: () => console.log("\nConnection closed!"),
       error: (err) => console.error("Error:", err),
     },
+  }).undici({
+    undiciOptions: { headers: [["Authorization", `Bearer ${await getAzureADToken()}`]] },
   });
 
   await webSocketClient.send(

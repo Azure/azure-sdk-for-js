@@ -168,22 +168,15 @@ export interface WebSocketClientOptions {
    */
   on?: Partial<WebSocketEventListeners<WebSocketData>>;
   /**
-   * Whether to auto reconnect when the connection is closed.
+   * Whether to reconnect when the connection is closed.
    */
-  autoReconnect?: boolean;
+  reconnectOnClosure?: (info: WebSocketCloseDetails) => boolean;
 }
 
 /**
  * The WebSocket client wrapper. It is a promise that resolves to a WebSocket client.
- * It also has methods to get the WebSocket client as a ws WebSocket client or as a Web API WebSocket client.
  */
-export interface WebsocketClientAdapter<WebSocketT> extends Promise<WebSocketClient<WebSocketT>> {
-  /**
-   * Returns the WebSocket client as a Web API WebSocket client.
-   * @returns The Web API WebSocket client.
-   */
-  asWebSocket: () => Promise<WebSocketClient<WebSocket>>;
-}
+export interface WebsocketClientAdapter<WebSocketT> extends Promise<WebSocketClient<WebSocketT>> {}
 
 /**
  * The event listeners for the WebSocket client.

@@ -1,30 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSocketData, WebSocketEventListeners } from "./models/public.js";
-import type { WebSocketImplOptions, WithSocket } from "./models/internal.js";
-import { logger } from "./logger.js";
+import * as Undici from "undici";
+import type { WebSocketData, WebSocketEventListeners } from "../../models/public.js";
+import type { WebSocketImplOptions, WithSocket } from "../../models/internal.js";
+import { logger } from "../../logger.js";
+import type { WebSocketClientUndiciOptions } from "./models.js";
 
 type InternalListener = EventListener;
 type PublicListener = WebSocketEventListeners<WebSocketData>[keyof WebSocketEventListeners];
 
-export function createWebSocket(
+export function create(
   url: string,
-  options: WebSocketImplOptions = {},
-): WithSocket<WebSocket, WebSocketData, WebSocketData> {
-  // Check if the WebSocket Web API is available in the current runtime.
-  if (typeof WebSocket !== "function") {
-    throw new Error("The WebSocket Web API is not available in this runtime environment");
+  options: WebSocketImplOptions & WebSocketClientUndiciOptions = {},
+): WithSocket<Undici.WebSocket, WebSocketData, WebSocketData> {
+  // Check if Undici WebSocket is available in the current runtime.
+  if (typeof Undici.WebSocket !== "function") {
+    throw new Error("Undici WebSocket is not available in this runtime environment");
   }
-  logger.verbose("Using native WebSocket");
-  const { protocols } = options;
+  logger.verbose("Using undici WebSocket");
+  const { protocols, undiciOptions: undiciDispatcher } = options;
   const listenerMap = new Map<
     keyof WebSocketEventListeners,
     Map<PublicListener, InternalListener>
   >();
 
   function addListener(
-    socket: WebSocket,
+    socket: Undici.WebSocket,
     type: keyof WebSocketEventListeners,
     fn: PublicListener,
     wrapper: InternalListener,
@@ -39,12 +41,12 @@ export function createWebSocket(
     );
   }
 
-  const obj: WithSocket<WebSocket, WebSocketData, WebSocketData> = {
+  const obj: WithSocket<Undici.WebSocket, WebSocketData, WebSocketData> = {
     // the socket will be initialized in the open method
     socket: undefined as any,
     connectionManager: {
       open: () => {
-        obj.socket = new WebSocket(url, protocols);
+        obj.socket = new Undici.WebSocket(url, undiciDispatcher ?? protocols);
         obj.socket.binaryType = "arraybuffer";
       },
       send: async (data) => {
@@ -66,7 +68,7 @@ export function createWebSocket(
             break;
           }
           case "close": {
-            const wrapper = ({ code, reason }: CloseEvent): void =>
+            const wrapper = ({ code, reason }: Undici.CloseEvent): void =>
               (fn as WebSocketEventListeners["close"])({
                 code: `${code}`,
                 reason,
@@ -94,9 +96,6 @@ export function createWebSocket(
         if (typeMap.size === 0) {
           listenerMap.delete(type);
         }
-      },
-      canReconnect(info) {
-        return info.code !== "1008";
       },
       destroy() {
         obj.socket.close();

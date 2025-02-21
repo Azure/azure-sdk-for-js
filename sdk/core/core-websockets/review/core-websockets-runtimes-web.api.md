@@ -4,13 +4,9 @@
 
 ```ts
 
-import type { ClientRequestArgs } from 'node:http';
-import type * as WS from 'ws';
-
-// @public
-export interface WebSocketClientAsWsOptions {
-    wsOptions?: WS.ClientOptions | ClientRequestArgs;
-}
+// @public (undocumented)
+type WebSocket_2 = WebSocket;
+export { WebSocket_2 as WebSocket }
 
 // (No @packageDocumentation comment for this package)
 

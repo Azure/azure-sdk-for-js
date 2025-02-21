@@ -35,10 +35,10 @@ export function createMockClient(options: CreateMockClientOptions = {}): ClientW
     isRetryable,
     resolveOnUnsuccessful,
     open,
-    canReconnect,
     close,
     send,
     on,
+    reconnectOnClosure,
     highWaterMark,
     identifier,
     retryOptions: inputRetryOptions,
@@ -106,14 +106,19 @@ export function createMockClient(options: CreateMockClientOptions = {}): ClientW
       }),
     off: () => {},
     destroy: destroy ?? (() => {}),
-    canReconnect: canReconnect ?? (() => false),
   };
   const clientFactory = createReliableConnectionClient<testSendT, testReceiveT>(connection, {
     isRetryable,
     resolveOnUnsuccessful,
   });
   return {
-    client: clientFactory({ identifier, retryOptions, highWaterMark, on: listeners }),
+    client: clientFactory({
+      identifier,
+      retryOptions,
+      highWaterMark,
+      on: listeners,
+      reconnectOnClosure,
+    }),
     closeHandlers,
     errorHandlers,
     messageHandlers,
