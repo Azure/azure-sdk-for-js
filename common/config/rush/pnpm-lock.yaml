@@ -910,9 +910,6 @@ importers:
       '@rush-temp/core-util':
         specifier: file:./projects/core-util.tgz
         version: file:projects/core-util.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
-      '@rush-temp/core-websockets':
-        specifier: file:./projects/core-websockets.tgz
-        version: file:projects/core-websockets.tgz(@types/debug@4.1.12)(chai@5.2.0)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/core-xml':
         specifier: file:./projects/core-xml.tgz
         version: file:projects/core-xml.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)
@@ -3687,10 +3684,6 @@ packages:
     resolution: {integrity: sha512-X/q7hE1cBijx5IxwkBJ0yyj3MsBDNd9Rtj1HhKTkCZ8cnSrUDUzgagM5I4h+VofyAJlNkcnPzukisVlEu88+Kg==, tarball: file:projects/core-util.tgz}
     version: 0.0.0
 
-  '@rush-temp/core-websockets@file:projects/core-websockets.tgz':
-    resolution: {integrity: sha512-RTc0iyvRP74gZbS5Jjzd0gL8miXwyJkSP0XZXIKa8fNGmiSSE9iA/Za/l9/uniorlmbzXeStgZKDhF96ppCTww==, tarball: file:projects/core-websockets.tgz}
-    version: 0.0.0
-
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
     resolution: {integrity: sha512-/0l4gaWNX1XLWL3BKOK35Au6+MEhE7NpUqGaMrQDvGfYfX48GSewDRIP8vmpXk2UIUzNFD20l7FWRSIVzL9y4A==, tarball: file:projects/core-xml.tgz}
     version: 0.0.0
@@ -4332,9 +4325,6 @@ packages:
 
   '@types/node-fetch@2.6.12':
     resolution: {integrity: sha512-8nneRWKCg3rMtF69nLQJnOYUcbafYeFSjqkw3jCRLsqkWFlHaoQrr5mXmofFGOx3DKn7UfmBMyov8ySvLRVldA==}
-
-  '@types/node-forge@1.3.11':
-    resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
 
   '@types/node@18.19.76':
     resolution: {integrity: sha512-yvR7Q9LdPz2vGpmpJX5LolrgRdWvB67MJKDPSgIIzpFbaf9a1j/f5DnLp5VDyHGMR0QZHlTr1afsD87QCXFHKw==}
@@ -6694,10 +6684,6 @@ packages:
     peerDependenciesMeta:
       encoding:
         optional: true
-
-  node-forge@1.3.1:
-    resolution: {integrity: sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==}
-    engines: {node: '>= 6.13.0'}
 
   node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
@@ -20123,47 +20109,6 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/core-websockets@file:projects/core-websockets.tgz(@types/debug@4.1.12)(chai@5.2.0)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
-    dependencies:
-      '@types/chai-as-promised': 8.0.1
-      '@types/node': 18.19.76
-      '@types/node-forge': 1.3.11
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(vitest@3.0.6)
-      '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
-      chai-as-promised: 8.0.1(chai@5.2.0)
-      dotenv: 16.4.7
-      eslint: 9.20.1
-      node-forge: 1.3.1
-      playwright: 1.50.1
-      tslib: 2.8.1
-      typescript: 5.7.3
-      undici: 7.3.0
-      vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(yaml@2.7.0)
-    transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@types/debug'
-      - '@vitest/ui'
-      - bufferutil
-      - chai
-      - happy-dom
-      - jiti
-      - jsdom
-      - less
-      - lightningcss
-      - msw
-      - safaridriver
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-      - tsx
-      - utf-8-validate
-      - vite
-      - webdriverio
-      - yaml
-
   '@rush-temp/core-xml@file:projects/core-xml.tgz(@types/debug@4.1.12)(msw@2.7.0(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.2)(vite@6.1.0(@types/node@22.7.9)(tsx@4.19.2)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.76
@@ -23918,10 +23863,6 @@ snapshots:
       '@types/node': 18.19.76
       form-data: 4.0.2
 
-  '@types/node-forge@1.3.11':
-    dependencies:
-      '@types/node': 22.7.9
-
   '@types/node@18.19.76':
     dependencies:
       undici-types: 5.26.5
@@ -26603,8 +26544,6 @@ snapshots:
   node-fetch@2.7.0:
     dependencies:
       whatwg-url: 5.0.0
-
-  node-forge@1.3.1: {}
 
   node-int64@0.4.0: {}
 

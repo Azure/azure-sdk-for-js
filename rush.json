@@ -531,11 +531,6 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-websockets",
-      "projectFolder": "sdk/core/core-websockets",
-      "versionPolicyName": "core"
-    },
-    {
       "packageName": "@azure/core-xml",
       "projectFolder": "sdk/core/core-xml",
       "versionPolicyName": "core"
