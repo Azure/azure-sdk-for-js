@@ -167,16 +167,25 @@ export async function decryptChangeFeedResponse(
   changeFeedMode: ChangeFeedMode,
   encryptionProcessor: EncryptionProcessor,
 ): Promise<void> {
+  let count = 0;
+  diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
   for (let item of result.result) {
     if (changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes) {
       if ("current" in item && item.current !== null) {
-        item.current = await encryptionProcessor.decrypt(item.current, diagnosticNode);
+        const { body, propertiesDecryptedCount } = await encryptionProcessor.decrypt(item.current);
+        item.current = body;
+        count += propertiesDecryptedCount;
       }
       if ("previous" in item && item.previous !== null) {
-        item.previous = await encryptionProcessor.decrypt(item.previous, diagnosticNode);
+        const { body, propertiesDecryptedCount } = await encryptionProcessor.decrypt(item.previous);
+        item.previous = body;
+        count += propertiesDecryptedCount;
       }
     } else {
-      item = await encryptionProcessor.decrypt(item, diagnosticNode);
+      const { body, propertiesDecryptedCount } = await encryptionProcessor.decrypt(item);
+      item = body;
+      count += propertiesDecryptedCount;
     }
   }
+  diagnosticNode.endEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation, count);
 }

@@ -3,7 +3,7 @@
 
 import type { Container } from "../client";
 import type { ClientContext } from "../ClientContext";
-import { ResourceType } from "../common/constants";
+import { Constants, ResourceType } from "../common/constants";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import type { SqlQuerySpec, FetchFunctionCallback } from "../queryExecutionContext";
 import { QueryIterator } from "../queryIterator";
@@ -49,9 +49,18 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
       await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
     }
     if (response?.resources?.length > 0) {
+      let count = 0;
+      diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
       for (let resource of response.resources) {
-        resource = await this.container.encryptionProcessor.decrypt(resource);
+        const { body, propertiesDecryptedCount } =
+          await this.container.encryptionProcessor.decrypt(resource);
+        resource = body;
+        count += propertiesDecryptedCount;
       }
+      diagnosticNode.endEncryptionDiagnostics(
+        Constants.Encryption.DiagnosticsDecryptOperation,
+        count,
+      );
     }
     yield response;
   }
@@ -68,9 +77,18 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
         await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
       }
       if (response?.resources?.length > 0) {
+        let count = 0;
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
         for (let resource of response.resources) {
-          resource = await this.container.encryptionProcessor.decrypt(resource, diagnosticNode);
+          const { body, propertiesDecryptedCount } =
+            await this.container.encryptionProcessor.decrypt(resource);
+          resource = body;
+          count += propertiesDecryptedCount;
         }
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsDecryptOperation,
+          count,
+        );
       }
       return response;
     }, this.encryptionClientContext);
@@ -88,9 +106,18 @@ export class EncryptionItemQueryIterator<Item> extends QueryIterator<Item> {
         await this.container.throwIfRequestNeedsARetryPostPolicyRefresh(error);
       }
       if (response?.resources?.length > 0) {
+        let count = 0;
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsDecryptOperation);
         for (let resource of response.resources) {
-          resource = await this.container.encryptionProcessor.decrypt(resource, diagnosticNode);
+          const { body, propertiesDecryptedCount } =
+            await this.container.encryptionProcessor.decrypt(resource);
+          resource = body;
+          count += propertiesDecryptedCount;
         }
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsDecryptOperation,
+          count,
+        );
       }
       return response;
     }, this.encryptionClientContext);

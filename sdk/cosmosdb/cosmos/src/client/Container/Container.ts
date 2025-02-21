@@ -383,9 +383,15 @@ export class Container {
         await this.checkAndInitializeEncryption();
         options = options || {};
         options.containerRid = this._rid;
+        diagnosticNode.beginEncryptionDiagnostics(Constants.Encryption.DiagnosticsEncryptOperation);
         const partitionKeyInternal = convertToInternalPartitionKey(partitionKey);
-        partitionKey =
+        const { partitionKeyList, encryptedCount } =
           await this.encryptionProcessor.getEncryptedPartitionKeyValue(partitionKeyInternal);
+        partitionKey = partitionKeyList;
+        diagnosticNode.endEncryptionDiagnostics(
+          Constants.Encryption.DiagnosticsEncryptOperation,
+          encryptedCount,
+        );
       }
       let response: Response<any>;
       try {
@@ -540,7 +546,7 @@ export class Container {
       await this.initializeEncryption();
       throw new ErrorResponse(
         "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container. Retrying may fix the issue. Please refer to https://aka.ms/CosmosClientEncryption for more details." +
-        errorResponse.message,
+          errorResponse.message,
       );
     }
   }

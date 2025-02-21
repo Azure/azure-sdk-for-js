@@ -541,7 +541,7 @@ export async function verifyItemByRead(
 export async function validateQueryResults(
   container: Container,
   query: EncryptionQueryBuilder | SqlQuerySpec,
-  expectedDocList: TestDoc[],
+  expectedDocList: any[],
   decryptOperation: boolean = true,
   expectedPropertiesDecryptedCount: number = 12,
   options?: RequestOptions,
@@ -556,6 +556,7 @@ export async function validateQueryResults(
   const docs: TestDoc[] = [];
   while (iterator.hasMoreResults()) {
     const response = await iterator.fetchNext();
+    // console.log(response)
     totalDocs += response.resources.length;
     if (response.resources.length !== 0) {
       verifyDiagnostics(

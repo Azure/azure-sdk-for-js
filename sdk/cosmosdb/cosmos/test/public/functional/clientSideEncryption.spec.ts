@@ -397,7 +397,8 @@ describe("ClientSideEncryption", function (this: Suite) {
     ];
 
     const response = await encryptionContainerWithBulk.items.bulk(operations);
-    verifyDiagnostics(response.diagnostics, true, true, undefined, undefined);
+    // num of encrypted operations - 4*12 for encrypting body + 4 pk + 2 id
+    verifyDiagnostics(response.diagnostics, true, true, 54, 48);
     assert.equal(StatusCodes.Created, response[0].statusCode);
     verifyExpectedDocResponse(docToCreate, response[0].resourceBody);
     assert.equal(StatusCodes.Created, response[1].statusCode);
@@ -620,7 +621,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     await validateQueryResults(encryptionContainer, queryBuilder, null);
   });
 
-  it("query on encrypted properties", async () => {
+  it("queryonencryptedproperties", async () => {
     const containerProperties = {
       id: randomUUID(),
       partitionKey: {
@@ -665,11 +666,13 @@ describe("ClientSideEncryption", function (this: Suite) {
       testDoc1.sensitive_FloatFormat,
       "/sensitive_FloatFormat",
     );
-    await validateQueryResults(encryptionQueryContainer, queryBuilder, [
-      testDoc1,
-      testDoc2,
-      testDoc3,
-    ]);
+    await validateQueryResults(
+      encryptionQueryContainer,
+      queryBuilder,
+      [testDoc1, testDoc2, testDoc3],
+      true,
+      36,
+    );
 
     // with encrypted int and non encrypted properties
     const testDoc4 = new TestDoc((await testCreateItem(encryptionQueryContainer)).resource);
@@ -686,7 +689,13 @@ describe("ClientSideEncryption", function (this: Suite) {
 
     // without adding param
     queryBuilder = new EncryptionQueryBuilder("SELECT c.sensitive_DateFormat FROM c");
-    await validateQueryResults(encryptionQueryContainer, queryBuilder, null, true, 1);
+    const expectedRes = [
+      { sensitive_DateFormat: testDoc1.sensitive_DateFormat },
+      { sensitive_DateFormat: testDoc2.sensitive_DateFormat },
+      { sensitive_DateFormat: testDoc3.sensitive_DateFormat },
+      { sensitive_DateFormat: testDoc4.sensitive_DateFormat },
+    ];
+    await validateQueryResults(encryptionQueryContainer, queryBuilder, expectedRes, true, 4);
   });
 
   it("encryption batch CRUD", async () => {
@@ -760,7 +769,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     ];
 
     const response = await encryptionContainer.items.batch(operations, partitionKey);
-    verifyDiagnostics(response.diagnostics, true, true, undefined, undefined);
+    verifyDiagnostics(response.diagnostics, true, true, 42, 48);
     assert.equal(StatusCodes.Ok, response.code);
 
     const doc1 = response.result[0];
@@ -877,7 +886,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       docPostPatching,
       StatusCodes.Ok,
     );
-    // verifyDiagnostics(patchResponse.diagnostics, true, true, 6);
+    verifyDiagnostics(patchResponse.diagnostics, true, true, 8, 12);
     docPostPatching.sensitive_ArrayFormat = [
       {
         sensitive_ArrayIntFormat: 100,
@@ -963,7 +972,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       docPostPatching,
       StatusCodes.Ok,
     );
-    verifyDiagnostics(patchResponse.diagnostics, true, true, 6, 12);
+    verifyDiagnostics(patchResponse.diagnostics, true, true, 8, 12);
     patchOperations = [
       {
         op: PatchOperationType.incr,
@@ -1433,7 +1442,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       );
       assert.fail("patch operation should fail");
     } catch (err) {
-      verifyDiagnostics(err.diagnostics, true, false, 2, 0);
+      verifyDiagnostics(err.diagnostics, true, false, 3, 0);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1753,7 +1762,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       await testCreateItem(encryptionContainerToDelete);
       assert.fail("create operation should fail");
     } catch (err) {
-      verifyDiagnostics(err.diagnostics, true, false, 3, 3);
+      verifyDiagnostics(err.diagnostics, true, false, 3);
       assert.ok(
         err.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -1785,7 +1794,7 @@ describe("ClientSideEncryption", function (this: Suite) {
       await otherEncryptionContainer.items.bulk(operations);
       assert.fail("bulk operation should fail");
     } catch (error) {
-      verifyDiagnostics(error.diagnostics, true, false, undefined, undefined);
+      verifyDiagnostics(error.diagnostics, true, false, 11, undefined);
       assert.ok(
         error.message.includes(
           "Operation has failed due to a possible mismatch in Client Encryption Policy configured on the container.",
@@ -2054,7 +2063,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     }
   });
 
-  it("encryption decrypt query result multiple docs", async () => {
+  it("encryptiondecryptqueryresultmultipledocs", async () => {
     const testDoc1 = new TestDoc((await testCreateItem(encryptionContainer)).resource);
     const testDoc2 = new TestDoc((await testCreateItem(encryptionContainer)).resource);
 
@@ -2062,13 +2071,17 @@ describe("ClientSideEncryption", function (this: Suite) {
 
     let iterator = encryptionContainer.items.query(query);
     let response = await iterator.fetchAll();
+    console.log(1);
     assert.ok(response.resources.length === 2);
     for (const doc of response.resources) {
       assert.ok(doc.id === testDoc1.id || doc.id === testDoc2.id);
     }
     query += " ORDER BY c._ts";
+    console.log(query);
     iterator = encryptionContainer.items.query(query);
+    console.log(2077);
     response = await iterator.fetchAll();
+    console.log(2);
     assert.ok(response.resources.length === 2);
   });
 
@@ -2305,7 +2318,7 @@ describe("ClientSideEncryption", function (this: Suite) {
     upsertedDoc.sensitive_StringFormat = randomUUID();
 
     const replaceResponse = await testReplaceItem(encryptionContainer, upsertedDoc);
-    verifyDiagnostics(replaceResponse.diagnostics, true, true, 12, 12);
+    verifyDiagnostics(replaceResponse.diagnostics, true, true, 14, 12);
   });
 
   it("encryption delete all items in a partition key", async () => {

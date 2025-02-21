@@ -248,7 +248,6 @@ export class QueryIterator<T> {
       diagnosticNode,
       MetadataLookUpType.QueryPlanLookUp,
     );
-
     // this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     if (!this.isInitialized) {
       await this.init(diagnosticNode);

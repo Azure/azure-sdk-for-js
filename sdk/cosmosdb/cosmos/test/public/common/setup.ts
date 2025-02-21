@@ -3,7 +3,7 @@
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 require("source-map-support").install();
-import util from "util";
+// import util from "util";
 
 process.on("unhandledRejection", (error: any) => {
   if (error.body) {
@@ -15,7 +15,7 @@ process.on("unhandledRejection", (error: any) => {
   }
   const nestedError = new Error("Unhandled exception found");
   Object.defineProperty(nestedError, "errors", { value: [error] });
-  console.error(
-    util.formatWithOptions({ colors: true, compact: true, depth: 6 }, "%O", nestedError),
-  );
+  // console.error(
+  //   util.formatWithOptions({ colors: true, compact: true, depth: 6 }, "%O", nestedError),
+  // );
 });
