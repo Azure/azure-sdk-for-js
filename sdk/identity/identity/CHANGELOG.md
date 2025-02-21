@@ -3,7 +3,7 @@
 ## 4.7.1 (Unreleased)
 
 ### Features Added
-- `ManagedIdentityCredential` will now log the configured user-assigned identity if one is set. [#33144](https://github.com/Azure/azure-sdk-for-js/pull/33144)
+- `ManagedIdentityCredential` will now log the configured user-assigned managed identity ID. [#33144](https://github.com/Azure/azure-sdk-for-js/pull/33144)
 
 ### Breaking Changes
 
