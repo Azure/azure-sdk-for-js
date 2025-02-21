@@ -2,12 +2,14 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure HybridConnectivityManagementApi client.
 
-REST API for Hybrid Connectivity
+REST API for public clouds.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridconnectivity) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hybridconnectivity) |
-[Samples](https://github.com/Azure-Samples/azure-samples-js-management)
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity)
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridconnectivity)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hybridconnectivity?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity/samples)
 
 ## Getting started
 
@@ -30,7 +32,7 @@ Install the Azure HybridConnectivityManagementApi client library for JavaScript 
 npm install @azure/arm-hybridconnectivity
 ```
 
-### Create and authenticate a `HybridConnectivityManagementAPI`
+### Create and authenticate a `HybridConnectivityManagementApi`
 
 To create a client object to access the Azure HybridConnectivityManagementApi API, you will need the `endpoint` of your Azure HybridConnectivityManagementApi resource and a `credential`. The Azure HybridConnectivityManagementApi client can use Azure Active Directory credentials to authenticate.
 You can find the endpoint for your Azure HybridConnectivityManagementApi resource in the [Azure Portal][azure_portal].
@@ -44,7 +46,6 @@ npm install @azure/identity
 ```
 
 You will also need to **register a new AAD application and grant access to Azure HybridConnectivityManagementApi** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
@@ -96,7 +97,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure-Samples/azure-samples-js-management) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridconnectivity/arm-hybridconnectivity/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 
@@ -106,8 +107,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-[azure_cli]: https://learn.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
