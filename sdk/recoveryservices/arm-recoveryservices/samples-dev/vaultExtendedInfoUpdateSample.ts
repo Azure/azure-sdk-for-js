@@ -7,9 +7,7 @@
  */
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update vault extended info.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Update vault extended info.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/UpdateVaultExtendedInfo.json
  */
-async function patchExtendedInfoOfResource() {
+async function patchExtendedInfoOfResource(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
   const resourceGroupName =
@@ -32,7 +30,7 @@ async function patchExtendedInfoOfResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await patchExtendedInfoOfResource();
 }
 

@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary List all the migrations on a given target server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_ListByTargetServer.json
  */
-async function migrationsListByTargetServer() {
+async function migrationsListByTargetServer(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -41,7 +41,7 @@ async function migrationsListByTargetServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   migrationsListByTargetServer();
 }
 

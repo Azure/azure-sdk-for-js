@@ -7,9 +7,7 @@
  */
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns the list of private link resources that need to be created for Backup and SiteRecovery
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Returns the list of private link resources that need to be created for Backup and SiteRecovery
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/ListPrivateLinkResources.json
  */
-async function listPrivateLinkResources() {
+async function listPrivateLinkResources(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "6c48fa17-39c7-45f1-90ac-47a587128ace";
   const resourceGroupName = process.env["RECOVERYSERVICES_RESOURCE_GROUP"] || "petesting";
@@ -34,7 +32,7 @@ async function listPrivateLinkResources() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listPrivateLinkResources();
 }
 

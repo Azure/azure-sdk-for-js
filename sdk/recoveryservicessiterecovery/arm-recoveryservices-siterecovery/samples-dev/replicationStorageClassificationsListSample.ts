@@ -7,9 +7,7 @@
  */
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the storage classifications in the vault.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Lists the storage classifications in the vault.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationStorageClassifications_List.json
  */
-async function getsTheListOfStorageClassificationObjectsUnderAVault() {
+async function getsTheListOfStorageClassificationObjectsUnderAVault(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "9112a37f-0f3e-46ec-9c00-060c6edca071";
@@ -36,7 +34,7 @@ async function getsTheListOfStorageClassificationObjectsUnderAVault() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsTheListOfStorageClassificationObjectsUnderAVault();
 }
 

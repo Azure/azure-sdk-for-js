@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ExchangeRequest, AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns one or more `Reservations` in exchange for one or more `Reservation` purchases.
@@ -22,7 +20,7 @@ dotenv.config();
 
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/Exchange.json
  */
-async function exchange() {
+async function exchange(): Promise<void> {
   const body: ExchangeRequest = {
     properties: { sessionId: "66e2ac8f-439e-4345-8235-6fef07608081" }
   };
@@ -32,7 +30,7 @@ async function exchange() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   exchange();
 }
 

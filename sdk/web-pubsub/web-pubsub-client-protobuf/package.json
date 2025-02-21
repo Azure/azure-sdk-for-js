@@ -67,7 +67,7 @@
   "dependencies": {
     "@azure/logger": "^1.0.0",
     "@azure/web-pubsub-client": "1.0.0-beta.2",
-    "long": "^5.2.1",
+    "long": "^5.3.1",
     "protobufjs": "^7.4.0",
     "tslib": "^2.6.2"
   },

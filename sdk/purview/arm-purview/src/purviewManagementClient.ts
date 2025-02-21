@@ -20,15 +20,15 @@ import {
   OperationsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Accounts,
   DefaultAccounts,
   Operations,
   PrivateEndpointConnections,
   PrivateLinkResources
-} from "./operationsInterfaces";
-import { PurviewManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { PurviewManagementClientOptionalParams } from "./models/index.js";
 
 export class PurviewManagementClient extends coreClient.ServiceClient {
   $host: string;

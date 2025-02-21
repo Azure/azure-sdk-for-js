@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Retrieves the details of all RoutingIntent child resources of the VirtualHub.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RoutingIntentList.json
  */
-async function routingIntentList() {
+async function routingIntentList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

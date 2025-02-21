@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Creates a new server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerCreateGeoRestoreWithDataEncryptionEnabled.json
  */
-async function createADatabaseAsAGeoRestoreInGeoPairedLocation() {
+async function createADatabaseAsAGeoRestoreInGeoPairedLocation(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -60,7 +60,7 @@ async function createADatabaseAsAGeoRestoreInGeoPairedLocation() {
  * @summary Creates a new server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerCreatePointInTimeRestore.json
  */
-async function createADatabaseAsAPointInTimeRestore() {
+async function createADatabaseAsAPointInTimeRestore(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -84,7 +84,7 @@ async function createADatabaseAsAPointInTimeRestore() {
  * @summary Creates a new server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerCreate.json
  */
-async function createANewServer() {
+async function createANewServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -120,7 +120,7 @@ async function createANewServer() {
  * @summary Creates a new server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerCreateWithAadAuthEnabled.json
  */
-async function createANewServerWithActiveDirectoryAuthenticationEnabled() {
+async function createANewServerWithActiveDirectoryAuthenticationEnabled(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -162,7 +162,7 @@ async function createANewServerWithActiveDirectoryAuthenticationEnabled() {
  * @summary Creates a new server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerCreateReplica.json
  */
-async function serverCreateReplica() {
+async function serverCreateReplica(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -202,7 +202,7 @@ async function serverCreateReplica() {
  * @summary Creates a new server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerCreateReviveDropped.json
  */
-async function serverCreateReviveDropped() {
+async function serverCreateReviveDropped(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -226,7 +226,7 @@ async function serverCreateReviveDropped() {
  * @summary Creates a new server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerCreateWithDataEncryptionEnabled.json
  */
-async function serverCreateWithDataEncryptionEnabled() {
+async function serverCreateWithDataEncryptionEnabled(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -272,7 +272,7 @@ async function serverCreateWithDataEncryptionEnabled() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createADatabaseAsAGeoRestoreInGeoPairedLocation();
   await createADatabaseAsAPointInTimeRestore();
   await createANewServer();

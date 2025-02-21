@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets an existing attestation at subscription scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/Attestations_GetSubscriptionScope.json
  */
-async function getAttestationAtSubscriptionScope() {
+async function getAttestationAtSubscriptionScope(): Promise<void> {
   const subscriptionId =
     process.env["POLICYINSIGHTS_SUBSCRIPTION_ID"] ||
     "35ee058e-5fa0-414c-8145-3ebb8d09b6e2";
@@ -29,7 +29,7 @@ async function getAttestationAtSubscriptionScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAttestationAtSubscriptionScope();
 }
 
