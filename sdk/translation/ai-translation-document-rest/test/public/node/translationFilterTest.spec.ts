@@ -8,11 +8,10 @@ import type {
   DocumentTranslationClient,
   GetTranslationStatus200Response,
   TranslationStatusOutput,
-} from "../../../src";
-import { isUnexpected, getLongRunningPoller } from "../../../src";
-import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
-import { createSourceContainer, createTargetContainer } from "./containerHelper";
-import type { Context } from "mocha";
+} from "../../../src/index.js";
+import { isUnexpected, getLongRunningPoller } from "../../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
+import { createSourceContainer, createTargetContainer } from "./containerHelper.js";
 import {
   createBatchRequest,
   createDummyTestDocuments,
@@ -20,7 +19,7 @@ import {
   createTargetInput,
   getTranslationOperationID,
   sleep,
-} from "../utils/testHelper";
+} from "../utils/testHelper.js";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -30,14 +29,14 @@ describe("TranslationFilter tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
-    client = await createDocumentTranslationClient({ recorder });
-  });
+  beforeEach(async () => {
+      recorder = await startRecorder(this);
+      client = await createDocumentTranslationClient({ recorder });
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("Translation Statuses Filter By Status", async () => {
     createTranslationJobs(1, 1, "Succeeded");
@@ -178,7 +177,7 @@ describe("TranslationFilter tests", () => {
     jobsCount: number,
     docsPerJob: number,
     jobTerminalStatus: string,
-  ) {
+  ): Promise<void> {
     // create source container
     if (jobTerminalStatus.includes("cancelled")) {
       docsPerJob = 20; // in order to avoid job completing before canceling

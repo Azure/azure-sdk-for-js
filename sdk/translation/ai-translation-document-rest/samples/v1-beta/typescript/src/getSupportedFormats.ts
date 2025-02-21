@@ -1,22 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * @summary This sample demonstrates how to make a simple call to the Azure Document Translator service to get a list of supported languages
- */
-
-import * as dotenv from "dotenv";
-import createClient from "../src/documentTranslationClient";
-import { isUnexpected } from "../src/isUnexpected";
-dotenv.config();
-
+import "dotenv/config";
+import createClient from "../src/documentTranslationClient.js";
+import { isUnexpected } from "../src/isUnexpected.js";
 const endpoint =
   process.env["ENDPOINT"] ||
   "https://<translator-instance>-doctranslation.cognitiveservices.azure.com";
 const apiKey = process.env["DOCUMENT_TRANSLATION_API_KEY"] || "<API_Key>";
 const credentials = { key: apiKey ?? "" };
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== List Supported Format Types ==");
 
   const client = createClient(endpoint, credentials);

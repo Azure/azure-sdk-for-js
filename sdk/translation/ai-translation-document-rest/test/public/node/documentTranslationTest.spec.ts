@@ -11,15 +11,14 @@ import type {
   GetTranslationStatus200Response,
   StartTranslationDefaultResponse,
   TranslationStatusOutput,
-} from "../../../src";
-import { getLongRunningPoller, isUnexpected } from "../../../src";
+} from "../../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../../src/index.js";
 import {
   createDocumentTranslationClient,
   createDocumentTranslationClientWithEndpointAndCredentials,
   startRecorder,
-} from "../utils/recordedClient";
+} from "../utils/recordedClient.js";
 
-import type { Context } from "mocha";
 import {
   ONE_TEST_DOCUMENTS,
   TWO_TEST_DOCUMENTS,
@@ -29,16 +28,16 @@ import {
   createTargetContainerWithInfo,
   downloadDocument,
   getUniqueName,
-} from "./containerHelper";
+} from "./containerHelper.js";
 import {
   createBatchRequest,
   createSourceInput,
   createTargetInput,
   getTranslationOperationID,
   sleep,
-} from "../utils/testHelper";
-import { createTestDocument } from "../utils/TestDocument";
-import type { BatchRequest } from "../../../src/models";
+} from "../utils/testHelper.js";
+import { createTestDocument } from "../utils/TestDocument.js";
+import type { BatchRequest } from "../../../src/models.js";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -49,14 +48,14 @@ describe("DocumentTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
-    client = await createDocumentTranslationClient({ recorder });
-  });
+  beforeEach(async () => {
+      recorder = await startRecorder(this);
+      client = await createDocumentTranslationClient({ recorder });
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it.skip("Client Cannot Authenticate With FakeApiKey", async () => {
     const testEndpoint = "https://t7d8641d8f25ec940-doctranslation.cognitiveservices.azure.com";
@@ -513,7 +512,7 @@ describe("DocumentTranslation tests", () => {
   async function validateTranslationStatus(
     translationResponse: StartTranslationDefaultResponse,
     translationCount: number,
-  ) {
+  ): Promise<void> {
     const operationLocationUrl = translationResponse.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
