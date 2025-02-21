@@ -14,7 +14,8 @@ import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
 import type { SqlQuerySpec } from "../../queryExecutionContext";
 import { mergeHeaders } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { ErrorResponse, FeedOptions, RequestOptions } from "../../request";
+import type { FeedOptions, RequestOptions } from "../../request";
+import { ErrorResponse } from "../../request";
 import type { Database } from "../Database";
 import type { Resource } from "../Resource";
 import { Container } from "./Container";
@@ -24,7 +25,7 @@ import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
-import { EncryptionManager } from "../../encryption/EncryptionManager";
+import type { EncryptionManager } from "../../encryption/EncryptionManager";
 import { EncryptionType } from "../../encryption";
 
 /**
@@ -54,14 +55,21 @@ export class Containers {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
-   * ```typescript
+   * ```ts snippet:ContainersQueryAllContainers
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @container",
-   *   parameters: [
-   *     {name: "@container", value: "Todo"}
-   *   ]
+   *   query: "SELECT FROM root r WHERE r.id = @container",
+   *   parameters: [{ name: "@container", value: "Todo" }],
    * };
-   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).fetchAll();
+   * const { resources: containerList } = await client
+   *   .database("<db id>")
+   *   .containers.query(querySpec)
+   *   .fetchAll();
    * ```
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -71,14 +79,21 @@ export class Containers {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
-   * ```typescript
+   * ```ts snippet:ContainersQueryAllContainers
+   * import { CosmosClient, SqlQuerySpec } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
    * const querySpec: SqlQuerySpec = {
-   *   query: "SELECT * FROM root r WHERE r.id = @container",
-   *   parameters: [
-   *     {name: "@container", value: "Todo"}
-   *   ]
+   *   query: "SELECT FROM root r WHERE r.id = @container",
+   *   parameters: [{ name: "@container", value: "Todo" }],
    * };
-   * const {body: containerList} = await client.database("<db id>").containers.query(querySpec).fetchAll();
+   * const { resources: containerList } = await client
+   *   .database("<db id>")
+   *   .containers.query(querySpec)
+   *   .fetchAll();
    * ```
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -305,8 +320,17 @@ export class Containers {
    * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return all containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
-   * ```typescript
-   * const {body: containerList} = await client.database("<db id>").containers.readAll().fetchAll();
+   * ```ts snippet:ContainersReadAllContainers
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { resources: containerList } = await client
+   *   .database("<db id>")
+   *   .containers.readAll()
+   *   .fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<ContainerDefinition & Resource> {
