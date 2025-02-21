@@ -190,9 +190,7 @@ const { ShareServiceClient } = require("@azure/storage-file-share");
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
 
-const serviceClientWithSAS = new ShareServiceClient(
-  `https://${account}.file.core.windows.net${sas}`,
-);
+const serviceClientWithSAS = new ShareServiceClient(`https://${account}.file.core.windows.net?${sas}`);
 ```
 
 ### List shares in the account
@@ -453,7 +451,7 @@ const sas = "<service Shared Access Signature Token>";
 const shareName = "<share name>";
 const fileName = "<file name>";
 
-const serviceClient = new ShareServiceClient(`https://${account}.file.core.windows.net${sas}`);
+const serviceClient = new ShareServiceClient(`https://${account}.file.core.windows.net?${sas}`);
 
 async function main() {
   const fileClient = serviceClient
