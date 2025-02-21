@@ -15,11 +15,10 @@
 
 import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
 
-import * as dotenv from "dotenv";
-import { FormRecognizerError } from "../src/error";
-dotenv.config();
+import "dotenv/config";
+import { FormRecognizerError } from "../src/error.js";
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
   const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 

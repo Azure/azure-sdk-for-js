@@ -40,24 +40,22 @@ import type { ClassifyDocumentOptions } from "./options/ClassifyDocumentOptions.
  *
  * #### Azure Active Directory
  *
- * ```javascript
- * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+ * ```ts snippet:ReadmeSampleCreateClient_AAD
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new DefaultAzureCredential();
- *
  * const client = new DocumentAnalysisClient(endpoint, credential);
  * ```
  *
  * #### API Key (Subscription Key)
  *
- * ```javascript
- * import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+ * ```ts snippet:ReadmeSampleCreateClient_APIKey
+ * import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new AzureKeyCredential("<api key>");
- *
  * const client = new DocumentAnalysisClient(endpoint, credential);
  * ```
  */
@@ -73,13 +71,12 @@ export class DocumentAnalysisClient {
    *
    * ### Example:
    *
-   * ```javascript
-   * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
+   * ```ts snippet:ReadmeSampleCreateClient_AAD
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
    *
    * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
    * const credential = new DefaultAzureCredential();
-   *
    * const client = new DocumentAnalysisClient(endpoint, credential);
    * ```
    *
@@ -97,12 +94,11 @@ export class DocumentAnalysisClient {
    *
    * ### Example:
    *
-   * ```javascript
-   * import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+   * ```ts snippet:ReadmeSampleCreateClient_APIKey
+   * import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
    *
    * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
    * const credential = new AzureKeyCredential("<api key>");
-   *
    * const client = new DocumentAnalysisClient(endpoint, credential);
    * ```
    *
@@ -154,32 +150,50 @@ export class DocumentAnalysisClient {
    * This method supports streamable request bodies ({@link FormRecognizerRequestBody}) such as Node.JS `ReadableStream`
    * objects, browser `Blob`s, and `ArrayBuffer`s. The contents of the body will be uploaded to the service for analysis.
    *
-   * ```javascript
-   * import * as fs from "fs";
+   * ```ts snippet:ReadmeSampleAnalyzeDocument
+   * import { createReadStream } from "node:fs";
+   * import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
    *
-   * const file = fs.createReadStream("path/to/receipt.pdf");
+   * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
+   * const apiKey = "<api key>";
+   * const modelId = "<model id>";
+   * const path = "<path to a document>";
    *
-   * // The model that is passed to the following function call determines the type of the eventual result. In the
-   * // example, we will use the prebuilt receipt model, but you could use a custom model ID/name instead.
-   * const poller = await client.beginAnalyzeDocument("prebuilt-receipt", file);
+   * const readStream = createReadStream(path);
    *
-   * // The result is a long-running operation (poller), which must itself be polled until the operation completes
-   * const {
-   *   pages, // pages extracted from the document, which contain lines and words
-   *   tables, // extracted tables, organized into cells that contain their contents
-   *   styles, // text styles (ex. handwriting) that were observed in the document
-   *   keyValuePairs, // extracted pairs of elements  (directed associations from one element in the input to another)
-   *   entities, // extracted entities in the input's content, which are categorized (ex. "Location" or "Organization")
-   *   documents // extracted documents (instances of one of the model's document types and its field schema)
-   * } = await poller.pollUntilDone();
+   * const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginAnalyzeDocument(modelId, readStream, {
+   *   onProgress: ({ status }) => {
+   *     console.log(`status: ${status}`);
+   *   },
+   * });
    *
-   * // Extract the fields of the first document. These fields constitute a receipt, because we used the receipt model
-   * const [{ fields: receipt }] = documents;
+   * // There are more fields than just these three
+   * const { documents, pages, tables } = await poller.pollUntilDone();
    *
-   * // The fields correspond to the model's document types and their field schemas. Refer to the Form Recognizer
-   * // documentation for information about the document types and field schemas within a model, or use the `getModel`
-   * // operation to view this information programmatically.
-   * console.log("The type of this receipt is:", receipt?.["ReceiptType"]?.value);
+   * console.log("Documents:");
+   * for (const document of documents || []) {
+   *   console.log(`Type: ${document.docType}`);
+   *   console.log("Fields:");
+   *   for (const [name, field] of Object.entries(document.fields)) {
+   *     console.log(
+   *       `Field ${name} has value '${field.content}' with a confidence score of ${field.confidence}`,
+   *     );
+   *   }
+   * }
+   *
+   * console.log("Pages:");
+   * for (const page of pages || []) {
+   *   console.log(`Page number: ${page.pageNumber} (${page.width}x${page.height} ${page.unit})`);
+   * }
+   *
+   * console.log("Tables:");
+   * for (const table of tables || []) {
+   *   console.log(`- Table (${table.columnCount}x${table.rowCount})`);
+   *   for (const cell of table.cells) {
+   *     console.log(`  - cell (${cell.rowIndex},${cell.columnIndex}) "${cell.content}"`);
+   *   }
+   * }
    * ```
    *
    *
@@ -209,35 +223,49 @@ export class DocumentAnalysisClient {
    * {@link beginAnalyzeDocumentFromUrl} method for more information. Use of that method is preferred when using URLs,
    * and URL support is only provided in this method for backwards compatibility.
    *
-   * ```typescript
-   * import * as fs from "fs";
+   * ```ts snippet:ReadmeSampleAnalyzeDocumentPrebuilt
+   * import { createReadStream } from "node:fs";
+   * import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+   * import { PrebuiltReceiptModel } from "../samples-dev/prebuilt/prebuilt-receipt.js";
    *
-   * // See the `prebuilt` folder in the SDK samples (http://aka.ms/azsdk/formrecognizer/js/samples) for examples of
-   * // DocumentModels for known prebuilts.
-   * import { PrebuiltReceiptModel } from "./prebuilt-receipt.ts";
+   * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
+   * const apiKey = "<api key>";
+   * const path = "<path to your receipt document>"; // pdf/jpeg/png/tiff formats
    *
-   * const file = fs.createReadStream("path/to/receipt.pdf");
+   * const readStream = createReadStream(path);
    *
-   * // The model that is passed to the following function call determines the type of the eventual result. In the
-   * // example, we will use the prebuilt receipt model.
-   * const poller = await client.beginAnalyzeDocument(PrebuiltReceiptModel, file);
+   * const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
    *
-   * // The result is a long-running operation (poller), which must itself be polled until the operation completes
+   * // The PrebuiltReceiptModel `DocumentModel` instance encodes both the model ID and a stronger return type for the operation
+   * const poller = await client.beginAnalyzeDocument(PrebuiltReceiptModel, readStream, {
+   *   onProgress: ({ status }) => {
+   *     console.log(`status: ${status}`);
+   *   },
+   * });
    * const {
-   *   pages, // pages extracted from the document, which contain lines and words
-   *   tables, // extracted tables, organized into cells that contain their contents
-   *   styles, // text styles (ex. handwriting) that were observed in the document
-   *   keyValuePairs, // extracted pairs of elements  (directed associations from one element in the input to another)
-   *
-   *   documents // extracted documents (instances of one of the model's document types and its field schema)
+   *   documents: [document],
    * } = await poller.pollUntilDone();
    *
-   * // Extract the fields of the first document. These fields constitute a receipt, because we used the receipt model
-   * const [{ fields: receipt }] = documents;
+   * // Use of PrebuiltModels.Receipt above (rather than the raw model ID), as it adds strong typing of the model's output
+   * if (document) {
+   *   const { merchantName, items, total } = document.fields;
    *
-   * // Since we used the strongly-typed PrebuiltReceiptModel object instead of the "prebuilt-receipt" model ID
-   * // string, the fields of the receipt are strongly-typed and have camelCase names (as opposed to PascalCase).
-   * console.log("The type of this receipt is:", receipt.receiptType?.value);
+   *   console.log("=== Receipt Information ===");
+   *   console.log("Type:", document.docType);
+   *   console.log("Merchant:", merchantName && merchantName.value);
+   *
+   *   console.log("Items:");
+   *   for (const item of (items && items.values) || []) {
+   *     const { description, totalPrice } = item.properties;
+   *
+   *     console.log("- Description:", description && description.value);
+   *     console.log("  Total Price:", totalPrice && totalPrice.value);
+   *   }
+   *
+   *   console.log("Total:", total && total.value);
+   * } else {
+   *   throw new Error("Expected at least one receipt in the result.");
+   * }
    * ```
    *
    * @param model - a {@link DocumentModel} representing the model to use for analysis and the expected output type
@@ -289,31 +317,33 @@ export class DocumentAnalysisClient {
    * token can be used to grant read access to a blob in Azure Storage, and the service will use the SAS-encoded URL to
    * request the file.
    *
-   * ```javascript
-   * // the URL must be publicly accessible
-   * const url = "<receipt document url>";
+   * ```ts snippet:ReadmeSampleAnalyzeDocumentPrebuiltDocument
+   * import { createReadStream } from "node:fs";
+   * import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+   * import { PrebuiltDocumentModel } from "../samples-dev/prebuilt/prebuilt-document.js";
    *
-   * // The model that is passed to the following function call determines the type of the eventual result. In the
-   * // example, we will use the prebuilt receipt model, but you could use a custom model ID/name instead.
-   * const poller = await client.beginAnalyzeDocument("prebuilt-receipt", url);
+   * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
+   * const apiKey = "<api key>";
+   * const path = "<path to a document>"; // pdf/jpeg/png/tiff formats
    *
-   * // The result is a long-running operation (poller), which must itself be polled until the operation completes
-   * const {
-   *   pages, // pages extracted from the document, which contain lines and words
-   *   tables, // extracted tables, organized into cells that contain their contents
-   *   styles, // text styles (ex. handwriting) that were observed in the document
-   *   keyValuePairs, // extracted pairs of elements  (directed associations from one element in the input to another)
+   * const readStream = createReadStream(path);
    *
-   *   documents // extracted documents (instances of one of the model's document types and its field schema)
-   * } = await poller.pollUntilDone();
+   * const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginAnalyzeDocument(PrebuiltDocumentModel, readStream);
    *
-   * // Extract the fields of the first document. These fields constitute a receipt, because we used the receipt model
-   * const [{ fields: receipt }] = documents;
+   * // `pages`, `tables` and `styles` are also available as in the "layout" example above, but for the sake of this
+   * // example we won't show them here.
+   * const { keyValuePairs } = await poller.pollUntilDone();
    *
-   * // The fields correspond to the model's document types and their field schemas. Refer to the Form Recognizer
-   * // documentation for information about the document types and field schemas within a model, or use the `getModel`
-   * // operation to view this information programmatically.
-   * console.log("The type of this receipt is:", receipt?.["ReceiptType"]?.value);
+   * if (!keyValuePairs || keyValuePairs.length <= 0) {
+   *   console.log("No key-value pairs were extracted from the document.");
+   * } else {
+   *   console.log("Key-Value Pairs:");
+   *   for (const { key, value, confidence } of keyValuePairs) {
+   *     console.log("- Key  :", `"${key.content}"`);
+   *     console.log("  Value:", `"${value?.content ?? "<undefined>"}" (${confidence})`);
+   *   }
+   * }
    * ```
    *
    * @param modelId - the unique ID (name) of the model within this client's resource
@@ -340,34 +370,33 @@ export class DocumentAnalysisClient {
    * token can be used to grant read access to a blob in Azure Storage, and the service will use the SAS-encoded URL to
    * request the file.
    *
-   * ```typescript
-   * // See the `prebuilt` folder in the SDK samples (http://aka.ms/azsdk/formrecognizer/js/samples) for examples of
-   * // DocumentModels for known prebuilts.
-   * import { PrebuiltReceiptModel } from "./prebuilt-receipt.ts";
+   * ```ts snippet:ReadmeSampleAnalyzeDocumentPrebuiltDocument
+   * import { createReadStream } from "node:fs";
+   * import { DocumentAnalysisClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+   * import { PrebuiltDocumentModel } from "../samples-dev/prebuilt/prebuilt-document.js";
    *
-   * // the URL must be publicly accessible
-   * const url = "<receipt document url>";
+   * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
+   * const apiKey = "<api key>";
+   * const path = "<path to a document>"; // pdf/jpeg/png/tiff formats
    *
-   * // The model that is passed to the following function call determines the type of the eventual result. In the
-   * // example, we will use the prebuilt receipt model.
-   * const poller = await client.beginAnalyzeDocument(PrebuiltReceiptModel, url);
+   * const readStream = createReadStream(path);
    *
-   * // The result is a long-running operation (poller), which must itself be polled until the operation completes
-   * const {
-   *   pages, // pages extracted from the document, which contain lines and words
-   *   tables, // extracted tables, organized into cells that contain their contents
-   *   styles, // text styles (ex. handwriting) that were observed in the document
-   *   keyValuePairs, // extracted pairs of elements  (directed associations from one element in the input to another)
+   * const client = new DocumentAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginAnalyzeDocument(PrebuiltDocumentModel, readStream);
    *
-   *   documents // extracted documents (instances of one of the model's document types and its field schema)
-   * } = await poller.pollUntilDone();
+   * // `pages`, `tables` and `styles` are also available as in the "layout" example above, but for the sake of this
+   * // example we won't show them here.
+   * const { keyValuePairs } = await poller.pollUntilDone();
    *
-   * // Extract the fields of the first document. These fields constitute a receipt, because we used the receipt model
-   * const [{ fields: receipt }] = documents;
-   *
-   * // Since we used the strongly-typed PrebuiltReceiptModel object instead of the "prebuilt-receipt" model ID
-   * // string, the fields of the receipt are strongly-typed and have camelCase names (as opposed to PascalCase).
-   * console.log("The type of this receipt is:", receipt.receiptType?.value);
+   * if (!keyValuePairs || keyValuePairs.length <= 0) {
+   *   console.log("No key-value pairs were extracted from the document.");
+   * } else {
+   *   console.log("Key-Value Pairs:");
+   *   for (const { key, value, confidence } of keyValuePairs) {
+   *     console.log("- Key  :", `"${key.content}"`);
+   *     console.log("  Value:", `"${value?.content ?? "<undefined>"}" (${confidence})`);
+   *   }
+   * }
    * ```
    *
    * @param model - a {@link DocumentModel} representing the model to use for analysis and the expected output type
@@ -406,7 +435,7 @@ export class DocumentAnalysisClient {
     model: string | DocumentModel<unknown>,
     input: DocumentSource,
     options: AnalyzeDocumentOptions<unknown>,
-  ) {
+  ): Promise<AnalysisPoller<unknown>> {
     const {
       modelId: initialModelId,
       apiVersion: requestApiVersion,
@@ -465,7 +494,7 @@ export class DocumentAnalysisClient {
    * This method supports streamable request bodies ({@link FormRecognizerRequestBody}) such as Node.JS `ReadableStream`
    * objects, browser `Blob`s, and `ArrayBuffer`s. The contents of the body will be uploaded to the service for analysis.
    *
-   * ```typescript
+   * ```ts snippet:ignore
    * import * as fs from "fs";
    *
    * const file = fs.createReadStream("path/to/file.pdf");
@@ -518,7 +547,7 @@ export class DocumentAnalysisClient {
    * token can be used to grant read access to a blob in Azure Storage, and the service will use the SAS-encoded URL to
    * request the file.
    *
-   * ```typescript
+   * ```ts snippet:ignore
    * // the URL must be publicly accessible
    * const url = "<file url>";
    *
