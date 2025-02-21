@@ -3,6 +3,7 @@
 ## 4.7.1 (Unreleased)
 
 ### Features Added
+- `ManagedIdentityCredential` will now log the configured user-assigned managed identity ID. [#33144](https://github.com/Azure/azure-sdk-for-js/pull/33144)
 
 ### Breaking Changes
 
@@ -15,7 +16,7 @@
 
 ### Features Added
 
-- Added `subscription` property in `AzureCliCredentialOptions`. [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
+- Added `subscription` property in `AzureCliCredentialOptions`. [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451)
 
 ### Bugs Fixed
 
