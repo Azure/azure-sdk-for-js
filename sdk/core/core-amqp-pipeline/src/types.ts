@@ -996,61 +996,80 @@ function wrap_field(definition: any, instance: any): any {
   }
 }
 
-function get_accessors(index: number, field_definition: any): any {
-  let getter;
-  if (field_definition.type === "*") {
-    getter = function () {
-      return this.value[index];
-    };
-  } else {
-    getter = function () {
-      return types.unwrap(this.value[index]);
-    };
-  }
-  const setter = function (o: any) {
-    this.value[index] = wrap_field(field_definition, o);
-  };
-  return { get: getter, set: setter, enumerable: true, configurable: false };
-}
-
+// Instead of setting up a 'prototype' with methods that use 'this',
+// define a composite factory function returning plain objects.
 types.define_composite = function (def: any): any {
-  const c = function (fields?: any[]) {
-    this.value = fields ? fields : [];
-  };
-  c.descriptor = {
+  const descriptor = {
     numeric: def.code,
     symbolic: "amqp:" + def.name + ":list",
   };
-  c.prototype.dispatch = function (target: any, frame: any) {
-    target["on_" + def.name](frame);
-  };
-  for (let i = 0; i < def.fields.length; i++) {
-    const f = def.fields[i];
-    Object.defineProperty(c.prototype, f.name, get_accessors(i, f));
-  }
-  c.toString = function () {
-    return def.name + "#" + Number(def.code).toString(16);
-  };
-  c.prototype.toJSON = function () {
-    const o: any = {};
-    for (const f in this) {
-      if (f !== "value" && this[f]) {
-        o[f] = this[f];
+
+  function createInstance(fields?: any): any {
+    // Internal array for storing field data
+    const valueArray: any[] = [];
+
+    // Build the instance object
+    const instance = {
+      // The underlying list data
+      value: valueArray,
+
+      // Formerly c.prototype.dispatch
+      dispatch: (target: any, frame: any) => {
+        target["on_" + def.name](frame);
+      },
+
+      // Formerly c.prototype.toJSON
+      toJSON: () => {
+        const o: any = {};
+        for (const [key, value] of Object.entries(instance)) {
+          if (key !== "value" && typeof value !== "function" && value) {
+            o[key] = value;
+          }
+        }
+        return o;
+      },
+
+      // Formerly c.prototype.described
+      described: () => {
+        return types.described_nc(types.wrap_ulong(descriptor.numeric), types.wrap_list(valueArray));
+      },
+    } as const;
+
+    // Create getters and setters for each defined field
+    def.fields.forEach((fieldDef: any, index: number) => {
+      Object.defineProperty(instance, fieldDef.name, {
+        get: () => {
+          return fieldDef.type === "*" ? valueArray[index] : types.unwrap(valueArray[index]);
+        },
+        set: (val: any) => {
+          valueArray[index] = wrap_field(fieldDef, val);
+        },
+        enumerable: true,
+        configurable: false,
+      });
+    });
+
+    // If fields object is passed, assign them
+    if (fields) {
+      for (const [prop, value] of Object.entries(fields)) {
+        (instance as Record<string, any>)[prop] = value;
       }
     }
-    return o;
+
+    return instance;
+  }
+
+  const composite = {
+    descriptor,
+    // Creates and initializes a new composite instance
+    create: createInstance,
+    // Formerly c.toString
+    toString: (): string => {
+      return def.name + "#" + Number(def.code).toString(16);
+    },
   };
-  c.create = function (fields: any) {
-    const o = new c();
-    for (const f in fields) {
-      o[f] = fields[f];
-    }
-    return o;
-  };
-  c.prototype.described = function () {
-    return types.described_nc(types.wrap_ulong(c.descriptor.numeric), types.wrap_list(this.value));
-  };
-  return c;
+
+  return composite;
 };
 
 function add_type(def: any): void {
