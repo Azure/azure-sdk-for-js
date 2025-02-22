@@ -20,7 +20,8 @@ async function withConnectionManager<WebSocketT>(
   connectionManager: WithSocket<WebSocketT, WebSocketData, WebSocketData>,
   options: Omit<WebSocketClientOptions, "allowInsecureConnection" | "protocols"> = {},
 ): Promise<WebSocketClient<WebSocketT>> {
-  const { identifier, retryOptions, highWaterMark, abortSignal, on, reconnectOnClosure } = options;
+  const { identifier, retryOptions, highWaterMark, abortSignal, on, reconnectOnDisconnect } =
+    options;
   const reliableClientFactory = createReliableConnectionClient<WebSocketData, WebSocketData>(
     connectionManager.connectionManager,
     {
@@ -33,7 +34,7 @@ async function withConnectionManager<WebSocketT>(
     retryOptions,
     highWaterMark,
     on,
-    reconnectOnClosure,
+    reconnectOnDisconnect,
   });
   await reliableClient.open({ abortSignal });
 

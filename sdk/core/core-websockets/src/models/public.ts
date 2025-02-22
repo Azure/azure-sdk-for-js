@@ -170,7 +170,7 @@ export interface WebSocketClientOptions {
   /**
    * Whether to reconnect when the connection is closed.
    */
-  reconnectOnClosure?: (info: WebSocketCloseDetails) => boolean;
+  reconnectOnDisconnect?: (info: WebSocketCloseDetails) => boolean;
 }
 
 /**

@@ -104,7 +104,7 @@ export interface ReliableConnectionOptions<ReceiveDataT> {
   /**
    * Whether to auto reconnect when the connection is closed.
    */
-  reconnectOnClosure?: (info: WebSocketCloseDetails) => boolean;
+  reconnectOnDisconnect?: (info: WebSocketCloseDetails) => boolean;
 }
 
 /**

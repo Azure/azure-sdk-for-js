@@ -194,11 +194,16 @@ describe("ReliableConnectionClient", () => {
     });
   });
 
-  describe("reconnectOnClosure", () => {
+  describe("reconnectOnDisconnect", () => {
     it("reconnect when returns true", async () => {
+      let retries = 0;
       obj = createMockClient({
         identifier,
-        reconnectOnClosure: () => true,
+        reconnectOnDisconnect: () => true,
+        isRetryable: () => {
+          ++retries;
+          return true;
+        },
         retryOptions: { maxRetries: 1 },
       });
       await obj.client.open();
@@ -211,12 +216,18 @@ describe("ReliableConnectionClient", () => {
       }
       await delay(200);
       assert.equal(obj.client.status, "connected");
+      assert.equal(retries, 1);
     });
 
     it("doesn't reconnect when returns false", async () => {
+      let retries = 0;
       obj = createMockClient({
         identifier,
-        reconnectOnClosure: () => false,
+        reconnectOnDisconnect: () => false,
+        isRetryable: () => {
+          ++retries;
+          return true;
+        },
         retryOptions: { maxRetries: 1 },
       });
       await obj.client.open();
@@ -229,12 +240,18 @@ describe("ReliableConnectionClient", () => {
       }
       await delay(200);
       assert.equal(obj.client.status, "disconnected");
+      assert.equal(retries, 0);
     });
 
     it("reconnect can be aborted", async () => {
+      let retries = 0;
       obj = createMockClient({
         identifier,
-        reconnectOnClosure: () => true,
+        isRetryable: () => {
+          ++retries;
+          return true;
+        },
+        reconnectOnDisconnect: () => true,
         retryOptions: { maxRetries: 1 },
       });
       const aborter = new AbortController();
@@ -243,12 +260,22 @@ describe("ReliableConnectionClient", () => {
       if (obj.closeHandlers.length === 0) {
         assert.fail("no handler");
       }
+      await Promise.race([
+        new Promise<void>((resolve) => {
+          for (const handler of obj.closeHandlers) {
+            handler({ code: "1000" });
+          }
+          resolve();
+        }),
+        new Promise<void>((resolve) => {
+          aborter.abort();
+          resolve();
+        }),
+      ]);
       aborter.abort();
-      for (const handler of obj.closeHandlers) {
-        handler({ code: "1000" });
-      }
       await delay(200);
       assert.equal(obj.client.status, "disconnected");
+      assert.equal(retries, 1);
     });
   });
   describe("retry", () => {
@@ -312,7 +339,7 @@ describe("ReliableConnectionClient", () => {
               }
             }, 0);
           },
-          reconnectOnClosure: () => true,
+          reconnectOnDisconnect: () => true,
           retryOptions: { maxRetries: 1 },
         });
         await assert.isFulfilled(obj.client.open());

@@ -40,7 +40,7 @@ export interface WebSocketClientOptions {
     identifier?: string;
     on?: Partial<WebSocketEventListeners<WebSocketData>>;
     protocols?: string | string[];
-    reconnectOnClosure?: (info: WebSocketCloseDetails) => boolean;
+    reconnectOnDisconnect?: (info: WebSocketCloseDetails) => boolean;
     retryOptions?: RetryOptions;
 }
 

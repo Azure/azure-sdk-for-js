@@ -7,11 +7,7 @@ import { createError } from "./utils.js";
 
 export const Constants = {
   defaultOperationTimeoutInMs: 60000,
-  reconnectLimit: 100,
-  aadTokenValidityMarginInMs: 5000,
-  connectionReconnectDelay: 300,
   defaultMaxRetries: 3,
-  defaultMaxRetriesForConnection: 150,
   defaultDelayBetweenOperationRetriesInMs: 30000,
   defaultMaxDelayForExponentialRetryInMs: 90000,
 } as const;
@@ -70,11 +66,23 @@ function calculateDelay(
 /**
  * Describes the retryable operation options
  */
-interface RetryFuncOptions {
+interface RetryParameters<T> {
+  /**
+   * The operation to try
+   */
+  operation: (opts?: AbortableOperationOptions) => Promise<T>;
+  /**
+   * The operation identifier
+   */
+  operationId: string;
+  /**
+   * The complete retry options
+   */
+  retryOptions: Required<RetryOptions>;
   /**
    * A function that can be used to determine if the error is retryable or not
    */
-  isRetryable?: (err: unknown) => boolean;
+  isRetryable: (err: unknown) => boolean;
   /**
    * Abort signal that can be used to cancel the retryable operation
    */
@@ -116,20 +124,12 @@ export function createFullRetryOptions(options: RetryOptions = {}): Required<Ret
  * If `mode` option is set to `Exponential`, then the delay between retries is adjusted to increase
  * exponentially with each attempt using back-off factor of power 2.
  *
- * @param operation - The operation to try
- * @param operationId - The operation identifier
- * @param retryOptions - The complete retry options
- * @param opts - Options for the retryable operation
+ * @param inputs - Options for the retryable operation
  *
  * @returns The result of the operation
  */
-export async function retry<T>(
-  operation: (opts?: AbortableOperationOptions) => Promise<T>,
-  operationId: string,
-  retryOptions: Required<RetryOptions>,
-  opts: RetryFuncOptions = {},
-): Promise<T> {
-  const { abortSignal, isRetryable } = opts;
+export async function retry<T>(inputs: RetryParameters<T>): Promise<T> {
+  const { abortSignal, isRetryable, operation, operationId, retryOptions } = inputs;
   const { maxRetries, maxRetryDelayInMs, mode, retryDelayInMs, timeoutInMs } = retryOptions;
   const errors: unknown[] = [];
   const state = { totalNumberOfAttempts: maxRetries + 1, attemptNumber: 1 };
@@ -169,7 +169,7 @@ export async function retry<T>(
     } catch (err) {
       logger.verbose(`[${operationId}] Operation failed in attempt #${state.attemptNumber}:`, err);
       errors.push(err);
-      if (isRetryable?.(err) && state.attemptNumber < state.totalNumberOfAttempts) {
+      if (isRetryable(err) && state.attemptNumber < state.totalNumberOfAttempts) {
         const targetDelayInMs = calculateDelay(
           state.attemptNumber,
           retryDelayInMs,

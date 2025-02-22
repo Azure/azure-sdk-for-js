@@ -36,16 +36,13 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
     identifier,
     highWaterMark = DEFAULT_HIGH_WATER_MARK,
     on: listeners,
-    reconnectOnClosure = () => false,
+    reconnectOnDisconnect = () => false,
   }: ReliableConnectionOptions<ReceiveDataT> = {}): ReliableConnectionClient<
     SendDataT,
     ReceiveDataT
   > => {
     const connectionId = identifier || getRandomName();
     const retryOptions = createFullRetryOptions(inputRetryOptions);
-    /**
-     * The client tries to be reliable and reconnects by default.
-     */
     let shouldAttemptReconnect: boolean = true;
     function isOpenRetryable(err: unknown): boolean {
       return shouldAttemptReconnect && isRetryable(err);
@@ -140,17 +137,17 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
             /** The server is refusing to connect */
             logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
             rejectAndReset(createError(errMsg));
-            shouldAttemptReconnect = reconnectOnClosure(info);
+            shouldAttemptReconnect = reconnectOnDisconnect(info);
             break;
           }
           case "connected": {
             /** The server closed the connection */
             logger.warning(`[${connectionId}] Connection closed after it was ${status}`);
-            shouldAttemptReconnect = reconnectOnClosure(info);
+            shouldAttemptReconnect = reconnectOnDisconnect(info);
             if (shouldAttemptReconnect) {
-              reliableConnectionClient.open({ abortSignal: openAbortSignal }).catch(() => {
-                /** nothing else to do, give up */
-              });
+              reliableConnectionClient.open({ abortSignal: openAbortSignal }).catch(rejectAndReset);
+            } else {
+              rejectAndReset(createError(errMsg));
             }
             break;
           }
@@ -238,7 +235,10 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           }, opOptions);
         }
         try {
-          await retry(retryableConnecting, `open connection (${connectionId})`, retryOptions, {
+          await retry({
+            operation: retryableConnecting,
+            operationId: `open connection (${connectionId})`,
+            retryOptions,
             isRetryable: isOpenRetryable,
             abortSignal,
           });
@@ -282,7 +282,10 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           }, opOptions);
         }
         try {
-          await retry(retryableDisconnecting, `close connection (${connectionId})`, retryOptions, {
+          await retry({
+            operation: retryableDisconnecting,
+            operationId: `close connection (${connectionId})`,
+            retryOptions,
             isRetryable,
             abortSignal,
           });
@@ -312,7 +315,10 @@ export function createReliableConnectionClient<SendDataT, ReceiveDataT>(
           logger.info(`[${connectionId}] Data has been sent`);
           return !isAboveHighWaterMark;
         }
-        return retry(retryableSend, `send data on connection (${connectionId})`, retryOptions, {
+        return retry({
+          operation: retryableSend,
+          operationId: `send data on connection (${connectionId})`,
+          retryOptions,
           isRetryable,
           abortSignal,
         });
