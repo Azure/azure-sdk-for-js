@@ -2,12 +2,9 @@
 // Licensed under the MIT License.
 
 export class ProtocolError extends Error {
-  name: string;
-
   constructor(message: string) {
     super(message);
     this.name = 'ProtocolError';
-    Object.setPrototypeOf(this, ProtocolError.prototype);
   }
 }
 
@@ -15,23 +12,21 @@ export class TypeError extends ProtocolError {
   constructor(message: string) {
     super(message);
     this.name = 'TypeError';
-    Object.setPrototypeOf(this, TypeError.prototype);
   }
 }
 
 export class ConnectionError extends Error {
-  name: string;
   condition: string;
   description: string;
-  private readonly connection: any;
+  connection: any;
 
   constructor(message: string, condition: string, connection: any) {
     super(message);
     this.name = 'ConnectionError';
     this.condition = condition;
     this.description = message;
+    // consider making this not enumerable so it doesn't show up in JSON.stringify
     this.connection = connection;
-    Object.setPrototypeOf(this, ConnectionError.prototype);
   }
 
   toJSON(): { type: string; code: string; message: string } {

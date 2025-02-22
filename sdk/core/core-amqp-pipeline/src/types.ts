@@ -152,17 +152,17 @@ export class TypeDesc {
 
     if (subcategory === 0x4) {
       // "empty" types don't take a value.
-      this.create = function () {
+      this.create = () => {
         return new Typed(this, empty_value);
-      }.bind(this);
+      };
     } else if (subcategory === 0xE || subcategory === 0xF) {
-      this.create = function (v: any, code?: number, descriptor?: any) {
+      this.create = (v: any, code?: number, descriptor?: any) => {
         return new Typed(this, v, code, descriptor);
-      }.bind(this);
+      };
     } else {
-      this.create = function (v: any) {
+      this.create = (v: any) => {
         return new Typed(this, v);
-      }.bind(this);
+      };
     }
   }
 
