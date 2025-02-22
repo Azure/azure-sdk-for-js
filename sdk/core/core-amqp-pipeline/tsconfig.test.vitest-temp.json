@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "es2023",
+    "module": "nodenext",
+    "lib": ["DOM", "ES2021.Promise"],
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "sourceMap": true,
+    "importHelpers": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "composite": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "strictBuiltinIteratorReturn": true,
+    "alwaysStrict": true,
+    "useUnknownInCatchVariables": true,
+    "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleDetection": "force",
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
+    "emitDeclarationOnly": false,
+    "incremental": true,
+    "tsBuildInfoFile": "/home/dealmaha/azure-sdk-for-js/common/temp/node_modules/.pnpm/vitest@3.0.4_@types+debug@4.1.12_@types+node@18.19.70_@vitest+browser@3.0.4_msw@2.7.0_@types+_cvqct7cazqlalxmpwuvbxkrrya/node_modules/vitest/dist/chunks/tsconfig.test.tmp.tsbuildinfo"
+  },
+  "include": [
+    "/home/dealmaha/azure-sdk-for-js/sdk/core/core-websockets/test",
+    "/home/dealmaha/azure-sdk-for-js/sdk/core/core-websockets/src"
+  ],
+  "exclude": [
+    "/home/dealmaha/azure-sdk-for-js/sdk/core/core-websockets/test/stress",
+    "/home/dealmaha/azure-sdk-for-js/sdk/core/core-websockets/test/snippets.spec.ts"
+  ]
+}

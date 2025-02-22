@@ -531,6 +531,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-amqp-pipeline",
+      "projectFolder": "sdk/core/core-amqp-pipeline",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-xml",
       "projectFolder": "sdk/core/core-xml",
       "versionPolicyName": "core"
