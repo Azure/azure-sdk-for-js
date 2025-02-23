@@ -4,9 +4,85 @@
 import * as errors from "./errors.js";
 import * as util from "./util.js";
 
+export interface ICompositeType {
+  name: string;
+  code: number;
+  fields: Field[];
+}
+
+export interface Field {
+  name: string;
+  type: string;
+  mandatory?: boolean;
+  default_value?: any;
+  multiple?: boolean;
+}
+
+export interface Descriptor {
+  numeric: number;
+  symbolic: string;
+  [x: string]: any;
+}
+
+export interface header {
+  [x: string]: any;
+  protocol_id: number;
+  major: number;
+  minor: number;
+  revision: number;
+}
+
+export interface Frames {
+  TYPE_AMQP: 0x00;
+  TYPE_SASL: 0x01;
+  read_header(buffer: Buffer): header;
+  write_header(buffer: Buffer, header: header): number;
+  read_frame(buffer: Buffer): any;
+  write_frame(frame: any): Buffer;
+  amqp_frame(channel: any, performative: any, payload: any): {
+    [x: string]: any;
+    channel: any | 0;
+    type: 0x00;
+    performative: any;
+    payload: any;
+  };
+  sasl_frame(performative: any): {
+    [x: string]: any;
+    channel: 0;
+    type: 0x01;
+    performative: any;
+  };
+  open(obj?: any): any;
+  begin(obj?: any): any;
+  attach(obj?: any): any;
+  flow(obj?: any): any;
+  transfer(obj?: any): any;
+  disposition(obj?: any): any;
+  detach(obj?: any): any;
+  end(obj?: any): any;
+  close(obj?: any): any;
+  sasl_mechanisms(obj?: any): any;
+  sasl_init(obj?: any): any;
+  sasl_challenge(obj?: any): any;
+  sasl_response(obj?: any): any;
+  sasl_outcome(obj?: any): any;
+}
+
+
+export interface MessageFrame {
+  value: any[];
+  descriptor: Descriptor;
+  dispatch(target: any, frame: Frames): void;
+  toJSON(): object;
+  described(): any;
+  toString(): string;
+  create(fields: any): MessageFrame;
+  [x: string]: any;
+}
+
 // Categories
 const CAT_FIXED = 1;
-const CAT_constiable = 2;
+const CAT_VARIABLE = 2;
 const CAT_COMPOUND = 3;
 const CAT_ARRAY = 4;
 
@@ -15,9 +91,9 @@ export class Typed<T extends { toJSON?: () => any } = any> {
   type: TypeDesc | any;
   value: T;
   array_constructor?: { typecode: number; descriptor?: any };
-  descriptor?: any;
+  descriptor?: Descriptor;
 
-  constructor(type: TypeDesc, value: T, code?: number, descriptor?: any) {
+  constructor(type: TypeDesc, value: T, code?: number, descriptor?: Descriptor) {
     this.type = type;
     this.value = value;
     if (code !== undefined) {
@@ -109,11 +185,11 @@ export class TypeDesc {
         break;
       case 0xA:
         this.width = 1;
-        this.category = CAT_constiable;
+        this.category = CAT_VARIABLE;
         break;
       case 0xB:
         this.width = 4;
-        this.category = CAT_constiable;
+        this.category = CAT_VARIABLE;
         break;
       case 0xC:
         this.width = 1;
@@ -624,19 +700,7 @@ types.unwrap = function (o: any, leave_described?: boolean): any {
   }
 };
 
-/*
-types.described = function (descriptor, typedvalue) {
-    const o = Object.create(typedvalue);
-    if (descriptor.length) {
-        o.descriptor = descriptor.shift();
-        return types.described(descriptor, o);
-    } else {
-        o.descriptor = descriptor;
-        return o;
-    }
-};
-*/
-types.described_nc = function (descriptor: any, o: any): any {
+types.described_nc = function (descriptor: Descriptor, o: any): any {
   if (descriptor.length) {
     o.descriptor = descriptor.shift();
     return types.described(descriptor, o);
@@ -728,7 +792,7 @@ types.Reader = class Reader {
       return type.create();
     } else if (type.category === CAT_FIXED) {
       return type.create(this.read_fixed_width(type));
-    } else if (type.category === CAT_constiable) {
+    } else if (type.category === CAT_VARIABLE) {
       return type.create(this.read_constiable_width(type));
     } else if (type.category === CAT_COMPOUND) {
       return this.read_compound(type);
@@ -895,7 +959,7 @@ types.Writer = class Writer {
       return;
     } else if (type.category === CAT_FIXED) {
       this.write_fixed_width(type, value);
-    } else if (type.category === CAT_constiable) {
+    } else if (type.category === CAT_VARIABLE) {
       this.write_constiable_width(type, value);
     } else if (type.category === CAT_COMPOUND) {
       this.write_compound(type, value);
@@ -996,81 +1060,124 @@ function wrap_field(definition: any, instance: any): any {
   }
 }
 
-// Instead of setting up a 'prototype' with methods that use 'this',
-// define a composite factory function returning plain objects.
-types.define_composite = function (def: any): any {
-  const descriptor = {
-    numeric: def.code,
-    symbolic: "amqp:" + def.name + ":list",
+// Interface for field definitions. You can extend this as needed.
+interface FieldDefinition {
+  type: string;
+  [key: string]: any;
+}
+
+// Interface for objects that have a 'value' property.
+interface HasValue {
+  value: any[];
+}
+
+function get_accessors(index: number, field_definition: FieldDefinition): PropertyDescriptor {
+  let getter: (this: HasValue) => any;
+  
+  if (field_definition.type === '*') {
+    getter = function(this: HasValue): any {
+      return this.value[index];
+    };
+  } else {
+    getter = function(this: HasValue): any {
+      return types.unwrap(this.value[index]);
+    };
+  }
+  
+  const setter = function(this: HasValue, o: any): void {
+    this.value[index] = wrap_field(field_definition, o);
   };
+  
+  return { get: getter, set: setter, enumerable: true, configurable: false };
+}
 
-  function createInstance(fields?: any): any {
-    // Internal array for storing field data
-    const valueArray: any[] = [];
+// Interface for the constructor (static side) of MessageFrame
+export interface MessageFrameConstructor {
+  new (fields?: any[]): MessageFrame;
+  descriptor: Descriptor;
+  create(fields: any): MessageFrame;
+  toString(): string;
+}
 
-    // Build the instance object
-    const instance = {
-      // The underlying list data
-      value: valueArray,
+// A definition for the composite we’re building.
+export interface CompositeDef {
+  code: number;
+  name: string;
+  fields: Array<FieldDefinition>;
+}
 
-      // Formerly c.prototype.dispatch
-      dispatch: (target: any, frame: any) => {
-        target["on_" + def.name](frame);
-      },
+// The function that defines the composite
+types.define_composite = function(def: CompositeDef): MessageFrameConstructor {
+  class Composite implements MessageFrame {
+    value: any[];
 
-      // Formerly c.prototype.toJSON
-      toJSON: () => {
-        const o: any = {};
-        for (const [key, value] of Object.entries(instance)) {
-          if (key !== "value" && typeof value !== "function" && value) {
-            o[key] = value;
-          }
-        }
-        return o;
-      },
-
-      // Formerly c.prototype.described
-      described: () => {
-        return types.described_nc(types.wrap_ulong(descriptor.numeric), types.wrap_list(valueArray));
-      },
-    } as const;
-
-    // Create getters and setters for each defined field
-    def.fields.forEach((fieldDef: any, index: number) => {
-      Object.defineProperty(instance, fieldDef.name, {
-        get: () => {
-          return fieldDef.type === "*" ? valueArray[index] : types.unwrap(valueArray[index]);
-        },
-        set: (val: any) => {
-          valueArray[index] = wrap_field(fieldDef, val);
-        },
-        enumerable: true,
-        configurable: false,
-      });
-    });
-
-    // If fields object is passed, assign them
-    if (fields) {
-      for (const [prop, value] of Object.entries(fields)) {
-        (instance as Record<string, any>)[prop] = value;
-      }
+    constructor(fields?: any[]) {
+      this.value = fields || [];
     }
 
-    return instance;
+    // Expose the static descriptor on each instance via a getter.
+    get descriptor(): Descriptor {
+      return Composite.descriptor;
+    }
+
+    dispatch(target: any, frame: any): void {
+      target[`on_${def.name}`](frame);
+    }
+
+    toJSON(): object {
+      const o: { [key: string]: any } = {};
+      for (const key in this) {
+        if (key !== 'value' && this[key]) {
+          o[key] = this[key];
+        }
+      }
+      return o;
+    }
+
+    described(): TypeDesc {
+      return types.described_nc(
+        types.wrap_ulong(Composite.descriptor.numeric),
+        types.wrap_list(this.value)
+      );
+    }
+
+    // Instance toString method (mirroring the static version).
+    toString(): string {
+      return `${def.name}#${Number(def.code).toString(16)}`;
+    }
+
+    // Bind the static create method to the instance so that it appears on instances
+    create(fields: any): MessageFrame {
+      return (this.constructor as typeof Composite).create(fields);
+    }
+
+    // Static members
+    static descriptor: Descriptor = {
+      numeric: def.code,
+      symbolic: `amqp:${def.name}:list`
+    };
+
+    static create(fields: any): MessageFrame {
+      const o = new Composite();
+      for (const key in fields) {
+        (o as any)[key] = fields[key];
+      }
+      return o;
+    }
+
+    static toString(): string {
+      return `${def.name}#${Number(def.code).toString(16)}`;
+    }
   }
 
-  const composite = {
-    descriptor,
-    // Creates and initializes a new composite instance
-    create: createInstance,
-    // Formerly c.toString
-    toString: (): string => {
-      return def.name + "#" + Number(def.code).toString(16);
-    },
-  };
+  // For each field in the definition, add property accessors to the prototype.
+  for (let i = 0; i < def.fields.length; i++) {
+    const field = def.fields[i];
+    Object.defineProperty(Composite.prototype, field.name, get_accessors(i, field));
+  }
 
-  return composite;
-};
+  return Composite;
+}
 
 function add_type(def: any): void {
   const c = types.define_composite(def);
