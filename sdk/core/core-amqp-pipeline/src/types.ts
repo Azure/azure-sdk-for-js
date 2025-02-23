@@ -24,7 +24,7 @@ export interface Descriptor {
   [x: string]: any;
 }
 
-export interface header {
+export interface Header {
   [x: string]: any;
   protocol_id: number;
   major: number;
@@ -35,8 +35,8 @@ export interface header {
 export interface Frames {
   TYPE_AMQP: 0x00;
   TYPE_SASL: 0x01;
-  read_header(buffer: Buffer): header;
-  write_header(buffer: Buffer, header: header): number;
+  read_header(buffer: Buffer): Header;
+  write_header(buffer: Buffer, header: Header): number;
   read_frame(buffer: Buffer): any;
   write_frame(frame: any): Buffer;
   amqp_frame(channel: any, performative: any, payload: any): {
@@ -88,9 +88,9 @@ const CAT_ARRAY = 4;
 
 // Class representing a typed value.
 export class Typed<T extends { toJSON?: () => any } = any> {
-  type: TypeDesc | any;
+  type: TypeDesc;
   value: T;
-  array_constructor?: { typecode: number; descriptor?: any };
+  array_constructor?: { typecode: number; descriptor?: Descriptor };
   descriptor?: Descriptor;
 
   constructor(type: TypeDesc, value: T, code?: number, descriptor?: Descriptor) {
@@ -232,7 +232,7 @@ export class TypeDesc {
         return new Typed(this, empty_value);
       };
     } else if (subcategory === 0xE || subcategory === 0xF) {
-      this.create = (v: any, code?: number, descriptor?: any) => {
+      this.create = (v: any, code?: number, descriptor?: Descriptor) => {
         return new Typed(this, v, code, descriptor);
       };
     } else {
@@ -588,7 +588,7 @@ types.wrap_symbolic_map = function (m: any): Typed {
   return types.wrap_map(m, types.wrap_symbol);
 };
 
-types.wrap_array = function (l: any[], code: any, descriptors: any): Typed {
+types.wrap_array = function (l: any[], code: any, descriptors: Descriptor): Typed {
   if (code) {
     return types.Array32(l, code, descriptors);
   } else {
@@ -640,7 +640,7 @@ types.wrap = function (o: any): Typed {
   }
 };
 
-types.wrap_described = function (value: any, descriptor: any): Typed {
+types.wrap_described = function (value: any, descriptor: Descriptor): Typed {
   let result = types.wrap(value);
   if (descriptor) {
     if (typeof descriptor === "string") {
@@ -756,7 +756,7 @@ types.Reader = class Reader {
     }
   }
 
-  read_constiable_width(type: TypeDesc): any {
+  read_variable_width(type: TypeDesc): any {
     const size = this.read_uint(type.width);
     const slice = this.read_bytes(size);
     return type.encoding ? slice.toString(type.encoding) : slice;
@@ -768,7 +768,7 @@ types.Reader = class Reader {
     return constructor.descriptor ? types.described_nc(constructor.descriptor, value) : value;
   }
 
-  read_constructor(descriptors?: any[]): { typecode: number; descriptor?: any; descriptors?: any[] } {
+  read_constructor(descriptors?: Descriptor[]): { typecode: number; descriptor?: Descriptor; descriptors?: Descriptor[] } {
     const code = this.read_typecode();
     if (code === 0x00) {
       if (descriptors === undefined) {
@@ -793,7 +793,7 @@ types.Reader = class Reader {
     } else if (type.category === CAT_FIXED) {
       return type.create(this.read_fixed_width(type));
     } else if (type.category === CAT_VARIABLE) {
-      return type.create(this.read_constiable_width(type));
+      return type.create(this.read_variable_width(type));
     } else if (type.category === CAT_COMPOUND) {
       return this.read_compound(type);
     } else if (type.category === CAT_ARRAY) {
@@ -920,7 +920,7 @@ types.Writer = class Writer {
     }
   }
 
-  write_constiable_width(type: TypeDesc, value: any): void {
+  write_variable_width(type: TypeDesc, value: any): void {
     const source = type.encoding ? Buffer.from(value, type.encoding) : Buffer.from(value);
     this.write_uint(source.length, type.width);
     this.write_bytes(source);
@@ -933,7 +933,7 @@ types.Writer = class Writer {
     source.copy(this.buffer, current);
   }
 
-  write_constructor(typecode: number, descriptor?: any): void {
+  write_constructor(typecode: number, descriptor?: Descriptor): void {
     if (descriptor) {
       this.write_typecode(0x00);
       this.write(descriptor);
@@ -960,7 +960,7 @@ types.Writer = class Writer {
     } else if (type.category === CAT_FIXED) {
       this.write_fixed_width(type, value);
     } else if (type.category === CAT_VARIABLE) {
-      this.write_constiable_width(type, value);
+      this.write_variable_width(type, value);
     } else if (type.category === CAT_COMPOUND) {
       this.write_compound(type, value);
     } else if (type.category === CAT_ARRAY) {
