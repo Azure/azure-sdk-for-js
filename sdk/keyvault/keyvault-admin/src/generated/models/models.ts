@@ -12,7 +12,7 @@ export interface FullBackupOperation {
   /** The start time of the backup operation in UTC */
   startTime?: Date;
   /** The end time of the backup operation in UTC */
-  endTime?: Date;
+  endTime?: Date | null;
   /** Identifier for the full backup operation. */
   jobId?: string;
   /** The Azure blob storage container Uri which contains the full backup */
@@ -25,7 +25,9 @@ export function fullBackupOperationDeserializer(
   return {
     status: item["status"],
     statusDetails: item["statusDetails"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _fullBackupOperationErrorDeserializer(item["error"]),
     startTime: !item["startTime"]
       ? item["startTime"]
       : new Date(item["startTime"] * 1000),
@@ -60,26 +62,41 @@ export enum KnownOperationStatus {
  * **Failed**: The operation failed.
  */
 export type OperationStatus = string;
+/** Alias for ErrorModel */
+export type ErrorModel = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel_1;
+} | null;
 
-/** The key vault server error. */
-export interface ErrorModel {
+/** model interface _FullBackupOperationError */
+export interface _FullBackupOperationError {
   /** The error code. */
   readonly code?: string;
   /** The error message. */
   readonly message?: string;
   /** The key vault server error. */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: ErrorModel_1;
 }
 
-export function errorDeserializer(item: any): ErrorModel {
+export function _fullBackupOperationErrorDeserializer(
+  item: any,
+): _FullBackupOperationError {
   return {
     code: item["code"],
     message: item["message"],
     innerError: !item["innererror"]
       ? item["innererror"]
-      : errorDeserializer(item["innererror"]),
+      : _fullBackupOperationErrorDeserializer(item["innererror"]),
   };
 }
+
+/** Alias for ErrorModel */
+export type ErrorModel_1 = {
+  code?: string;
+  message?: string;
+  innerError?: ErrorModel_1;
+} | null;
 
 /** The key vault error exception. */
 export interface KeyVaultError {
@@ -89,7 +106,9 @@ export interface KeyVaultError {
 
 export function keyVaultErrorDeserializer(item: any): KeyVaultError {
   return {
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _fullBackupOperationErrorDeserializer(item["error"]),
   };
 }
 
@@ -144,14 +163,16 @@ export interface RestoreOperation {
   /** The start time of the restore operation */
   startTime?: Date;
   /** The end time of the restore operation */
-  endTime?: Date;
+  endTime?: Date | null;
 }
 
 export function restoreOperationDeserializer(item: any): RestoreOperation {
   return {
     status: item["status"],
     statusDetails: item["statusDetails"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : _fullBackupOperationErrorDeserializer(item["error"]),
     jobId: item["jobId"],
     startTime: !item["startTime"]
       ? item["startTime"]
@@ -198,6 +219,41 @@ export function restoreOperationParametersSerializer(
   };
 }
 
+/** Selective Key Restore operation */
+export interface SelectiveKeyRestoreOperation {
+  /** Status of the restore operation. */
+  status?: OperationStatus;
+  /** The status details of restore operation. */
+  statusDetails?: string;
+  /** Error encountered, if any, during the selective key restore operation. */
+  error?: ErrorModel;
+  /** Identifier for the selective key restore operation. */
+  jobId?: string;
+  /** The start time of the restore operation */
+  startTime?: Date;
+  /** The end time of the restore operation */
+  endTime?: Date | null;
+}
+
+export function selectiveKeyRestoreOperationDeserializer(
+  item: any,
+): SelectiveKeyRestoreOperation {
+  return {
+    status: item["status"],
+    statusDetails: item["statusDetails"],
+    error: !item["error"]
+      ? item["error"]
+      : _fullBackupOperationErrorDeserializer(item["error"]),
+    jobId: item["jobId"],
+    startTime: !item["startTime"]
+      ? item["startTime"]
+      : new Date(item["startTime"] * 1000),
+    endTime: !item["endTime"]
+      ? item["endTime"]
+      : new Date(item["endTime"] * 1000),
+  };
+}
+
 /** The authentication method and location for the selective key restore operation. */
 export interface SelectiveKeyRestoreOperationParameters {
   /** A user-provided SAS token to an Azure blob storage container. */
@@ -212,39 +268,6 @@ export function selectiveKeyRestoreOperationParametersSerializer(
   return {
     sasTokenParameters: sASTokenParameterSerializer(item["sasTokenParameters"]),
     folder: item["folder"],
-  };
-}
-
-/** Selective Key Restore operation */
-export interface SelectiveKeyRestoreOperation {
-  /** Status of the restore operation. */
-  status?: OperationStatus;
-  /** The status details of restore operation. */
-  statusDetails?: string;
-  /** Error encountered, if any, during the selective key restore operation. */
-  error?: ErrorModel;
-  /** Identifier for the selective key restore operation. */
-  jobId?: string;
-  /** The start time of the restore operation */
-  startTime?: Date;
-  /** The end time of the restore operation */
-  endTime?: Date;
-}
-
-export function selectiveKeyRestoreOperationDeserializer(
-  item: any,
-): SelectiveKeyRestoreOperation {
-  return {
-    status: item["status"],
-    statusDetails: item["statusDetails"],
-    error: !item["error"] ? item["error"] : errorDeserializer(item["error"]),
-    jobId: item["jobId"],
-    startTime: !item["startTime"]
-      ? item["startTime"]
-      : new Date(item["startTime"] * 1000),
-    endTime: !item["endTime"]
-      ? item["endTime"]
-      : new Date(item["endTime"] * 1000),
   };
 }
 
@@ -767,6 +790,6 @@ export function roleAssignmentArrayDeserializer(
 export enum KnownVersions {
   /** The 7.5 API version. */
   "v7.5" = "7.5",
-  /** The 7.6-preview.1 API version. */
-  "v7.6_preview.1" = "7.6-preview.1",
+  /** The 7.6-preview.2 API version. */
+  "v7.6_preview.2" = "7.6-preview.2",
 }

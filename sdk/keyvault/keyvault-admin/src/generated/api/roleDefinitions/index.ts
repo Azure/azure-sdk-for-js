@@ -9,6 +9,7 @@ import {
   RoleDefinitionsListOptionalParams,
 } from "../index.js";
 import {
+  keyVaultErrorDeserializer,
   RoleDefinition,
   roleDefinitionDeserializer,
   RoleDefinitionCreateParameters,
@@ -27,6 +28,159 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
+export function _listSend(
+  context: Client,
+  scope: string,
+  options: RoleDefinitionsListOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path("/{scope}/providers/Microsoft.Authorization/roleDefinitions", {
+      value: scope,
+      allowReserved: true,
+    })
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: {
+        "api-version": context.apiVersion,
+        $filter: options?.$filter,
+      },
+    });
+}
+
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_RoleDefinitionListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return _roleDefinitionListResultDeserializer(result.body);
+}
+
+/** Get all role definitions that are applicable at scope and above. */
+export function list(
+  context: Client,
+  scope: string,
+  options: RoleDefinitionsListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<RoleDefinition> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, scope, options),
+    _listDeserialize,
+    ["200"],
+    { itemName: "value", nextLinkName: "nextLink" },
+  );
+}
+
+export function _getSend(
+  context: Client,
+  scope: string,
+  roleDefinitionName: string,
+  options: RoleDefinitionsGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}",
+      { value: scope, allowReserved: true },
+      roleDefinitionName,
+    )
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
+}
+
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RoleDefinition> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return roleDefinitionDeserializer(result.body);
+}
+
+/** Get the specified role definition. */
+export async function get(
+  context: Client,
+  scope: string,
+  roleDefinitionName: string,
+  options: RoleDefinitionsGetOptionalParams = { requestOptions: {} },
+): Promise<RoleDefinition> {
+  const result = await _getSend(context, scope, roleDefinitionName, options);
+  return _getDeserialize(result);
+}
+
+export function _createOrUpdateSend(
+  context: Client,
+  scope: string,
+  roleDefinitionName: string,
+  parameters: RoleDefinitionCreateParameters,
+  options: RoleDefinitionsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  return context
+    .path(
+      "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}",
+      { value: scope, allowReserved: true },
+      roleDefinitionName,
+    )
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+      body: roleDefinitionCreateParametersSerializer(parameters),
+    });
+}
+
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<RoleDefinition> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return roleDefinitionDeserializer(result.body);
+}
+
+/** Creates or updates a custom role definition. */
+export async function createOrUpdate(
+  context: Client,
+  scope: string,
+  roleDefinitionName: string,
+  parameters: RoleDefinitionCreateParameters,
+  options: RoleDefinitionsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): Promise<RoleDefinition> {
+  const result = await _createOrUpdateSend(
+    context,
+    scope,
+    roleDefinitionName,
+    parameters,
+    options,
+  );
+  return _createOrUpdateDeserialize(result);
+}
+
 export function _$deleteSend(
   context: Client,
   scope: string,
@@ -39,7 +193,14 @@ export function _$deleteSend(
       { value: scope, allowReserved: true },
       roleDefinitionName,
     )
-    .delete({ ...operationOptionsToRequestParameters(options) });
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      queryParameters: { "api-version": context.apiVersion },
+    });
 }
 
 export async function _$deleteDeserialize(
@@ -47,7 +208,9 @@ export async function _$deleteDeserialize(
 ): Promise<RoleDefinition> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
   }
 
   return roleDefinitionDeserializer(result.body);
@@ -72,131 +235,4 @@ export async function $delete(
     options,
   );
   return _$deleteDeserialize(result);
-}
-
-export function _createOrUpdateSend(
-  context: Client,
-  scope: string,
-  roleDefinitionName: string,
-  parameters: RoleDefinitionCreateParameters,
-  options: RoleDefinitionsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}",
-      { value: scope, allowReserved: true },
-      roleDefinitionName,
-    )
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      body: roleDefinitionCreateParametersSerializer(parameters),
-    });
-}
-
-export async function _createOrUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<RoleDefinition> {
-  const expectedStatuses = ["201"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return roleDefinitionDeserializer(result.body);
-}
-
-/** Creates or updates a custom role definition. */
-export async function createOrUpdate(
-  context: Client,
-  scope: string,
-  roleDefinitionName: string,
-  parameters: RoleDefinitionCreateParameters,
-  options: RoleDefinitionsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<RoleDefinition> {
-  const result = await _createOrUpdateSend(
-    context,
-    scope,
-    roleDefinitionName,
-    parameters,
-    options,
-  );
-  return _createOrUpdateDeserialize(result);
-}
-
-export function _getSend(
-  context: Client,
-  scope: string,
-  roleDefinitionName: string,
-  options: RoleDefinitionsGetOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path(
-      "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}",
-      { value: scope, allowReserved: true },
-      roleDefinitionName,
-    )
-    .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<RoleDefinition> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return roleDefinitionDeserializer(result.body);
-}
-
-/** Get the specified role definition. */
-export async function get(
-  context: Client,
-  scope: string,
-  roleDefinitionName: string,
-  options: RoleDefinitionsGetOptionalParams = { requestOptions: {} },
-): Promise<RoleDefinition> {
-  const result = await _getSend(context, scope, roleDefinitionName, options);
-  return _getDeserialize(result);
-}
-
-export function _listSend(
-  context: Client,
-  scope: string,
-  options: RoleDefinitionsListOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  return context
-    .path("/{scope}/providers/Microsoft.Authorization/roleDefinitions", {
-      value: scope,
-      allowReserved: true,
-    })
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      queryParameters: { $filter: options?.$filter },
-    });
-}
-
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_RoleDefinitionListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-
-  return _roleDefinitionListResultDeserializer(result.body);
-}
-
-/** Get all role definitions that are applicable at scope and above. */
-export function list(
-  context: Client,
-  scope: string,
-  options: RoleDefinitionsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<RoleDefinition> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listSend(context, scope, options),
-    _listDeserialize,
-    ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
-  );
 }

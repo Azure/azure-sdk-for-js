@@ -5,6 +5,7 @@ import {
   createKeyVault,
   KeyVaultContext,
   KeyVaultClientOptionalParams,
+  getKeyAttestation,
   getRandomBytes,
   updateKeyRotationPolicy,
   getKeyRotationPolicy,
@@ -29,6 +30,7 @@ import {
   importKey,
   rotateKey,
   createKey,
+  GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
   GetKeyRotationPolicyOptionalParams,
@@ -101,6 +103,15 @@ export class KeyVaultClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+  }
+
+  /** The get key attestation operation returns the key along with its attestation blob. This operation requires the keys/get permission. */
+  getKeyAttestation(
+    keyName: string,
+    keyVersion: string,
+    options: GetKeyAttestationOptionalParams = { requestOptions: {} },
+  ): Promise<KeyBundle> {
+    return getKeyAttestation(this._client, keyName, keyVersion, options);
   }
 
   /** Get the requested number of bytes containing random values from a managed HSM. */

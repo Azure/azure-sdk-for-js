@@ -43,9 +43,7 @@ import {
   KeyRotationPolicyProperties,
   KeyType,
   KeyVaultKey,
-  KnownKeyExportEncryptionAlgorithm,
   KnownKeyOperations,
-  KnownKeyTypes,
   LATEST_API_VERSION,
   ListDeletedKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
@@ -75,7 +73,9 @@ import {
   EncryptionAlgorithm,
   KeyCurveName,
   KeyWrapAlgorithm,
+  KnownKeyExportEncryptionAlgorithm,
   KnownEncryptionAlgorithms,
+  KnownKeyTypes,
   KnownKeyCurveNames,
   KnownSignatureAlgorithms,
   RsaDecryptParameters,
@@ -728,9 +728,11 @@ export class KeyClient {
    */
   public getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
     return tracingClient.withSpan(`KeyClient.getKey`, options, async (updatedOptions) => {
-      const response = await this.client.getKey(
+      const endpoint = options.withAttestation ? this.client.getKeyAttestation : this.client.getKey;
+      const response = await endpoint.call(
+        this.client,
         name,
-        options && options.version ? options.version : "",
+        options.version || "",
         updatedOptions,
       );
       return getKeyFromKeyBundle(response);
