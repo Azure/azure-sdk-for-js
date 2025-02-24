@@ -7,7 +7,7 @@ import { AbortError } from "@azure/abort-controller";
 import { describe, it, expect } from "vitest";
 
 describe("custom poller", function () {
-  it("abort signal correctly cancels polling", async function () {
+  it("abort signal correctly cancels polling", async () => {
     const abortController = new AbortController();
 
     const operation = await createOperation();
@@ -21,7 +21,7 @@ describe("custom poller", function () {
     await expect(result).rejects.toThrow(AbortError);
   });
 
-  it("abort signal correctly cancels instantiation", async function () {
+  it("abort signal correctly cancels instantiation", async () => {
     const abortController = new AbortController();
 
     abortController.abort();
@@ -32,7 +32,7 @@ describe("custom poller", function () {
     await expect(operation).rejects.toThrow(AbortError);
   });
 
-  it("stop poller after calling pollUntilDone", async function () {
+  it("stop poller after calling pollUntilDone", async () => {
     const operation = await createOperation();
 
     const result = operation.pollUntilDone();

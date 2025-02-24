@@ -289,7 +289,7 @@ export interface InvoiceItemsElement {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-invoice",
     description: "Extract key information from invoices.",
