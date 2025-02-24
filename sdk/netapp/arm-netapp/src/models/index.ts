@@ -419,8 +419,6 @@ export interface EncryptionIdentity {
   readonly principalId?: string;
   /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities. */
   userAssignedIdentity?: string;
-  /** ClientId of the multi-tenant AAD Application. Used to access cross-tenant KeyVaults. */
-  federatedClientId?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -494,13 +492,6 @@ export interface NetAppAccountPatch {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disableShowmount?: boolean;
-  /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
-  nfsV4IDDomain?: string;
-  /**
-   * This will have true value only if account is Multiple AD enabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isMultiAdEnabled?: boolean;
 }
 
 /** Encryption transition request */
@@ -509,6 +500,26 @@ export interface EncryptionTransitionRequest {
   virtualNetworkId: string;
   /** Identifier of the private endpoint to reach the Azure Key Vault */
   privateEndpointId: string;
+}
+
+/** Result of getKeyVaultStatus with information about how volumes under NetApp account are encrypted. */
+export interface GetKeyVaultStatusResponse {
+  /** The URI of the key vault/managed HSM that should be used for encryption. */
+  keyVaultUri?: string;
+  /** The name of the key that should be used for encryption. */
+  keyName?: string;
+  /** Azure resource ID of the key vault/managed HSM that should be used for encryption. */
+  keyVaultResourceId?: string;
+  /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
+  keyVaultPrivateEndpoints?: KeyVaultPrivateEndpoint[];
+}
+
+/** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
+export interface KeyVaultPrivateEndpoint {
+  /** Identifier for the virtual network id */
+  virtualNetworkId?: string;
+  /** Identifier of the private endpoint to reach the Azure Key Vault */
+  privateEndpointId?: string;
 }
 
 /** Change key vault request */
@@ -521,14 +532,6 @@ export interface ChangeKeyVault {
   keyVaultResourceId?: string;
   /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
   keyVaultPrivateEndpoints: KeyVaultPrivateEndpoint[];
-}
-
-/** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
-export interface KeyVaultPrivateEndpoint {
-  /** Identifier for the virtual network id */
-  virtualNetworkId?: string;
-  /** Identifier of the private endpoint to reach the Azure Key Vault */
-  privateEndpointId?: string;
 }
 
 /** List of capacity pool resources */
@@ -566,8 +569,6 @@ export interface CapacityPoolPatch {
   qosType?: QosType;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
   coolAccess?: boolean;
-  /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
-  customThroughputMibps?: number;
 }
 
 /** List of volume resources */
@@ -675,11 +676,6 @@ export interface ReplicationObject {
   remotePath?: RemotePath;
   /** The remote region for the other end of the Volume Replication. */
   remoteVolumeRegion?: string;
-  /**
-   * A list of destination replications
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly destinationReplications?: DestinationReplication[];
 }
 
 /** The full path to a volume that is to be migrated into ANF. Required for Migration volumes */
@@ -690,18 +686,6 @@ export interface RemotePath {
   serverName: string;
   /** The name of a volume on the server */
   volumeName: string;
-}
-
-/** Destination replication properties */
-export interface DestinationReplication {
-  /** The resource ID of the remote volume */
-  resourceId?: string;
-  /** Indicates whether the replication is cross zone or cross region. */
-  replicationType?: ReplicationType;
-  /** The remote region for the destination volume. */
-  region?: string;
-  /** The remote zone for the destination volume. */
-  zone?: string;
 }
 
 /** Volume Snapshot Properties */
@@ -752,7 +736,7 @@ export interface VolumePatch {
   tags?: { [propertyName: string]: string };
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 1PiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold?: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePatchPropertiesExportPolicy;
@@ -781,6 +765,8 @@ export interface VolumePatch {
    *  Never - No client-driven data is pulled from cool tier to standard storage.
    */
   coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
+  /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots. */
   snapshotDirectoryVisible?: boolean;
   /** Enables access-based enumeration share property for SMB Shares. Only applicable for SMB/DualProtocol volume */
@@ -827,30 +813,6 @@ export interface GetGroupIdListForLdapUserRequest {
 export interface GetGroupIdListForLdapUserResponse {
   /** Group Id list */
   groupIdsForLdapUser?: string[];
-}
-
-/** Quota Report for volume */
-export interface ListQuotaReportResponse {
-  /** List of volume quota report records */
-  value?: QuotaReport[];
-  /** URL to get the next set of results. */
-  nextLink?: string;
-}
-
-/** Quota report record properties */
-export interface QuotaReport {
-  /** Type of quota */
-  quotaType?: Type;
-  /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
-  quotaTarget?: string;
-  /** Specifies the current usage in kibibytes for the user/group quota. */
-  quotaLimitUsedInKiBs?: number;
-  /** Specifies the total size limit in kibibytes for the user/group quota. */
-  quotaLimitTotalInKiBs?: number;
-  /** Percentage of used size compared to total size. */
-  percentageUsed?: number;
-  /** Flag to indicate whether the quota is derived from default quota. */
-  isDerivedQuota?: boolean;
 }
 
 /** Break replication request */
@@ -1092,7 +1054,7 @@ export interface BackupPolicyPatch {
   /** Resource tags */
   tags?: { [propertyName: string]: string };
   /**
-   * Backup Policy Resource ID
+   * Backup Policy GUID ID
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupPolicyId?: string;
@@ -1252,7 +1214,7 @@ export interface VolumeGroupVolumeProperties {
   creationToken: string;
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 1PiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;
@@ -1298,12 +1260,10 @@ export interface VolumeGroupVolumeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly mountTargets?: MountTargetProperties[];
-  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
+  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection */
   volumeType?: string;
   /** DataProtection type volumes include an object containing details of the replication */
   dataProtection?: VolumePropertiesDataProtection;
-  /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
-  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
   /** Restoring */
   isRestoring?: boolean;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
@@ -1344,7 +1304,9 @@ export interface VolumeGroupVolumeProperties {
    *  Never - No client-driven data is pulled from cool tier to standard storage.
    */
   coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
-  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.  Avoid passing null value for unixPermissions in volume update operation, As per the behavior, If Null value is passed then user-visible unixPermissions value will became null, and user will not be able to get unixPermissions value. On safer side, actual unixPermissions value on volume will remain as its last saved value only. */
+  /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy;
+  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
   unixPermissions?: string;
   /**
    * When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning.
@@ -1411,13 +1373,6 @@ export interface VolumeGroupVolumeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly originatingResourceId?: string;
-  /**
-   * Space shared by short term clone volume with parent volume in bytes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inheritedSizeInBytes?: number;
-  /** Language supported for volume. */
-  language?: VolumeLanguage;
 }
 
 /** List of Subvolumes */
@@ -1821,11 +1776,6 @@ export interface Backup extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupPolicyResourceId?: string;
-  /**
-   * Specifies if the backup is for a large volume.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isLargeVolume?: boolean;
 }
 
 /** NetApp account resource */
@@ -1851,13 +1801,6 @@ export interface NetAppAccount extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disableShowmount?: boolean;
-  /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
-  nfsV4IDDomain?: string;
-  /**
-   * This will have true value only if account is Multiple AD enabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isMultiAdEnabled?: boolean;
 }
 
 /** Capacity pool resource */
@@ -1891,8 +1834,6 @@ export interface CapacityPool extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly utilizedThroughputMibps?: number;
-  /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
-  customThroughputMibps?: number;
   /** The qos type of the pool */
   qosType?: QosType;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
@@ -1919,7 +1860,7 @@ export interface Volume extends TrackedResource {
   creationToken: string;
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 1PiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 500TiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;
@@ -1965,12 +1906,10 @@ export interface Volume extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly mountTargets?: MountTargetProperties[];
-  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
+  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection */
   volumeType?: string;
   /** DataProtection type volumes include an object containing details of the replication */
   dataProtection?: VolumePropertiesDataProtection;
-  /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
-  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
   /** Restoring */
   isRestoring?: boolean;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
@@ -2011,7 +1950,9 @@ export interface Volume extends TrackedResource {
    *  Never - No client-driven data is pulled from cool tier to standard storage.
    */
   coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
-  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.  Avoid passing null value for unixPermissions in volume update operation, As per the behavior, If Null value is passed then user-visible unixPermissions value will became null, and user will not be able to get unixPermissions value. On safer side, actual unixPermissions value on volume will remain as its last saved value only. */
+  /** coolAccessTieringPolicy determines which cold data blocks are moved to cool tier. The possible values for this field are: Auto - Moves cold user data blocks in both the Snapshot copies and the active file system to the cool tier tier. This policy is the default. SnapshotOnly - Moves user data blocks of the Volume Snapshot copies that are not associated with the active file system to the cool tier. */
+  coolAccessTieringPolicy?: CoolAccessTieringPolicy;
+  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
   unixPermissions?: string;
   /**
    * When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning.
@@ -2078,13 +2019,6 @@ export interface Volume extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly originatingResourceId?: string;
-  /**
-   * Space shared by short term clone volume with parent volume in bytes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly inheritedSizeInBytes?: number;
-  /** Language supported for volume. */
-  language?: VolumeLanguage;
 }
 
 /** Snapshot policy information */
@@ -2119,7 +2053,7 @@ export interface BackupPolicy extends TrackedResource {
    */
   readonly etag?: string;
   /**
-   * Backup Policy Resource ID
+   * Backup Policy GUID ID
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupPolicyId?: string;
@@ -2202,11 +2136,6 @@ export interface VolumesResetCifsPasswordHeaders {
   location?: string;
 }
 
-/** Defines headers for Volumes_splitCloneFromParent operation. */
-export interface VolumesSplitCloneFromParentHeaders {
-  location?: string;
-}
-
 /** Defines headers for Volumes_breakFileLocks operation. */
 export interface VolumesBreakFileLocksHeaders {
   location?: string;
@@ -2214,11 +2143,6 @@ export interface VolumesBreakFileLocksHeaders {
 
 /** Defines headers for Volumes_listGetGroupIdListForLdapUser operation. */
 export interface VolumesListGetGroupIdListForLdapUserHeaders {
-  location?: string;
-}
-
-/** Defines headers for Volumes_listQuotaReport operation. */
-export interface VolumesListQuotaReportHeaders {
   location?: string;
 }
 
@@ -2572,8 +2496,6 @@ export enum KnownServiceLevel {
   Ultra = "Ultra",
   /** Zone redundant storage service level */
   StandardZRS = "StandardZRS",
-  /** Flexible service level */
-  Flexible = "Flexible",
 }
 
 /**
@@ -2584,8 +2506,7 @@ export enum KnownServiceLevel {
  * **Standard**: Standard service level \
  * **Premium**: Premium service level \
  * **Ultra**: Ultra service level \
- * **StandardZRS**: Zone redundant storage service level \
- * **Flexible**: Flexible service level
+ * **StandardZRS**: Zone redundant storage service level
  */
 export type ServiceLevel = string;
 
@@ -2700,47 +2621,11 @@ export enum KnownReplicationSchedule {
  * {@link KnownReplicationSchedule} can be used interchangeably with ReplicationSchedule,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **_10minutely** \
+ * **10minutely** \
  * **hourly** \
  * **daily**
  */
 export type ReplicationSchedule = string;
-
-/** Known values of {@link ReplicationType} that the service accepts. */
-export enum KnownReplicationType {
-  /** Cross region replication */
-  CrossRegionReplication = "CrossRegionReplication",
-  /** Cross zone replication */
-  CrossZoneReplication = "CrossZoneReplication",
-}
-
-/**
- * Defines values for ReplicationType. \
- * {@link KnownReplicationType} can be used interchangeably with ReplicationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **CrossRegionReplication**: Cross region replication \
- * **CrossZoneReplication**: Cross zone replication
- */
-export type ReplicationType = string;
-
-/** Known values of {@link AcceptGrowCapacityPoolForShortTermCloneSplit} that the service accepts. */
-export enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit {
-  /** Auto grow capacity pool for short term clone split is accepted. */
-  Accepted = "Accepted",
-  /** Auto grow capacity pool for short term clone split is declined. Short term clone volume creation will not be allowed, to create short term clone volume accept auto grow capacity pool. */
-  Declined = "Declined",
-}
-
-/**
- * Defines values for AcceptGrowCapacityPoolForShortTermCloneSplit. \
- * {@link KnownAcceptGrowCapacityPoolForShortTermCloneSplit} can be used interchangeably with AcceptGrowCapacityPoolForShortTermCloneSplit,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Accepted**: Auto grow capacity pool for short term clone split is accepted. \
- * **Declined**: Auto grow capacity pool for short term clone split is declined. Short term clone volume creation will not be allowed, to create short term clone volume accept auto grow capacity pool.
- */
-export type AcceptGrowCapacityPoolForShortTermCloneSplit = string;
 
 /** Known values of {@link SecurityStyle} that the service accepts. */
 export enum KnownSecurityStyle {
@@ -2835,6 +2720,24 @@ export enum KnownCoolAccessRetrievalPolicy {
  */
 export type CoolAccessRetrievalPolicy = string;
 
+/** Known values of {@link CoolAccessTieringPolicy} that the service accepts. */
+export enum KnownCoolAccessTieringPolicy {
+  /** Auto */
+  Auto = "Auto",
+  /** SnapshotOnly */
+  SnapshotOnly = "SnapshotOnly",
+}
+
+/**
+ * Defines values for CoolAccessTieringPolicy. \
+ * {@link KnownCoolAccessTieringPolicy} can be used interchangeably with CoolAccessTieringPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Auto** \
+ * **SnapshotOnly**
+ */
+export type CoolAccessTieringPolicy = string;
+
 /** Known values of {@link FileAccessLogs} that the service accepts. */
 export enum KnownFileAccessLogs {
   /** fileAccessLogs are enabled */
@@ -2889,249 +2792,6 @@ export enum KnownEnableSubvolumes {
  */
 export type EnableSubvolumes = string;
 
-/** Known values of {@link VolumeLanguage} that the service accepts. */
-export enum KnownVolumeLanguage {
-  /** Posix with UTF-8 */
-  CUtf8 = "c.utf-8",
-  /** UTF-8 with 4 byte character support */
-  Utf8Mb4 = "utf8mb4",
-  /** Arabic - Deprecated */
-  Ar = "ar",
-  /** Arabic with UTF-8 */
-  ArUtf8 = "ar.utf-8",
-  /** Croatian - Deprecated */
-  Hr = "hr",
-  /** Croatian with UTF-8 */
-  HrUtf8 = "hr.utf-8",
-  /** Czech - Deprecated */
-  Cs = "cs",
-  /** Czech with UTF-8 */
-  CsUtf8 = "cs.utf-8",
-  /** Danish - Deprecated */
-  Da = "da",
-  /** Danish with UTF-8 */
-  DaUtf8 = "da.utf-8",
-  /** Dutch - Deprecated */
-  Nl = "nl",
-  /** Dutch with UTF-8 */
-  NlUtf8 = "nl.utf-8",
-  /** English - Deprecated */
-  En = "en",
-  /** English with UTF-8 */
-  EnUtf8 = "en.utf-8",
-  /** Finnish - Deprecated */
-  Fi = "fi",
-  /** Finnish with UTF-8 */
-  FiUtf8 = "fi.utf-8",
-  /** French - Deprecated */
-  Fr = "fr",
-  /** French with UTF-8 */
-  FrUtf8 = "fr.utf-8",
-  /** German - Deprecated */
-  De = "de",
-  /** German with UTF-8 */
-  DeUtf8 = "de.utf-8",
-  /** Hebrew - Deprecated */
-  He = "he",
-  /** Hebrew with UTF-8 */
-  HeUtf8 = "he.utf-8",
-  /** Hungarian - Deprecated */
-  Hu = "hu",
-  /** Hungarian with UTF-8 */
-  HuUtf8 = "hu.utf-8",
-  /** Italian - Deprecated */
-  It = "it",
-  /** Italian with UTF-8 */
-  ItUtf8 = "it.utf-8",
-  /** Japanese euc-j - Deprecated */
-  Ja = "ja",
-  /** Japanese euc-j with UTF-8 */
-  JaUtf8 = "ja.utf-8",
-  /** Japanese euc-j - Deprecated */
-  JaV1 = "ja-v1",
-  /** Japanese euc-j with UTF-8 */
-  JaV1Utf8 = "ja-v1.utf-8",
-  /** Japanese pck */
-  JaJpPck = "ja-jp.pck",
-  /** Japanese pck with UTF-8 - Deprecated */
-  JaJpPckUtf8 = "ja-jp.pck.utf-8",
-  /** Japanese cp932 */
-  JaJp932 = "ja-jp.932",
-  /** Japanese cp932 with UTF-8 - Deprecated */
-  JaJp932Utf8 = "ja-jp.932.utf-8",
-  /** Japanese pck - sjis */
-  JaJpPckV2 = "ja-jp.pck-v2",
-  /** Japanese pck - sjis with UTF-8 - Deprecated */
-  JaJpPckV2Utf8 = "ja-jp.pck-v2.utf-8",
-  /** Korean - Deprecated */
-  Ko = "ko",
-  /** Korean with UTF-8 */
-  KoUtf8 = "ko.utf-8",
-  /** Norwegian - Deprecated */
-  No = "no",
-  /** Norwegian with UTF-8 */
-  NoUtf8 = "no.utf-8",
-  /** Polish - Deprecated */
-  Pl = "pl",
-  /** Polish with UTF-8 */
-  PlUtf8 = "pl.utf-8",
-  /** Portuguese - Deprecated */
-  Pt = "pt",
-  /** Portuguese with UTF-8 */
-  PtUtf8 = "pt.utf-8",
-  /** Posix - Deprecated */
-  C = "c",
-  /** Romanian - Deprecated */
-  Ro = "ro",
-  /** Romanian with UTF-8 */
-  RoUtf8 = "ro.utf-8",
-  /** Russian - Deprecated */
-  Ru = "ru",
-  /** Russian with UTF-8 */
-  RuUtf8 = "ru.utf-8",
-  /** Simplified Chinese - Deprecated */
-  Zh = "zh",
-  /** Simplified Chinese with UTF-8 */
-  ZhUtf8 = "zh.utf-8",
-  /** Simplified gbk Chinese */
-  ZhGbk = "zh.gbk",
-  /** Simplified gbk Chinese with UTF-8 - Deprecated */
-  ZhGbkUtf8 = "zh.gbk.utf-8",
-  /** Traditional Chinese BIG 5 */
-  ZhTwBig5 = "zh-tw.big5",
-  /** Traditional Chinese BIG 5 with UTF-8 - Deprecated */
-  ZhTwBig5Utf8 = "zh-tw.big5.utf-8",
-  /** Traditional Chinese EUC-TW */
-  ZhTw = "zh-tw",
-  /** Traditional Chinese EUC-TW with UTF-8 - Deprecated */
-  ZhTwUtf8 = "zh-tw.utf-8",
-  /** Slovak - Deprecated */
-  Sk = "sk",
-  /** Slovak with UTF-8 */
-  SkUtf8 = "sk.utf-8",
-  /** Slovenian - Deprecated */
-  Sl = "sl",
-  /** Slovenian with UTF-8 */
-  SlUtf8 = "sl.utf-8",
-  /** Spanish - Deprecated */
-  Es = "es",
-  /** Spanish with UTF-8 */
-  EsUtf8 = "es.utf-8",
-  /** Swedish - Deprecated */
-  Sv = "sv",
-  /** Swedish with UTF-8 */
-  SvUtf8 = "sv.utf-8",
-  /** Turkish - Deprecated */
-  Tr = "tr",
-  /** Turkish with UTF-8 */
-  TrUtf8 = "tr.utf-8",
-  /** US English - Deprecated */
-  EnUs = "en-us",
-  /** US English with UTF-8 */
-  EnUsUtf8 = "en-us.utf-8",
-}
-
-/**
- * Defines values for VolumeLanguage. \
- * {@link KnownVolumeLanguage} can be used interchangeably with VolumeLanguage,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **c.utf-8**: Posix with UTF-8 \
- * **utf8mb4**: UTF-8 with 4 byte character support \
- * **ar**: Arabic - Deprecated \
- * **ar.utf-8**: Arabic with UTF-8 \
- * **hr**: Croatian - Deprecated \
- * **hr.utf-8**: Croatian with UTF-8 \
- * **cs**: Czech - Deprecated \
- * **cs.utf-8**: Czech with UTF-8 \
- * **da**: Danish - Deprecated \
- * **da.utf-8**: Danish with UTF-8 \
- * **nl**: Dutch - Deprecated \
- * **nl.utf-8**: Dutch with UTF-8 \
- * **en**: English - Deprecated \
- * **en.utf-8**: English with UTF-8 \
- * **fi**: Finnish - Deprecated \
- * **fi.utf-8**: Finnish with UTF-8 \
- * **fr**: French - Deprecated \
- * **fr.utf-8**: French with UTF-8 \
- * **de**: German - Deprecated \
- * **de.utf-8**: German with UTF-8 \
- * **he**: Hebrew - Deprecated \
- * **he.utf-8**: Hebrew with UTF-8 \
- * **hu**: Hungarian - Deprecated \
- * **hu.utf-8**: Hungarian with UTF-8 \
- * **it**: Italian - Deprecated \
- * **it.utf-8**: Italian with UTF-8 \
- * **ja**: Japanese euc-j - Deprecated \
- * **ja.utf-8**: Japanese euc-j with UTF-8 \
- * **ja-v1**: Japanese euc-j - Deprecated \
- * **ja-v1.utf-8**: Japanese euc-j with UTF-8 \
- * **ja-jp.pck**: Japanese pck \
- * **ja-jp.pck.utf-8**: Japanese pck with UTF-8 - Deprecated \
- * **ja-jp.932**: Japanese cp932 \
- * **ja-jp.932.utf-8**: Japanese cp932 with UTF-8 - Deprecated \
- * **ja-jp.pck-v2**: Japanese pck - sjis \
- * **ja-jp.pck-v2.utf-8**: Japanese pck - sjis with UTF-8 - Deprecated \
- * **ko**: Korean - Deprecated \
- * **ko.utf-8**: Korean with UTF-8 \
- * **no**: Norwegian - Deprecated \
- * **no.utf-8**: Norwegian with UTF-8 \
- * **pl**: Polish - Deprecated \
- * **pl.utf-8**: Polish with UTF-8 \
- * **pt**: Portuguese - Deprecated \
- * **pt.utf-8**: Portuguese with UTF-8 \
- * **c**: Posix - Deprecated \
- * **ro**: Romanian - Deprecated \
- * **ro.utf-8**: Romanian with UTF-8 \
- * **ru**: Russian - Deprecated \
- * **ru.utf-8**: Russian with UTF-8 \
- * **zh**: Simplified Chinese - Deprecated \
- * **zh.utf-8**: Simplified Chinese with UTF-8 \
- * **zh.gbk**: Simplified gbk Chinese \
- * **zh.gbk.utf-8**: Simplified gbk Chinese with UTF-8 - Deprecated \
- * **zh-tw.big5**: Traditional Chinese BIG 5 \
- * **zh-tw.big5.utf-8**: Traditional Chinese BIG 5 with UTF-8 - Deprecated \
- * **zh-tw**: Traditional Chinese EUC-TW \
- * **zh-tw.utf-8**: Traditional Chinese EUC-TW with UTF-8 - Deprecated \
- * **sk**: Slovak - Deprecated \
- * **sk.utf-8**: Slovak with UTF-8 \
- * **sl**: Slovenian - Deprecated \
- * **sl.utf-8**: Slovenian with UTF-8 \
- * **es**: Spanish - Deprecated \
- * **es.utf-8**: Spanish with UTF-8 \
- * **sv**: Swedish - Deprecated \
- * **sv.utf-8**: Swedish with UTF-8 \
- * **tr**: Turkish - Deprecated \
- * **tr.utf-8**: Turkish with UTF-8 \
- * **en-us**: US English - Deprecated \
- * **en-us.utf-8**: US English with UTF-8
- */
-export type VolumeLanguage = string;
-
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  /** Default user quota */
-  DefaultUserQuota = "DefaultUserQuota",
-  /** Default group quota */
-  DefaultGroupQuota = "DefaultGroupQuota",
-  /** Individual user quota */
-  IndividualUserQuota = "IndividualUserQuota",
-  /** Individual group quota */
-  IndividualGroupQuota = "IndividualGroupQuota",
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DefaultUserQuota**: Default user quota \
- * **DefaultGroupQuota**: Default group quota \
- * **IndividualUserQuota**: Individual user quota \
- * **IndividualGroupQuota**: Individual group quota
- */
-export type Type = string;
-
 /** Known values of {@link RelationshipStatus} that the service accepts. */
 export enum KnownRelationshipStatus {
   /** Idle */
@@ -3176,6 +2836,30 @@ export enum KnownMirrorState {
  * **Broken**
  */
 export type MirrorState = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Default user quota */
+  DefaultUserQuota = "DefaultUserQuota",
+  /** Default group quota */
+  DefaultGroupQuota = "DefaultGroupQuota",
+  /** Individual user quota */
+  IndividualUserQuota = "IndividualUserQuota",
+  /** Individual group quota */
+  IndividualGroupQuota = "IndividualGroupQuota",
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DefaultUserQuota**: Default user quota \
+ * **DefaultGroupQuota**: Default group quota \
+ * **IndividualUserQuota**: Individual user quota \
+ * **IndividualGroupQuota**: Individual group quota
+ */
+export type Type = string;
 
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
@@ -3405,7 +3089,7 @@ export interface AccountsGetChangeKeyVaultInformationOptionalParams
 
 /** Contains response data for the getChangeKeyVaultInformation operation. */
 export type AccountsGetChangeKeyVaultInformationResponse =
-  AccountsGetChangeKeyVaultInformationHeaders;
+  GetKeyVaultStatusResponse;
 
 /** Optional parameters. */
 export interface AccountsChangeKeyVaultOptionalParams
@@ -3567,19 +3251,6 @@ export interface VolumesResetCifsPasswordOptionalParams
 export type VolumesResetCifsPasswordResponse = VolumesResetCifsPasswordHeaders;
 
 /** Optional parameters. */
-export interface VolumesSplitCloneFromParentOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the splitCloneFromParent operation. */
-export type VolumesSplitCloneFromParentResponse =
-  VolumesSplitCloneFromParentHeaders;
-
-/** Optional parameters. */
 export interface VolumesBreakFileLocksOptionalParams
   extends coreClient.OperationOptions {
   /** Optional body to provide the ability to clear file locks with selected options */
@@ -3602,18 +3273,6 @@ export interface VolumesListGetGroupIdListForLdapUserOptionalParams
 /** Contains response data for the listGetGroupIdListForLdapUser operation. */
 export type VolumesListGetGroupIdListForLdapUserResponse =
   GetGroupIdListForLdapUserResponse;
-
-/** Optional parameters. */
-export interface VolumesListQuotaReportOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the listQuotaReport operation. */
-export type VolumesListQuotaReportResponse = ListQuotaReportResponse;
 
 /** Optional parameters. */
 export interface VolumesBreakReplicationOptionalParams

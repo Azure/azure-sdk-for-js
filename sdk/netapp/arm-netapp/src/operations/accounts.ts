@@ -739,7 +739,7 @@ export class AccountsImpl implements Accounts {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -1095,16 +1095,16 @@ const getChangeKeyVaultInformationOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+      bodyMapper: Mappers.GetKeyVaultStatusResponse,
     },
     201: {
-      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+      bodyMapper: Mappers.GetKeyVaultStatusResponse,
     },
     202: {
-      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+      bodyMapper: Mappers.GetKeyVaultStatusResponse,
     },
     204: {
-      headersMapper: Mappers.AccountsGetChangeKeyVaultInformationHeaders,
+      bodyMapper: Mappers.GetKeyVaultStatusResponse,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
