@@ -3,40 +3,42 @@
 
 import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
-  assetsGet,
-  assetsCreateOrReplace,
-  assetsUpdate,
-  assetsDelete,
-  assetsListByResourceGroup,
   assetsListBySubscription,
+  assetsListByResourceGroup,
+  assetsDelete,
+  assetsUpdate,
+  assetsCreateOrReplace,
+  assetsGet,
 } from "../../api/assets/index.js";
 import { Asset, AssetUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
-  AssetsGetOptionalParams,
-  AssetsCreateOrReplaceOptionalParams,
-  AssetsUpdateOptionalParams,
-  AssetsDeleteOptionalParams,
-  AssetsListByResourceGroupOptionalParams,
   AssetsListBySubscriptionOptionalParams,
+  AssetsListByResourceGroupOptionalParams,
+  AssetsDeleteOptionalParams,
+  AssetsUpdateOptionalParams,
+  AssetsCreateOrReplaceOptionalParams,
+  AssetsGetOptionalParams,
 } from "../../api/options.js";
 
 /** Interface representing a Assets operations. */
 export interface AssetsOperations {
-  /** Get a Asset */
-  get: (
+  /** List Asset resources by subscription ID */
+  listBySubscription: (
+    options?: AssetsListBySubscriptionOptionalParams,
+  ) => PagedAsyncIterableIterator<Asset>;
+  /** List Asset resources by resource group */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: AssetsListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<Asset>;
+  /** Delete a Asset */
+  delete: (
     resourceGroupName: string,
     assetName: string,
-    options?: AssetsGetOptionalParams,
-  ) => Promise<Asset>;
-  /** Create a Asset */
-  createOrReplace: (
-    resourceGroupName: string,
-    assetName: string,
-    resource: Asset,
-    options?: AssetsCreateOrReplaceOptionalParams,
-  ) => PollerLike<OperationState<Asset>, Asset>;
+    options?: AssetsDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Update a Asset */
   update: (
     resourceGroupName: string,
@@ -44,63 +46,50 @@ export interface AssetsOperations {
     properties: AssetUpdate,
     options?: AssetsUpdateOptionalParams,
   ) => PollerLike<OperationState<Asset>, Asset>;
-  /** Delete a Asset */
-  delete: (
+  /** Create a Asset */
+  createOrReplace: (
     resourceGroupName: string,
     assetName: string,
-    options?: AssetsDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List Asset resources by resource group */
-  listByResourceGroup: (
+    resource: Asset,
+    options?: AssetsCreateOrReplaceOptionalParams,
+  ) => PollerLike<OperationState<Asset>, Asset>;
+  /** Get a Asset */
+  get: (
     resourceGroupName: string,
-    options?: AssetsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<Asset>;
-  /** List Asset resources by subscription ID */
-  listBySubscription: (
-    options?: AssetsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<Asset>;
+    assetName: string,
+    options?: AssetsGetOptionalParams,
+  ) => Promise<Asset>;
 }
 
-export function getAssets(context: DeviceRegistryManagementContext, subscriptionId: string) {
+function _getAssets(context: DeviceRegistryManagementContext) {
   return {
-    get: (resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams) =>
-      assetsGet(context, subscriptionId, resourceGroupName, assetName, options),
-    createOrReplace: (
+    listBySubscription: (options?: AssetsListBySubscriptionOptionalParams) =>
+      assetsListBySubscription(context, options),
+    listByResourceGroup: (
       resourceGroupName: string,
-      assetName: string,
-      resource: Asset,
-      options?: AssetsCreateOrReplaceOptionalParams,
-    ) =>
-      assetsCreateOrReplace(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        assetName,
-        resource,
-        options,
-      ),
+      options?: AssetsListByResourceGroupOptionalParams,
+    ) => assetsListByResourceGroup(context, resourceGroupName, options),
+    delete: (resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams) =>
+      assetsDelete(context, resourceGroupName, assetName, options),
     update: (
       resourceGroupName: string,
       assetName: string,
       properties: AssetUpdate,
       options?: AssetsUpdateOptionalParams,
-    ) => assetsUpdate(context, subscriptionId, resourceGroupName, assetName, properties, options),
-    delete: (resourceGroupName: string, assetName: string, options?: AssetsDeleteOptionalParams) =>
-      assetsDelete(context, subscriptionId, resourceGroupName, assetName, options),
-    listByResourceGroup: (
+    ) => assetsUpdate(context, resourceGroupName, assetName, properties, options),
+    createOrReplace: (
       resourceGroupName: string,
-      options?: AssetsListByResourceGroupOptionalParams,
-    ) => assetsListByResourceGroup(context, subscriptionId, resourceGroupName, options),
-    listBySubscription: (options?: AssetsListBySubscriptionOptionalParams) =>
-      assetsListBySubscription(context, subscriptionId, options),
+      assetName: string,
+      resource: Asset,
+      options?: AssetsCreateOrReplaceOptionalParams,
+    ) => assetsCreateOrReplace(context, resourceGroupName, assetName, resource, options),
+    get: (resourceGroupName: string, assetName: string, options?: AssetsGetOptionalParams) =>
+      assetsGet(context, resourceGroupName, assetName, options),
   };
 }
 
-export function getAssetsOperations(
-  context: DeviceRegistryManagementContext,
-  subscriptionId: string,
-): AssetsOperations {
+export function _getAssetsOperations(context: DeviceRegistryManagementContext): AssetsOperations {
   return {
-    ...getAssets(context, subscriptionId),
+    ..._getAssets(context),
   };
 }
