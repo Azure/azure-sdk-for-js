@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { AuthenticationResult, ManagedIdentityRequestParams } from "@azure/msal-node";
+import type {
+  AuthenticationResult,
+  ManagedIdentityRequestParams,
+  ManagedIdentitySourceNames,
+} from "@azure/msal-node";
 import { AuthError, ManagedIdentityApplication } from "@azure/msal-node";
 import { ManagedIdentityCredential } from "../../../../src/credentials/managedIdentityCredential/index.js";
 import { tokenExchangeMsi } from "../../../../src/credentials/managedIdentityCredential/tokenExchangeMsi.js";
@@ -11,6 +15,7 @@ import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 import type { IdentityClient } from "../../../../src/client/identityClient.js";
 import { serviceFabricErrorMessage } from "../../../../src/credentials/managedIdentityCredential/utils.js";
+import { logger } from "../../../../src/index.js";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: MockInstance<
@@ -114,6 +119,54 @@ describe("ManagedIdentityCredential (MSAL)", function () {
           () => new ManagedIdentityCredential({ objectId: "id" }),
           `ManagedIdentityCredential: ${serviceFabricErrorMessage}`,
         );
+      });
+
+      it("logs authentication", async function () {
+        const logSpy = vi.spyOn(logger, "info");
+        vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
+          "ServiceFabric",
+        );
+        new ManagedIdentityCredential();
+
+        expect(logSpy).toHaveBeenCalledTimes(1);
+        expect(logSpy).toHaveBeenCalledWith(
+          "ManagedIdentityCredential =>",
+          "Using ServiceFabric managed identity.",
+        );
+
+        logSpy.mockRestore();
+      });
+    });
+
+    describe("log user-assigned managed Identity", function () {
+      const testCases = [
+        { idType: "clientId", idValue: "fakeClientID", source: "DefaultToImds" },
+        { idType: "objectId", idValue: "fakeObjectID", source: "Imds" },
+        { idType: "resourceId", idValue: "fakeResourceID", source: "AppService" },
+      ];
+
+      testCases.forEach(({ idType, idValue, source }) => {
+        it(`logs ${idType}`, async function () {
+          const logSpy = vi.spyOn(logger, "info");
+          vi.spyOn(
+            ManagedIdentityApplication.prototype,
+            "getManagedIdentitySource",
+          ).mockReturnValue(source as ManagedIdentitySourceNames);
+
+          new ManagedIdentityCredential({ [idType]: idValue });
+
+          expect(logSpy).toHaveBeenCalledTimes(2);
+          expect(logSpy).toHaveBeenCalledWith(
+            "ManagedIdentityCredential =>",
+            `Using ${source} managed identity.`,
+          );
+          expect(logSpy).toHaveBeenCalledWith(
+            "ManagedIdentityCredential =>",
+            `${source} with ${idType}: ${idValue}`,
+          );
+
+          logSpy.mockRestore();
+        });
       });
     });
   });

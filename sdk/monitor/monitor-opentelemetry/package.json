@@ -33,7 +33,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:node-tsx-ts --no-test-proxy -- --timeout 1200000 \"test/internal/unit/**/*.test.ts\"",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "engines": {
     "node": ">=18.0.0"

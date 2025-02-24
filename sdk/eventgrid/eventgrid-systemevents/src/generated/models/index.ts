@@ -152,6 +152,7 @@ export {
   AcsMessageChannelKind,
   AcsMessageReceivedEventData,
   AcsMessageMediaContent,
+  AcsMessageReactionContent,
   AcsMessageContext,
   AcsMessageButtonContent,
   AcsMessageInteractiveContent,
@@ -321,5 +322,5 @@ export {
   ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
   ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
-  ServiceApiVersions,
-} from "./models/index.js";
+  KnownServiceApiVersions,
+} from "./models.js";
