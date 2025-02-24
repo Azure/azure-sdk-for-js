@@ -1,5 +1,11 @@
 # Release History
 
+## 1.9.0 ()
+
+### Features Added
+
+- Add support for stable OpenTelemetry semantic conventions.
+
 ## 1.8.1 (2025-01-28)
 
 ### Bugs Fixed
