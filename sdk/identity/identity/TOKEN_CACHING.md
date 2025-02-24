@@ -47,13 +47,13 @@ With persistent disk token caching enabled, the library first determines if a va
 
 #### Persist user authentication record
 
-When authenticating a user via `InteractiveBrowserCredential`, `DeviceCodeCredential`, or `UsernamePasswordCredential`, an `AuthenticationRecord` can be persisted as well. It's returned from the `authenticate` API and contains data identifying an authenticated account. It's needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There's no sensitive data in the `AuthenticationRecord`, so it can be persisted in a non-protected state.
+When authenticating a user via `InteractiveBrowserCredential` or `DeviceCodeCredential`, an `AuthenticationRecord` can be persisted as well. It's returned from the `authenticate` API and contains data identifying an authenticated account. It's needed to identify the appropriate entry in the persisted token cache to silently authenticate on subsequent executions. There's no sensitive data in the `AuthenticationRecord`, so it can be persisted in a non-protected state.
 
 [Here is an example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#persist-the-authentication-record) of an application storing the `AuthenticationRecord` to the local file system after authenticating the user.
 
 #### Silently authenticating a user with AuthenticationRecord and TokenCachePersistenceOptions
 
-Once an application has configured an `InteractiveBrowserCredential`, `DeviceCodeCredential`, or `UsernamePasswordCredential` to persist token data and an `AuthenticationRecord`, it's possible to silently authenticate. [This example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#silent-authentication-with-authentication-record-and-token-cache-persistence-options) demonstrates an application setting the `TokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
+Once an application has configured an `InteractiveBrowserCredential` or `DeviceCodeCredential` to persist token data and an `AuthenticationRecord`, it's possible to silently authenticate. [This example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#silent-authentication-with-authentication-record-and-token-cache-persistence-options) demonstrates an application setting the `TokenCachePersistenceOptions` and retrieving an `AuthenticationRecord` from the local file system to create an `InteractiveBrowserCredential` capable of silent authentication.
 
 The credential created in [this example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#silent-authentication-with-authentication-record-and-token-cache-persistence-options) will silently authenticate given that a valid token for corresponding to the `AuthenticationRecord` still exists in the persisted token data. There are some cases where interaction will still be required such as on token expiry, or when additional authentication is required for a particular resource.
 
@@ -79,5 +79,4 @@ The following table indicates the state of in-memory and persistent caching in e
 | `InteractiveBrowserCredential` | Supported                                                              | Supported                     |
 | `ManagedIdentityCredential`    | Supported                                                              | Not Supported                 |
 | `OnBehalfOfCredential`         | Supported                                                              | Supported                     |
-| `UsernamePasswordCredential`   | Supported                                                              | Supported                     |
 | `WorkloadIdentityCredential`   | Supported                                                              | Supported                     |
