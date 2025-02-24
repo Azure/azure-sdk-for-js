@@ -19,6 +19,7 @@ import { createHttpHeaders } from "./httpHeaders.js";
 import { RestError } from "./restError.js";
 import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
+import { Sanitizer } from "./util/sanitizer.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 
@@ -99,8 +100,11 @@ class NodeHttpClient implements HttpClient {
       request.abortSignal.addEventListener("abort", abortListener);
     }
 
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
     if (request.timeout > 0) {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
+        const sanitizer = new Sanitizer();
+        logger.info(`request to '${sanitizer.sanitizeUrl(request.url)}' timed out. canceling...`);
         abortController.abort();
       }, request.timeout);
     }
@@ -135,6 +139,10 @@ class NodeHttpClient implements HttpClient {
       }
 
       const res = await this.makeRequest(request, abortController, body);
+
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+      }
 
       const headers = getResponseHeaders(res);
 
