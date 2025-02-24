@@ -11,7 +11,7 @@ pr:
     - "*"
 
     exclude:
-    - sdk/cosmosdb/cosmos
+    - sdk/cosmosdb/cosmos/
 
 parameters:
   - name: Service
