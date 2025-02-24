@@ -10,10 +10,7 @@
 
 import { PurviewAccount } from "@azure-rest/purview-administration";
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
-
+import "dotenv/config";
 const endpoint = process.env["ENDPOINT"] || "";
 
 async function main(): Promise<void> {
