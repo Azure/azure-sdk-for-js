@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.7 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,20 @@
 
 ### Other Changes
 
-- Rename package to `@azure/eventgrid-systemevents`
+## 1.0.0-beta.6 (2025-02-20)
+
+### Features Added
+
+- Added `animated` property to `AcsMessageMediaContent`
+
+- Added the following properties to `AcsMessageReceivedEventData`
+  - `messageId`
+  - `messageType`
+  - `reaction`
+
+### Other Changes
+
+- Rename this package to `@azure/eventgrid-systemevents`
 
 ## 1.0.0-beta.5 (2025-01-21)
 
