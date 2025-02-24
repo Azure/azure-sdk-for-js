@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/purview-catalog": [
-        "./dist/esm"
-      ]
+      "@azure-rest/purview-catalog": ["./dist/esm"]
     }
   }
 }
