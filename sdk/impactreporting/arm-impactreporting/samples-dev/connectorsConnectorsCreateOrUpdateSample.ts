@@ -19,7 +19,7 @@ async function connectorsCreateOrUpdate(): Promise<void> {
       connectorType: "AzureMonitor",
       connectorId: "",
       tenantId: "",
-      lastRunTimeStamp: new Date()
+      lastRunTimeStamp: new Date(),
     },
   });
   console.log(result);
