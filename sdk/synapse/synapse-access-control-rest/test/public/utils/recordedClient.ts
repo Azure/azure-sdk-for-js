@@ -41,8 +41,7 @@ export async function createClient(
 
 export function getWorkspaceName(): string {
   const url: string = env.ENDPOINT ?? "";
-  // eslint-disable-next-line no-useless-escape
-  const matches = url.match(/^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)/) ?? [];
+  const matches = url.match(/^(?:https?:\/\/)?(?:[^@/\n]+@)?(?:www\.)?([^:/?\n]+)/) ?? [];
 
   if (matches.length < 2) {
     throw new Error(`Could not extract workspace name from the environment ENDPOINT`);
