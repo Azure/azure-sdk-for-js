@@ -40,10 +40,6 @@ import {
   SEMATTRS_RPC_SYSTEM,
 } from "@opentelemetry/semantic-conventions";
 import type { ContextTagKeys } from "./generated/index.js";
-import {
-  ATTR_URL_TEMPLATE,
-  ATTR_USER_AGENT_SYNTHETIC_TYPE,
-} from "@opentelemetry/semantic-conventions/incubating";
 
 /**
  * Azure Monitor envelope tags.
@@ -129,7 +125,7 @@ export enum MaxPropertyLengths {
  * Legacy HTTP semantic convention values
  * @internal
  */
-export const httpLegacySemanticValues = [
+export const legacySemanticValues = [
   SEMATTRS_NET_PEER_IP,
   SEMATTRS_NET_PEER_NAME,
   SEMATTRS_PEER_SERVICE,
@@ -163,7 +159,6 @@ export const httpSemanticValues = [
   ATTR_URL_PATH,
   ATTR_URL_QUERY,
   ATTR_URL_SCHEME,
-  ATTR_URL_TEMPLATE,
   ATTR_ERROR_TYPE,
   ATTR_NETWORK_LOCAL_ADDRESS,
   ATTR_NETWORK_LOCAL_PORT,
@@ -173,7 +168,6 @@ export const httpSemanticValues = [
   ATTR_NETWORK_PROTOCOL_VERSION,
   ATTR_NETWORK_TRANSPORT,
   ATTR_USER_AGENT_ORIGINAL,
-  ATTR_USER_AGENT_SYNTHETIC_TYPE,
   ATTR_HTTP_REQUEST_METHOD,
   ATTR_HTTP_RESPONSE_STATUS_CODE,
 ];

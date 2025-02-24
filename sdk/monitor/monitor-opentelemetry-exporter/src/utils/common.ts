@@ -16,7 +16,6 @@ import {
   DBSYSTEMVALUES_SQLITE,
   DBSYSTEMVALUES_OTHER_SQL,
   DBSYSTEMVALUES_HSQLDB,
-  SEMATTRS_NET_PEER_PORT,
   SEMATTRS_PEER_SERVICE,
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -47,6 +46,7 @@ import {
   getHttpTarget,
   getHttpUrl,
   getNetPeerName,
+  getNetPeerPort,
   getPeerIp,
 } from "./spanUtils.js";
 
@@ -173,7 +173,7 @@ export function getUrl(attributes: Attributes): string {
         if (httpHost) {
           return `${httpScheme}://${httpHost}${httpTarget}`;
         } else {
-          const netPeerPort = attributes[SEMATTRS_NET_PEER_PORT];
+          const netPeerPort = getNetPeerPort(attributes);
           if (netPeerPort) {
             const netPeerName = getNetPeerName(attributes);
             if (netPeerName) {

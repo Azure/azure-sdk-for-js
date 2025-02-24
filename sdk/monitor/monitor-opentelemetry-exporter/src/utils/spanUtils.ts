@@ -42,6 +42,9 @@ import {
   ATTR_SERVER_ADDRESS,
   SEMATTRS_HTTP_HOST,
   SEMATTRS_NET_PEER_NAME,
+  ATTR_CLIENT_PORT,
+  ATTR_SERVER_PORT,
+  SEMATTRS_NET_PEER_PORT,
 } from "@opentelemetry/semantic-conventions";
 
 import {
@@ -53,7 +56,7 @@ import {
   serializeAttribute,
 } from "./common.js";
 import type { Tags, Properties, MSLink, Measurements } from "../types.js";
-import { httpLegacySemanticValues, httpSemanticValues, MaxPropertyLengths } from "../types.js";
+import { httpSemanticValues, legacySemanticValues, MaxPropertyLengths } from "../types.js";
 import { parseEventHubSpan } from "./eventhub.js";
 import {
   AzureMonitorSampleRate,
@@ -136,7 +139,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
         !(
           key.startsWith("_MS.") ||
           key.startsWith("microsoft.") ||
-          httpLegacySemanticValues.includes(key) ||
+          legacySemanticValues.includes(key) ||
           httpSemanticValues.includes(key as any) ||
           key === (KnownContextTagKeys.AiOperationName as string)
         )
@@ -499,13 +502,17 @@ export function getPeerIp(attributes: Attributes) {
 }
 
 export function getLocationIp(tags: any, attributes: Attributes): void {
-  const httpClientIp = attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_HTTP_CLIENT_IP];
+  const httpClientIp = getHttpClientIp(attributes);
   const netPeerIp = getPeerIp(attributes);
   if (httpClientIp) {
     tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
   } else if (netPeerIp) {
     tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
   }
+}
+
+export function getHttpClientIp(attributes: Attributes) {
+  return attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_HTTP_CLIENT_IP];
 }
 
 export function getUserAgent(attributes: Attributes) {
@@ -545,4 +552,12 @@ export function getHttpHost(attributes: Attributes) {
 
 export function getNetPeerName(attributes: Attributes) {
   return attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_NET_PEER_NAME];
+}
+
+export function getNetPeerPort(attributes: Attributes) {
+  return (
+    attributes[ATTR_CLIENT_PORT] ||
+    attributes[ATTR_SERVER_PORT] ||
+    attributes[SEMATTRS_NET_PEER_PORT]
+  );
 }

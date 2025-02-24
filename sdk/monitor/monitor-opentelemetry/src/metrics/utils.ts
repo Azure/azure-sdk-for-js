@@ -6,12 +6,8 @@ import { SpanStatusCode } from "@opentelemetry/api";
 import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import {
   SEMATTRS_PEER_SERVICE,
-  SEMATTRS_NET_PEER_NAME,
-  SEMATTRS_NET_HOST_PORT,
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_TYPE,
-  SEMATTRS_HTTP_USER_AGENT,
-  SEMATTRS_HTTP_STATUS_CODE,
   DBSYSTEMVALUES_DB2,
   DBSYSTEMVALUES_DERBY,
   DBSYSTEMVALUES_MARIADB,
@@ -42,11 +38,17 @@ import { StandardMetricIds, StandardMetricPropertyNames } from "./types";
 import type { LogRecord } from "@opentelemetry/sdk-logs";
 import type { Resource } from "@opentelemetry/resources";
 import * as os from "os";
+import {
+  getHttpStatusCode,
+  getNetHostPort,
+  getNetPeerName,
+  getUserAgent,
+} from "./quickpulse/utils";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
   dimensions.metricId = StandardMetricIds.REQUEST_DURATION;
-  const statusCode = String(span.attributes[SEMATTRS_HTTP_STATUS_CODE]);
+  const statusCode = String(getHttpStatusCode(span.attributes));
   dimensions.requestResultCode = statusCode;
   // OTel treats 4xx request responses as UNSET SpanStatusCode, but we should count them as failed
   dimensions.requestSuccess =
@@ -60,7 +62,7 @@ export function getRequestDimensions(span: ReadableSpan): Attributes {
 export function getDependencyDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricDependencyDimensions = getBaseDimensions(span.resource);
   dimensions.metricId = StandardMetricIds.DEPENDENCIES_DURATION;
-  const statusCode = String(span.attributes[SEMATTRS_HTTP_STATUS_CODE]);
+  const statusCode = String(getHttpStatusCode(span.attributes));
   dimensions.dependencyTarget = getDependencyTarget(span.attributes);
   dimensions.dependencyResultCode = statusCode;
   dimensions.dependencyType = "http";
@@ -99,8 +101,8 @@ export function getDependencyTarget(attributes: Attributes): string {
     return "";
   }
   const peerService = attributes[SEMATTRS_PEER_SERVICE];
-  const hostPort = attributes[SEMATTRS_NET_HOST_PORT];
-  const netPeerName = attributes[SEMATTRS_NET_PEER_NAME];
+  const hostPort = getNetHostPort(attributes);
+  const netPeerName = getNetPeerName(attributes);
   if (peerService) {
     return String(peerService);
   } else if (hostPort && netPeerName) {
@@ -155,7 +157,7 @@ export function isTraceTelemetry(logRecord: LogRecord): boolean {
 
 export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
   // eslint-disable-next-line @typescript-eslint/no-base-to-string
-  const userAgent = String(record.attributes[SEMATTRS_HTTP_USER_AGENT]);
+  const userAgent = String(getUserAgent(record.attributes as Attributes));
   return userAgent !== null && userAgent.includes("AlwaysOn") ? true : false;
 }
 
