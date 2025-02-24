@@ -11,9 +11,7 @@ import createPurviewSharingClient, {
   isUnexpected,
 } from "@azure-rest/purview-sharing";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to create or replace a sent share
@@ -141,7 +139,7 @@ async function createSentShareUserInvitation(
   return sentShareInvitationDetails;
 }
 
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env["ENDPOINT"] || "";
   const blobStorageAccountResourceId = process.env["BLOB_STORAGE_ACCOUNT_RESOURCE_ID"] || "";
   const adlsgen2StorageAccountResourceId =

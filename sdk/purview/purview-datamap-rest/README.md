@@ -44,6 +44,18 @@ can be used to authenticate the client.
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
+Use the returned token credential to authenticate the client:
+
+```ts snippet:ReadmeSampleCreateClient_Node
+import PurviewDataMap from "@azure-rest/purview-datamap";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const client = PurviewDataMap(
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
+);
+```
+
 ## Examples
 
 The following sections provide several code snippets covering some of the most common Purview DataMap scenarios, including:
@@ -52,26 +64,48 @@ The following sections provide several code snippets covering some of the most c
 
 ### Get All Type Definitions
 
-```typescript
-import PurviewDataMap from "@azure-rest/purview-datamap";
+```ts snippet:ReadmeSampleGetAllTypeDefinitions
+import PurviewDataMap, { isUnexpected } from "@azure-rest/purview-datamap";
 import { DefaultAzureCredential } from "@azure/identity";
-import { isUnexpected } from "@azure-rest/purview-datamap";
-import "dotenv/config";
 
-const endpoint = process.env["ENDPOINT"] || "";
+const client = PurviewDataMap(
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
+);
 
-async function main() {
-  console.log("== List entity typedefs sample ==");
-  const client = PurviewDataMap(endpoint, new DefaultAzureCredential());
+const result = await client.path("/atlas/v2/types/typedefs").get();
 
-  const result = await client.path("/atlas/v2/types/typedefs").get();
-
-  if (isUnexpected(result)) {
-    throw result;
-  }
+if (isUnexpected(result)) {
+  throw result.body;
 }
 
-main().catch(console.error);
+for (const entityDef of result.body?.businessMetadataDefs) {
+  console.log(`Entity Definition Name: ${entityDef.name}`);
+}
+
+for (const entityDef of result.body?.classificationDefs) {
+  console.log(`Entity Definition Name: ${entityDef.name}`);
+}
+
+for (const entityDef of result.body?.entityDefs) {
+  console.log(`Entity Definition Name: ${entityDef.name}`);
+}
+
+for (const entityDef of result.body?.enumDefs) {
+  console.log(`Entity Definition Name: ${entityDef.name}`);
+}
+
+for (const entityDef of result.body?.relationshipDefs) {
+  console.log(`Entity Definition Name: ${entityDef.name}`);
+}
+
+for (const entityDef of result.body?.structDefs) {
+  console.log(`Entity Definition Name: ${entityDef.name}`);
+}
+
+for (const entityDef of result.body?.termTemplateDefs) {
+  console.log(`Entity Definition Name: ${entityDef.name}`);
+}
 ```
 
 ## Troubleshooting
@@ -80,8 +114,8 @@ main().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
