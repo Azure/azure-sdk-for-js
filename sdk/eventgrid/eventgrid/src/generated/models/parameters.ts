@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 
 export const contentType: OperationParameter = {
@@ -19,9 +19,9 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const events: OperationParameter = {
@@ -34,11 +34,11 @@ export const events: OperationParameter = {
       element: {
         type: {
           name: "Composite",
-          className: "EventGridEvent"
-        }
-      }
-    }
-  }
+          className: "EventGridEvent",
+        },
+      },
+    },
+  },
 };
 
 export const topicHostname: OperationURLParameter = {
@@ -47,10 +47,10 @@ export const topicHostname: OperationURLParameter = {
     serializedName: "topicHostname",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -60,9 +60,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType1: OperationParameter = {
@@ -72,9 +72,9 @@ export const contentType1: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const events1: OperationParameter = {
@@ -87,11 +87,11 @@ export const events1: OperationParameter = {
       element: {
         type: {
           name: "Composite",
-          className: "CloudEvent"
-        }
-      }
-    }
-  }
+          className: "CloudEvent",
+        },
+      },
+    },
+  },
 };
 
 export const aegChannelName: OperationParameter = {
@@ -99,9 +99,9 @@ export const aegChannelName: OperationParameter = {
   mapper: {
     serializedName: "aeg-channel-name",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const events2: OperationParameter = {
@@ -113,9 +113,10 @@ export const events2: OperationParameter = {
       name: "Sequence",
       element: {
         type: {
-          name: "any"
-        }
-      }
-    }
-  }
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
