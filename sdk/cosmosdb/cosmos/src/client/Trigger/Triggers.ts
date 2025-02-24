@@ -58,8 +58,18 @@ export class Triggers {
   /**
    * Read all Triggers.
    * @example Read all trigger to array.
-   * ```typescript
-   * const {body: triggerList} = await container.triggers.readAll().fetchAll();
+   * ```ts snippet:TriggersReadAllTriggers
+   * import { CosmosClient } from "@azure/cosmos";
+   *
+   * const endpoint = "https://your-account.documents.azure.com";
+   * const key = "<database account masterkey>";
+   * const client = new CosmosClient({ endpoint, key });
+   *
+   * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+   *
+   * const { container } = await database.containers.createIfNotExists({ id: "Test Database" });
+   *
+   * const { resources: triggerList } = await container.scripts.triggers.readAll().fetchAll();
    * ```
    */
   public readAll(options?: FeedOptions): QueryIterator<TriggerDefinition & Resource> {
