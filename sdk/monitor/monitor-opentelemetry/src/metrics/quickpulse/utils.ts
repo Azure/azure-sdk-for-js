@@ -560,58 +560,91 @@ export function getMsFromFilterTimestampString(timestamp: string): number {
 }
 
 export function getPeerIp(attributes: Attributes): string | undefined {
-  return String(attributes[ATTR_NETWORK_PEER_ADDRESS] || attributes[SEMATTRS_NET_PEER_IP]);
+  if (attributes) {
+    return String(attributes[ATTR_NETWORK_PEER_ADDRESS] || attributes[SEMATTRS_NET_PEER_IP]);
+  }
+  return;
 }
 
 export function getUserAgent(attributes: Attributes): string | undefined {
-  return String(attributes[ATTR_USER_AGENT_ORIGINAL] || attributes[SEMATTRS_HTTP_USER_AGENT]);
+  if (attributes) {
+    return String(attributes[ATTR_USER_AGENT_ORIGINAL] || attributes[SEMATTRS_HTTP_USER_AGENT]);
+  }
+  return;
 }
 
 export function getHttpUrl(attributes: Attributes): string {
   // Stable sem conv only supports populating url from `url.full`
-  return String(attributes[ATTR_URL_FULL] || attributes[SEMATTRS_HTTP_URL] || "");
+  if (attributes) {
+    return String(attributes[ATTR_URL_FULL] || attributes[SEMATTRS_HTTP_URL] || "");
+  }
+  return "";
 }
 
 export function getHttpMethod(attributes: Attributes): string | undefined {
-  return String(attributes[ATTR_HTTP_REQUEST_METHOD] || attributes[SEMATTRS_HTTP_METHOD]);
+  if (attributes) {
+    return String(attributes[ATTR_HTTP_REQUEST_METHOD] || attributes[SEMATTRS_HTTP_METHOD]);
+  }
+  return;
 }
 
 export function getHttpStatusCode(attributes: Attributes): string | undefined {
-  return String(
-    attributes[ATTR_HTTP_RESPONSE_STATUS_CODE] || attributes[SEMATTRS_HTTP_STATUS_CODE],
-  );
+  if (attributes) {
+    return String(
+      attributes[ATTR_HTTP_RESPONSE_STATUS_CODE] || attributes[SEMATTRS_HTTP_STATUS_CODE],
+    );
+  }
+  return;
 }
 
 export function getHttpScheme(attributes: Attributes): string | undefined {
-  return String(attributes[ATTR_URL_SCHEME] || attributes[SEMATTRS_HTTP_SCHEME]);
+  if (attributes) {
+    return String(attributes[ATTR_URL_SCHEME] || attributes[SEMATTRS_HTTP_SCHEME]);
+  }
+  return;
 }
 
 export function getHttpTarget(attributes: Attributes): string {
-  if (attributes[ATTR_URL_PATH]) {
-    return String(attributes[ATTR_URL_PATH]);
+  if (attributes) {
+    if (attributes[ATTR_URL_PATH]) {
+      return String(attributes[ATTR_URL_PATH]);
+    }
+    if (attributes[ATTR_URL_QUERY]) {
+      return String(attributes[ATTR_URL_QUERY]);
+    }
+    return String(attributes[SEMATTRS_HTTP_TARGET] || "");
   }
-  if (attributes[ATTR_URL_QUERY]) {
-    return String(attributes[ATTR_URL_QUERY]);
-  }
-  return String(attributes[SEMATTRS_HTTP_TARGET] || "");
+  return "";
 }
 
 export function getHttpHost(attributes: Attributes): string | undefined {
-  return String(attributes[ATTR_SERVER_ADDRESS] || attributes[SEMATTRS_HTTP_HOST]);
+  if (attributes) {
+    return String(attributes[ATTR_SERVER_ADDRESS] || attributes[SEMATTRS_HTTP_HOST]);
+  }
+  return;
 }
 
 export function getNetPeerName(attributes: Attributes): string {
-  return String(attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_NET_PEER_NAME] || "");
+  if (attributes) {
+    return String(attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_NET_PEER_NAME] || "");
+  }
+  return "";
 }
 
 export function getNetHostPort(attributes: Attributes): string {
-  return String(attributes[ATTR_SERVER_PORT] || attributes[SEMATTRS_NET_HOST_PORT] || "");
+  if (attributes) {
+    return String(attributes[ATTR_SERVER_PORT] || attributes[SEMATTRS_NET_HOST_PORT] || "");
+  }
+  return "";
 }
 
 export function getNetPeerPort(attributes: Attributes): string | undefined {
-  return String(
-    attributes[ATTR_CLIENT_PORT] ||
-      attributes[ATTR_SERVER_PORT] ||
-      attributes[SEMATTRS_NET_PEER_PORT],
-  );
+  if (attributes) {
+    return String(
+      attributes[ATTR_CLIENT_PORT] ||
+        attributes[ATTR_SERVER_PORT] ||
+        attributes[SEMATTRS_NET_PEER_PORT],
+    );
+  }
+  return;
 }
