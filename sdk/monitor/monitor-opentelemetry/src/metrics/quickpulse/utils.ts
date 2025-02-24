@@ -18,7 +18,7 @@ import type {
   CollectionConfigurationError,
 } from "../../generated";
 import { KnownDocumentType } from "../../generated";
-import type { Attributes } from "@opentelemetry/api";
+import type { Attributes, AttributeValue } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
   SEMATTRS_EXCEPTION_MESSAGE,
@@ -559,32 +559,32 @@ export function getMsFromFilterTimestampString(timestamp: string): number {
   return seconds * 1000 + minutes * 60000 + hours * 3600000 + days * 86400000;
 }
 
-export function getPeerIp(attributes: Attributes) {
+export function getPeerIp(attributes: Attributes): AttributeValue | unknown {
   return attributes[ATTR_NETWORK_PEER_ADDRESS] || attributes[SEMATTRS_NET_PEER_IP];
 }
 
-export function getUserAgent(attributes: Attributes) {
+export function getUserAgent(attributes: Attributes): AttributeValue | unknown {
   return attributes[ATTR_USER_AGENT_ORIGINAL] || attributes[SEMATTRS_HTTP_USER_AGENT];
 }
 
-export function getHttpUrl(attributes: Attributes) {
+export function getHttpUrl(attributes: Attributes): AttributeValue | unknown {
   // Stable sem conv only supports populating url from `url.full`
   return attributes[ATTR_URL_FULL] || attributes[SEMATTRS_HTTP_URL];
 }
 
-export function getHttpMethod(attributes: Attributes) {
+export function getHttpMethod(attributes: Attributes): AttributeValue | unknown {
   return attributes[ATTR_HTTP_REQUEST_METHOD] || attributes[SEMATTRS_HTTP_METHOD];
 }
 
-export function getHttpStatusCode(attributes: Attributes) {
+export function getHttpStatusCode(attributes: Attributes): AttributeValue | unknown {
   return attributes[ATTR_HTTP_RESPONSE_STATUS_CODE] || attributes[SEMATTRS_HTTP_STATUS_CODE];
 }
 
-export function getHttpScheme(attributes: Attributes) {
+export function getHttpScheme(attributes: Attributes): AttributeValue | unknown {
   return attributes[ATTR_URL_SCHEME] || attributes[SEMATTRS_HTTP_SCHEME];
 }
 
-export function getHttpTarget(attributes: Attributes) {
+export function getHttpTarget(attributes: Attributes): AttributeValue | unknown {
   if (attributes[ATTR_URL_PATH]) {
     return attributes[ATTR_URL_PATH];
   }
@@ -594,19 +594,19 @@ export function getHttpTarget(attributes: Attributes) {
   return attributes[SEMATTRS_HTTP_TARGET];
 }
 
-export function getHttpHost(attributes: Attributes) {
+export function getHttpHost(attributes: Attributes): AttributeValue | unknown {
   return attributes[ATTR_SERVER_ADDRESS] || attributes[SEMATTRS_HTTP_HOST];
 }
 
-export function getNetPeerName(attributes: Attributes) {
+export function getNetPeerName(attributes: Attributes): AttributeValue | unknown {
   return attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_NET_PEER_NAME];
 }
 
-export function getNetHostPort(attributes: Attributes) {
+export function getNetHostPort(attributes: Attributes): AttributeValue | unknown {
   return attributes[ATTR_SERVER_PORT] || attributes[SEMATTRS_NET_HOST_PORT];
 }
 
-export function getNetPeerPort(attributes: Attributes) {
+export function getNetPeerPort(attributes: Attributes): AttributeValue | unknown {
   return (
     attributes[ATTR_CLIENT_PORT] ||
     attributes[ATTR_SERVER_PORT] ||
