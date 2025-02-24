@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/synapse-monitoring": [
-        "./dist/esm"
-      ]
+      "@azure/synapse-monitoring": ["./dist/esm"]
     }
   }
 }
