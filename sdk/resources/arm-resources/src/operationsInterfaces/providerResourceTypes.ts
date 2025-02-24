@@ -8,7 +8,7 @@
 
 import {
   ProviderResourceTypesListOptionalParams,
-  ProviderResourceTypesListResponse
+  ProviderResourceTypesListResponse,
 } from "../models/index.js";
 
 /** Interface representing a ProviderResourceTypes. */
@@ -20,6 +20,6 @@ export interface ProviderResourceTypes {
    */
   list(
     resourceProviderNamespace: string,
-    options?: ProviderResourceTypesListOptionalParams
+    options?: ProviderResourceTypesListOptionalParams,
   ): Promise<ProviderResourceTypesListResponse>;
 }
