@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
  *
  * @summary Lists all the storage accounts available under the given resource group. Note that storage keys are not returned; use the ListKeys operation for this.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountListByResourceGroup.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountListByResourceGroup.json
  */
 async function storageAccountListByResourceGroup(): Promise<void> {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function storageAccountListByResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageAccountListByResourceGroup();
+  await storageAccountListByResourceGroup();
 }
 
 main().catch(console.error);

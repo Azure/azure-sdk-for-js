@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Sets the properties of a storage account’s Table service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of a storage account’s Table service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/TableServicesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/TableServicesPut.json
  */
 async function tableServicesPut(): Promise<void> {
   const subscriptionId =
@@ -75,7 +75,7 @@ async function tableServicesPut(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tableServicesPut();
+  await tableServicesPut();
 }
 
 main().catch(console.error);

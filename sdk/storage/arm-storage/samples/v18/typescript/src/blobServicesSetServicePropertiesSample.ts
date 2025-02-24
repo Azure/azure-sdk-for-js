@@ -19,7 +19,7 @@ import "dotenv/config";
  * This sample demonstrates how to Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobServicesPutAllowPermanentDelete.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobServicesPutAllowPermanentDelete.json
  */
 async function blobServicesPutAllowPermanentDelete(): Promise<void> {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function blobServicesPutAllowPermanentDelete(): Promise<void> {
  * This sample demonstrates how to Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobServicesPutLastAccessTimeBasedTracking.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobServicesPutLastAccessTimeBasedTracking.json
  */
 async function blobServicesPutLastAccessTimeBasedTracking(): Promise<void> {
   const subscriptionId =
@@ -77,7 +77,7 @@ async function blobServicesPutLastAccessTimeBasedTracking(): Promise<void> {
  * This sample demonstrates how to Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobServicesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobServicesPut.json
  */
 async function putBlobServices(): Promise<void> {
   const subscriptionId =
@@ -137,9 +137,9 @@ async function putBlobServices(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  blobServicesPutAllowPermanentDelete();
-  blobServicesPutLastAccessTimeBasedTracking();
-  putBlobServices();
+  await blobServicesPutAllowPermanentDelete();
+  await blobServicesPutLastAccessTimeBasedTracking();
+  await putBlobServices();
 }
 
 main().catch(console.error);
