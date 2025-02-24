@@ -3697,7 +3697,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
-    resolution: {integrity: sha512-/0l4gaWNX1XLWL3BKOK35Au6+MEhE7NpUqGaMrQDvGfYfX48GSewDRIP8vmpXk2UIUzNFD20l7FWRSIVzL9y4A==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-DZTOUcM0mv7KMwyWClunQkY+bBoJdvqU/OnS+lxly5hnmaZHKyaw8MiHJCBnET1lo9OZeRuhmkMtuh8WQYlz5Q==, tarball: file:projects/core-xml.tgz}
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
@@ -3729,7 +3729,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/eslint-plugin-azure-sdk@file:projects/eslint-plugin-azure-sdk.tgz':
-    resolution: {integrity: sha512-jHR5Jke9Gg35qF5lwxx44fO8SkE3sAqAfL3T+C689Fei5HWsvV6zJB3IljrqsYabRr9D/HeRuIYBeuO8ZNUE0w==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-iv7Z7q957O9fkwMzOmh5xWgN8hM+vXgMQhVv4aeewi31zGc1nwfjmOHk+vKpEqC3Puff0a3E642bmICE8fNYfg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
@@ -3993,27 +3993,27 @@ packages:
     version: 0.0.0
 
   '@rush-temp/purview-administration@file:projects/purview-administration.tgz':
-    resolution: {integrity: sha512-JN7KDRMb8lz+Y1R4/qCzgXnPtMIQ/BBGW8lg0Yo+EX9kRNQ0kSpvCmccMzd+ZgFXg0LfgfTC/Rxg0yLnW/OxrQ==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-sJnGYrisxfkOdG5jMzS3pzpdQLIy3Si35zykLbtDhzcbryjnil23kCF8FQvIN1NbssKa2uVuQDGLL6XnxIzzjQ==, tarball: file:projects/purview-administration.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-catalog@file:projects/purview-catalog.tgz':
-    resolution: {integrity: sha512-PHilTNhf1GdmFvq8Fh49/BJ+eKmBH+STjsheH4liNw9oyKw+5C3NR5ilP4v68L2PhtGY9X09e+qzuv1aQgru6A==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-2oWMgCH8s0r+H7dsaHfrRgjLZge6WDmIT0+PIFpngox1JIV6QlJ7fCxicc/67Ck6+BkbRbLe4YFKdLiNYinrVw==, tarball: file:projects/purview-catalog.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-datamap@file:projects/purview-datamap.tgz':
-    resolution: {integrity: sha512-mbfNApSFXC82V/3/QPOydA02WcutCZMshPGFfpU8HkMVakFGFrypEoAuDslDag6zUcko0Tok09pm5nLj1LHSZA==, tarball: file:projects/purview-datamap.tgz}
+    resolution: {integrity: sha512-RJ78L/3egQyb4gbQKiG3t0N4BE1i1GUcoW/XOxYkxFyzyT4Y6EQMi1NoWgmS8k/TR0+TI188tkcJYS/mLdjq3g==, tarball: file:projects/purview-datamap.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-scanning@file:projects/purview-scanning.tgz':
-    resolution: {integrity: sha512-7ClgZ7XFDalHtF+2oSmGmQMKlODSZxJRK08rTvkIXJdHC6dDB4z9oLjNgwyCORjPpYlp1fJgHONkDqzta01UBA==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-TL1/ylOzDiXMi3tE/hEHz8tO6DTBvEQe4NlMgKQv7rooOer60cYrpKEP/cSsK8RDmIVLTXmFBYQYnZoPTQUGsA==, tarball: file:projects/purview-scanning.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-sharing@file:projects/purview-sharing.tgz':
-    resolution: {integrity: sha512-x5acmxazA9OMmKOUaxqQXZ4TOCYxQ+COYhugU7cx6ra6yDhnxOdNcXh5o0ue2k2rackAgTSgyR2LHgCx2kVLxA==, tarball: file:projects/purview-sharing.tgz}
+    resolution: {integrity: sha512-O3GupcDG6n+axBs2udqt/9yZpol94twhESjYp5zHln1Chp/qq67TnEWlnOu/JmirDwhwbJ7CM7tK40BWAeyVsQ==, tarball: file:projects/purview-sharing.tgz}
     version: 0.0.0
 
   '@rush-temp/purview-workflow@file:projects/purview-workflow.tgz':
-    resolution: {integrity: sha512-q6nYKQ4y3xA4gzw0irSfi946oi5rRKtbWpImRsstW4yFS/sZK3GKcFbHBZ/g2bbRw7KqOw+sWbq1wSsohw3zRg==, tarball: file:projects/purview-workflow.tgz}
+    resolution: {integrity: sha512-S7eV3LUggY8JSQ7Db0sUSsJkAUyS+ed+NDmPBZE3apMPmQvHuKJKuyyZuWoxNb1b8qzgezA+bfIbpop07oUTRg==, tarball: file:projects/purview-workflow.tgz}
     version: 0.0.0
 
   '@rush-temp/quantum-jobs@file:projects/quantum-jobs.tgz':
@@ -4259,9 +4259,6 @@ packages:
 
   '@types/eslint@9.6.1':
     resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
-
-  '@types/eslint__js@8.42.3':
-    resolution: {integrity: sha512-alfG737uhmPdnvkrLdZLcEKJ/B8s9Y4hrZ+YAdzUeoArBlSUERA2E87ROfOaS4jd/C45fzOoZzidLc1IPwLqOw==}
 
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
@@ -5576,6 +5573,10 @@ packages:
 
   fast-xml-parser@4.5.3:
     resolution: {integrity: sha512-RKihhV+SHsIUGXObeVy9AXiBbFwkVk7Syp8XgwN5U3JV416+Gwp/GO9i0JYKmikykgz/UHRrrV4ROuZEo/T0ig==}
+    hasBin: true
+
+  fast-xml-parser@5.0.6:
+    resolution: {integrity: sha512-5zIl0jWsewL5LdneswG6aJXx1YH1FXQ02UVIe/CZI3wXhI3SqP62bjcIYRNOgU43/MnN1t/MCpH6UoOtBrDNug==}
     hasBin: true
 
   fastq@1.19.0:
@@ -7567,6 +7568,9 @@ packages:
 
   strnum@1.1.1:
     resolution: {integrity: sha512-O7aCHfYCamLCctjAiaucmE+fHf2DYHkus2OKCn4Wv03sykfFtgeECn505X6K4mPl8CRNd/qurC9guq+ynoN4pw==}
+
+  strnum@2.0.4:
+    resolution: {integrity: sha512-qrXhLMohxtEPKMlajtNaOp5zvAQUo6L3fNcdiJKzWH98kGfklqGwmxhFjM7DzxsuoVM7rJeiYr+lEcu4Jlu9UQ==}
 
   supports-color@5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}
@@ -20133,7 +20137,7 @@ snapshots:
       '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       eslint: 9.21.0
-      fast-xml-parser: 4.5.3
+      fast-xml-parser: 5.0.6
       playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
@@ -20448,7 +20452,6 @@ snapshots:
       '@eslint/js': 9.21.0
       '@types/eslint': 9.6.1
       '@types/eslint-config-prettier': 6.11.3
-      '@types/eslint__js': 8.42.3
       '@types/estree': 1.0.6
       '@types/node': 18.19.76
       '@typescript-eslint/eslint-plugin': 8.24.1(@typescript-eslint/parser@8.24.1(eslint@9.21.0)(typescript@5.7.3))(eslint@9.21.0)(typescript@5.7.3)
@@ -23786,10 +23789,6 @@ snapshots:
       '@types/estree': 1.0.6
       '@types/json-schema': 7.0.15
 
-  '@types/eslint__js@8.42.3':
-    dependencies:
-      '@types/eslint': 9.6.1
-
   '@types/estree@1.0.6': {}
 
   '@types/express-serve-static-core@4.19.6':
@@ -25316,6 +25315,10 @@ snapshots:
   fast-xml-parser@4.5.3:
     dependencies:
       strnum: 1.1.1
+
+  fast-xml-parser@5.0.6:
+    dependencies:
+      strnum: 2.0.4
 
   fastq@1.19.0:
     dependencies:
@@ -27565,6 +27568,8 @@ snapshots:
   strip-json-comments@5.0.1: {}
 
   strnum@1.1.1: {}
+
+  strnum@2.0.4: {}
 
   supports-color@5.5.0:
     dependencies:
