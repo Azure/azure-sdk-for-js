@@ -612,6 +612,9 @@ sdk/ai/ai-projects @ganeshyb @GraceBrigham
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/impactreporting/arm-impactreporting @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/informatica/arm-informaticadatamanagement @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
