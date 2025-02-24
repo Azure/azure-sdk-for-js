@@ -6,13 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type {
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
   DockerBuildRequest,
   EncodedTaskRunRequest,
   FileTaskRunRequest,
   TaskRunRequest,
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -24,8 +26,10 @@ import "dotenv/config";
  */
 async function registriesScheduleRun(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: DockerBuildRequest = {
     type: "DockerBuildRequest",
@@ -48,7 +52,10 @@ async function registriesScheduleRun(): Promise<void> {
       "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
@@ -65,8 +72,10 @@ async function registriesScheduleRun(): Promise<void> {
  */
 async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: EncodedTaskRunRequest = {
     type: "EncodedTaskRunRequest",
@@ -85,7 +94,10 @@ async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
     ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
@@ -102,8 +114,10 @@ async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
  */
 async function registriesScheduleRunFileTaskRun(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: FileTaskRunRequest = {
     type: "FileTaskRunRequest",
@@ -123,7 +137,10 @@ async function registriesScheduleRunFileTaskRun(): Promise<void> {
     valuesFilePath: "prod-values.yaml",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
@@ -140,8 +157,10 @@ async function registriesScheduleRunFileTaskRun(): Promise<void> {
  */
 async function registriesScheduleRunTask(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: TaskRunRequest = {
     type: "TaskRunRequest",
@@ -159,13 +178,20 @@ async function registriesScheduleRunTask(): Promise<void> {
       updateTriggerToken: "aGVsbG8gd29ybGQ=",
       values: [
         { name: "mytestname", isSecret: false, value: "mytestvalue" },
-        { name: "mysecrettestname", isSecret: true, value: "mysecrettestvalue" },
+        {
+          name: "mysecrettestname",
+          isSecret: true,
+          value: "mysecrettestvalue",
+        },
       ],
     },
     taskId: "myTask",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
@@ -182,8 +208,10 @@ async function registriesScheduleRunTask(): Promise<void> {
  */
 async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: FileTaskRunRequest = {
     type: "FileTaskRunRequest",
@@ -208,7 +236,10 @@ async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
     ],
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
@@ -225,8 +256,10 @@ async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
  */
 async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: DockerBuildRequest = {
     type: "DockerBuildRequest",
@@ -263,7 +296,10 @@ async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
     target: "stage1",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
@@ -280,8 +316,10 @@ async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
  */
 async function registriesScheduleRunWithLogTemplate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const runRequest: DockerBuildRequest = {
     type: "DockerBuildRequest",
@@ -305,7 +343,10 @@ async function registriesScheduleRunWithLogTemplate(): Promise<void> {
       "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,

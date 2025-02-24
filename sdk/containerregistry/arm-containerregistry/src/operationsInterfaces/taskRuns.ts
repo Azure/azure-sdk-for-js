@@ -20,7 +20,7 @@ import {
   TaskRunsUpdateOptionalParams,
   TaskRunsUpdateResponse,
   TaskRunsGetDetailsOptionalParams,
-  TaskRunsGetDetailsResponse
+  TaskRunsGetDetailsResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface TaskRuns {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: TaskRunsListOptionalParams
+    options?: TaskRunsListOptionalParams,
   ): PagedAsyncIterableIterator<TaskRun>;
   /**
    * Gets the detailed information for a given task run.
@@ -48,7 +48,7 @@ export interface TaskRuns {
     resourceGroupName: string,
     registryName: string,
     taskRunName: string,
-    options?: TaskRunsGetOptionalParams
+    options?: TaskRunsGetOptionalParams,
   ): Promise<TaskRunsGetResponse>;
   /**
    * Creates a task run for a container registry with the specified parameters.
@@ -63,7 +63,7 @@ export interface TaskRuns {
     registryName: string,
     taskRunName: string,
     taskRun: TaskRun,
-    options?: TaskRunsCreateOptionalParams
+    options?: TaskRunsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TaskRunsCreateResponse>,
@@ -83,7 +83,7 @@ export interface TaskRuns {
     registryName: string,
     taskRunName: string,
     taskRun: TaskRun,
-    options?: TaskRunsCreateOptionalParams
+    options?: TaskRunsCreateOptionalParams,
   ): Promise<TaskRunsCreateResponse>;
   /**
    * Deletes a specified task run resource.
@@ -96,7 +96,7 @@ export interface TaskRuns {
     resourceGroupName: string,
     registryName: string,
     taskRunName: string,
-    options?: TaskRunsDeleteOptionalParams
+    options?: TaskRunsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a specified task run resource.
@@ -109,7 +109,7 @@ export interface TaskRuns {
     resourceGroupName: string,
     registryName: string,
     taskRunName: string,
-    options?: TaskRunsDeleteOptionalParams
+    options?: TaskRunsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a task run with the specified parameters.
@@ -124,7 +124,7 @@ export interface TaskRuns {
     registryName: string,
     taskRunName: string,
     updateParameters: TaskRunUpdateParameters,
-    options?: TaskRunsUpdateOptionalParams
+    options?: TaskRunsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TaskRunsUpdateResponse>,
@@ -144,7 +144,7 @@ export interface TaskRuns {
     registryName: string,
     taskRunName: string,
     updateParameters: TaskRunUpdateParameters,
-    options?: TaskRunsUpdateOptionalParams
+    options?: TaskRunsUpdateOptionalParams,
   ): Promise<TaskRunsUpdateResponse>;
   /**
    * Gets the detailed information for a given task run that includes all secrets.
@@ -157,6 +157,6 @@ export interface TaskRuns {
     resourceGroupName: string,
     registryName: string,
     taskRunName: string,
-    options?: TaskRunsGetDetailsOptionalParams
+    options?: TaskRunsGetDetailsOptionalParams,
   ): Promise<TaskRunsGetDetailsResponse>;
 }

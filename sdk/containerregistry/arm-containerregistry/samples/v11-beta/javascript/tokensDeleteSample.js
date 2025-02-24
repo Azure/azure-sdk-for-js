@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes a token from a container registry.
  *
  * @summary Deletes a token from a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/TokenDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/TokenDelete.json
  */
 async function tokenDelete() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function tokenDelete() {
 }
 
 async function main() {
-  tokenDelete();
+  await tokenDelete();
 }
 
 main().catch(console.error);

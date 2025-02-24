@@ -6,8 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { TaskUpdateParameters } from "@azure/arm-containerregistry";
-import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import {
+  TaskUpdateParameters,
+  ContainerRegistryManagementClient,
+} from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -19,8 +23,10 @@ import "dotenv/config";
  */
 async function tasksUpdate(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters: TaskUpdateParameters = {
@@ -58,7 +64,10 @@ async function tasksUpdate(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tasks.beginUpdateAndWait(
     resourceGroupName,
     registryName,
@@ -76,8 +85,10 @@ async function tasksUpdate(): Promise<void> {
  */
 async function tasksUpdateQuickTask(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "quicktask";
   const taskUpdateParameters: TaskUpdateParameters = {
@@ -86,7 +97,10 @@ async function tasksUpdateQuickTask(): Promise<void> {
     tags: { testkey: "value" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tasks.beginUpdateAndWait(
     resourceGroupName,
     registryName,
@@ -104,8 +118,10 @@ async function tasksUpdateQuickTask(): Promise<void> {
  */
 async function tasksUpdateWithKeyVaultCustomCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters: TaskUpdateParameters = {
@@ -146,7 +162,10 @@ async function tasksUpdateWithKeyVaultCustomCredentials(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tasks.beginUpdateAndWait(
     resourceGroupName,
     registryName,
@@ -164,8 +183,10 @@ async function tasksUpdateWithKeyVaultCustomCredentials(): Promise<void> {
  */
 async function tasksUpdateWithMsiCustomCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters: TaskUpdateParameters = {
@@ -194,7 +215,10 @@ async function tasksUpdateWithMsiCustomCredentials(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tasks.beginUpdateAndWait(
     resourceGroupName,
     registryName,
@@ -212,8 +236,10 @@ async function tasksUpdateWithMsiCustomCredentials(): Promise<void> {
  */
 async function tasksUpdateWithOpaqueCustomCredentials(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] || "4385cf00-2d3a-425a-832f-f4285b1c9dce";
-  const resourceGroupName = process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
+    "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+  const resourceGroupName =
+    process.env["CONTAINERREGISTRY_RESOURCE_GROUP"] || "myResourceGroup";
   const registryName = "myRegistry";
   const taskName = "myTask";
   const taskUpdateParameters: TaskUpdateParameters = {
@@ -247,7 +273,10 @@ async function tasksUpdateWithOpaqueCustomCredentials(): Promise<void> {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new ContainerRegistryManagementClient(credential, subscriptionId);
+  const client = new ContainerRegistryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.tasks.beginUpdateAndWait(
     resourceGroupName,
     registryName,

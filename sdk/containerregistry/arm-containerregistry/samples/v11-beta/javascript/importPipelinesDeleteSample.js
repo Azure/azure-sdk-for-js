@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes an import pipeline from a container registry.
  *
  * @summary Deletes an import pipeline from a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ImportPipelineDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ImportPipelineDelete.json
  */
 async function importPipelineDelete() {
   const subscriptionId =
@@ -29,13 +29,13 @@ async function importPipelineDelete() {
   const result = await client.importPipelines.beginDeleteAndWait(
     resourceGroupName,
     registryName,
-    importPipelineName
+    importPipelineName,
   );
   console.log(result);
 }
 
 async function main() {
-  importPipelineDelete();
+  await importPipelineDelete();
 }
 
 main().catch(console.error);
