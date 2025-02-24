@@ -16,7 +16,7 @@ import "dotenv/config";
  * This sample demonstrates how to Deletes a certificate from the NGINX deployment
  *
  * @summary Deletes a certificate from the NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Certificates_Delete.json
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Certificates_Delete.json
  */
 async function certificatesDelete(): Promise<void> {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function certificatesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  certificatesDelete();
+  await certificatesDelete();
 }
 
 main().catch(console.error);
