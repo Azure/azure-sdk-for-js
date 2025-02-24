@@ -19,7 +19,7 @@ async function main() {
   // List containers
   const blobServiceClient = new BlobServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${account}.blob.core.windows.net${accountSas}`,
+    `https://${account}.blob.core.windows.net?${accountSas}`,
     new AnonymousCredential()
   );
 
