@@ -11,10 +11,7 @@
 import AccessControl, { isUnexpected } from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential } from "@azure/identity";
 import { randomUUID } from "@azure/core-util";
-import dotenv from "dotenv";
-
-dotenv.config();
-
+import "dotenv/config";
 const endpoint = process.env["ENDPOINT"] || "";
 
 async function main(): Promise<void> {
