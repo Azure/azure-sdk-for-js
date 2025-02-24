@@ -179,7 +179,7 @@ function buildOperation(
     async asBrowserStream() {
       if (isNodeLike) {
         throw new Error(
-          "`asBrowserStream` is supported only in the browser environment. Use `isNodeStream` instead to obtain the response body stream.",
+          "`asBrowserStream` is supported only in the browser environment. Use `asNodeStream` instead to obtain the response body stream. If you require a Web stream of the response in Node, consider using `Readable.toWeb` on the result of `asNodeStream`.",
         );
       } else {
         return sendRequest(

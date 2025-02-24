@@ -228,7 +228,8 @@ export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TR
    */
   asNodeStream: () => Promise<HttpNodeStreamResponse>;
   /**
-   * Returns the response body as a browser stream. Only available in the browser.
+   * Returns the response body as a browser (Web) stream. Only available in the browser. If you require a Web Stream of the response in Node, consider using the
+   * `Readable.toWeb` Node API on the result of `asNodeStream`.
    */
   asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
 };
