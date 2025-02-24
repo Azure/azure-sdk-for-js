@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Pipeline } from "@azure/core-rest-pipeline";
-import "./models/options.js";
 import {
   createSystemEvents,
-  SystemEventsClientOptionalParams,
   SystemEventsContext,
+  SystemEventsClientOptionalParams,
 } from "./api/index.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export { SystemEventsClientOptionalParams } from "./api/systemEventsContext.js";
 
@@ -17,13 +16,15 @@ export class SystemEventsClient {
   public readonly pipeline: Pipeline;
 
   /** Azure Messaging EventGrid SystemEvents */
-  constructor(endpoint: string, options: SystemEventsClientOptionalParams = {}) {
+  constructor(
+    endpointParam: string,
+    options: SystemEventsClientOptionalParams = {},
+  ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
-
-    this._client = createSystemEvents(endpoint, {
+      : `azsdk-js-client`;
+    this._client = createSystemEvents(endpointParam, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

@@ -11,12 +11,33 @@ export interface ApiCenterApiDefinitionAddedEventData {
   specification?: ApiCenterApiSpecification;
 }
 
+export function apiCenterApiDefinitionAddedEventDataDeserializer(
+  item: any,
+): ApiCenterApiDefinitionAddedEventData {
+  return {
+    title: item["title"],
+    description: item["description"],
+    specification: !item["specification"]
+      ? item["specification"]
+      : apiCenterApiSpecificationDeserializer(item["specification"]),
+  };
+}
+
 /** API specification details. */
 export interface ApiCenterApiSpecification {
   /** Specification name. */
   name: string;
   /** Specification version. */
   version?: string;
+}
+
+export function apiCenterApiSpecificationDeserializer(
+  item: any,
+): ApiCenterApiSpecification {
+  return {
+    name: item["name"],
+    version: item["version"],
+  };
 }
 
 /** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionUpdated event. */
@@ -29,10 +50,30 @@ export interface ApiCenterApiDefinitionUpdatedEventData {
   specification?: ApiCenterApiSpecification;
 }
 
+export function apiCenterApiDefinitionUpdatedEventDataDeserializer(
+  item: any,
+): ApiCenterApiDefinitionUpdatedEventData {
+  return {
+    title: item["title"],
+    description: item["description"],
+    specification: !item["specification"]
+      ? item["specification"]
+      : apiCenterApiSpecificationDeserializer(item["specification"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserCreated event. */
 export interface ApiManagementUserCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementUserCreatedEventDataDeserializer(
+  item: any,
+): ApiManagementUserCreatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserUpdated event. */
@@ -41,10 +82,26 @@ export interface ApiManagementUserUpdatedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementUserUpdatedEventDataDeserializer(
+  item: any,
+): ApiManagementUserUpdatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.UserDeleted event. */
 export interface ApiManagementUserDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementUserDeletedEventDataDeserializer(
+  item: any,
+): ApiManagementUserDeletedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionCreated event. */
@@ -53,10 +110,26 @@ export interface ApiManagementSubscriptionCreatedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementSubscriptionCreatedEventDataDeserializer(
+  item: any,
+): ApiManagementSubscriptionCreatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionUpdated event. */
 export interface ApiManagementSubscriptionUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementSubscriptionUpdatedEventDataDeserializer(
+  item: any,
+): ApiManagementSubscriptionUpdatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.SubscriptionDeleted event. */
@@ -65,10 +138,26 @@ export interface ApiManagementSubscriptionDeletedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementSubscriptionDeletedEventDataDeserializer(
+  item: any,
+): ApiManagementSubscriptionDeletedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductCreated event. */
 export interface ApiManagementProductCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementProductCreatedEventDataDeserializer(
+  item: any,
+): ApiManagementProductCreatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductUpdated event. */
@@ -77,10 +166,26 @@ export interface ApiManagementProductUpdatedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementProductUpdatedEventDataDeserializer(
+  item: any,
+): ApiManagementProductUpdatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.ProductDeleted event. */
 export interface ApiManagementProductDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementProductDeletedEventDataDeserializer(
+  item: any,
+): ApiManagementProductDeletedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APICreated event. */
@@ -89,10 +194,26 @@ export interface ApiManagementApiCreatedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementApiCreatedEventDataDeserializer(
+  item: any,
+): ApiManagementApiCreatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIUpdated event. */
 export interface ApiManagementApiUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementApiUpdatedEventDataDeserializer(
+  item: any,
+): ApiManagementApiUpdatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIDeleted event. */
@@ -101,10 +222,26 @@ export interface ApiManagementApiDeletedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementApiDeletedEventDataDeserializer(
+  item: any,
+): ApiManagementApiDeletedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseCreated event. */
 export interface ApiManagementApiReleaseCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementApiReleaseCreatedEventDataDeserializer(
+  item: any,
+): ApiManagementApiReleaseCreatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseUpdated event. */
@@ -113,10 +250,26 @@ export interface ApiManagementApiReleaseUpdatedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementApiReleaseUpdatedEventDataDeserializer(
+  item: any,
+): ApiManagementApiReleaseUpdatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.APIReleaseDeleted event. */
 export interface ApiManagementApiReleaseDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementApiReleaseDeletedEventDataDeserializer(
+  item: any,
+): ApiManagementApiReleaseDeletedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCreated event. */
@@ -125,10 +278,26 @@ export interface ApiManagementGatewayCreatedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementGatewayCreatedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayCreatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayUpdated event. */
 export interface ApiManagementGatewayUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementGatewayUpdatedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayUpdatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayDeleted event. */
@@ -137,10 +306,26 @@ export interface ApiManagementGatewayDeletedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementGatewayDeletedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayDeletedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationCreated event. */
 export interface ApiManagementGatewayHostnameConfigurationCreatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementGatewayHostnameConfigurationCreatedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayHostnameConfigurationCreatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationUpdated event. */
@@ -149,10 +334,26 @@ export interface ApiManagementGatewayHostnameConfigurationUpdatedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementGatewayHostnameConfigurationUpdatedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayHostnameConfigurationUpdatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayHostnameConfigurationDeleted event. */
 export interface ApiManagementGatewayHostnameConfigurationDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/hostnameConfigurations/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementGatewayHostnameConfigurationDeletedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayHostnameConfigurationDeletedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityCreated event. */
@@ -161,10 +362,26 @@ export interface ApiManagementGatewayCertificateAuthorityCreatedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementGatewayCertificateAuthorityCreatedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayCertificateAuthorityCreatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityUpdated event. */
 export interface ApiManagementGatewayCertificateAuthorityUpdatedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/certificateAuthorities/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementGatewayCertificateAuthorityUpdatedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayCertificateAuthorityUpdatedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayCertificateAuthorityDeleted event. */
@@ -173,16 +390,40 @@ export interface ApiManagementGatewayCertificateAuthorityDeletedEventData {
   resourceUri?: string;
 }
 
+export function apiManagementGatewayCertificateAuthorityDeletedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayCertificateAuthorityDeletedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayAPIAdded event. */
 export interface ApiManagementGatewayApiAddedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/apis/<ResourceName>` */
   resourceUri?: string;
 }
 
+export function apiManagementGatewayApiAddedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayApiAddedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ApiManagement.GatewayAPIRemoved event. */
 export interface ApiManagementGatewayApiRemovedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/gateways/<GatewayName>/apis/<ResourceName>` */
   resourceUri?: string;
+}
+
+export function apiManagementGatewayApiRemovedEventDataDeserializer(
+  item: any,
+): ApiManagementGatewayApiRemovedEventData {
+  return {
+    resourceUri: item["resourceUri"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.KeyValueModified event. */
@@ -197,6 +438,17 @@ export interface AppConfigurationKeyValueModifiedEventData {
   syncToken?: string;
 }
 
+export function appConfigurationKeyValueModifiedEventDataDeserializer(
+  item: any,
+): AppConfigurationKeyValueModifiedEventData {
+  return {
+    key: item["key"],
+    label: item["label"],
+    etag: item["etag"],
+    syncToken: item["syncToken"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.KeyValueDeleted event. */
 export interface AppConfigurationKeyValueDeletedEventData {
   /** The key used to identify the key-value that was deleted. */
@@ -209,6 +461,17 @@ export interface AppConfigurationKeyValueDeletedEventData {
   syncToken?: string;
 }
 
+export function appConfigurationKeyValueDeletedEventDataDeserializer(
+  item: any,
+): AppConfigurationKeyValueDeletedEventData {
+  return {
+    key: item["key"],
+    label: item["label"],
+    etag: item["etag"],
+    syncToken: item["syncToken"],
+  };
+}
+
 /** Schema of common properties of snapshot events */
 export interface AppConfigurationSnapshotEventData {
   /** The name of the snapshot. */
@@ -219,13 +482,43 @@ export interface AppConfigurationSnapshotEventData {
   syncToken?: string;
 }
 
+export function appConfigurationSnapshotEventDataDeserializer(
+  item: any,
+): AppConfigurationSnapshotEventData {
+  return {
+    name: item["name"],
+    etag: item["etag"],
+    syncToken: item["syncToken"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.SnapshotCreated event. */
 export interface AppConfigurationSnapshotCreatedEventData
   extends AppConfigurationSnapshotEventData {}
 
+export function appConfigurationSnapshotCreatedEventDataDeserializer(
+  item: any,
+): AppConfigurationSnapshotCreatedEventData {
+  return {
+    name: item["name"],
+    etag: item["etag"],
+    syncToken: item["syncToken"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AppConfiguration.SnapshotModified event. */
 export interface AppConfigurationSnapshotModifiedEventData
   extends AppConfigurationSnapshotEventData {}
+
+export function appConfigurationSnapshotModifiedEventDataDeserializer(
+  item: any,
+): AppConfigurationSnapshotModifiedEventData {
+  return {
+    name: item["name"],
+    etag: item["etag"],
+    syncToken: item["syncToken"],
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for Microsoft.AVS/privateClouds events. */
 export interface AvsPrivateCloudEventData {
@@ -233,16 +526,52 @@ export interface AvsPrivateCloudEventData {
   operationId: string;
 }
 
+export function avsPrivateCloudEventDataDeserializer(
+  item: any,
+): AvsPrivateCloudEventData {
+  return {
+    operationId: item["operationId"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdating event. */
-export interface AvsPrivateCloudUpdatingEventData extends AvsPrivateCloudEventData {}
+export interface AvsPrivateCloudUpdatingEventData
+  extends AvsPrivateCloudEventData {}
+
+export function avsPrivateCloudUpdatingEventDataDeserializer(
+  item: any,
+): AvsPrivateCloudUpdatingEventData {
+  return {
+    operationId: item["operationId"],
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdated event. */
-export interface AvsPrivateCloudUpdatedEventData extends AvsPrivateCloudEventData {}
+export interface AvsPrivateCloudUpdatedEventData
+  extends AvsPrivateCloudEventData {}
+
+export function avsPrivateCloudUpdatedEventDataDeserializer(
+  item: any,
+): AvsPrivateCloudUpdatedEventData {
+  return {
+    operationId: item["operationId"],
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudFailed event. */
-export interface AvsPrivateCloudFailedEventData extends AvsPrivateCloudEventData {
+export interface AvsPrivateCloudFailedEventData
+  extends AvsPrivateCloudEventData {
   /** Failure reason of an event. */
   failureMessage?: string;
+}
+
+export function avsPrivateCloudFailedEventDataDeserializer(
+  item: any,
+): AvsPrivateCloudFailedEventData {
+  return {
+    operationId: item["operationId"],
+    failureMessage: item["failureMessage"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for Microsoft.AVS/clusters events. */
@@ -257,22 +586,161 @@ export interface AvsClusterEventData {
   inMaintenanceHostNames?: string[];
 }
 
+export function avsClusterEventDataDeserializer(
+  item: any,
+): AvsClusterEventData {
+  return {
+    operationId: item["operationId"],
+    addedHostNames: !item["addedHostNames"]
+      ? item["addedHostNames"]
+      : item["addedHostNames"].map((p: any) => {
+          return p;
+        }),
+    removedHostNames: !item["removedHostNames"]
+      ? item["removedHostNames"]
+      : item["removedHostNames"].map((p: any) => {
+          return p;
+        }),
+    inMaintenanceHostNames: !item["inMaintenanceHostNames"]
+      ? item["inMaintenanceHostNames"]
+      : item["inMaintenanceHostNames"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterCreated event. */
 export interface AvsClusterCreatedEventData extends AvsClusterEventData {}
+
+export function avsClusterCreatedEventDataDeserializer(
+  item: any,
+): AvsClusterCreatedEventData {
+  return {
+    operationId: item["operationId"],
+    addedHostNames: !item["addedHostNames"]
+      ? item["addedHostNames"]
+      : item["addedHostNames"].map((p: any) => {
+          return p;
+        }),
+    removedHostNames: !item["removedHostNames"]
+      ? item["removedHostNames"]
+      : item["removedHostNames"].map((p: any) => {
+          return p;
+        }),
+    inMaintenanceHostNames: !item["inMaintenanceHostNames"]
+      ? item["inMaintenanceHostNames"]
+      : item["inMaintenanceHostNames"].map((p: any) => {
+          return p;
+        }),
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterDeleted event. */
 export interface AvsClusterDeletedEventData extends AvsClusterEventData {}
 
+export function avsClusterDeletedEventDataDeserializer(
+  item: any,
+): AvsClusterDeletedEventData {
+  return {
+    operationId: item["operationId"],
+    addedHostNames: !item["addedHostNames"]
+      ? item["addedHostNames"]
+      : item["addedHostNames"].map((p: any) => {
+          return p;
+        }),
+    removedHostNames: !item["removedHostNames"]
+      ? item["removedHostNames"]
+      : item["removedHostNames"].map((p: any) => {
+          return p;
+        }),
+    inMaintenanceHostNames: !item["inMaintenanceHostNames"]
+      ? item["inMaintenanceHostNames"]
+      : item["inMaintenanceHostNames"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterUpdating event. */
 export interface AvsClusterUpdatingEventData extends AvsClusterEventData {}
 
+export function avsClusterUpdatingEventDataDeserializer(
+  item: any,
+): AvsClusterUpdatingEventData {
+  return {
+    operationId: item["operationId"],
+    addedHostNames: !item["addedHostNames"]
+      ? item["addedHostNames"]
+      : item["addedHostNames"].map((p: any) => {
+          return p;
+        }),
+    removedHostNames: !item["removedHostNames"]
+      ? item["removedHostNames"]
+      : item["removedHostNames"].map((p: any) => {
+          return p;
+        }),
+    inMaintenanceHostNames: !item["inMaintenanceHostNames"]
+      ? item["inMaintenanceHostNames"]
+      : item["inMaintenanceHostNames"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterUpdated event. */
 export interface AvsClusterUpdatedEventData extends AvsClusterEventData {}
+
+export function avsClusterUpdatedEventDataDeserializer(
+  item: any,
+): AvsClusterUpdatedEventData {
+  return {
+    operationId: item["operationId"],
+    addedHostNames: !item["addedHostNames"]
+      ? item["addedHostNames"]
+      : item["addedHostNames"].map((p: any) => {
+          return p;
+        }),
+    removedHostNames: !item["removedHostNames"]
+      ? item["removedHostNames"]
+      : item["removedHostNames"].map((p: any) => {
+          return p;
+        }),
+    inMaintenanceHostNames: !item["inMaintenanceHostNames"]
+      ? item["inMaintenanceHostNames"]
+      : item["inMaintenanceHostNames"].map((p: any) => {
+          return p;
+        }),
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterFailed event. */
 export interface AvsClusterFailedEventData extends AvsClusterEventData {
   /** Failure reason of an event. */
   failureMessage?: string;
+}
+
+export function avsClusterFailedEventDataDeserializer(
+  item: any,
+): AvsClusterFailedEventData {
+  return {
+    operationId: item["operationId"],
+    addedHostNames: !item["addedHostNames"]
+      ? item["addedHostNames"]
+      : item["addedHostNames"].map((p: any) => {
+          return p;
+        }),
+    removedHostNames: !item["removedHostNames"]
+      ? item["removedHostNames"]
+      : item["removedHostNames"].map((p: any) => {
+          return p;
+        }),
+    inMaintenanceHostNames: !item["inMaintenanceHostNames"]
+      ? item["inMaintenanceHostNames"]
+      : item["inMaintenanceHostNames"].map((p: any) => {
+          return p;
+        }),
+    failureMessage: item["failureMessage"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for Microsoft.AVS/scriptExecutions events. */
@@ -285,22 +753,98 @@ export interface AvsScriptExecutionEventData {
   output?: string[];
 }
 
+export function avsScriptExecutionEventDataDeserializer(
+  item: any,
+): AvsScriptExecutionEventData {
+  return {
+    operationId: item["operationId"],
+    cmdletId: item["cmdletId"],
+    output: !item["output"]
+      ? item["output"]
+      : item["output"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionStarted event. */
-export interface AvsScriptExecutionStartedEventData extends AvsScriptExecutionEventData {}
+export interface AvsScriptExecutionStartedEventData
+  extends AvsScriptExecutionEventData {}
+
+export function avsScriptExecutionStartedEventDataDeserializer(
+  item: any,
+): AvsScriptExecutionStartedEventData {
+  return {
+    operationId: item["operationId"],
+    cmdletId: item["cmdletId"],
+    output: !item["output"]
+      ? item["output"]
+      : item["output"].map((p: any) => {
+          return p;
+        }),
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFinished event. */
-export interface AvsScriptExecutionFinishedEventData extends AvsScriptExecutionEventData {
+export interface AvsScriptExecutionFinishedEventData
+  extends AvsScriptExecutionEventData {
   /** Named outputs of completed execution, if any. */
   namedOutputs: Record<string, string>;
 }
 
+export function avsScriptExecutionFinishedEventDataDeserializer(
+  item: any,
+): AvsScriptExecutionFinishedEventData {
+  return {
+    operationId: item["operationId"],
+    cmdletId: item["cmdletId"],
+    output: !item["output"]
+      ? item["output"]
+      : item["output"].map((p: any) => {
+          return p;
+        }),
+    namedOutputs: item["namedOutputs"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionCancelled event. */
-export interface AvsScriptExecutionCancelledEventData extends AvsScriptExecutionEventData {}
+export interface AvsScriptExecutionCancelledEventData
+  extends AvsScriptExecutionEventData {}
+
+export function avsScriptExecutionCancelledEventDataDeserializer(
+  item: any,
+): AvsScriptExecutionCancelledEventData {
+  return {
+    operationId: item["operationId"],
+    cmdletId: item["cmdletId"],
+    output: !item["output"]
+      ? item["output"]
+      : item["output"].map((p: any) => {
+          return p;
+        }),
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFailed event. */
-export interface AvsScriptExecutionFailedEventData extends AvsScriptExecutionEventData {
+export interface AvsScriptExecutionFailedEventData
+  extends AvsScriptExecutionEventData {
   /** Failure reason of an event. */
   failureMessage?: string;
+}
+
+export function avsScriptExecutionFailedEventDataDeserializer(
+  item: any,
+): AvsScriptExecutionFailedEventData {
+  return {
+    operationId: item["operationId"],
+    cmdletId: item["cmdletId"],
+    output: !item["output"]
+      ? item["output"]
+      : item["output"].map((p: any) => {
+          return p;
+        }),
+    failureMessage: item["failureMessage"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.IncomingCall event */
@@ -323,6 +867,29 @@ export interface AcsIncomingCallEventData {
   correlationId?: string;
 }
 
+export function acsIncomingCallEventDataDeserializer(
+  item: any,
+): AcsIncomingCallEventData {
+  return {
+    toCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["to"],
+    ),
+    fromCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["from"],
+    ),
+    serverCallId: item["serverCallId"],
+    callerDisplayName: item["callerDisplayName"],
+    customContext: acsIncomingCallCustomContextDeserializer(
+      item["customContext"],
+    ),
+    incomingCallContext: item["incomingCallContext"],
+    onBehalfOfCallee: !item["onBehalfOfCallee"]
+      ? item["onBehalfOfCallee"]
+      : communicationIdentifierModelDeserializer(item["onBehalfOfCallee"]),
+    correlationId: item["correlationId"],
+  };
+}
+
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
 export interface CommunicationIdentifierModel {
   /** The identifier kind. Only required in responses. */
@@ -339,27 +906,46 @@ export interface CommunicationIdentifierModel {
   microsoftTeamsApp: MicrosoftTeamsAppIdentifierModel;
 }
 
-/** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
+export function communicationIdentifierModelDeserializer(
+  item: any,
+): CommunicationIdentifierModel {
+  return {
+    kind: item["kind"],
+    rawId: item["rawId"],
+    communicationUser: communicationUserIdentifierModelDeserializer(
+      item["communicationUser"],
+    ),
+    phoneNumber: phoneNumberIdentifierModelDeserializer(item["phoneNumber"]),
+    microsoftTeamsUser: microsoftTeamsUserIdentifierModelDeserializer(
+      item["microsoftTeamsUser"],
+    ),
+    microsoftTeamsApp: microsoftTeamsAppIdentifierModelDeserializer(
+      item["microsoftTeamsApp"],
+    ),
+  };
+}
+
+/** Communication model identifier kind */
 export enum KnownCommunicationIdentifierModelKind {
-  /** unknown */
+  /** Unknown */
   unknown = "unknown",
-  /** communicationUser */
+  /** Communication User */
   communicationUser = "communicationUser",
-  /** phoneNumber */
+  /** Phone Number */
   phoneNumber = "phoneNumber",
-  /** microsoftTeamsUser */
+  /** Microsoft Teams User */
   microsoftTeamsUser = "microsoftTeamsUser",
 }
 
 /**
- * Communication model identifier kind
+ * Communication model identifier kind \
  * {@link KnownCommunicationIdentifierModelKind} can be used interchangeably with CommunicationIdentifierModelKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **unknown**
- * **communicationUser**
- * **phoneNumber**
- * **microsoftTeamsUser**
+ * **unknown**: Unknown \
+ * **communicationUser**: Communication User \
+ * **phoneNumber**: Phone Number \
+ * **microsoftTeamsUser**: Microsoft Teams User
  */
 export type CommunicationIdentifierModelKind = string;
 
@@ -369,10 +955,26 @@ export interface CommunicationUserIdentifierModel {
   id: string;
 }
 
+export function communicationUserIdentifierModelDeserializer(
+  item: any,
+): CommunicationUserIdentifierModel {
+  return {
+    id: item["id"],
+  };
+}
+
 /** A phone number. */
 export interface PhoneNumberIdentifierModel {
   /** The phone number in E.164 format. */
   value: string;
+}
+
+export function phoneNumberIdentifierModelDeserializer(
+  item: any,
+): PhoneNumberIdentifierModel {
+  return {
+    value: item["value"],
+  };
 }
 
 /** A Microsoft Teams user. */
@@ -385,24 +987,34 @@ export interface MicrosoftTeamsUserIdentifierModel {
   cloud: CommunicationCloudEnvironmentModel;
 }
 
-/** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
+export function microsoftTeamsUserIdentifierModelDeserializer(
+  item: any,
+): MicrosoftTeamsUserIdentifierModel {
+  return {
+    userId: item["userId"],
+    isAnonymous: item["isAnonymous"],
+    cloud: item["cloud"],
+  };
+}
+
+/** Communication cloud environment model. */
 export enum KnownCommunicationCloudEnvironmentModel {
-  /** public */
+  /** Public */
   "public" = "public",
-  /** dod */
+  /** Dod */
   dod = "dod",
-  /** gcch */
+  /** Gcch */
   gcch = "gcch",
 }
 
 /**
- * Communication cloud environment model.
+ * Communication cloud environment model. \
  * {@link KnownCommunicationCloudEnvironmentModel} can be used interchangeably with CommunicationCloudEnvironmentModel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **public**
- * **dod**
- * **gcch**
+ * **public**: Public \
+ * **dod**: Dod \
+ * **gcch**: Gcch
  */
 export type CommunicationCloudEnvironmentModel = string;
 
@@ -414,6 +1026,15 @@ export interface MicrosoftTeamsAppIdentifierModel {
   cloud: CommunicationCloudEnvironmentModel;
 }
 
+export function microsoftTeamsAppIdentifierModelDeserializer(
+  item: any,
+): MicrosoftTeamsAppIdentifierModel {
+  return {
+    appId: item["appId"],
+    cloud: item["cloud"],
+  };
+}
+
 /** Custom Context of Incoming Call */
 export interface AcsIncomingCallCustomContext {
   /** Sip Headers for incoming call */
@@ -422,10 +1043,29 @@ export interface AcsIncomingCallCustomContext {
   voipHeaders: Record<string, string>;
 }
 
+export function acsIncomingCallCustomContextDeserializer(
+  item: any,
+): AcsIncomingCallCustomContext {
+  return {
+    sipHeaders: item["sipHeaders"],
+    voipHeaders: item["voipHeaders"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.UserDisconnected event. */
 export interface AcsUserDisconnectedEventData {
   /** The communication identifier of the user who was disconnected */
   userCommunicationIdentifier: CommunicationIdentifierModel;
+}
+
+export function acsUserDisconnectedEventDataDeserializer(
+  item: any,
+): AcsUserDisconnectedEventData {
+  return {
+    userCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["userCommunicationIdentifier"],
+    ),
+  };
 }
 
 /** Schema of common properties of all chat events */
@@ -438,12 +1078,31 @@ export interface AcsChatEventBase {
   threadId?: string;
 }
 
+export function acsChatEventBaseDeserializer(item: any): AcsChatEventBase {
+  return {
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+  };
+}
+
 /** Schema of common properties of all thread-level chat events */
 export interface AcsChatEventInThreadBase {
   /** The transaction id will be used as co-relation vector */
   transactionId?: string;
   /** The chat thread id */
   threadId?: string;
+}
+
+export function acsChatEventInThreadBaseDeserializer(
+  item: any,
+): AcsChatEventInThreadBase {
+  return {
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+  };
 }
 
 /** Schema of common properties of all chat message events */
@@ -462,16 +1121,60 @@ export interface AcsChatMessageEventBase extends AcsChatEventBase {
   version?: number;
 }
 
+export function acsChatMessageEventBaseDeserializer(
+  item: any,
+): AcsChatMessageEventBase {
+  return {
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceived event. */
-export interface AcsChatMessageReceivedEventData extends AcsChatMessageEventBase {
+export interface AcsChatMessageReceivedEventData
+  extends AcsChatMessageEventBase {
   /** The body of the chat message */
   messageBody?: string;
   /** The chat message metadata */
   metadata: Record<string, string>;
 }
 
+export function acsChatMessageReceivedEventDataDeserializer(
+  item: any,
+): AcsChatMessageReceivedEventData {
+  return {
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    messageBody: item["messageBody"],
+    metadata: item["metadata"],
+  };
+}
+
 /** Schema of common properties of all thread-level chat message events */
-export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBase {
+export interface AcsChatMessageEventInThreadBase
+  extends AcsChatEventInThreadBase {
   /** The chat message id */
   messageId?: string;
   /** The communication identifier of the sender */
@@ -486,12 +1189,49 @@ export interface AcsChatMessageEventInThreadBase extends AcsChatEventInThreadBas
   version?: number;
 }
 
+export function acsChatMessageEventInThreadBaseDeserializer(
+  item: any,
+): AcsChatMessageEventInThreadBase {
+  return {
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageReceivedInThread event. */
-export interface AcsChatMessageReceivedInThreadEventData extends AcsChatMessageEventInThreadBase {
+export interface AcsChatMessageReceivedInThreadEventData
+  extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
   messageBody?: string;
   /** The chat message metadata */
   metadata: Record<string, string>;
+}
+
+export function acsChatMessageReceivedInThreadEventDataDeserializer(
+  item: any,
+): AcsChatMessageReceivedInThreadEventData {
+  return {
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    messageBody: item["messageBody"],
+    metadata: item["metadata"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEdited event. */
@@ -504,8 +1244,32 @@ export interface AcsChatMessageEditedEventData extends AcsChatMessageEventBase {
   editTime: Date;
 }
 
+export function acsChatMessageEditedEventDataDeserializer(
+  item: any,
+): AcsChatMessageEditedEventData {
+  return {
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    messageBody: item["messageBody"],
+    metadata: item["metadata"],
+    editTime: new Date(item["editTime"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageEditedInThread event. */
-export interface AcsChatMessageEditedInThreadEventData extends AcsChatMessageEventInThreadBase {
+export interface AcsChatMessageEditedInThreadEventData
+  extends AcsChatMessageEventInThreadBase {
   /** The body of the chat message */
   messageBody?: string;
   /** The chat message metadata */
@@ -514,16 +1278,77 @@ export interface AcsChatMessageEditedInThreadEventData extends AcsChatMessageEve
   editTime: Date;
 }
 
+export function acsChatMessageEditedInThreadEventDataDeserializer(
+  item: any,
+): AcsChatMessageEditedInThreadEventData {
+  return {
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    messageBody: item["messageBody"],
+    metadata: item["metadata"],
+    editTime: new Date(item["editTime"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageDeleted event. */
-export interface AcsChatMessageDeletedEventData extends AcsChatMessageEventBase {
+export interface AcsChatMessageDeletedEventData
+  extends AcsChatMessageEventBase {
   /** The time at which the message was deleted */
   deleteTime: Date;
 }
 
+export function acsChatMessageDeletedEventDataDeserializer(
+  item: any,
+): AcsChatMessageDeletedEventData {
+  return {
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    deleteTime: new Date(item["deleteTime"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatMessageDeletedInThread event. */
-export interface AcsChatMessageDeletedInThreadEventData extends AcsChatMessageEventInThreadBase {
+export interface AcsChatMessageDeletedInThreadEventData
+  extends AcsChatMessageEventInThreadBase {
   /** The time at which the message was deleted */
   deleteTime: Date;
+}
+
+export function acsChatMessageDeletedInThreadEventDataDeserializer(
+  item: any,
+): AcsChatMessageDeletedInThreadEventData {
+  return {
+    messageId: item["messageId"],
+    senderCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["senderCommunicationIdentifier"],
+    ),
+    senderDisplayName: item["senderDisplayName"],
+    composeTime: new Date(item["composeTime"]),
+    type: item["type"],
+    version: item["version"],
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    deleteTime: new Date(item["deleteTime"]),
+  };
 }
 
 /** Schema of common properties of all chat thread events */
@@ -534,8 +1359,23 @@ export interface AcsChatThreadEventBase extends AcsChatEventBase {
   version?: number;
 }
 
+export function acsChatThreadEventBaseDeserializer(
+  item: any,
+): AcsChatThreadEventBase {
+  return {
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    createTime: new Date(item["createTime"]),
+    version: item["version"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadCreatedWithUser event. */
-export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEventBase {
+export interface AcsChatThreadCreatedWithUserEventData
+  extends AcsChatThreadEventBase {
   /** The communication identifier of the user who created the thread */
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
@@ -544,6 +1384,36 @@ export interface AcsChatThreadCreatedWithUserEventData extends AcsChatThreadEven
   metadata: Record<string, string>;
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
+}
+
+export function acsChatThreadCreatedWithUserEventDataDeserializer(
+  item: any,
+): AcsChatThreadCreatedWithUserEventData {
+  return {
+    createTime: new Date(item["createTime"]),
+    version: item["version"],
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    createdByCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["createdByCommunicationIdentifier"],
+    ),
+    properties: item["properties"],
+    metadata: item["metadata"],
+    participants: acsChatThreadParticipantArrayDeserializer(
+      item["participants"],
+    ),
+  };
+}
+
+export function acsChatThreadParticipantArrayDeserializer(
+  result: Array<AcsChatThreadParticipant>,
+): any[] {
+  return result.map((item) => {
+    return acsChatThreadParticipantDeserializer(item);
+  });
 }
 
 /** Schema of the chat thread participant */
@@ -556,16 +1426,42 @@ export interface AcsChatThreadParticipant {
   metadata: Record<string, string>;
 }
 
+export function acsChatThreadParticipantDeserializer(
+  item: any,
+): AcsChatThreadParticipant {
+  return {
+    displayName: item["displayName"],
+    participantCommunicationIdentifier:
+      communicationIdentifierModelDeserializer(
+        item["participantCommunicationIdentifier"],
+      ),
+    metadata: item["metadata"],
+  };
+}
+
 /** Schema of common properties of all chat thread events */
-export interface AcsChatThreadEventInThreadBase extends AcsChatEventInThreadBase {
+export interface AcsChatThreadEventInThreadBase
+  extends AcsChatEventInThreadBase {
   /** The original creation time of the thread */
   createTime: Date;
   /** The version of the thread */
   version?: number;
 }
 
+export function acsChatThreadEventInThreadBaseDeserializer(
+  item: any,
+): AcsChatThreadEventInThreadBase {
+  return {
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    createTime: new Date(item["createTime"]),
+    version: item["version"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadCreated event. */
-export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThreadBase {
+export interface AcsChatThreadCreatedEventData
+  extends AcsChatThreadEventInThreadBase {
   /** The communication identifier of the user who created the thread */
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
@@ -576,24 +1472,79 @@ export interface AcsChatThreadCreatedEventData extends AcsChatThreadEventInThrea
   participants: AcsChatThreadParticipant[];
 }
 
+export function acsChatThreadCreatedEventDataDeserializer(
+  item: any,
+): AcsChatThreadCreatedEventData {
+  return {
+    createTime: new Date(item["createTime"]),
+    version: item["version"],
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    createdByCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["createdByCommunicationIdentifier"],
+    ),
+    properties: item["properties"],
+    metadata: item["metadata"],
+    participants: acsChatThreadParticipantArrayDeserializer(
+      item["participants"],
+    ),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadWithUserDeleted event. */
-export interface AcsChatThreadWithUserDeletedEventData extends AcsChatThreadEventBase {
+export interface AcsChatThreadWithUserDeletedEventData
+  extends AcsChatThreadEventBase {
   /** The communication identifier of the user who deleted the thread */
   deletedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The deletion time of the thread */
   deleteTime: Date;
+}
+
+export function acsChatThreadWithUserDeletedEventDataDeserializer(
+  item: any,
+): AcsChatThreadWithUserDeletedEventData {
+  return {
+    createTime: new Date(item["createTime"]),
+    version: item["version"],
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    deletedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["deletedByCommunicationIdentifier"],
+    ),
+    deleteTime: new Date(item["deleteTime"]),
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadDeleted event. */
-export interface AcsChatThreadDeletedEventData extends AcsChatThreadEventInThreadBase {
+export interface AcsChatThreadDeletedEventData
+  extends AcsChatThreadEventInThreadBase {
   /** The communication identifier of the user who deleted the thread */
   deletedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The deletion time of the thread */
   deleteTime: Date;
 }
 
+export function acsChatThreadDeletedEventDataDeserializer(
+  item: any,
+): AcsChatThreadDeletedEventData {
+  return {
+    createTime: new Date(item["createTime"]),
+    version: item["version"],
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    deletedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["deletedByCommunicationIdentifier"],
+    ),
+    deleteTime: new Date(item["deleteTime"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser event. */
-export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatThreadEventBase {
+export interface AcsChatThreadPropertiesUpdatedPerUserEventData
+  extends AcsChatThreadEventBase {
   /** The communication identifier of the user who updated the thread properties */
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
@@ -602,10 +1553,31 @@ export interface AcsChatThreadPropertiesUpdatedPerUserEventData extends AcsChatT
   metadata: Record<string, string>;
   /** The updated thread properties */
   properties: Record<string, any>;
+}
+
+export function acsChatThreadPropertiesUpdatedPerUserEventDataDeserializer(
+  item: any,
+): AcsChatThreadPropertiesUpdatedPerUserEventData {
+  return {
+    createTime: new Date(item["createTime"]),
+    version: item["version"],
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    editedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["editedByCommunicationIdentifier"],
+    ),
+    editTime: new Date(item["editTime"]),
+    metadata: item["metadata"],
+    properties: item["properties"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadPropertiesUpdated event. */
-export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEventInThreadBase {
+export interface AcsChatThreadPropertiesUpdatedEventData
+  extends AcsChatThreadEventInThreadBase {
   /** The communication identifier of the user who updated the thread properties */
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
@@ -616,14 +1588,53 @@ export interface AcsChatThreadPropertiesUpdatedEventData extends AcsChatThreadEv
   metadata: Record<string, string>;
 }
 
+export function acsChatThreadPropertiesUpdatedEventDataDeserializer(
+  item: any,
+): AcsChatThreadPropertiesUpdatedEventData {
+  return {
+    createTime: new Date(item["createTime"]),
+    version: item["version"],
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    editedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["editedByCommunicationIdentifier"],
+    ),
+    editTime: new Date(item["editTime"]),
+    properties: item["properties"],
+    metadata: item["metadata"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatParticipantAddedToThreadWithUser event. */
-export interface AcsChatParticipantAddedToThreadWithUserEventData extends AcsChatThreadEventBase {
+export interface AcsChatParticipantAddedToThreadWithUserEventData
+  extends AcsChatThreadEventBase {
   /** The time at which the user was added to the thread */
   time: Date;
   /** The communication identifier of the user who added the user */
   addedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The details of the user who was added */
   participantAdded: AcsChatThreadParticipant;
+}
+
+export function acsChatParticipantAddedToThreadWithUserEventDataDeserializer(
+  item: any,
+): AcsChatParticipantAddedToThreadWithUserEventData {
+  return {
+    createTime: new Date(item["createTime"]),
+    version: item["version"],
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    time: new Date(item["time"]),
+    addedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["addedByCommunicationIdentifier"],
+    ),
+    participantAdded: acsChatThreadParticipantDeserializer(
+      item["participantAdded"],
+    ),
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser event. */
@@ -637,8 +1648,30 @@ export interface AcsChatParticipantRemovedFromThreadWithUserEventData
   participantRemoved: AcsChatThreadParticipant;
 }
 
+export function acsChatParticipantRemovedFromThreadWithUserEventDataDeserializer(
+  item: any,
+): AcsChatParticipantRemovedFromThreadWithUserEventData {
+  return {
+    createTime: new Date(item["createTime"]),
+    version: item["version"],
+    recipientCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["recipientCommunicationIdentifier"],
+    ),
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    time: new Date(item["time"]),
+    removedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["removedByCommunicationIdentifier"],
+    ),
+    participantRemoved: acsChatThreadParticipantDeserializer(
+      item["participantRemoved"],
+    ),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadParticipantAdded event. */
-export interface AcsChatParticipantAddedToThreadEventData extends AcsChatEventInThreadBase {
+export interface AcsChatParticipantAddedToThreadEventData
+  extends AcsChatEventInThreadBase {
   /** The time at which the user was added to the thread */
   time: Date;
   /** The communication identifier of the user who added the user */
@@ -649,8 +1682,26 @@ export interface AcsChatParticipantAddedToThreadEventData extends AcsChatEventIn
   version?: number;
 }
 
+export function acsChatParticipantAddedToThreadEventDataDeserializer(
+  item: any,
+): AcsChatParticipantAddedToThreadEventData {
+  return {
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    time: new Date(item["time"]),
+    addedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["addedByCommunicationIdentifier"],
+    ),
+    participantAdded: acsChatThreadParticipantDeserializer(
+      item["participantAdded"],
+    ),
+    version: item["version"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.ChatThreadParticipantRemoved event. */
-export interface AcsChatParticipantRemovedFromThreadEventData extends AcsChatEventInThreadBase {
+export interface AcsChatParticipantRemovedFromThreadEventData
+  extends AcsChatEventInThreadBase {
   /** The time at which the user was removed to the thread */
   time: Date;
   /** The communication identifier of the user who removed the user */
@@ -661,6 +1712,23 @@ export interface AcsChatParticipantRemovedFromThreadEventData extends AcsChatEve
   version?: number;
 }
 
+export function acsChatParticipantRemovedFromThreadEventDataDeserializer(
+  item: any,
+): AcsChatParticipantRemovedFromThreadEventData {
+  return {
+    transactionId: item["transactionId"],
+    threadId: item["threadId"],
+    time: new Date(item["time"]),
+    removedByCommunicationIdentifier: communicationIdentifierModelDeserializer(
+      item["removedByCommunicationIdentifier"],
+    ),
+    participantRemoved: acsChatThreadParticipantDeserializer(
+      item["participantRemoved"],
+    ),
+    version: item["version"],
+  };
+}
+
 /** Schema of common properties of all SMS events */
 export interface AcsSmsEventBase {
   /** The identity of the SMS message */
@@ -669,6 +1737,14 @@ export interface AcsSmsEventBase {
   from?: string;
   /** The identity of SMS message receiver */
   to?: string;
+}
+
+export function acsSmsEventBaseDeserializer(item: any): AcsSmsEventBase {
+  return {
+    messageId: item["messageId"],
+    from: item["from"],
+    to: item["to"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.SMSDeliveryReportReceived event. */
@@ -685,6 +1761,31 @@ export interface AcsSmsDeliveryReportReceivedEventData extends AcsSmsEventBase {
   tag?: string;
 }
 
+export function acsSmsDeliveryReportReceivedEventDataDeserializer(
+  item: any,
+): AcsSmsDeliveryReportReceivedEventData {
+  return {
+    messageId: item["messageId"],
+    from: item["from"],
+    to: item["to"],
+    deliveryStatus: item["deliveryStatus"],
+    deliveryStatusDetails: item["deliveryStatusDetails"],
+    deliveryAttempts: acsSmsDeliveryAttemptArrayDeserializer(
+      item["deliveryAttempts"],
+    ),
+    receivedTimestamp: new Date(item["receivedTimestamp"]),
+    tag: item["tag"],
+  };
+}
+
+export function acsSmsDeliveryAttemptArrayDeserializer(
+  result: Array<AcsSmsDeliveryAttempt>,
+): any[] {
+  return result.map((item) => {
+    return acsSmsDeliveryAttemptDeserializer(item);
+  });
+}
+
 /** Schema for details of a delivery attempt */
 export interface AcsSmsDeliveryAttempt {
   /** TimeStamp when delivery was attempted */
@@ -695,6 +1796,16 @@ export interface AcsSmsDeliveryAttempt {
   segmentsFailed?: number;
 }
 
+export function acsSmsDeliveryAttemptDeserializer(
+  item: any,
+): AcsSmsDeliveryAttempt {
+  return {
+    timestamp: new Date(item["timestamp"]),
+    segmentsSucceeded: item["segmentsSucceeded"],
+    segmentsFailed: item["segmentsFailed"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.SMSReceived event. */
 export interface AcsSmsReceivedEventData extends AcsSmsEventBase {
   /** The SMS content */
@@ -703,6 +1814,19 @@ export interface AcsSmsReceivedEventData extends AcsSmsEventBase {
   receivedTimestamp: Date;
   /** Number of segments in the message */
   segmentCount: number;
+}
+
+export function acsSmsReceivedEventDataDeserializer(
+  item: any,
+): AcsSmsReceivedEventData {
+  return {
+    messageId: item["messageId"],
+    from: item["from"],
+    to: item["to"],
+    message: item["message"],
+    receivedTimestamp: new Date(item["receivedTimestamp"]),
+    segmentCount: item["segmentCount"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RecordingFileStatusUpdated event. */
@@ -723,10 +1847,44 @@ export interface AcsRecordingFileStatusUpdatedEventData {
   sessionEndReason?: string;
 }
 
+export function acsRecordingFileStatusUpdatedEventDataDeserializer(
+  item: any,
+): AcsRecordingFileStatusUpdatedEventData {
+  return {
+    recordingStorageInfo: acsRecordingStorageInfoDeserializer(
+      item["recordingStorageInfo"],
+    ),
+    recordingStartTime: new Date(item["recordingStartTime"]),
+    recordingDurationMs: item["recordingDurationMs"],
+    recordingContentType: item["recordingContentType"],
+    recordingChannelType: item["recordingChannelType"],
+    recordingFormatType: item["recordingFormatType"],
+    sessionEndReason: item["sessionEndReason"],
+  };
+}
+
 /** Schema for all properties of Recording Storage Information. */
 export interface AcsRecordingStorageInfo {
   /** List of details of recording chunks information */
   recordingChunks: AcsRecordingChunkInfo[];
+}
+
+export function acsRecordingStorageInfoDeserializer(
+  item: any,
+): AcsRecordingStorageInfo {
+  return {
+    recordingChunks: acsRecordingChunkInfoArrayDeserializer(
+      item["recordingChunks"],
+    ),
+  };
+}
+
+export function acsRecordingChunkInfoArrayDeserializer(
+  result: Array<AcsRecordingChunkInfo>,
+): any[] {
+  return result.map((item) => {
+    return acsRecordingChunkInfoDeserializer(item);
+  });
 }
 
 /** Schema for all properties of  Recording Chunk Information. */
@@ -745,60 +1903,73 @@ export interface AcsRecordingChunkInfo {
   deleteLocation?: string;
 }
 
-/** Known values of {@link RecordingContentType} that the service accepts. */
+export function acsRecordingChunkInfoDeserializer(
+  item: any,
+): AcsRecordingChunkInfo {
+  return {
+    documentId: item["documentId"],
+    index: item["index"],
+    endReason: item["endReason"],
+    metadataLocation: item["metadataLocation"],
+    contentLocation: item["contentLocation"],
+    deleteLocation: item["deleteLocation"],
+  };
+}
+
+/** Recording content type */
 export enum KnownRecordingContentType {
-  /** AudioVideo */
+  /** AudioVideo content type */
   AudioVideo = "AudioVideo",
-  /** Audio */
+  /** Audio content type */
   Audio = "Audio",
 }
 
 /**
- * Recording content type
- * {@link KnownRecordingContentType} can be used interchangeably with RecordingContentType,
+ * Recording content type \
+ * {@link KnownrecordingContentType} can be used interchangeably with recordingContentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AudioVideo**
- * **Audio**
+ * **AudioVideo**: AudioVideo content type \
+ * **Audio**: Audio content type
  */
 export type RecordingContentType = string;
 
-/** Known values of {@link RecordingChannelType} that the service accepts. */
+/** Recording channel type */
 export enum KnownRecordingChannelType {
-  /** Mixed */
+  /** Mixed channel type */
   Mixed = "Mixed",
-  /** Unmixed */
+  /** Unmixed channel type */
   Unmixed = "Unmixed",
 }
 
 /**
- * Recording channel type
- * {@link KnownRecordingChannelType} can be used interchangeably with RecordingChannelType,
+ * Recording channel type \
+ * {@link KnownrecordingChannelType} can be used interchangeably with recordingChannelType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Mixed**
- * **Unmixed**
+ * **Mixed**: Mixed channel type \
+ * **Unmixed**: Unmixed channel type
  */
 export type RecordingChannelType = string;
 
-/** Known values of {@link RecordingFormatType} that the service accepts. */
+/** Recording format type */
 export enum KnownRecordingFormatType {
-  /** Wav */
+  /** WAV format */
   Wav = "Wav",
-  /** Mp3 */
+  /** MP3 format */
   Mp3 = "Mp3",
-  /** Mp4 */
+  /** MP4 format */
   Mp4 = "Mp4",
 }
 
 /**
- * Recording format type
- * {@link KnownRecordingFormatType} can be used interchangeably with RecordingFormatType,
+ * Recording format type \
+ * {@link KnownrecordingFormatType} can be used interchangeably with recordingFormatType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Wav**
- * **Mp3**
- * **Mp4**
+ * **Wav**: WAV format \
+ * **Mp3**: MP3 format \
+ * **Mp4**: MP4 format
  */
 export type RecordingFormatType = string;
 
@@ -820,33 +1991,49 @@ export interface AcsEmailDeliveryReportReceivedEventData {
   deliveryAttemptTimestamp: Date;
 }
 
-/** Known values of {@link AcsEmailDeliveryReportStatus} that the service accepts. */
+export function acsEmailDeliveryReportReceivedEventDataDeserializer(
+  item: any,
+): AcsEmailDeliveryReportReceivedEventData {
+  return {
+    sender: item["sender"],
+    recipient: item["recipient"],
+    internetMessageId: item["internetMessageId"],
+    messageId: item["messageId"],
+    status: item["status"],
+    deliveryStatusDetails: acsEmailDeliveryReportStatusDetailsDeserializer(
+      item["deliveryStatusDetails"],
+    ),
+    deliveryAttemptTimestamp: new Date(item["deliveryAttemptTimestamp"]),
+  };
+}
+
+/** The status of the email. Any value other than Delivered is considered failed. */
 export enum KnownAcsEmailDeliveryReportStatus {
-  /** Bounced */
+  /** Hard bounce detected while sending the email */
   Bounced = "Bounced",
-  /** Delivered */
+  /** The email was delivered */
   Delivered = "Delivered",
-  /** Failed */
+  /** The email failed to be delivered */
   Failed = "Failed",
-  /** FilteredSpam */
+  /** The message was identified as spam and was rejected or blocked (not quarantined). */
   FilteredSpam = "FilteredSpam",
-  /** Quarantined */
+  /** The message was quarantined (as spam, bulk mail, or phishing). For more information, see Quarantined email messages in EOP (EXCHANGE ONLINE PROTECTION). */
   Quarantined = "Quarantined",
-  /** Suppressed */
+  /** The email was suppressed */
   Suppressed = "Suppressed",
 }
 
 /**
- * The status of the email. Any value other than Delivered is considered failed.
+ * The status of the email. Any value other than Delivered is considered failed. \
  * {@link KnownAcsEmailDeliveryReportStatus} can be used interchangeably with AcsEmailDeliveryReportStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Bounced**
- * **Delivered**
- * **Failed**
- * **FilteredSpam**
- * **Quarantined**
- * **Suppressed**
+ * **Bounced**: Hard bounce detected while sending the email \
+ * **Delivered**: The email was delivered \
+ * **Failed**: The email failed to be delivered \
+ * **FilteredSpam**: The message was identified as spam and was rejected or blocked (not quarantined). \
+ * **Quarantined**: The message was quarantined (as spam, bulk mail, or phishing). For more information, see Quarantined email messages in EOP (EXCHANGE ONLINE PROTECTION). \
+ * **Suppressed**: The email was suppressed
  */
 export type AcsEmailDeliveryReportStatus = string;
 
@@ -856,6 +2043,15 @@ export interface AcsEmailDeliveryReportStatusDetails {
   statusMessage?: string;
   /** Recipient mail server host name */
   recipientMailServerHostName?: string;
+}
+
+export function acsEmailDeliveryReportStatusDetailsDeserializer(
+  item: any,
+): AcsEmailDeliveryReportStatusDetails {
+  return {
+    statusMessage: item["statusMessage"],
+    recipientMailServerHostName: item["recipientMailServerHostName"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.EmailEngagementTrackingReportReceived event. */
@@ -876,21 +2072,35 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
   engagement: AcsUserEngagement;
 }
 
-/** Known values of {@link AcsUserEngagement} that the service accepts. */
+export function acsEmailEngagementTrackingReportReceivedEventDataDeserializer(
+  item: any,
+): AcsEmailEngagementTrackingReportReceivedEventData {
+  return {
+    sender: item["sender"],
+    recipient: item["recipient"],
+    messageId: item["messageId"],
+    userActionTimestamp: new Date(item["userActionTimestamp"]),
+    engagementContext: item["engagementContext"],
+    userAgent: item["userAgent"],
+    engagement: item["engagementType"],
+  };
+}
+
+/** The type of engagement user have with email. */
 export enum KnownAcsUserEngagement {
-  /** view */
+  /** View */
   view = "view",
-  /** click */
+  /** Click */
   click = "click",
 }
 
 /**
- * The type of engagement user have with email.
+ * The type of engagement user have with email. \
  * {@link KnownAcsUserEngagement} can be used interchangeably with AcsUserEngagement,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **view**
- * **click**
+ * **view**: View \
+ * **click**: Click
  */
 export type AcsUserEngagement = string;
 
@@ -904,6 +2114,14 @@ export interface AcsRouterEventData {
   channelId?: string;
 }
 
+export function acsRouterEventDataDeserializer(item: any): AcsRouterEventData {
+  return {
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+  };
+}
+
 /** Schema of common properties of all Router Job events */
 export interface AcsRouterJobEventData extends AcsRouterEventData {
   /** Router Job events Queue Id */
@@ -914,6 +2132,19 @@ export interface AcsRouterJobEventData extends AcsRouterEventData {
   tags: Record<string, string>;
 }
 
+export function acsRouterJobEventDataDeserializer(
+  item: any,
+): AcsRouterJobEventData {
+  return {
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobCancelled event */
 export interface AcsRouterJobCancelledEventData extends AcsRouterJobEventData {
   /** Router Job Note */
@@ -922,12 +2153,51 @@ export interface AcsRouterJobCancelledEventData extends AcsRouterJobEventData {
   dispositionCode?: string;
 }
 
+export function acsRouterJobCancelledEventDataDeserializer(
+  item: any,
+): AcsRouterJobCancelledEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    note: item["note"],
+    dispositionCode: item["dispositionCode"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobClassificationFailed event */
-export interface AcsRouterJobClassificationFailedEventData extends AcsRouterJobEventData {
+export interface AcsRouterJobClassificationFailedEventData
+  extends AcsRouterJobEventData {
   /** Router Job Classification Policy Id */
   classificationPolicyId?: string;
   /** Router Job Classification Failed Errors */
   errors: AcsRouterCommunicationError[];
+}
+
+export function acsRouterJobClassificationFailedEventDataDeserializer(
+  item: any,
+): AcsRouterJobClassificationFailedEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    classificationPolicyId: item["classificationPolicyId"],
+    errors: acsRouterCommunicationErrorArrayDeserializer(item["errors"]),
+  };
+}
+
+export function acsRouterCommunicationErrorArrayDeserializer(
+  result: Array<AcsRouterCommunicationError>,
+): any[] {
+  return result.map((item) => {
+    return acsRouterCommunicationErrorDeserializer(item);
+  });
 }
 
 /** Router Communication Error */
@@ -944,6 +2214,18 @@ export interface AcsRouterCommunicationError {
   details: AcsRouterCommunicationError[];
 }
 
+export function acsRouterCommunicationErrorDeserializer(
+  item: any,
+): AcsRouterCommunicationError {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    innererror: acsRouterCommunicationErrorDeserializer(item["innererror"]),
+    details: acsRouterCommunicationErrorArrayDeserializer(item["details"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobClassified event */
 export interface AcsRouterJobClassifiedEventData extends AcsRouterJobEventData {
   /** Router Job Queue Info */
@@ -956,6 +2238,25 @@ export interface AcsRouterJobClassifiedEventData extends AcsRouterJobEventData {
   attachedWorkerSelectors: AcsRouterWorkerSelector[];
 }
 
+export function acsRouterJobClassifiedEventDataDeserializer(
+  item: any,
+): AcsRouterJobClassifiedEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    queueDetails: acsRouterQueueDetailsDeserializer(item["queueDetails"]),
+    classificationPolicyId: item["classificationPolicyId"],
+    priority: item["priority"],
+    attachedWorkerSelectors: acsRouterWorkerSelectorArrayDeserializer(
+      item["attachedWorkerSelectors"],
+    ),
+  };
+}
+
 /** Router Queue Details */
 export interface AcsRouterQueueDetails {
   /** Router Queue Id */
@@ -964,6 +2265,24 @@ export interface AcsRouterQueueDetails {
   name?: string;
   /** Router Queue Labels */
   labels: Record<string, string>;
+}
+
+export function acsRouterQueueDetailsDeserializer(
+  item: any,
+): AcsRouterQueueDetails {
+  return {
+    id: item["id"],
+    name: item["name"],
+    labels: item["labels"],
+  };
+}
+
+export function acsRouterWorkerSelectorArrayDeserializer(
+  result: Array<AcsRouterWorkerSelector>,
+): any[] {
+  return result.map((item) => {
+    return acsRouterWorkerSelectorDeserializer(item);
+  });
 }
 
 /** Router Job Worker Selector */
@@ -982,51 +2301,64 @@ export interface AcsRouterWorkerSelector {
   expirationTime: Date;
 }
 
-/** Known values of {@link AcsRouterLabelOperator} that the service accepts. */
+export function acsRouterWorkerSelectorDeserializer(
+  item: any,
+): AcsRouterWorkerSelector {
+  return {
+    key: item["key"],
+    labelOperator: item["labelOperator"],
+    labelValue: item["value"],
+    ttlSeconds: item["ttlSeconds"],
+    state: item["state"],
+    expirationTime: new Date(item["expirationTime"]),
+  };
+}
+
+/** Router Job Worker Selector Label Operator */
 export enum KnownAcsRouterLabelOperator {
-  /** Equal */
+  /** Router Label Operator Equal */
   Equal = "Equal",
-  /** NotEqual */
+  /** Router Label Operator Not Equal */
   NotEqual = "NotEqual",
-  /** Greater */
+  /** Router Label Operator Greater */
   Greater = "Greater",
-  /** Less */
+  /** Router Label Operator Less */
   Less = "Less",
-  /** GreaterThanOrEqual */
+  /** Router Label Operator Greater than or equal */
   GreaterThanOrEqual = "GreaterThanOrEqual",
-  /** LessThanOrEqual */
+  /** Router Label Operator Less than or equal */
   LessThanOrEqual = "LessThanOrEqual",
 }
 
 /**
- * Router Job Worker Selector Label Operator
+ * Router Job Worker Selector Label Operator \
  * {@link KnownAcsRouterLabelOperator} can be used interchangeably with AcsRouterLabelOperator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Equal**
- * **NotEqual**
- * **Greater**
- * **Less**
- * **GreaterThanOrEqual**
- * **LessThanOrEqual**
+ * **Equal**: Router Label Operator Equal \
+ * **NotEqual**: Router Label Operator Not Equal \
+ * **Greater**: Router Label Operator Greater \
+ * **Less**: Router Label Operator Less \
+ * **GreaterThanOrEqual**: Router Label Operator Greater than or equal \
+ * **LessThanOrEqual**: Router Label Operator Less than or equal
  */
 export type AcsRouterLabelOperator = string;
 
-/** Known values of {@link AcsRouterWorkerSelectorState} that the service accepts. */
+/** Router Worker Selector State */
 export enum KnownAcsRouterWorkerSelectorState {
-  /** active */
-  active = "active",
-  /** expired */
-  expired = "expired",
+  /** Router Worker Selector State Active */
+  Active = "active",
+  /** Router Worker Selector State Expired */
+  Expired = "expired",
 }
 
 /**
- * Router Worker Selector State
+ * Router Worker Selector State \
  * {@link KnownAcsRouterWorkerSelectorState} can be used interchangeably with AcsRouterWorkerSelectorState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **active**
- * **expired**
+ * **active**: Router Worker Selector State Active \
+ * **expired**: Router Worker Selector State Expired
  */
 export type AcsRouterWorkerSelectorState = string;
 
@@ -1040,6 +2372,22 @@ export interface AcsRouterJobClosedEventData extends AcsRouterJobEventData {
   dispositionCode?: string;
 }
 
+export function acsRouterJobClosedEventDataDeserializer(
+  item: any,
+): AcsRouterJobClosedEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    assignmentId: item["assignmentId"],
+    workerId: item["workerId"],
+    dispositionCode: item["dispositionCode"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobCompleted event */
 export interface AcsRouterJobCompletedEventData extends AcsRouterJobEventData {
   /** Router Job Completed Assignment Id */
@@ -1048,15 +2396,59 @@ export interface AcsRouterJobCompletedEventData extends AcsRouterJobEventData {
   workerId?: string;
 }
 
+export function acsRouterJobCompletedEventDataDeserializer(
+  item: any,
+): AcsRouterJobCompletedEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    assignmentId: item["assignmentId"],
+    workerId: item["workerId"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobDeleted event */
 export interface AcsRouterJobDeletedEventData extends AcsRouterJobEventData {}
 
+export function acsRouterJobDeletedEventDataDeserializer(
+  item: any,
+): AcsRouterJobDeletedEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobExceptionTriggered event */
-export interface AcsRouterJobExceptionTriggeredEventData extends AcsRouterJobEventData {
+export interface AcsRouterJobExceptionTriggeredEventData
+  extends AcsRouterJobEventData {
   /** Router Job Exception Triggered Rule Key */
   ruleKey?: string;
   /** Router Job Exception Triggered Rule Id */
   exceptionRuleId?: string;
+}
+
+export function acsRouterJobExceptionTriggeredEventDataDeserializer(
+  item: any,
+): AcsRouterJobExceptionTriggeredEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    ruleKey: item["ruleKey"],
+    exceptionRuleId: item["exceptionRuleId"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobQueued event */
@@ -1067,6 +2459,26 @@ export interface AcsRouterJobQueuedEventData extends AcsRouterJobEventData {
   attachedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Queued Requested Worker Selector */
   requestedWorkerSelectors: AcsRouterWorkerSelector[];
+}
+
+export function acsRouterJobQueuedEventDataDeserializer(
+  item: any,
+): AcsRouterJobQueuedEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    priority: item["priority"],
+    attachedWorkerSelectors: acsRouterWorkerSelectorArrayDeserializer(
+      item["attachedWorkerSelectors"],
+    ),
+    requestedWorkerSelectors: acsRouterWorkerSelectorArrayDeserializer(
+      item["requestedWorkerSelectors"],
+    ),
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobReceived event */
@@ -1085,56 +2497,78 @@ export interface AcsRouterJobReceivedEventData extends AcsRouterJobEventData {
   unavailableForMatching: boolean;
 }
 
-/** Known values of {@link AcsRouterJobStatus} that the service accepts. */
+export function acsRouterJobReceivedEventDataDeserializer(
+  item: any,
+): AcsRouterJobReceivedEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    jobStatus: item["jobStatus"],
+    classificationPolicyId: item["classificationPolicyId"],
+    priority: item["priority"],
+    requestedWorkerSelectors: acsRouterWorkerSelectorArrayDeserializer(
+      item["requestedWorkerSelectors"],
+    ),
+    scheduledOn: new Date(item["scheduledOn"]),
+    unavailableForMatching: item["unavailableForMatching"],
+  };
+}
+
+/** Acs Router Job Status */
 export enum KnownAcsRouterJobStatus {
-  /** PendingClassification */
+  /** Router Job Status Pending Classification */
   PendingClassification = "PendingClassification",
-  /** Queued */
+  /** Router Job Status Queued */
   Queued = "Queued",
-  /** Assigned */
+  /** Router Job Status Assigned */
   Assigned = "Assigned",
-  /** Completed */
+  /** Router Job Status Completed */
   Completed = "Completed",
-  /** Closed */
+  /** Router Job Status Closed */
   Closed = "Closed",
-  /** Cancelled */
+  /** Router Job Status Cancelled */
   Cancelled = "Cancelled",
-  /** ClassificationFailed */
+  /** Router Job Status Classification Failed */
   ClassificationFailed = "ClassificationFailed",
-  /** Created */
+  /** Router Job Status Created */
   Created = "Created",
-  /** PendingSchedule */
+  /** Router Job Status Pending Schedule */
   PendingSchedule = "PendingSchedule",
-  /** Scheduled */
+  /** Router Job Status Scheduled */
   Scheduled = "Scheduled",
-  /** ScheduleFailed */
+  /** Router Job Status Schedule Failed */
   ScheduleFailed = "ScheduleFailed",
-  /** WaitingForActivation */
+  /** Router Job Status Waiting For Activation */
   WaitingForActivation = "WaitingForActivation",
 }
 
 /**
- * Acs Router Job Status
+ * Acs Router Job Status \
  * {@link KnownAcsRouterJobStatus} can be used interchangeably with AcsRouterJobStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **PendingClassification**
- * **Queued**
- * **Assigned**
- * **Completed**
- * **Closed**
- * **Cancelled**
- * **ClassificationFailed**
- * **Created**
- * **PendingSchedule**
- * **Scheduled**
- * **ScheduleFailed**
- * **WaitingForActivation**
+ * **PendingClassification**: Router Job Status Pending Classification \
+ * **Queued**: Router Job Status Queued \
+ * **Assigned**: Router Job Status Assigned \
+ * **Completed**: Router Job Status Completed \
+ * **Closed**: Router Job Status Closed \
+ * **Cancelled**: Router Job Status Cancelled \
+ * **ClassificationFailed**: Router Job Status Classification Failed \
+ * **Created**: Router Job Status Created \
+ * **PendingSchedule**: Router Job Status Pending Schedule \
+ * **Scheduled**: Router Job Status Scheduled \
+ * **ScheduleFailed**: Router Job Status Schedule Failed \
+ * **WaitingForActivation**: Router Job Status Waiting For Activation
  */
 export type AcsRouterJobStatus = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobSchedulingFailed event */
-export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEventData {
+export interface AcsRouterJobSchedulingFailedEventData
+  extends AcsRouterJobEventData {
   /** Router Job Priority */
   priority?: number;
   /** Router Job Scheduling Failed Attached Worker Selector Expired */
@@ -1147,6 +2581,28 @@ export interface AcsRouterJobSchedulingFailedEventData extends AcsRouterJobEvent
   failureReason?: string;
 }
 
+export function acsRouterJobSchedulingFailedEventDataDeserializer(
+  item: any,
+): AcsRouterJobSchedulingFailedEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    priority: item["priority"],
+    expiredAttachedWorkerSelectors: acsRouterWorkerSelectorArrayDeserializer(
+      item["expiredAttachedWorkerSelectors"],
+    ),
+    expiredRequestedWorkerSelectors: acsRouterWorkerSelectorArrayDeserializer(
+      item["expiredRequestedWorkerSelectors"],
+    ),
+    scheduledOn: new Date(item["scheduledOn"]),
+    failureReason: item["failureReason"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobUnassigned event */
 export interface AcsRouterJobUnassignedEventData extends AcsRouterJobEventData {
   /** Router Job Unassigned Assignment Id */
@@ -1155,8 +2611,24 @@ export interface AcsRouterJobUnassignedEventData extends AcsRouterJobEventData {
   workerId?: string;
 }
 
+export function acsRouterJobUnassignedEventDataDeserializer(
+  item: any,
+): AcsRouterJobUnassignedEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    assignmentId: item["assignmentId"],
+    workerId: item["workerId"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobWaitingForActivation event */
-export interface AcsRouterJobWaitingForActivationEventData extends AcsRouterJobEventData {
+export interface AcsRouterJobWaitingForActivationEventData
+  extends AcsRouterJobEventData {
   /** Router Job Waiting For Activation Priority */
   priority?: number;
   /** Router Job Waiting For Activation Worker Selector Expired */
@@ -1169,12 +2641,54 @@ export interface AcsRouterJobWaitingForActivationEventData extends AcsRouterJobE
   unavailableForMatching: boolean;
 }
 
+export function acsRouterJobWaitingForActivationEventDataDeserializer(
+  item: any,
+): AcsRouterJobWaitingForActivationEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    priority: item["priority"],
+    expiredAttachedWorkerSelectors: acsRouterWorkerSelectorArrayDeserializer(
+      item["expiredAttachedWorkerSelectors"],
+    ),
+    expiredRequestedWorkerSelectors: acsRouterWorkerSelectorArrayDeserializer(
+      item["expiredRequestedWorkerSelectors"],
+    ),
+    scheduledOn: new Date(item["scheduledOn"]),
+    unavailableForMatching: item["unavailableForMatching"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobWorkerSelectorsExpired event */
-export interface AcsRouterJobWorkerSelectorsExpiredEventData extends AcsRouterJobEventData {
+export interface AcsRouterJobWorkerSelectorsExpiredEventData
+  extends AcsRouterJobEventData {
   /** Router Job Worker Selectors Expired Requested Worker Selectors */
   expiredRequestedWorkerSelectors: AcsRouterWorkerSelector[];
   /** Router Job Worker Selectors Expired Attached Worker Selectors */
   expiredAttachedWorkerSelectors: AcsRouterWorkerSelector[];
+}
+
+export function acsRouterJobWorkerSelectorsExpiredEventDataDeserializer(
+  item: any,
+): AcsRouterJobWorkerSelectorsExpiredEventData {
+  return {
+    queueId: item["queueId"],
+    labels: item["labels"],
+    tags: item["tags"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    expiredRequestedWorkerSelectors: acsRouterWorkerSelectorArrayDeserializer(
+      item["expiredRequestedWorkerSelectors"],
+    ),
+    expiredAttachedWorkerSelectors: acsRouterWorkerSelectorArrayDeserializer(
+      item["expiredAttachedWorkerSelectors"],
+    ),
+  };
 }
 
 /** Schema of common properties of all Router Worker events */
@@ -1183,8 +2697,31 @@ export interface AcsRouterWorkerEventData extends AcsRouterEventData {
   workerId?: string;
 }
 
+export function acsRouterWorkerEventDataDeserializer(
+  item: any,
+): AcsRouterWorkerEventData {
+  return {
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    workerId: item["workerId"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerDeleted event */
-export interface AcsRouterWorkerDeletedEventData extends AcsRouterWorkerEventData {}
+export interface AcsRouterWorkerDeletedEventData
+  extends AcsRouterWorkerEventData {}
+
+export function acsRouterWorkerDeletedEventDataDeserializer(
+  item: any,
+): AcsRouterWorkerDeletedEventData {
+  return {
+    workerId: item["workerId"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerDeregistered event */
 export interface AcsRouterWorkerDeregisteredEventData {
@@ -1192,8 +2729,17 @@ export interface AcsRouterWorkerDeregisteredEventData {
   workerId?: string;
 }
 
+export function acsRouterWorkerDeregisteredEventDataDeserializer(
+  item: any,
+): AcsRouterWorkerDeregisteredEventData {
+  return {
+    workerId: item["workerId"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferAccepted event */
-export interface AcsRouterWorkerOfferAcceptedEventData extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferAcceptedEventData
+  extends AcsRouterWorkerEventData {
   /** Router Worker Offer Accepted Queue Id */
   queueId?: string;
   /** Router Worker Offer Accepted Offer Id */
@@ -1212,24 +2758,72 @@ export interface AcsRouterWorkerOfferAcceptedEventData extends AcsRouterWorkerEv
   jobTags: Record<string, string>;
 }
 
+export function acsRouterWorkerOfferAcceptedEventDataDeserializer(
+  item: any,
+): AcsRouterWorkerOfferAcceptedEventData {
+  return {
+    workerId: item["workerId"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    queueId: item["queueId"],
+    offerId: item["offerId"],
+    assignmentId: item["assignmentId"],
+    jobPriority: item["jobPriority"],
+    workerLabels: item["workerLabels"],
+    workerTags: item["workerTags"],
+    jobLabels: item["jobLabels"],
+    jobTags: item["jobTags"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferDeclined event */
-export interface AcsRouterWorkerOfferDeclinedEventData extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferDeclinedEventData
+  extends AcsRouterWorkerEventData {
   /** Router Worker Offer Declined Queue Id */
   queueId?: string;
   /** Router Worker Offer Declined Offer Id */
   offerId?: string;
 }
 
+export function acsRouterWorkerOfferDeclinedEventDataDeserializer(
+  item: any,
+): AcsRouterWorkerOfferDeclinedEventData {
+  return {
+    workerId: item["workerId"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    queueId: item["queueId"],
+    offerId: item["offerId"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferExpired event */
-export interface AcsRouterWorkerOfferExpiredEventData extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferExpiredEventData
+  extends AcsRouterWorkerEventData {
   /** Router Worker Offer Expired Queue Id */
   queueId?: string;
   /** Router Worker Offer Expired Offer Id */
   offerId?: string;
 }
 
+export function acsRouterWorkerOfferExpiredEventDataDeserializer(
+  item: any,
+): AcsRouterWorkerOfferExpiredEventData {
+  return {
+    workerId: item["workerId"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    queueId: item["queueId"],
+    offerId: item["offerId"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferIssued event */
-export interface AcsRouterWorkerOfferIssuedEventData extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferIssuedEventData
+  extends AcsRouterWorkerEventData {
   /** Router Worker Offer Issued Queue Id */
   queueId?: string;
   /** Router Worker Offer Issued Offer Id */
@@ -1250,12 +2844,46 @@ export interface AcsRouterWorkerOfferIssuedEventData extends AcsRouterWorkerEven
   jobTags: Record<string, string>;
 }
 
+export function acsRouterWorkerOfferIssuedEventDataDeserializer(
+  item: any,
+): AcsRouterWorkerOfferIssuedEventData {
+  return {
+    workerId: item["workerId"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    queueId: item["queueId"],
+    offerId: item["offerId"],
+    jobPriority: item["jobPriority"],
+    workerLabels: item["workerLabels"],
+    offeredOn: new Date(item["offeredOn"]),
+    expiresOn: new Date(item["expiresOn"]),
+    workerTags: item["workerTags"],
+    jobLabels: item["jobLabels"],
+    jobTags: item["jobTags"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerOfferRevoked event */
-export interface AcsRouterWorkerOfferRevokedEventData extends AcsRouterWorkerEventData {
+export interface AcsRouterWorkerOfferRevokedEventData
+  extends AcsRouterWorkerEventData {
   /** Router Worker Offer Revoked Queue Id */
   queueId?: string;
   /** Router Worker Offer Revoked Offer Id */
   offerId?: string;
+}
+
+export function acsRouterWorkerOfferRevokedEventDataDeserializer(
+  item: any,
+): AcsRouterWorkerOfferRevokedEventData {
+  return {
+    workerId: item["workerId"],
+    jobId: item["jobId"],
+    channelReference: item["channelReference"],
+    channelId: item["channelId"],
+    queueId: item["queueId"],
+    offerId: item["offerId"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerRegistered event */
@@ -1274,6 +2902,39 @@ export interface AcsRouterWorkerRegisteredEventData {
   tags: Record<string, string>;
 }
 
+export function acsRouterWorkerRegisteredEventDataDeserializer(
+  item: any,
+): AcsRouterWorkerRegisteredEventData {
+  return {
+    workerId: item["workerId"],
+    queueAssignments: acsRouterQueueDetailsArrayDeserializer(
+      item["queueAssignments"],
+    ),
+    channelConfigurations: acsRouterChannelConfigurationArrayDeserializer(
+      item["channelConfigurations"],
+    ),
+    totalCapacity: item["totalCapacity"],
+    labels: item["labels"],
+    tags: item["tags"],
+  };
+}
+
+export function acsRouterQueueDetailsArrayDeserializer(
+  result: Array<AcsRouterQueueDetails>,
+): any[] {
+  return result.map((item) => {
+    return acsRouterQueueDetailsDeserializer(item);
+  });
+}
+
+export function acsRouterChannelConfigurationArrayDeserializer(
+  result: Array<AcsRouterChannelConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return acsRouterChannelConfigurationDeserializer(item);
+  });
+}
+
 /** Router Channel Configuration */
 export interface AcsRouterChannelConfiguration {
   /** Channel ID for Router Job */
@@ -1282,6 +2943,16 @@ export interface AcsRouterChannelConfiguration {
   capacityCostPerJob?: number;
   /** Max Number of Jobs for Router Job */
   maxNumberOfJobs?: number;
+}
+
+export function acsRouterChannelConfigurationDeserializer(
+  item: any,
+): AcsRouterChannelConfiguration {
+  return {
+    channelId: item["channelId"],
+    capacityCostPerJob: item["capacityCostPerJob"],
+    maxNumberOfJobs: item["maxNumberOfJobs"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerUpdated event. */
@@ -1302,7 +2973,27 @@ export interface AcsRouterWorkerUpdatedEventData {
   updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
 }
 
-/** Known values of {@link AcsRouterUpdatedWorkerProperty} that the service accepts. */
+export function acsRouterWorkerUpdatedEventDataDeserializer(
+  item: any,
+): AcsRouterWorkerUpdatedEventData {
+  return {
+    workerId: item["workerId"],
+    queueAssignments: acsRouterQueueDetailsArrayDeserializer(
+      item["queueAssignments"],
+    ),
+    channelConfigurations: acsRouterChannelConfigurationArrayDeserializer(
+      item["channelConfigurations"],
+    ),
+    totalCapacity: item["totalCapacity"],
+    labels: item["labels"],
+    tags: item["tags"],
+    updatedWorkerProperties: item["updatedWorkerProperties"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Worker properties that can be updated */
 export enum KnownAcsRouterUpdatedWorkerProperty {
   /** AvailableForOffers */
   AvailableForOffers = "AvailableForOffers",
@@ -1319,29 +3010,42 @@ export enum KnownAcsRouterUpdatedWorkerProperty {
 }
 
 /**
- * Worker properties that can be updated
+ * Worker properties that can be updated \
  * {@link KnownAcsRouterUpdatedWorkerProperty} can be used interchangeably with AcsRouterUpdatedWorkerProperty,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AvailableForOffers**
- * **TotalCapacity**
- * **QueueAssignments**
- * **Labels**
- * **Tags**
- * **ChannelConfigurations**
+ * **AvailableForOffers**: AvailableForOffers \
+ * **TotalCapacity**: TotalCapacity \
+ * **QueueAssignments**: QueueAssignments \
+ * **Labels**: Labels \
+ * **Tags**: Tags \
+ * **ChannelConfigurations**: ChannelConfigurations
  */
 export type AcsRouterUpdatedWorkerProperty = string;
 
 /** Schema of common properties of all chat thread events */
 export interface AcsMessageEventData {
   /** The message sender */
-  from?: string;
+  from: string;
   /** The message recipient */
-  to?: string;
+  to: string;
   /** The time message was received */
   receivedTimeStamp: Date;
   /** The channel event error */
-  error: AcsMessageChannelEventError;
+  error?: AcsMessageChannelEventError;
+}
+
+export function acsMessageEventDataDeserializer(
+  item: any,
+): AcsMessageEventData {
+  return {
+    from: item["from"],
+    to: item["to"],
+    receivedTimeStamp: new Date(item["receivedTimeStamp"]),
+    error: !item["error"]
+      ? item["error"]
+      : acsMessageChannelEventErrorDeserializer(item["error"]),
+  };
 }
 
 /** Message Channel Event Error */
@@ -1352,8 +3056,18 @@ export interface AcsMessageChannelEventError {
   channelMessage?: string;
 }
 
+export function acsMessageChannelEventErrorDeserializer(
+  item: any,
+): AcsMessageChannelEventError {
+  return {
+    channelCode: item["channelCode"],
+    channelMessage: item["channelMessage"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated event. */
-export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEventData {
+export interface AcsMessageDeliveryStatusUpdatedEventData
+  extends AcsMessageEventData {
   /** The message id */
   messageId?: string;
   /** The updated message status */
@@ -1362,77 +3076,162 @@ export interface AcsMessageDeliveryStatusUpdatedEventData extends AcsMessageEven
   channelKind: AcsMessageChannelKind;
 }
 
-/** Known values of {@link AcsMessageDeliveryStatus} that the service accepts. */
+export function acsMessageDeliveryStatusUpdatedEventDataDeserializer(
+  item: any,
+): AcsMessageDeliveryStatusUpdatedEventData {
+  return {
+    from: item["from"],
+    to: item["to"],
+    receivedTimeStamp: new Date(item["receivedTimeStamp"]),
+    error: !item["error"]
+      ? item["error"]
+      : acsMessageChannelEventErrorDeserializer(item["error"]),
+    messageId: item["messageId"],
+    status: item["status"],
+    channelKind: item["channelType"],
+  };
+}
+
+/** Message delivery status */
 export enum KnownAcsMessageDeliveryStatus {
-  /** read */
+  /** Read */
   read = "read",
-  /** delivered */
+  /** Delivered */
   delivered = "delivered",
-  /** failed */
+  /** Failed */
   failed = "failed",
-  /** sent */
+  /** Sent */
   sent = "sent",
-  /** warning */
+  /** Warning */
   warning = "warning",
-  /** unknown */
+  /** Unknown */
   unknown = "unknown",
 }
 
 /**
- * Message delivery status
+ * Message delivery status \
  * {@link KnownAcsMessageDeliveryStatus} can be used interchangeably with AcsMessageDeliveryStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **read**
- * **delivered**
- * **failed**
- * **sent**
- * **warning**
- * **unknown**
+ * **read**: Read \
+ * **delivered**: Delivered \
+ * **failed**: Failed \
+ * **sent**: Sent \
+ * **warning**: Warning \
+ * **unknown**: Unknown
  */
 export type AcsMessageDeliveryStatus = string;
 
-/** Known values of {@link AcsMessageChannelKind} that the service accepts. */
+/** Message channel kind */
 export enum KnownAcsMessageChannelKind {
-  /** whatsapp */
+  /** Updated message channel type is WhatsApp */
   whatsapp = "whatsapp",
 }
 
 /**
- * Message channel kind
+ * Message channel kind \
  * {@link KnownAcsMessageChannelKind} can be used interchangeably with AcsMessageChannelKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **whatsapp**
+ * **whatsapp**: Updated message channel type is WhatsApp
  */
 export type AcsMessageChannelKind = string;
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageReceived event. */
 export interface AcsMessageReceivedEventData extends AcsMessageEventData {
-  /** The message content */
+  /** Optional. The message content */
   content?: string;
-  /** The message channel type */
+  /** Optional. Message ID. Format is Guid as string. */
+  messageId?: string;
+  /** Required. The message channel type */
   channelKind: AcsMessageChannelKind;
-  /** The received message media content */
-  mediaContent: AcsMessageMediaContent;
-  /** The received message context */
-  context: AcsMessageContext;
-  /** The received message button content */
-  button: AcsMessageButtonContent;
-  /** The received message interactive content */
-  interactiveContent: AcsMessageInteractiveContent;
+  /** Required. Whatsapp message type */
+  messageType: string;
+  /** Optional. The received message media content */
+  mediaContent?: AcsMessageMediaContent;
+  /** Optional. The received message reaction content */
+  reaction?: AcsMessageReactionContent;
+  /** Optional. The received message context */
+  context?: AcsMessageContext;
+  /** Optional. The received message button content */
+  button?: AcsMessageButtonContent;
+  /** Optional. The received message interactive content */
+  interactiveContent?: AcsMessageInteractiveContent;
+}
+
+export function acsMessageReceivedEventDataDeserializer(
+  item: any,
+): AcsMessageReceivedEventData {
+  return {
+    from: item["from"],
+    to: item["to"],
+    receivedTimeStamp: new Date(item["receivedTimeStamp"]),
+    error: !item["error"]
+      ? item["error"]
+      : acsMessageChannelEventErrorDeserializer(item["error"]),
+    content: item["content"],
+    messageId: item["messageId"],
+    channelKind: item["channelType"],
+    messageType: item["messageType"],
+    mediaContent: !item["media"]
+      ? item["media"]
+      : acsMessageMediaContentDeserializer(item["media"]),
+    reaction: !item["reaction"]
+      ? item["reaction"]
+      : acsMessageReactionContentDeserializer(item["reaction"]),
+    context: !item["context"]
+      ? item["context"]
+      : acsMessageContextDeserializer(item["context"]),
+    button: !item["button"]
+      ? item["button"]
+      : acsMessageButtonContentDeserializer(item["button"]),
+    interactiveContent: !item["interactive"]
+      ? item["interactive"]
+      : acsMessageInteractiveContentDeserializer(item["interactive"]),
+  };
 }
 
 /** Message Media Content */
 export interface AcsMessageMediaContent {
-  /** The MIME type of the file this media represents */
-  mimeType?: string;
-  /** The media identifier */
-  mediaId?: string;
-  /** The filename of the underlying media file as specified when uploaded */
+  /** Required. The MIME type of the file this media represents */
+  mimeType: string;
+  /** Required. The media identifier */
+  mediaId: string;
+  /** Optional. The filename of the underlying media file as specified when uploaded */
   fileName?: string;
-  /** The caption for the media object, if supported and provided */
+  /** Optional. The caption for the media object, if supported and provided */
   caption?: string;
+  /** Optional. Set to true if the sticker is animated; false otherwise. */
+  animated?: boolean;
+}
+
+export function acsMessageMediaContentDeserializer(
+  item: any,
+): AcsMessageMediaContent {
+  return {
+    mimeType: item["mimeType"],
+    mediaId: item["id"],
+    fileName: item["fileName"],
+    caption: item["caption"],
+    animated: item["animated"],
+  };
+}
+
+/** Message Reaction Content */
+export interface AcsMessageReactionContent {
+  /** Required. WhatsApp message ID of the message that the emoji is applied to */
+  messageId: string;
+  /** Optional. Unicode escape sequence of the emoji. */
+  emoji?: string;
+}
+
+export function acsMessageReactionContentDeserializer(
+  item: any,
+): AcsMessageReactionContent {
+  return {
+    messageId: item["messageId"],
+    emoji: item["emoji"],
+  };
 }
 
 /** Message Context */
@@ -1443,6 +3242,13 @@ export interface AcsMessageContext {
   messageId?: string;
 }
 
+export function acsMessageContextDeserializer(item: any): AcsMessageContext {
+  return {
+    from: item["from"],
+    messageId: item["id"],
+  };
+}
+
 /** Message Button Content */
 export interface AcsMessageButtonContent {
   /** The Text of the button */
@@ -1451,34 +3257,59 @@ export interface AcsMessageButtonContent {
   payload?: string;
 }
 
+export function acsMessageButtonContentDeserializer(
+  item: any,
+): AcsMessageButtonContent {
+  return {
+    text: item["text"],
+    payload: item["payload"],
+  };
+}
+
 /** Message Interactive Content */
 export interface AcsMessageInteractiveContent {
   /** The Message interactive reply type */
   replyKind: AcsInteractiveReplyKind;
   /** The Message Sent when a customer clicks a button */
-  buttonReply: AcsMessageInteractiveButtonReplyContent;
+  buttonReply?: AcsMessageInteractiveButtonReplyContent;
   /** The Message Sent when a customer selects an item from a list */
-  listReply: AcsMessageInteractiveListReplyContent;
+  listReply?: AcsMessageInteractiveListReplyContent;
 }
 
-/** Known values of {@link AcsInteractiveReplyKind} that the service accepts. */
+export function acsMessageInteractiveContentDeserializer(
+  item: any,
+): AcsMessageInteractiveContent {
+  return {
+    replyKind: item["type"],
+    buttonReply: !item["buttonReply"]
+      ? item["buttonReply"]
+      : acsMessageInteractiveButtonReplyContentDeserializer(
+          item["buttonReply"],
+        ),
+    listReply: !item["listReply"]
+      ? item["listReply"]
+      : acsMessageInteractiveListReplyContentDeserializer(item["listReply"]),
+  };
+}
+
+/** Interactive reply kind */
 export enum KnownAcsInteractiveReplyKind {
-  /** buttonReply */
+  /** Messaged interactive reply type is ButtonReply */
   buttonReply = "buttonReply",
-  /** listReply */
+  /** Messaged interactive reply type is ListReply */
   listReply = "listReply",
-  /** unknown */
+  /** Messaged interactive reply type is Unknown */
   unknown = "unknown",
 }
 
 /**
- * Interactive reply kind
+ * Interactive reply kind \
  * {@link KnownAcsInteractiveReplyKind} can be used interchangeably with AcsInteractiveReplyKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **buttonReply**
- * **listReply**
- * **unknown**
+ * **buttonReply**: Messaged interactive reply type is ButtonReply \
+ * **listReply**: Messaged interactive reply type is ListReply \
+ * **unknown**: Messaged interactive reply type is Unknown
  */
 export type AcsInteractiveReplyKind = string;
 
@@ -1490,6 +3321,15 @@ export interface AcsMessageInteractiveButtonReplyContent {
   title?: string;
 }
 
+export function acsMessageInteractiveButtonReplyContentDeserializer(
+  item: any,
+): AcsMessageInteractiveButtonReplyContent {
+  return {
+    buttonId: item["id"],
+    title: item["title"],
+  };
+}
+
 /** Message Interactive list reply content for a user to business message */
 export interface AcsMessageInteractiveListReplyContent {
   /** The ID of the selected list item */
@@ -1498,6 +3338,16 @@ export interface AcsMessageInteractiveListReplyContent {
   title?: string;
   /** The description of the selected row */
   description?: string;
+}
+
+export function acsMessageInteractiveListReplyContentDeserializer(
+  item: any,
+): AcsMessageInteractiveListReplyContent {
+  return {
+    listItemId: item["id"],
+    title: item["title"],
+    description: item["description"],
+  };
 }
 
 /** The content of the event request message. */
@@ -1522,6 +3372,32 @@ export interface ContainerRegistryEventData {
   connectedRegistry?: ContainerRegistryEventConnectedRegistry;
 }
 
+export function containerRegistryEventDataDeserializer(
+  item: any,
+): ContainerRegistryEventData {
+  return {
+    id: item["id"],
+    timestamp: new Date(item["timestamp"]),
+    action: item["action"],
+    location: item["location"],
+    target: containerRegistryEventTargetDeserializer(item["target"]),
+    request: !item["request"]
+      ? item["request"]
+      : containerRegistryEventRequestDeserializer(item["request"]),
+    actor: !item["actor"]
+      ? item["actor"]
+      : containerRegistryEventActorDeserializer(item["actor"]),
+    source: !item["source"]
+      ? item["source"]
+      : containerRegistryEventSourceDeserializer(item["source"]),
+    connectedRegistry: !item["connectedRegistry"]
+      ? item["connectedRegistry"]
+      : containerRegistryEventConnectedRegistryDeserializer(
+          item["connectedRegistry"],
+        ),
+  };
+}
+
 /** The target of the event. */
 export interface ContainerRegistryEventTarget {
   /** The MIME type of the referenced object. */
@@ -1540,6 +3416,20 @@ export interface ContainerRegistryEventTarget {
   tag?: string;
 }
 
+export function containerRegistryEventTargetDeserializer(
+  item: any,
+): ContainerRegistryEventTarget {
+  return {
+    mediaType: item["mediaType"],
+    size: item["size"],
+    digest: item["digest"],
+    length: item["length"],
+    repository: item["repository"],
+    url: item["url"],
+    tag: item["tag"],
+  };
+}
+
 /** The request that generated the event. */
 export interface ContainerRegistryEventRequest {
   /** The ID of the request that initiated the event. */
@@ -1554,10 +3444,30 @@ export interface ContainerRegistryEventRequest {
   useragent?: string;
 }
 
+export function containerRegistryEventRequestDeserializer(
+  item: any,
+): ContainerRegistryEventRequest {
+  return {
+    id: item["id"],
+    addr: item["addr"],
+    host: item["host"],
+    method: item["method"],
+    useragent: item["useragent"],
+  };
+}
+
 /** The agent that initiated the event. For most situations, this could be from the authorization context of the request. */
 export interface ContainerRegistryEventActor {
   /** The subject or username associated with the request context that generated the event. */
   name?: string;
+}
+
+export function containerRegistryEventActorDeserializer(
+  item: any,
+): ContainerRegistryEventActor {
+  return {
+    name: item["name"],
+  };
 }
 
 /** The registry node that generated the event. Put differently, while the actor initiates the event, the source generates it. */
@@ -1568,17 +3478,88 @@ export interface ContainerRegistryEventSource {
   instanceID?: string;
 }
 
+export function containerRegistryEventSourceDeserializer(
+  item: any,
+): ContainerRegistryEventSource {
+  return {
+    addr: item["addr"],
+    instanceID: item["instanceID"],
+  };
+}
+
 /** The connected registry information if the event is generated by a connected registry. */
 export interface ContainerRegistryEventConnectedRegistry {
   /** The name of the connected registry that generated this event. */
   name: string;
 }
 
+export function containerRegistryEventConnectedRegistryDeserializer(
+  item: any,
+): ContainerRegistryEventConnectedRegistry {
+  return {
+    name: item["name"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ImagePushed event. */
-export interface ContainerRegistryImagePushedEventData extends ContainerRegistryEventData {}
+export interface ContainerRegistryImagePushedEventData
+  extends ContainerRegistryEventData {}
+
+export function containerRegistryImagePushedEventDataDeserializer(
+  item: any,
+): ContainerRegistryImagePushedEventData {
+  return {
+    id: item["id"],
+    timestamp: new Date(item["timestamp"]),
+    action: item["action"],
+    location: item["location"],
+    target: containerRegistryEventTargetDeserializer(item["target"]),
+    request: !item["request"]
+      ? item["request"]
+      : containerRegistryEventRequestDeserializer(item["request"]),
+    actor: !item["actor"]
+      ? item["actor"]
+      : containerRegistryEventActorDeserializer(item["actor"]),
+    source: !item["source"]
+      ? item["source"]
+      : containerRegistryEventSourceDeserializer(item["source"]),
+    connectedRegistry: !item["connectedRegistry"]
+      ? item["connectedRegistry"]
+      : containerRegistryEventConnectedRegistryDeserializer(
+          item["connectedRegistry"],
+        ),
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ImageDeleted event. */
-export interface ContainerRegistryImageDeletedEventData extends ContainerRegistryEventData {}
+export interface ContainerRegistryImageDeletedEventData
+  extends ContainerRegistryEventData {}
+
+export function containerRegistryImageDeletedEventDataDeserializer(
+  item: any,
+): ContainerRegistryImageDeletedEventData {
+  return {
+    id: item["id"],
+    timestamp: new Date(item["timestamp"]),
+    action: item["action"],
+    location: item["location"],
+    target: containerRegistryEventTargetDeserializer(item["target"]),
+    request: !item["request"]
+      ? item["request"]
+      : containerRegistryEventRequestDeserializer(item["request"]),
+    actor: !item["actor"]
+      ? item["actor"]
+      : containerRegistryEventActorDeserializer(item["actor"]),
+    source: !item["source"]
+      ? item["source"]
+      : containerRegistryEventSourceDeserializer(item["source"]),
+    connectedRegistry: !item["connectedRegistry"]
+      ? item["connectedRegistry"]
+      : containerRegistryEventConnectedRegistryDeserializer(
+          item["connectedRegistry"],
+        ),
+  };
+}
 
 /** The content of the event request message. */
 export interface ContainerRegistryArtifactEventData {
@@ -1594,6 +3575,23 @@ export interface ContainerRegistryArtifactEventData {
   target: ContainerRegistryArtifactEventTarget;
   /** The connected registry information if the event is generated by a connected registry. */
   connectedRegistry?: ContainerRegistryEventConnectedRegistry;
+}
+
+export function containerRegistryArtifactEventDataDeserializer(
+  item: any,
+): ContainerRegistryArtifactEventData {
+  return {
+    id: item["id"],
+    timestamp: new Date(item["timestamp"]),
+    action: item["action"],
+    location: item["location"],
+    target: containerRegistryArtifactEventTargetDeserializer(item["target"]),
+    connectedRegistry: !item["connectedRegistry"]
+      ? item["connectedRegistry"]
+      : containerRegistryEventConnectedRegistryDeserializer(
+          item["connectedRegistry"],
+        ),
+  };
 }
 
 /** The target of the event. */
@@ -1614,12 +3612,61 @@ export interface ContainerRegistryArtifactEventTarget {
   version?: string;
 }
 
+export function containerRegistryArtifactEventTargetDeserializer(
+  item: any,
+): ContainerRegistryArtifactEventTarget {
+  return {
+    mediaType: item["mediaType"],
+    size: item["size"],
+    digest: item["digest"],
+    repository: item["repository"],
+    tag: item["tag"],
+    name: item["name"],
+    version: item["version"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ChartPushed event. */
-export interface ContainerRegistryChartPushedEventData extends ContainerRegistryArtifactEventData {}
+export interface ContainerRegistryChartPushedEventData
+  extends ContainerRegistryArtifactEventData {}
+
+export function containerRegistryChartPushedEventDataDeserializer(
+  item: any,
+): ContainerRegistryChartPushedEventData {
+  return {
+    id: item["id"],
+    timestamp: new Date(item["timestamp"]),
+    action: item["action"],
+    location: item["location"],
+    target: containerRegistryArtifactEventTargetDeserializer(item["target"]),
+    connectedRegistry: !item["connectedRegistry"]
+      ? item["connectedRegistry"]
+      : containerRegistryEventConnectedRegistryDeserializer(
+          item["connectedRegistry"],
+        ),
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerRegistry.ChartDeleted event. */
 export interface ContainerRegistryChartDeletedEventData
   extends ContainerRegistryArtifactEventData {}
+
+export function containerRegistryChartDeletedEventDataDeserializer(
+  item: any,
+): ContainerRegistryChartDeletedEventData {
+  return {
+    id: item["id"],
+    timestamp: new Date(item["timestamp"]),
+    action: item["action"],
+    location: item["location"],
+    target: containerRegistryArtifactEventTargetDeserializer(item["target"]),
+    connectedRegistry: !item["connectedRegistry"]
+      ? item["connectedRegistry"]
+      : containerRegistryEventConnectedRegistryDeserializer(
+          item["connectedRegistry"],
+        ),
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NewKubernetesVersionAvailable event */
 export interface ContainerServiceNewKubernetesVersionAvailableEventData {
@@ -1633,19 +3680,54 @@ export interface ContainerServiceNewKubernetesVersionAvailableEventData {
   latestPreviewKubernetesVersion?: string;
 }
 
+export function containerServiceNewKubernetesVersionAvailableEventDataDeserializer(
+  item: any,
+): ContainerServiceNewKubernetesVersionAvailableEventData {
+  return {
+    latestSupportedKubernetesVersion: item["latestSupportedKubernetesVersion"],
+    latestStableKubernetesVersion: item["latestStableKubernetesVersion"],
+    lowestMinorKubernetesVersion: item["lowestMinorKubernetesVersion"],
+    latestPreviewKubernetesVersion: item["latestPreviewKubernetesVersion"],
+  };
+}
+
 /** Schema of common properties of cluster support events */
 export interface ContainerServiceClusterSupportEventData {
   /** The Kubernetes version of the ManagedCluster resource */
   kubernetesVersion?: string;
 }
 
+export function containerServiceClusterSupportEventDataDeserializer(
+  item: any,
+): ContainerServiceClusterSupportEventData {
+  return {
+    kubernetesVersion: item["kubernetesVersion"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.ClusterSupportEnded event */
 export interface ContainerServiceClusterSupportEndedEventData
   extends ContainerServiceClusterSupportEventData {}
 
+export function containerServiceClusterSupportEndedEventDataDeserializer(
+  item: any,
+): ContainerServiceClusterSupportEndedEventData {
+  return {
+    kubernetesVersion: item["kubernetesVersion"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.ClusterSupportEnding event */
 export interface ContainerServiceClusterSupportEndingEventData
   extends ContainerServiceClusterSupportEventData {}
+
+export function containerServiceClusterSupportEndingEventDataDeserializer(
+  item: any,
+): ContainerServiceClusterSupportEndingEventData {
+  return {
+    kubernetesVersion: item["kubernetesVersion"],
+  };
+}
 
 /** Schema of common properties of node pool rolling events */
 export interface ContainerServiceNodePoolRollingEventData {
@@ -1653,17 +3735,49 @@ export interface ContainerServiceNodePoolRollingEventData {
   nodePoolName?: string;
 }
 
+export function containerServiceNodePoolRollingEventDataDeserializer(
+  item: any,
+): ContainerServiceNodePoolRollingEventData {
+  return {
+    nodePoolName: item["nodePoolName"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NodePoolRollingStarted event */
 export interface ContainerServiceNodePoolRollingStartedEventData
   extends ContainerServiceNodePoolRollingEventData {}
+
+export function containerServiceNodePoolRollingStartedEventDataDeserializer(
+  item: any,
+): ContainerServiceNodePoolRollingStartedEventData {
+  return {
+    nodePoolName: item["nodePoolName"],
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NodePoolRollingSucceeded event */
 export interface ContainerServiceNodePoolRollingSucceededEventData
   extends ContainerServiceNodePoolRollingEventData {}
 
+export function containerServiceNodePoolRollingSucceededEventDataDeserializer(
+  item: any,
+): ContainerServiceNodePoolRollingSucceededEventData {
+  return {
+    nodePoolName: item["nodePoolName"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.NodePoolRollingFailed event */
 export interface ContainerServiceNodePoolRollingFailedEventData
   extends ContainerServiceNodePoolRollingEventData {}
+
+export function containerServiceNodePoolRollingFailedEventDataDeserializer(
+  item: any,
+): ContainerServiceNodePoolRollingFailedEventData {
+  return {
+    nodePoolName: item["nodePoolName"],
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.CopyStarted event. */
 export interface DataBoxCopyStartedEventData {
@@ -1675,24 +3789,34 @@ export interface DataBoxCopyStartedEventData {
   stageTime: Date;
 }
 
-/** Known values of {@link DataBoxStageName} that the service accepts. */
+export function dataBoxCopyStartedEventDataDeserializer(
+  item: any,
+): DataBoxCopyStartedEventData {
+  return {
+    serialNumber: item["serialNumber"],
+    stageName: item["stageName"],
+    stageTime: new Date(item["stageTime"]),
+  };
+}
+
+/** Schema of DataBox Stage Name enumeration. */
 export enum KnownDataBoxStageName {
-  /** CopyStarted */
+  /** Copy has started */
   CopyStarted = "CopyStarted",
-  /** CopyCompleted */
+  /** Copy has completed */
   CopyCompleted = "CopyCompleted",
-  /** OrderCompleted */
+  /** Order has been completed */
   OrderCompleted = "OrderCompleted",
 }
 
 /**
- * Schema of DataBox Stage Name enumeration.
+ * Schema of DataBox Stage Name enumeration. \
  * {@link KnownDataBoxStageName} can be used interchangeably with DataBoxStageName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **CopyStarted**
- * **CopyCompleted**
- * **OrderCompleted**
+ * **CopyStarted**: Copy has started \
+ * **CopyCompleted**: Copy has completed \
+ * **OrderCompleted**: Order has been completed
  */
 export type DataBoxStageName = string;
 
@@ -1706,6 +3830,16 @@ export interface DataBoxCopyCompletedEventData {
   stageTime: Date;
 }
 
+export function dataBoxCopyCompletedEventDataDeserializer(
+  item: any,
+): DataBoxCopyCompletedEventData {
+  return {
+    serialNumber: item["serialNumber"],
+    stageName: item["stageName"],
+    stageTime: new Date(item["stageTime"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.DataBox.OrderCompleted event. */
 export interface DataBoxOrderCompletedEventData {
   /** Serial Number of the device associated with the event. The list is comma separated if more than one serial number is associated. */
@@ -1714,6 +3848,16 @@ export interface DataBoxOrderCompletedEventData {
   stageName: DataBoxStageName;
   /** The time at which the stage happened. */
   stageTime: Date;
+}
+
+export function dataBoxOrderCompletedEventDataDeserializer(
+  item: any,
+): DataBoxOrderCompletedEventData {
+  return {
+    serialNumber: item["serialNumber"],
+    stageName: item["stageName"],
+    stageTime: new Date(item["stageTime"]),
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
@@ -1738,42 +3882,153 @@ export interface EventHubCaptureFileCreatedEventData {
   lastEnqueueTime: Date;
 }
 
+export function eventHubCaptureFileCreatedEventDataDeserializer(
+  item: any,
+): EventHubCaptureFileCreatedEventData {
+  return {
+    fileUrl: item["fileUrl"],
+    fileType: item["fileType"],
+    partitionId: item["partitionId"],
+    sizeInBytes: item["sizeInBytes"],
+    eventCount: item["eventCount"],
+    firstSequenceNumber: item["firstSequenceNumber"],
+    lastSequenceNumber: item["lastSequenceNumber"],
+    firstEnqueueTime: new Date(item["firstEnqueueTime"]),
+    lastEnqueueTime: new Date(item["lastEnqueueTime"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Geofence event (GeofenceEntered, GeofenceExited, GeofenceResult). */
 export interface MapsGeofenceEvent {
   /** Lists of the geometry ID of the geofence which is expired relative to the user time in the request. */
-  expiredGeofenceGeometryId?: string[];
+  expiredGeofenceGeometryId: string[];
   /** Lists the fence geometries that either fully contain the coordinate position or have an overlap with the searchBuffer around the fence. */
   geometries: MapsGeofenceGeometry[];
   /** Lists of the geometry ID of the geofence which is in invalid period relative to the user time in the request. */
-  invalidPeriodGeofenceGeometryId?: string[];
+  invalidPeriodGeofenceGeometryId: string[];
   /** True if at least one event is published to the Azure Maps event subscriber, false if no event is published to the Azure Maps event subscriber. */
-  isEventPublished?: boolean;
+  isEventPublished: boolean;
+}
+
+export function mapsGeofenceEventDeserializer(item: any): MapsGeofenceEvent {
+  return {
+    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map(
+      (p: any) => {
+        return p;
+      },
+    ),
+    geometries: mapsGeofenceGeometryArrayDeserializer(item["geometries"]),
+    invalidPeriodGeofenceGeometryId: item[
+      "invalidPeriodGeofenceGeometryId"
+    ].map((p: any) => {
+      return p;
+    }),
+    isEventPublished: item["isEventPublished"],
+  };
+}
+
+export function mapsGeofenceGeometryArrayDeserializer(
+  result: Array<MapsGeofenceGeometry>,
+): any[] {
+  return result.map((item) => {
+    return mapsGeofenceGeometryDeserializer(item);
+  });
 }
 
 /** The geofence geometry. */
 export interface MapsGeofenceGeometry {
   /** ID of the device. */
-  deviceId?: string;
+  deviceId: string;
   /** Distance from the coordinate to the closest border of the geofence. Positive means the coordinate is outside of the geofence. If the coordinate is outside of the geofence, but more than the value of searchBuffer away from the closest geofence border, then the value is 999. Negative means the coordinate is inside of the geofence. If the coordinate is inside the polygon, but more than the value of searchBuffer away from the closest geofencing border,then the value is -999. A value of 999 means that there is great confidence the coordinate is well outside the geofence. A value of -999 means that there is great confidence the coordinate is well within the geofence. */
-  distance?: number;
+  distance: number;
   /** The unique ID for the geofence geometry. */
-  geometryId?: string;
+  geometryId: string;
   /** Latitude of the nearest point of the geometry. */
-  nearestLat?: number;
+  nearestLat: number;
   /** Longitude of the nearest point of the geometry. */
-  nearestLon?: number;
+  nearestLon: number;
   /** The unique id returned from user upload service when uploading a geofence. Will not be included in geofencing post API. */
   udId?: string;
+}
+
+export function mapsGeofenceGeometryDeserializer(
+  item: any,
+): MapsGeofenceGeometry {
+  return {
+    deviceId: item["deviceId"],
+    distance: item["distance"],
+    geometryId: item["geometryId"],
+    nearestLat: item["nearestLat"],
+    nearestLon: item["nearestLon"],
+    udId: item["udId"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Maps.GeofenceEntered event. */
 export interface MapsGeofenceEnteredEventData extends MapsGeofenceEvent {}
 
+export function mapsGeofenceEnteredEventDataDeserializer(
+  item: any,
+): MapsGeofenceEnteredEventData {
+  return {
+    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map(
+      (p: any) => {
+        return p;
+      },
+    ),
+    geometries: mapsGeofenceGeometryArrayDeserializer(item["geometries"]),
+    invalidPeriodGeofenceGeometryId: item[
+      "invalidPeriodGeofenceGeometryId"
+    ].map((p: any) => {
+      return p;
+    }),
+    isEventPublished: item["isEventPublished"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Maps.GeofenceExited event. */
 export interface MapsGeofenceExitedEventData extends MapsGeofenceEvent {}
 
+export function mapsGeofenceExitedEventDataDeserializer(
+  item: any,
+): MapsGeofenceExitedEventData {
+  return {
+    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map(
+      (p: any) => {
+        return p;
+      },
+    ),
+    geometries: mapsGeofenceGeometryArrayDeserializer(item["geometries"]),
+    invalidPeriodGeofenceGeometryId: item[
+      "invalidPeriodGeofenceGeometryId"
+    ].map((p: any) => {
+      return p;
+    }),
+    isEventPublished: item["isEventPublished"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Maps.GeofenceResult event. */
 export interface MapsGeofenceResultEventData extends MapsGeofenceEvent {}
+
+export function mapsGeofenceResultEventDataDeserializer(
+  item: any,
+): MapsGeofenceResultEventData {
+  return {
+    expiredGeofenceGeometryId: item["expiredGeofenceGeometryId"].map(
+      (p: any) => {
+        return p;
+      },
+    ),
+    geometries: mapsGeofenceGeometryArrayDeserializer(item["geometries"]),
+    invalidPeriodGeofenceGeometryId: item[
+      "invalidPeriodGeofenceGeometryId"
+    ].map((p: any) => {
+      return p;
+    }),
+    isEventPublished: item["isEventPublished"],
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a device life cycle event (DeviceCreated, DeviceDeleted). */
 export interface DeviceLifeCycleEvent {
@@ -1783,6 +4038,16 @@ export interface DeviceLifeCycleEvent {
   hubName: string;
   /** Information about the device twin, which is the cloud representation of application device metadata. */
   twin: DeviceTwinInfo;
+}
+
+export function deviceLifeCycleEventDeserializer(
+  item: any,
+): DeviceLifeCycleEvent {
+  return {
+    deviceId: item["deviceId"],
+    hubName: item["hubName"],
+    twin: deviceTwinInfoDeserializer(item["twin"]),
+  };
 }
 
 /** Information about the device twin, which is the cloud representation of application device metadata. */
@@ -1811,12 +4076,39 @@ export interface DeviceTwinInfo {
   x509Thumbprint: DeviceTwinInfoX509Thumbprint;
 }
 
+export function deviceTwinInfoDeserializer(item: any): DeviceTwinInfo {
+  return {
+    authenticationType: item["authenticationType"],
+    cloudToDeviceMessageCount: item["cloudToDeviceMessageCount"],
+    connectionState: item["connectionState"],
+    deviceId: item["deviceId"],
+    etag: item["etag"],
+    lastActivityTime: item["lastActivityTime"],
+    properties: deviceTwinInfoPropertiesDeserializer(item["properties"]),
+    status: item["status"],
+    statusUpdateTime: item["statusUpdateTime"],
+    version: item["version"],
+    x509Thumbprint: deviceTwinInfoX509ThumbprintDeserializer(
+      item["x509Thumbprint"],
+    ),
+  };
+}
+
 /** Properties JSON element. */
 export interface DeviceTwinInfoProperties {
   /** A portion of the properties that can be written only by the application back-end, and read by the device. */
   desired: DeviceTwin;
   /** A portion of the properties that can be written only by the device, and read by the application back-end. */
   reported: DeviceTwin;
+}
+
+export function deviceTwinInfoPropertiesDeserializer(
+  item: any,
+): DeviceTwinInfoProperties {
+  return {
+    desired: deviceTwinDeserializer(item["desired"]),
+    reported: deviceTwinDeserializer(item["reported"]),
+  };
 }
 
 /** A portion of the properties that can be written only by the application back-end, and read by the device. */
@@ -1827,10 +4119,23 @@ export interface DeviceTwin {
   version: number;
 }
 
+export function deviceTwinDeserializer(item: any): DeviceTwin {
+  return {
+    metadata: deviceTwinMetadataDeserializer(item["metadata"]),
+    version: item["version"],
+  };
+}
+
 /** Metadata information for the properties JSON document. */
 export interface DeviceTwinMetadata {
   /** The ISO8601 timestamp of the last time the properties were updated. */
   lastUpdated: string;
+}
+
+export function deviceTwinMetadataDeserializer(item: any): DeviceTwinMetadata {
+  return {
+    lastUpdated: item["lastUpdated"],
+  };
 }
 
 /** The thumbprint is a unique value for the x509 certificate, commonly used to find a particular certificate in a certificate store. The thumbprint is dynamically generated using the SHA1 algorithm, and does not physically exist in the certificate. */
@@ -1839,6 +4144,15 @@ export interface DeviceTwinInfoX509Thumbprint {
   primaryThumbprint: string;
   /** Secondary thumbprint for the x509 certificate. */
   secondaryThumbprint: string;
+}
+
+export function deviceTwinInfoX509ThumbprintDeserializer(
+  item: any,
+): DeviceTwinInfoX509Thumbprint {
+  return {
+    primaryThumbprint: item["primaryThumbprint"],
+    secondaryThumbprint: item["secondaryThumbprint"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a device connection state event (DeviceConnected, DeviceDisconnected). */
@@ -1853,10 +4167,31 @@ export interface DeviceConnectionStateEvent {
   deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
 }
 
+export function deviceConnectionStateEventDeserializer(
+  item: any,
+): DeviceConnectionStateEvent {
+  return {
+    deviceId: item["deviceId"],
+    moduleId: item["moduleId"],
+    hubName: item["hubName"],
+    deviceConnectionStateEventInfo: deviceConnectionStateEventInfoDeserializer(
+      item["deviceConnectionStateEventInfo"],
+    ),
+  };
+}
+
 /** Information about the device connection state event. */
 export interface DeviceConnectionStateEventInfo {
   /** Sequence number is string representation of a hexadecimal number. string compare can be used to identify the larger number because both in ASCII and HEX numbers come after alphabets. If you are converting the string to hex, then the number is a 256 bit number. */
   sequenceNumber: string;
+}
+
+export function deviceConnectionStateEventInfoDeserializer(
+  item: any,
+): DeviceConnectionStateEventInfo {
+  return {
+    sequenceNumber: item["sequenceNumber"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a device telemetry event (DeviceTelemetry). */
@@ -1869,20 +4204,88 @@ export interface DeviceTelemetryEvent {
   systemProperties: Record<string, string>;
 }
 
+export function deviceTelemetryEventDeserializer(
+  item: any,
+): DeviceTelemetryEvent {
+  return {
+    body: item["body"],
+    properties: item["properties"],
+    systemProperties: item["systemProperties"],
+  };
+}
+
 /** Event data for Microsoft.Devices.DeviceCreated event. */
 export interface IotHubDeviceCreatedEventData extends DeviceLifeCycleEvent {}
+
+export function iotHubDeviceCreatedEventDataDeserializer(
+  item: any,
+): IotHubDeviceCreatedEventData {
+  return {
+    deviceId: item["deviceId"],
+    hubName: item["hubName"],
+    twin: deviceTwinInfoDeserializer(item["twin"]),
+  };
+}
 
 /** Event data for Microsoft.Devices.DeviceDeleted event. */
 export interface IotHubDeviceDeletedEventData extends DeviceLifeCycleEvent {}
 
+export function iotHubDeviceDeletedEventDataDeserializer(
+  item: any,
+): IotHubDeviceDeletedEventData {
+  return {
+    deviceId: item["deviceId"],
+    hubName: item["hubName"],
+    twin: deviceTwinInfoDeserializer(item["twin"]),
+  };
+}
+
 /** Event data for Microsoft.Devices.DeviceConnected event. */
-export interface IotHubDeviceConnectedEventData extends DeviceConnectionStateEvent {}
+export interface IotHubDeviceConnectedEventData
+  extends DeviceConnectionStateEvent {}
+
+export function iotHubDeviceConnectedEventDataDeserializer(
+  item: any,
+): IotHubDeviceConnectedEventData {
+  return {
+    deviceId: item["deviceId"],
+    moduleId: item["moduleId"],
+    hubName: item["hubName"],
+    deviceConnectionStateEventInfo: deviceConnectionStateEventInfoDeserializer(
+      item["deviceConnectionStateEventInfo"],
+    ),
+  };
+}
 
 /** Event data for Microsoft.Devices.DeviceDisconnected event. */
-export interface IotHubDeviceDisconnectedEventData extends DeviceConnectionStateEvent {}
+export interface IotHubDeviceDisconnectedEventData
+  extends DeviceConnectionStateEvent {}
+
+export function iotHubDeviceDisconnectedEventDataDeserializer(
+  item: any,
+): IotHubDeviceDisconnectedEventData {
+  return {
+    deviceId: item["deviceId"],
+    moduleId: item["moduleId"],
+    hubName: item["hubName"],
+    deviceConnectionStateEventInfo: deviceConnectionStateEventInfoDeserializer(
+      item["deviceConnectionStateEventInfo"],
+    ),
+  };
+}
 
 /** Event data for Microsoft.Devices.DeviceTelemetry event. */
 export interface IotHubDeviceTelemetryEventData extends DeviceTelemetryEvent {}
+
+export function iotHubDeviceTelemetryEventDataDeserializer(
+  item: any,
+): IotHubDeviceTelemetryEventData {
+  return {
+    body: item["body"],
+    properties: item["properties"],
+    systemProperties: item["systemProperties"],
+  };
+}
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceCreated event. */
 export interface HealthcareFhirResourceCreatedEventData {
@@ -1896,498 +4299,509 @@ export interface HealthcareFhirResourceCreatedEventData {
   resourceVersionId: number;
 }
 
-/** Known values of {@link HealthcareFhirResourceType} that the service accepts. */
+export function healthcareFhirResourceCreatedEventDataDeserializer(
+  item: any,
+): HealthcareFhirResourceCreatedEventData {
+  return {
+    resourceType: item["resourceType"],
+    resourceFhirAccount: item["resourceFhirAccount"],
+    resourceFhirId: item["resourceFhirId"],
+    resourceVersionId: item["resourceVersionId"],
+  };
+}
+
+/** Schema of FHIR resource type enumeration. */
 export enum KnownHealthcareFhirResourceType {
-  /** Account */
+  /** The FHIR resource type defined in STU3 and R4. */
   Account = "Account",
-  /** ActivityDefinition */
+  /** The FHIR resource type defined in STU3 and R4. */
   ActivityDefinition = "ActivityDefinition",
-  /** AdverseEvent */
+  /** The FHIR resource type defined in STU3 and R4. */
   AdverseEvent = "AdverseEvent",
-  /** AllergyIntolerance */
+  /** The FHIR resource type defined in STU3 and R4. */
   AllergyIntolerance = "AllergyIntolerance",
-  /** Appointment */
+  /** The FHIR resource type defined in STU3 and R4. */
   Appointment = "Appointment",
-  /** AppointmentResponse */
+  /** The FHIR resource type defined in STU3 and R4. */
   AppointmentResponse = "AppointmentResponse",
-  /** AuditEvent */
+  /** The FHIR resource type defined in STU3 and R4. */
   AuditEvent = "AuditEvent",
-  /** Basic */
+  /** The FHIR resource type defined in STU3 and R4. */
   Basic = "Basic",
-  /** Binary */
+  /** The FHIR resource type defined in STU3 and R4. */
   Binary = "Binary",
-  /** BiologicallyDerivedProduct */
+  /** The FHIR resource type defined in R4. */
   BiologicallyDerivedProduct = "BiologicallyDerivedProduct",
-  /** BodySite */
+  /** The FHIR resource type defined in STU3. */
   BodySite = "BodySite",
-  /** BodyStructure */
+  /** The FHIR resource type defined in R4. */
   BodyStructure = "BodyStructure",
-  /** Bundle */
+  /** The FHIR resource type defined in STU3 and R4. */
   Bundle = "Bundle",
-  /** CapabilityStatement */
+  /** The FHIR resource type defined in STU3 and R4. */
   CapabilityStatement = "CapabilityStatement",
-  /** CarePlan */
+  /** The FHIR resource type defined in STU3 and R4. */
   CarePlan = "CarePlan",
-  /** CareTeam */
+  /** The FHIR resource type defined in STU3 and R4. */
   CareTeam = "CareTeam",
-  /** CatalogEntry */
+  /** The FHIR resource type defined in R4. */
   CatalogEntry = "CatalogEntry",
-  /** ChargeItem */
+  /** The FHIR resource type defined in STU3 and R4. */
   ChargeItem = "ChargeItem",
-  /** ChargeItemDefinition */
+  /** The FHIR resource type defined in R4. */
   ChargeItemDefinition = "ChargeItemDefinition",
-  /** Claim */
+  /** The FHIR resource type defined in STU3 and R4. */
   Claim = "Claim",
-  /** ClaimResponse */
+  /** The FHIR resource type defined in STU3 and R4. */
   ClaimResponse = "ClaimResponse",
-  /** ClinicalImpression */
+  /** The FHIR resource type defined in STU3 and R4. */
   ClinicalImpression = "ClinicalImpression",
-  /** CodeSystem */
+  /** The FHIR resource type defined in STU3 and R4. */
   CodeSystem = "CodeSystem",
-  /** Communication */
+  /** The FHIR resource type defined in STU3 and R4. */
   Communication = "Communication",
-  /** CommunicationRequest */
+  /** The FHIR resource type defined in STU3 and R4. */
   CommunicationRequest = "CommunicationRequest",
-  /** CompartmentDefinition */
+  /** The FHIR resource type defined in STU3 and R4. */
   CompartmentDefinition = "CompartmentDefinition",
-  /** Composition */
+  /** The FHIR resource type defined in STU3 and R4. */
   Composition = "Composition",
-  /** ConceptMap */
+  /** The FHIR resource type defined in STU3 and R4. */
   ConceptMap = "ConceptMap",
-  /** Condition */
+  /** The FHIR resource type defined in STU3 and R4. */
   Condition = "Condition",
-  /** Consent */
+  /** The FHIR resource type defined in STU3 and R4. */
   Consent = "Consent",
-  /** Contract */
+  /** The FHIR resource type defined in STU3 and R4. */
   Contract = "Contract",
-  /** Coverage */
+  /** The FHIR resource type defined in STU3 and R4. */
   Coverage = "Coverage",
-  /** CoverageEligibilityRequest */
+  /** The FHIR resource type defined in R4. */
   CoverageEligibilityRequest = "CoverageEligibilityRequest",
-  /** CoverageEligibilityResponse */
+  /** The FHIR resource type defined in R4. */
   CoverageEligibilityResponse = "CoverageEligibilityResponse",
-  /** DataElement */
+  /** The FHIR resource type defined in STU3. */
   DataElement = "DataElement",
-  /** DetectedIssue */
+  /** The FHIR resource type defined in STU3 and R4. */
   DetectedIssue = "DetectedIssue",
-  /** Device */
+  /** The FHIR resource type defined in STU3 and R4. */
   Device = "Device",
-  /** DeviceComponent */
+  /** The FHIR resource type defined in STU3. */
   DeviceComponent = "DeviceComponent",
-  /** DeviceDefinition */
+  /** The FHIR resource type defined in R4. */
   DeviceDefinition = "DeviceDefinition",
-  /** DeviceMetric */
+  /** The FHIR resource type defined in STU3 and R4. */
   DeviceMetric = "DeviceMetric",
-  /** DeviceRequest */
+  /** The FHIR resource type defined in STU3 and R4. */
   DeviceRequest = "DeviceRequest",
-  /** DeviceUseStatement */
+  /** The FHIR resource type defined in STU3 and R4. */
   DeviceUseStatement = "DeviceUseStatement",
-  /** DiagnosticReport */
+  /** The FHIR resource type defined in STU3 and R4. */
   DiagnosticReport = "DiagnosticReport",
-  /** DocumentManifest */
+  /** The FHIR resource type defined in STU3 and R4. */
   DocumentManifest = "DocumentManifest",
-  /** DocumentReference */
+  /** The FHIR resource type defined in STU3 and R4. */
   DocumentReference = "DocumentReference",
-  /** DomainResource */
+  /** The FHIR resource type defined in STU3 and R4. */
   DomainResource = "DomainResource",
-  /** EffectEvidenceSynthesis */
+  /** The FHIR resource type defined in R4. */
   EffectEvidenceSynthesis = "EffectEvidenceSynthesis",
-  /** EligibilityRequest */
+  /** The FHIR resource type defined in STU3. */
   EligibilityRequest = "EligibilityRequest",
-  /** EligibilityResponse */
+  /** The FHIR resource type defined in STU3. */
   EligibilityResponse = "EligibilityResponse",
-  /** Encounter */
+  /** The FHIR resource type defined in STU3 and R4. */
   Encounter = "Encounter",
-  /** Endpoint */
+  /** The FHIR resource type defined in STU3 and R4. */
   Endpoint = "Endpoint",
-  /** EnrollmentRequest */
+  /** The FHIR resource type defined in STU3 and R4. */
   EnrollmentRequest = "EnrollmentRequest",
-  /** EnrollmentResponse */
+  /** The FHIR resource type defined in STU3 and R4. */
   EnrollmentResponse = "EnrollmentResponse",
-  /** EpisodeOfCare */
+  /** The FHIR resource type defined in STU3 and R4. */
   EpisodeOfCare = "EpisodeOfCare",
-  /** EventDefinition */
+  /** The FHIR resource type defined in R4. */
   EventDefinition = "EventDefinition",
-  /** Evidence */
+  /** The FHIR resource type defined in R4. */
   Evidence = "Evidence",
-  /** EvidenceVariable */
+  /** The FHIR resource type defined in R4. */
   EvidenceVariable = "EvidenceVariable",
-  /** ExampleScenario */
+  /** The FHIR resource type defined in R4. */
   ExampleScenario = "ExampleScenario",
-  /** ExpansionProfile */
+  /** The FHIR resource type defined in STU3. */
   ExpansionProfile = "ExpansionProfile",
-  /** ExplanationOfBenefit */
+  /** The FHIR resource type defined in STU3 and R4. */
   ExplanationOfBenefit = "ExplanationOfBenefit",
-  /** FamilyMemberHistory */
+  /** The FHIR resource type defined in STU3 and R4. */
   FamilyMemberHistory = "FamilyMemberHistory",
-  /** Flag */
+  /** The FHIR resource type defined in STU3 and R4. */
   Flag = "Flag",
-  /** Goal */
+  /** The FHIR resource type defined in STU3 and R4. */
   Goal = "Goal",
-  /** GraphDefinition */
+  /** The FHIR resource type defined in STU3 and R4. */
   GraphDefinition = "GraphDefinition",
-  /** Group */
+  /** The FHIR resource type defined in STU3 and R4. */
   Group = "Group",
-  /** GuidanceResponse */
+  /** The FHIR resource type defined in STU3 and R4. */
   GuidanceResponse = "GuidanceResponse",
-  /** HealthcareService */
+  /** The FHIR resource type defined in STU3 and R4. */
   HealthcareService = "HealthcareService",
-  /** ImagingManifest */
+  /** The FHIR resource type defined in STU3. */
   ImagingManifest = "ImagingManifest",
-  /** ImagingStudy */
+  /** The FHIR resource type defined in STU3 and R4. */
   ImagingStudy = "ImagingStudy",
-  /** Immunization */
+  /** The FHIR resource type defined in STU3 and R4. */
   Immunization = "Immunization",
-  /** ImmunizationEvaluation */
+  /** The FHIR resource type defined in R4. */
   ImmunizationEvaluation = "ImmunizationEvaluation",
-  /** ImmunizationRecommendation */
+  /** The FHIR resource type defined in STU3 and R4. */
   ImmunizationRecommendation = "ImmunizationRecommendation",
-  /** ImplementationGuide */
+  /** The FHIR resource type defined in STU3 and R4. */
   ImplementationGuide = "ImplementationGuide",
-  /** InsurancePlan */
+  /** The FHIR resource type defined in R4. */
   InsurancePlan = "InsurancePlan",
-  /** Invoice */
+  /** The FHIR resource type defined in R4. */
   Invoice = "Invoice",
-  /** Library */
+  /** The FHIR resource type defined in STU3 and R4. */
   Library = "Library",
-  /** Linkage */
+  /** The FHIR resource type defined in STU3 and R4. */
   Linkage = "Linkage",
-  /** List */
+  /** The FHIR resource type defined in STU3 and R4. */
   List = "List",
-  /** Location */
+  /** The FHIR resource type defined in STU3 and R4. */
   Location = "Location",
-  /** Measure */
+  /** The FHIR resource type defined in STU3 and R4. */
   Measure = "Measure",
-  /** MeasureReport */
+  /** The FHIR resource type defined in STU3 and R4. */
   MeasureReport = "MeasureReport",
-  /** Media */
+  /** The FHIR resource type defined in STU3 and R4. */
   Media = "Media",
-  /** Medication */
+  /** The FHIR resource type defined in STU3 and R4. */
   Medication = "Medication",
-  /** MedicationAdministration */
+  /** The FHIR resource type defined in STU3 and R4. */
   MedicationAdministration = "MedicationAdministration",
-  /** MedicationDispense */
+  /** The FHIR resource type defined in STU3 and R4. */
   MedicationDispense = "MedicationDispense",
-  /** MedicationKnowledge */
+  /** The FHIR resource type defined in R4. */
   MedicationKnowledge = "MedicationKnowledge",
-  /** MedicationRequest */
+  /** The FHIR resource type defined in STU3 and R4. */
   MedicationRequest = "MedicationRequest",
-  /** MedicationStatement */
+  /** The FHIR resource type defined in STU3 and R4. */
   MedicationStatement = "MedicationStatement",
-  /** MedicinalProduct */
+  /** The FHIR resource type defined in R4. */
   MedicinalProduct = "MedicinalProduct",
-  /** MedicinalProductAuthorization */
+  /** The FHIR resource type defined in R4. */
   MedicinalProductAuthorization = "MedicinalProductAuthorization",
-  /** MedicinalProductContraindication */
+  /** The FHIR resource type defined in R4. */
   MedicinalProductContraindication = "MedicinalProductContraindication",
-  /** MedicinalProductIndication */
+  /** The FHIR resource type defined in R4. */
   MedicinalProductIndication = "MedicinalProductIndication",
-  /** MedicinalProductIngredient */
+  /** The FHIR resource type defined in R4. */
   MedicinalProductIngredient = "MedicinalProductIngredient",
-  /** MedicinalProductInteraction */
+  /** The FHIR resource type defined in R4. */
   MedicinalProductInteraction = "MedicinalProductInteraction",
-  /** MedicinalProductManufactured */
+  /** The FHIR resource type defined in R4. */
   MedicinalProductManufactured = "MedicinalProductManufactured",
-  /** MedicinalProductPackaged */
+  /** The FHIR resource type defined in R4. */
   MedicinalProductPackaged = "MedicinalProductPackaged",
-  /** MedicinalProductPharmaceutical */
+  /** The FHIR resource type defined in R4. */
   MedicinalProductPharmaceutical = "MedicinalProductPharmaceutical",
-  /** MedicinalProductUndesirableEffect */
+  /** The FHIR resource type defined in R4. */
   MedicinalProductUndesirableEffect = "MedicinalProductUndesirableEffect",
-  /** MessageDefinition */
+  /** The FHIR resource type defined in STU3 and R4. */
   MessageDefinition = "MessageDefinition",
-  /** MessageHeader */
+  /** The FHIR resource type defined in STU3 and R4. */
   MessageHeader = "MessageHeader",
-  /** MolecularSequence */
+  /** The FHIR resource type defined in R4. */
   MolecularSequence = "MolecularSequence",
-  /** NamingSystem */
+  /** The FHIR resource type defined in STU3 and R4. */
   NamingSystem = "NamingSystem",
-  /** NutritionOrder */
+  /** The FHIR resource type defined in STU3 and R4. */
   NutritionOrder = "NutritionOrder",
-  /** Observation */
+  /** The FHIR resource type defined in STU3 and R4. */
   Observation = "Observation",
-  /** ObservationDefinition */
+  /** The FHIR resource type defined in R4. */
   ObservationDefinition = "ObservationDefinition",
-  /** OperationDefinition */
+  /** The FHIR resource type defined in STU3 and R4. */
   OperationDefinition = "OperationDefinition",
-  /** OperationOutcome */
+  /** The FHIR resource type defined in STU3 and R4. */
   OperationOutcome = "OperationOutcome",
-  /** Organization */
+  /** The FHIR resource type defined in STU3 and R4. */
   Organization = "Organization",
-  /** OrganizationAffiliation */
+  /** The FHIR resource type defined in R4. */
   OrganizationAffiliation = "OrganizationAffiliation",
-  /** Parameters */
+  /** The FHIR resource type defined in STU3 and R4. */
   Parameters = "Parameters",
-  /** Patient */
+  /** The FHIR resource type defined in STU3 and R4. */
   Patient = "Patient",
-  /** PaymentNotice */
+  /** The FHIR resource type defined in STU3 and R4. */
   PaymentNotice = "PaymentNotice",
-  /** PaymentReconciliation */
+  /** The FHIR resource type defined in STU3 and R4. */
   PaymentReconciliation = "PaymentReconciliation",
-  /** Person */
+  /** The FHIR resource type defined in STU3 and R4. */
   Person = "Person",
-  /** PlanDefinition */
+  /** The FHIR resource type defined in STU3 and R4. */
   PlanDefinition = "PlanDefinition",
-  /** Practitioner */
+  /** The FHIR resource type defined in STU3 and R4. */
   Practitioner = "Practitioner",
-  /** PractitionerRole */
+  /** The FHIR resource type defined in STU3 and R4. */
   PractitionerRole = "PractitionerRole",
-  /** Procedure */
+  /** The FHIR resource type defined in STU3 and R4. */
   Procedure = "Procedure",
-  /** ProcedureRequest */
+  /** The FHIR resource type defined in STU3. */
   ProcedureRequest = "ProcedureRequest",
-  /** ProcessRequest */
+  /** The FHIR resource type defined in STU3. */
   ProcessRequest = "ProcessRequest",
-  /** ProcessResponse */
+  /** The FHIR resource type defined in STU3. */
   ProcessResponse = "ProcessResponse",
-  /** Provenance */
+  /** The FHIR resource type defined in STU3 and R4. */
   Provenance = "Provenance",
-  /** Questionnaire */
+  /** The FHIR resource type defined in STU3 and R4. */
   Questionnaire = "Questionnaire",
-  /** QuestionnaireResponse */
+  /** The FHIR resource type defined in STU3 and R4. */
   QuestionnaireResponse = "QuestionnaireResponse",
-  /** ReferralRequest */
+  /** The FHIR resource type defined in STU3. */
   ReferralRequest = "ReferralRequest",
-  /** RelatedPerson */
+  /** The FHIR resource type defined in STU3 and R4. */
   RelatedPerson = "RelatedPerson",
-  /** RequestGroup */
+  /** The FHIR resource type defined in STU3 and R4. */
   RequestGroup = "RequestGroup",
-  /** ResearchDefinition */
+  /** The FHIR resource type defined in R4. */
   ResearchDefinition = "ResearchDefinition",
-  /** ResearchElementDefinition */
+  /** The FHIR resource type defined in R4. */
   ResearchElementDefinition = "ResearchElementDefinition",
-  /** ResearchStudy */
+  /** The FHIR resource type defined in STU3 and R4. */
   ResearchStudy = "ResearchStudy",
-  /** ResearchSubject */
+  /** The FHIR resource type defined in STU3 and R4. */
   ResearchSubject = "ResearchSubject",
-  /** Resource */
+  /** The FHIR resource type defined in STU3 and R4. */
   Resource = "Resource",
-  /** RiskAssessment */
+  /** The FHIR resource type defined in STU3 and R4. */
   RiskAssessment = "RiskAssessment",
-  /** RiskEvidenceSynthesis */
+  /** The FHIR resource type defined in R4. */
   RiskEvidenceSynthesis = "RiskEvidenceSynthesis",
-  /** Schedule */
+  /** The FHIR resource type defined in STU3 and R4. */
   Schedule = "Schedule",
-  /** SearchParameter */
+  /** The FHIR resource type defined in STU3 and R4. */
   SearchParameter = "SearchParameter",
-  /** Sequence */
+  /** The FHIR resource type defined in STU3. */
   Sequence = "Sequence",
-  /** ServiceDefinition */
+  /** The FHIR resource type defined in STU3. */
   ServiceDefinition = "ServiceDefinition",
-  /** ServiceRequest */
+  /** The FHIR resource type defined in R4. */
   ServiceRequest = "ServiceRequest",
-  /** Slot */
+  /** The FHIR resource type defined in STU3 and R4. */
   Slot = "Slot",
-  /** Specimen */
+  /** The FHIR resource type defined in STU3 and R4. */
   Specimen = "Specimen",
-  /** SpecimenDefinition */
+  /** The FHIR resource type defined in R4. */
   SpecimenDefinition = "SpecimenDefinition",
-  /** StructureDefinition */
+  /** The FHIR resource type defined in STU3 and R4. */
   StructureDefinition = "StructureDefinition",
-  /** StructureMap */
+  /** The FHIR resource type defined in STU3 and R4. */
   StructureMap = "StructureMap",
-  /** Subscription */
+  /** The FHIR resource type defined in STU3 and R4. */
   Subscription = "Subscription",
-  /** Substance */
+  /** The FHIR resource type defined in STU3 and R4. */
   Substance = "Substance",
-  /** SubstanceNucleicAcid */
+  /** The FHIR resource type defined in R4. */
   SubstanceNucleicAcid = "SubstanceNucleicAcid",
-  /** SubstancePolymer */
+  /** The FHIR resource type defined in R4. */
   SubstancePolymer = "SubstancePolymer",
-  /** SubstanceProtein */
+  /** The FHIR resource type defined in R4. */
   SubstanceProtein = "SubstanceProtein",
-  /** SubstanceReferenceInformation */
+  /** The FHIR resource type defined in R4. */
   SubstanceReferenceInformation = "SubstanceReferenceInformation",
-  /** SubstanceSourceMaterial */
+  /** The FHIR resource type defined in R4. */
   SubstanceSourceMaterial = "SubstanceSourceMaterial",
-  /** SubstanceSpecification */
+  /** The FHIR resource type defined in R4. */
   SubstanceSpecification = "SubstanceSpecification",
-  /** SupplyDelivery */
+  /** The FHIR resource type defined in STU3 and R4. */
   SupplyDelivery = "SupplyDelivery",
-  /** SupplyRequest */
+  /** The FHIR resource type defined in STU3 and R4. */
   SupplyRequest = "SupplyRequest",
-  /** Task */
+  /** The FHIR resource type defined in STU3 and R4. */
   Task = "Task",
-  /** TerminologyCapabilities */
+  /** The FHIR resource type defined in R4. */
   TerminologyCapabilities = "TerminologyCapabilities",
-  /** TestReport */
+  /** The FHIR resource type defined in STU3 and R4. */
   TestReport = "TestReport",
-  /** TestScript */
+  /** The FHIR resource type defined in STU3 and R4. */
   TestScript = "TestScript",
-  /** ValueSet */
+  /** The FHIR resource type defined in STU3 and R4. */
   ValueSet = "ValueSet",
-  /** VerificationResult */
+  /** The FHIR resource type defined in R4. */
   VerificationResult = "VerificationResult",
-  /** VisionPrescription */
+  /** The FHIR resource type defined in STU3 and R4. */
   VisionPrescription = "VisionPrescription",
 }
 
 /**
- * Schema of FHIR resource type enumeration.
+ * Schema of FHIR resource type enumeration. \
  * {@link KnownHealthcareFhirResourceType} can be used interchangeably with HealthcareFhirResourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Account**
- * **ActivityDefinition**
- * **AdverseEvent**
- * **AllergyIntolerance**
- * **Appointment**
- * **AppointmentResponse**
- * **AuditEvent**
- * **Basic**
- * **Binary**
- * **BiologicallyDerivedProduct**
- * **BodySite**
- * **BodyStructure**
- * **Bundle**
- * **CapabilityStatement**
- * **CarePlan**
- * **CareTeam**
- * **CatalogEntry**
- * **ChargeItem**
- * **ChargeItemDefinition**
- * **Claim**
- * **ClaimResponse**
- * **ClinicalImpression**
- * **CodeSystem**
- * **Communication**
- * **CommunicationRequest**
- * **CompartmentDefinition**
- * **Composition**
- * **ConceptMap**
- * **Condition**
- * **Consent**
- * **Contract**
- * **Coverage**
- * **CoverageEligibilityRequest**
- * **CoverageEligibilityResponse**
- * **DataElement**
- * **DetectedIssue**
- * **Device**
- * **DeviceComponent**
- * **DeviceDefinition**
- * **DeviceMetric**
- * **DeviceRequest**
- * **DeviceUseStatement**
- * **DiagnosticReport**
- * **DocumentManifest**
- * **DocumentReference**
- * **DomainResource**
- * **EffectEvidenceSynthesis**
- * **EligibilityRequest**
- * **EligibilityResponse**
- * **Encounter**
- * **Endpoint**
- * **EnrollmentRequest**
- * **EnrollmentResponse**
- * **EpisodeOfCare**
- * **EventDefinition**
- * **Evidence**
- * **EvidenceVariable**
- * **ExampleScenario**
- * **ExpansionProfile**
- * **ExplanationOfBenefit**
- * **FamilyMemberHistory**
- * **Flag**
- * **Goal**
- * **GraphDefinition**
- * **Group**
- * **GuidanceResponse**
- * **HealthcareService**
- * **ImagingManifest**
- * **ImagingStudy**
- * **Immunization**
- * **ImmunizationEvaluation**
- * **ImmunizationRecommendation**
- * **ImplementationGuide**
- * **InsurancePlan**
- * **Invoice**
- * **Library**
- * **Linkage**
- * **List**
- * **Location**
- * **Measure**
- * **MeasureReport**
- * **Media**
- * **Medication**
- * **MedicationAdministration**
- * **MedicationDispense**
- * **MedicationKnowledge**
- * **MedicationRequest**
- * **MedicationStatement**
- * **MedicinalProduct**
- * **MedicinalProductAuthorization**
- * **MedicinalProductContraindication**
- * **MedicinalProductIndication**
- * **MedicinalProductIngredient**
- * **MedicinalProductInteraction**
- * **MedicinalProductManufactured**
- * **MedicinalProductPackaged**
- * **MedicinalProductPharmaceutical**
- * **MedicinalProductUndesirableEffect**
- * **MessageDefinition**
- * **MessageHeader**
- * **MolecularSequence**
- * **NamingSystem**
- * **NutritionOrder**
- * **Observation**
- * **ObservationDefinition**
- * **OperationDefinition**
- * **OperationOutcome**
- * **Organization**
- * **OrganizationAffiliation**
- * **Parameters**
- * **Patient**
- * **PaymentNotice**
- * **PaymentReconciliation**
- * **Person**
- * **PlanDefinition**
- * **Practitioner**
- * **PractitionerRole**
- * **Procedure**
- * **ProcedureRequest**
- * **ProcessRequest**
- * **ProcessResponse**
- * **Provenance**
- * **Questionnaire**
- * **QuestionnaireResponse**
- * **ReferralRequest**
- * **RelatedPerson**
- * **RequestGroup**
- * **ResearchDefinition**
- * **ResearchElementDefinition**
- * **ResearchStudy**
- * **ResearchSubject**
- * **Resource**
- * **RiskAssessment**
- * **RiskEvidenceSynthesis**
- * **Schedule**
- * **SearchParameter**
- * **Sequence**
- * **ServiceDefinition**
- * **ServiceRequest**
- * **Slot**
- * **Specimen**
- * **SpecimenDefinition**
- * **StructureDefinition**
- * **StructureMap**
- * **Subscription**
- * **Substance**
- * **SubstanceNucleicAcid**
- * **SubstancePolymer**
- * **SubstanceProtein**
- * **SubstanceReferenceInformation**
- * **SubstanceSourceMaterial**
- * **SubstanceSpecification**
- * **SupplyDelivery**
- * **SupplyRequest**
- * **Task**
- * **TerminologyCapabilities**
- * **TestReport**
- * **TestScript**
- * **ValueSet**
- * **VerificationResult**
- * **VisionPrescription**
+ * **Account**: The FHIR resource type defined in STU3 and R4. \
+ * **ActivityDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **AdverseEvent**: The FHIR resource type defined in STU3 and R4. \
+ * **AllergyIntolerance**: The FHIR resource type defined in STU3 and R4. \
+ * **Appointment**: The FHIR resource type defined in STU3 and R4. \
+ * **AppointmentResponse**: The FHIR resource type defined in STU3 and R4. \
+ * **AuditEvent**: The FHIR resource type defined in STU3 and R4. \
+ * **Basic**: The FHIR resource type defined in STU3 and R4. \
+ * **Binary**: The FHIR resource type defined in STU3 and R4. \
+ * **BiologicallyDerivedProduct**: The FHIR resource type defined in R4. \
+ * **BodySite**: The FHIR resource type defined in STU3. \
+ * **BodyStructure**: The FHIR resource type defined in R4. \
+ * **Bundle**: The FHIR resource type defined in STU3 and R4. \
+ * **CapabilityStatement**: The FHIR resource type defined in STU3 and R4. \
+ * **CarePlan**: The FHIR resource type defined in STU3 and R4. \
+ * **CareTeam**: The FHIR resource type defined in STU3 and R4. \
+ * **CatalogEntry**: The FHIR resource type defined in R4. \
+ * **ChargeItem**: The FHIR resource type defined in STU3 and R4. \
+ * **ChargeItemDefinition**: The FHIR resource type defined in R4. \
+ * **Claim**: The FHIR resource type defined in STU3 and R4. \
+ * **ClaimResponse**: The FHIR resource type defined in STU3 and R4. \
+ * **ClinicalImpression**: The FHIR resource type defined in STU3 and R4. \
+ * **CodeSystem**: The FHIR resource type defined in STU3 and R4. \
+ * **Communication**: The FHIR resource type defined in STU3 and R4. \
+ * **CommunicationRequest**: The FHIR resource type defined in STU3 and R4. \
+ * **CompartmentDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **Composition**: The FHIR resource type defined in STU3 and R4. \
+ * **ConceptMap**: The FHIR resource type defined in STU3 and R4. \
+ * **Condition**: The FHIR resource type defined in STU3 and R4. \
+ * **Consent**: The FHIR resource type defined in STU3 and R4. \
+ * **Contract**: The FHIR resource type defined in STU3 and R4. \
+ * **Coverage**: The FHIR resource type defined in STU3 and R4. \
+ * **CoverageEligibilityRequest**: The FHIR resource type defined in R4. \
+ * **CoverageEligibilityResponse**: The FHIR resource type defined in R4. \
+ * **DataElement**: The FHIR resource type defined in STU3. \
+ * **DetectedIssue**: The FHIR resource type defined in STU3 and R4. \
+ * **Device**: The FHIR resource type defined in STU3 and R4. \
+ * **DeviceComponent**: The FHIR resource type defined in STU3. \
+ * **DeviceDefinition**: The FHIR resource type defined in R4. \
+ * **DeviceMetric**: The FHIR resource type defined in STU3 and R4. \
+ * **DeviceRequest**: The FHIR resource type defined in STU3 and R4. \
+ * **DeviceUseStatement**: The FHIR resource type defined in STU3 and R4. \
+ * **DiagnosticReport**: The FHIR resource type defined in STU3 and R4. \
+ * **DocumentManifest**: The FHIR resource type defined in STU3 and R4. \
+ * **DocumentReference**: The FHIR resource type defined in STU3 and R4. \
+ * **DomainResource**: The FHIR resource type defined in STU3 and R4. \
+ * **EffectEvidenceSynthesis**: The FHIR resource type defined in R4. \
+ * **EligibilityRequest**: The FHIR resource type defined in STU3. \
+ * **EligibilityResponse**: The FHIR resource type defined in STU3. \
+ * **Encounter**: The FHIR resource type defined in STU3 and R4. \
+ * **Endpoint**: The FHIR resource type defined in STU3 and R4. \
+ * **EnrollmentRequest**: The FHIR resource type defined in STU3 and R4. \
+ * **EnrollmentResponse**: The FHIR resource type defined in STU3 and R4. \
+ * **EpisodeOfCare**: The FHIR resource type defined in STU3 and R4. \
+ * **EventDefinition**: The FHIR resource type defined in R4. \
+ * **Evidence**: The FHIR resource type defined in R4. \
+ * **EvidenceVariable**: The FHIR resource type defined in R4. \
+ * **ExampleScenario**: The FHIR resource type defined in R4. \
+ * **ExpansionProfile**: The FHIR resource type defined in STU3. \
+ * **ExplanationOfBenefit**: The FHIR resource type defined in STU3 and R4. \
+ * **FamilyMemberHistory**: The FHIR resource type defined in STU3 and R4. \
+ * **Flag**: The FHIR resource type defined in STU3 and R4. \
+ * **Goal**: The FHIR resource type defined in STU3 and R4. \
+ * **GraphDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **Group**: The FHIR resource type defined in STU3 and R4. \
+ * **GuidanceResponse**: The FHIR resource type defined in STU3 and R4. \
+ * **HealthcareService**: The FHIR resource type defined in STU3 and R4. \
+ * **ImagingManifest**: The FHIR resource type defined in STU3. \
+ * **ImagingStudy**: The FHIR resource type defined in STU3 and R4. \
+ * **Immunization**: The FHIR resource type defined in STU3 and R4. \
+ * **ImmunizationEvaluation**: The FHIR resource type defined in R4. \
+ * **ImmunizationRecommendation**: The FHIR resource type defined in STU3 and R4. \
+ * **ImplementationGuide**: The FHIR resource type defined in STU3 and R4. \
+ * **InsurancePlan**: The FHIR resource type defined in R4. \
+ * **Invoice**: The FHIR resource type defined in R4. \
+ * **Library**: The FHIR resource type defined in STU3 and R4. \
+ * **Linkage**: The FHIR resource type defined in STU3 and R4. \
+ * **List**: The FHIR resource type defined in STU3 and R4. \
+ * **Location**: The FHIR resource type defined in STU3 and R4. \
+ * **Measure**: The FHIR resource type defined in STU3 and R4. \
+ * **MeasureReport**: The FHIR resource type defined in STU3 and R4. \
+ * **Media**: The FHIR resource type defined in STU3 and R4. \
+ * **Medication**: The FHIR resource type defined in STU3 and R4. \
+ * **MedicationAdministration**: The FHIR resource type defined in STU3 and R4. \
+ * **MedicationDispense**: The FHIR resource type defined in STU3 and R4. \
+ * **MedicationKnowledge**: The FHIR resource type defined in R4. \
+ * **MedicationRequest**: The FHIR resource type defined in STU3 and R4. \
+ * **MedicationStatement**: The FHIR resource type defined in STU3 and R4. \
+ * **MedicinalProduct**: The FHIR resource type defined in R4. \
+ * **MedicinalProductAuthorization**: The FHIR resource type defined in R4. \
+ * **MedicinalProductContraindication**: The FHIR resource type defined in R4. \
+ * **MedicinalProductIndication**: The FHIR resource type defined in R4. \
+ * **MedicinalProductIngredient**: The FHIR resource type defined in R4. \
+ * **MedicinalProductInteraction**: The FHIR resource type defined in R4. \
+ * **MedicinalProductManufactured**: The FHIR resource type defined in R4. \
+ * **MedicinalProductPackaged**: The FHIR resource type defined in R4. \
+ * **MedicinalProductPharmaceutical**: The FHIR resource type defined in R4. \
+ * **MedicinalProductUndesirableEffect**: The FHIR resource type defined in R4. \
+ * **MessageDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **MessageHeader**: The FHIR resource type defined in STU3 and R4. \
+ * **MolecularSequence**: The FHIR resource type defined in R4. \
+ * **NamingSystem**: The FHIR resource type defined in STU3 and R4. \
+ * **NutritionOrder**: The FHIR resource type defined in STU3 and R4. \
+ * **Observation**: The FHIR resource type defined in STU3 and R4. \
+ * **ObservationDefinition**: The FHIR resource type defined in R4. \
+ * **OperationDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **OperationOutcome**: The FHIR resource type defined in STU3 and R4. \
+ * **Organization**: The FHIR resource type defined in STU3 and R4. \
+ * **OrganizationAffiliation**: The FHIR resource type defined in R4. \
+ * **Parameters**: The FHIR resource type defined in STU3 and R4. \
+ * **Patient**: The FHIR resource type defined in STU3 and R4. \
+ * **PaymentNotice**: The FHIR resource type defined in STU3 and R4. \
+ * **PaymentReconciliation**: The FHIR resource type defined in STU3 and R4. \
+ * **Person**: The FHIR resource type defined in STU3 and R4. \
+ * **PlanDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **Practitioner**: The FHIR resource type defined in STU3 and R4. \
+ * **PractitionerRole**: The FHIR resource type defined in STU3 and R4. \
+ * **Procedure**: The FHIR resource type defined in STU3 and R4. \
+ * **ProcedureRequest**: The FHIR resource type defined in STU3. \
+ * **ProcessRequest**: The FHIR resource type defined in STU3. \
+ * **ProcessResponse**: The FHIR resource type defined in STU3. \
+ * **Provenance**: The FHIR resource type defined in STU3 and R4. \
+ * **Questionnaire**: The FHIR resource type defined in STU3 and R4. \
+ * **QuestionnaireResponse**: The FHIR resource type defined in STU3 and R4. \
+ * **ReferralRequest**: The FHIR resource type defined in STU3. \
+ * **RelatedPerson**: The FHIR resource type defined in STU3 and R4. \
+ * **RequestGroup**: The FHIR resource type defined in STU3 and R4. \
+ * **ResearchDefinition**: The FHIR resource type defined in R4. \
+ * **ResearchElementDefinition**: The FHIR resource type defined in R4. \
+ * **ResearchStudy**: The FHIR resource type defined in STU3 and R4. \
+ * **ResearchSubject**: The FHIR resource type defined in STU3 and R4. \
+ * **Resource**: The FHIR resource type defined in STU3 and R4. \
+ * **RiskAssessment**: The FHIR resource type defined in STU3 and R4. \
+ * **RiskEvidenceSynthesis**: The FHIR resource type defined in R4. \
+ * **Schedule**: The FHIR resource type defined in STU3 and R4. \
+ * **SearchParameter**: The FHIR resource type defined in STU3 and R4. \
+ * **Sequence**: The FHIR resource type defined in STU3. \
+ * **ServiceDefinition**: The FHIR resource type defined in STU3. \
+ * **ServiceRequest**: The FHIR resource type defined in R4. \
+ * **Slot**: The FHIR resource type defined in STU3 and R4. \
+ * **Specimen**: The FHIR resource type defined in STU3 and R4. \
+ * **SpecimenDefinition**: The FHIR resource type defined in R4. \
+ * **StructureDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **StructureMap**: The FHIR resource type defined in STU3 and R4. \
+ * **Subscription**: The FHIR resource type defined in STU3 and R4. \
+ * **Substance**: The FHIR resource type defined in STU3 and R4. \
+ * **SubstanceNucleicAcid**: The FHIR resource type defined in R4. \
+ * **SubstancePolymer**: The FHIR resource type defined in R4. \
+ * **SubstanceProtein**: The FHIR resource type defined in R4. \
+ * **SubstanceReferenceInformation**: The FHIR resource type defined in R4. \
+ * **SubstanceSourceMaterial**: The FHIR resource type defined in R4. \
+ * **SubstanceSpecification**: The FHIR resource type defined in R4. \
+ * **SupplyDelivery**: The FHIR resource type defined in STU3 and R4. \
+ * **SupplyRequest**: The FHIR resource type defined in STU3 and R4. \
+ * **Task**: The FHIR resource type defined in STU3 and R4. \
+ * **TerminologyCapabilities**: The FHIR resource type defined in R4. \
+ * **TestReport**: The FHIR resource type defined in STU3 and R4. \
+ * **TestScript**: The FHIR resource type defined in STU3 and R4. \
+ * **ValueSet**: The FHIR resource type defined in STU3 and R4. \
+ * **VerificationResult**: The FHIR resource type defined in R4. \
+ * **VisionPrescription**: The FHIR resource type defined in STU3 and R4.
  */
 export type HealthcareFhirResourceType = string;
 
@@ -2403,6 +4817,17 @@ export interface HealthcareFhirResourceUpdatedEventData {
   resourceVersionId: number;
 }
 
+export function healthcareFhirResourceUpdatedEventDataDeserializer(
+  item: any,
+): HealthcareFhirResourceUpdatedEventData {
+  return {
+    resourceType: item["resourceType"],
+    resourceFhirAccount: item["resourceFhirAccount"],
+    resourceFhirId: item["resourceFhirId"],
+    resourceVersionId: item["resourceVersionId"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceDeleted event. */
 export interface HealthcareFhirResourceDeletedEventData {
   /** Type of HL7 FHIR resource. */
@@ -2413,6 +4838,17 @@ export interface HealthcareFhirResourceDeletedEventData {
   resourceFhirId: string;
   /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
   resourceVersionId: number;
+}
+
+export function healthcareFhirResourceDeletedEventDataDeserializer(
+  item: any,
+): HealthcareFhirResourceDeletedEventData {
+  return {
+    resourceType: item["resourceType"],
+    resourceFhirAccount: item["resourceFhirAccount"],
+    resourceFhirId: item["resourceFhirId"],
+    resourceVersionId: item["resourceVersionId"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageCreated event. */
@@ -2431,6 +4867,19 @@ export interface HealthcareDicomImageCreatedEventData {
   sequenceNumber: number;
 }
 
+export function healthcareDicomImageCreatedEventDataDeserializer(
+  item: any,
+): HealthcareDicomImageCreatedEventData {
+  return {
+    partitionName: item["partitionName"],
+    imageStudyInstanceUid: item["imageStudyInstanceUid"],
+    imageSeriesInstanceUid: item["imageSeriesInstanceUid"],
+    imageSopInstanceUid: item["imageSopInstanceUid"],
+    serviceHostName: item["serviceHostName"],
+    sequenceNumber: item["sequenceNumber"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageDeleted event. */
 export interface HealthcareDicomImageDeletedEventData {
   /** Data partition name */
@@ -2445,6 +4894,19 @@ export interface HealthcareDicomImageDeletedEventData {
   serviceHostName: string;
   /** Sequence number of the DICOM Service within Azure Health Data Services. It is unique for every image creation and deletion within the service. */
   sequenceNumber: number;
+}
+
+export function healthcareDicomImageDeletedEventDataDeserializer(
+  item: any,
+): HealthcareDicomImageDeletedEventData {
+  return {
+    partitionName: item["partitionName"],
+    imageStudyInstanceUid: item["imageStudyInstanceUid"],
+    imageSeriesInstanceUid: item["imageSeriesInstanceUid"],
+    imageSopInstanceUid: item["imageSopInstanceUid"],
+    serviceHostName: item["serviceHostName"],
+    sequenceNumber: item["sequenceNumber"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.DicomImageUpdated event. */
@@ -2463,6 +4925,19 @@ export interface HealthcareDicomImageUpdatedEventData {
   sequenceNumber: number;
 }
 
+export function healthcareDicomImageUpdatedEventDataDeserializer(
+  item: any,
+): HealthcareDicomImageUpdatedEventData {
+  return {
+    partitionName: item["partitionName"],
+    imageStudyInstanceUid: item["imageStudyInstanceUid"],
+    imageSeriesInstanceUid: item["imageSeriesInstanceUid"],
+    imageSopInstanceUid: item["imageSopInstanceUid"],
+    serviceHostName: item["serviceHostName"],
+    sequenceNumber: item["sequenceNumber"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.CertificateNewVersionCreated event. */
 export interface KeyVaultCertificateNewVersionCreatedEventData {
   /** The id of the object that triggered this event. */
@@ -2476,9 +4951,23 @@ export interface KeyVaultCertificateNewVersionCreatedEventData {
   /** The version of the object that triggered this event */
   version: string;
   /** Not before date of the object that triggered this event */
-  nBF: number;
+  nbf: number;
   /** The expiration date of the object that triggered this event */
-  eXP: number;
+  exp: number;
+}
+
+export function keyVaultCertificateNewVersionCreatedEventDataDeserializer(
+  item: any,
+): KeyVaultCertificateNewVersionCreatedEventData {
+  return {
+    id: item["Id"],
+    vaultName: item["VaultName"],
+    objectType: item["ObjectType"],
+    objectName: item["ObjectName"],
+    version: item["Version"],
+    nbf: item["NBF"],
+    exp: item["EXP"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.CertificateNearExpiry event. */
@@ -2494,9 +4983,23 @@ export interface KeyVaultCertificateNearExpiryEventData {
   /** The version of the object that triggered this event */
   version: string;
   /** Not before date of the object that triggered this event */
-  nBF: number;
+  nbf: number;
   /** The expiration date of the object that triggered this event */
-  eXP: number;
+  exp: number;
+}
+
+export function keyVaultCertificateNearExpiryEventDataDeserializer(
+  item: any,
+): KeyVaultCertificateNearExpiryEventData {
+  return {
+    id: item["Id"],
+    vaultName: item["VaultName"],
+    objectType: item["ObjectType"],
+    objectName: item["ObjectName"],
+    version: item["Version"],
+    nbf: item["NBF"],
+    exp: item["EXP"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.CertificateExpired event. */
@@ -2512,9 +5015,23 @@ export interface KeyVaultCertificateExpiredEventData {
   /** The version of the object that triggered this event */
   version: string;
   /** Not before date of the object that triggered this event */
-  nBF: number;
+  nbf: number;
   /** The expiration date of the object that triggered this event */
-  eXP: number;
+  exp: number;
+}
+
+export function keyVaultCertificateExpiredEventDataDeserializer(
+  item: any,
+): KeyVaultCertificateExpiredEventData {
+  return {
+    id: item["Id"],
+    vaultName: item["VaultName"],
+    objectType: item["ObjectType"],
+    objectName: item["ObjectName"],
+    version: item["Version"],
+    nbf: item["NBF"],
+    exp: item["EXP"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.KeyNewVersionCreated event. */
@@ -2530,9 +5047,23 @@ export interface KeyVaultKeyNewVersionCreatedEventData {
   /** The version of the object that triggered this event */
   version: string;
   /** Not before date of the object that triggered this event */
-  nBF: number;
+  nbf: number;
   /** The expiration date of the object that triggered this event */
-  eXP: number;
+  exp: number;
+}
+
+export function keyVaultKeyNewVersionCreatedEventDataDeserializer(
+  item: any,
+): KeyVaultKeyNewVersionCreatedEventData {
+  return {
+    id: item["Id"],
+    vaultName: item["VaultName"],
+    objectType: item["ObjectType"],
+    objectName: item["ObjectName"],
+    version: item["Version"],
+    nbf: item["NBF"],
+    exp: item["EXP"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.KeyNearExpiry event. */
@@ -2548,9 +5079,23 @@ export interface KeyVaultKeyNearExpiryEventData {
   /** The version of the object that triggered this event */
   version: string;
   /** Not before date of the object that triggered this event */
-  nBF: number;
+  nbf: number;
   /** The expiration date of the object that triggered this event */
-  eXP: number;
+  exp: number;
+}
+
+export function keyVaultKeyNearExpiryEventDataDeserializer(
+  item: any,
+): KeyVaultKeyNearExpiryEventData {
+  return {
+    id: item["Id"],
+    vaultName: item["VaultName"],
+    objectType: item["ObjectType"],
+    objectName: item["ObjectName"],
+    version: item["Version"],
+    nbf: item["NBF"],
+    exp: item["EXP"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.KeyExpired event. */
@@ -2566,9 +5111,23 @@ export interface KeyVaultKeyExpiredEventData {
   /** The version of the object that triggered this event */
   version: string;
   /** Not before date of the object that triggered this event */
-  nBF: number;
+  nbf: number;
   /** The expiration date of the object that triggered this event */
-  eXP: number;
+  exp: number;
+}
+
+export function keyVaultKeyExpiredEventDataDeserializer(
+  item: any,
+): KeyVaultKeyExpiredEventData {
+  return {
+    id: item["Id"],
+    vaultName: item["VaultName"],
+    objectType: item["ObjectType"],
+    objectName: item["ObjectName"],
+    version: item["Version"],
+    nbf: item["NBF"],
+    exp: item["EXP"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.SecretNewVersionCreated event. */
@@ -2584,9 +5143,23 @@ export interface KeyVaultSecretNewVersionCreatedEventData {
   /** The version of the object that triggered this event */
   version: string;
   /** Not before date of the object that triggered this event */
-  nBF: number;
+  nbf: number;
   /** The expiration date of the object that triggered this event */
-  eXP: number;
+  exp: number;
+}
+
+export function keyVaultSecretNewVersionCreatedEventDataDeserializer(
+  item: any,
+): KeyVaultSecretNewVersionCreatedEventData {
+  return {
+    id: item["Id"],
+    vaultName: item["VaultName"],
+    objectType: item["ObjectType"],
+    objectName: item["ObjectName"],
+    version: item["Version"],
+    nbf: item["NBF"],
+    exp: item["EXP"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.SecretNearExpiry event. */
@@ -2602,9 +5175,23 @@ export interface KeyVaultSecretNearExpiryEventData {
   /** The version of the object that triggered this event */
   version: string;
   /** Not before date of the object that triggered this event */
-  nBF: number;
+  nbf: number;
   /** The expiration date of the object that triggered this event */
-  eXP: number;
+  exp: number;
+}
+
+export function keyVaultSecretNearExpiryEventDataDeserializer(
+  item: any,
+): KeyVaultSecretNearExpiryEventData {
+  return {
+    id: item["Id"],
+    vaultName: item["VaultName"],
+    objectType: item["ObjectType"],
+    objectName: item["ObjectName"],
+    version: item["Version"],
+    nbf: item["NBF"],
+    exp: item["EXP"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.SecretExpired event. */
@@ -2620,9 +5207,23 @@ export interface KeyVaultSecretExpiredEventData {
   /** The version of the object that triggered this event */
   version: string;
   /** Not before date of the object that triggered this event */
-  nBF: number;
+  nbf: number;
   /** The expiration date of the object that triggered this event */
-  eXP: number;
+  exp: number;
+}
+
+export function keyVaultSecretExpiredEventDataDeserializer(
+  item: any,
+): KeyVaultSecretExpiredEventData {
+  return {
+    id: item["Id"],
+    vaultName: item["VaultName"],
+    objectType: item["ObjectType"],
+    objectName: item["ObjectName"],
+    version: item["Version"],
+    nbf: item["NBF"],
+    exp: item["EXP"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.KeyVault.VaultAccessPolicyChanged event. */
@@ -2638,9 +5239,23 @@ export interface KeyVaultAccessPolicyChangedEventData {
   /** The version of the object that triggered this event */
   version: string;
   /** Not before date of the object that triggered this event */
-  nBF: number;
+  nbf: number;
   /** The expiration date of the object that triggered this event */
-  eXP: number;
+  exp: number;
+}
+
+export function keyVaultAccessPolicyChangedEventDataDeserializer(
+  item: any,
+): KeyVaultAccessPolicyChangedEventData {
+  return {
+    id: item["Id"],
+    vaultName: item["VaultName"],
+    objectType: item["ObjectType"],
+    objectName: item["ObjectName"],
+    version: item["Version"],
+    nbf: item["NBF"],
+    exp: item["EXP"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.ModelRegistered event. */
@@ -2653,6 +5268,17 @@ export interface MachineLearningServicesModelRegisteredEventData {
   modelTags: Record<string, any>;
   /** The properties of the model that was registered. */
   modelProperties: Record<string, any>;
+}
+
+export function machineLearningServicesModelRegisteredEventDataDeserializer(
+  item: any,
+): MachineLearningServicesModelRegisteredEventData {
+  return {
+    modelName: item["modelName"],
+    modelVersion: item["modelVersion"],
+    modelTags: item["modelTags"],
+    modelProperties: item["modelProperties"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.ModelDeployed event. */
@@ -2669,6 +5295,18 @@ export interface MachineLearningServicesModelDeployedEventData {
   serviceProperties: Record<string, any>;
 }
 
+export function machineLearningServicesModelDeployedEventDataDeserializer(
+  item: any,
+): MachineLearningServicesModelDeployedEventData {
+  return {
+    serviceName: item["serviceName"],
+    serviceComputeType: item["serviceComputeType"],
+    modelIds: item["modelIds"],
+    serviceTags: item["serviceTags"],
+    serviceProperties: item["serviceProperties"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.RunCompleted event. */
 export interface MachineLearningServicesRunCompletedEventData {
   /** The ID of the experiment that the run belongs to. */
@@ -2683,6 +5321,19 @@ export interface MachineLearningServicesRunCompletedEventData {
   runTags: Record<string, any>;
   /** The properties of the completed Run. */
   runProperties: Record<string, any>;
+}
+
+export function machineLearningServicesRunCompletedEventDataDeserializer(
+  item: any,
+): MachineLearningServicesRunCompletedEventData {
+  return {
+    experimentId: item["experimentId"],
+    experimentName: item["experimentName"],
+    runId: item["runId"],
+    runType: item["runType"],
+    runTags: item["runTags"],
+    runProperties: item["runProperties"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.DatasetDriftDetected event. */
@@ -2705,6 +5356,21 @@ export interface MachineLearningServicesDatasetDriftDetectedEventData {
   endTime: Date;
 }
 
+export function machineLearningServicesDatasetDriftDetectedEventDataDeserializer(
+  item: any,
+): MachineLearningServicesDatasetDriftDetectedEventData {
+  return {
+    dataDriftId: item["dataDriftId"],
+    dataDriftName: item["dataDriftName"],
+    runId: item["runId"],
+    baseDatasetId: item["baseDatasetId"],
+    targetDatasetId: item["targetDatasetId"],
+    driftCoefficient: item["driftCoefficient"],
+    startTime: new Date(item["startTime"]),
+    endTime: new Date(item["endTime"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.MachineLearningServices.RunStatusChanged event. */
 export interface MachineLearningServicesRunStatusChangedEventData {
   /** The ID of the experiment that the Machine Learning Run belongs to. */
@@ -2721,6 +5387,20 @@ export interface MachineLearningServicesRunStatusChangedEventData {
   runProperties: Record<string, any>;
   /** The status of the Machine Learning Run. */
   runStatus?: string;
+}
+
+export function machineLearningServicesRunStatusChangedEventDataDeserializer(
+  item: any,
+): MachineLearningServicesRunStatusChangedEventData {
+  return {
+    experimentId: item["experimentId"],
+    experimentName: item["experimentName"],
+    runId: item["runId"],
+    runType: item["runType"],
+    runTags: item["runTags"],
+    runProperties: item["runProperties"],
+    runStatus: item["runStatus"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateCreated event. */
@@ -2741,6 +5421,20 @@ export interface PolicyInsightsPolicyStateCreatedEventData {
   complianceReasonCode: string;
 }
 
+export function policyInsightsPolicyStateCreatedEventDataDeserializer(
+  item: any,
+): PolicyInsightsPolicyStateCreatedEventData {
+  return {
+    timestamp: new Date(item["timestamp"]),
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionId: item["policyDefinitionId"],
+    policyDefinitionReferenceId: item["policyDefinitionReferenceId"],
+    complianceState: item["complianceState"],
+    subscriptionId: item["subscriptionId"],
+    complianceReasonCode: item["complianceReasonCode"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateChanged event. */
 export interface PolicyInsightsPolicyStateChangedEventData {
   /** The time that the resource was scanned by Azure Policy in the Universal ISO 8601 DateTime format yyyy-MM-ddTHH:mm:ss.fffffffZ. */
@@ -2757,6 +5451,20 @@ export interface PolicyInsightsPolicyStateChangedEventData {
   subscriptionId: string;
   /** The compliance reason code. May be empty. */
   complianceReasonCode: string;
+}
+
+export function policyInsightsPolicyStateChangedEventDataDeserializer(
+  item: any,
+): PolicyInsightsPolicyStateChangedEventData {
+  return {
+    timestamp: new Date(item["timestamp"]),
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionId: item["policyDefinitionId"],
+    policyDefinitionReferenceId: item["policyDefinitionReferenceId"],
+    complianceState: item["complianceState"],
+    subscriptionId: item["subscriptionId"],
+    complianceReasonCode: item["complianceReasonCode"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateDeleted event. */
@@ -2777,6 +5485,20 @@ export interface PolicyInsightsPolicyStateDeletedEventData {
   complianceReasonCode: string;
 }
 
+export function policyInsightsPolicyStateDeletedEventDataDeserializer(
+  item: any,
+): PolicyInsightsPolicyStateDeletedEventData {
+  return {
+    timestamp: new Date(item["timestamp"]),
+    policyAssignmentId: item["policyAssignmentId"],
+    policyDefinitionId: item["policyDefinitionId"],
+    policyDefinitionReferenceId: item["policyDefinitionReferenceId"],
+    complianceState: item["complianceState"],
+    subscriptionId: item["subscriptionId"],
+    complianceReasonCode: item["complianceReasonCode"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Cache.PatchingCompleted event. */
 export interface RedisPatchingCompletedEventData {
   /** The time at which the event occurred. */
@@ -2785,6 +5507,18 @@ export interface RedisPatchingCompletedEventData {
   name?: string;
   /** The status of this event. Failed or  succeeded */
   status?: string;
+}
+
+export function redisPatchingCompletedEventDataDeserializer(
+  item: any,
+): RedisPatchingCompletedEventData {
+  return {
+    timestamp: !item["timestamp"]
+      ? item["timestamp"]
+      : new Date(item["timestamp"]),
+    name: item["name"],
+    status: item["status"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Cache.ScalingCompleted event. */
@@ -2797,6 +5531,18 @@ export interface RedisScalingCompletedEventData {
   status?: string;
 }
 
+export function redisScalingCompletedEventDataDeserializer(
+  item: any,
+): RedisScalingCompletedEventData {
+  return {
+    timestamp: !item["timestamp"]
+      ? item["timestamp"]
+      : new Date(item["timestamp"]),
+    name: item["name"],
+    status: item["status"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Cache.ExportRDBCompleted event. */
 export interface RedisExportRDBCompletedEventData {
   /** The time at which the event occurred. */
@@ -2807,6 +5553,18 @@ export interface RedisExportRDBCompletedEventData {
   status?: string;
 }
 
+export function redisExportRDBCompletedEventDataDeserializer(
+  item: any,
+): RedisExportRDBCompletedEventData {
+  return {
+    timestamp: !item["timestamp"]
+      ? item["timestamp"]
+      : new Date(item["timestamp"]),
+    name: item["name"],
+    status: item["status"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Cache.ImportRDBCompleted event. */
 export interface RedisImportRDBCompletedEventData {
   /** The time at which the event occurred. */
@@ -2815,6 +5573,18 @@ export interface RedisImportRDBCompletedEventData {
   name?: string;
   /** The status of this event. Failed or  succeeded */
   status?: string;
+}
+
+export function redisImportRDBCompletedEventDataDeserializer(
+  item: any,
+): RedisImportRDBCompletedEventData {
+  return {
+    timestamp: !item["timestamp"]
+      ? item["timestamp"]
+      : new Date(item["timestamp"]),
+    name: item["name"],
+    status: item["status"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceWriteSuccess event. This is raised when a resource create or update operation succeeds. */
@@ -2843,6 +5613,24 @@ export interface ResourceWriteSuccessEventData {
   httpRequest: ResourceHttpRequest;
 }
 
+export function resourceWriteSuccessEventDataDeserializer(
+  item: any,
+): ResourceWriteSuccessEventData {
+  return {
+    tenantId: item["tenantId"],
+    subscriptionId: item["subscriptionId"],
+    resourceGroup: item["resourceGroup"],
+    resourceProvider: item["resourceProvider"],
+    resourceUri: item["resourceUri"],
+    operationName: item["operationName"],
+    status: item["status"],
+    authorization: resourceAuthorizationDeserializer(item["authorization"]),
+    claims: item["claims"],
+    correlationId: item["correlationId"],
+    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
+  };
+}
+
 /** The details of the authorization for the resource. */
 export interface ResourceAuthorization {
   /** The scope of the authorization. */
@@ -2851,6 +5639,16 @@ export interface ResourceAuthorization {
   action?: string;
   /** The evidence for the authorization. */
   evidence: Record<string, string>;
+}
+
+export function resourceAuthorizationDeserializer(
+  item: any,
+): ResourceAuthorization {
+  return {
+    scope: item["scope"],
+    action: item["action"],
+    evidence: item["evidence"],
+  };
 }
 
 /** The details of the HTTP request. */
@@ -2863,6 +5661,17 @@ export interface ResourceHttpRequest {
   method?: string;
   /** The url used in the request. */
   url?: string;
+}
+
+export function resourceHttpRequestDeserializer(
+  item: any,
+): ResourceHttpRequest {
+  return {
+    clientRequestId: item["clientRequestId"],
+    clientIpAddress: item["clientIpAddress"],
+    method: item["method"],
+    url: item["url"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceWriteFailure event. This is raised when a resource create or update operation fails. */
@@ -2891,6 +5700,24 @@ export interface ResourceWriteFailureEventData {
   httpRequest: ResourceHttpRequest;
 }
 
+export function resourceWriteFailureEventDataDeserializer(
+  item: any,
+): ResourceWriteFailureEventData {
+  return {
+    tenantId: item["tenantId"],
+    subscriptionId: item["subscriptionId"],
+    resourceGroup: item["resourceGroup"],
+    resourceProvider: item["resourceProvider"],
+    resourceUri: item["resourceUri"],
+    operationName: item["operationName"],
+    status: item["status"],
+    authorization: resourceAuthorizationDeserializer(item["authorization"]),
+    claims: item["claims"],
+    correlationId: item["correlationId"],
+    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceWriteCancel event. This is raised when a resource create or update operation is canceled. */
 export interface ResourceWriteCancelEventData {
   /** The tenant ID of the resource. */
@@ -2915,6 +5742,24 @@ export interface ResourceWriteCancelEventData {
   correlationId?: string;
   /** The details of the operation. */
   httpRequest: ResourceHttpRequest;
+}
+
+export function resourceWriteCancelEventDataDeserializer(
+  item: any,
+): ResourceWriteCancelEventData {
+  return {
+    tenantId: item["tenantId"],
+    subscriptionId: item["subscriptionId"],
+    resourceGroup: item["resourceGroup"],
+    resourceProvider: item["resourceProvider"],
+    resourceUri: item["resourceUri"],
+    operationName: item["operationName"],
+    status: item["status"],
+    authorization: resourceAuthorizationDeserializer(item["authorization"]),
+    claims: item["claims"],
+    correlationId: item["correlationId"],
+    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceDeleteSuccess event. This is raised when a resource delete operation succeeds. */
@@ -2943,6 +5788,24 @@ export interface ResourceDeleteSuccessEventData {
   httpRequest: ResourceHttpRequest;
 }
 
+export function resourceDeleteSuccessEventDataDeserializer(
+  item: any,
+): ResourceDeleteSuccessEventData {
+  return {
+    tenantId: item["tenantId"],
+    subscriptionId: item["subscriptionId"],
+    resourceGroup: item["resourceGroup"],
+    resourceProvider: item["resourceProvider"],
+    resourceUri: item["resourceUri"],
+    operationName: item["operationName"],
+    status: item["status"],
+    authorization: resourceAuthorizationDeserializer(item["authorization"]),
+    claims: item["claims"],
+    correlationId: item["correlationId"],
+    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceDeleteFailure event. This is raised when a resource delete operation fails. */
 export interface ResourceDeleteFailureEventData {
   /** The tenant ID of the resource. */
@@ -2967,6 +5830,24 @@ export interface ResourceDeleteFailureEventData {
   correlationId?: string;
   /** The details of the operation. */
   httpRequest: ResourceHttpRequest;
+}
+
+export function resourceDeleteFailureEventDataDeserializer(
+  item: any,
+): ResourceDeleteFailureEventData {
+  return {
+    tenantId: item["tenantId"],
+    subscriptionId: item["subscriptionId"],
+    resourceGroup: item["resourceGroup"],
+    resourceProvider: item["resourceProvider"],
+    resourceUri: item["resourceUri"],
+    operationName: item["operationName"],
+    status: item["status"],
+    authorization: resourceAuthorizationDeserializer(item["authorization"]),
+    claims: item["claims"],
+    correlationId: item["correlationId"],
+    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceDeleteCancel event. This is raised when a resource delete operation is canceled. */
@@ -2995,6 +5876,24 @@ export interface ResourceDeleteCancelEventData {
   httpRequest: ResourceHttpRequest;
 }
 
+export function resourceDeleteCancelEventDataDeserializer(
+  item: any,
+): ResourceDeleteCancelEventData {
+  return {
+    tenantId: item["tenantId"],
+    subscriptionId: item["subscriptionId"],
+    resourceGroup: item["resourceGroup"],
+    resourceProvider: item["resourceProvider"],
+    resourceUri: item["resourceUri"],
+    operationName: item["operationName"],
+    status: item["status"],
+    authorization: resourceAuthorizationDeserializer(item["authorization"]),
+    claims: item["claims"],
+    correlationId: item["correlationId"],
+    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceActionSuccess event. This is raised when a resource action operation succeeds. */
 export interface ResourceActionSuccessEventData {
   /** The tenant ID of the resource. */
@@ -3019,6 +5918,24 @@ export interface ResourceActionSuccessEventData {
   correlationId?: string;
   /** The details of the operation. */
   httpRequest: ResourceHttpRequest;
+}
+
+export function resourceActionSuccessEventDataDeserializer(
+  item: any,
+): ResourceActionSuccessEventData {
+  return {
+    tenantId: item["tenantId"],
+    subscriptionId: item["subscriptionId"],
+    resourceGroup: item["resourceGroup"],
+    resourceProvider: item["resourceProvider"],
+    resourceUri: item["resourceUri"],
+    operationName: item["operationName"],
+    status: item["status"],
+    authorization: resourceAuthorizationDeserializer(item["authorization"]),
+    claims: item["claims"],
+    correlationId: item["correlationId"],
+    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceActionFailure event. This is raised when a resource action operation fails. */
@@ -3047,6 +5964,24 @@ export interface ResourceActionFailureEventData {
   httpRequest: ResourceHttpRequest;
 }
 
+export function resourceActionFailureEventDataDeserializer(
+  item: any,
+): ResourceActionFailureEventData {
+  return {
+    tenantId: item["tenantId"],
+    subscriptionId: item["subscriptionId"],
+    resourceGroup: item["resourceGroup"],
+    resourceProvider: item["resourceProvider"],
+    resourceUri: item["resourceUri"],
+    operationName: item["operationName"],
+    status: item["status"],
+    authorization: resourceAuthorizationDeserializer(item["authorization"]),
+    claims: item["claims"],
+    correlationId: item["correlationId"],
+    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceActionCancel event. This is raised when a resource action operation is canceled. */
 export interface ResourceActionCancelEventData {
   /** The tenant ID of the resource. */
@@ -3073,6 +6008,24 @@ export interface ResourceActionCancelEventData {
   httpRequest: ResourceHttpRequest;
 }
 
+export function resourceActionCancelEventDataDeserializer(
+  item: any,
+): ResourceActionCancelEventData {
+  return {
+    tenantId: item["tenantId"],
+    subscriptionId: item["subscriptionId"],
+    resourceGroup: item["resourceGroup"],
+    resourceProvider: item["resourceProvider"],
+    resourceUri: item["resourceUri"],
+    operationName: item["operationName"],
+    status: item["status"],
+    authorization: resourceAuthorizationDeserializer(item["authorization"]),
+    claims: item["claims"],
+    correlationId: item["correlationId"],
+    httpRequest: resourceHttpRequestDeserializer(item["httpRequest"]),
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners event. */
 export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {
   /** The namespace name of the Microsoft.ServiceBus resource. */
@@ -3087,6 +6040,19 @@ export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {
   topicName: string | null;
   /** The name of the Microsoft.ServiceBus topic's subscription. If the entity type is of type 'queue', then this value will be null. */
   subscriptionName: string | null;
+}
+
+export function serviceBusActiveMessagesAvailableWithNoListenersEventDataDeserializer(
+  item: any,
+): ServiceBusActiveMessagesAvailableWithNoListenersEventData {
+  return {
+    namespaceName: item["namespaceName"],
+    requestUri: item["requestUri"],
+    entityType: item["entityType"],
+    queueName: item["queueName"],
+    topicName: item["topicName"],
+    subscriptionName: item["subscriptionName"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListeners event. */
@@ -3105,6 +6071,19 @@ export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
   subscriptionName: string | null;
 }
 
+export function serviceBusDeadletterMessagesAvailableWithNoListenersEventDataDeserializer(
+  item: any,
+): ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
+  return {
+    namespaceName: item["namespaceName"],
+    requestUri: item["requestUri"],
+    entityType: item["entityType"],
+    queueName: item["queueName"],
+    topicName: item["topicName"],
+    subscriptionName: item["subscriptionName"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ServiceBus.ActiveMessagesAvailablePeriodicNotifications event. */
 export interface ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData {
   /** The namespace name of the Microsoft.ServiceBus resource. */
@@ -3119,6 +6098,19 @@ export interface ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData
   topicName: string | null;
   /** The name of the Microsoft.ServiceBus topic's subscription. If the entity type is of type 'queue', then this value will be null. */
   subscriptionName: string | null;
+}
+
+export function serviceBusActiveMessagesAvailablePeriodicNotificationsEventDataDeserializer(
+  item: any,
+): ServiceBusActiveMessagesAvailablePeriodicNotificationsEventData {
+  return {
+    namespaceName: item["namespaceName"],
+    requestUri: item["requestUri"],
+    entityType: item["entityType"],
+    queueName: item["queueName"],
+    topicName: item["topicName"],
+    subscriptionName: item["subscriptionName"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ServiceBus.DeadletterMessagesAvailablePeriodicNotifications event. */
@@ -3137,6 +6129,19 @@ export interface ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEvent
   subscriptionName: string | null;
 }
 
+export function serviceBusDeadletterMessagesAvailablePeriodicNotificationsEventDataDeserializer(
+  item: any,
+): ServiceBusDeadletterMessagesAvailablePeriodicNotificationsEventData {
+  return {
+    namespaceName: item["namespaceName"],
+    requestUri: item["requestUri"],
+    entityType: item["entityType"],
+    queueName: item["queueName"],
+    topicName: item["topicName"],
+    subscriptionName: item["subscriptionName"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.SignalRService.ClientConnectionConnected event. */
 export interface SignalRServiceClientConnectionConnectedEventData {
   /** The time at which the event occurred. */
@@ -3147,6 +6152,17 @@ export interface SignalRServiceClientConnectionConnectedEventData {
   connectionId: string;
   /** The user Id of connected client connection. */
   userId?: string;
+}
+
+export function signalRServiceClientConnectionConnectedEventDataDeserializer(
+  item: any,
+): SignalRServiceClientConnectionConnectedEventData {
+  return {
+    timestamp: new Date(item["timestamp"]),
+    hubName: item["hubName"],
+    connectionId: item["connectionId"],
+    userId: item["userId"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.SignalRService.ClientConnectionDisconnected event. */
@@ -3161,6 +6177,18 @@ export interface SignalRServiceClientConnectionDisconnectedEventData {
   userId?: string;
   /** The message of error that cause the client connection disconnected. */
   errorMessage?: string;
+}
+
+export function signalRServiceClientConnectionDisconnectedEventDataDeserializer(
+  item: any,
+): SignalRServiceClientConnectionDisconnectedEventData {
+  return {
+    timestamp: new Date(item["timestamp"]),
+    hubName: item["hubName"],
+    connectionId: item["connectionId"],
+    userId: item["userId"],
+    errorMessage: item["errorMessage"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.BlobCreated event. */
@@ -3193,30 +6221,50 @@ export interface StorageBlobCreatedEventData {
   storageDiagnostics: Record<string, any>;
 }
 
-/** Known values of {@link StorageBlobAccessTier} that the service accepts. */
+export function storageBlobCreatedEventDataDeserializer(
+  item: any,
+): StorageBlobCreatedEventData {
+  return {
+    api: item["api"],
+    clientRequestId: item["clientRequestId"],
+    requestId: item["requestId"],
+    eTag: item["eTag"],
+    contentType: item["contentType"],
+    contentLength: item["contentLength"],
+    contentOffset: item["contentOffset"],
+    blobType: item["blobType"],
+    accessTier: item["accessTier"],
+    url: item["url"],
+    sequencer: item["sequencer"],
+    identity: item["identity"],
+    storageDiagnostics: item["storageDiagnostics"],
+  };
+}
+
+/** The access tier of the blob. */
 export enum KnownStorageBlobAccessTier {
-  /** Hot */
+  /** The blob is in access tier Hot */
   Hot = "Hot",
-  /** Cool */
+  /** The blob is in access tier Cool */
   Cool = "Cool",
-  /** Cold */
+  /** The blob is in access tier Cold */
   Cold = "Cold",
-  /** Archive */
+  /** The blob is in access tier Archive */
   Archive = "Archive",
-  /** Default */
+  /** The blob is in access tier Default(Inferred) */
   Default = "Default",
 }
 
 /**
- * The access tier of the blob.
+ * The access tier of the blob. \
  * {@link KnownStorageBlobAccessTier} can be used interchangeably with StorageBlobAccessTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Hot**
- * **Cool**
- * **Cold**
- * **Archive**
- * **Default**
+ * **Hot**: The blob is in access tier Hot \
+ * **Cool**: The blob is in access tier Cool \
+ * **Cold**: The blob is in access tier Cold \
+ * **Archive**: The blob is in access tier Archive \
+ * **Default**: The blob is in access tier Default(Inferred)
  */
 export type StorageBlobAccessTier = string;
 
@@ -3242,6 +6290,22 @@ export interface StorageBlobDeletedEventData {
   storageDiagnostics: Record<string, any>;
 }
 
+export function storageBlobDeletedEventDataDeserializer(
+  item: any,
+): StorageBlobDeletedEventData {
+  return {
+    api: item["api"],
+    clientRequestId: item["clientRequestId"],
+    requestId: item["requestId"],
+    contentType: item["contentType"],
+    blobType: item["blobType"],
+    url: item["url"],
+    sequencer: item["sequencer"],
+    identity: item["identity"],
+    storageDiagnostics: item["storageDiagnostics"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.DirectoryCreated event. */
 export interface StorageDirectoryCreatedEventData {
   /** The name of the API/operation that triggered this event. */
@@ -3260,6 +6324,21 @@ export interface StorageDirectoryCreatedEventData {
   identity?: string;
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
   storageDiagnostics: Record<string, any>;
+}
+
+export function storageDirectoryCreatedEventDataDeserializer(
+  item: any,
+): StorageDirectoryCreatedEventData {
+  return {
+    api: item["api"],
+    clientRequestId: item["clientRequestId"],
+    requestId: item["requestId"],
+    eTag: item["eTag"],
+    url: item["url"],
+    sequencer: item["sequencer"],
+    identity: item["identity"],
+    storageDiagnostics: item["storageDiagnostics"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.DirectoryDeleted event. */
@@ -3282,6 +6361,21 @@ export interface StorageDirectoryDeletedEventData {
   storageDiagnostics: Record<string, any>;
 }
 
+export function storageDirectoryDeletedEventDataDeserializer(
+  item: any,
+): StorageDirectoryDeletedEventData {
+  return {
+    api: item["api"],
+    clientRequestId: item["clientRequestId"],
+    requestId: item["requestId"],
+    url: item["url"],
+    recursive: item["recursive"],
+    sequencer: item["sequencer"],
+    identity: item["identity"],
+    storageDiagnostics: item["storageDiagnostics"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.BlobRenamed event. */
 export interface StorageBlobRenamedEventData {
   /** The name of the API/operation that triggered this event. */
@@ -3300,6 +6394,21 @@ export interface StorageBlobRenamedEventData {
   identity?: string;
   /** For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers. */
   storageDiagnostics: Record<string, any>;
+}
+
+export function storageBlobRenamedEventDataDeserializer(
+  item: any,
+): StorageBlobRenamedEventData {
+  return {
+    api: item["api"],
+    clientRequestId: item["clientRequestId"],
+    requestId: item["requestId"],
+    sourceUrl: item["sourceUrl"],
+    destinationUrl: item["destinationUrl"],
+    sequencer: item["sequencer"],
+    identity: item["identity"],
+    storageDiagnostics: item["storageDiagnostics"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.DirectoryRenamed event. */
@@ -3322,6 +6431,21 @@ export interface StorageDirectoryRenamedEventData {
   storageDiagnostics: Record<string, any>;
 }
 
+export function storageDirectoryRenamedEventDataDeserializer(
+  item: any,
+): StorageDirectoryRenamedEventData {
+  return {
+    api: item["api"],
+    clientRequestId: item["clientRequestId"],
+    requestId: item["requestId"],
+    sourceUrl: item["sourceUrl"],
+    destinationUrl: item["destinationUrl"],
+    sequencer: item["sequencer"],
+    identity: item["identity"],
+    storageDiagnostics: item["storageDiagnostics"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.LifecyclePolicyCompleted event. */
 export interface StorageLifecyclePolicyCompletedEventData {
   /** The time the policy task was scheduled. */
@@ -3338,13 +6462,44 @@ export interface StorageLifecyclePolicyCompletedEventData {
   tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
 }
 
+export function storageLifecyclePolicyCompletedEventDataDeserializer(
+  item: any,
+): StorageLifecyclePolicyCompletedEventData {
+  return {
+    scheduleTime: item["scheduleTime"],
+    policyRunSummary: storageLifecyclePolicyRunSummaryDeserializer(
+      item["policyRunSummary"],
+    ),
+    deleteSummary: storageLifecyclePolicyActionSummaryDetailDeserializer(
+      item["deleteSummary"],
+    ),
+    tierToCoolSummary: storageLifecyclePolicyActionSummaryDetailDeserializer(
+      item["tierToCoolSummary"],
+    ),
+    tierToArchiveSummary: storageLifecyclePolicyActionSummaryDetailDeserializer(
+      item["tierToArchiveSummary"],
+    ),
+    tierToColdSummary: storageLifecyclePolicyActionSummaryDetailDeserializer(
+      item["tierToColdSummary"],
+    ),
+  };
+}
+
 /** Policy run status of an account in a Blob Management cycle. */
 export interface StorageLifecyclePolicyRunSummary {
   /** Policy status can be Completed/CompletedWithError/Incomplete. */
   completionStatus: StorageLifecycleCompletionStatus;
 }
 
-/** Known values of {@link StorageLifecycleCompletionStatus} that the service accepts. */
+export function storageLifecyclePolicyRunSummaryDeserializer(
+  item: any,
+): StorageLifecyclePolicyRunSummary {
+  return {
+    completionStatus: item["completionStatus"],
+  };
+}
+
+/** The status for a LCM policy. */
 export enum KnownStorageLifecycleCompletionStatus {
   /** Completed */
   Completed = "Completed",
@@ -3355,13 +6510,13 @@ export enum KnownStorageLifecycleCompletionStatus {
 }
 
 /**
- * The status for a LCM policy.
+ * The status for a LCM policy. \
  * {@link KnownStorageLifecycleCompletionStatus} can be used interchangeably with StorageLifecycleCompletionStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Completed**
- * **CompletedWithError**
- * **Incomplete**
+ * **Completed**: Completed \
+ * **CompletedWithError**: CompletedWithError \
+ * **Incomplete**: Incomplete
  */
 export type StorageLifecycleCompletionStatus = string;
 
@@ -3373,6 +6528,16 @@ export interface StorageLifecyclePolicyActionSummaryDetail {
   successCount?: number;
   /** Error messages of this action if any. */
   errorList?: string;
+}
+
+export function storageLifecyclePolicyActionSummaryDetailDeserializer(
+  item: any,
+): StorageLifecyclePolicyActionSummaryDetail {
+  return {
+    totalObjectsCount: item["totalObjectsCount"],
+    successCount: item["successCount"],
+    errorList: item["errorList"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.BlobTierChanged event. */
@@ -3403,6 +6568,25 @@ export interface StorageBlobTierChangedEventData {
   storageDiagnostics: Record<string, any>;
 }
 
+export function storageBlobTierChangedEventDataDeserializer(
+  item: any,
+): StorageBlobTierChangedEventData {
+  return {
+    api: item["api"],
+    clientRequestId: item["clientRequestId"],
+    requestId: item["requestId"],
+    contentType: item["contentType"],
+    contentLength: item["contentLength"],
+    blobType: item["blobType"],
+    accessTier: item["accessTier"],
+    previousTier: item["previousTier"],
+    url: item["url"],
+    sequencer: item["sequencer"],
+    identity: item["identity"],
+    storageDiagnostics: item["storageDiagnostics"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Storage.AsyncOperationInitiated event. */
 export interface StorageAsyncOperationInitiatedEventData {
   /** The name of the API/operation that triggered this event. */
@@ -3427,6 +6611,23 @@ export interface StorageAsyncOperationInitiatedEventData {
   storageDiagnostics: Record<string, any>;
 }
 
+export function storageAsyncOperationInitiatedEventDataDeserializer(
+  item: any,
+): StorageAsyncOperationInitiatedEventData {
+  return {
+    api: item["api"],
+    clientRequestId: item["clientRequestId"],
+    requestId: item["requestId"],
+    contentType: item["contentType"],
+    contentLength: item["contentLength"],
+    blobType: item["blobType"],
+    url: item["url"],
+    sequencer: item["sequencer"],
+    identity: item["identity"],
+    storageDiagnostics: item["storageDiagnostics"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.BlobInventoryPolicyCompleted event. */
 export interface StorageBlobInventoryPolicyCompletedEventData {
   /** The time at which inventory policy was scheduled. */
@@ -3445,6 +6646,20 @@ export interface StorageBlobInventoryPolicyCompletedEventData {
   manifestBlobUrl?: string;
 }
 
+export function storageBlobInventoryPolicyCompletedEventDataDeserializer(
+  item: any,
+): StorageBlobInventoryPolicyCompletedEventData {
+  return {
+    scheduleDateTime: new Date(item["scheduleDateTime"]),
+    accountName: item["accountName"],
+    ruleName: item["ruleName"],
+    policyRunStatus: item["policyRunStatus"],
+    policyRunStatusMessage: item["policyRunStatusMessage"],
+    policyRunId: item["policyRunId"],
+    manifestBlobUrl: item["manifestBlobUrl"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskCompleted event. */
 export interface StorageTaskCompletedEventData {
   /** The status for a storage task. */
@@ -3459,7 +6674,19 @@ export interface StorageTaskCompletedEventData {
   summaryReportBlobUrl: string;
 }
 
-/** Known values of {@link StorageTaskCompletedStatus} that the service accepts. */
+export function storageTaskCompletedEventDataDeserializer(
+  item: any,
+): StorageTaskCompletedEventData {
+  return {
+    status: item["status"],
+    completedDateTime: new Date(item["completedDateTime"]),
+    taskExecutionId: item["taskExecutionId"],
+    taskName: item["taskName"],
+    summaryReportBlobUrl: item["summaryReportBlobUrl"],
+  };
+}
+
+/** The status for a storage task. */
 export enum KnownStorageTaskCompletedStatus {
   /** Succeeded */
   Succeeded = "Succeeded",
@@ -3468,12 +6695,12 @@ export enum KnownStorageTaskCompletedStatus {
 }
 
 /**
- * The status for a storage task.
+ * The status for a storage task. \
  * {@link KnownStorageTaskCompletedStatus} can be used interchangeably with StorageTaskCompletedStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded**
- * **Failed**
+ * **Succeeded**: Succeeded \
+ * **Failed**: Failed
  */
 export type StorageTaskCompletedStatus = string;
 
@@ -3485,12 +6712,30 @@ export interface StorageTaskQueuedEventData {
   taskExecutionId?: string;
 }
 
+export function storageTaskQueuedEventDataDeserializer(
+  item: any,
+): StorageTaskQueuedEventData {
+  return {
+    queuedDateTime: new Date(item["queuedDateTime"]),
+    taskExecutionId: item["taskExecutionId"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskAssignmentQueued event. */
 export interface StorageTaskAssignmentQueuedEventData {
   /** The time at which a storage task was queued. */
   queuedOn: Date;
   /** The execution id for a storage task. */
   taskExecutionId?: string;
+}
+
+export function storageTaskAssignmentQueuedEventDataDeserializer(
+  item: any,
+): StorageTaskAssignmentQueuedEventData {
+  return {
+    queuedOn: new Date(item["queuedDateTime"]),
+    taskExecutionId: item["taskExecutionId"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskAssignmentCompleted event. */
@@ -3507,7 +6752,19 @@ export interface StorageTaskAssignmentCompletedEventData {
   summaryReportBlobUri: string;
 }
 
-/** Known values of {@link StorageTaskAssignmentCompletedStatus} that the service accepts. */
+export function storageTaskAssignmentCompletedEventDataDeserializer(
+  item: any,
+): StorageTaskAssignmentCompletedEventData {
+  return {
+    status: item["status"],
+    completedOn: new Date(item["completedDateTime"]),
+    taskExecutionId: item["taskExecutionId"],
+    taskName: item["taskName"],
+    summaryReportBlobUri: item["summaryReportBlobUrl"],
+  };
+}
+
+/** The status for a storage task. */
 export enum KnownStorageTaskAssignmentCompletedStatus {
   /** Succeeded */
   Succeeded = "Succeeded",
@@ -3516,12 +6773,12 @@ export enum KnownStorageTaskAssignmentCompletedStatus {
 }
 
 /**
- * The status for a storage task.
+ * The status for a storage task. \
  * {@link KnownStorageTaskAssignmentCompletedStatus} can be used interchangeably with StorageTaskAssignmentCompletedStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded**
- * **Failed**
+ * **Succeeded**: Succeeded \
+ * **Failed**: Failed
  */
 export type StorageTaskAssignmentCompletedStatus = string;
 
@@ -3531,33 +6788,39 @@ export interface AppEventTypeDetail {
   action: AppAction;
 }
 
-/** Known values of {@link AppAction} that the service accepts. */
+export function appEventTypeDetailDeserializer(item: any): AppEventTypeDetail {
+  return {
+    action: item["action"],
+  };
+}
+
+/** Type of action of the operation */
 export enum KnownAppAction {
-  /** Restarted */
+  /** Web app was restarted. */
   Restarted = "Restarted",
-  /** Stopped */
+  /** Web app was stopped. */
   Stopped = "Stopped",
-  /** ChangedAppSettings */
+  /** There was an operation to change app setting on the web app. */
   ChangedAppSettings = "ChangedAppSettings",
-  /** Started */
+  /** The job has started. */
   Started = "Started",
-  /** Completed */
+  /** The job has completed. */
   Completed = "Completed",
-  /** Failed */
+  /** The job has failed to complete. */
   Failed = "Failed",
 }
 
 /**
- * Type of action of the operation
+ * Type of action of the operation \
  * {@link KnownAppAction} can be used interchangeably with AppAction,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Restarted**
- * **Stopped**
- * **ChangedAppSettings**
- * **Started**
- * **Completed**
- * **Failed**
+ * **Restarted**: Web app was restarted. \
+ * **Stopped**: Web app was stopped. \
+ * **ChangedAppSettings**: There was an operation to change app setting on the web app. \
+ * **Started**: The job has started. \
+ * **Completed**: The job has completed. \
+ * **Failed**: The job has failed to complete.
  */
 export type AppAction = string;
 
@@ -3579,6 +6842,22 @@ export interface WebAppUpdatedEventData {
   verb?: string;
 }
 
+export function webAppUpdatedEventDataDeserializer(
+  item: any,
+): WebAppUpdatedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.BackupOperationStarted event. */
 export interface WebBackupOperationStartedEventData {
   /** Detail of action on the app. */
@@ -3595,6 +6874,22 @@ export interface WebBackupOperationStartedEventData {
   address?: string;
   /** HTTP verb of this operation. */
   verb?: string;
+}
+
+export function webBackupOperationStartedEventDataDeserializer(
+  item: any,
+): WebBackupOperationStartedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.BackupOperationCompleted event. */
@@ -3615,6 +6910,22 @@ export interface WebBackupOperationCompletedEventData {
   verb?: string;
 }
 
+export function webBackupOperationCompletedEventDataDeserializer(
+  item: any,
+): WebBackupOperationCompletedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.BackupOperationFailed event. */
 export interface WebBackupOperationFailedEventData {
   /** Detail of action on the app. */
@@ -3631,6 +6942,22 @@ export interface WebBackupOperationFailedEventData {
   address?: string;
   /** HTTP verb of this operation. */
   verb?: string;
+}
+
+export function webBackupOperationFailedEventDataDeserializer(
+  item: any,
+): WebBackupOperationFailedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.RestoreOperationStarted event. */
@@ -3651,6 +6978,22 @@ export interface WebRestoreOperationStartedEventData {
   verb?: string;
 }
 
+export function webRestoreOperationStartedEventDataDeserializer(
+  item: any,
+): WebRestoreOperationStartedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.RestoreOperationCompleted event. */
 export interface WebRestoreOperationCompletedEventData {
   /** Detail of action on the app. */
@@ -3667,6 +7010,22 @@ export interface WebRestoreOperationCompletedEventData {
   address?: string;
   /** HTTP verb of this operation. */
   verb?: string;
+}
+
+export function webRestoreOperationCompletedEventDataDeserializer(
+  item: any,
+): WebRestoreOperationCompletedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.RestoreOperationFailed event. */
@@ -3687,6 +7046,22 @@ export interface WebRestoreOperationFailedEventData {
   verb?: string;
 }
 
+export function webRestoreOperationFailedEventDataDeserializer(
+  item: any,
+): WebRestoreOperationFailedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.SlotSwapStarted event. */
 export interface WebSlotSwapStartedEventData {
   /** Detail of action on the app. */
@@ -3703,6 +7078,22 @@ export interface WebSlotSwapStartedEventData {
   address?: string;
   /** HTTP verb of this operation. */
   verb?: string;
+}
+
+export function webSlotSwapStartedEventDataDeserializer(
+  item: any,
+): WebSlotSwapStartedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.SlotSwapCompleted event. */
@@ -3723,6 +7114,22 @@ export interface WebSlotSwapCompletedEventData {
   verb?: string;
 }
 
+export function webSlotSwapCompletedEventDataDeserializer(
+  item: any,
+): WebSlotSwapCompletedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.SlotSwapFailed event. */
 export interface WebSlotSwapFailedEventData {
   /** Detail of action on the app. */
@@ -3739,6 +7146,22 @@ export interface WebSlotSwapFailedEventData {
   address?: string;
   /** HTTP verb of this operation. */
   verb?: string;
+}
+
+export function webSlotSwapFailedEventDataDeserializer(
+  item: any,
+): WebSlotSwapFailedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.SlotSwapWithPreviewStarted event. */
@@ -3759,6 +7182,22 @@ export interface WebSlotSwapWithPreviewStartedEventData {
   verb?: string;
 }
 
+export function webSlotSwapWithPreviewStartedEventDataDeserializer(
+  item: any,
+): WebSlotSwapWithPreviewStartedEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.SlotSwapWithPreviewCancelled event. */
 export interface WebSlotSwapWithPreviewCancelledEventData {
   /** Detail of action on the app. */
@@ -3775,6 +7214,22 @@ export interface WebSlotSwapWithPreviewCancelledEventData {
   address?: string;
   /** HTTP verb of this operation. */
   verb?: string;
+}
+
+export function webSlotSwapWithPreviewCancelledEventDataDeserializer(
+  item: any,
+): WebSlotSwapWithPreviewCancelledEventData {
+  return {
+    appEventTypeDetail: appEventTypeDetailDeserializer(
+      item["appEventTypeDetail"],
+    ),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Web.AppServicePlanUpdated event. */
@@ -3797,6 +7252,23 @@ export interface WebAppServicePlanUpdatedEventData {
   verb?: string;
 }
 
+export function webAppServicePlanUpdatedEventDataDeserializer(
+  item: any,
+): WebAppServicePlanUpdatedEventData {
+  return {
+    appServicePlanEventTypeDetail: appServicePlanEventTypeDetailDeserializer(
+      item["appServicePlanEventTypeDetail"],
+    ),
+    sku: webAppServicePlanUpdatedEventDataSkuDeserializer(item["sku"]),
+    name: item["name"],
+    clientRequestId: item["clientRequestId"],
+    correlationRequestId: item["correlationRequestId"],
+    requestId: item["requestId"],
+    address: item["address"],
+    verb: item["verb"],
+  };
+}
+
 /** Detail of action on the app service plan. */
 export interface AppServicePlanEventTypeDetail {
   /** Kind of environment where app service plan is. */
@@ -3807,60 +7279,70 @@ export interface AppServicePlanEventTypeDetail {
   status: AsyncStatus;
 }
 
-/** Known values of {@link StampKind} that the service accepts. */
+export function appServicePlanEventTypeDetailDeserializer(
+  item: any,
+): AppServicePlanEventTypeDetail {
+  return {
+    stampKind: item["stampKind"],
+    action: item["action"],
+    status: item["status"],
+  };
+}
+
+/** Kind of environment where app service plan is. */
 export enum KnownStampKind {
-  /** Public */
+  /** App Service Plan is running on a public stamp. */
   Public = "Public",
-  /** AseV1 */
+  /** App Service Plan is running on an App Service Environment V1. */
   AseV1 = "AseV1",
-  /** AseV2 */
+  /** App Service Plan is running on an App Service Environment V2. */
   AseV2 = "AseV2",
 }
 
 /**
- * Kind of environment where app service plan is.
+ * Kind of environment where app service plan is. \
  * {@link KnownStampKind} can be used interchangeably with StampKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Public**
- * **AseV1**
- * **AseV2**
+ * **Public**: App Service Plan is running on a public stamp. \
+ * **AseV1**: App Service Plan is running on an App Service Environment V1. \
+ * **AseV2**: App Service Plan is running on an App Service Environment V2.
  */
 export type StampKind = string;
 
-/** Known values of {@link AppServicePlanAction} that the service accepts. */
+/** Type of action on the app service plan. */
 export enum KnownAppServicePlanAction {
-  /** Updated */
+  /** App Service plan is being updated. */
   Updated = "Updated",
 }
 
 /**
- * Type of action on the app service plan.
+ * Type of action on the app service plan. \
  * {@link KnownAppServicePlanAction} can be used interchangeably with AppServicePlanAction,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Updated**
+ * **Updated**: App Service plan is being updated.
  */
 export type AppServicePlanAction = string;
 
-/** Known values of {@link AsyncStatus} that the service accepts. */
+/** Asynchronous operation status of the operation on the app service plan. */
 export enum KnownAsyncStatus {
-  /** Started */
+  /** Async operation has started. */
   Started = "Started",
-  /** Completed */
+  /** Async operation has completed. */
   Completed = "Completed",
-  /** Failed */
+  /** Async operation failed to complete. */
   Failed = "Failed",
 }
 
 /**
- * Asynchronous operation status of the operation on the app service plan.
+ * Asynchronous operation status of the operation on the app service plan. \
  * {@link KnownAsyncStatus} can be used interchangeably with AsyncStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Started**
- * **Completed**
- * **Failed**
+ * **Started**: Async operation has started. \
+ * **Completed**: Async operation has completed. \
+ * **Failed**: Async operation failed to complete.
  */
 export type AsyncStatus = string;
 
@@ -3876,6 +7358,18 @@ export interface WebAppServicePlanUpdatedEventDataSku {
   family?: string;
   /** capacity of app service plan sku. */
   capacity?: string;
+}
+
+export function webAppServicePlanUpdatedEventDataSkuDeserializer(
+  item: any,
+): WebAppServicePlanUpdatedEventDataSku {
+  return {
+    name: item["name"],
+    tier: item["Tier"],
+    size: item["Size"],
+    family: item["Family"],
+    capacity: item["Capacity"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventGrid.SubscriptionValidationEvent event. */
@@ -3894,6 +7388,15 @@ export interface SubscriptionValidationEventData {
   validationUrl: string;
 }
 
+export function subscriptionValidationEventDataDeserializer(
+  item: any,
+): SubscriptionValidationEventData {
+  return {
+    validationCode: item["validationCode"],
+    validationUrl: item["validationUrl"],
+  };
+}
+
 /**
  * To complete an event subscription validation handshake, a subscriber can use
  * either the validationCode or the validationUrl received in a
@@ -3905,6 +7408,14 @@ export interface SubscriptionValidationResponse {
   validationResponse: string;
 }
 
+export function subscriptionValidationResponseDeserializer(
+  item: any,
+): SubscriptionValidationResponse {
+  return {
+    validationResponse: item["validationResponse"],
+  };
+}
+
 /**
  * Schema of the Data property of an EventGridEvent for a
  * Microsoft.EventGrid.SubscriptionDeletedEvent event.
@@ -3912,6 +7423,14 @@ export interface SubscriptionValidationResponse {
 export interface SubscriptionDeletedEventData {
   /** The Azure resource ID of the deleted event subscription. */
   eventSubscriptionId: string;
+}
+
+export function subscriptionDeletedEventDataDeserializer(
+  item: any,
+): SubscriptionDeletedEventData {
+  return {
+    eventSubscriptionId: item["eventSubscriptionId"],
+  };
 }
 
 /** Schema of the Data property of an EventGridEvent for MQTT Client state changes. */
@@ -3928,8 +7447,19 @@ export interface EventGridMqttClientEventData {
   namespaceName: string;
 }
 
+export function eventGridMqttClientEventDataDeserializer(
+  item: any,
+): EventGridMqttClientEventData {
+  return {
+    clientAuthenticationName: item["clientAuthenticationName"],
+    clientName: item["clientName"],
+    namespaceName: item["namespaceName"],
+  };
+}
+
 /** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
-export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridMqttClientEventData {
+export interface EventGridMqttClientCreatedOrUpdatedEventData
+  extends EventGridMqttClientEventData {
   /** Configured state of the client. The value could be Enabled or Disabled */
   state: EventGridMqttClientState;
   /** Time the client resource is created based on the provider's UTC time. */
@@ -3944,7 +7474,21 @@ export interface EventGridMqttClientCreatedOrUpdatedEventData extends EventGridM
   attributes: Record<string, string>;
 }
 
-/** Known values of {@link EventGridMqttClientState} that the service accepts. */
+export function eventGridMqttClientCreatedOrUpdatedEventDataDeserializer(
+  item: any,
+): EventGridMqttClientCreatedOrUpdatedEventData {
+  return {
+    clientAuthenticationName: item["clientAuthenticationName"],
+    clientName: item["clientName"],
+    namespaceName: item["namespaceName"],
+    state: item["state"],
+    createdOn: new Date(item["createdOn"]),
+    updatedOn: new Date(item["updatedOn"]),
+    attributes: item["attributes"],
+  };
+}
+
+/** EventGrid MQTT Client State */
 export enum KnownEventGridMqttClientState {
   /** Enabled */
   Enabled = "Enabled",
@@ -3953,20 +7497,32 @@ export enum KnownEventGridMqttClientState {
 }
 
 /**
- * EventGrid MQTT Client State
+ * EventGrid MQTT Client State \
  * {@link KnownEventGridMqttClientState} can be used interchangeably with EventGridMqttClientState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled**
- * **Disabled**
+ * **Enabled**: Enabled \
+ * **Disabled**: Disabled
  */
 export type EventGridMqttClientState = string;
 
 /** Event data for Microsoft.EventGrid.MQTTClientDeleted event. */
-export interface EventGridMqttClientDeletedEventData extends EventGridMqttClientEventData {}
+export interface EventGridMqttClientDeletedEventData
+  extends EventGridMqttClientEventData {}
+
+export function eventGridMqttClientDeletedEventDataDeserializer(
+  item: any,
+): EventGridMqttClientDeletedEventData {
+  return {
+    clientAuthenticationName: item["clientAuthenticationName"],
+    clientName: item["clientName"],
+    namespaceName: item["namespaceName"],
+  };
+}
 
 /** Event data for Microsoft.EventGrid.MQTTClientSessionConnected event. */
-export interface EventGridMqttClientSessionConnectedEventData extends EventGridMqttClientEventData {
+export interface EventGridMqttClientSessionConnectedEventData
+  extends EventGridMqttClientEventData {
   /**
    * Unique identifier for the MQTT client's session. This case-sensitive string can
    * be up to 128 characters long, and supports UTF-8 characters.
@@ -3978,6 +7534,18 @@ export interface EventGridMqttClientSessionConnectedEventData extends EventGridM
    * than the previous event.
    */
   sequenceNumber: number;
+}
+
+export function eventGridMqttClientSessionConnectedEventDataDeserializer(
+  item: any,
+): EventGridMqttClientSessionConnectedEventData {
+  return {
+    clientAuthenticationName: item["clientAuthenticationName"],
+    clientName: item["clientName"],
+    namespaceName: item["namespaceName"],
+    clientSessionName: item["clientSessionName"],
+    sequenceNumber: item["sequenceNumber"],
+  };
 }
 
 /** Event data for Microsoft.EventGrid.MQTTClientSessionDisconnected event. */
@@ -4001,48 +7569,61 @@ export interface EventGridMqttClientSessionDisconnectedEventData
   disconnectionReason: EventGridMqttClientDisconnectionReason;
 }
 
-/** Known values of {@link EventGridMqttClientDisconnectionReason} that the service accepts. */
+export function eventGridMqttClientSessionDisconnectedEventDataDeserializer(
+  item: any,
+): EventGridMqttClientSessionDisconnectedEventData {
+  return {
+    clientAuthenticationName: item["clientAuthenticationName"],
+    clientName: item["clientName"],
+    namespaceName: item["namespaceName"],
+    clientSessionName: item["clientSessionName"],
+    sequenceNumber: item["sequenceNumber"],
+    disconnectionReason: item["disconnectionReason"],
+  };
+}
+
+/** EventGrid MQTT Client Disconnection Reason */
 export enum KnownEventGridMqttClientDisconnectionReason {
-  /** ClientAuthenticationError */
+  /** The client got disconnected for any authentication reasons (for example, certificate expired, client got disabled, or client configuration changed). */
   ClientAuthenticationError = "ClientAuthenticationError",
-  /** ClientAuthorizationError */
+  /** The client got disconnected for any authorization reasons (for example, because of a change in the configuration of topic spaces, permission bindings, or client groups). */
   ClientAuthorizationError = "ClientAuthorizationError",
-  /** ClientError */
+  /** The client sent a bad request or used one of the unsupported features that resulted in a connection termination by the service. */
   ClientError = "ClientError",
-  /** ClientInitiatedDisconnect */
+  /** The client initiated a graceful disconnect through a DISCONNECT packet for MQTT or a close frame for MQTT over WebSocket. */
   ClientInitiatedDisconnect = "ClientInitiatedDisconnect",
-  /** ConnectionLost */
+  /** The client-server connection is lost. (EXCHANGE ONLINE PROTECTION). */
   ConnectionLost = "ConnectionLost",
-  /** IpForbidden */
+  /** The client's IP address is blocked by IP filter or Private links configuration. */
   IpForbidden = "IpForbidden",
-  /** QuotaExceeded */
+  /** The client exceeded one or more of the throttling limits that resulted in a connection termination by the service. */
   QuotaExceeded = "QuotaExceeded",
-  /** ServerError */
+  /** The connection got terminated due to an unexpected server error. */
   ServerError = "ServerError",
-  /** ServerInitiatedDisconnect */
+  /** The server initiates a graceful disconnect for any operational reason. */
   ServerInitiatedDisconnect = "ServerInitiatedDisconnect",
-  /** SessionOverflow */
+  /** The client's queue for unacknowledged QoS1 messages reached its limit, which resulted in a connection termination by the server. */
   SessionOverflow = "SessionOverflow",
-  /** SessionTakenOver */
+  /** The client reconnected with the same authentication name, which resulted in the termination of the previous connection. */
   SessionTakenOver = "SessionTakenOver",
 }
 
 /**
- * EventGrid MQTT Client Disconnection Reason
+ * EventGrid MQTT Client Disconnection Reason \
  * {@link KnownEventGridMqttClientDisconnectionReason} can be used interchangeably with EventGridMqttClientDisconnectionReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **ClientAuthenticationError**
- * **ClientAuthorizationError**
- * **ClientError**
- * **ClientInitiatedDisconnect**
- * **ConnectionLost**
- * **IpForbidden**
- * **QuotaExceeded**
- * **ServerError**
- * **ServerInitiatedDisconnect**
- * **SessionOverflow**
- * **SessionTakenOver**
+ * **ClientAuthenticationError**: The client got disconnected for any authentication reasons (for example, certificate expired, client got disabled, or client configuration changed). \
+ * **ClientAuthorizationError**: The client got disconnected for any authorization reasons (for example, because of a change in the configuration of topic spaces, permission bindings, or client groups). \
+ * **ClientError**: The client sent a bad request or used one of the unsupported features that resulted in a connection termination by the service. \
+ * **ClientInitiatedDisconnect**: The client initiated a graceful disconnect through a DISCONNECT packet for MQTT or a close frame for MQTT over WebSocket. \
+ * **ConnectionLost**: The client-server connection is lost. (EXCHANGE ONLINE PROTECTION). \
+ * **IpForbidden**: The client's IP address is blocked by IP filter or Private links configuration. \
+ * **QuotaExceeded**: The client exceeded one or more of the throttling limits that resulted in a connection termination by the service. \
+ * **ServerError**: The connection got terminated due to an unexpected server error. \
+ * **ServerInitiatedDisconnect**: The server initiates a graceful disconnect for any operational reason. \
+ * **SessionOverflow**: The client's queue for unacknowledged QoS1 messages reached its limit, which resulted in a connection termination by the server. \
+ * **SessionTakenOver**: The client reconnected with the same authentication name, which resulted in the termination of the previous connection.
  */
 export type EventGridMqttClientDisconnectionReason = string;
 
@@ -4054,6 +7635,20 @@ export interface ResourceNotificationsResourceUpdatedEventData {
   operationalDetails: ResourceNotificationsOperationalDetails;
   /** api version of the resource properties bag */
   apiVersion: string;
+}
+
+export function resourceNotificationsResourceUpdatedEventDataDeserializer(
+  item: any,
+): ResourceNotificationsResourceUpdatedEventData {
+  return {
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
+      item["resourceInfo"],
+    ),
+    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
+      item["operationalInfo"],
+    ),
+    apiVersion: item["apiVersion"],
+  };
 }
 
 /**
@@ -4075,10 +7670,31 @@ export interface ResourceNotificationsResourceUpdatedDetails {
   properties?: Record<string, any>;
 }
 
+export function resourceNotificationsResourceUpdatedDetailsDeserializer(
+  item: any,
+): ResourceNotificationsResourceUpdatedDetails {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    location: item["location"],
+    tags: item["tags"],
+    properties: item["properties"],
+  };
+}
+
 /** details of operational info */
 export interface ResourceNotificationsOperationalDetails {
   /** Date and Time when resource was updated */
   resourceEventTime: Date;
+}
+
+export function resourceNotificationsOperationalDetailsDeserializer(
+  item: any,
+): ResourceNotificationsOperationalDetails {
+  return {
+    resourceEventTime: new Date(item["resourceEventTime"]),
+  };
 }
 
 /**
@@ -4089,12 +7705,40 @@ export interface ResourceNotificationsOperationalDetails {
 export interface ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData
   extends ResourceNotificationsResourceUpdatedEventData {}
 
+export function resourceNotificationsHealthResourcesAvailabilityStatusChangedEventDataDeserializer(
+  item: any,
+): ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData {
+  return {
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
+      item["resourceInfo"],
+    ),
+    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
+      item["operationalInfo"],
+    ),
+    apiVersion: item["apiVersion"],
+  };
+}
+
 /**
  * Schema of the Data property of an EventGridEvent for a
  * Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated event.
  */
 export interface ResourceNotificationsHealthResourcesAnnotatedEventData
   extends ResourceNotificationsResourceUpdatedEventData {}
+
+export function resourceNotificationsHealthResourcesAnnotatedEventDataDeserializer(
+  item: any,
+): ResourceNotificationsHealthResourcesAnnotatedEventData {
+  return {
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
+      item["resourceInfo"],
+    ),
+    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
+      item["operationalInfo"],
+    ),
+    apiVersion: item["apiVersion"],
+  };
+}
 
 /**
  * Describes the schema of the properties under resource info which are common
@@ -4109,6 +7753,16 @@ export interface ResourceNotificationsResourceDeletedDetails {
   type: string;
 }
 
+export function resourceNotificationsResourceDeletedDetailsDeserializer(
+  item: any,
+): ResourceNotificationsResourceDeletedDetails {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+  };
+}
+
 /**
  * Describes the schema of the common properties across all ARN system topic
  * delete events
@@ -4120,12 +7774,39 @@ export interface ResourceNotificationsResourceDeletedEventData {
   operationalDetails: ResourceNotificationsOperationalDetails;
 }
 
+export function resourceNotificationsResourceDeletedEventDataDeserializer(
+  item: any,
+): ResourceNotificationsResourceDeletedEventData {
+  return {
+    resourceDetails: resourceNotificationsResourceDeletedDetailsDeserializer(
+      item["resourceInfo"],
+    ),
+    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
+      item["operationalInfo"],
+    ),
+  };
+}
+
 /**
  * Schema of the Data property of an EventGridEvent for a
  * Microsoft.ResourceNotifications.Resources.CreatedOrUpdated event.
  */
 export interface ResourceNotificationsResourceManagementCreatedOrUpdatedEventData
   extends ResourceNotificationsResourceUpdatedEventData {}
+
+export function resourceNotificationsResourceManagementCreatedOrUpdatedEventDataDeserializer(
+  item: any,
+): ResourceNotificationsResourceManagementCreatedOrUpdatedEventData {
+  return {
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
+      item["resourceInfo"],
+    ),
+    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
+      item["operationalInfo"],
+    ),
+    apiVersion: item["apiVersion"],
+  };
+}
 
 /**
  * Schema of the Data property of an EventGridEvent for a
@@ -4134,9 +7815,39 @@ export interface ResourceNotificationsResourceManagementCreatedOrUpdatedEventDat
 export interface ResourceNotificationsResourceManagementDeletedEventData
   extends ResourceNotificationsResourceDeletedEventData {}
 
+export function resourceNotificationsResourceManagementDeletedEventDataDeserializer(
+  item: any,
+): ResourceNotificationsResourceManagementDeletedEventData {
+  return {
+    resourceDetails: resourceNotificationsResourceDeletedDetailsDeserializer(
+      item["resourceInfo"],
+    ),
+    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
+      item["operationalInfo"],
+    ),
+  };
+}
+
 /** Schema of the Data property of an event grid event for a Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted preview event. */
 export interface ResourceNotificationsContainerServiceEventResourcesScheduledEventData
   extends ResourceNotificationsResourceUpdatedEventData {}
 
-/** Type of ServiceApiVersions */
-export type ServiceApiVersions = "2018-01-01" | "2024-01-01";
+export function resourceNotificationsContainerServiceEventResourcesScheduledEventDataDeserializer(
+  item: any,
+): ResourceNotificationsContainerServiceEventResourcesScheduledEventData {
+  return {
+    resourceDetails: resourceNotificationsResourceUpdatedDetailsDeserializer(
+      item["resourceInfo"],
+    ),
+    operationalDetails: resourceNotificationsOperationalDetailsDeserializer(
+      item["operationalInfo"],
+    ),
+    apiVersion: item["apiVersion"],
+  };
+}
+
+/** Known values of {@link ServiceApiVersions} that the service accepts. */
+export enum KnownServiceApiVersions {
+  v2018_01_01 = "2018-01-01",
+  v2024_01_01 = "2024-01-01",
+}
