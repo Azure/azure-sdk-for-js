@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AstroManagementClient } from "../src/index.js";
+import AccessControl, { isUnexpected, paginate } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
-    const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new AstroManagementClient(new DefaultAzureCredential(), subscriptionId);
-  });
-
-  it("ReadmeSampleCreateClient_Browser", async () => {
-    const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const credential = new InteractiveBrowserCredential({
-      tenantId: "<YOUR_TENANT_ID>",
-      clientId: "<YOUR_CLIENT_ID>",
-    });
-    const client = new AstroManagementClient(credential, subscriptionId);
+    const client = AccessControl("<endpoint>", new DefaultAzureCredential());
+    // @ts-preserve-whitespace
+    const initialResponse = await client.path("/roleAssignments").get();
+    if (isUnexpected(initialResponse)) {
+      throw initialResponse.body.error;
+    }
+    // @ts-preserve-whitespace
+    const assignments = paginate(client, initialResponse);
+    for await (const assignment of assignments) {
+      console.log(`Role Assignment ID: ${assignment.id}`);
+    }
   });
 
   it("SetLogLevel", async () => {

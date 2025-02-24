@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import "./env.js";
-
 import type { AccessControlRestClient } from "../../../src/index.js";
 import AccessControlClient from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
