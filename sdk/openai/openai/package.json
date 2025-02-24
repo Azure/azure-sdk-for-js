@@ -37,11 +37,6 @@
       }
     }
   },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
   "tshy": {
     "project": "./tsconfig.src.json",
     "exports": {
@@ -81,6 +76,11 @@
     "unit-test:node": "echo skipped",
     "update-snippets": "echo skipped"
   },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
     "node": ">=18.0.0"
