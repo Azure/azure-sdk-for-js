@@ -4,7 +4,7 @@
 import { describe, it, assert, expect, vi, beforeEach } from "vitest";
 import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher.js";
 import { IncomingMessage, ServerResponse } from "node:http";
-import { Socket } from "net";
+import { Socket } from "node:net";
 import { toBase64JsonString } from "../src/utils.js";
 import { MqttV311ConnectReturnCode } from "../src/index.js";
 
@@ -115,10 +115,10 @@ describe("Can handle connect event", function () {
   let req: IncomingMessage;
   let res: ServerResponse;
 
-  beforeEach(function () {
-    req = new IncomingMessage(new Socket());
-    res = new ServerResponse(req);
-  });
+  beforeEach(async () => {
+      req = new IncomingMessage(new Socket());
+      res = new ServerResponse(req);
+    });
 
   it("Should not handle the request if request is not cloud events", async function () {
     const endSpy = vi.spyOn(res, "end");

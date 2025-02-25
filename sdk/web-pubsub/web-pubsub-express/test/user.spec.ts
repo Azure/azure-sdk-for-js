@@ -42,10 +42,10 @@ describe("Can handle user event", function () {
   let req: IncomingMessage;
   let res: ServerResponse;
 
-  beforeEach(function () {
-    req = new IncomingMessage(new Socket());
-    res = new ServerResponse(req);
-  });
+  beforeEach(async () => {
+      req = new IncomingMessage(new Socket());
+      res = new ServerResponse(req);
+    });
 
   it("Should not handle the request if request is not cloud events", async function () {
     const endSpy = vi.spyOn(res, "end");
