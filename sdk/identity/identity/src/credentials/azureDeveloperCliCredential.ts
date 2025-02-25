@@ -24,7 +24,16 @@ export const developerCliCredentialInternals = {
    */
   getSafeWorkingDir(): string {
     if (process.platform === "win32") {
-      return process.env.SystemRoot || process.env["SYSTEMROOT"] || "C:\\Windows";
+      let systemRoot = process.env.SystemRoot || process.env["SYSTEMROOT"];
+      if (!systemRoot) {
+        logger.warning(
+          "The SystemRoot environment variable is not set. This may cause issues when using the Azure CLI credential.",
+        );
+
+        systemRoot = "C:\\Windows";
+      }
+
+      return systemRoot;
     } else {
       return "/bin";
     }
