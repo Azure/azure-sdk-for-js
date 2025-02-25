@@ -9,6 +9,9 @@ import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
+
+
+
 /**
  * This sample demonstrates how to Gets a network manager security configuration admin rule.
  *
