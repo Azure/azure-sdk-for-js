@@ -5,11 +5,9 @@ import eslint from "@eslint/js";
 import typescriptEslint from "typescript-eslint";
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
-import markdown from "eslint-plugin-markdown";
 import promise from "eslint-plugin-promise";
 
 import eslintCustomized from "./eslint-customized.js";
-import markdownCustomized from "./markdown-customized.js";
 import azureSdkCustomized from "./azure-sdk-customized.js";
 
 function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean }) {
@@ -26,7 +24,6 @@ function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean 
     {
       plugins: {
         "@azure/azure-sdk": plugin,
-        markdown,
         promise,
       },
     },
@@ -35,7 +32,6 @@ function recommended(plugin: FlatConfig.Plugin, options: { typeChecked: boolean 
 
     // azure sdk customized
     eslintCustomized,
-    ...markdownCustomized,
     ...azureSdkCustomized(typescriptEslint.parser),
   );
 }
