@@ -109,7 +109,6 @@
   },
   "devDependencies": {
     "@types/eslint": "^9.6.0",
-    "@types/eslint__js": "8.42.3",
     "@types/eslint-config-prettier": "6.11.3",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "~8.24.1",

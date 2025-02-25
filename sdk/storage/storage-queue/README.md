@@ -210,9 +210,7 @@ Also, You can instantiate a `QueueServiceClient` with a shared access signatures
 const { QueueServiceClient } = require("@azure/storage-queue");
 const account = "<account name>";
 const sas = "<service Shared Access Signature Token>";
-const queueServiceClient = new QueueServiceClient(
-  `https://${account}.queue.core.windows.net${sas}`,
-);
+const queueServiceClient = new QueueServiceClient(`https://${account}.queue.core.windows.net?${sas}`);
 ```
 
 ### List queues in this account
