@@ -14,9 +14,9 @@ describe(`Access Policy operations`, { skip: !isNodeLike }, () => {
   const tableName = `AccessPolicy`;
 
   beforeEach(async (ctx) => {
-      recorder = new Recorder(ctx);
-      client = await createTableClient(tableName, "AccountKey", recorder);
-    });
+    recorder = new Recorder(ctx);
+    client = await createTableClient(tableName, "AccountKey", recorder);
+  });
 
   afterEach(async () => {
     await recorder.stop();

@@ -22,13 +22,13 @@ import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 describe("SAS generation", function () {
   describe("generateTableSAS", function () {
     beforeEach(async () => {
-          vi.useFakeTimers();
-          vi.setSystemTime(new Date("2021-12-12"));
-        });
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2021-12-12"));
+    });
 
     afterEach(async () => {
-          vi.useRealTimers();
-        });
+      vi.useRealTimers();
+    });
 
     it("should generate a SAS token with default values", async function () {
       // Create the table SAS token
@@ -108,13 +108,13 @@ describe("SAS generation", function () {
 
   describe("generateAccountSAS", function () {
     beforeEach(async () => {
-          vi.useFakeTimers();
-          vi.setSystemTime(new Date("2021-12-12"));
-        });
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2021-12-12"));
+    });
 
     afterEach(async () => {
-          vi.useRealTimers();
-        });
+      vi.useRealTimers();
+    });
 
     it("should generate account SAS token with default values", async function () {
       // Create the table SAS token
