@@ -43,31 +43,31 @@ export interface KeyVaultBackupPollerOptions extends OperationOptions {
  * An interface representing the optional parameters that can be
  * passed to {@link KeyVaultBackupClient.beginPreBackup}
  */
-export type KeyVaultBeginPreBackupOptions = KeyVaultBackupPollerOptions;
+export interface KeyVaultBeginPreBackupOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link KeyVaultBackupClient.beginBackup}
  */
-export type KeyVaultBeginBackupOptions = KeyVaultBackupPollerOptions;
+export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link KeyVaultBackupClient.beginRestore}
  */
-export type KeyVaultBeginRestoreOptions = KeyVaultBackupPollerOptions;
+export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link KeyVaultBackupClient.beginPreRestore}
  */
-export type KeyVaultBeginPreRestoreOptions = KeyVaultBackupPollerOptions;
+export interface KeyVaultBeginPreRestoreOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the optional parameters that can be
  * passed to {@link KeyVaultBackupClient.beginSelectiveKeyRestore}
  */
-export type KeyVaultBeginSelectiveKeyRestoreOptions = KeyVaultBackupPollerOptions;
+export interface KeyVaultBeginSelectiveKeyRestoreOptions extends KeyVaultBackupPollerOptions {}
 
 /**
  * An interface representing the result of a backup operation.

@@ -116,19 +116,24 @@ export interface KeyVaultBackupResult {
 }
 
 // @public
-export type KeyVaultBeginBackupOptions = KeyVaultBackupPollerOptions;
+export interface KeyVaultBeginBackupOptions extends KeyVaultBackupPollerOptions {
+}
 
 // @public
-export type KeyVaultBeginPreBackupOptions = KeyVaultBackupPollerOptions;
+export interface KeyVaultBeginPreBackupOptions extends KeyVaultBackupPollerOptions {
+}
 
 // @public
-export type KeyVaultBeginPreRestoreOptions = KeyVaultBackupPollerOptions;
+export interface KeyVaultBeginPreRestoreOptions extends KeyVaultBackupPollerOptions {
+}
 
 // @public
-export type KeyVaultBeginRestoreOptions = KeyVaultBackupPollerOptions;
+export interface KeyVaultBeginRestoreOptions extends KeyVaultBackupPollerOptions {
+}
 
 // @public
-export type KeyVaultBeginSelectiveKeyRestoreOptions = KeyVaultBackupPollerOptions;
+export interface KeyVaultBeginSelectiveKeyRestoreOptions extends KeyVaultBackupPollerOptions {
+}
 
 // @public
 export type KeyVaultDataAction = string;
