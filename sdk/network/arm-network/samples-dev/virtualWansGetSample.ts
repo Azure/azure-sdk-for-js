@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the details of a VirtualWAN.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Retrieves the details of a VirtualWAN.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualWANGet.json
  */
-async function virtualWanGet() {
+async function virtualWanGet(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualWANName = "wan1";
@@ -27,7 +25,7 @@ async function virtualWanGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await virtualWanGet();
 }
 

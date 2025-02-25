@@ -9,7 +9,7 @@
 import {
   ProtectedItemOperationStatusGetOptionalParams,
   ProtectedItemOperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProtectedItemOperationStatus. */
 export interface ProtectedItemOperationStatus {

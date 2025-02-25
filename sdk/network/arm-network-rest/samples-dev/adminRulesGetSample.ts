@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets a network manager security configuration admin rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerAdminRuleGet.json
  */
-async function getsSecurityAdminRule() {
+async function getsSecurityAdminRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -44,7 +44,7 @@ getsSecurityAdminRule().catch(console.error);
  * @summary Gets a network manager security configuration admin rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerDefaultAdminRuleGet.json
  */
-async function getsSecurityDefaultAdminRule() {
+async function getsSecurityDefaultAdminRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

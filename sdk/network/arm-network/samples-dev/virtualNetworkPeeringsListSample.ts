@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all virtual network peerings in a virtual network.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets all virtual network peerings in a virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkPeeringList.json
  */
-async function listPeerings() {
+async function listPeerings(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "peerTest";
   const virtualNetworkName = "vnet1";
@@ -39,7 +37,7 @@ async function listPeerings() {
  * @summary Gets all virtual network peerings in a virtual network.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkPeeringListWithRemoteVirtualNetworkEncryption.json
  */
-async function listPeeringsWithRemoteVirtualNetworkEncryption() {
+async function listPeeringsWithRemoteVirtualNetworkEncryption(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "peerTest";
   const virtualNetworkName = "vnet1";
@@ -55,7 +53,7 @@ async function listPeeringsWithRemoteVirtualNetworkEncryption() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listPeerings();
   await listPeeringsWithRemoteVirtualNetworkEncryption();
 }

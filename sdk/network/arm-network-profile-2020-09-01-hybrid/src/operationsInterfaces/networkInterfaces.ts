@@ -24,7 +24,7 @@ import {
   NetworkInterfacesGetEffectiveRouteTableResponse,
   NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams,
   NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetworkInterfaces. */

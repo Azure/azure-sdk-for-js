@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Updates tags of an Azure Firewall resource.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AzureFirewallUpdateTags.json
  */
-async function updateAzureFirewallTags() {
+async function updateAzureFirewallTags(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

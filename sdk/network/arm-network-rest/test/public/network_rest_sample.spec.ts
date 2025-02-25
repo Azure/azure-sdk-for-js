@@ -49,7 +49,7 @@ describe("Network test", () => {
   let subnet_name: string;
   let ipGroupName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     subscriptionId = env.SUBSCRIPTION_ID || "";
@@ -63,11 +63,11 @@ describe("Network test", () => {
     ipGroupName = "ipgroupyyy";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("virtualNetworks create test", async function () {
+  it("virtualNetworks create test", async () => {
     const option: VirtualNetworksCreateOrUpdateParameters = {
       body: {
         properties: {
@@ -97,7 +97,7 @@ describe("Network test", () => {
     assert.equal(result.body.name, virtualNetworkName);
   });
 
-  it("subnets create test", async function () {
+  it("subnets create test", async () => {
     const option: SubnetsCreateOrUpdateParameters = {
       body: {
         properties: {
@@ -124,7 +124,7 @@ describe("Network test", () => {
     assert.equal(result.body.name, subnet_name);
   });
 
-  it("ipGroups create test", async function () {
+  it("ipGroups create test", async () => {
     const option: IpGroupsCreateOrUpdateParameters = {
       body: {
         tags: {
@@ -154,7 +154,7 @@ describe("Network test", () => {
     assert.equal(result.body.name, ipGroupName);
   });
 
-  it("virtualNetworks get test", async function () {
+  it("virtualNetworks get test", async () => {
     const option: VirtualNetworksGetParameters = {
       queryParameters: { "api-version": "2022-05-01" },
     };
@@ -173,7 +173,7 @@ describe("Network test", () => {
     assert.equal(res.body.name, virtualNetworkName);
   });
 
-  it("subnets get test", async function () {
+  it("subnets get test", async () => {
     const option: SubnetsGetParameters = {
       queryParameters: { "api-version": "2022-05-01" },
     };
@@ -195,7 +195,7 @@ describe("Network test", () => {
     assert.equal(result.body.name, subnet_name);
   });
 
-  it("ipGroups get test", async function () {
+  it("ipGroups get test", async () => {
     const option: IpGroupsGetParameters = {
       queryParameters: { "api-version": "2022-05-01" },
     };
@@ -216,7 +216,7 @@ describe("Network test", () => {
     assert.equal(result.body.name, ipGroupName);
   });
 
-  it("virtualNetworks list test", async function () {
+  it("virtualNetworks list test", async () => {
     const option: VirtualNetworksListParameters = {
       queryParameters: { "api-version": "2022-05-01" },
     };
@@ -236,7 +236,7 @@ describe("Network test", () => {
     assert.equal(result.length, 1);
   });
 
-  it("subnets list test", async function () {
+  it("subnets list test", async () => {
     const option: SubnetsListParameters = {
       queryParameters: { "api-version": "2022-05-01" },
     };
@@ -257,7 +257,7 @@ describe("Network test", () => {
     assert.equal(result.length, 1);
   });
 
-  it("ipGroups list test", async function () {
+  it("ipGroups list test", async () => {
     const option: IpGroupsListParameters = {
       queryParameters: { "api-version": "2022-05-01" },
     };
@@ -277,7 +277,7 @@ describe("Network test", () => {
     assert.equal(result.length, 1);
   });
 
-  it("virtualNetworks updatetags test", async function () {
+  it("virtualNetworks updatetags test", async () => {
     const options: VirtualNetworksUpdateTagsParameters = {
       body: { tags: { tag1: "value1", tag2: "value2" } },
       queryParameters: { "api-version": "2022-05-01" },
@@ -299,7 +299,7 @@ describe("Network test", () => {
     assert.equal(result.body.name, virtualNetworkName);
   });
 
-  it("ipGroups beginDeleteAndWait test", async function () {
+  it("ipGroups beginDeleteAndWait test", async () => {
     const options: IpGroupsDeleteParameters = {
       queryParameters: { "api-version": "2022-05-01" },
     };
@@ -338,7 +338,7 @@ describe("Network test", () => {
     assert.equal(result.length, 0);
   });
 
-  it("subnets beginDeleteAndWait test", async function () {
+  it("subnets beginDeleteAndWait test", async () => {
     const options: SubnetsDeleteParameters = {
       queryParameters: { "api-version": "2022-05-01" },
     };
@@ -379,7 +379,7 @@ describe("Network test", () => {
     assert.equal(result.length, 0);
   });
 
-  it("virtualNetworks beginDeleteAndWait test", async function () {
+  it("virtualNetworks beginDeleteAndWait test", async () => {
     const options: VirtualNetworksDeleteParameters = {
       queryParameters: { "api-version": "2022-05-01" },
     };

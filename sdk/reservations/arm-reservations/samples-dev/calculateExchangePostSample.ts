@@ -8,9 +8,7 @@
 import type { CalculateExchangeRequest } from "@azure/arm-reservations";
 import { AzureReservationAPI } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Calculates price for exchanging `Reservations` if there are no policy errors.
@@ -20,7 +18,7 @@ dotenv.config();
 
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2022-11-01/examples/CalculateExchange.json
  */
-async function calculateExchange() {
+async function calculateExchange(): Promise<void> {
   const body: CalculateExchangeRequest = {
     properties: {
       reservationsToExchange: [
@@ -68,7 +66,7 @@ async function calculateExchange() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await calculateExchange();
 }
 

@@ -23,13 +23,13 @@ async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`
+    `Created queue ${queueClient.name} successfully, service assigned request ID: ${createQueueResponse.requestId}`,
   );
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`
+    `Deleted queue ${queueClient.name} successfully, service assigned request ID: ${deleteQueueResponse.requestId}`,
   );
 }
 

@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Gets the currently advertised routes table associated with the express route circuit in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitRouteTableList.json
  */
-async function listRouteTables() {
+async function listRouteTables(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

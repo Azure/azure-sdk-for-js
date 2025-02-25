@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Lists ExpressRoute gateways in a given resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteGatewayListByResourceGroup.json
  */
-async function expressRouteGatewayListByResourceGroup() {
+async function expressRouteGatewayListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
