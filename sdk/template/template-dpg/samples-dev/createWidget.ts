@@ -1,6 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This sample demonstrates how the create a new widget and analyse it.
+ *
+ *
+ * @summary Demonstrates how the create a new widget and analyse it.
+ * @azsdk-weight 100
+ */
+
 import "dotenv/config";
 import { WidgetServiceClient } from "@azure/template-dpg";
 
