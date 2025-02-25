@@ -29,7 +29,7 @@ export const developerCliCredentialInternals = {
       let systemRoot = process.env.SystemRoot || process.env["SYSTEMROOT"];
       if (!systemRoot) {
         logger.getToken.warning(
-          "The SystemRoot environment variable is not set. This may cause issues when using the Azure CLI credential.",
+          "The SystemRoot environment variable is not set. This may cause issues when using the Azure Developer CLI credential.",
         );
 
         systemRoot = "C:\\Windows";
