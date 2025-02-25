@@ -21,14 +21,14 @@ import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("SAS generation", function () {
   describe("generateTableSAS", function () {
-    beforeEach(function () {
-      vi.useFakeTimers();
-      vi.setSystemTime(new Date("2021-12-12"));
-    });
+    beforeEach(async () => {
+          vi.useFakeTimers();
+          vi.setSystemTime(new Date("2021-12-12"));
+        });
 
-    afterEach(function () {
-      vi.useRealTimers();
-    });
+    afterEach(async () => {
+          vi.useRealTimers();
+        });
 
     it("should generate a SAS token with default values", async function () {
       // Create the table SAS token
@@ -107,14 +107,14 @@ describe("SAS generation", function () {
   });
 
   describe("generateAccountSAS", function () {
-    beforeEach(function () {
-      vi.useFakeTimers();
-      vi.setSystemTime(new Date("2021-12-12"));
-    });
+    beforeEach(async () => {
+          vi.useFakeTimers();
+          vi.setSystemTime(new Date("2021-12-12"));
+        });
 
-    afterEach(function () {
-      vi.useRealTimers();
-    });
+    afterEach(async () => {
+          vi.useRealTimers();
+        });
 
     it("should generate account SAS token with default values", async function () {
       // Create the table SAS token
