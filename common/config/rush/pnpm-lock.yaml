@@ -3697,7 +3697,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/core-xml@file:projects/core-xml.tgz':
-    resolution: {integrity: sha512-DZTOUcM0mv7KMwyWClunQkY+bBoJdvqU/OnS+lxly5hnmaZHKyaw8MiHJCBnET1lo9OZeRuhmkMtuh8WQYlz5Q==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-+rhLj6VPLbBvpDhdQCagZ86VUigrfDXSc9H5jCs2odjdoQjTpKM04y8FDWEJlm7A2KZF4O3Hb8TwUWdKWDTT6g==, tarball: file:projects/core-xml.tgz}
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
@@ -4065,27 +4065,27 @@ packages:
     version: 0.0.0
 
   '@rush-temp/synapse-access-control-1@file:projects/synapse-access-control-1.tgz':
-    resolution: {integrity: sha512-73sTFyBG1+Wc/9NXoX2juYwvRcyHcpR0Mlgj19spLxqJeD8ki2+kjrUE8uA/l62ZXiEahb2ZXT9XEwUsu2NGrg==, tarball: file:projects/synapse-access-control-1.tgz}
+    resolution: {integrity: sha512-om4Klf9wV9WpeVJnDyuoXjnhB1P/rdyEyEGhdU49mVuUS2PKFHS6dTgYqxcQhMLTE46pgB88WbznwhBbQZSteQ==, tarball: file:projects/synapse-access-control-1.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-access-control@file:projects/synapse-access-control.tgz':
-    resolution: {integrity: sha512-Be8ArcdWpCQ2F1+qwaZYb5EbbDiUATLCOHWuTdFHayIZqjdDH5tn3VxTwFhrcizk+T7AZpFbpDmuPJNgwHkmmQ==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-H3nmRkUXq56ighVQQFLigcWd9xyAkWStxSPozKSOGzEPMve1mkxZDT6oVgpoXIzSR2rOBsRaxPJyT1nqYHyTsQ==, tarball: file:projects/synapse-access-control.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-artifacts@file:projects/synapse-artifacts.tgz':
-    resolution: {integrity: sha512-yHvTLqTMdgt2suAsDrAaFOz08yMpD+4qgK3XbT0Kx+C6I4WgfKs8zCpCje2F6iBaKqf0S8QDb9Nq+NXsAQMt/Q==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-kF7EQzTXhVbzg1qU2lfrOX9/fCUZXiWIaQgbyKorP43+aB7HwaPydGoxLX8xTIGr5TRwZrNQxW+d44pdcghgwg==, tarball: file:projects/synapse-artifacts.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-managed-private-endpoints@file:projects/synapse-managed-private-endpoints.tgz':
-    resolution: {integrity: sha512-gLHDZ3gJohAWHqcIRZsEzOPEVPJ5pdDb7pWZs0G+hlruMiBlNs8SX0Kzw9d5Q2M6StQAk1VjVNpjeMxTv9aROQ==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-PI+pW+aqRHSn3El8cP0ZkhDuNAIvylcG4N8gwCODOGFwTo5qKnQsYWVCwkN69ciOm7//ugovlU+SRlHbzfA8RA==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-monitoring@file:projects/synapse-monitoring.tgz':
-    resolution: {integrity: sha512-McFYyAZcOn/Utm9FrhTxtvICz3E0QXK0WqpC9Q8znntaA1j4Y55nBfzkmobaJCDW6ppQpXFjHpRHGeIXhTbLRQ==, tarball: file:projects/synapse-monitoring.tgz}
+    resolution: {integrity: sha512-6bJuu/NZHo9uOCzCnJEHnyh8dlT+wAmDikd7z2LRewKO1849MhYDtJceUb6gbpJuehfex7IAGCYn+cKSIOihOw==, tarball: file:projects/synapse-monitoring.tgz}
     version: 0.0.0
 
   '@rush-temp/synapse-spark@file:projects/synapse-spark.tgz':
-    resolution: {integrity: sha512-qpLW3U7puI+Mkw4qk2BXPch6KokeEOpZwGgjvGLLtq4gtvRImcr4tseegeejAmewQzFWM4l3f/1l89b2zsuO2w==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-Y5vv4MYjUliM1UMKYzCEoMf/EK7xVyh++zPjQAYxyiQmyUm3RBKH4/onVP1f/JcoA6WI1e94DTM5Y28VymvC5A==, tarball: file:projects/synapse-spark.tgz}
     version: 0.0.0
 
   '@rush-temp/template-dpg@file:projects/template-dpg.tgz':
@@ -5575,8 +5575,8 @@ packages:
     resolution: {integrity: sha512-RKihhV+SHsIUGXObeVy9AXiBbFwkVk7Syp8XgwN5U3JV416+Gwp/GO9i0JYKmikykgz/UHRrrV4ROuZEo/T0ig==}
     hasBin: true
 
-  fast-xml-parser@5.0.6:
-    resolution: {integrity: sha512-5zIl0jWsewL5LdneswG6aJXx1YH1FXQ02UVIe/CZI3wXhI3SqP62bjcIYRNOgU43/MnN1t/MCpH6UoOtBrDNug==}
+  fast-xml-parser@5.0.7:
+    resolution: {integrity: sha512-hRgQW2Az3ASwFo7wqBM2Uq9LcLoOVhGhE/yhjsIfd4gdDk0pqwKTHOSQYO1Zf7Nl/7Th2ykdmkPNntCfq3gBFg==}
     hasBin: true
 
   fastq@1.19.0:
@@ -20137,7 +20137,7 @@ snapshots:
       '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       eslint: 9.21.0
-      fast-xml-parser: 5.0.6
+      fast-xml-parser: 5.0.7
       playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
@@ -25316,7 +25316,7 @@ snapshots:
     dependencies:
       strnum: 1.1.1
 
-  fast-xml-parser@5.0.6:
+  fast-xml-parser@5.0.7:
     dependencies:
       strnum: 2.0.4
 
