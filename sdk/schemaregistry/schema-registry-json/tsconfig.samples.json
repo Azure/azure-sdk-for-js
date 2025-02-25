@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/schema-registry-json": [
-        "./dist/esm"
-      ]
+      "@azure/schema-registry-json": ["./dist/esm"]
     }
   }
 }
