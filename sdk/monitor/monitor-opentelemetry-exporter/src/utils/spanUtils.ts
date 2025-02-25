@@ -498,66 +498,101 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
 }
 
 export function getPeerIp(attributes: Attributes): AttributeValue | undefined {
-  return attributes[ATTR_NETWORK_PEER_ADDRESS] || attributes[SEMATTRS_NET_PEER_IP];
+  if (attributes) {
+    return attributes[ATTR_NETWORK_PEER_ADDRESS] || attributes[SEMATTRS_NET_PEER_IP];
+  }
+  return;
 }
 
 export function getLocationIp(tags: Tags, attributes: Attributes): void {
-  const httpClientIp = getHttpClientIp(attributes);
-  const netPeerIp = getPeerIp(attributes);
-  if (httpClientIp) {
-    tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
-  } else if (netPeerIp) {
-    tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
+  if (attributes) {
+    const httpClientIp = getHttpClientIp(attributes);
+    const netPeerIp = getPeerIp(attributes);
+    if (httpClientIp) {
+      tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
+    } else if (netPeerIp) {
+      tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
+    }
   }
 }
 
 export function getHttpClientIp(attributes: Attributes): AttributeValue | undefined {
-  return attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_HTTP_CLIENT_IP];
+  if (attributes) {
+    return attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_HTTP_CLIENT_IP];
+  }
+  return;
 }
 
 export function getUserAgent(attributes: Attributes): AttributeValue | undefined {
-  return attributes[ATTR_USER_AGENT_ORIGINAL] || attributes[SEMATTRS_HTTP_USER_AGENT];
+  if (attributes) {
+    return attributes[ATTR_USER_AGENT_ORIGINAL] || attributes[SEMATTRS_HTTP_USER_AGENT];
+  }
+  return;
 }
 
 export function getHttpUrl(attributes: Attributes): AttributeValue | undefined {
   // Stable sem conv only supports populating url from `url.full`
-  return attributes[ATTR_URL_FULL] || attributes[SEMATTRS_HTTP_URL];
+  if (attributes) {
+    return attributes[ATTR_URL_FULL] || attributes[SEMATTRS_HTTP_URL];
+  }
+  return;
 }
 
 export function getHttpMethod(attributes: Attributes): AttributeValue | undefined {
-  return attributes[ATTR_HTTP_REQUEST_METHOD] || attributes[SEMATTRS_HTTP_METHOD];
+  if (attributes) {
+    return attributes[ATTR_HTTP_REQUEST_METHOD] || attributes[SEMATTRS_HTTP_METHOD];
+  }
+  return;
 }
 
 export function getHttpStatusCode(attributes: Attributes): AttributeValue | undefined {
-  return attributes[ATTR_HTTP_RESPONSE_STATUS_CODE] || attributes[SEMATTRS_HTTP_STATUS_CODE];
+  if (attributes) {
+    return attributes[ATTR_HTTP_RESPONSE_STATUS_CODE] || attributes[SEMATTRS_HTTP_STATUS_CODE];
+  }
+  return;
 }
 
 export function getHttpScheme(attributes: Attributes): AttributeValue | undefined {
-  return attributes[ATTR_URL_SCHEME] || attributes[SEMATTRS_HTTP_SCHEME];
+  if (attributes) {
+    return attributes[ATTR_URL_SCHEME] || attributes[SEMATTRS_HTTP_SCHEME];
+  }
+  return;
 }
 
 export function getHttpTarget(attributes: Attributes): AttributeValue | undefined {
-  if (attributes[ATTR_URL_PATH]) {
-    return attributes[ATTR_URL_PATH];
+  if (attributes) {
+    if (attributes[ATTR_URL_PATH]) {
+      return attributes[ATTR_URL_PATH];
+    }
+    if (attributes[ATTR_URL_QUERY]) {
+      return attributes[ATTR_URL_QUERY];
+    }
+    return attributes[SEMATTRS_HTTP_TARGET];
   }
-  if (attributes[ATTR_URL_QUERY]) {
-    return attributes[ATTR_URL_QUERY];
-  }
-  return attributes[SEMATTRS_HTTP_TARGET];
+  return;
 }
 
 export function getHttpHost(attributes: Attributes): AttributeValue | undefined {
-  return attributes[ATTR_SERVER_ADDRESS] || attributes[SEMATTRS_HTTP_HOST];
+  if (attributes) {
+    return attributes[ATTR_SERVER_ADDRESS] || attributes[SEMATTRS_HTTP_HOST];
+  }
+  return;
 }
 
 export function getNetPeerName(attributes: Attributes): AttributeValue | undefined {
-  return attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_NET_PEER_NAME];
+  if (attributes) {
+    return attributes[ATTR_CLIENT_ADDRESS] || attributes[SEMATTRS_NET_PEER_NAME];
+  }
+  return;
 }
 
 export function getNetPeerPort(attributes: Attributes): AttributeValue | undefined {
-  return (
-    attributes[ATTR_CLIENT_PORT] ||
-    attributes[ATTR_SERVER_PORT] ||
-    attributes[SEMATTRS_NET_PEER_PORT]
-  );
+  if (attributes) {
+    return (
+      attributes[ATTR_CLIENT_PORT] ||
+      attributes[ATTR_SERVER_PORT] ||
+      attributes[SEMATTRS_NET_PEER_PORT]
+    );
+  }
+  return;
 }
