@@ -26,6 +26,7 @@ import {
   ApplicationInsightsAvailabilityBaseType,
   ApplicationInsightsAvailabilityName,
   ApplicationInsightsBaseType,
+  ApplicationInsightsCustomEventName,
   ApplicationInsightsEventBaseType,
   ApplicationInsightsEventName,
   ApplicationInsightsExceptionBaseType,
@@ -51,7 +52,10 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let baseType: string;
   let baseData: MonitorDomain;
 
-  if (!log.attributes[ApplicationInsightsBaseType]) {
+  if (
+    !log.attributes[ApplicationInsightsBaseType] &&
+    !log.attributes[ApplicationInsightsCustomEventName]
+  ) {
     // Get Exception attributes if available
     const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
     if (exceptionType) {
@@ -81,6 +85,16 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       };
       baseData = messageData;
     }
+  } else if (log.attributes[ApplicationInsightsCustomEventName]) {
+    // If Custom Event
+    name = ApplicationInsightsEventName;
+    baseType = ApplicationInsightsEventBaseType;
+    const eventData: TelemetryEventData = {
+      name: String(log.attributes[ApplicationInsightsCustomEventName]),
+      version: 2,
+    };
+    baseData = eventData;
+    measurements = getLegacyApplicationInsightsMeasurements(log);
   } else {
     // If Legacy Application Insights Log
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
@@ -144,6 +158,7 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
       if (
         !(
           key.startsWith("_MS.") ||
+          key.startsWith("microsoft") ||
           key === ATTR_EXCEPTION_TYPE ||
           key === ATTR_EXCEPTION_MESSAGE ||
           key === ATTR_EXCEPTION_STACKTRACE ||
