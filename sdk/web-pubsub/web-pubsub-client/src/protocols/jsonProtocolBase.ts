@@ -11,7 +11,7 @@ import type {
   WebPubSubMessage,
 } from "../models/messages.js";
 import type { JSONTypes } from "../webPubSubClient.js";
-import { Buffer } from "buffer";
+import { Buffer } from "node:buffer";
 
 export function parseMessages(input: string): WebPubSubMessage | null {
   // The interface does allow "ArrayBuffer" to be passed in, but this implementation does not. So let's throw a useful error.
