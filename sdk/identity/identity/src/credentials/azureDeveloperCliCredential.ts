@@ -14,6 +14,8 @@ import {
 import { tracingClient } from "../util/tracing.js";
 import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils.js";
 
+const logger = credentialLogger("AzureDeveloperCliCredential");
+
 /**
  * Mockable reference to the Developer CLI credential cliCredentialFunctions
  * @internal
@@ -82,8 +84,6 @@ export const developerCliCredentialInternals = {
     });
   },
 };
-
-const logger = credentialLogger("AzureDeveloperCliCredential");
 
 /**
  * Azure Developer CLI is a command-line interface tool that allows developers to create, manage, and deploy
