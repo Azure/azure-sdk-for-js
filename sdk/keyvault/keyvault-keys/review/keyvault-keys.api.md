@@ -231,6 +231,14 @@ interface JsonWebKey_2 {
 export { JsonWebKey_2 as JsonWebKey }
 
 // @public
+export interface KeyAttestation {
+    certificatePemFile?: Uint8Array;
+    privateKeyAttestation?: Uint8Array;
+    publicKeyAttestation?: Uint8Array;
+    version?: string;
+}
+
+// @public
 export class KeyClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: KeyClientOptions);
     backupKey(name: string, options?: BackupKeyOptions): Promise<Uint8Array | undefined>;
@@ -283,7 +291,6 @@ export interface KeyPollerOptions extends coreClient.OperationOptions {
 
 // @public
 export interface KeyProperties {
-    // Warning: (ae-forgotten-export) The symbol "KeyAttestation" needs to be exported by the entry point index.d.ts
     attestation?: KeyAttestation;
     readonly createdOn?: Date;
     enabled?: boolean;

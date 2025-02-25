@@ -24,15 +24,7 @@ export interface CertificateClientOptions extends ExtendedCommonClientOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?:
-    | "7.0"
-    | "7.1"
-    | "7.2"
-    | "7.3"
-    | "7.4"
-    | "7.5"
-    | "7.6-preview.1"
-    | "7.6-preview.2";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6-preview.2";
 
   /**
    * Whether to disable verification that the authentication challenge resource matches the Key Vault domain.

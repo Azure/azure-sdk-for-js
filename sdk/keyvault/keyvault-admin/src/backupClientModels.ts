@@ -59,7 +59,7 @@ export type KeyVaultBeginRestoreOptions = KeyVaultBackupPollerOptions;
 
 /**
  * An interface representing the optional parameters that can be
- * passed to {@link begingPreRestore}
+ * passed to {@link KeyVaultBackupClient.beginPreRestore}
  */
 export type KeyVaultBeginPreRestoreOptions = KeyVaultBackupPollerOptions;
 
