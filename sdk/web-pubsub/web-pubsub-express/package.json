@@ -4,7 +4,7 @@
   "description": "Azure Web PubSub CloudEvents handlers",
   "sdk-type": "client",
   "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run bundle --browser-test=false && dev-tool run extract-api",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:browser": "echo \"Browser is not supported.\" && exit 0",
     "build:node": "dev-tool run build-package",
     "build:samples": "echo Obsolete.",
@@ -24,8 +24,8 @@
     "test:browser": "echo \"Browser is not supported.\" && exit 0",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "echo \"Browser is not supported.\" && exit 0",
-    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
+    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "unit-test:node": "dev-tool run test:vitest",
     "update-snippets": "echo skipped"
   },
   "files": [
@@ -49,23 +49,25 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/logger": "^1.1.2",
-    "tslib": "^2.6.2"
+    "@azure/logger": "^1.1.4",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
+    "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/express": "^4.16.0",
     "@types/express-serve-static-core": "^4.17.19",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.3",
-    "@vitest/coverage-istanbul": "^3.0.3",
+    "@vitest/browser": "^3.0.7",
+    "@vitest/coverage-istanbul": "^3.0.7",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "express": "^4.16.3",
+    "playwright": "^1.50.1",
     "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "vitest": "^3.0.7"
   },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub CloudEvents Handlers for Express",
@@ -74,6 +76,7 @@
     ]
   },
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -82,8 +85,11 @@
       "esm",
       "commonjs"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
@@ -101,5 +107,7 @@
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "type": "module",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js"
 }
