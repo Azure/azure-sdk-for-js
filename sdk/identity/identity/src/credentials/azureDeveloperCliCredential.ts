@@ -28,7 +28,7 @@ export const developerCliCredentialInternals = {
     if (process.platform === "win32") {
       let systemRoot = process.env.SystemRoot || process.env["SYSTEMROOT"];
       if (!systemRoot) {
-        logger.warning(
+        logger.getToken.warning(
           "The SystemRoot environment variable is not set. This may cause issues when using the Azure CLI credential.",
         );
 
