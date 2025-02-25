@@ -489,7 +489,7 @@ index 30dac33..66ea99c 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 3676fc6..03dcd50 100644
+index 609878a..da6742a 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,17 @@
@@ -572,7 +572,7 @@ index 3676fc6..03dcd50 100644
     *
     * type MyClient = Client & {
     *   path: Routes;
-@@ -326,11 +307,9 @@ export type ClientOptions = PipelineOptions & {
+@@ -333,11 +314,9 @@ export type ClientOptions = PipelineOptions & {
       */
      apiKeyHeaderName?: string;
    };
@@ -598,7 +598,7 @@ index eabe718..0000000
 -
 -/// <reference lib="dom" />
 diff --git a/src/client/getClient.ts b/src/client/getClient.ts
-index f6415d8..2e4f603 100644
+index 05bd395..0e6bb11 100644
 --- a/src/client/getClient.ts
 +++ b/src/client/getClient.ts
 @@ -1,9 +1,12 @@
@@ -617,7 +617,7 @@ index f6415d8..2e4f603 100644
  import { createDefaultPipeline } from "./clientHelpers.js";
  import type {
    Client,
-@@ -11,10 +14,12 @@ import type {
+@@ -11,11 +14,13 @@ import type {
    HttpBrowserStreamResponse,
    HttpNodeStreamResponse,
    RequestParameters,
@@ -626,11 +626,13 @@ index f6415d8..2e4f603 100644
  } from "./common.js";
  import { sendRequest } from "./sendRequest.js";
  import { buildRequestUrl } from "./urlHelpers.js";
+-import { isNodeLike } from "@azure/core-util";
 +import type { PipelineOptions } from "../createPipelineFromOptions.js";
++import { isNodeLike } from "../util/checkEnvironment.js";
  
  /**
   * Creates a client with a default pipeline
-@@ -61,8 +66,8 @@ export function getClient(
+@@ -62,8 +67,8 @@ export function getClient(
  
    const { allowInsecureConnection, httpClient } = clientOptions;
    const endpointUrl = clientOptions.endpoint ?? endpoint;
