@@ -30,7 +30,7 @@ describe("SAS generation", function () {
       vi.useRealTimers();
     });
 
-    it("should generate a SAS token with default values", async function () {
+    it("should generate a SAS token with default values", async () => {
       // Create the table SAS token
       const tableSas = generateTableSas(
         "testTable",
@@ -40,7 +40,7 @@ describe("SAS generation", function () {
       assert.equal(tableSas, expectedSas1);
     });
 
-    it("should generate a SAS token with start partition and row keys", async function () {
+    it("should generate a SAS token with start partition and row keys", async () => {
       // Create the table SAS token
       const tableSas = generateTableSas(
         "testTable",
@@ -51,7 +51,7 @@ describe("SAS generation", function () {
       assert.equal(tableSas, expectedSas8);
     });
 
-    it("should generate a SAS token with end partition and row keys", async function () {
+    it("should generate a SAS token with end partition and row keys", async () => {
       // Create the table SAS token
       const tableSas = generateTableSas(
         "testTable",
@@ -62,7 +62,7 @@ describe("SAS generation", function () {
       assert.equal(tableSas, expectedSas9);
     });
 
-    it("should generate a SAS token with explicit permissions", async function () {
+    it("should generate a SAS token with explicit permissions", async () => {
       // Create the table SAS token
       const tableSas = generateTableSas(
         "testTable",
@@ -78,7 +78,7 @@ describe("SAS generation", function () {
       assert.equal(tableSas, expectedSas2);
     });
 
-    it("should generate a SAS token with explicit expiry", async function () {
+    it("should generate a SAS token with explicit expiry", async () => {
       // Create the table SAS token
       const tableSas = generateTableSas(
         "testTable",
@@ -91,7 +91,7 @@ describe("SAS generation", function () {
       assert.equal(tableSas, expectedSas3);
     });
 
-    it("should generate a SAS token with identifier", async function () {
+    it("should generate a SAS token with identifier", async () => {
       // Create the table SAS token
       const tableSas = generateTableSas(
         "testTable",
@@ -116,14 +116,14 @@ describe("SAS generation", function () {
       vi.useRealTimers();
     });
 
-    it("should generate account SAS token with default values", async function () {
+    it("should generate account SAS token with default values", async () => {
       // Create the table SAS token
       const tableSas = generateAccountSas(new AzureNamedKeyCredential("keyName", "keySecret"));
 
       assert.equal(tableSas, expectedSas5);
     });
 
-    it("should generate a SAS token with explicit permissions", async function () {
+    it("should generate a SAS token with explicit permissions", async () => {
       // Create the table SAS token
       const tableSas = generateAccountSas(new AzureNamedKeyCredential("keyName", "keySecret"), {
         permissions: {
@@ -135,7 +135,7 @@ describe("SAS generation", function () {
       assert.equal(tableSas, expectedSas6);
     });
 
-    it("should generate a SAS token with explicit expiry", async function () {
+    it("should generate a SAS token with explicit expiry", async () => {
       // Create the table SAS token
       const tableSas = generateAccountSas(new AzureNamedKeyCredential("keyName", "keySecret"), {
         expiresOn: new Date("2022-12-12"),
