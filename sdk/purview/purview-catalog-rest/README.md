@@ -55,9 +55,10 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 Use the returned token credential to authenticate the client:
 
-```typescript
+```ts snippet:ReadmeSampleCreateClient_Node
 import PurviewCatalog from "@azure-rest/purview-catalog";
 import { DefaultAzureCredential } from "@azure/identity";
+
 const client = PurviewCatalog(
   "https://<my-account-name>.purview.azure.com",
   new DefaultAzureCredential(),
@@ -76,24 +77,24 @@ The following section shows you how to initialize and authenticate your client, 
 
 - [Get All Type Definitions](#get-all-type-definitions "Get All Type Definitions")
 
-```typescript
+```ts snippet:ReadmeSampleGetAllTypeDefs
 import PurviewCatalog from "@azure-rest/purview-catalog";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function main() {
-  console.log("== List entity typedefs ==");
-  const client = PurviewCatalog(endpoint, new DefaultAzureCredential());
+const client = PurviewCatalog(
+  "https://<my-account-name>.purview.azure.com",
+  new DefaultAzureCredential(),
+);
 
-  const dataSources = await client.path("/atlas/v2/types/typedefs").get();
+const dataSources = await client.path("/atlas/v2/types/typedefs").get();
 
-  if (dataSources.status !== "200") {
-    throw dataSources;
-  }
-
-  console.log(dataSources.body.entityDefs?.map((ds) => ds.name).join("\n"));
+if (dataSources.status !== "200") {
+  throw dataSources.body;
 }
 
-main().catch(console.error);
+for (const entityDef of dataSources.body.entityDefs) {
+  console.log(`Entity Definition Name: ${entityDef.name}`);
+}
 ```
 
 ## Troubleshooting
@@ -102,7 +103,7 @@ main().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
@@ -119,8 +120,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-
-
 
 [catalog_product_documentation]: https://azure.microsoft.com/services/purview/
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md

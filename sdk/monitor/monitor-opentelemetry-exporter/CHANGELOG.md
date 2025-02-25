@@ -5,6 +5,7 @@
 ### Features Added
 
 - Support the AMW de-duping flag in AKS auto-attach scenarios.
+- Support the stable OpenTelemetry HTTP semantic conventions.
 
 ### Other Changes
 
