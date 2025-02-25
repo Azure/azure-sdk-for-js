@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
-import EventEmitter from "node:events";
+import EventEmitter from "events";
 import type { SendMessageErrorOptions } from "./errors/index.js";
 import { SendMessageError } from "./errors/index.js";
 import { logger } from "./logger.js";
