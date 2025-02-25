@@ -4,6 +4,7 @@
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { getCachedDefaultHttpsClient } from "../src/clientHelpers.js";
 import { getClient } from "../src/getClient.js";
+import { isNodeLike } from "@azure/core-util";
 import type {
   HttpClient,
   PipelinePolicy,
@@ -254,10 +255,12 @@ describe("getClient", () => {
         called = true;
       },
     });
-    await res.asNodeStream();
-    assert.isTrue(called);
-    called = false;
-    await res.asBrowserStream();
+
+    if (isNodeLike) {
+      await res.asNodeStream();
+    } else {
+      await res.asBrowserStream();
+    }
     assert.isTrue(called);
   });
 
