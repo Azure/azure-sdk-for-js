@@ -55,28 +55,28 @@ describe("[AAD] ConfigurationClient functional tests", function () {
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
-  beforeEach(async function (context) {
-    // The recorder has some convenience methods, and we need to store a
-    // reference to it so that we can `stop()` the recorder later in the
-    // `afterEach` hook.
-    recorder = new Recorder(context);
+  beforeEach(async (context) => {
+      // The recorder has some convenience methods, and we need to store a
+      // reference to it so that we can `stop()` the recorder later in the
+      // `afterEach` hook.
+      recorder = new Recorder(context);
 
-    await recorder.start({
-      envSetupForPlayback: replaceableVariables,
-      removeCentralSanitizers: [
-        "AZSDK3447", // .key in the body is not a secret and is also replaced by sanitizer from fakeEnvironment variable
-      ],
+      await recorder.start({
+        envSetupForPlayback: replaceableVariables,
+        removeCentralSanitizers: [
+          "AZSDK3447", // .key in the body is not a secret and is also replaced by sanitizer from fakeEnvironment variable
+        ],
+      });
+
+      // We'll be able to refer to the instantiated `client` in tests, since we
+      // initialize it before each test
+      client = createConfigurationClient(recorder);
     });
 
-    // We'll be able to refer to the instantiated `client` in tests, since we
-    // initialize it before each test
-    client = createConfigurationClient(recorder);
-  });
-
   // After each test, we need to stop the recording.
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   describe("#getConfigurationSetting", () => {
     it("predetermined setting has expected value", { timeout: 50000, retry: 3 }, async () => {
