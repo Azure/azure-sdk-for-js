@@ -28,7 +28,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -77,16 +77,17 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^4.7.0",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^18.0.0",
     "@types/ws": "^8.5.13",
-    "@vitest/browser": "^3.0.7",
-    "@vitest/coverage-istanbul": "^3.0.7",
+    "@vitest/browser": "^3.0.6",
+    "@vitest/coverage-istanbul": "^3.0.6",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.50.1",
     "typescript": "~5.7.2",
-    "vitest": "^3.0.7",
+    "vitest": "^3.0.6",
     "ws": "^8.18.0"
   },
   "//sampleConfiguration": {
@@ -118,6 +119,14 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
