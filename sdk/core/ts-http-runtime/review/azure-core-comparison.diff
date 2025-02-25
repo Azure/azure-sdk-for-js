@@ -902,7 +902,7 @@ index fefe550..fb56a78 100644
      // Both XHR and Fetch expect to handle redirects automatically,
      // so only include this policy when we're in Node.
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index 0c8c805..7086724 100644
+index ad162e3..ae5349c 100644
 --- a/src/fetchHttpClient.ts
 +++ b/src/fetchHttpClient.ts
 @@ -1,7 +1,7 @@
@@ -1337,7 +1337,7 @@ index 3e33a3b..3654566 100644
 +  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(logLevel as any);
  }
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index 0a4c224..e1cab2f 100644
+index 264a28e..2b974db 100644
 --- a/src/nodeHttpClient.ts
 +++ b/src/nodeHttpClient.ts
 @@ -5,7 +5,7 @@ import * as http from "node:http";
@@ -3210,7 +3210,7 @@ index bd11d61..3f6a12b 100644
  interface Crypto {
    randomUUID(): string;
 diff --git a/src/xhrHttpClient.ts b/src/xhrHttpClient.ts
-index 7e4d563..223f257 100644
+index 4a0acaa..2a8f850 100644
 --- a/src/xhrHttpClient.ts
 +++ b/src/xhrHttpClient.ts
 @@ -1,7 +1,7 @@
