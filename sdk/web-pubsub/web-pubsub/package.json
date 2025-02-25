@@ -26,7 +26,7 @@
     "test:browser": "echo skipped",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest",
     "update-snippets": "dev-tool run update-snippets"
   },
@@ -110,23 +110,11 @@
       "esm",
       "commonjs"
     ],
-    "esmDialects": [
-      "browser",
-      "react-native"
-    ],
     "selfLink": false
   },
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -136,7 +124,5 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  },
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js"
+  }
 }
