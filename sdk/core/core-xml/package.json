@@ -75,7 +75,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
-    "fast-xml-parser": "^5.0.6",
+    "fast-xml-parser": "^5.0.7",
     "tslib": "^2.8.1"
   },
   "devDependencies": {

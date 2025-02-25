@@ -6,6 +6,7 @@
 
 - Support the AMW de-duping flag in AKS auto-attach scenarios.
 - Support sending custom events via specifying `microsoft.custom_event.name` on logs.
+- Support the stable OpenTelemetry HTTP semantic conventions.
 
 ### Other Changes
 
