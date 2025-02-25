@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/template-dpg": ["./dist/esm"]
+      "@azure/template-dpg": [
+        "./dist/esm"
+      ]
     }
   }
 }
