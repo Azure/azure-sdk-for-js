@@ -35,7 +35,7 @@ steps:
         echo "##vso[task.setvariable variable=IntendedTagVersion]$packageVersion"
       displayName: Get original tags
 
-    - task: EsrpRelease@7
+    - task: EsrpRelease@9
       inputs:
         displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
         ConnectedServiceName: 'Azure SDK PME Managed Identity'
