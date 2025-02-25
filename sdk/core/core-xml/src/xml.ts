@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Need to turn off due to https://github.com/NaturalIntelligence/fast-xml-parser/issues/724
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import { XMLBuilder, XMLParser, XMLValidator } from "fast-xml-parser";
 import { XML_ATTRKEY, XML_CHARKEY, type XmlOptions } from "./xml.common.js";
 
