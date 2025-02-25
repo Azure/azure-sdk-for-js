@@ -21,16 +21,21 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ## Examples
 
-```ts
+```ts snippet:ReadmeSampleCreateClient_Node
 import { MonitoringClient } from "@azure/synapse-monitoring";
 import { DefaultAzureCredential } from "@azure/identity";
 
-export async function main(): Promise<void> {
-  const credential = new DefaultAzureCredential();
+const client = new MonitoringClient(
+  new DefaultAzureCredential(),
+  "https://mysynapse.dev.azuresynapse.net",
+);
 
-  const client = new MonitoringClient(credential, "https://mysynapse.dev.azuresynapse.net");
-  const output = await client.monitoring.getSparkJobList();
-  console.log("output:", output);
+const sparkJobList = await client.monitoring.getSparkJobList();
+
+if (sparkJobList.sparkJobs) {
+  for (const sparkJob of sparkJobList.sparkJobs) {
+    console.log(`Spark job name: ${sparkJob.name}`);
+  }
 }
 ```
 
@@ -38,13 +43,11 @@ export async function main(): Promise<void> {
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-
-
 ## Troubleshooting
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
