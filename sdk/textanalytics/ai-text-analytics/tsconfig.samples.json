@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/ai-text-analytics": [
-        "./dist/esm"
-      ]
+      "@azure/ai-text-analytics": ["./dist/esm"]
     }
   }
 }
