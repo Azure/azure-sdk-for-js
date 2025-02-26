@@ -9,6 +9,33 @@ import { logger } from "../logger.js";
 
 // Conversion functions
 
+function convertAzureFunctionToolDefinitionOutput(
+  input: GeneratedModels.AzureFunctionToolDefinitionOutput,
+): PublicModels.AzureFunctionToolDefinitionOutput {
+  return {
+    type: "azure_function",
+    azureFunction: {
+      ...input.azure_function,
+      inputBinding: {
+        ...input.azure_function.input_binding,
+        storageQueue: {
+          queueServiceEndpoint:
+            input.azure_function.input_binding.storage_queue.queue_service_endpoint,
+          queueName: input.azure_function.input_binding.storage_queue.queue_name,
+        },
+      },
+      outputBinding: {
+        ...input.azure_function.output_binding,
+        storageQueue: {
+          queueServiceEndpoint:
+            input.azure_function.output_binding.storage_queue.queue_service_endpoint,
+          queueName: input.azure_function.output_binding.storage_queue.queue_name,
+        },
+      },
+    },
+  };
+}
+
 function convertCodeInterpreterToolDefinitionOutput(
   input: GeneratedModels.CodeInterpreterToolDefinitionOutput,
 ): PublicModels.CodeInterpreterToolDefinitionOutput {
@@ -232,6 +259,10 @@ function convertToolDefinitionOutput(
     case "azure_ai_search":
       return convertAzureAISearchToolDefinitionOutput(
         tool as GeneratedModels.AzureAISearchToolDefinitionOutput,
+      );
+    case "azure_function":
+      return convertAzureFunctionToolDefinitionOutput(
+        tool as GeneratedModels.AzureFunctionToolDefinitionOutput,
       );
     default:
       return tool;

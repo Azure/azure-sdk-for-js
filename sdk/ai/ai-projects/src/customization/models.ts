@@ -243,6 +243,8 @@ export interface ToolResources {
   fileSearch?: FileSearchToolResource;
   /** Resources to be used by the `azure_ai_search` tool consisting of index IDs and names. */
   azureAISearch?: AzureAISearchResource;
+  /** Resources to be used by the `azure_function` tool consisting of connection IDs. */
+  azureFunction?: AzureFunctionToolResource;
 }
 
 /** A set of resources that are used by the `code_interpreter` tool. */
@@ -284,6 +286,17 @@ export interface FileSearchToolResource {
    * The only element of this list contains the list of azure asset IDs used by the search tool.
    */
   vectorStores?: Array<VectorStoreConfigurations>;
+}
+
+export interface AzureFunctionToolResource {
+  /** The name of the function to be called. */
+  name: string;
+  /** A description of what the function does, used by the model to choose when and how to call the function. */
+  description: string;
+  /** The parameters the functions accepts, described as a JSON Schema object. */
+  parameters: unknown;
+  inputQueue: AzureFunctionStorageQueue;
+  outputQueue: AzureFunctionStorageQueue;
 }
 
 /** The structure, containing the list of vector storage configurations i.e. the list of azure asset IDs. */
@@ -555,6 +568,8 @@ export interface UpdateToolResourcesOptions {
   fileSearch?: UpdateFileSearchToolResourceOptions;
   /** Overrides the resources to be used by the `azure_ai_search` tool consisting of index IDs and names. */
   azureAISearch?: AzureAISearchResource;
+  /** Overrides the resources to be used by the `azure_function` tool consisting of connection IDs. */
+  azureFunction?: AzureFunctionToolResource;
 }
 
 /** Request object to update `code_interpreted` tool resources. */
