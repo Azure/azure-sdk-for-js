@@ -12,9 +12,7 @@
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
@@ -25,7 +23,7 @@ const documents = [
   "Patient does not suffer from high blood pressure.",
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Recognize Healthcare Entities Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
