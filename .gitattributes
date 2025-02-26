@@ -25,4 +25,5 @@ yarn.lock                    merge=binary
 **/generated/**/*.ts linguist-generated=true
 
 # Mark generated samples as auto generated
-sdk/*/arm-*/samples*
+sdk/*/arm-*/samples-dev/**/*.* linguist-generated=true
+sdk/*/arm-*/samples/**/*.* linguist-generated=true
