@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/quantum-jobs": ["./dist/esm"]
+      "@azure/quantum-jobs": [
+        "./dist/esm"
+      ]
     }
   }
 }
