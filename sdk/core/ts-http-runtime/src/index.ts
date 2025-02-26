@@ -44,7 +44,6 @@ export { isKeyCredential, type KeyCredential } from "./auth/keyCredential.js";
 export {
   isTokenCredential,
   type TokenCredential,
-  type GetTokenOptions,
   type AccessToken,
 } from "./auth/tokenCredential.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
@@ -77,3 +76,7 @@ export type { PipelineOptions, TelemetryOptions } from "./createPipelineFromOpti
 export type { LogPolicyOptions } from "./policies/logPolicy.js";
 export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
 export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
+export {
+  type BearerTokenAuthenticationPolicyOptions,
+  bearerTokenAuthenticationPolicy,
+} from "./policies/bearerTokenAuthenticationPolicy.js";

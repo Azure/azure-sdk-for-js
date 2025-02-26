@@ -18,8 +18,6 @@ export interface AbortSignalLike {
 
 // @public
 export interface AccessToken {
-    expiresOnTimestamp: number;
-    refreshAfterTimestamp?: number;
     token: string;
 }
 
@@ -44,6 +42,15 @@ export interface Agent {
     maxSockets: number;
     requests: unknown;
     sockets: unknown;
+}
+
+// @public
+export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export interface BearerTokenAuthenticationPolicyOptions {
+    credential?: TokenCredential;
+    scopes: string | string[];
 }
 
 // @public
@@ -121,17 +128,6 @@ export function getClient(endpoint: string, options?: ClientOptions): Client;
 
 // @public
 export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
-
-// @public
-export interface GetTokenOptions {
-    abortSignal?: AbortSignalLike;
-    claims?: string;
-    enableCae?: boolean;
-    requestOptions?: {
-        timeout?: number;
-    };
-    tenantId?: string;
-}
 
 // @public
 export type HttpBrowserStreamResponse = HttpResponse & {
@@ -450,7 +446,7 @@ export interface TlsSettings {
 
 // @public
 export interface TokenCredential {
-    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    getToken(scopes: string | string[]): Promise<AccessToken | null>;
 }
 
 // @public
