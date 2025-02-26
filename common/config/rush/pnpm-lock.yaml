@@ -1361,12 +1361,20 @@ packages:
     resolution: {integrity: sha512-6z/S2KorkbKaZ0DgZFVRdu7RCuATmMSTjKpuhj7YpjxkJ0vnJ7kTM3cpNgzFgk9OPYfZ31wrBEtC/iwAS4jQDA==}
     engines: {node: '>=18.0.0'}
 
+  '@azure/keyvault-certificates@4.9.0':
+    resolution: {integrity: sha512-1WDqAnXDsxzjPiAZV28h979q1KGAB8gLPJYdV/mM1Q40dXrxu4m53+W/1tLR5o2aBMWxXXYmhjYkjUkqTZowgg==}
+    engines: {node: '>=18.0.0'}
+
   '@azure/keyvault-common@2.0.0':
     resolution: {integrity: sha512-wRLVaroQtOqfg60cxkzUkGKrKMsCP6uYXAOomOIysSMyt1/YM0eUn9LqieAWM8DLcU4+07Fio2YGpPeqUbpP9w==}
     engines: {node: '>=18.0.0'}
 
   '@azure/keyvault-keys@4.9.0':
     resolution: {integrity: sha512-ZBP07+K4Pj3kS4TF4XdkqFcspWwBHry3vJSOFM5k5ZABvf7JfiMonvaFk2nBF6xjlEbMpz5PE1g45iTMme0raQ==}
+    engines: {node: '>=18.0.0'}
+
+  '@azure/keyvault-secrets@4.9.0':
+    resolution: {integrity: sha512-XkLsuzxFdhVIOVcELhso8OhQgY2lSWZcZn6fqjE848FwP9lJemJhu7nxYy8Q1nns6XqPB0WsTPmEkR8eu852vA==}
     engines: {node: '>=18.0.0'}
 
   '@azure/logger@1.1.4':
@@ -2577,7 +2585,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz':
-    resolution: {integrity: sha512-vjq2Gao56nWls4WanTBCTwwjx58Tjne7vWsJzG6pjaM3KnNVuC91v97x+MT2OKq4EmRYJ3yTNFs6T+Vg7rVJmQ==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-zjsf/JhsKT/8wCp1Vl2AzrwlhEfLWgplZkaqIon3dwTimCeOZyFp8oK3mlhnNLjE7DsO4NUEy2CKD9pn23gHtQ==, tarball: file:projects/app-configuration.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-advisor@file:projects/arm-advisor.tgz':
@@ -3701,7 +3709,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
-    resolution: {integrity: sha512-W9fBB7WMF5gfDbwrm/+PSnA+WE5TINWRGDqtkYExIK22ctG4Sxl0oEBrPEji8VZJDyU8Ke/AJbD1G6UejadiFw==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-z7yoSs8Nri3RE5wMkeTHfolZk5YFW/TgJ6W6Z+iU/leJvX2PxwtepK/ZmYO4l/o3GFxHDxQPpnzyfq0BaYbCmg==, tarball: file:projects/cosmos.tgz}
     version: 0.0.0
 
   '@rush-temp/create-microsoft-playwright-testing@file:projects/create-microsoft-playwright-testing.tgz':
@@ -3733,7 +3741,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz':
-    resolution: {integrity: sha512-Qqjh579SjbiLr+arZ7XLqXg4DFleLRkAgJFqfh+R4Iu2ULGi/vqAsNpMFmfOCKW7sq5TKQlQQY5UCud/71ZTIA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-hdI6P8btEuekqLyJD0UGIqbvzbta4yAFQGz6oL4KRw4kbisDr5dignRRHZjx/NAI0fi7KZY8L0pCYeDmft40Wg==, tarball: file:projects/event-hubs.tgz}
     version: 0.0.0
 
   '@rush-temp/eventgrid-namespaces@file:projects/eventgrid-namespaces.tgz':
@@ -3801,11 +3809,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz':
-    resolution: {integrity: sha512-XDSiv/NzBuTwVd6IEU2guGNubo3cgnwnq+jDoDSSBOXaGLWKQn+zL86Z/LHrl8kImGJrxZXcBqfGM/cU2n962A==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-xGPzVX+MYP0Y0xmT+Q39YGJ1LtyuOuLQhanGQlBBn5/qL0mT0UpNoxrSjc2vnHfLNs6dibmy+PvQqegut1/cdg==, tarball: file:projects/keyvault-admin.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz':
-    resolution: {integrity: sha512-3oOHuMcLpICbzKrVRFIeYVa7Ba4LsTbUkuxkHPhf+FniNuB3RX5jlqLuAGpkHeHxsInE7bbx0RUBKWLgjJXyVw==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-9wLnVj/5haYD0B6Jo15LsMj5Cbg/FU9NdyIottYyGxVEYbto6gRWtBTfHVuUVR4uBPF0auX2PF3p4IUyPIWS9A==, tarball: file:projects/keyvault-certificates.tgz}
     version: 0.0.0
 
   '@rush-temp/keyvault-common@file:projects/keyvault-common.tgz':
@@ -3941,15 +3949,15 @@ packages:
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-certificates@file:projects/perf-keyvault-certificates.tgz':
-    resolution: {integrity: sha512-C8lsx6GoI+R/QrAV1AnZ/6a/4wwoMeMmaEbkDJNL1SPeKxk0ygIfouBbivlf/vpuqUtNIEejxgg/9twXmaQ6jQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-KECxqBtNU9Ry7j00Acl44jyZ/m0UAIwltLmKNscvibvg3wdsr8sGQdV2qCbHWDnNDybEScrvw24wFoYLfQtT2Q==, tarball: file:projects/perf-keyvault-certificates.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-keys@file:projects/perf-keyvault-keys.tgz':
-    resolution: {integrity: sha512-xWxVN5GP1cHPnPKdUhPzrwiPX5sCeK/Qsm8HdqWj30oJaxZWbWc4I15iesT7duWc3cb0V5dW1WtZ9aer++Llqg==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-8w47LJ9UcCTHREeiZ/zLO+LAn8BeeBDkkymaAZzYJuWWglHw3uZN0VFuNn7OZiP3GpLLHiT79aiedM7ph7DnAg==, tarball: file:projects/perf-keyvault-keys.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-keyvault-secrets@file:projects/perf-keyvault-secrets.tgz':
-    resolution: {integrity: sha512-M2Ju8rn2YCQnLwqxPIGo4Ei0kyDyUkNbIPnqqm6Toq50qaVT3nobDItTDC8m6s0P1RRs+7tMuZWMDQwH5Ev3Pg==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-wGgyz2nMlBG/5PLMW0gFWuoYX1lntw5dlHTTOvZp5zCA351GHg44WJTFou1cue92gX7fNtQ4aL10aLGlM15teg==, tarball: file:projects/perf-keyvault-secrets.tgz}
     version: 0.0.0
 
   '@rush-temp/perf-monitor-ingestion@file:projects/perf-monitor-ingestion.tgz':
@@ -8445,6 +8453,23 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@azure/keyvault-certificates@4.9.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.2.0
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/keyvault-common': 2.0.0
+      '@azure/logger': 1.1.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
   '@azure/keyvault-common@2.0.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
@@ -8459,6 +8484,23 @@ snapshots:
       - supports-color
 
   '@azure/keyvault-keys@4.9.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.2.0
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.19.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/keyvault-common': 2.0.0
+      '@azure/logger': 1.1.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/keyvault-secrets@4.9.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.9.0
@@ -10405,6 +10447,7 @@ snapshots:
   '@rush-temp/app-configuration@file:projects/app-configuration.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
+      '@azure/keyvault-secrets': 4.9.0
       '@types/node': 18.19.76
       '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
@@ -20168,6 +20211,7 @@ snapshots:
 
   '@rush-temp/cosmos@file:projects/cosmos.tgz':
     dependencies:
+      '@azure/keyvault-keys': 4.9.0
       '@sinonjs/fake-timers': 11.3.1
       '@types/chai': 4.3.20
       '@types/debug': 4.1.12
@@ -20503,6 +20547,7 @@ snapshots:
 
   '@rush-temp/event-hubs@file:projects/event-hubs.tgz(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(rollup@4.34.8)(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/keyvault-secrets': 4.9.0
       '@rollup/plugin-inject': 5.0.5(rollup@4.34.8)
       '@types/chai-as-promised': 8.0.1
       '@types/debug': 4.1.12
@@ -21155,6 +21200,7 @@ snapshots:
 
   '@rush-temp/keyvault-admin@file:projects/keyvault-admin.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
+      '@azure/keyvault-keys': 4.9.0
       '@types/node': 18.19.76
       '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
@@ -21191,6 +21237,7 @@ snapshots:
   '@rush-temp/keyvault-certificates@file:projects/keyvault-certificates.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@azure/core-lro': 2.7.2
+      '@azure/keyvault-secrets': 4.9.0
       '@types/node': 18.19.76
       '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
@@ -22162,6 +22209,7 @@ snapshots:
 
   '@rush-temp/perf-keyvault-certificates@file:projects/perf-keyvault-certificates.tgz':
     dependencies:
+      '@azure/keyvault-certificates': 4.9.0
       '@types/node': 18.19.76
       dotenv: 16.4.7
       eslint: 9.21.0
@@ -22173,6 +22221,7 @@ snapshots:
 
   '@rush-temp/perf-keyvault-keys@file:projects/perf-keyvault-keys.tgz':
     dependencies:
+      '@azure/keyvault-keys': 4.9.0
       '@types/node': 18.19.76
       dotenv: 16.4.7
       eslint: 9.21.0
@@ -22184,6 +22233,7 @@ snapshots:
 
   '@rush-temp/perf-keyvault-secrets@file:projects/perf-keyvault-secrets.tgz':
     dependencies:
+      '@azure/keyvault-secrets': 4.9.0
       '@types/node': 18.19.76
       dotenv: 16.4.7
       eslint: 9.21.0
