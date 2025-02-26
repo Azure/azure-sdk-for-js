@@ -8,7 +8,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { createPersistence } from "./setup.spec.js";
-import type { MockInstance } from "vitest";
+import type { MockInstance, vi } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const scope = "https://graph.microsoft.com/.default";
