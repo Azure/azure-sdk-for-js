@@ -188,7 +188,7 @@ if (result.error) {
 This capability was introduced in TypeScript 3.2, so users of TypeScript 3.1 must cast result values to their corresponding success variant as follows:
 
 ```ts snippet:ReadmeSampleTypeScriptCast
-import { TextAnalyticsClient, DetectLanguageSuccessResult } from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
@@ -196,7 +196,7 @@ const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential(
 const [result] = await client.detectLanguage(["Hello world!"]);
 
 if (result.error === undefined) {
-  const { primaryLanguage } = result as DetectLanguageSuccessResult;
+  const { primaryLanguage } = result;
 }
 ```
 
@@ -207,7 +207,7 @@ if (result.error === undefined) {
 Analyze sentiment of text to determine if it is positive, negative, neutral, or mixed, including per-sentence sentiment analysis and confidence scores.
 
 ```ts snippet:ReadmeSampleAnalyzeSentiment
-import { TextAnalyticsClient, AnalyzeSentimentSuccessResult } from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
@@ -221,7 +221,7 @@ const results = await client.analyzeSentiment(documents);
 
 for (const result of results) {
   if (!result.error) {
-    const { id, sentiment, confidenceScores } = result as AnalyzeSentimentSuccessResult;
+    const { id, sentiment, confidenceScores } = result;
     console.log(`Document ${id} has sentiment ${sentiment}`);
     console.log(`Positive confidence score: ${confidenceScores.positive}`);
     console.log(`Neutral confidence score: ${confidenceScores.neutral}`);
@@ -241,10 +241,7 @@ Recognize and categorize entities in text as people, places, organizations, date
 The `language` parameter is optional. If it is not specified, the default English model will be used.
 
 ```ts snippet:ReadmeSampleRecognizeEntities
-import {
-  TextAnalyticsClient,
-  RecognizeCategorizedEntitiesSuccessResult,
-} from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
@@ -258,7 +255,7 @@ const results = await client.recognizeEntities(documents, "en");
 
 for (const result of results) {
   if (!result.error) {
-    const { id, entities } = result as RecognizeCategorizedEntitiesSuccessResult;
+    const { id, entities } = result;
     console.log(` -- Recognized entities for input ${id}--`);
     for (const { text, category, confidenceScore } of entities) {
       console.log(`${text}: ${category} (Score: ${confidenceScore})`);
@@ -274,7 +271,7 @@ for (const result of results) {
 There is a separate endpoint and operation for recognizing Personally Identifiable Information (PII) in text such as Social Security Numbers, bank account information, credit card numbers, etc. Its usage is very similar to the standard entity recognition above:
 
 ```ts snippet:ReadmeSampleRecognizePiiEntities
-import { TextAnalyticsClient, RecognizePiiEntitiesSuccessResult } from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
@@ -287,7 +284,7 @@ const results = await client.recognizePiiEntities(documents, "en");
 
 for (const result of results) {
   if (!result.error) {
-    const { id, entities } = result as RecognizePiiEntitiesSuccessResult;
+    const { id, entities } = result;
     console.log(` -- Recognized PII entities for input ${id} --`);
     for (const { text, category, confidenceScore } of entities) {
       console.log(`${text}: ${category} (Score: ${confidenceScore})`);
@@ -303,10 +300,7 @@ for (const result of results) {
 A "Linked" entity is one that exists in a knowledge base (such as Wikipedia). The `recognizeLinkedEntities` operation can disambiguate entities by determining which entry in a knowledge base they likely refer to (for example, in a piece of text, does the word "Mars" refer to the planet, or to the Roman god of war). Linked entities contain associated URLs to the knowledge base that provides the definition of the entity.
 
 ```ts snippet:ReadmeSampleRecognizeLinkedEntities
-import {
-  TextAnalyticsClient,
-  RecognizeLinkedEntitiesSuccessResult,
-} from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
@@ -320,7 +314,7 @@ const results = await client.recognizeLinkedEntities(documents, "en");
 
 for (const result of results) {
   if (!result.error) {
-    const { id, entities } = result as RecognizeLinkedEntitiesSuccessResult;
+    const { id, entities } = result;
     console.log(` -- Recognized linked entities for input ${id} --`);
     for (const { name, url, dataSource, matches } of entities) {
       console.log(`${name} (URL: ${url}, Source: ${dataSource})`);
@@ -339,7 +333,7 @@ for (const result of results) {
 Key Phrase extraction identifies the main talking points in a document. For example, given input text "The food was delicious and there were wonderful staff", the service returns "food" and "wonderful staff".
 
 ```ts snippet:ReadmeSampleExtractKeyPhrases
-import { TextAnalyticsClient, ExtractKeyPhrasesSuccessResult } from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
@@ -353,7 +347,7 @@ const results = await client.extractKeyPhrases(documents, "en");
 
 for (const result of results) {
   if (!result.error) {
-    const { id, keyPhrases } = result as ExtractKeyPhrasesSuccessResult;
+    const { id, keyPhrases } = result;
     console.log(` -- Extracted key phrases for input ${id} --`);
     for (const phrase of keyPhrases) {
       console.log(`"${phrase}"`);
@@ -371,7 +365,7 @@ Determine the language of a piece of text.
 The `countryHint` parameter is optional, but can assist the service in providing correct output if the country of origin is known. If provided, it should be set to an ISO-3166 Alpha-2 two-letter country code (such as "us" for the United States or "jp" for Japan) or to the value `"none"`. If the parameter is not provided, then the default `"us"` (United States) model will be used. If you do not know the country of origin of the document, then the parameter `"none"` should be used, and the Text Analytics service will apply a model that is tuned for an unknown country of origin.
 
 ```ts snippet:ReadmeSampleDetectLanguage
-import { TextAnalyticsClient, DetectLanguageSuccessResult } from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
@@ -385,7 +379,7 @@ const results = await client.detectLanguage(documents, "none");
 
 for (const result of results) {
   if (!result.error) {
-    const { id, primaryLanguage } = result as DetectLanguageSuccessResult;
+    const { id, primaryLanguage } = result;
     const { name, iso6391Name, confidenceScore } = primaryLanguage;
     console.log(
       `Input #${id} identified as ${name} (ISO6391: ${iso6391Name}, Score: ${confidenceScore})`,
@@ -401,10 +395,7 @@ for (const result of results) {
 Healthcare analysis identifies healthcare entities. For example, given input text "Prescribed 100mg ibuprofen, taken twice daily", the service returns "100mg" categorized as Dosage, "ibuprofen" as MedicationName, and "twice daily" as Frequency.
 
 ```ts snippet:ReadmeSampleAnalyzeHealthcareEntities
-import {
-  TextAnalyticsClient,
-  AnalyzeHealthcareEntitiesSuccessResult,
-} from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
@@ -419,7 +410,7 @@ const results = await poller.pollUntilDone();
 for await (const result of results) {
   console.log(`- Document ${result.id}`);
   if (!result.error) {
-    const { entities } = result as AnalyzeHealthcareEntitiesSuccessResult;
+    const { entities } = result;
     console.log("\tRecognized Entities:");
     for (const { text, category } of entities) {
       console.log(`\t- Entity ${text} of type ${category}`);
@@ -435,15 +426,7 @@ for await (const result of results) {
 Analyze actions enables the application of multiple analyses (named actions) at once.
 
 ```ts snippet:ReadmeSampleAnalyzeActions
-import {
-  TextAnalyticsClient,
-  ExtractKeyPhrasesActionSuccessResult,
-  ExtractKeyPhrasesSuccessResult,
-  RecognizeCategorizedEntitiesActionSuccessResult,
-  RecognizeCategorizedEntitiesSuccessResult,
-  RecognizePiiEntitiesActionSuccessResult,
-  RecognizePiiEntitiesSuccessResult,
-} from "@azure/ai-text-analytics";
+import { TextAnalyticsClient } from "@azure/ai-text-analytics";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential());
@@ -464,11 +447,11 @@ const resultPages = await poller.pollUntilDone();
 for await (const page of resultPages) {
   const keyPhrasesAction = page.extractKeyPhrasesResults[0];
   if (!keyPhrasesAction.error) {
-    const { results } = keyPhrasesAction as ExtractKeyPhrasesActionSuccessResult;
+    const { results } = keyPhrasesAction;
     for (const doc of results) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
-        const { keyPhrases } = doc as ExtractKeyPhrasesSuccessResult;
+        const { keyPhrases } = doc;
         console.log("\tKey phrases:");
         for (const phrase of keyPhrases) {
           console.log(`\t- ${phrase}`);
@@ -481,11 +464,11 @@ for await (const page of resultPages) {
 
   const entitiesAction = page.recognizeEntitiesResults[0];
   if (!entitiesAction.error) {
-    const { results } = entitiesAction as RecognizeCategorizedEntitiesActionSuccessResult;
+    const { results } = entitiesAction;
     for (const doc of results) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
-        const { entities } = doc as RecognizeCategorizedEntitiesSuccessResult;
+        const { entities } = doc;
         console.log("\tEntities:");
         for (const { text, category } of entities) {
           console.log(`\t- Entity ${text} of type ${category}`);
@@ -498,11 +481,11 @@ for await (const page of resultPages) {
 
   const piiEntitiesAction = page.recognizePiiEntitiesResults[0];
   if (!piiEntitiesAction.error) {
-    const { results } = piiEntitiesAction as RecognizePiiEntitiesActionSuccessResult;
+    const { results } = piiEntitiesAction;
     for (const doc of results) {
       console.log(`- Document ${doc.id}`);
       if (!doc.error) {
-        const { entities } = doc as RecognizePiiEntitiesSuccessResult;
+        const { entities } = doc;
         console.log("\tPii Entities:");
         for (const { text, category } of entities) {
           console.log(`\t- Entity ${text} of type ${category}`);

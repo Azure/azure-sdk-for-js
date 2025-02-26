@@ -76,7 +76,7 @@ describe("snippets", () => {
     const [result] = await client.detectLanguage(["Hello world!"]);
     // @ts-preserve-whitespace
     if (result.error === undefined) {
-      const { primaryLanguage } = result as DetectLanguageSuccessResult;
+      const { primaryLanguage } = result;
     }
   });
 
@@ -92,7 +92,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     for (const result of results) {
       if (!result.error) {
-        const { id, sentiment, confidenceScores } = result as AnalyzeSentimentSuccessResult;
+        const { id, sentiment, confidenceScores } = result;
         console.log(`Document ${id} has sentiment ${sentiment}`);
         console.log(`Positive confidence score: ${confidenceScores.positive}`);
         console.log(`Neutral confidence score: ${confidenceScores.neutral}`);
@@ -115,7 +115,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     for (const result of results) {
       if (!result.error) {
-        const { id, entities } = result as RecognizeCategorizedEntitiesSuccessResult;
+        const { id, entities } = result;
         console.log(` -- Recognized entities for input ${id}--`);
         for (const { text, category, confidenceScore } of entities) {
           console.log(`${text}: ${category} (Score: ${confidenceScore})`);
@@ -137,7 +137,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     for (const result of results) {
       if (!result.error) {
-        const { id, entities } = result as RecognizePiiEntitiesSuccessResult;
+        const { id, entities } = result;
         console.log(` -- Recognized PII entities for input ${id} --`);
         for (const { text, category, confidenceScore } of entities) {
           console.log(`${text}: ${category} (Score: ${confidenceScore})`);
@@ -160,7 +160,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     for (const result of results) {
       if (!result.error) {
-        const { id, entities } = result as RecognizeLinkedEntitiesSuccessResult;
+        const { id, entities } = result;
         console.log(` -- Recognized linked entities for input ${id} --`);
         for (const { name, url, dataSource, matches } of entities) {
           console.log(`${name} (URL: ${url}, Source: ${dataSource})`);
@@ -186,7 +186,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     for (const result of results) {
       if (!result.error) {
-        const { id, keyPhrases } = result as ExtractKeyPhrasesSuccessResult;
+        const { id, keyPhrases } = result;
         console.log(` -- Extracted key phrases for input ${id} --`);
         for (const phrase of keyPhrases) {
           console.log(`"${phrase}"`);
@@ -209,7 +209,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     for (const result of results) {
       if (!result.error) {
-        const { id, primaryLanguage } = result as DetectLanguageSuccessResult;
+        const { id, primaryLanguage } = result;
         const { name, iso6391Name, confidenceScore } = primaryLanguage;
         console.log(
           `Input #${id} identified as ${name} (ISO6391: ${iso6391Name}, Score: ${confidenceScore})`,
@@ -233,7 +233,7 @@ describe("snippets", () => {
     for await (const result of results) {
       console.log(`- Document ${result.id}`);
       if (!result.error) {
-        const { entities } = result as AnalyzeHealthcareEntitiesSuccessResult;
+        const { entities } = result;
         console.log("\tRecognized Entities:");
         for (const { text, category } of entities) {
           console.log(`\t- Entity ${text} of type ${category}`);
@@ -264,11 +264,11 @@ describe("snippets", () => {
       // @ts-preserve-whitespace
       const keyPhrasesAction = page.extractKeyPhrasesResults[0];
       if (!keyPhrasesAction.error) {
-        const { results } = keyPhrasesAction as ExtractKeyPhrasesActionSuccessResult;
+        const { results } = keyPhrasesAction;
         for (const doc of results) {
           console.log(`- Document ${doc.id}`);
           if (!doc.error) {
-            const { keyPhrases } = doc as ExtractKeyPhrasesSuccessResult;
+            const { keyPhrases } = doc;
             console.log("\tKey phrases:");
             for (const phrase of keyPhrases) {
               console.log(`\t- ${phrase}`);
@@ -281,11 +281,11 @@ describe("snippets", () => {
       // @ts-preserve-whitespace
       const entitiesAction = page.recognizeEntitiesResults[0];
       if (!entitiesAction.error) {
-        const { results } = entitiesAction as RecognizeCategorizedEntitiesActionSuccessResult;
+        const { results } = entitiesAction;
         for (const doc of results) {
           console.log(`- Document ${doc.id}`);
           if (!doc.error) {
-            const { entities } = doc as RecognizeCategorizedEntitiesSuccessResult;
+            const { entities } = doc;
             console.log("\tEntities:");
             for (const { text, category } of entities) {
               console.log(`\t- Entity ${text} of type ${category}`);
@@ -298,11 +298,11 @@ describe("snippets", () => {
       // @ts-preserve-whitespace
       const piiEntitiesAction = page.recognizePiiEntitiesResults[0];
       if (!piiEntitiesAction.error) {
-        const { results } = piiEntitiesAction as RecognizePiiEntitiesActionSuccessResult;
+        const { results } = piiEntitiesAction;
         for (const doc of results) {
           console.log(`- Document ${doc.id}`);
           if (!doc.error) {
-            const { entities } = doc as RecognizePiiEntitiesSuccessResult;
+            const { entities } = doc;
             console.log("\tPii Entities:");
             for (const { text, category } of entities) {
               console.log(`\t- Entity ${text} of type ${category}`);
