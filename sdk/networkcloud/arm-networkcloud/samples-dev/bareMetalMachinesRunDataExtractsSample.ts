@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   BareMetalMachineRunDataExtractsParameters,
   NetworkCloud,
@@ -29,15 +27,15 @@ async function runDataExtractionOnBareMetalMachine(): Promise<void> {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const bareMetalMachineName = "bareMetalMachineName";
   const bareMetalMachineRunDataExtractsParameters: BareMetalMachineRunDataExtractsParameters =
-    {
-      limitTimeSeconds: 60,
-      commands: [
-        {
-          arguments: ["SysInfo", "TTYLog"],
-          command: "hardware-support-data-collection",
-        },
-      ],
-    };
+  {
+    limitTimeSeconds: 60,
+    commands: [
+      {
+        arguments: ["SysInfo", "TTYLog"],
+        command: "hardware-support-data-collection",
+      },
+    ],
+  };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginRunDataExtractsAndWait(

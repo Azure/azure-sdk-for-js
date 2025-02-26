@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   CloudServicesNetworkPatchParameters,
   CloudServicesNetworksUpdateOptionalParams,
@@ -30,18 +28,18 @@ async function patchCloudServicesNetwork(): Promise<void> {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const cloudServicesNetworkName = "cloudServicesNetworkName";
   const cloudServicesNetworkUpdateParameters: CloudServicesNetworkPatchParameters =
-    {
-      additionalEgressEndpoints: [
-        {
-          category: "azure-resource-management",
-          endpoints: [
-            { domainName: "storageaccountex.blob.core.windows.net", port: 443 },
-          ],
-        },
-      ],
-      enableDefaultEgressEndpoints: "False",
-      tags: { key1: "myvalue1", key2: "myvalue2" },
-    };
+  {
+    additionalEgressEndpoints: [
+      {
+        category: "azure-resource-management",
+        endpoints: [
+          { domainName: "storageaccountex.blob.core.windows.net", port: 443 },
+        ],
+      },
+    ],
+    enableDefaultEgressEndpoints: "False",
+    tags: { key1: "myvalue1", key2: "myvalue2" },
+  };
   const options: CloudServicesNetworksUpdateOptionalParams = {
     cloudServicesNetworkUpdateParameters,
   };

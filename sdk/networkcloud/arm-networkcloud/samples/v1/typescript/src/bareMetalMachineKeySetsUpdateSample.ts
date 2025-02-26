@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   BareMetalMachineKeySetPatchParameters,
   BareMetalMachineKeySetsUpdateOptionalParams,
@@ -31,33 +29,33 @@ async function patchBareMetalMachineKeySetOfCluster(): Promise<void> {
   const clusterName = "clusterName";
   const bareMetalMachineKeySetName = "bareMetalMachineKeySetName";
   const bareMetalMachineKeySetUpdateParameters: BareMetalMachineKeySetPatchParameters =
-    {
-      expiration: new Date("2022-12-31T23:59:59.008Z"),
-      jumpHostsAllowed: ["192.0.2.1", "192.0.2.5"],
-      tags: { key1: "myvalue1", key2: "myvalue2" },
-      userList: [
-        {
-          description:
-            "Needs access for troubleshooting as a part of the support team",
-          azureUserName: "userABC",
-          sshPublicKey: {
-            keyData:
-              "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm",
-          },
-          userPrincipalName: "userABC@contoso.com",
+  {
+    expiration: new Date("2022-12-31T23:59:59.008Z"),
+    jumpHostsAllowed: ["192.0.2.1", "192.0.2.5"],
+    tags: { key1: "myvalue1", key2: "myvalue2" },
+    userList: [
+      {
+        description:
+          "Needs access for troubleshooting as a part of the support team",
+        azureUserName: "userABC",
+        sshPublicKey: {
+          keyData:
+            "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm",
         },
-        {
-          description:
-            "Needs access for troubleshooting as a part of the support team",
-          azureUserName: "userXYZ",
-          sshPublicKey: {
-            keyData:
-              "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm",
-          },
-          userPrincipalName: "userABC@contoso.com",
+        userPrincipalName: "userABC@contoso.com",
+      },
+      {
+        description:
+          "Needs access for troubleshooting as a part of the support team",
+        azureUserName: "userXYZ",
+        sshPublicKey: {
+          keyData:
+            "ssh-rsa AAtsE3njSONzDYRIZv/WLjVuMfrUSByHp+jfaaOLHTIIB4fJvo6dQUZxE20w2iDHV3tEkmnTo84eba97VMueQD6OzJPEyWZMRpz8UYWOd0IXeRqiFu1lawNblZhwNT/ojNZfpB3af/YDzwQCZgTcTRyNNhL4o/blKUmug0daSsSXISTRnIDpcf5qytjs1Xo+yYyJMvzLL59mhAyb3p/cD+Y3/s3WhAx+l0XOKpzXnblrv9d3q4c2tWmm/SyFqthaqd0= admin@vm",
         },
-      ],
-    };
+        userPrincipalName: "userABC@contoso.com",
+      },
+    ],
+  };
   const options: BareMetalMachineKeySetsUpdateOptionalParams = {
     bareMetalMachineKeySetUpdateParameters,
   };

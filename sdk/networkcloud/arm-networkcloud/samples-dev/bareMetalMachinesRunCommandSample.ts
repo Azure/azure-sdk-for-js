@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   BareMetalMachineRunCommandParameters,
   NetworkCloud,
@@ -29,11 +27,11 @@ async function runCommandOnBareMetalMachine(): Promise<void> {
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const bareMetalMachineName = "bareMetalMachineName";
   const bareMetalMachineRunCommandParameters: BareMetalMachineRunCommandParameters =
-    {
-      arguments: ["--argument1", "argument2"],
-      limitTimeSeconds: 60,
-      script: "cHdkCg==",
-    };
+  {
+    arguments: ["--argument1", "argument2"],
+    limitTimeSeconds: 60,
+    script: "cHdkCg==",
+  };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginRunCommandAndWait(

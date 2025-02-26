@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   BareMetalMachineRunReadCommandsParameters,
   NetworkCloud,
@@ -29,13 +27,13 @@ async function runAndRetrieveOutputFromReadOnlyCommandsOnBareMetalMachine(): Pro
     process.env["NETWORKCLOUD_RESOURCE_GROUP"] || "resourceGroupName";
   const bareMetalMachineName = "bareMetalMachineName";
   const bareMetalMachineRunReadCommandsParameters: BareMetalMachineRunReadCommandsParameters =
-    {
-      limitTimeSeconds: 60,
-      commands: [
-        { arguments: ["pods", "-A"], command: "kubectl get" },
-        { arguments: ["192.168.0.99", "-c", "3"], command: "ping" },
-      ],
-    };
+  {
+    limitTimeSeconds: 60,
+    commands: [
+      { arguments: ["pods", "-A"], command: "kubectl get" },
+      { arguments: ["192.168.0.99", "-c", "3"], command: "ping" },
+    ],
+  };
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const result = await client.bareMetalMachines.beginRunReadCommandsAndWait(
