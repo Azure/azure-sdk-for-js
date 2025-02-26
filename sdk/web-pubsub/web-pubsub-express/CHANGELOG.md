@@ -8,12 +8,6 @@
 
 - Add support for MQTT event handling
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.5 (2023-06-28)
 
 ### Other Changes
