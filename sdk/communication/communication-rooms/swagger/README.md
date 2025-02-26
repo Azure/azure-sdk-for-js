@@ -11,8 +11,8 @@ description: Communication Rooms client
 package-version: 1.2.0
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-rooms-2025-03-07
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/634e844ef2cc7a8968bc960683e44a531263ad63/specification/communication/data-plane/Rooms/readme.md
+tag: package-rooms-2025-03-13
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/538040a7bbb466baf361e98d6d36faec417cff7a/specification/communication/data-plane/Rooms/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10

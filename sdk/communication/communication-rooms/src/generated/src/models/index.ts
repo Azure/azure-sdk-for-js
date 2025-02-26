@@ -14,10 +14,10 @@ export interface CreateRoomRequest {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time plus 180 days. */
   validUntil?: Date;
-  /** (Optional) Participants to be invited to the room. */
-  participants?: { [propertyName: string]: ParticipantProperties };
   /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
   pstnDialOutEnabled?: boolean;
+  /** (Optional) Participants to be invited to the room. */
+  participants?: { [propertyName: string]: ParticipantProperties };
 }
 
 export interface ParticipantProperties {
@@ -96,7 +96,7 @@ export interface ParticipantsCollection {
 
 /** A participant of the room. */
 export interface RoomParticipant {
-  /** Raw ID representation of the communication identifier. Please refer to the following document for additional information on Raw ID. <br /> https://learn.microsoft.com/azure/communication-services/concepts/identifiers?pivots=programming-language-rest#raw-id-representation */
+  /** Raw ID representation of the communication identifier. Please refer to the following document for additional information on Raw ID. <br> https://learn.microsoft.com/azure/communication-services/concepts/identifiers?pivots=programming-language-rest#raw-id-representation */
   rawId: string;
   /** The role of a room participant. The default value is Attendee. */
   role: Role;
@@ -162,10 +162,10 @@ export interface RoomsCreateOptionalParams extends coreClient.OperationOptions {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. The default value is the current date time plus 180 days. */
   validUntil?: Date;
-  /** (Optional) Participants to be invited to the room. */
-  participants?: { [propertyName: string]: ParticipantProperties };
   /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
   pstnDialOutEnabled?: boolean;
+  /** (Optional) Participants to be invited to the room. */
+  participants?: { [propertyName: string]: ParticipantProperties };
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
   repeatabilityRequestID?: string;
   /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. */
