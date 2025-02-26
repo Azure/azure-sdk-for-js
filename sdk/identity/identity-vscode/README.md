@@ -4,15 +4,6 @@ This package provides a plugin to the Azure Identity library for JavaScript ([`@
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-vscode) | [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-vscode/samples-dev)
 
-## Getting started
-
-```javascript
-const { useIdentityPlugin } = require("@azure/identity");
-const { vsCodePlugin } = require("@azure/identity-vscode");
-
-useIdentityPlugin(vsCodePlugin);
-```
-
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/).
@@ -39,9 +30,9 @@ If this is your first time using `@azure/identity` or Microsoft Entra ID, we rec
 
 As of `@azure/identity` version 2.0.0, the Identity client library for JavaScript includes a plugin API. This package (`@azure/identity-vscode`) exports a plugin object that you must pass as an argument to the top-level `useIdentityPlugin` function from the `@azure/identity` package. Enable authentication through the "Azure Account" extension for Visual Studio Code as follows:
 
-```javascript
-const { useIdentityPlugin } = require("@azure/identity");
-const { vsCodePlugin } = require("@azure/identity-vscode");
+```ts snippet:ReadmeSampleUsePlugin
+import { useIdentityPlugin } from "@azure/identity";
+import { vsCodePlugin } from "@azure/identity-vscode";
 
 useIdentityPlugin(vsCodePlugin);
 ```
@@ -58,51 +49,37 @@ After signing in, you may need to select a subscription (for example, if you hav
 
 Once the plugin is registered, you can use `VisualStudioCodeCredential` in a similar fashion to the other credential classes in `@azure/identity`:
 
-```javascript
-const { useIdentityPlugin, VisualStudioCodeCredential } = require("@azure/identity");
-const { vsCodePlugin } = require("@azure/identity-vscode");
+```ts snippet:ReadmeSampleVisualStudioCodeCredential
+import { useIdentityPlugin, VisualStudioCodeCredential } from "@azure/identity";
+import { vsCodePlugin } from "@azure/identity-vscode";
 
 useIdentityPlugin(vsCodePlugin);
 
-async function main() {
-  const credential = new VisualStudioCodeCredential();
+const credential = new VisualStudioCodeCredential();
 
-  // The graph.microsoft.com scope is used as an example
-  const scope = "https://graph.microsoft.com/.default";
+// The graph.microsoft.com scope is used as an example
+const scope = "https://graph.microsoft.com/.default";
 
-  // Print out part of the access token
-  console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
-}
-
-main().catch((error) => {
-  console.error("An error occurred:", error);
-  process.exit(1);
-});
+// Print out part of the access token
+console.log((await credential.getToken(scope)).token.substr(0, 10), "...");
 ```
 
 You can also use `DefaultAzureCredential`, which will attempt to authenticate using the "Azure Account" extension for Visual Studio Code if it's available:
 
-```javascript
-const { useIdentityPlugin, DefaultAzureCredential } = require("@azure/identity");
-const { vsCodePlugin } = require("@azure/identity-vscode");
+```ts snippet:ReadmeSampleDefaultAzureCredential
+import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
+import { vsCodePlugin } from "@azure/identity-vscode";
 
 useIdentityPlugin(vsCodePlugin);
 
-async function main() {
-  // With the plugin enabled above, `DefaultAzureCredential` will use
-  // Visual Studio Code's "Azure Account" extension to authenticate if
-  // it is available.
-  const credential = new DefaultAzureCredential();
+// With the plugin enabled above, `DefaultAzureCredential` will use
+// Visual Studio Code's "Azure Account" extension to authenticate if
+// it is available.
+const credential = new DefaultAzureCredential();
 
-  // This will print a JWT access_token and its expiration timestamp
-  // The graph.microsoft.com scope is used as an example
-  console.log("Token:", await credential.getToken("https://graph.microsoft.com/.default"));
-}
-
-main().catch((error) => {
-  console.error("An error occurred:", error);
-  process.exit(1);
-});
+// This will print a JWT access_token and its expiration timestamp
+// The graph.microsoft.com scope is used as an example
+console.log("Token:", await credential.getToken("https://graph.microsoft.com/.default"));
 ```
 
 ## Troubleshooting
@@ -111,8 +88,8 @@ main().catch((error) => {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
