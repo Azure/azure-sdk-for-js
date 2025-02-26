@@ -35,9 +35,9 @@ describe("ClientCertificateCredential (internal)", () => {
     );
   });
 
-  afterEach(async function () {
-    await cleanup();
-  });
+  afterEach(async () => {
+      await cleanup();
+    });
 
   // We use AZURE_CLIENT_CERTIFICATE_PATH if it is defined, and otherwise we will use the dummy cert
   const certificatePath =

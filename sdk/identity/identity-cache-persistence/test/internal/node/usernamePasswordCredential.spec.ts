@@ -29,9 +29,9 @@ describe("UsernamePasswordCredential (internal)", () => {
     doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenByUsernamePassword");
   });
 
-  afterEach(async function () {
-    await cleanup();
-  });
+  afterEach(async () => {
+      await cleanup();
+    });
 
   const scope = "https://graph.microsoft.com/.default";
 

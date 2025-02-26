@@ -29,9 +29,9 @@ describe("DeviceCodeCredential (internal)", () => {
     doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenByDeviceCode");
   });
 
-  afterEach(async function () {
-    await cleanup();
-  });
+  afterEach(async () => {
+      await cleanup();
+    });
 
   const scope = "https://graph.microsoft.com/.default";
 
