@@ -33,8 +33,8 @@ describe("ClientSecretCredential (internal)", () => {
     );
   });
   afterEach(async () => {
-      await cleanup();
-    });
+    await cleanup();
+  });
 
   it("Accepts tokenCachePersistenceOptions", async (ctx) => {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation

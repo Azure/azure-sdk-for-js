@@ -30,8 +30,8 @@ describe("UsernamePasswordCredential (internal)", () => {
   });
 
   afterEach(async () => {
-      await cleanup();
-    });
+    await cleanup();
+  });
 
   const scope = "https://graph.microsoft.com/.default";
 
