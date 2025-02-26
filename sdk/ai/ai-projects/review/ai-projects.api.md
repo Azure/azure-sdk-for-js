@@ -1349,7 +1349,7 @@ export interface RunStepDeltaDetail {
 
 // @public
 export interface RunStepDeltaFileSearchToolCall extends RunStepDeltaToolCallParent {
-    fileSearch?: Array<string>;
+    fileSearch?: RunStepFileSearchToolCallResultsOutput;
     type: "file_search";
 }
 
