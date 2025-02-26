@@ -9,9 +9,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // Set these environment variables or edit the following values
 const fullyQualifiedNamespace =
   process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<fullyQualifiedNamespace>";
@@ -42,7 +40,7 @@ const schemaDescription: SchemaDescription = {
   definition: JSON.stringify(schemaObject),
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a new client
   const client = new SchemaRegistryClient(fullyQualifiedNamespace, new DefaultAzureCredential());
 
