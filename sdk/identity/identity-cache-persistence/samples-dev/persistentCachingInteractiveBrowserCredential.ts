@@ -4,12 +4,8 @@
 /**
  * @summary Authenticates using persistent token caching with Interactive Browser Credential
  */
-import type {
-  AuthenticationRecord} from "@azure/identity";
-import {
-  InteractiveBrowserCredential,
-  useIdentityPlugin
-} from "@azure/identity";
+import type { AuthenticationRecord } from "@azure/identity";
+import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
 import path from "node:path";
 import fs from "node:fs";
