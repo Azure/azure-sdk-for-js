@@ -1,5 +1,11 @@
 # Release History
 
+## 1.3.1 (2025-02-26)
+
+### Other Changes
+
+- Removed the unsupported document references from readme
+
 ## 1.3.0 (2024-11-22)
 
 ### Features Added
