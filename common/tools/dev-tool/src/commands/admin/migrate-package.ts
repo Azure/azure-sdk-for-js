@@ -448,6 +448,13 @@ async function addNewPackages(packageJson: any, options: { browser: boolean }): 
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
 
+  // add workaround to fix nmet peer dependencies issue
+  packageJson.devDependencies["vitest"] = "^3.0.6";
+  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.6";
+  if (options.browser) {
+    packageJson.devDependencies["@vitest/browser"] = "^3.0.6";
+  }
+
   // Freeze these packages until we have a chance to update them
   const packagesToUpdate = [
     { package: "@azure-tools/test-credential", version: "2.0.0" },
