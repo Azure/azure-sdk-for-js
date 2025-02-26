@@ -404,7 +404,10 @@ describe("HubClient", () => {
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(dacClient.endpoint).host);
       assert.equal(url.pathname, `/clients/socketio/hubs/${dacClient.hubName}`);
-      assert.equal(tokenPayload.aud, dacClient.endpoint + `/clients/socketio/hubs/${dacClient.hubName}`);
+      assert.equal(
+        tokenPayload.aud,
+        dacClient.endpoint + `/clients/socketio/hubs/${dacClient.hubName}`,
+      );
     });
   });
 });
