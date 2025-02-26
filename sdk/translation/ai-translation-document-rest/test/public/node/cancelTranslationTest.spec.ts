@@ -23,13 +23,13 @@ describe("CancelTranslation tests", () => {
   let client: DocumentTranslationClient;
 
   beforeEach(async () => {
-      recorder = await startRecorder(this);
-      client = await createDocumentTranslationClient({ recorder });
-    });
+    recorder = await startRecorder(this);
+    client = await createDocumentTranslationClient({ recorder });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("cancel translation", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);

@@ -49,13 +49,13 @@ describe("DocumentTranslation tests", () => {
   let client: DocumentTranslationClient;
 
   beforeEach(async () => {
-      recorder = await startRecorder(this);
-      client = await createDocumentTranslationClient({ recorder });
-    });
+    recorder = await startRecorder(this);
+    client = await createDocumentTranslationClient({ recorder });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it.skip("Client Cannot Authenticate With FakeApiKey", async () => {
     const testEndpoint = "https://t7d8641d8f25ec940-doctranslation.cognitiveservices.azure.com";

@@ -12,13 +12,13 @@ describe("GetSupportedFormats tests", () => {
   let client: DocumentTranslationClient;
 
   beforeEach(async () => {
-      recorder = await startRecorder(this);
-      client = await createDocumentTranslationClient({ recorder });
-    });
+    recorder = await startRecorder(this);
+    client = await createDocumentTranslationClient({ recorder });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("all formats", async () => {
     const response = await client.path("/document/formats").get();

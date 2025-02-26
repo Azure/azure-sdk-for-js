@@ -25,13 +25,13 @@ describe("DocumentFilter tests", () => {
   let client: DocumentTranslationClient;
 
   beforeEach(async () => {
-      recorder = await startRecorder(this);
-      client = await createDocumentTranslationClient({ recorder });
-    });
+    recorder = await startRecorder(this);
+    client = await createDocumentTranslationClient({ recorder });
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("Document Statuses Filter By Status", async () => {
     const result = createSingleTranslationJob(5);
