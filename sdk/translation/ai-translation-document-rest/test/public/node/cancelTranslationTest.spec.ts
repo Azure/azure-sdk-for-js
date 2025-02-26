@@ -3,34 +3,33 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { DocumentTranslationClient } from "../../../src";
-import { isUnexpected } from "../../../src";
-import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
+import type { DocumentTranslationClient } from "../../../src/index.js";
+import { isUnexpected } from "../../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
 import {
   ONE_TEST_DOCUMENTS,
   createSourceContainer,
   createTargetContainer,
-} from "./containerHelper";
-import type { Context } from "mocha";
+} from "./containerHelper.js";
 import {
   createBatchRequest,
   createSourceInput,
   createTargetInput,
   getTranslationOperationID,
-} from "../utils/testHelper";
+} from "../utils/testHelper.js";
 
 describe("CancelTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
-    client = await createDocumentTranslationClient({ recorder });
-  });
+  beforeEach(async () => {
+      recorder = await startRecorder(this);
+      client = await createDocumentTranslationClient({ recorder });
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("cancel translation", async () => {
     const sourceUrl = await createSourceContainer(recorder, ONE_TEST_DOCUMENTS);

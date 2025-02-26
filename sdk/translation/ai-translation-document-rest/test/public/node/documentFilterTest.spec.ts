@@ -4,18 +4,17 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { DocumentTranslationClient, StartTranslation202Response } from "../../../src";
-import { isUnexpected, getLongRunningPoller } from "../../../src";
-import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
-import { createSourceContainer, createTargetContainer } from "./containerHelper";
-import type { Context } from "mocha";
+import type { DocumentTranslationClient, StartTranslation202Response } from "../../../src/index.js";
+import { isUnexpected, getLongRunningPoller } from "../../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
+import { createSourceContainer, createTargetContainer } from "./containerHelper.js";
 import {
   createBatchRequest,
   createDummyTestDocuments,
   createSourceInput,
   createTargetInput,
   getTranslationOperationID,
-} from "../utils/testHelper";
+} from "../utils/testHelper.js";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -25,14 +24,14 @@ describe("DocumentFilter tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
-    client = await createDocumentTranslationClient({ recorder });
-  });
+  beforeEach(async () => {
+      recorder = await startRecorder(this);
+      client = await createDocumentTranslationClient({ recorder });
+    });
 
-  afterEach(async function () {
-    await recorder.stop();
-  });
+  afterEach(async () => {
+      await recorder.stop();
+    });
 
   it("Document Statuses Filter By Status", async () => {
     const result = createSingleTranslationJob(5);
@@ -233,7 +232,7 @@ describe("DocumentFilter tests", () => {
     }
   });
 
-  async function createSingleTranslationJob(count: number) {
+  async function createSingleTranslationJob(count: number): Promise<void> {
     const testDocs = createDummyTestDocuments(count);
     const sourceUrl = await createSourceContainer(recorder, testDocs);
     const sourceInput = createSourceInput(sourceUrl);
