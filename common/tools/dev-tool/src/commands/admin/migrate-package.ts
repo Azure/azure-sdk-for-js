@@ -64,9 +64,10 @@ export const commandInfo = makeCommandInfo(
 
 async function commitChanges(projectFolder: string, message: string): Promise<void> {
   log.info("Committing changes, message: ", message);
-  await run(["git", "add", "."], { cwd: projectFolder });
+  await run(["git", "add", "."], { cwd: projectFolder, captureOutput: true });
   await run(["git", "commit", "--allow-empty", "-m", `Migration: ${message}`], {
     cwd: projectFolder,
+    captureOutput: true,
   });
 }
 
@@ -88,7 +89,11 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await applyCodemods(projectFolder);
 
   log.info("Formatting files");
-  await run(["npm", "run", "format"], { cwd: projectFolder, shell: isWindows() });
+  await run(["npm", "run", "format"], {
+    cwd: projectFolder,
+    shell: isWindows(),
+    captureOutput: true,
+  });
   await commitChanges(projectFolder, "npm run format");
 
   log.info(
