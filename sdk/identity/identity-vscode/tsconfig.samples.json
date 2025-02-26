@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/identity-vscode": ["./dist/esm"]
+      "@azure/identity-vscode": [
+        "./dist/esm"
+      ]
     }
   }
 }
