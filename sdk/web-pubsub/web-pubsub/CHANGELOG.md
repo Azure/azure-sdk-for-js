@@ -6,7 +6,7 @@
 - Added support to generate client access URL and token for `socketio` client protocol.
 
 ### Bugs Fixed
-- Fix issue with mismatched DTO for client protocol when calling generate client access URI API, which causes the response to be incorrect.
+- Fix issue with mismatched DTO for client protocol when calling generate client access URI API, causing the response to be incorrect.
 
 ## 1.1.3 (2024-08-09)
 
