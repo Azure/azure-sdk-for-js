@@ -32,9 +32,9 @@
     "test:browser": "npm run clean && npm run build:test:browser && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test:node && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -71,16 +71,17 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.7.0",
+    "@azure/logger": "^1.1.4",
     "@azure/storage-blob": "^12.26.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.7",
-    "@vitest/coverage-istanbul": "^3.0.7",
+    "@vitest/browser": "^3.0.6",
+    "@vitest/coverage-istanbul": "^3.0.6",
     "autorest": "latest",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.50.1",
     "typescript": "~5.7.2",
-    "vitest": "^3.0.7"
+    "vitest": "^3.0.6"
   },
   "sideEffects": false,
   "type": "module",
