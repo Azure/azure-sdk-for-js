@@ -24,8 +24,8 @@ describe("DocumentFilter tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async () => {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createDocumentTranslationClient({ recorder });
   });
 
@@ -232,7 +232,7 @@ describe("DocumentFilter tests", () => {
     }
   });
 
-  async function createSingleTranslationJob(count: number): Promise<void> {
+  async function createSingleTranslationJob(count: number): Promise<StartTranslation202Response> {
     const testDocs = createDummyTestDocuments(count);
     const sourceUrl = await createSourceContainer(recorder, testDocs);
     const sourceInput = createSourceInput(sourceUrl);
