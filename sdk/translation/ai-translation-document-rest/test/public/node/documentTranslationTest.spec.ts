@@ -537,7 +537,7 @@ describe("DocumentTranslation tests", () => {
   function validateDocumentStatus(
     documentStatus: GetDocumentStatus200Response,
     targetLanguage: string,
-  ) {
+  ): void {
     assert.equal(documentStatus.status, "200");
     const documentStatusOutput = documentStatus.body as DocumentStatusOutput;
     assert.isNotNull(documentStatusOutput.id);
