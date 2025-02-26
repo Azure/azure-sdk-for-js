@@ -32,6 +32,7 @@
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/logger": "^1.1.4",
     "@azure/identity": "^4.7.0",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.6",

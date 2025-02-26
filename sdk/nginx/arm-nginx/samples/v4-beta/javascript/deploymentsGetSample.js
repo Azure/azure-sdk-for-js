@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NginxManagementClient } = require("@azure/arm-nginx");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
