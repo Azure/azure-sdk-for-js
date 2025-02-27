@@ -2,6 +2,8 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure ContainerRegistryManagement client.
 
+
+
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/arm-containerregistry) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-containerregistry) |
 [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-containerregistry?view=azure-node-preview) |
@@ -42,7 +44,6 @@ npm install @azure/identity
 ```
 
 You will also need to **register a new AAD application and grant access to Azure ContainerRegistryManagement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
@@ -105,8 +106,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-
-
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
