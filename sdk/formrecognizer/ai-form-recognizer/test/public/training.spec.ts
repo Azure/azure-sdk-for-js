@@ -31,9 +31,9 @@ matrix(
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;
 
-      beforeEach(async function (ctx) {
-        recorder = await createRecorder(ctx);
-      });
+      beforeEach(async (ctx) => {
+              recorder = await createRecorder(ctx);
+            });
 
       afterEach(async () => {
         await recorder.stop();
@@ -57,14 +57,14 @@ matrix(
           return (id += 1);
         }
 
-        beforeEach(function () {
-          // Create a client using the current AAD/API Key configuration
-          client = new DocumentModelAdministrationClient(
-            endpoint(),
-            makeCredential(useAad),
-            recorder.configureClientOptions({}),
-          );
-        });
+        beforeEach(async () => {
+                  // Create a client using the current AAD/API Key configuration
+                  client = new DocumentModelAdministrationClient(
+                    endpoint(),
+                    makeCredential(useAad),
+                    recorder.configureClientOptions({}),
+                  );
+                });
 
         describe(`custom model from trainingdata-v3 (${buildMode})`, async () => {
           let _model: DocumentModelDetails;
