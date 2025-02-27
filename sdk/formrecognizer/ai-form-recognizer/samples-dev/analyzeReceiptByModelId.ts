@@ -17,11 +17,9 @@
 import type {
   DocumentArrayField,
   DocumentObjectField,
-  DocumentStringField} from "@azure/ai-form-recognizer";
-import {
-  AzureKeyCredential,
-  DocumentAnalysisClient
+  DocumentStringField,
 } from "@azure/ai-form-recognizer";
+import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
 import "dotenv/config";
 
