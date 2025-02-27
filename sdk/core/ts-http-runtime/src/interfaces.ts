@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
-
 /**
  * A HttpHeaders collection represented as a simple JSON object.
  */
@@ -200,7 +198,7 @@ export interface PipelineRequest {
   /**
    * Used to abort the request later.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
 
   /**
    * Callback which fires upon upload progress.

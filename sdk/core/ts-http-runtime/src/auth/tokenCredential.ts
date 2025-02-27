@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+
 /**
  * Represents a credential capable of providing an authentication token.
  */
@@ -15,9 +16,24 @@ export interface TokenCredential {
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[]): Promise<AccessToken | undefined>;
+  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | undefined>;
 }
-
+export interface GetTokenOptions {
+  /**
+   * The signal which can be used to abort requests.
+   */
+  abortSignal?: AbortSignal;
+  
+  /**
+   * Options used when creating and sending HTTP requests for this operation.
+   */
+  requestOptions?: {
+    /**
+     * The number of milliseconds a request can take before automatically being terminated.
+     */
+    timeout?: number;
+  };
+}
 /**
  * Represents an access token with an expiration time.
  */

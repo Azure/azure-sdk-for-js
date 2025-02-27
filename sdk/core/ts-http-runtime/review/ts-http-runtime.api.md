@@ -10,13 +10,6 @@ export class AbortError extends Error {
 }
 
 // @public
-export interface AbortSignalLike {
-    readonly aborted: boolean;
-    addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-    removeEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
-}
-
-// @public
 export interface AccessToken {
     token: string;
 }
@@ -201,7 +194,7 @@ export interface MultipartRequestBody {
 
 // @public
 export interface OperationOptions {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
 }
@@ -274,7 +267,7 @@ export interface PipelinePolicy {
 
 // @public
 export interface PipelineRequest {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     agent?: Agent;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
@@ -297,7 +290,7 @@ export interface PipelineRequest {
 
 // @public
 export interface PipelineRequestOptions {
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
@@ -380,7 +373,7 @@ export type RequestParameters = {
     timeout?: number;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
-    abortSignal?: AbortSignalLike;
+    abortSignal?: AbortSignal;
     onResponse?: RawResponseCallback;
 };
 
@@ -446,7 +439,8 @@ export interface TlsSettings {
 
 // @public
 export interface TokenCredential {
-    getToken(scopes: string | string[]): Promise<AccessToken | undefined>;
+    // Warning: (ae-forgotten-export) The symbol "GetTokenOptions" needs to be exported by the entry point index.d.ts
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | undefined>;
 }
 
 // @public

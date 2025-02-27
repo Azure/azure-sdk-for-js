@@ -9,7 +9,6 @@ declare global {
   interface TransformStream<I = any, O = any> {}
 }
 
-export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 export { AbortError } from "./abort-controller/AbortError.js";
 export {
   createClientLogger,

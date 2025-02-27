@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
 
 /**
  * Options related to abort controller.
@@ -10,7 +9,7 @@ export interface AbortOptions {
   /**
    * The abortSignal associated with containing operation.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
   /**
    * The abort error message associated with containing operation.
    */
@@ -21,7 +20,7 @@ export interface AbortOptions {
  * Represents a function that returns a promise that can be aborted.
  */
 export type AbortablePromiseBuilder<T> = (abortOptions: {
-  abortSignal?: AbortSignalLike;
+  abortSignal?: AbortSignal;
 }) => Promise<T>;
 
 /**
@@ -29,7 +28,7 @@ export type AbortablePromiseBuilder<T> = (abortOptions: {
  */
 export async function cancelablePromiseRace<T extends unknown[]>(
   abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[],
-  options?: { abortSignal?: AbortSignalLike },
+  options?: { abortSignal?: AbortSignal },
 ): Promise<T[number]> {
   const aborter = new AbortController();
   function abortHandler(): void {
