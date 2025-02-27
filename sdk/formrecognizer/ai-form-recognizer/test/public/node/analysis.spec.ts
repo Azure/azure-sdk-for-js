@@ -27,7 +27,7 @@ import {
 import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions.js";
 import { createValidator } from "../../utils/fieldValidator.js";
 import { PrebuiltModels } from "../../utils/prebuilts.js";
-import type { PrebuiltIdDocumentDocument } from "../../../samples-dev/prebuilt/prebuilt-idDocument.js";
+import type { PrebuiltIdDocumentDocument } from "../../utils/schemas/prebuilt-idDocument.js";
 import { ASSET_PATH, makeTestUrl } from "../../utils/etc.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
