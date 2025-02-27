@@ -18,7 +18,7 @@ import {
   TokensDeleteOptionalParams,
   TokenUpdateParameters,
   TokensUpdateOptionalParams,
-  TokensUpdateResponse
+  TokensUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Tokens {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: TokensListOptionalParams
+    options?: TokensListOptionalParams,
   ): PagedAsyncIterableIterator<Token>;
   /**
    * Gets the properties of the specified token.
@@ -46,7 +46,7 @@ export interface Tokens {
     resourceGroupName: string,
     registryName: string,
     tokenName: string,
-    options?: TokensGetOptionalParams
+    options?: TokensGetOptionalParams,
   ): Promise<TokensGetResponse>;
   /**
    * Creates a token for a container registry with the specified parameters.
@@ -61,7 +61,7 @@ export interface Tokens {
     registryName: string,
     tokenName: string,
     tokenCreateParameters: Token,
-    options?: TokensCreateOptionalParams
+    options?: TokensCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<TokensCreateResponse>, TokensCreateResponse>
   >;
@@ -78,7 +78,7 @@ export interface Tokens {
     registryName: string,
     tokenName: string,
     tokenCreateParameters: Token,
-    options?: TokensCreateOptionalParams
+    options?: TokensCreateOptionalParams,
   ): Promise<TokensCreateResponse>;
   /**
    * Deletes a token from a container registry.
@@ -91,7 +91,7 @@ export interface Tokens {
     resourceGroupName: string,
     registryName: string,
     tokenName: string,
-    options?: TokensDeleteOptionalParams
+    options?: TokensDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a token from a container registry.
@@ -104,7 +104,7 @@ export interface Tokens {
     resourceGroupName: string,
     registryName: string,
     tokenName: string,
-    options?: TokensDeleteOptionalParams
+    options?: TokensDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates a token with the specified parameters.
@@ -119,7 +119,7 @@ export interface Tokens {
     registryName: string,
     tokenName: string,
     tokenUpdateParameters: TokenUpdateParameters,
-    options?: TokensUpdateOptionalParams
+    options?: TokensUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<TokensUpdateResponse>, TokensUpdateResponse>
   >;
@@ -136,6 +136,6 @@ export interface Tokens {
     registryName: string,
     tokenName: string,
     tokenUpdateParameters: TokenUpdateParameters,
-    options?: TokensUpdateOptionalParams
+    options?: TokensUpdateOptionalParams,
   ): Promise<TokensUpdateResponse>;
 }
