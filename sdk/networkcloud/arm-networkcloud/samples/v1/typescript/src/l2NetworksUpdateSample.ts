@@ -8,9 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   L2NetworkPatchParameters,
-  L2NetworksUpdateOptionalParams,
+  L2NetworksUpdateOptionalParams} from "@azure/arm-networkcloud";
+import {
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";

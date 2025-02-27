@@ -25,7 +25,7 @@ async function listL3NetworksForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.l3Networks.listBySubscription()) {
+  for await (const item of client.l3Networks.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

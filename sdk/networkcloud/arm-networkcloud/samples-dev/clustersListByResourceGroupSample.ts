@@ -25,7 +25,7 @@ async function listClustersForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.clusters.listByResourceGroup(
+  for await (const item of client.clusters.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

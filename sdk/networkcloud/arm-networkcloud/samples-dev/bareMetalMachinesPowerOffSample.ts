@@ -6,9 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   BareMetalMachinePowerOffParameters,
-  BareMetalMachinesPowerOffOptionalParams,
+  BareMetalMachinesPowerOffOptionalParams} from "@azure/arm-networkcloud";
+import {
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";

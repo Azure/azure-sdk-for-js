@@ -26,7 +26,7 @@ async function listFeaturesForTheKubernetesCluster() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.kubernetesClusterFeatures.listByKubernetesCluster(
+  for await (const item of client.kubernetesClusterFeatures.listByKubernetesCluster(
     resourceGroupName,
     kubernetesClusterName,
   )) {

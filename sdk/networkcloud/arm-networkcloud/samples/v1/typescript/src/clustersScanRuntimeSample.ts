@@ -6,9 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+import type {
   ClusterScanRuntimeParameters,
-  ClustersScanRuntimeOptionalParams,
+  ClustersScanRuntimeOptionalParams} from "@azure/arm-networkcloud";
+import {
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Cluster, NetworkCloud } from "@azure/arm-networkcloud";
+import type { Cluster} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

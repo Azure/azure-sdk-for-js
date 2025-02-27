@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Volume, NetworkCloud } from "@azure/arm-networkcloud";
+import type { Volume} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

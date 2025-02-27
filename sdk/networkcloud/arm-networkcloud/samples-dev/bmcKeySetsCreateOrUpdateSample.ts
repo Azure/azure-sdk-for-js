@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BmcKeySet, NetworkCloud } from "@azure/arm-networkcloud";
+import type { BmcKeySet} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

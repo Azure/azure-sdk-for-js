@@ -26,7 +26,7 @@ async function listMetricsConfigurationsOfTheCluster() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.metricsConfigurations.listByCluster(
+  for await (const item of client.metricsConfigurations.listByCluster(
     resourceGroupName,
     clusterName,
   )) {

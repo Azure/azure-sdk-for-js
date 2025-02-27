@@ -25,7 +25,7 @@ async function listKubernetesClustersForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.kubernetesClusters.listBySubscription()) {
+  for await (const item of client.kubernetesClusters.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

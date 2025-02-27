@@ -8,7 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { L3Network, NetworkCloud } from "@azure/arm-networkcloud";
+import type { L3Network} from "@azure/arm-networkcloud";
+import { NetworkCloud } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 

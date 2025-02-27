@@ -28,7 +28,7 @@ async function listConsolesOfTheVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.consoles.listByVirtualMachine(
+  for await (const item of client.consoles.listByVirtualMachine(
     resourceGroupName,
     virtualMachineName,
   )) {

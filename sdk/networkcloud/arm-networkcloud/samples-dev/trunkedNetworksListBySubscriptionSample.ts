@@ -25,7 +25,7 @@ async function listTrunkedNetworksForSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.trunkedNetworks.listBySubscription()) {
+  for await (const item of client.trunkedNetworks.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

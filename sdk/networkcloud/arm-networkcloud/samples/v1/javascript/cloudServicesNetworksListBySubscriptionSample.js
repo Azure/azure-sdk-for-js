@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NetworkCloud } = require("@azure/arm-networkcloud");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
@@ -24,7 +22,7 @@ async function listCloudServicesNetworksForSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudServicesNetworks.listBySubscription()) {
+  for await (const item of client.cloudServicesNetworks.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

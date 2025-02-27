@@ -8,8 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+import type {
+  ClusterMetricsConfiguration} from "@azure/arm-networkcloud";
 import {
-  ClusterMetricsConfiguration,
   NetworkCloud,
 } from "@azure/arm-networkcloud";
 import { DefaultAzureCredential } from "@azure/identity";

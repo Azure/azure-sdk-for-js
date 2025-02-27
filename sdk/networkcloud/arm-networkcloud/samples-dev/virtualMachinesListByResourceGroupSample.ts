@@ -27,7 +27,7 @@ async function listVirtualMachinesForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualMachines.listByResourceGroup(
+  for await (const item of client.virtualMachines.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

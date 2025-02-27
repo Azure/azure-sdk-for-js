@@ -24,7 +24,7 @@ async function listRackSkUsForSubscription() {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.rackSkus.listBySubscription()) {
+  for await (const item of client.rackSkus.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

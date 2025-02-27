@@ -25,7 +25,7 @@ async function listBareMetalMachinesForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.bareMetalMachines.listByResourceGroup(
+  for await (const item of client.bareMetalMachines.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

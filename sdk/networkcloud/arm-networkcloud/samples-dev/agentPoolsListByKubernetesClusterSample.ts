@@ -26,7 +26,7 @@ async function listAgentPoolsOfTheKubernetesCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.agentPools.listByKubernetesCluster(
+  for await (const item of client.agentPools.listByKubernetesCluster(
     resourceGroupName,
     kubernetesClusterName,
   )) {

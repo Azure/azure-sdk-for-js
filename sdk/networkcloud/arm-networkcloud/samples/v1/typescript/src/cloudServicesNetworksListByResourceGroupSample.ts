@@ -25,7 +25,7 @@ async function listCloudServicesNetworksForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cloudServicesNetworks.listByResourceGroup(
+  for await (const item of client.cloudServicesNetworks.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);

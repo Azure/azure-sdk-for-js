@@ -27,7 +27,7 @@ async function listL2NetworksForResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new NetworkCloud(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.l2Networks.listByResourceGroup(
+  for await (const item of client.l2Networks.listByResourceGroup(
     resourceGroupName,
   )) {
     resArray.push(item);
