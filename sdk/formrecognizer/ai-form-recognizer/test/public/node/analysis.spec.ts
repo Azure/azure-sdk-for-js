@@ -43,14 +43,14 @@ matrix([[true, false]] as const, async (useAad) => {
     let recorder: Recorder;
 
     beforeEach(async (ctx) => {
-          recorder = await createRecorder(ctx);
-          await recorder.setMatcher("BodilessMatcher");
-          client = new DocumentAnalysisClient(
-            endpoint(),
-            makeCredential(useAad),
-            recorder.configureClientOptions({}),
-          );
-        });
+      recorder = await createRecorder(ctx);
+      await recorder.setMatcher("BodilessMatcher");
+      client = new DocumentAnalysisClient(
+        endpoint(),
+        makeCredential(useAad),
+        recorder.configureClientOptions({}),
+      );
+    });
 
     afterEach(async () => {
       if (recorder) {

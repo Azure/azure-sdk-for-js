@@ -32,8 +32,8 @@ matrix(
       let recorder: Recorder;
 
       beforeEach(async (ctx) => {
-              recorder = await createRecorder(ctx);
-            });
+        recorder = await createRecorder(ctx);
+      });
 
       afterEach(async () => {
         await recorder.stop();
@@ -58,13 +58,13 @@ matrix(
         }
 
         beforeEach(async () => {
-                  // Create a client using the current AAD/API Key configuration
-                  client = new DocumentModelAdministrationClient(
-                    endpoint(),
-                    makeCredential(useAad),
-                    recorder.configureClientOptions({}),
-                  );
-                });
+          // Create a client using the current AAD/API Key configuration
+          client = new DocumentModelAdministrationClient(
+            endpoint(),
+            makeCredential(useAad),
+            recorder.configureClientOptions({}),
+          );
+        });
 
         describe(`custom model from trainingdata-v3 (${buildMode})`, async () => {
           let _model: DocumentModelDetails;
