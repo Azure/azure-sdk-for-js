@@ -16,7 +16,7 @@ import {
   EncryptionScopesPatchResponse,
   EncryptionScopesGetOptionalParams,
   EncryptionScopesGetResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a EncryptionScopes. */

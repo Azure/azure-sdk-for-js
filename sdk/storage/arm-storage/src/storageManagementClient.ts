@@ -39,7 +39,7 @@ import {
   StorageTaskAssignmentsImpl,
   StorageTaskAssignmentsInstancesReportImpl,
   StorageTaskAssignmentInstancesReportImpl,
-} from "./operations/index.js";
+} from "./operations";
 import {
   BlobServices,
   BlobContainers,
@@ -65,8 +65,8 @@ import {
   StorageTaskAssignments,
   StorageTaskAssignmentsInstancesReport,
   StorageTaskAssignmentInstancesReport,
-} from "./operationsInterfaces/index.js";
-import { StorageManagementClientOptionalParams } from "./models/index.js";
+} from "./operationsInterfaces";
+import { StorageManagementClientOptionalParams } from "./models";
 
 export class StorageManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -100,7 +100,7 @@ export class StorageManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-storage/18.4.0`;
+    const packageDetails = `azsdk-js-arm-storage/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

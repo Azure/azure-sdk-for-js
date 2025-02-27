@@ -14,7 +14,7 @@ import {
   TableServicesSetServicePropertiesResponse,
   TableServicesGetServicePropertiesOptionalParams,
   TableServicesGetServicePropertiesResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a TableServices. */
 export interface TableServices {

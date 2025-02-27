@@ -19,7 +19,7 @@ import {
   FileServicesGetServicePropertiesResponse,
   FileServicesGetServiceUsageOptionalParams,
   FileServicesGetServiceUsageResponse,
-} from "../models/index.js";
+} from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a FileServices. */

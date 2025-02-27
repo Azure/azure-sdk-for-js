@@ -14,7 +14,7 @@ import {
   ManagementPoliciesCreateOrUpdateOptionalParams,
   ManagementPoliciesCreateOrUpdateResponse,
   ManagementPoliciesDeleteOptionalParams,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a ManagementPolicies. */
 export interface ManagementPolicies {

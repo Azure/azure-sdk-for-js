@@ -6811,14 +6811,14 @@ export const FileShareItem: coreClient.CompositeMapper = {
         serializedName: "properties.nextAllowedQuotaDowngradeTime",
         readOnly: true,
         type: {
-          name: "DateTime",
+          name: "DateTimeRfc1123",
         },
       },
       nextAllowedProvisionedIopsDowngradeTime: {
         serializedName: "properties.nextAllowedProvisionedIopsDowngradeTime",
         readOnly: true,
         type: {
-          name: "DateTime",
+          name: "DateTimeRfc1123",
         },
       },
       nextAllowedProvisionedBandwidthDowngradeTime: {
@@ -6826,7 +6826,7 @@ export const FileShareItem: coreClient.CompositeMapper = {
           "properties.nextAllowedProvisionedBandwidthDowngradeTime",
         readOnly: true,
         type: {
-          name: "DateTime",
+          name: "DateTimeRfc1123",
         },
       },
       enabledProtocols: {
@@ -7003,14 +7003,14 @@ export const FileShare: coreClient.CompositeMapper = {
         serializedName: "properties.nextAllowedQuotaDowngradeTime",
         readOnly: true,
         type: {
-          name: "DateTime",
+          name: "DateTimeRfc1123",
         },
       },
       nextAllowedProvisionedIopsDowngradeTime: {
         serializedName: "properties.nextAllowedProvisionedIopsDowngradeTime",
         readOnly: true,
         type: {
-          name: "DateTime",
+          name: "DateTimeRfc1123",
         },
       },
       nextAllowedProvisionedBandwidthDowngradeTime: {
@@ -7018,7 +7018,7 @@ export const FileShare: coreClient.CompositeMapper = {
           "properties.nextAllowedProvisionedBandwidthDowngradeTime",
         readOnly: true,
         type: {
-          name: "DateTime",
+          name: "DateTimeRfc1123",
         },
       },
       enabledProtocols: {
