@@ -94,10 +94,6 @@ To authenticate with [Azure PowerShell][azure_powershell], run the `Connect-AzAc
 
 If interactive authentication can't be supported in the session, then the `-UseDeviceAuthentication` argument forces the cmdlet to use a device code authentication flow instead, similar to the corresponding option in the Azure CLI credential.
 
-#### Authenticate via Visual Studio Code
-
-To authenticate in Visual Studio Code, developers can use [authenticating via the Azure CLI](#authenticating-via-the-azure-cli).
-
 ### Authenticate the client in browsers
 
 To authenticate Azure SDK clients within web browsers, we offer the `InteractiveBrowserCredential`, which can be set to use redirection or popups to complete the authentication flow. It's necessary to [create an Azure App Registration](https://learn.microsoft.com/entra/identity-platform/scenario-spa-app-registration) in the Azure portal for your web application first.
