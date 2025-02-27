@@ -55,7 +55,10 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
   const isExceptionType: boolean = !!(exceptionType && exceptionStacktrace) || false;
-  const isMessageType: boolean = !log.attributes[ApplicationInsightsBaseType] && !log.attributes[ApplicationInsightsCustomEventName] && !exceptionType;
+  const isMessageType: boolean =
+    !log.attributes[ApplicationInsightsBaseType] &&
+    !log.attributes[ApplicationInsightsCustomEventName] &&
+    !exceptionType;
   if (isExceptionType) {
     const exceptionMessage = log.attributes[ATTR_EXCEPTION_MESSAGE];
     name = ApplicationInsightsExceptionName;
