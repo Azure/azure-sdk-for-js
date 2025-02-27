@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
@@ -27,7 +25,7 @@ async function listStorageTaskAssignmentInstancesReportSummary() {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.storageTaskAssignmentInstancesReport.list(
+  for await (const item of client.storageTaskAssignmentInstancesReport.list(
     resourceGroupName,
     accountName,
     storageTaskAssignmentName,

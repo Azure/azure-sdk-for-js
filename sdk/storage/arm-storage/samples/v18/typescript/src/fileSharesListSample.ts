@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   FileSharesListOptionalParams,
   StorageManagementClient,
@@ -31,7 +29,7 @@ async function listDeletedShares(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
     options,
@@ -57,7 +55,7 @@ async function listShareSnapshots(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
     options,
@@ -81,7 +79,7 @@ async function listShares(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
   )) {
@@ -104,7 +102,7 @@ async function listSharesPaidBursting(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
   )) {
@@ -127,7 +125,7 @@ async function listSharesProvisionedV2(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fileShares.list(
+  for await (const item of client.fileShares.list(
     resourceGroupName,
     accountName,
   )) {

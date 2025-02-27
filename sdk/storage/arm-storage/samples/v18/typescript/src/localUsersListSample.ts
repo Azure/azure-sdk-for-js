@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   LocalUsersListOptionalParams,
   StorageManagementClient,
@@ -29,7 +27,7 @@ async function listLocalUsers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.localUsersOperations.list(
+  for await (const item of client.localUsersOperations.list(
     resourceGroupName,
     accountName,
   )) {
@@ -54,7 +52,7 @@ async function listNfSv3EnabledLocalUsers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.localUsersOperations.list(
+  for await (const item of client.localUsersOperations.list(
     resourceGroupName,
     accountName,
     options,

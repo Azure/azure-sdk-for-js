@@ -27,7 +27,7 @@ async function listContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.blobContainers.list(
+  for await (const item of client.blobContainers.list(
     resourceGroupName,
     accountName,
   )) {
@@ -52,7 +52,7 @@ async function listDeletedContainers(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.blobContainers.list(
+  for await (const item of client.blobContainers.list(
     resourceGroupName,
     accountName,
     options,

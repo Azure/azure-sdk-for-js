@@ -251,7 +251,7 @@ describe("Monitor test", () => {
   it("logProfiles create test", async () => {
     //delete sample logfile
     const resArray = new Array();
-    for await (let item of client.logProfiles.list()) {
+    for await (const item of client.logProfiles.list()) {
       resArray.push(item);
     }
     if (resArray.length >= 1) {

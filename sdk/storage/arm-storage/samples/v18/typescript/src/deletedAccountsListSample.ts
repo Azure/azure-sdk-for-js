@@ -22,7 +22,7 @@ async function deletedAccountList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new StorageManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.deletedAccounts.list()) {
+  for await (const item of client.deletedAccounts.list()) {
     resArray.push(item);
   }
   console.log(resArray);
