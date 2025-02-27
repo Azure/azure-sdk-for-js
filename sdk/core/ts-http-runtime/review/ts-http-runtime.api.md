@@ -49,7 +49,7 @@ export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticati
 
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
-    credential?: TokenCredential;
+    credential: TokenCredential;
     scopes: string | string[];
 }
 
@@ -446,7 +446,7 @@ export interface TlsSettings {
 
 // @public
 export interface TokenCredential {
-    getToken(scopes: string | string[]): Promise<AccessToken | null>;
+    getToken(scopes: string | string[]): Promise<AccessToken | undefined>;
 }
 
 // @public

@@ -8,14 +8,14 @@ export interface TokenCredential {
   /**
    * Gets the token provided by this credential.
    *
-   * This method is called automatically by Azure SDK client libraries. You may call this method
-   * directly, but you must also handle token caching and token refreshing.
+   * This method is called automatically by client libraries. It will be called
+   * directly, so you must handle token caching and token refreshing as necessary.
    *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[]): Promise<AccessToken | null>;
+  getToken(scopes: string | string[]): Promise<AccessToken | undefined>;
 }
 
 /**
