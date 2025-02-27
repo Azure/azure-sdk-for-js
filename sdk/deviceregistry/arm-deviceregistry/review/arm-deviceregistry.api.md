@@ -360,7 +360,7 @@ export enum KnownAuthenticationMethod {
 // @public
 export enum KnownCreatedByType {
     Application = "Application",
-    Key = "Key",
+    KEY = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
 }
@@ -370,13 +370,13 @@ export enum KnownDataPointObservabilityMode {
     Counter = "Counter",
     Gauge = "Gauge",
     Histogram = "Histogram",
-    Log = "Log",
+    LOG = "Log",
     None = "None"
 }
 
 // @public
 export enum KnownEventObservabilityMode {
-    Log = "Log",
+    LOG = "Log",
     None = "None"
 }
 
@@ -404,7 +404,7 @@ export enum KnownTopicRetainType {
 
 // @public
 export enum KnownVersions {
-    V2024_11_01 = "2024-11-01"
+    V20241101 = "2024-11-01"
 }
 
 // @public

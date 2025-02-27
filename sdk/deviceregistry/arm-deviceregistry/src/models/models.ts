@@ -142,7 +142,7 @@ export enum KnownCreatedByType {
   /** The entity was created by a managed identity. */
   ManagedIdentity = "ManagedIdentity",
   /** The entity was created by a key. */
-  Key = "Key",
+  KEY = "Key",
 }
 
 /**
@@ -870,7 +870,7 @@ export enum KnownDataPointObservabilityMode {
   /** Map as histogram to OpenTelemetry. */
   Histogram = "Histogram",
   /** Map as log to OpenTelemetry. */
-  Log = "Log",
+  LOG = "Log",
 }
 
 /**
@@ -929,7 +929,7 @@ export enum KnownEventObservabilityMode {
   /** No mapping to OpenTelemetry. */
   None = "None",
   /** Map as log to OpenTelemetry. */
-  Log = "Log",
+  LOG = "Log",
 }
 
 /**
@@ -1363,5 +1363,5 @@ export type ActionType = string;
 /** Microsoft.DeviceRegistry Resource Provider supported API versions. */
 export enum KnownVersions {
   /** Microsoft.DeviceRegistry Resource Provider management API version 2024-11-01. */
-  V2024_11_01 = "2024-11-01",
+  V20241101 = "2024-11-01",
 }
