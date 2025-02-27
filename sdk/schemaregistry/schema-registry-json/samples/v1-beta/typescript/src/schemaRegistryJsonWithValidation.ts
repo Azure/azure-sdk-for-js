@@ -15,9 +15,7 @@ import { DeserializeOptions, JsonSchemaSerializer } from "@azure/schema-registry
 
 import Ajv, { ValidateFunction } from "ajv";
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
   process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
@@ -58,7 +56,7 @@ const schemaDescription: SchemaDescription = {
   definition: schema,
 };
 
-export async function main() {
+export async function main(): Promise<void> {
   // Create a new client
   const client = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,

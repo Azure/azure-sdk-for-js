@@ -142,6 +142,28 @@ describe("snippets", () => {
     );
   });
 
+  it("ReadmeSampleGetKeyAttestation", async () => {
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    const vaultName = "<YOUR KEYVAULT MANAGED HSM NAME>";
+    const url = `https://${vaultName}.managedhsm.azure.net`;
+    // @ts-preserve-whitespace
+    const client = new KeyClient(url, credential);
+    // @ts-preserve-whitespace
+    const keyName = "MyKeyName";
+    // @ts-preserve-whitespace
+    const latestKey = await client.getKeyAttestation(keyName);
+    console.log(`Latest version of the key ${keyName}: `, latestKey);
+    // @ts-preserve-whitespace
+    const specificKey = await client.getKeyAttestation(keyName, {
+      version: latestKey.properties.version!,
+    });
+    console.log(
+      `The key ${keyName} at the version ${latestKey.properties.version!}: `,
+      specificKey,
+    );
+  });
+
   it("ReadmeSampleGetDeletedKey", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace

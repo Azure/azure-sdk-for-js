@@ -9,6 +9,7 @@ export {
   SecretBundle,
   KeyVaultError,
   ErrorModel,
+  ErrorModel_1,
   DeletedSecretBundle,
   SecretUpdateParameters,
   SecretItem,

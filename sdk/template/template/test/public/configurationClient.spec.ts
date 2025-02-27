@@ -55,7 +55,7 @@ describe("[AAD] ConfigurationClient functional tests", function () {
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
@@ -74,7 +74,7 @@ describe("[AAD] ConfigurationClient functional tests", function () {
   });
 
   // After each test, we need to stop the recording.
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
