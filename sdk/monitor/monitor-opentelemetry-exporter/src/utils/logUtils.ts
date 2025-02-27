@@ -52,41 +52,27 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let baseType: string;
   let baseData: MonitorDomain;
 
-  if (
-    !log.attributes[ApplicationInsightsBaseType] &&
-    !log.attributes[ApplicationInsightsCustomEventName]
-  ) {
-    // Get Exception attributes if available
-    const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
-    if (exceptionType) {
-      const exceptionMessage = log.attributes[ATTR_EXCEPTION_MESSAGE];
-      const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
-      name = ApplicationInsightsExceptionName;
-      baseType = ApplicationInsightsExceptionBaseType;
-      const exceptionDetails: TelemetryExceptionDetails = {
-        typeName: String(exceptionType),
-        message: String(exceptionMessage),
-        hasFullStack: exceptionStacktrace ? true : false,
-        stack: String(exceptionStacktrace),
-      };
-      const exceptionData: TelemetryExceptionData = {
-        exceptions: [exceptionDetails],
-        severityLevel: String(getSeverity(log.severityNumber)),
-        version: 2,
-      };
-      baseData = exceptionData;
-    } else {
-      name = ApplicationInsightsMessageName;
-      baseType = ApplicationInsightsMessageBaseType;
-      const messageData: MessageData = {
-        message: String(log.body),
-        severityLevel: String(getSeverity(log.severityNumber)),
-        version: 2,
-      };
-      baseData = messageData;
-    }
+  const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
+  const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
+  const isExceptionType: boolean = !!(exceptionType && exceptionStacktrace) || false;
+  const isMessageType: boolean = !log.attributes[ApplicationInsightsBaseType] && !log.attributes[ApplicationInsightsCustomEventName] && !exceptionType;
+  if (isExceptionType) {
+    const exceptionMessage = log.attributes[ATTR_EXCEPTION_MESSAGE];
+    name = ApplicationInsightsExceptionName;
+    baseType = ApplicationInsightsExceptionBaseType;
+    const exceptionDetails: TelemetryExceptionDetails = {
+      typeName: String(exceptionType),
+      message: String(exceptionMessage),
+      hasFullStack: exceptionStacktrace ? true : false,
+      stack: String(exceptionStacktrace),
+    };
+    const exceptionData: TelemetryExceptionData = {
+      exceptions: [exceptionDetails],
+      severityLevel: String(getSeverity(log.severityNumber)),
+      version: 2,
+    };
+    baseData = exceptionData;
   } else if (log.attributes[ApplicationInsightsCustomEventName]) {
-    // If Custom Event
     name = ApplicationInsightsEventName;
     baseType = ApplicationInsightsEventBaseType;
     const eventData: TelemetryEventData = {
@@ -95,6 +81,15 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     };
     baseData = eventData;
     measurements = getLegacyApplicationInsightsMeasurements(log);
+  } else if (isMessageType) {
+    name = ApplicationInsightsMessageName;
+    baseType = ApplicationInsightsMessageBaseType;
+    const messageData: MessageData = {
+      message: String(log.body),
+      severityLevel: String(getSeverity(log.severityNumber)),
+      version: 2,
+    };
+    baseData = messageData;
   } else {
     // If Legacy Application Insights Log
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
