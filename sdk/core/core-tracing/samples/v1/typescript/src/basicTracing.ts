@@ -27,7 +27,7 @@ class BasicClient {
       packageName: "@azure/some-example-package",
       packageVersion: "1.0.0",
       // The Resource Provider, which should normally be one of the values defined here:
-      // https://docs.microsoft.com/azure/azure-resource-manager/management/azure-services-resource-providers
+      // https://learn.microsoft.com/azure/azure-resource-manager/management/azure-services-resource-providers
       namespace: "Microsoft.Sample",
     });
   }
@@ -60,7 +60,7 @@ class BasicClient {
   /**
    * Represents a consumer which receives a message, creates a new span for processing the message, and links
    * the new span to the message span (via traceheader propagation).
-   * @param traceparentHeader The {@link https://www.w3.org/TR/trace-context/#traceparent-header} header of the remote operation.
+   * @param traceparentHeader - The {@link https://www.w3.org/TR/trace-context/#traceparent-header} header of the remote operation.
    * @param options - The Operation Options.
    */
   async withSpanLinks(traceparentHeader: string, options: OperationOptions = {}): Promise<void> {

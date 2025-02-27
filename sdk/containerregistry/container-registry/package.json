@@ -47,7 +47,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -76,7 +76,7 @@
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
@@ -91,13 +91,13 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.5.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.8",
-    "@vitest/coverage-istanbul": "^2.1.8",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.49.0",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.8"
+    "vitest": "^3.0.3"
   },
   "//sampleConfiguration": {
     "skipFolder": true,
@@ -107,7 +107,7 @@
       "azure-container-registry"
     ],
     "requiredResources": {
-      "Azure Container Registry": "https://docs.microsoft.com/azure/container-registry/container-registry-get-started-portal"
+      "Azure Container Registry": "https://learn.microsoft.com/azure/container-registry/container-registry-get-started-portal"
     }
   },
   "type": "module",

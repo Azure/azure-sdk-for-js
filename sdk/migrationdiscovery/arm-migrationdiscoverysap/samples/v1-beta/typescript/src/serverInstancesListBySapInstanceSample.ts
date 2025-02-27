@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WorkloadsClient } from "@azure/arm-migrationdiscoverysap";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the Server Instance resources for the given SAP Instance resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the Server Instance resources for the given SAP Instance resource.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPDiscoverySites/preview/2023-10-01-preview/examples/ServerInstances_List.json
  */
-async function listsTheServerInstanceResourcesForTheGivenSapInstanceResource() {
+async function listsTheServerInstanceResourcesForTheGivenSapInstanceResource(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATIONDISCOVERY_SUBSCRIPTION_ID"] ||
     "6d875e77-e412-4d7d-9af4-8895278b4443";
@@ -41,7 +39,7 @@ async function listsTheServerInstanceResourcesForTheGivenSapInstanceResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsTheServerInstanceResourcesForTheGivenSapInstanceResource();
 }
 

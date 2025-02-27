@@ -1291,6 +1291,7 @@ export const IdentitySelector: coreClient.CompositeMapper = {
       },
       userAssignedIdentityResourceId: {
         serializedName: "userAssignedIdentityResourceId",
+        nullable: true,
         type: {
           name: "String",
         },

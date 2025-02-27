@@ -19,7 +19,7 @@ import {
   GroupQuotasGetResponse,
   GroupQuotasDeleteOptionalParams,
   GroupQuotasDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a GroupQuotas. */
@@ -93,7 +93,10 @@ export interface GroupQuotas {
     groupQuotaName: string,
     options?: GroupQuotasUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<GroupQuotasUpdateResponse>, GroupQuotasUpdateResponse>
+    SimplePollerLike<
+      OperationState<GroupQuotasUpdateResponse>,
+      GroupQuotasUpdateResponse
+    >
   >;
   /**
    * Updates the GroupQuotas for the name passed. A GroupQuotas RequestId will be returned by the
@@ -141,7 +144,10 @@ export interface GroupQuotas {
     groupQuotaName: string,
     options?: GroupQuotasDeleteOptionalParams,
   ): Promise<
-    SimplePollerLike<OperationState<GroupQuotasDeleteResponse>, GroupQuotasDeleteResponse>
+    SimplePollerLike<
+      OperationState<GroupQuotasDeleteResponse>,
+      GroupQuotasDeleteResponse
+    >
   >;
   /**
    * Deletes the GroupQuotas for the name passed. All the remaining shareQuota in the GroupQuotas will be

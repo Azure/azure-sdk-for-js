@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list BrokerAuthorizationResource resources by BrokerResource
  * x-ms-original-file: 2024-11-01/BrokerAuthorization_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function brokerAuthorizationListByResourceGroup() {
+async function brokerAuthorizationListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function brokerAuthorizationListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   brokerAuthorizationListByResourceGroup();
 }
 

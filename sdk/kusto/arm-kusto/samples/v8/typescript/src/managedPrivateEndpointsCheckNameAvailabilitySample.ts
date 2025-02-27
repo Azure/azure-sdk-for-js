@@ -10,20 +10,18 @@
 // Licensed under the MIT License.
 import {
   ManagedPrivateEndpointsCheckNameRequest,
-  KustoManagementClient
+  KustoManagementClient,
 } from "@azure/arm-kusto";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks that the managed private endpoints resource name is valid and is not already in use.
  *
  * @summary Checks that the managed private endpoints resource name is valid and is not already in use.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoManagedPrivateEndpointsCheckNameAvailability.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoManagedPrivateEndpointsCheckNameAvailability.json
  */
-async function kustoManagedPrivateEndpointsCheckNameAvailability() {
+async function kustoManagedPrivateEndpointsCheckNameAvailability(): Promise<void> {
   const subscriptionId =
     process.env["KUSTO_SUBSCRIPTION_ID"] ||
     "12345678-1234-1234-1234-123456789098";
@@ -32,20 +30,20 @@ async function kustoManagedPrivateEndpointsCheckNameAvailability() {
   const clusterName = "kustoCluster";
   const resourceName: ManagedPrivateEndpointsCheckNameRequest = {
     name: "pme1",
-    type: "Microsoft.Kusto/clusters/managedPrivateEndpoints"
+    type: "Microsoft.Kusto/clusters/managedPrivateEndpoints",
   };
   const credential = new DefaultAzureCredential();
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.managedPrivateEndpoints.checkNameAvailability(
     resourceGroupName,
     clusterName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }
 
-async function main() {
-  kustoManagedPrivateEndpointsCheckNameAvailability();
+async function main(): Promise<void> {
+  await kustoManagedPrivateEndpointsCheckNameAvailability();
 }
 
 main().catch(console.error);

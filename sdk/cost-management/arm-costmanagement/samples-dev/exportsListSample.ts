@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to list all exports at the given scope.
@@ -20,7 +16,7 @@ dotenv.config();
  * @summary The operation to list all exports at the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportsGetByBillingAccount.json
  */
-async function exportsGetByBillingAccount() {
+async function exportsGetByBillingAccount(): Promise<void> {
   const scope = "providers/Microsoft.Billing/billingAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -34,9 +30,8 @@ async function exportsGetByBillingAccount() {
  * @summary The operation to list all exports at the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportsGetByDepartment.json
  */
-async function exportsGetByDepartment() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12/departments/123";
+async function exportsGetByDepartment(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/12/departments/123";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.exports.list(scope);
@@ -49,9 +44,8 @@ async function exportsGetByDepartment() {
  * @summary The operation to list all exports at the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportsGetByEnrollmentAccount.json
  */
-async function exportsGetByEnrollmentAccount() {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
+async function exportsGetByEnrollmentAccount(): Promise<void> {
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.exports.list(scope);
@@ -64,7 +58,7 @@ async function exportsGetByEnrollmentAccount() {
  * @summary The operation to list all exports at the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportsGetByManagementGroup.json
  */
-async function exportsGetByManagementGroup() {
+async function exportsGetByManagementGroup(): Promise<void> {
   const scope = "providers/Microsoft.Management/managementGroups/TestMG";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -78,9 +72,8 @@ async function exportsGetByManagementGroup() {
  * @summary The operation to list all exports at the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportsGetByResourceGroup.json
  */
-async function exportsGetByResourceGroup() {
-  const scope =
-    "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
+async function exportsGetByResourceGroup(): Promise<void> {
+  const scope = "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.exports.list(scope);
@@ -93,7 +86,7 @@ async function exportsGetByResourceGroup() {
  * @summary The operation to list all exports at the given scope.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportsGetBySubscription.json
  */
-async function exportsGetBySubscription() {
+async function exportsGetBySubscription(): Promise<void> {
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -101,13 +94,13 @@ async function exportsGetBySubscription() {
   console.log(result);
 }
 
-async function main() {
-  exportsGetByBillingAccount();
-  exportsGetByDepartment();
-  exportsGetByEnrollmentAccount();
-  exportsGetByManagementGroup();
-  exportsGetByResourceGroup();
-  exportsGetBySubscription();
+async function main(): Promise<void> {
+  await exportsGetByBillingAccount();
+  await exportsGetByDepartment();
+  await exportsGetByEnrollmentAccount();
+  await exportsGetByManagementGroup();
+  await exportsGetByResourceGroup();
+  await exportsGetBySubscription();
 }
 
 main().catch(console.error);

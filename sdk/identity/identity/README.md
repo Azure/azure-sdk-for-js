@@ -155,8 +155,10 @@ import { KeyClient } from "@azure/keyvault-keys";
 
 // Configure vault URL
 const vaultUrl = "https://<your-unique-keyvault-name>.vault.azure.net";
+
 // Azure SDK clients accept the credential as a parameter
 const credential = new DefaultAzureCredential();
+
 // Create authenticated client
 const client = new KeyClient(vaultUrl, credential);
 ```
@@ -180,11 +182,13 @@ const clientId = "<client-id>";
 const clientSecret = "<client-secret>";
 const anotherClientId = "<another-client-id>";
 const anotherSecret = "<another-client-secret>";
+
 // When an access token is requested, the chain will try each
 // credential in order, stopping when one provides a token
 const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
 const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
 const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
+
 // The chain can be used anywhere a credential is required
 const client = new KeyClient(vaultUrl, credentialChain);
 ```
@@ -279,7 +283,7 @@ Not all credentials require this configuration. Credentials that authenticate th
 | [`DeviceCodeCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/devicecodecredential?view=azure-node-latest)                 | Interactively authenticates a user on devices with limited UI.                                                                                                                                                            | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-device-code-flow)        | [Device code authentication](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-device-code)        |
 | [`InteractiveBrowserCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/interactivebrowsercredential?view=azure-node-latest) | Interactively authenticates a user with the default system browser. Read more about how this happens [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/interactive-browser-credential.md). | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-interactively-in-the-browser) | [OAuth2 authorization code](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow)     |
 | [`OnBehalfOfCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/onbehalfofcredential?view=azure-node-latest)                 | Propagates the delegated user identity and permissions through the request chain                                                                                                                                          |                                                                                                                                                                                  | [On-behalf-of authentication](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow) |
-| [`UsernamePasswordCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest)     | Authenticates a user with a username and password.                                                                                                                                                                        | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-username-and-password)   | [Username + password authentication](https://learn.microsoft.com/entra/identity-platform/v2-oauth-ropc)        |
+| [`UsernamePasswordCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/usernamepasswordcredential?view=azure-node-latest)     | **Deprecated** - Authenticates a user with a username and password.                                                                                                                                                                        | [example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-account-with-username-and-password)   | [Username + password authentication](https://learn.microsoft.com/entra/identity-platform/v2-oauth-ropc)        |
 
 ### Authenticate via development tools
 
@@ -313,6 +317,8 @@ Not all credentials require this configuration. Credentials that authenticate th
 | `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN` | (optional) send certificate chain in x5c header to support subject name / issuer-based authentication |
 
 #### Username and password
+
+> **Warning**: Username and password authentication doesn't support multifactor authentication and is **deprecated**. For more details, see [Planning for mandatory multifactor authentication](https://aka.ms/azsdk/identity/mfa).
 
 | Variable name     | Value                                          |
 | ----------------- | ---------------------------------------------- |
@@ -381,5 +387,3 @@ To contribute to this library, read the [contributing guide](https://github.com/
 [azure_identity_broker]: https://www.npmjs.com/package/@azure/identity-broker
 [azure_identity_broker_readme]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker
 [authority_hosts]: https://learn.microsoft.com/javascript/api/@azure/identity/azureauthorityhosts
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

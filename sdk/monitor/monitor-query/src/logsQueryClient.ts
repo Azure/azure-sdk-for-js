@@ -191,7 +191,7 @@ export class LogsQueryClient {
    *
    * @param resourceId - The identifier of the resource. The expected format is
          '/subscriptions/<sid>/resourceGroups/<rg>/providers/<providerName>/<resourceType>/<resourceName>'.
-   * @param query - A Kusto query. Learn more about the `Kusto query syntax <https://docs.microsoft.com/azure/data-explorer/kusto/query/>`.
+   * @param query - A Kusto query. Learn more about the `Kusto query syntax <https://learn.microsoft.com/azure/data-explorer/kusto/query/>`.
    * @param timespan - The timespan over which to query data. This is an ISO8601 time period value. This timespan is applied in addition to any that are specified in the query expression.
    *  Some common durations can be found in the {@link Durations} object.
    * @param options - Options to adjust various aspects of the request.

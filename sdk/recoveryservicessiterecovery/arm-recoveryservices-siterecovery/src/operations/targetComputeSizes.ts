@@ -7,19 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { TargetComputeSizes } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { TargetComputeSizes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient.js";
 import {
   TargetComputeSize,
   TargetComputeSizesListByReplicationProtectedItemsNextOptionalParams,
   TargetComputeSizesListByReplicationProtectedItemsOptionalParams,
   TargetComputeSizesListByReplicationProtectedItemsResponse,
   TargetComputeSizesListByReplicationProtectedItemsNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TargetComputeSizes operations. */

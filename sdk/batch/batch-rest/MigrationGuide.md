@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Guide for migrating to `@azure-rest/batch` from `@azure/batch`
 
 This guide is intended to assist customers in migrating to `@azure-rest/batch` from the legacy `@azure/batch` package. It will focus on side-by-side comparisons of similar operations between the two packages.
@@ -34,7 +36,7 @@ Both `@azure/batch` and `@azure-rest/batch` support shared key authentication.
 Previously in `@azure/batch`, you could use the `BatchSharedKeyCredentials` class exported from `@azure/batch` to construct a shared key credential, then pass the credential and account endpoint to the `BatchServiceClient` constructor to create a client instance.
 
 ```typescript
-import { BatchSharedKeyCredentials, BatchServiceClient } from '@azure/batch';
+import { BatchSharedKeyCredentials, BatchServiceClient } from "@azure/batch";
 
 const credential = new BatchSharedKeyCredentials("<account-name>", "<account-key>");
 const client = new BatchServiceClient(credential, "<account-endpoint>");
@@ -59,7 +61,7 @@ import { BatchServiceClient } from "@azure/batch";
 import { loginWithVmMSI } from "@azure/ms-rest-nodeauth";
 
 const credential = await loginWithVmMSI({
-  resource: "https://batch.core.windows.net/"
+  resource: "https://batch.core.windows.net/",
 });
 const client = new BatchServiceClient(credential, "<account-endpoint>");
 ```
@@ -86,7 +88,7 @@ console.log(`Job id: ${job.id}, state: ${job.state}`);
 Now in `@azure-rest/batch`, the client operation returns a `Promise` that resolves to the response object, which contains the response body and the status code. In order to get the response body JSON, you need to first check if the response is unexpected with the `isUnexpected` helper method, then access the response body. The following example demonstrates how to get a job in `@azure-rest/batch`.
 
 ```typescript
-import { isUnexpected } from '@azure-rest/batch';
+import { isUnexpected } from "@azure-rest/batch";
 const response = await client.path("/jobs/{jobId}", "<job-id>").get();
 if (isUnexpected(response)) {
   throw new Error(`Failed to get job: ${response.body.message}`);
@@ -106,14 +108,14 @@ import { RestError } from "@azure/ms-rest-js";
 
 try {
   const pool = await client.pool.get("<pool-id>");
-  console.log("Get pool success: ", pool)
+  console.log("Get pool success: ", pool);
 } catch (error) {
   if (error instanceof RestError) {
     // Returned HTTP status is not 200
-    console.log(`Service returned unexpected status code ${error.statusCode}: ${error.body}`)
+    console.log(`Service returned unexpected status code ${error.statusCode}: ${error.body}`);
   } else {
     // Other errors like connection errors or other exceptions
-    console.log("Failed to get pool with error: ", error)
+    console.log("Failed to get pool with error: ", error);
   }
 }
 ```
@@ -125,13 +127,14 @@ try {
   const response = await client.path("/pools/{poolId}", "<pool-id>").get();
   if (isUnexpected(response)) {
     // Returned HTTP status is not 200
-    console.log(`Service returned unexpected status code ${response.status}: ${response.body}`)
-  } {
-    console.log("Get pool success: ", response.body)
+    console.log(`Service returned unexpected status code ${response.status}: ${response.body}`);
+  }
+  {
+    console.log("Get pool success: ", response.body);
   }
 } catch (error) {
   // Other errors like connection errors or other exceptions
-  console.log("Failed to get pool with error: ", error)
+  console.log("Failed to get pool with error: ", error);
 }
 ```
 
@@ -167,7 +170,7 @@ console.log("Pool created");
 Now in `@azure-rest/batch`, you can use the `path` method of the client instance to send a POST request to the `/pools` endpoint with the pool parameters. Note that the `CreatePoolParameters` interface has a `body` field to hold the request body and a `contentType` field to specify the content type of the request.
 
 ```typescript
-import { CreatePoolParameters, isUnexpected } from "@azure-rest/batch"
+import { CreatePoolParameters, isUnexpected } from "@azure-rest/batch";
 
 const poolParams: CreatePoolParameters = {
   body: {
@@ -191,7 +194,7 @@ const poolParams: CreatePoolParameters = {
 
 const result = await client.path("/pools").post(poolParams);
 if (isUnexpected(result)) {
-    throw new Error(`Failed to create pool: ${result.body.message}`);
+  throw new Error(`Failed to create pool: ${result.body.message}`);
 }
 console.log("Pool created");
 ```
@@ -201,7 +204,7 @@ console.log("Pool created");
 Previously in `@azure/batch`, you could use the `BatchServiceClient` instance to create a job with the `job.add` method. The following example demonstrates how to create a job with the `BatchServiceClient` instance.
 
 ```typescript
-import { BatchServiceModels } from "@azure/batch"
+import { BatchServiceModels } from "@azure/batch";
 const jobAddParam: BatchServiceModels.JobAddParameter = {
   id: "<job-id>",
   poolInfo: { poolId: "<pool-id>" },
@@ -213,7 +216,7 @@ console.log("Job created");
 Now in `@azure-rest/batch`, you can use the `path` method of the client instance to send a POST request to the `/jobs` endpoint with the job parameters.
 
 ```typescript
-import { CreateJobParameters, isUnexpected } from "@azure-rest/batch"
+import { CreateJobParameters, isUnexpected } from "@azure-rest/batch";
 
 const jobAddParam: CreateJobParameters = {
   body: {
@@ -235,7 +238,7 @@ console.log(`Job created`);
 Previously in `@azure/batch`, you could use the `BatchServiceClient` instance to submit a task to a job with the `task.add` method. The following example demonstrates how to submit a task with the `BatchServiceClient` instance.
 
 ```typescript
-import { BatchServiceModels } from "@azure/batch"
+import { BatchServiceModels } from "@azure/batch";
 const taskAddParam: BatchServiceModels.TaskAddParameter = {
   id: "<task-id>",
   commandLine: "cmd /c echo hello",
@@ -247,7 +250,7 @@ console.log("Task submitted");
 Now in `@azure-rest/batch`, you can use the `path` method of the client instance to send a POST request to the `/jobs/{jobId}/tasks` endpoint with the task parameters.
 
 ```typescript
-import { CreateTaskParameters, isUnexpected } from "@azure-rest/batch"
+import { CreateTaskParameters, isUnexpected } from "@azure-rest/batch";
 
 const taskAddParam: CreateTaskParameters = {
   body: {

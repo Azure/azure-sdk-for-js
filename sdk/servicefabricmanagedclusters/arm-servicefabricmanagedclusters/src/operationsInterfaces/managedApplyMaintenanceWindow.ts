@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagedApplyMaintenanceWindowPostOptionalParams } from "../models";
+import { ManagedApplyMaintenanceWindowPostOptionalParams } from "../models/index.js";
 
 /** Interface representing a ManagedApplyMaintenanceWindow. */
 export interface ManagedApplyMaintenanceWindow {

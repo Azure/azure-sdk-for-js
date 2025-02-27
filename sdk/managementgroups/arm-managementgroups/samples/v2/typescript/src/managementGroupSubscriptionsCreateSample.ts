@@ -22,7 +22,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
  * x-ms-original-file: specification/managementgroups/resource-manager/Microsoft.Management/stable/2021-04-01/examples/AddManagementGroupSubscription.json
  */
-async function addSubscriptionToManagementGroup() {
+async function addSubscriptionToManagementGroup(): Promise<void> {
   const groupId = "Group";
   const subscriptionId = "728bcbe4-8d56-4510-86c2-4921b8beefbc";
   const cacheControl = "no-cache";

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TimeSeriesInsightsClient } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all supported private link resource types for the given environment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of all supported private link resource types for the given environment.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/PrivateLinkResourcesGet.json
  */
-async function listSupportedPrivateLinkResources() {
+async function listSupportedPrivateLinkResources(): Promise<void> {
   const subscriptionId =
     process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function listSupportedPrivateLinkResources() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSupportedPrivateLinkResources();
 }
 

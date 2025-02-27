@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.5 (2025-01-22)
+
+### Breaking Changes
+- Change ChatCompletionsResponseFormatJSON class name to ChatCompletionsResponseFormatJsonObject.
+
+### Features Added
+- Add samples and tests for image embeddings.
+- Add ChatCompletionsResponseFormatJsonSchema class for structured output in completions response.
+- Add sample for Chat Completions with structured output
+
 ## 1.0.0-beta.4 (2024-11-06)
 
 ### Other Changes

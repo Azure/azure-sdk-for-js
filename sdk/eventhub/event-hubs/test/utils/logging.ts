@@ -8,12 +8,12 @@ import { EnvVarKeys } from "./constants.js";
 const logLevel = inject(EnvVarKeys.AZURE_LOG_LEVEL);
 const localStorage: { debug?: string } = {};
 
-beforeAll(async function () {
+beforeAll(async () => {
   setLogLevel(logLevel);
   localStorage.debug = `azure:*:${logLevel}`;
 });
 
-afterAll(async function () {
+afterAll(async () => {
   delete localStorage.debug;
   setLogLevel();
 });

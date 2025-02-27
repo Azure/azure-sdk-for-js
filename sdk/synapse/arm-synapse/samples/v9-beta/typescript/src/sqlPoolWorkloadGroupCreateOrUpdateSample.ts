@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { WorkloadGroup, SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create Or Update a Sql pool's workload group.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create Or Update a Sql pool's workload group.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateSqlPoolWorkloadGroupMax.json
  */
-async function createAWorkloadGroupWithAllPropertiesSpecified() {
+async function createAWorkloadGroupWithAllPropertiesSpecified(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -55,7 +53,7 @@ async function createAWorkloadGroupWithAllPropertiesSpecified() {
  * @summary Create Or Update a Sql pool's workload group.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CreateOrUpdateSqlPoolWorkloadGroupMin.json
  */
-async function createAWorkloadGroupWithTheRequiredPropertiesSpecified() {
+async function createAWorkloadGroupWithTheRequiredPropertiesSpecified(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -81,7 +79,7 @@ async function createAWorkloadGroupWithTheRequiredPropertiesSpecified() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAWorkloadGroupWithAllPropertiesSpecified();
   createAWorkloadGroupWithTheRequiredPropertiesSpecified();
 }

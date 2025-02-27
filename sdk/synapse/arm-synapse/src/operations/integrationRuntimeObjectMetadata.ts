@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntegrationRuntimeObjectMetadata } from "../operationsInterfaces";
+import { IntegrationRuntimeObjectMetadata } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   IntegrationRuntimeObjectMetadataListOptionalParams,
   IntegrationRuntimeObjectMetadataListResponse,
   IntegrationRuntimeObjectMetadataRefreshOptionalParams,
   IntegrationRuntimeObjectMetadataRefreshResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing IntegrationRuntimeObjectMetadata operations. */
 export class IntegrationRuntimeObjectMetadataImpl

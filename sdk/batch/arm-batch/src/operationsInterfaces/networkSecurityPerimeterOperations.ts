@@ -15,7 +15,7 @@ import {
   NetworkSecurityPerimeterGetConfigurationResponse,
   NetworkSecurityPerimeterReconcileConfigurationOptionalParams,
   NetworkSecurityPerimeterReconcileConfigurationResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a NetworkSecurityPerimeterOperations. */

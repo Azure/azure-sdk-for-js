@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ManagedDatabase, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new database or updates an existing database.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateRestoreExternalBackup.json
  */
-async function createsANewManagedDatabaseByRestoringFromAnExternalBackup() {
+async function createsANewManagedDatabaseByRestoringFromAnExternalBackup(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -54,7 +52,7 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackup() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateRestoreExternalBackupManagedIdentity.json
  */
-async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity() {
+async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -88,7 +86,7 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingMan
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateRecovery.json
  */
-async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup() {
+async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -119,7 +117,7 @@ async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateRestoreLtrBackup.json
  */
-async function createsANewManagedDatabaseFromRestoringALongTermRetentionBackup() {
+async function createsANewManagedDatabaseFromRestoringALongTermRetentionBackup(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -151,7 +149,7 @@ async function createsANewManagedDatabaseFromRestoringALongTermRetentionBackup()
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateCrossSubscriptionPointInTimeRestore.json
  */
-async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore() {
+async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestore(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -185,7 +183,7 @@ async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestor
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreatePointInTimeRestore.json
  */
-async function createsANewManagedDatabaseUsingPointInTimeRestore() {
+async function createsANewManagedDatabaseUsingPointInTimeRestore(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -217,7 +215,7 @@ async function createsANewManagedDatabaseUsingPointInTimeRestore() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateManagedDatabaseLedger.json
  */
-async function createsANewManagedDatabaseWithLedgerOn() {
+async function createsANewManagedDatabaseWithLedgerOn(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -246,7 +244,7 @@ async function createsANewManagedDatabaseWithLedgerOn() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateMax.json
  */
-async function createsANewManagedDatabaseWithMaximalProperties() {
+async function createsANewManagedDatabaseWithMaximalProperties(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -275,7 +273,7 @@ async function createsANewManagedDatabaseWithMaximalProperties() {
  * @summary Creates a new database or updates an existing database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseCreateMin.json
  */
-async function createsANewManagedDatabaseWithMinimalProperties() {
+async function createsANewManagedDatabaseWithMinimalProperties(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -295,7 +293,7 @@ async function createsANewManagedDatabaseWithMinimalProperties() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsANewManagedDatabaseByRestoringFromAnExternalBackup();
   createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingManagedIdentity();
   createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup();

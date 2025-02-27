@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { WebApps } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { WebApps } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { WebSiteManagementClient } from "../webSiteManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { WebSiteManagementClient } from "../webSiteManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Site,
   WebAppsListNextOptionalParams,
@@ -455,6 +455,8 @@ import {
   WebAppsIsCloneableResponse,
   WebAppsListSyncFunctionTriggersOptionalParams,
   WebAppsListSyncFunctionTriggersResponse,
+  WebAppsUpdateMachineKeyOptionalParams,
+  WebAppsUpdateMachineKeyResponse,
   StorageMigrationOptions,
   WebAppsMigrateStorageOptionalParams,
   WebAppsMigrateStorageResponse,
@@ -956,7 +958,7 @@ import {
   WebAppsListWebJobsNextResponse,
   WebAppsListInstanceWorkflowsSlotNextResponse,
   WebAppsListWorkflowsNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WebApps operations. */
@@ -9980,6 +9982,23 @@ export class WebAppsImpl implements WebApps {
     return this.client.sendOperationRequest(
       { resourceGroupName, name, options },
       listSyncFunctionTriggersOperationSpec,
+    );
+  }
+
+  /**
+   * Updates the machine key of an app.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The options parameters.
+   */
+  updateMachineKey(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsUpdateMachineKeyOptionalParams,
+  ): Promise<WebAppsUpdateMachineKeyResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      updateMachineKeyOperationSpec,
     );
   }
 
@@ -22662,6 +22681,29 @@ const listSyncFunctionTriggersOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.FunctionSecrets,
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const updateMachineKeyOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/updatemachinekey",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } },
+      },
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse,

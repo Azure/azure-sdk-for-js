@@ -16,7 +16,7 @@ import {
   ClientsCreateOrUpdateOptionalParams,
   ClientsCreateOrUpdateResponse,
   ClientsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Clients. */

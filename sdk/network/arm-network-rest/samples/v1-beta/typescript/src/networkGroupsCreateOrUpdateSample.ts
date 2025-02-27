@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  NetworkGroupsCreateOrUpdateParameters
+  NetworkGroupsCreateOrUpdateParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a network group.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Creates or updates a network group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerGroupPut.json
  */
-async function networkGroupsPut() {
+async function networkGroupsPut(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -27,7 +22,7 @@ async function networkGroupsPut() {
   const options: NetworkGroupsCreateOrUpdateParameters = {
     headers: {},
     body: { properties: { description: "A sample group" } },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -35,7 +30,7 @@ async function networkGroupsPut() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      networkGroupName
+      networkGroupName,
     )
     .put(options);
   console.log(result);

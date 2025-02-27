@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  SecuritySettings,
-  DataBoxEdgeManagementClient
-} from "@azure/arm-databoxedge";
+import type { SecuritySettings } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -20,7 +16,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Updates the security settings on a Data Box Edge/Data Box Gateway device.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/SecuritySettingsUpdatePost.json
  */
-async function createOrUpdateSecuritySettings() {
+async function createOrUpdateSecuritySettings(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";
   const resourceGroupName = "AzureVM";
@@ -28,15 +24,15 @@ async function createOrUpdateSecuritySettings() {
     deviceAdminPassword: {
       encryptionAlgorithm: "AES256",
       encryptionCertThumbprint: "<encryptionThumprint>",
-      value: "<deviceAdminPassword>"
-    }
+      value: "<deviceAdminPassword>",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const result = await client.devices.beginCreateOrUpdateSecuritySettingsAndWait(
     deviceName,
     resourceGroupName,
-    securitySettings
+    securitySettings,
   );
   console.log(result);
 }

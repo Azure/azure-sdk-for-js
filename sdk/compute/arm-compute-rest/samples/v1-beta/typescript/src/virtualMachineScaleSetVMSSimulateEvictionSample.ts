@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineScaleSetVMsSimulateEvictionParameters
+  VirtualMachineScaleSetVMsSimulateEvictionParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to simulate the eviction of spot virtual machine in a VM scale set.
@@ -25,7 +20,7 @@ async function simulateEvictionAVirtualMachine() {
   const vmScaleSetName = "VmScaleSetName";
   const instanceId = "InstanceId";
   const options: VirtualMachineScaleSetVMsSimulateEvictionParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function simulateEvictionAVirtualMachine() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .post(options);
   console.log(result);

@@ -6,17 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   VirtualMachineScaleSetVMInstanceRequiredIDs,
   VirtualMachineScaleSetsDeleteInstancesOptionalParams,
-  ComputeManagementClient,
 } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes virtual machines in a VM scale set.
@@ -24,11 +20,9 @@ dotenv.config();
  * @summary Deletes virtual machines in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetDeleteInstancesMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetDeleteInstancesMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaa";
   const forceDeletion = true;
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs = {
@@ -39,13 +33,12 @@ async function virtualMachineScaleSetDeleteInstancesMaximumSetGen() {
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginDeleteInstancesAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      vmInstanceIDs,
-      options,
-    );
+  const result = await client.virtualMachineScaleSets.beginDeleteInstancesAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    vmInstanceIDs,
+    options,
+  );
   console.log(result);
 }
 
@@ -55,29 +48,26 @@ async function virtualMachineScaleSetDeleteInstancesMaximumSetGen() {
  * @summary Deletes virtual machines in a VM scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_DeleteInstances_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetDeleteInstancesMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineScaleSetDeleteInstancesMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs = {
     instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result =
-    await client.virtualMachineScaleSets.beginDeleteInstancesAndWait(
-      resourceGroupName,
-      vmScaleSetName,
-      vmInstanceIDs,
-    );
+  const result = await client.virtualMachineScaleSets.beginDeleteInstancesAndWait(
+    resourceGroupName,
+    vmScaleSetName,
+    vmInstanceIDs,
+  );
   console.log(result);
 }
 
-async function main() {
-  virtualMachineScaleSetDeleteInstancesMaximumSetGen();
-  virtualMachineScaleSetDeleteInstancesMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineScaleSetDeleteInstancesMaximumSetGen();
+  await virtualMachineScaleSetDeleteInstancesMinimumSetGen();
 }
 
 main().catch(console.error);

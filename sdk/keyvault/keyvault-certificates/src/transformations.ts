@@ -32,6 +32,7 @@ import type {
   ErrorModel,
 } from "./generated/models/index.js";
 import { parseKeyVaultCertificateIdentifier } from "./identifier.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export function toCoreAttributes(properties: CertificateProperties): CertificateAttributes {
   return {
@@ -216,6 +217,7 @@ export function getCertificateFromCertificateBundle(
       certificateBundle.x509Thumbprint &&
       uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return {
@@ -252,6 +254,7 @@ export function getCertificateWithPolicyFromCertificateBundle(
       certificateBundle.x509Thumbprint &&
       uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return {
@@ -302,7 +305,6 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
     tags: item.tags,
     x509Thumbprint: item.x509Thumbprint,
     x509ThumbprintString: item.x509Thumbprint && uint8ArrayToString(item.x509Thumbprint, "hex"),
-
     recoverableDays: item.attributes?.recoverableDays,
     recoveryLevel: item.attributes?.recoveryLevel,
   };
@@ -331,7 +333,6 @@ function getCertificateOperationErrorFromErrorModel(
 
 export function getCertificateOperationFromCoreOperation(
   certificateName: string,
-  vaultUrl: string,
   operation: CoreCertificateOperation,
 ): CertificateOperation {
   return {
@@ -351,7 +352,6 @@ export function getCertificateOperationFromCoreOperation(
     status: operation.status,
     statusDetails: operation.statusDetails,
     target: operation.target,
-    vaultUrl: vaultUrl,
   };
 }
 
@@ -386,7 +386,33 @@ export function getPropertiesFromCertificateBundle(
       certificateBundle.x509Thumbprint &&
       uint8ArrayToString(certificateBundle.x509Thumbprint, "hex"),
     recoverableDays: attributes.recoverableDays,
+    preserveCertificateOrder: certificateBundle.preserveCertOrder,
   };
 
   return abstractProperties;
+}
+
+export function mapPagedAsyncIterable<T, U>(
+  iter: PagedAsyncIterableIterator<T>,
+  mapper: (x: T) => U,
+): PagedAsyncIterableIterator<U> {
+  return {
+    async next() {
+      const result = await iter.next();
+
+      return {
+        ...result,
+        value: result.value && mapper(result.value),
+      };
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    async *byPage(settings) {
+      const iteratorByPage = iter.byPage(settings);
+      for await (const page of iteratorByPage) {
+        yield page.map(mapper);
+      }
+    },
+  };
 }

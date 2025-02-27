@@ -2,32 +2,29 @@
 // Licensed under the MIT License.
 
 import { matrix } from "@azure-tools/test-utils-vitest";
-import { describe, beforeEach, it, assert, beforeAll } from "vitest";
-import { createClient } from "./utils/createClient.js";
-import { APIVersion, type DeploymentInfo, getDeployments, withDeployments } from "./utils/utils.js";
-import type { OpenAI, AzureOpenAI } from "openai";
-import { ttsModelsToSkip } from "./utils/models.js";
+import { describe, beforeEach, it, assert } from "vitest";
+import { createClientsAndDeployments } from "../utils/createClients.js";
+import { APIVersion, withDeployments } from "../utils/utils.js";
+import type { ClientsAndDeploymentsInfo } from "../utils/types.js";
 
-describe("OpenAI", function () {
-  let deployments: DeploymentInfo[] = [];
-
-  beforeAll(async function () {
-    deployments = await getDeployments("audio");
-  });
-
+describe("Text to speech", function () {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let client: AzureOpenAI | OpenAI;
+      let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        client = createClient(apiVersion, "audio");
+        clientsAndDeployments = createClientsAndDeployments(
+          apiVersion,
+          { audio: "true" },
+          { modelsToSkip: [{ name: "whisper" }] },
+        );
       });
 
-      describe("textToSpeech", function () {
+      describe("audio.speech.create", function () {
         it("returns speech based on text input", async function () {
           await withDeployments(
-            deployments,
-            (deployment) =>
+            clientsAndDeployments,
+            (client, deployment) =>
               client.audio.speech.create({
                 model: deployment,
                 input: "Hello, it is a great day. How are you doing today? ",
@@ -37,8 +34,6 @@ describe("OpenAI", function () {
               const buffer = await audio.arrayBuffer();
               assert.isNotNull(buffer);
             },
-            // Skip Whisper model for text to speech test because of server unexpected response error
-            ttsModelsToSkip,
           );
         });
       });

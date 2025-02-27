@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { TimeSeriesInsightsClient } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of all private endpoint connections in the given environment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of all private endpoint connections in the given environment.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/PrivateEndpointConnectionsListByEnvironment.json
  */
-async function listPrivateEndpointConnectionsByService() {
+async function listPrivateEndpointConnectionsByService(): Promise<void> {
   const subscriptionId =
     process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -35,7 +33,7 @@ async function listPrivateEndpointConnectionsByService() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPrivateEndpointConnectionsByService();
 }
 

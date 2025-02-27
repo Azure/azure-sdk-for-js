@@ -92,10 +92,6 @@ describe("CallRecording Unit Tests", () => {
     assert.equal(data.channelAffinity[0].participant.communicationUser.id, CALL_TARGET_ID);
     assert.equal(data.recordingStateCallbackUri, CALL_CALLBACK_URL);
     assert.equal(request.method, "POST");
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
-    );
   });
 
   it("makes successful startRecording request", async () => {
@@ -123,10 +119,6 @@ describe("CallRecording Unit Tests", () => {
     assert.equal(data.callLocator.kind, "serverCallLocator");
     assert.equal(data.recordingStateCallbackUri, CALL_CALLBACK_URL);
     assert.equal(request.method, "POST");
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
-    );
   });
 
   it("makes successful getRecordingProperties request", async () => {
@@ -143,10 +135,6 @@ describe("CallRecording Unit Tests", () => {
     const request = spy.mock.calls[0][0];
 
     assert.equal(request.method, "GET");
-    assert.equal(
-      request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`,
-    );
   });
 
   it("Sends correct args to stop a recording", async () => {

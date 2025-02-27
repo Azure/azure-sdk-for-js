@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualHubRouteTableV2SCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a VirtualHubRouteTableV2 resource if it doesn't exist else updates the existing VirtualHubRouteTableV2.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates a VirtualHubRouteTableV2 resource if it doesn't exist else updates the existing VirtualHubRouteTableV2.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualHubRouteTableV2Put.json
  */
-async function virtualHubRouteTableV2Put() {
+async function virtualHubRouteTableV2Put(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -34,18 +29,18 @@ async function virtualHubRouteTableV2Put() {
             destinationType: "CIDR",
             destinations: ["20.10.0.0/16", "20.20.0.0/16"],
             nextHopType: "IPAddress",
-            nextHops: ["10.0.0.68"]
+            nextHops: ["10.0.0.68"],
           },
           {
             destinationType: "CIDR",
             destinations: ["0.0.0.0/0"],
             nextHopType: "IPAddress",
-            nextHops: ["10.0.0.68"]
-          }
-        ]
-      }
+            nextHops: ["10.0.0.68"],
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -53,7 +48,7 @@ async function virtualHubRouteTableV2Put() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeTableName
+      routeTableName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

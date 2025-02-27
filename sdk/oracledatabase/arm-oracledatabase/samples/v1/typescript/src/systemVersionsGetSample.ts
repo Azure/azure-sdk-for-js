@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a SystemVersion
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a SystemVersion
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/systemVersions_get.json
  */
-async function getExadataSystemVersion() {
+async function getExadataSystemVersion(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function getExadataSystemVersion() {
  * @summary Get a SystemVersion
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/systemVersions_get.json
  */
-async function systemVersionsListSystemVersions() {
+async function systemVersionsListSystemVersions(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -50,7 +48,7 @@ async function systemVersionsListSystemVersions() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getExadataSystemVersion();
   systemVersionsListSystemVersions();
 }

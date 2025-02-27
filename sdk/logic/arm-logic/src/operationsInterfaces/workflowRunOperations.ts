@@ -9,7 +9,7 @@
 import {
   WorkflowRunOperationsGetOptionalParams,
   WorkflowRunOperationsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a WorkflowRunOperations. */
 export interface WorkflowRunOperations {

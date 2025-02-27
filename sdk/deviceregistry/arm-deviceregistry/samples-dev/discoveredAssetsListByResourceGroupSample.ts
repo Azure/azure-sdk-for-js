@@ -10,20 +10,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list DiscoveredAsset resources by resource group
  * x-ms-original-file: 2024-09-01-preview/List_DiscoveredAssets_ResourceGroup.json
  */
-async function listDiscoveredAssetsResourceGroup() {
+async function listDiscoveredAssetsResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.discoveredAssets.listByResourceGroup("myResourceGroup")) {
+  for await (const item of client.discoveredAssets.listByResourceGroup("myResourceGroup")) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
-  listDiscoveredAssetsResourceGroup();
+async function main(): Promise<void> {
+  await listDiscoveredAssetsResourceGroup();
 }
 
 main().catch(console.error);

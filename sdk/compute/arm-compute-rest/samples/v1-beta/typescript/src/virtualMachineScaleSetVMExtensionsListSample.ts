@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineScaleSetVMExtensionsListParameters
+  VirtualMachineScaleSetVMExtensionsListParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to get all extensions of an instance in Virtual Machine Scaleset.
@@ -25,7 +20,7 @@ async function listExtensionsInVmssInstance() {
   const vmScaleSetName = "myvmScaleSet";
   const instanceId = "0";
   const options: VirtualMachineScaleSetVMExtensionsListParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function listExtensionsInVmssInstance() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .get(options);
   console.log(result);

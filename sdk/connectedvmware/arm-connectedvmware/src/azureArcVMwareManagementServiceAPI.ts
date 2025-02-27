@@ -27,7 +27,7 @@ import {
   VirtualMachineInstancesImpl,
   VmInstanceHybridIdentityMetadataOperationsImpl,
   VMInstanceGuestAgentsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   ResourcePools,
@@ -41,8 +41,8 @@ import {
   VirtualMachineInstances,
   VmInstanceHybridIdentityMetadataOperations,
   VMInstanceGuestAgents
-} from "./operationsInterfaces";
-import { AzureArcVMwareManagementServiceAPIOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureArcVMwareManagementServiceAPIOptionalParams } from "./models/index.js";
 
 export class AzureArcVMwareManagementServiceAPI extends coreClient.ServiceClient {
   $host: string;

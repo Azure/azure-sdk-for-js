@@ -48,8 +48,6 @@ parameters:
       #   MatrixFilters:
       #     - OSVmImage=.*Ubuntu.*
       #     - DependencyVersion=^$
-      UsGov:
-      China:
   - name: MatrixConfigs
     type: object
     default:

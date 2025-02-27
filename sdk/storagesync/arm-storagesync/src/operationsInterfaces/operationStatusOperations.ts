@@ -9,7 +9,7 @@
 import {
   OperationStatusGetOptionalParams,
   OperationStatusGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a OperationStatusOperations. */
 export interface OperationStatusOperations {

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Resubmits a workflow run based on the trigger history.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Resubmits a workflow run based on the trigger history.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/WorkflowTriggerHistories_Resubmit.json
  */
-async function resubmitAWorkflowRunBasedOnTheTriggerHistory() {
+async function resubmitAWorkflowRunBasedOnTheTriggerHistory(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -40,7 +38,7 @@ async function resubmitAWorkflowRunBasedOnTheTriggerHistory() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   resubmitAWorkflowRunBasedOnTheTriggerHistory();
 }
 

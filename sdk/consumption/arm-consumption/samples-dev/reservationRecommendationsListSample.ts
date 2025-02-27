@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ReservationRecommendationsListOptionalParams,
-  ConsumptionManagementClient
-} from "@azure/arm-consumption";
+import type { ReservationRecommendationsListOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of recommendations for purchasing reserved instances.
@@ -23,15 +17,14 @@ dotenv.config();
  * @summary List of recommendations for purchasing reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsByBillingAccount.json
  */
-async function reservationRecommendationsByBillingAccountLegacy() {
+async function reservationRecommendationsByBillingAccountLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.Billing/billingAccounts/123456";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationRecommendations.list(scope)) {
+  for await (const item of client.reservationRecommendations.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -43,16 +36,14 @@ async function reservationRecommendationsByBillingAccountLegacy() {
  * @summary List of recommendations for purchasing reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsByBillingProfile.json
  */
-async function reservationRecommendationsByBillingProfileModern() {
+async function reservationRecommendationsByBillingProfileModern(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/123456/billingProfiles/6420";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "providers/Microsoft.Billing/billingAccounts/123456/billingProfiles/6420";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationRecommendations.list(scope)) {
+  for await (const item of client.reservationRecommendations.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -64,16 +55,14 @@ async function reservationRecommendationsByBillingProfileModern() {
  * @summary List of recommendations for purchasing reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsByResourceGroup.json
  */
-async function reservationRecommendationsByResourceGroupLegacy() {
+async function reservationRecommendationsByResourceGroupLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const scope =
-    "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testGroup";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const scope = "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testGroup";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationRecommendations.list(scope)) {
+  for await (const item of client.reservationRecommendations.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -85,15 +74,14 @@ async function reservationRecommendationsByResourceGroupLegacy() {
  * @summary List of recommendations for purchasing reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsBySubscription.json
  */
-async function reservationRecommendationsBySubscriptionLegacy() {
+async function reservationRecommendationsBySubscriptionLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationRecommendations.list(scope)) {
+  for await (const item of client.reservationRecommendations.list(scope)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -105,32 +93,27 @@ async function reservationRecommendationsBySubscriptionLegacy() {
  * @summary List of recommendations for purchasing reserved instances.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationsFilterBySubscriptionForScopeLookBackPeriod.json
  */
-async function reservationRecommendationsFilterBySubscriptionForScopeLookBackPeriodLegacy() {
+async function reservationRecommendationsFilterBySubscriptionForScopeLookBackPeriodLegacy(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const filter =
-    "properties/scope eq 'Single' AND properties/lookBackPeriod eq 'Last7Days'";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const filter = "properties/scope eq 'Single' AND properties/lookBackPeriod eq 'Last7Days'";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const options: ReservationRecommendationsListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationRecommendations.list(
-    scope,
-    options
-  )) {
+  for await (const item of client.reservationRecommendations.list(scope, options)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  reservationRecommendationsByBillingAccountLegacy();
-  reservationRecommendationsByBillingProfileModern();
-  reservationRecommendationsByResourceGroupLegacy();
-  reservationRecommendationsBySubscriptionLegacy();
-  reservationRecommendationsFilterBySubscriptionForScopeLookBackPeriodLegacy();
+async function main(): Promise<void> {
+  await reservationRecommendationsByBillingAccountLegacy();
+  await reservationRecommendationsByBillingProfileModern();
+  await reservationRecommendationsByResourceGroupLegacy();
+  await reservationRecommendationsBySubscriptionLegacy();
+  await reservationRecommendationsFilterBySubscriptionForScopeLookBackPeriodLegacy();
 }
 
 main().catch(console.error);

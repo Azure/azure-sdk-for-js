@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ElasticSanManagement } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the private link resources that need to be created for a elastic San.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the private link resources that need to be created for a elastic San.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateLinkResources_ListByElasticSan_MaximumSet_Gen.json
  */
-async function privateLinkResourcesListByElasticSanMaximumSetGen() {
+async function privateLinkResourcesListByElasticSanMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -41,7 +39,7 @@ async function privateLinkResourcesListByElasticSanMaximumSetGen() {
  * @summary Gets the private link resources that need to be created for a elastic San.
  * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/preview/2024-06-01-preview/examples/PrivateLinkResources_ListByElasticSan_MinimumSet_Gen.json
  */
-async function privateLinkResourcesListByElasticSanMinimumSetGen() {
+async function privateLinkResourcesListByElasticSanMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
   const resourceGroupName =
@@ -56,7 +54,7 @@ async function privateLinkResourcesListByElasticSanMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateLinkResourcesListByElasticSanMaximumSetGen();
   privateLinkResourcesListByElasticSanMinimumSetGen();
 }

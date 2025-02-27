@@ -4,7 +4,7 @@
 param ledgerName string = 'tssdkci-${uniqueString(resourceGroup().id)}'
 // resourceGroup().name is too long
 // uniqueString is 13 characters long
-// https://docs.microsoft.com/en-us/azure/azure-resource-manager/bicep/bicep-functions-string#uniquestring
+// https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/bicep-functions-string#uniquestring
 // Prepend a string to easy identification + ledger name must start with a letter.
 
 @description('Location for all resources.')

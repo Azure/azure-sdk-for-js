@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary update a AssetEndpointProfile
  * x-ms-original-file: 2024-09-01-preview/Update_AssetEndpointProfile.json
  */
-async function updateAssetEndpointProfile() {
+async function updateAssetEndpointProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function updateAssetEndpointProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateAssetEndpointProfile();
 }
 

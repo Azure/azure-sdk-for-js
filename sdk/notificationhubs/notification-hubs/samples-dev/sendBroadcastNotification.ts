@@ -6,7 +6,7 @@
  * notification using APNs.  This sends a JSON message to an APNs given device token and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
- * See https://docs.microsoft.com/rest/api/notificationhubs/send-apns-native-notification
+ * See https://learn.microsoft.com/rest/api/notificationhubs/send-apns-native-notification
  * to learn about sending a notification to an Apple device.
  *
  *

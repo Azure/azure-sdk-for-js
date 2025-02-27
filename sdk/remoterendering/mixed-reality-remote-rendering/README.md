@@ -7,10 +7,10 @@ the lifetime of remote rendering sessions.
 
 > NOTE: Once a session is running, a client application will connect to it using one of the "runtime SDKs".
 > These SDKs are designed to best support the needs of an interactive application doing 3d rendering.
-> They are available in ([.net](https://docs.microsoft.com/dotnet/api/microsoft.azure.remoterendering)
-> or ([C++](https://docs.microsoft.com/cpp/api/remote-rendering/)).
+> They are available in ([.net](https://learn.microsoft.com/dotnet/api/microsoft.azure.remoterendering)
+> or ([C++](https://learn.microsoft.com/cpp/api/remote-rendering/)).
 
-[Product documentation](https://docs.microsoft.com/azure/remote-rendering/)
+[Product documentation](https://learn.microsoft.com/azure/remote-rendering/)
 
 ## Getting started
 
@@ -21,7 +21,7 @@ the lifetime of remote rendering sessions.
 
 ### Prerequisites
 
-You will need an [Azure subscription](https://azure.microsoft.com/free/) and an [Azure Remote Rendering account](https://docs.microsoft.com/azure/remote-rendering/how-tos/create-an-account) to use this package.
+You will need an [Azure subscription](https://azure.microsoft.com/free/) and an [Azure Remote Rendering account](https://learn.microsoft.com/azure/remote-rendering/how-tos/create-an-account) to use this package.
 
 ### Install the `@azure/mixed-reality-remote-rendering` package
 
@@ -59,7 +59,7 @@ There are several different forms of authentication:
     method for production applications because it allows you to avoid embedding the credentials for access to Azure Spatial
     Anchors in your client application.
 
-See [here](https://docs.microsoft.com/azure/remote-rendering/how-tos/authentication) for detailed instructions and information.
+See [here](https://learn.microsoft.com/azure/remote-rendering/how-tos/authentication) for detailed instructions and information.
 
 In all the following examples, the client is constructed with a `remoteRenderingEndpoint`.
 The available endpoints correspond to regions, and the choice of endpoint determines the region in which the service performs its work.
@@ -86,7 +86,7 @@ Use the `ClientSecretCredential` object to perform client secret authentication.
 
 ```typescript Snippet:CreateAClientWithAAD
 const credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
-  authorityHost: "https://login.microsoftonline.com/" + tenantId
+  authorityHost: "https://login.microsoftonline.com/" + tenantId,
 });
 
 const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
@@ -106,7 +106,7 @@ const credential = new DeviceCodeCredential({
   tenantId: tenantId,
   clientId: clientId,
   userPromptCallback: userPromptCallback,
-  authorityHost: "https://login.microsoftonline.com/" + tenantId
+  authorityHost: "https://login.microsoftonline.com/" + tenantId,
 });
 
 const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential);
@@ -124,7 +124,7 @@ flow:
 const credential = new DefaultAzureCredential();
 
 return new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, credential, {
-  authenticationEndpointUrl: "https://sts.mixedreality.azure.com"
+  authenticationEndpointUrl: "https://sts.mixedreality.azure.com",
 });
 ```
 
@@ -170,10 +170,10 @@ The following snippet describes how to request that "box.fbx", found at the root
 ```typescript Snippet:StartAnAssetConversion
 const inputSettings: AssetConversionInputSettings = {
   storageContainerUrl,
-  relativeInputAssetPath: "box.fbx"
+  relativeInputAssetPath: "box.fbx",
 };
 const outputSettings: AssetConversionOutputSettings = {
-  storageContainerUrl
+  storageContainerUrl,
 };
 const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
@@ -182,7 +182,7 @@ const conversionId = uuid();
 
 const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
   conversionId,
-  conversionSettings
+  conversionSettings,
 );
 ```
 
@@ -199,23 +199,23 @@ To keep things tidy, we also want the output files to be written to a different 
 The code is as follows:
 
 ```typescript Snippet:StartAComplexAssetConversion
-  const inputSettings: AssetConversionInputSettings = {
-    storageContainerUrl: inputStorageUrl,
-    blobPrefix: "Bicycle",
-    relativeInputAssetPath: "bicycle.gltf"
-  };
-  const outputSettings: AssetConversionOutputSettings = {
-    storageContainerUrl: outputStorageUrl,
-    blobPrefix: "ConvertedBicycle"
-  };
-  const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+const inputSettings: AssetConversionInputSettings = {
+  storageContainerUrl: inputStorageUrl,
+  blobPrefix: "Bicycle",
+  relativeInputAssetPath: "bicycle.gltf",
+};
+const outputSettings: AssetConversionOutputSettings = {
+  storageContainerUrl: outputStorageUrl,
+  blobPrefix: "ConvertedBicycle",
+};
+const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
-  const conversionId = uuid();
+const conversionId = uuid();
 
-  const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
-    conversionId,
-    conversionSettings
-  );
+const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
+  conversionId,
+  conversionSettings,
+);
 ```
 
 > NOTE: when a prefix is given in the input options, then the input file parameter is assumed to be relative to that prefix.
@@ -259,11 +259,11 @@ In this example, we just list the output URIs of successful conversions started 
 for await (const conversion of client.listConversions()) {
   if (conversion.status === "Succeeded") {
     console.log(
-      `Conversion ${conversion.conversionId} succeeded: Output written to ${conversion.output?.outputAssetUrl}`
+      `Conversion ${conversion.conversionId} succeeded: Output written to ${conversion.output?.outputAssetUrl}`,
     );
   } else if (conversion.status === "Failed") {
     console.log(
-      `Conversion ${conversion.conversionId} failed: ${conversion.error.code} ${conversion.error.message}`
+      `Conversion ${conversion.conversionId} failed: ${conversion.error.code} ${conversion.error.message}`,
     );
   }
 }
@@ -277,7 +277,7 @@ The following snippet describes how to request that a new rendering session be s
 ```typescript Snippet:CreateASession
 const sessionSettings: RenderingSessionSettings = {
   maxLeaseTimeInMinutes: 4,
-  size: "Standard"
+  size: "Standard",
 };
 
 // A randomly generated UUID is a good choice for a conversionId.
@@ -285,7 +285,7 @@ const sessionId = uuid();
 
 const sessionPoller: RenderingSessionPollerLike = await client.beginSession(
   sessionId,
-  sessionSettings
+  sessionSettings,
 );
 ```
 
@@ -357,7 +357,7 @@ setLogLevel("info");
 
 ### Azure Remote Rendering troubleshooting
 
-For general troubleshooting advice concerning Azure Remote Rendering, see [the Troubleshoot page](https://docs.microsoft.com/azure/remote-rendering/resources/troubleshoot) for remote rendering at docs.microsoft.com.
+For general troubleshooting advice concerning Azure Remote Rendering, see [the Troubleshoot page](https://learn.microsoft.com/azure/remote-rendering/resources/troubleshoot) for remote rendering at learn.microsoft.com.
 
 The client methods will throw exceptions if the request cannot be made.
 However, in the case of both conversions and sessions, the requests can succeed but the requested operation may not be successful.
@@ -374,10 +374,10 @@ RemoteRenderingServiceError with details.
 
 ## Next steps
 
-- Read the [Product documentation](https://docs.microsoft.com/azure/remote-rendering/)
+- Read the [Product documentation](https://learn.microsoft.com/azure/remote-rendering/)
 - Learn about the runtime SDKs:
-  - .NET: https://docs.microsoft.com/dotnet/api/microsoft.azure.remoterendering
-  - C++: https://docs.microsoft.com/cpp/api/remote-rendering/
+  - .NET: https://learn.microsoft.com/dotnet/api/microsoft.azure.remoterendering
+  - C++: https://learn.microsoft.com/cpp/api/remote-rendering/
 
 ## Contributing
 
@@ -387,7 +387,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftemplate%2Ftemplate%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

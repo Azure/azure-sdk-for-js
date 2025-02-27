@@ -14,7 +14,7 @@ import {
   PartnerUpdateOptionalParams,
   PartnerUpdateResponse,
   PartnerDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Partner. */
 export interface Partner {

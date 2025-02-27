@@ -32,7 +32,7 @@ export function accountSasResourceTypesFromString(resourceTypes: string): Accoun
 /**
  * Converts the given resource types to a string.
  *
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
  *
  */
 export function accountSasResourceTypesToString(resourceTypes: AccountSasResourceTypes): string {

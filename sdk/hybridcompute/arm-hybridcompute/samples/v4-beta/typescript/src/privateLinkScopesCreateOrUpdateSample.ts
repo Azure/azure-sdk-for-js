@@ -13,9 +13,7 @@ import {
   HybridComputeManagementClient,
 } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateLinkScope/PrivateLinkScopes_Create.json
  */
-async function privateLinkScopeCreate() {
+async function privateLinkScopeCreate(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
     "86dc51d3-92ed-4d7e-947a-775ea79b4919";
@@ -47,7 +45,7 @@ async function privateLinkScopeCreate() {
  * @summary Creates (or updates) a Azure Arc PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateLinkScope/PrivateLinkScopes_Update.json
  */
-async function privateLinkScopeUpdate() {
+async function privateLinkScopeUpdate(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
     "86dc51d3-92ed-4d7e-947a-775ea79b4919";
@@ -68,7 +66,7 @@ async function privateLinkScopeUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   privateLinkScopeCreate();
   privateLinkScopeUpdate();
 }

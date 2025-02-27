@@ -14,9 +14,9 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { DataBoundariesImpl } from "./operations";
-import { DataBoundaries } from "./operationsInterfaces";
-import { DataboundariesManegementClientOptionalParams } from "./models";
+import { DataBoundariesImpl } from "./operations/index.js";
+import { DataBoundaries } from "./operationsInterfaces/index.js";
+import { DataboundariesManegementClientOptionalParams } from "./models/index.js";
 
 export class DataboundariesManegementClient extends coreClient.ServiceClient {
   $host: string;

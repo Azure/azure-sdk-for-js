@@ -25,7 +25,7 @@ import {
   VirtualNetworksImpl,
   VmmServersImpl,
   InventoryItemsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   VirtualMachineInstances,
   GuestAgents,
@@ -37,8 +37,8 @@ import {
   VirtualNetworks,
   VmmServers,
   InventoryItems,
-} from "./operationsInterfaces";
-import { ScVmmOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ScVmmOptionalParams } from "./models/index.js";
 
 export class ScVmm extends coreClient.ServiceClient {
   $host: string;

@@ -14,7 +14,7 @@ import {
   ApplicationInsightsComponentProactiveDetectionConfiguration,
   ProactiveDetectionConfigurationsUpdateOptionalParams,
   ProactiveDetectionConfigurationsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProactiveDetectionConfigurations. */
 export interface ProactiveDetectionConfigurations {

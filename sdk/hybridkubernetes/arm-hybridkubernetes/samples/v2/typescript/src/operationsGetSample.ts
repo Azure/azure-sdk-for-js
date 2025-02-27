@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all of the available API operations for Connected Cluster resource.
  * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/ListConnectedClusterOperationsExample.json
  */
-async function listConnectedClusterOperationsExample() {
+async function listConnectedClusterOperationsExample(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new ConnectedKubernetesClient(credential, subscriptionId);

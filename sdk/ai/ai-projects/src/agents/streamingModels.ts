@@ -12,10 +12,10 @@ import type {
 /**
 Each event in a server-sent events stream has an `event` and `data` property:
   
-  ```
+```
   event: thread.created
   data: {"id": "thread_123", "object": "thread", ...}
-  ```
+```
   
   We emit events whenever a new object is created, transitions to a new state, or is being
   streamed in parts (deltas). For example, we emit `thread.run.created` when a new run

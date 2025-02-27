@@ -58,6 +58,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [broadcasting]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/javascript/broadcasting.js
 [directmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/javascript/directMessage.js
 [managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub/samples/v1/javascript/managingGroups.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/web-pubsub
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/web-pubsub
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub/README.md

@@ -100,7 +100,7 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
-  /** Kind of resource. */
+  /** Kind of resource. If the resource is an app, you can refer to https://github.com/Azure/app-service-linux-docs/blob/master/Things_You_Should_Know/kind_property.md#app-service-resource-kind-reference for details supported values for kind. */
   kind?: string;
   /** Resource Location. */
   location: string;
@@ -1951,254 +1951,6 @@ export interface VnetInfo {
 export interface CertificateCollection {
   /** Collection of resources. */
   value: Certificate[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Container App collection ARM resource. */
-export interface ContainerAppCollection {
-  /** Collection of resources. */
-  value: ContainerApp[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Non versioned Container App configuration properties that define the mutable settings of a Container app */
-export interface Configuration {
-  /** Collection of secrets used by a Container app */
-  secrets?: Secret[];
-  /**
-   * ActiveRevisionsMode controls how active revisions are handled for the Container app:
-   * <list><item>Multiple: multiple revisions can be active. If no value if provided, this is the default</item><item>Single: Only one revision can be active at a time. Revision weights can not be used in this mode</item></list>
-   */
-  activeRevisionsMode?: ActiveRevisionsMode;
-  /** Ingress configurations. */
-  ingress?: Ingress;
-  /** Collection of private container registry credentials for containers used by the Container app */
-  registries?: RegistryCredentials[];
-}
-
-/** Container App Secret. */
-export interface Secret {
-  /** Secret Name. */
-  name?: string;
-  /** Secret Value. */
-  value?: string;
-}
-
-/** Container App Ingress configuration. */
-export interface Ingress {
-  /**
-   * Hostname.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-  /** Bool indicating if app exposes an external http endpoint */
-  external?: boolean;
-  /** Target Port in containers for traffic from ingress */
-  targetPort?: number;
-  /** Ingress transport protocol */
-  transport?: IngressTransportMethod;
-  traffic?: TrafficWeight[];
-  /** Bool indicating if HTTP connections to is allowed. If set to false HTTP connections are automatically redirected to HTTPS connections */
-  allowInsecure?: boolean;
-}
-
-/** Traffic weight assigned to a revision */
-export interface TrafficWeight {
-  /** Name of a revision */
-  revisionName?: string;
-  /** Traffic weight assigned to a revision */
-  weight?: number;
-  /** Indicates that the traffic weight belongs to a latest stable revision */
-  latestRevision?: boolean;
-}
-
-/** Container App Private Registry */
-export interface RegistryCredentials {
-  /** Container Registry Server */
-  server?: string;
-  /** Container Registry Username */
-  username?: string;
-  /** The name of the Secret that contains the registry login password */
-  passwordSecretRef?: string;
-}
-
-/**
- * Container App versioned application definition.
- * Defines the desired state of an immutable revision.
- * Any changes to this section Will result in a new revision being created
- */
-export interface Template {
-  /** User friendly suffix that is appended to the revision name */
-  revisionSuffix?: string;
-  /** List of container definitions for the Container App. */
-  containers?: Container[];
-  /** Scaling properties for the Container App. */
-  scale?: Scale;
-  /** Dapr configuration for the Container App. */
-  dapr?: Dapr;
-}
-
-/** Container App container definition. */
-export interface Container {
-  /** Container image tag. */
-  image?: string;
-  /** Custom container name. */
-  name?: string;
-  /** Container start command. */
-  command?: string[];
-  /** Container start command arguments. */
-  args?: string[];
-  /** Container environment variables. */
-  env?: EnvironmentVar[];
-  /** Container resource requirements. */
-  resources?: ContainerResources;
-}
-
-/** Container App container environment variable. */
-export interface EnvironmentVar {
-  /** Environment variable name. */
-  name?: string;
-  /** Non-secret environment variable value. */
-  value?: string;
-  /** Name of the Container App secret from which to pull the environment variable value. */
-  secretRef?: string;
-}
-
-/** Container App container resource requirements. */
-export interface ContainerResources {
-  /** Required CPU in cores, e.g. 0.5 */
-  cpu?: number;
-  /** Required memory, e.g. "250Mb" */
-  memory?: string;
-}
-
-/** Container App scaling configurations. */
-export interface Scale {
-  /** Optional. Minimum number of container replicas. */
-  minReplicas?: number;
-  /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
-  maxReplicas?: number;
-  /** Scaling rules. */
-  rules?: ScaleRule[];
-}
-
-/** Container App container scaling rule. */
-export interface ScaleRule {
-  /** Scale Rule Name */
-  name?: string;
-  /** Azure Queue based scaling. */
-  azureQueue?: QueueScaleRule;
-  /** Custom scale rule. */
-  custom?: CustomScaleRule;
-  /** HTTP requests based scaling. */
-  http?: HttpScaleRule;
-}
-
-/** Container App container Azure Queue based scaling rule. */
-export interface QueueScaleRule {
-  /** Queue name. */
-  queueName?: string;
-  /** Queue length. */
-  queueLength?: number;
-  /** Authentication secrets for the queue scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Auth Secrets for Container App Scale Rule */
-export interface ScaleRuleAuth {
-  /** Name of the Container App secret from which to pull the auth params. */
-  secretRef?: string;
-  /** Trigger Parameter that uses the secret */
-  triggerParameter?: string;
-}
-
-/** Container App container Custom scaling rule. */
-export interface CustomScaleRule {
-  /**
-   * Type of the custom scale rule
-   * eg: azure-servicebus, redis etc.
-   */
-  type?: string;
-  /** Metadata properties to describe custom scale rule. */
-  metadata?: { [propertyName: string]: string };
-  /** Authentication secrets for the custom scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Container App container Custom scaling rule. */
-export interface HttpScaleRule {
-  /** Metadata properties to describe http scale rule. */
-  metadata?: { [propertyName: string]: string };
-  /** Authentication secrets for the custom scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Container App Dapr configuration. */
-export interface Dapr {
-  /** Boolean indicating if the Dapr side car is enabled */
-  enabled?: boolean;
-  /** Dapr application identifier */
-  appId?: string;
-  /** Port on which the Dapr side car */
-  appPort?: number;
-  /** Collection of Dapr components */
-  components?: DaprComponent[];
-}
-
-/** Dapr component configuration */
-export interface DaprComponent {
-  /** Component name */
-  name?: string;
-  /** Component type */
-  type?: string;
-  /** Component version */
-  version?: string;
-  /** Component metadata */
-  metadata?: DaprMetadata[];
-}
-
-/** Container App Dapr component metadata. */
-export interface DaprMetadata {
-  /** Metadata property name. */
-  name?: string;
-  /** Metadata property value. */
-  value?: string;
-  /** Name of the Container App secret from which to pull the metadata property value. */
-  secretRef?: string;
-}
-
-/** Container App Secrets Collection ARM resource. */
-export interface SecretsCollection {
-  /** Collection of resources. */
-  value: ContainerAppSecret[];
-}
-
-/** Container App Secret. */
-export interface ContainerAppSecret {
-  /**
-   * Secret Name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Secret Value.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: string;
-}
-
-/** Container App Revisions collection ARM resource. */
-export interface RevisionCollection {
-  /** Collection of resources. */
-  value: Revision[];
   /**
    * Link to next page of resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -5085,6 +4837,157 @@ export interface WorkflowVersionListResult {
   nextLink?: string;
 }
 
+/** Describes valid TLS cipher suites. */
+export interface CipherSuites {
+  /** List of TLS Cipher Suites that are supported by App Service. */
+  suites?: string[];
+}
+
+/** Container App container definition. */
+export interface Container {
+  /** Container image tag. */
+  image?: string;
+  /** Custom container name. */
+  name?: string;
+  /** Container start command. */
+  command?: string[];
+  /** Container start command arguments. */
+  args?: string[];
+  /** Container environment variables. */
+  env?: EnvironmentVar[];
+  /** Container resource requirements. */
+  resources?: ContainerResources;
+}
+
+/** Container App container environment variable. */
+export interface EnvironmentVar {
+  /** Environment variable name. */
+  name?: string;
+  /** Non-secret environment variable value. */
+  value?: string;
+  /** Name of the Container App secret from which to pull the environment variable value. */
+  secretRef?: string;
+}
+
+/** Container App container resource requirements. */
+export interface ContainerResources {
+  /** Required CPU in cores, e.g. 0.5 */
+  cpu?: number;
+  /** Required memory, e.g. "250Mb" */
+  memory?: string;
+}
+
+/** Container App container Custom scaling rule. */
+export interface CustomScaleRule {
+  /**
+   * Type of the custom scale rule
+   * eg: azure-servicebus, redis etc.
+   */
+  type?: string;
+  /** Metadata properties to describe custom scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Auth Secrets for Container App Scale Rule */
+export interface ScaleRuleAuth {
+  /** Name of the Container App secret from which to pull the auth params. */
+  secretRef?: string;
+  /** Trigger Parameter that uses the secret */
+  triggerParameter?: string;
+}
+
+/** Container App Dapr configuration. */
+export interface Dapr {
+  /** Boolean indicating if the Dapr side car is enabled */
+  enabled?: boolean;
+  /** Dapr application identifier */
+  appId?: string;
+  /** Port on which the Dapr side car */
+  appPort?: number;
+  /** Collection of Dapr components */
+  components?: DaprComponent[];
+}
+
+/** Dapr component configuration */
+export interface DaprComponent {
+  /** Component name */
+  name?: string;
+  /** Component type */
+  type?: string;
+  /** Component version */
+  version?: string;
+  /** Component metadata */
+  metadata?: DaprMetadata[];
+}
+
+/** Container App Dapr component metadata. */
+export interface DaprMetadata {
+  /** Metadata property name. */
+  name?: string;
+  /** Metadata property value. */
+  value?: string;
+  /** Name of the Container App secret from which to pull the metadata property value. */
+  secretRef?: string;
+}
+
+/** Container App container Custom scaling rule. */
+export interface HttpScaleRule {
+  /** Metadata properties to describe http scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Container App container Azure Queue based scaling rule. */
+export interface QueueScaleRule {
+  /** Queue name. */
+  queueName?: string;
+  /** Queue length. */
+  queueLength?: number;
+  /** Authentication secrets for the queue scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Container App scaling configurations. */
+export interface Scale {
+  /** Optional. Minimum number of container replicas. */
+  minReplicas?: number;
+  /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
+  maxReplicas?: number;
+  /** Scaling rules. */
+  rules?: ScaleRule[];
+}
+
+/** Container App container scaling rule. */
+export interface ScaleRule {
+  /** Scale Rule Name */
+  name?: string;
+  /** Azure Queue based scaling. */
+  azureQueue?: QueueScaleRule;
+  /** Custom scale rule. */
+  custom?: CustomScaleRule;
+  /** HTTP requests based scaling. */
+  http?: HttpScaleRule;
+}
+
+/**
+ * Container App versioned application definition.
+ * Defines the desired state of an immutable revision.
+ * Any changes to this section Will result in a new revision being created
+ */
+export interface Template {
+  /** User friendly suffix that is appended to the revision name */
+  revisionSuffix?: string;
+  /** List of container definitions for the Container App. */
+  containers?: Container[];
+  /** Scaling properties for the Container App. */
+  scale?: Scale;
+  /** Dapr configuration for the Container App. */
+  dapr?: Dapr;
+}
+
 /** Github access token for Appservice CLI github integration. */
 export interface AppserviceGithubToken {
   /** Github access token for Appservice CLI github integration */
@@ -5479,6 +5382,10 @@ export interface Site extends Resource {
   clientCertMode?: ClientCertMode;
   /** client certificate authentication comma-separated exclusion paths */
   clientCertExclusionPaths?: string;
+  /** Specifies the IP mode of the app. */
+  ipMode?: IPMode;
+  /** Whether to use end to end encryption between the FrontEnd and the Worker */
+  endToEndEncryptionEnabled?: boolean;
   /**
    * <code>true</code> to disable the public hostnames of the app; otherwise, <code>false</code>.
    *  If <code>true</code>, the app is only accessible via API management process.
@@ -5551,6 +5458,8 @@ export interface Site extends Resource {
   storageAccountRequired?: boolean;
   /** Identity to use for Key Vault Reference authentication. */
   keyVaultReferenceIdentity?: string;
+  /** Specifies the scope of uniqueness for the default hostname during resource creation */
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
   /**
    * Azure Resource Manager ID of the Virtual network and subnet to be joined by Regional VNET Integration.
    * This must be of the form /subscriptions/{subscriptionName}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
@@ -5558,6 +5467,11 @@ export interface Site extends Resource {
   virtualNetworkSubnetId?: string;
   /** Azure Resource Manager ID of the customer's selected Managed Environment on which to host this app. This must be of the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName} */
   managedEnvironmentId?: string;
+  /**
+   * Current SKU of application based on associated App Service Plan. Some valid SKU values are Free, Shared, Basic, Dynamic, FlexConsumption, Standard, Premium, PremiumV2, PremiumV3, Isolated, IsolatedV2
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sku?: string;
 }
 
 /** App Service plan. */
@@ -5727,83 +5641,6 @@ export interface Certificate extends Resource {
   canonicalName?: string;
   /** Method of domain validation for free cert */
   domainValidationMethod?: string;
-}
-
-/** Container App. */
-export interface ContainerApp extends Resource {
-  /**
-   * Provisioning state of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ContainerAppProvisioningState;
-  /** Resource ID of the Container App's KubeEnvironment. */
-  kubeEnvironmentId?: string;
-  /**
-   * Name of the latest revision of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latestRevisionName?: string;
-  /**
-   * Fully Qualified Domain Name of the latest revision of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latestRevisionFqdn?: string;
-  /** Non versioned Container App configuration properties. */
-  configuration?: Configuration;
-  /** Container App versioned application definition. */
-  template?: Template;
-}
-
-/** Container App Revision. */
-export interface Revision extends Resource {
-  /**
-   * Timestamp describing when the revision was created
-   * by controller
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: Date;
-  /**
-   * Fully qualified domain name of the revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-  /**
-   * Container App Revision Template with all possible settings and the
-   * defaults if user did not provide them. The defaults are populated
-   * as they were at the creation time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly template?: Template;
-  /**
-   * Boolean describing if the Revision is Active
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly active?: boolean;
-  /**
-   * Number of pods currently running for this revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicas?: number;
-  /**
-   * Traffic weight assigned to this revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly trafficWeight?: number;
-  /**
-   * Optional Field - Platform Error Message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningError?: string;
-  /**
-   * Current health State of the revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly healthState?: RevisionHealthState;
-  /**
-   * Current provisioning State of the revision
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: RevisionProvisioningState;
 }
 
 /** A Kubernetes cluster specialized for web workloads by Azure App Service */
@@ -8501,6 +8338,8 @@ export interface WebSiteInstanceStatus extends ProxyOnlyResource {
   healthCheckUrl?: string;
   /** Dictionary of <ContainerInfo> */
   containers?: { [propertyName: string]: ContainerInfo };
+  /** The physical zone that the instance is in */
+  physicalZone?: string;
 }
 
 /** Process Thread Information. */
@@ -9917,117 +9756,6 @@ export enum KnownRouteType {
  */
 export type RouteType = string;
 
-/** Known values of {@link ContainerAppProvisioningState} that the service accepts. */
-export enum KnownContainerAppProvisioningState {
-  /** InProgress */
-  InProgress = "InProgress",
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * Defines values for ContainerAppProvisioningState. \
- * {@link KnownContainerAppProvisioningState} can be used interchangeably with ContainerAppProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **InProgress** \
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type ContainerAppProvisioningState = string;
-
-/** Known values of {@link ActiveRevisionsMode} that the service accepts. */
-export enum KnownActiveRevisionsMode {
-  /** Multiple */
-  Multiple = "multiple",
-  /** Single */
-  Single = "single",
-}
-
-/**
- * Defines values for ActiveRevisionsMode. \
- * {@link KnownActiveRevisionsMode} can be used interchangeably with ActiveRevisionsMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **multiple** \
- * **single**
- */
-export type ActiveRevisionsMode = string;
-
-/** Known values of {@link IngressTransportMethod} that the service accepts. */
-export enum KnownIngressTransportMethod {
-  /** Auto */
-  Auto = "auto",
-  /** Http */
-  Http = "http",
-  /** Http2 */
-  Http2 = "http2",
-}
-
-/**
- * Defines values for IngressTransportMethod. \
- * {@link KnownIngressTransportMethod} can be used interchangeably with IngressTransportMethod,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **auto** \
- * **http** \
- * **http2**
- */
-export type IngressTransportMethod = string;
-
-/** Known values of {@link RevisionHealthState} that the service accepts. */
-export enum KnownRevisionHealthState {
-  /** Healthy */
-  Healthy = "Healthy",
-  /** Unhealthy */
-  Unhealthy = "Unhealthy",
-  /** None */
-  None = "None",
-}
-
-/**
- * Defines values for RevisionHealthState. \
- * {@link KnownRevisionHealthState} can be used interchangeably with RevisionHealthState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Healthy** \
- * **Unhealthy** \
- * **None**
- */
-export type RevisionHealthState = string;
-
-/** Known values of {@link RevisionProvisioningState} that the service accepts. */
-export enum KnownRevisionProvisioningState {
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Provisioned */
-  Provisioned = "Provisioned",
-  /** Failed */
-  Failed = "Failed",
-  /** Deprovisioning */
-  Deprovisioning = "Deprovisioning",
-  /** Deprovisioned */
-  Deprovisioned = "Deprovisioned",
-}
-
-/**
- * Defines values for RevisionProvisioningState. \
- * {@link KnownRevisionProvisioningState} can be used interchangeably with RevisionProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Provisioning** \
- * **Provisioned** \
- * **Failed** \
- * **Deprovisioning** \
- * **Deprovisioned**
- */
-export type RevisionProvisioningState = string;
-
 /** Known values of {@link ProviderOsTypeSelected} that the service accepts. */
 export enum KnownProviderOsTypeSelected {
   /** Windows */
@@ -11010,7 +10738,8 @@ export type SiteLoadBalancing =
   | "LeastResponseTime"
   | "WeightedTotalTraffic"
   | "RequestHash"
-  | "PerSiteRoundRobin";
+  | "PerSiteRoundRobin"
+  | "LeastRequestsWithTieBreaker";
 /** Defines values for AutoHealActionType. */
 export type AutoHealActionType = "Recycle" | "LogEvent" | "CustomAction";
 /** Defines values for AzureStorageType. */
@@ -11026,6 +10755,8 @@ export type ClientCertMode =
   | "Required"
   | "Optional"
   | "OptionalInteractiveUser";
+/** Defines values for IPMode. */
+export type IPMode = "IPv4" | "IPv6" | "IPv4AndIPv6";
 /** Defines values for RedundancyMode. */
 export type RedundancyMode =
   | "None"
@@ -11033,6 +10764,12 @@ export type RedundancyMode =
   | "Failover"
   | "ActiveActive"
   | "GeoRedundant";
+/** Defines values for AutoGeneratedDomainNameLabelScope. */
+export type AutoGeneratedDomainNameLabelScope =
+  | "TenantReuse"
+  | "SubscriptionReuse"
+  | "ResourceGroupReuse"
+  | "NoReuse";
 /** Defines values for ManagedServiceIdentityType. */
 export type ManagedServiceIdentityType =
   | "SystemAssigned"
@@ -11436,6 +11173,22 @@ export type CertificateRegistrationProviderListOperationsNextResponse =
   CsmOperationCollection;
 
 /** Optional parameters. */
+export interface DomainRegistrationProviderListOperationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOperations operation. */
+export type DomainRegistrationProviderListOperationsResponse =
+  CsmOperationCollection;
+
+/** Optional parameters. */
+export interface DomainRegistrationProviderListOperationsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOperationsNext operation. */
+export type DomainRegistrationProviderListOperationsNextResponse =
+  CsmOperationCollection;
+
+/** Optional parameters. */
 export interface DomainsCheckAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -11613,22 +11366,6 @@ export interface TopLevelDomainsListAgreementsNextOptionalParams
 /** Contains response data for the listAgreementsNext operation. */
 export type TopLevelDomainsListAgreementsNextResponse =
   TldLegalAgreementCollection;
-
-/** Optional parameters. */
-export interface DomainRegistrationProviderListOperationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperations operation. */
-export type DomainRegistrationProviderListOperationsResponse =
-  CsmOperationCollection;
-
-/** Optional parameters. */
-export interface DomainRegistrationProviderListOperationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperationsNext operation. */
-export type DomainRegistrationProviderListOperationsNextResponse =
-  CsmOperationCollection;
 
 /** Optional parameters. */
 export interface AppServiceEnvironmentsListOptionalParams
@@ -12518,105 +12255,6 @@ export interface CertificatesListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type CertificatesListByResourceGroupNextResponse = CertificateCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscription operation. */
-export type ContainerAppsListBySubscriptionResponse = ContainerAppCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroup operation. */
-export type ContainerAppsListByResourceGroupResponse = ContainerAppCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ContainerAppsGetResponse = ContainerApp;
-
-/** Optional parameters. */
-export interface ContainerAppsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ContainerAppsCreateOrUpdateResponse = ContainerApp;
-
-/** Optional parameters. */
-export interface ContainerAppsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ContainerAppsListSecretsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSecrets operation. */
-export type ContainerAppsListSecretsResponse = SecretsCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNext operation. */
-export type ContainerAppsListBySubscriptionNextResponse =
-  ContainerAppCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNext operation. */
-export type ContainerAppsListByResourceGroupNextResponse =
-  ContainerAppCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsListRevisionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listRevisions operation. */
-export type ContainerAppsRevisionsListRevisionsResponse = RevisionCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsGetRevisionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getRevision operation. */
-export type ContainerAppsRevisionsGetRevisionResponse = Revision;
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsActivateRevisionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsDeactivateRevisionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsRestartRevisionOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ContainerAppsRevisionsListRevisionsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listRevisionsNext operation. */
-export type ContainerAppsRevisionsListRevisionsNextResponse =
-  RevisionCollection;
 
 /** Optional parameters. */
 export interface DeletedWebAppsListOptionalParams
@@ -15235,6 +14873,13 @@ export interface WebAppsListSyncFunctionTriggersOptionalParams
 
 /** Contains response data for the listSyncFunctionTriggers operation. */
 export type WebAppsListSyncFunctionTriggersResponse = FunctionSecrets;
+
+/** Optional parameters. */
+export interface WebAppsUpdateMachineKeyOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateMachineKey operation. */
+export type WebAppsUpdateMachineKeyResponse = Record<string, unknown>;
 
 /** Optional parameters. */
 export interface WebAppsMigrateStorageOptionalParams

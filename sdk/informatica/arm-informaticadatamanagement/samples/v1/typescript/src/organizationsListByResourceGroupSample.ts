@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { InformaticaDataManagement } from "@azure/arm-informaticadatamanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List InformaticaOrganizationResource resources by resource group
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List InformaticaOrganizationResource resources by resource group
  * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/Organizations_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function organizationsListByResourceGroup() {
+async function organizationsListByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
     "3599DA28-E346-4D9F-811E-189C0445F0FE";
@@ -43,7 +41,7 @@ async function organizationsListByResourceGroup() {
  * @summary List InformaticaOrganizationResource resources by resource group
  * x-ms-original-file: specification/informatica/resource-manager/Informatica.DataManagement/stable/2024-05-08/examples/Organizations_ListByResourceGroup_MinimumSet_Gen.json
  */
-async function organizationsListByResourceGroupMin() {
+async function organizationsListByResourceGroupMin(): Promise<void> {
   const subscriptionId =
     process.env["INFORMATICA_SUBSCRIPTION_ID"] ||
     "3599DA28-E346-4D9F-811E-189C0445F0FE";
@@ -60,7 +58,7 @@ async function organizationsListByResourceGroupMin() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationsListByResourceGroup();
   organizationsListByResourceGroupMin();
 }

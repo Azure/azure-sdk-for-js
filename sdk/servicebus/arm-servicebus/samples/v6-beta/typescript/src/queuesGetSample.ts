@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a description for the specified queue.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a description for the specified queue.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Queues/SBQueueGet.json
  */
-async function queueGet() {
+async function queueGet(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] ||
     "5f750a97-50d9-4e36-8081-c9ee4c0210d4";
@@ -38,7 +36,7 @@ async function queueGet() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   queueGet();
 }
 

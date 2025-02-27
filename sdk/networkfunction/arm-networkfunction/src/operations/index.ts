@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./networkFunction";
-export * from "./azureTrafficCollectorsBySubscription";
-export * from "./azureTrafficCollectorsByResourceGroup";
-export * from "./azureTrafficCollectors";
-export * from "./collectorPolicies";
+export * from "./networkFunction.js";
+export * from "./azureTrafficCollectorsBySubscription.js";
+export * from "./azureTrafficCollectorsByResourceGroup.js";
+export * from "./azureTrafficCollectors.js";
+export * from "./collectorPolicies.js";

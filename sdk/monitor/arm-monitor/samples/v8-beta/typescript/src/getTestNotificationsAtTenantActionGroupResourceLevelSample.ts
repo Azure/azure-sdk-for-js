@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the test notifications by the notification id
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get the test notifications by the notification id
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2023-05-01-preview/examples/getTestNotificationsAtTenantActionGroupResourceLevel.json
  */
-async function getNotificationDetailsAtTenantActionGroupLevel() {
+async function getNotificationDetailsAtTenantActionGroupLevel(): Promise<void> {
   const managementGroupId = "11111111-1111-1111-1111-111111111111";
   const tenantActionGroupName = "testTenantActionGroup";
   const xMsClientTenantId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
@@ -37,7 +35,7 @@ async function getNotificationDetailsAtTenantActionGroupLevel() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getNotificationDetailsAtTenantActionGroupLevel();
 }
 

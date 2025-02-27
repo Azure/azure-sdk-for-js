@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the properties of the archive version.
  *
  * @summary Gets the properties of the archive version.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ArchiveVersionGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ArchiveVersionGet.json
  */
 async function archiveVersionGet() {
   const subscriptionId =
@@ -33,13 +31,13 @@ async function archiveVersionGet() {
     registryName,
     packageType,
     archiveName,
-    archiveVersionName
+    archiveVersionName,
   );
   console.log(result);
 }
 
 async function main() {
-  archiveVersionGet();
+  await archiveVersionGet();
 }
 
 main().catch(console.error);

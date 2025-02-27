@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  BenefitUtilizationSummariesListByBillingAccountIdOptionalParams,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { BenefitUtilizationSummariesListByBillingAccountIdOptionalParams } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists savings plan utilization summaries for the enterprise agreement scope. Supported at grain values: 'Daily' and 'Monthly'.
@@ -23,27 +17,26 @@ dotenv.config();
  * @summary Lists savings plan utilization summaries for the enterprise agreement scope. Supported at grain values: 'Daily' and 'Monthly'.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/BenefitUtilizationSummaries/SavingsPlan-BillingAccount.json
  */
-async function savingsPlanUtilizationSummariesBillingAccount() {
+async function savingsPlanUtilizationSummariesBillingAccount(): Promise<void> {
   const billingAccountId = "12345";
-  const filter =
-    "properties/usageDate ge 2022-10-15 and properties/usageDate le 2022-10-18";
+  const filter = "properties/usageDate ge 2022-10-15 and properties/usageDate le 2022-10-18";
   const options: BenefitUtilizationSummariesListByBillingAccountIdOptionalParams = {
-    filter
+    filter,
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.benefitUtilizationSummaries.listByBillingAccountId(
+  for await (const item of client.benefitUtilizationSummaries.listByBillingAccountId(
     billingAccountId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  savingsPlanUtilizationSummariesBillingAccount();
+async function main(): Promise<void> {
+  await savingsPlanUtilizationSummariesBillingAccount();
 }
 
 main().catch(console.error);

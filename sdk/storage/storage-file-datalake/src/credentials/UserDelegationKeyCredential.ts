@@ -8,7 +8,7 @@ import { createHmac } from "crypto";
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * UserDelegationKeyCredential is only used for generation of user delegation SAS.
- * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-user-delegation-sas
+ * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-user-delegation-sas
  */
 export class UserDelegationKeyCredential {
   /**

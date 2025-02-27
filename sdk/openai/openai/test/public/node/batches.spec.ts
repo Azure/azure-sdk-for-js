@@ -3,31 +3,32 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, beforeEach, it } from "vitest";
-import { type OpenAI, type AzureOpenAI, toFile } from "openai";
-import { createClient } from "../utils/createClient.js";
-import {
-  APIVersion,
-  type DeploymentInfo,
-  getDeployments,
-  withDeployments,
-} from "../utils/utils.js";
-import { assertBatch, assertNonEmptyArray } from "../utils/asserts.js";
-import { delay } from "@azure-tools/test-recorder";
+import { type OpenAI, toFile } from "openai";
+import { createClientsAndDeployments } from "../../utils/createClients.js";
+import { APIVersion, withDeployments } from "../../utils/utils.js";
+import { assertBatch, assertNonEmptyArray } from "../../utils/asserts.js";
+import { delay } from "@azure/core-util";
 import type { FileObject } from "openai/resources/index";
+import type { ClientsAndDeploymentsInfo } from "../../utils/types.js";
 
 describe("Batches", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
     describe(`[${apiVersion}] Client`, () => {
-      let client: AzureOpenAI | OpenAI;
-      let deployments: DeploymentInfo[] = [];
+      let clientAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async function () {
-        client = createClient(apiVersion, "vision");
-        deployments = await getDeployments("vision");
+        clientAndDeployments = createClientsAndDeployments(
+          apiVersion,
+          {},
+          { sku: { name: "GlobalBatch" } },
+        );
       });
 
-      describe("all CRUD APIs", function () {
-        async function createBatchFile(deploymentName: string): Promise<FileObject> {
+      describe("batches.create", function () {
+        async function createBatchFile(
+          client: OpenAI,
+          deploymentName: string,
+        ): Promise<FileObject> {
           const inputObject = `{ "custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": { "model": "${deploymentName}", "messages": [{ "role": "system", "content": "You are a helpful assistant." }, { "role": "user", "content": "What is 2+2?" }] } }`;
           const file = await client.files.create({
             file: await toFile(Buffer.from(inputObject), "batch.jsonl"),
@@ -38,12 +39,12 @@ describe("Batches", () => {
           return file;
         }
 
-        it("CRUD operation for batch", async function () {
+        it("CRUD operations", async function () {
           await withDeployments(
-            deployments,
-            async (deploymentName) => {
+            clientAndDeployments,
+            async (client, deploymentName) => {
               const batches = [];
-              const file = await createBatchFile(deploymentName);
+              const file = await createBatchFile(client, deploymentName);
               // Create a batch file
               const batch = await client.batches.create({
                 endpoint: "/v1/chat/completions",
@@ -52,6 +53,12 @@ describe("Batches", () => {
               });
               batches.push(batch);
               await client.files.del(file.id);
+
+              const listedBatches = await client.batches.list({ limit: 5 });
+              for (const listedBatch of listedBatches.data) {
+                assertBatch(listedBatch);
+              }
+
               // Retrieve batch
               const retrievedBatch = await client.batches.retrieve(batch.id);
               batches.push(retrievedBatch);
@@ -66,13 +73,6 @@ describe("Batches", () => {
               assertNonEmptyArray(batches, assertBatch);
             },
           );
-        });
-
-        it("list operation for batch", async function () {
-          const listedBatches = await client.batches.list({ limit: 5 });
-          for await (const listedBatch of listedBatches) {
-            assertBatch(listedBatch);
-          }
         });
       });
     });

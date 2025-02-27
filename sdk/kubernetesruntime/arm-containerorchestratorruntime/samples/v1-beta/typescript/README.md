@@ -91,7 +91,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [storageclassgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/storageClassGetSample.ts
 [storageclasslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/storageClassListSample.ts
 [storageclassupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/storageClassUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-containerorchestratorruntime?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-containerorchestratorruntime?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

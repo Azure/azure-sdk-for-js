@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { RedisManagementClient } = require("@azure/arm-rediscache");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Update an existing Redis cache.
  *
  * @summary Update an existing Redis cache.
- * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheUpdate.json
+ * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-11-01/examples/RedisCacheUpdate.json
  */
 async function redisCacheUpdate() {
   const subscriptionId = process.env["REDIS_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function redisCacheUpdate() {
 }
 
 async function main() {
-  redisCacheUpdate();
+  await redisCacheUpdate();
 }
 
 main().catch(console.error);

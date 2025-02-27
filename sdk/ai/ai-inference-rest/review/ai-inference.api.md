@@ -23,14 +23,14 @@ export interface ChatChoiceOutput {
 }
 
 // @public
-export interface ChatCompletionsFunctionToolSelection {
-    name: string;
+export interface ChatCompletionsNamedToolChoice {
+    function: ChatCompletionsNamedToolChoiceFunction;
+    type: "function";
 }
 
 // @public
-export interface ChatCompletionsNamedToolSelection {
-    function: ChatCompletionsFunctionToolSelection;
-    type: "function";
+export interface ChatCompletionsNamedToolChoiceFunction {
+    name: string;
 }
 
 // @public
@@ -43,11 +43,25 @@ export interface ChatCompletionsOutput {
 }
 
 // @public
-export type ChatCompletionsResponseFormat = ChatCompletionsResponseFormatParent | ChatCompletionsResponseFormatText | ChatCompletionsResponseFormatJSON;
+export type ChatCompletionsResponseFormat = ChatCompletionsResponseFormatParent | ChatCompletionsResponseFormatText | ChatCompletionsResponseFormatJsonObject | ChatCompletionsResponseFormatJsonSchema;
 
 // @public
-export interface ChatCompletionsResponseFormatJSON extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsResponseFormatJsonObject extends ChatCompletionsResponseFormatParent {
     type: "json_object";
+}
+
+// @public
+export interface ChatCompletionsResponseFormatJsonSchema extends ChatCompletionsResponseFormatParent {
+    json_schema: ChatCompletionsResponseFormatJsonSchemaDefinition;
+    type: "json_schema";
+}
+
+// @public
+export interface ChatCompletionsResponseFormatJsonSchemaDefinition {
+    description?: string;
+    name: string;
+    schema: Record<string, unknown>;
+    strict?: boolean;
 }
 
 // @public
@@ -76,13 +90,13 @@ export interface ChatCompletionsToolCallOutput {
 }
 
 // @public
+export type ChatCompletionsToolChoicePreset = string;
+
+// @public
 export interface ChatCompletionsToolDefinition {
     function: FunctionDefinition;
     type: "function";
 }
-
-// @public
-export type ChatCompletionsToolSelectionPreset = string;
 
 // @public
 export type ChatMessageContentItem = ChatMessageContentItemParent | ChatMessageTextContentItem | ChatMessageImageContentItem;
@@ -116,7 +130,7 @@ export interface ChatMessageTextContentItem extends ChatMessageContentItemParent
 
 // @public
 export interface ChatRequestAssistantMessage extends ChatRequestMessageParent {
-    content?: string | null;
+    content?: string;
     role: "assistant";
     tool_calls?: Array<ChatCompletionsToolCall>;
 }
@@ -138,7 +152,7 @@ export interface ChatRequestSystemMessage extends ChatRequestMessageParent {
 
 // @public
 export interface ChatRequestToolMessage extends ChatRequestMessageParent {
-    content: string | null;
+    content?: string;
     role: "tool";
     tool_call_id: string;
 }
@@ -191,6 +205,7 @@ export interface EmbeddingItemOutput {
 // @public
 export interface EmbeddingsResultOutput {
     data: Array<EmbeddingItemOutput>;
+    id: string;
     model: string;
     usage: EmbeddingsUsageOutput;
 }
@@ -225,7 +240,7 @@ export interface FunctionDefinition {
 
 // @public (undocumented)
 export interface GetChatCompletions {
-    post(options?: GetChatCompletionsParameters): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
+    post(options: GetChatCompletionsParameters): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
 }
 
 // @public
@@ -250,7 +265,7 @@ export interface GetChatCompletionsBodyParam {
         response_format?: ChatCompletionsResponseFormat;
         stop?: string[];
         tools?: Array<ChatCompletionsToolDefinition>;
-        tool_choice?: ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
+        tool_choice?: ChatCompletionsToolChoicePreset | ChatCompletionsNamedToolChoice;
         seed?: number;
         model?: string;
     };
@@ -341,7 +356,7 @@ export type GetEmbeddingsParameters = GetEmbeddingsHeaderParam & GetEmbeddingsBo
 
 // @public (undocumented)
 export interface GetImageEmbeddings {
-    post(options?: GetImageEmbeddingsParameters): StreamableMethod<GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse>;
+    post(options: GetImageEmbeddingsParameters): StreamableMethod<GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse>;
 }
 
 // @public
@@ -355,7 +370,7 @@ export interface GetImageEmbeddings200Response extends HttpResponse {
 // @public (undocumented)
 export interface GetImageEmbeddingsBodyParam {
     // (undocumented)
-    body?: {
+    body: {
         input: Array<ImageEmbeddingInput>;
         dimensions?: number;
         encoding_format?: EmbeddingEncodingFormat;

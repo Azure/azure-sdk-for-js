@@ -69,10 +69,12 @@ function escapeQuotesIfString(input: unknown, previous: string): string | unknow
 /**
  * Escapes an odata filter expression to avoid errors with quoting string literals.
  * Example usage:
- * ```ts
+ * ```ts snippet:ReadmeSampleOdata
+ * import { odata } from "@azure/web-pubsub";
+ *
  * const userId = "vic's";
  * const anonymous = null;
- * const length = 3
+ * const length = 3;
  * const filter = odata`userId eq ${anonymous} or userId eq ${userId} or length(userId) > ${length}`;
  * ```
  * @param strings - Array of strings for the expression

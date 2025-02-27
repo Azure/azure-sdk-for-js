@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./accounts";
-export * from "./instances";
-export * from "./privateEndpointConnections";
-export * from "./privateLinkResources";
-export * from "./privateEndpointConnectionProxies";
-export * from "./operations";
+export * from "./accounts.js";
+export * from "./instances.js";
+export * from "./privateEndpointConnections.js";
+export * from "./privateLinkResources.js";
+export * from "./privateEndpointConnectionProxies.js";
+export * from "./operations.js";

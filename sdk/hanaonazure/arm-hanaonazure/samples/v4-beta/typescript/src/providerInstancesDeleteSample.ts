@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Deletes a provider instance for the specified subscription, resource group, SapMonitor name, and resource name.
  * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/ProviderInstances_Delete.json
  */
-async function deletesASapMonitor() {
+async function deletesASapMonitor(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const sapMonitorName = "mySapMonitor";

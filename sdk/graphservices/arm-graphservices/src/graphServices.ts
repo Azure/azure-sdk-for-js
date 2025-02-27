@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { AccountsImpl, OperationsImpl } from "./operations";
-import { Accounts, Operations } from "./operationsInterfaces";
-import { GraphServicesOptionalParams } from "./models";
+import { AccountsImpl, OperationsImpl } from "./operations/index.js";
+import { Accounts, Operations } from "./operationsInterfaces/index.js";
+import { GraphServicesOptionalParams } from "./models/index.js";
 
 export class GraphServices extends coreClient.ServiceClient {
   $host: string;

@@ -6,12 +6,5 @@ extends:
       PackageName: "@azure/service-bus"
       ServiceDirectory: servicebus
       TimeoutInMinutes: 120
-      SupportedClouds: 'Public,UsGov,China'
-      CloudConfig:
-        Public:
-        UsGov:
-          Location: 'usgovarizona'
-        China:
-          Location: 'chinaeast'
       EnvVars:
         DEBUG: azure:service-bus:*,azure:core-amqp:*,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow

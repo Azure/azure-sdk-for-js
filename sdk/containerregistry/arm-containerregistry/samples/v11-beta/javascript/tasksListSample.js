@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists all the tasks for a specified container registry.
@@ -33,7 +33,7 @@ async function tasksList() {
 }
 
 async function main() {
-  tasksList();
+  await tasksList();
 }
 
 main().catch(console.error);

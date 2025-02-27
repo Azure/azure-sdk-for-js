@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all historical availability transitions and impacting events for a single resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all historical availability transitions and impacting events for a single resource.
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/AvailabilityStatuses_List.json
  */
-async function getHealthHistoryByResource() {
+async function getHealthHistoryByResource(): Promise<void> {
   const resourceUri = "resourceUri";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential);
@@ -31,7 +29,7 @@ async function getHealthHistoryByResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getHealthHistoryByResource();
 }
 

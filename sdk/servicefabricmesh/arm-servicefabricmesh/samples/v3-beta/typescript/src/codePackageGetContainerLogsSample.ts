@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricMeshManagementClient } from "@azure/arm-servicefabricmesh";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the logs for the container of the specified code package of the service replica.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the logs for the container of the specified code package of the service replica.
  * x-ms-original-file: specification/servicefabricmesh/resource-manager/Microsoft.ServiceFabricMesh/preview/2018-09-01-preview/examples/applications/services/replicas/codepackages/get_logs.json
  */
-async function getContainerLogs() {
+async function getContainerLogs(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMESH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,7 +43,7 @@ async function getContainerLogs() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getContainerLogs();
 }
 

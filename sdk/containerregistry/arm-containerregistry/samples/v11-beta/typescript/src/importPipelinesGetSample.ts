@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the properties of the import pipeline.
  *
  * @summary Gets the properties of the import pipeline.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ImportPipelineGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ImportPipelineGet.json
  */
-async function importPipelineGet() {
+async function importPipelineGet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -31,18 +29,18 @@ async function importPipelineGet() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.importPipelines.get(
     resourceGroupName,
     registryName,
-    importPipelineName
+    importPipelineName,
   );
   console.log(result);
 }
 
-async function main() {
-  importPipelineGet();
+async function main(): Promise<void> {
+  await importPipelineGet();
 }
 
 main().catch(console.error);

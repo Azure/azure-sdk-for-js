@@ -15,8 +15,8 @@ import {
   isValidPNG,
   isValidPDF,
 } from "../utils/utils.js";
-import path from "path";
-import fs from "fs";
+import path from "node:path";
+import fs from "node:fs";
 import type {
   AnalyzeOperationOutput,
   DocumentBarcodeOutput,
@@ -35,7 +35,7 @@ import {
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     recorder = await createRecorder(context);
     await recorder.setMatcher("BodilessMatcher");
     client = DocumentIntelligence(
@@ -45,7 +45,7 @@ describe("DocumentIntelligenceClient", () => {
     );
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -337,7 +337,7 @@ describe("DocumentIntelligenceClient", () => {
       }
     });
 
-    it("barcode", async function () {
+    it("barcode", async () => {
       const url = makeTestUrl("/barcode2.tif");
 
       const initialResponse = await client
@@ -372,7 +372,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.equal(barcode2.value, "SYN121720213429");
     });
 
-    it("annotations", async function () {
+    it("annotations", async () => {
       const url = makeTestUrl("/annotations.jpg");
 
       const initialResponse = await client
@@ -396,7 +396,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isNotEmpty(pages);
     });
 
-    it("formula", async function () {
+    it("formula", async () => {
       const url = makeTestUrl("/formula1.jpg");
 
       const initialResponse = await client
@@ -829,7 +829,7 @@ describe("DocumentIntelligenceClient", () => {
   });
 
   describe("tax - US - w2", () => {
-    it("png file stream", async function () {
+    it("png file stream", async () => {
       const filePath = path.join(ASSET_PATH, "w2", "w2-single.png");
       //
 
@@ -862,7 +862,7 @@ describe("DocumentIntelligenceClient", () => {
   });
 
   describe("healthInsuranceCard - US", function () {
-    it("png file stream", async function () {
+    it("png file stream", async () => {
       const filePath = path.join(ASSET_PATH, "healthInsuranceCard", "insurance.png");
 
       const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
@@ -891,7 +891,7 @@ describe("DocumentIntelligenceClient", () => {
   });
 
   describe("batch analysis", function () {
-    it("batch analysis", async function () {
+    it("batch analysis", async () => {
       const initialResponse = await client
         .path("/documentModels/{modelId}:analyzeBatch", "prebuilt-layout")
         .post({
@@ -930,7 +930,7 @@ describe("DocumentIntelligenceClient", () => {
   });
 
   describe("get AnalyzeResult methods", function () {
-    it("getAnalyzeResult", async function () {
+    it("getAnalyzeResult", async () => {
       const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
 
       const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
@@ -957,7 +957,7 @@ describe("DocumentIntelligenceClient", () => {
         .get();
     });
 
-    it("getAnalyzeResult pdf", async function () {
+    it("getAnalyzeResult pdf", async () => {
       const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
 
       const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
@@ -993,7 +993,7 @@ describe("DocumentIntelligenceClient", () => {
       assert.isTrue(isValidPDF(await streamToUint8Array(output.body)));
     });
 
-    it("getAnalyzeResult figures", async function () {
+    it("getAnalyzeResult figures", async () => {
       const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
 
       const base64Source = fs.readFileSync(filePath, { encoding: "base64" });

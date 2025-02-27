@@ -27,7 +27,7 @@ import {
   PacketCoreControlPlaneCollectDiagnosticsPackage,
   PacketCoreControlPlanesCollectDiagnosticsPackageOptionalParams,
   PacketCoreControlPlanesCollectDiagnosticsPackageResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PacketCoreControlPlanes. */

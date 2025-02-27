@@ -10,7 +10,7 @@ import {
   CheckNameAvailabilityRequest,
   NamespacesCheckNameAvailabilityOptionalParams,
   NamespacesCheckNameAvailabilityResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Namespaces. */
 export interface Namespaces {

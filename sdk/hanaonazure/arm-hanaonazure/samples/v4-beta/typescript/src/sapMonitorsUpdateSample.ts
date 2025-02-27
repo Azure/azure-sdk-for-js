@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
  * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_PatchTags_Delete.json
  */
-async function deleteTagsFieldOfASapMonitor() {
+async function deleteTagsFieldOfASapMonitor(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const sapMonitorName = "mySapMonitor";
@@ -40,7 +40,7 @@ deleteTagsFieldOfASapMonitor().catch(console.error);
  * @summary Patches the Tags field of a SAP monitor for the specified subscription, resource group, and monitor name.
  * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_PatchTags.json
  */
-async function updateTagsFieldOfASapMonitor() {
+async function updateTagsFieldOfASapMonitor(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const sapMonitorName = "mySapMonitor";

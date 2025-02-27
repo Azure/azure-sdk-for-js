@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkSecurityGroupsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a network security group in the specified resource group.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates a network security group in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupCreate.json
  */
-async function createNetworkSecurityGroup() {
+async function createNetworkSecurityGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -26,14 +21,14 @@ async function createNetworkSecurityGroup() {
   const networkSecurityGroupName = "testnsg";
   const options: NetworkSecurityGroupsCreateOrUpdateParameters = {
     body: { location: "eastus" },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
       subscriptionId,
       resourceGroupName,
-      networkSecurityGroupName
+      networkSecurityGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -48,7 +43,7 @@ createNetworkSecurityGroup().catch(console.error);
  * @summary Creates or updates a network security group in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkSecurityGroupCreateWithRule.json
  */
-async function createNetworkSecurityGroupWithRule() {
+async function createNetworkSecurityGroupWithRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -69,20 +64,20 @@ async function createNetworkSecurityGroupWithRule() {
               priority: 130,
               sourceAddressPrefix: "*",
               sourcePortRange: "*",
-              protocol: "*"
-            }
-          }
-        ]
-      }
+              protocol: "*",
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
       subscriptionId,
       resourceGroupName,
-      networkSecurityGroupName
+      networkSecurityGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -85,7 +85,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [solutionslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/solutionsListByResourceGroupSample.ts
 [solutionslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/solutionsListBySubscriptionSample.ts
 [solutionsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/operationsmanagement/arm-operations/samples/v4-beta/typescript/src/solutionsUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-operations?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-operations?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/operationsmanagement/arm-operations/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

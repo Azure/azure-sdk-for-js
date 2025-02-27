@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a machine learning workspace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a machine learning workspace.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/delete.json
  */
-async function deleteWorkspace() {
+async function deleteWorkspace(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -39,7 +37,7 @@ async function deleteWorkspace() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteWorkspace();
 }
 

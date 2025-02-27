@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachinesGetParameters
+  VirtualMachinesGetParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
@@ -24,14 +19,14 @@ async function getAVirtualMachine() {
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options: VirtualMachinesGetParameters = {
-    queryParameters: { $expand: "userData", "api-version": "2022-08-01" }
+    queryParameters: { $expand: "userData", "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .get(options);
   console.log(result);
@@ -51,22 +46,20 @@ async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlac
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options: VirtualMachinesGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .get(options);
   console.log(result);
 }
 
-getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(
-  console.error
-);
+getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(console.error);
 /**
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
  *
@@ -80,14 +73,14 @@ async function getAVirtualMachineWithDiskControllerTypeProperties() {
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options: VirtualMachinesGetParameters = {
-    queryParameters: { $expand: "userData", "api-version": "2022-08-01" }
+    queryParameters: { $expand: "userData", "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .get(options);
   console.log(result);
@@ -107,14 +100,14 @@ async function getAVirtualMachineWithVMSizeProperties() {
   const resourceGroupName = "myResourceGroup";
   const vmName = "myVM";
   const options: VirtualMachinesGetParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .get(options);
   console.log(result);

@@ -40,7 +40,7 @@ import {
   VirtualNetworksImpl,
   SubnetsImpl,
   VirtualNetworkPeeringsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   VirtualNetworkGateways,
   VirtualNetworkGatewayConnections,
@@ -67,8 +67,8 @@ import {
   VirtualNetworks,
   Subnets,
   VirtualNetworkPeerings
-} from "./operationsInterfaces";
-import { NetworkManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { NetworkManagementClientOptionalParams } from "./models/index.js";
 
 export class NetworkManagementClient extends coreClient.ServiceClient {
   $host: string;

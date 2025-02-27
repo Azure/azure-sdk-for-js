@@ -19,14 +19,14 @@ import {
   MoveResourcesImpl,
   UnresolvedDependenciesImpl,
   OperationsDiscoveryOperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   MoveCollections,
   MoveResources,
   UnresolvedDependencies,
   OperationsDiscoveryOperations
-} from "./operationsInterfaces";
-import { ResourceMoverServiceAPIOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ResourceMoverServiceAPIOptionalParams } from "./models/index.js";
 
 export class ResourceMoverServiceAPI extends coreClient.ServiceClient {
   $host: string;

@@ -10,15 +10,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a DiscoveredAsset
  * x-ms-original-file: 2024-09-01-preview/Delete_DiscoveredAsset.json
  */
-async function deleteDiscoveredAsset() {
+async function deleteDiscoveredAsset(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   await client.discoveredAssets.delete("myResourceGroup", "my-discoveredasset");
 }
 
-async function main() {
-  deleteDiscoveredAsset();
+async function main(): Promise<void> {
+  await deleteDiscoveredAsset();
 }
 
 main().catch(console.error);

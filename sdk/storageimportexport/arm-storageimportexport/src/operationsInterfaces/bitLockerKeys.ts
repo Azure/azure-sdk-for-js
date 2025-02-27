@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { DriveBitLockerKey, BitLockerKeysListOptionalParams } from "../models";
+import { DriveBitLockerKey, BitLockerKeysListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BitLockerKeys. */

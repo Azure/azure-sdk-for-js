@@ -26,13 +26,13 @@ describe("chat test suite", () => {
     await recorder.stop();
   });
 
-  it("client test", async function () {
+  it("client test", async () => {
     assert.isNotNull(client);
     assert.isNotNull(client.path);
     assert.isNotNull(client.pipeline);
   });
 
-  it("chat regression test", async function () {
+  it("chat regression test", async () => {
     const url =
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
     const headers = { "extra-parameters": "allow" };
@@ -121,7 +121,7 @@ describe("chat test suite", () => {
     }
   });
 
-  it("simple chat test", async function () {
+  it("simple chat test", async () => {
     const response = await client.path("/chat/completions").post({
       body: {
         messages: [{ role: "user", content: "How many feet are in a mile?" }],
@@ -137,7 +137,7 @@ describe("chat test suite", () => {
     assert.isDefined(completion.choices[0].message.content);
   });
 
-  it("function calling test", async function () {
+  it("function calling test", async () => {
     const getCurrentWeather = {
       name: "get_current_weather",
       description: "Get the current weather in a given location",
@@ -186,7 +186,7 @@ describe("chat test suite", () => {
     assert.isTrue(toolCall.function.arguments.includes("location"));
   });
 
-  it("image url test", async function () {
+  it("image url test", async () => {
     const url =
       "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
 
@@ -219,7 +219,7 @@ describe("chat test suite", () => {
     assert.isDefined(completion.choices[0].message.content);
   });
 
-  it("multi-turn chat test", async function () {
+  it("multi-turn chat test", async () => {
     const messages = [
       {
         role: "system",
@@ -261,7 +261,7 @@ describe("chat test suite", () => {
     assert.isTrue(yardsMessage.includes("760"));
   });
 
-  it("chat auth error test", async function () {
+  it("chat auth error test", async () => {
     client = await createModelClient("dummy", recorder);
     const response = await client.path("/chat/completions").post({
       body: {

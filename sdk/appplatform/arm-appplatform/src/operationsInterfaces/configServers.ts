@@ -18,7 +18,7 @@ import {
   ConfigServerSettings,
   ConfigServersValidateOptionalParams,
   ConfigServersValidateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ConfigServers. */
 export interface ConfigServers {

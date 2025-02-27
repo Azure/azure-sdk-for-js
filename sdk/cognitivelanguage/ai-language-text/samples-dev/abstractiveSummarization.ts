@@ -31,7 +31,7 @@ const documents = [
            “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”`,
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Abstractive Summarization Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
@@ -43,7 +43,7 @@ export async function main() {
   ];
   const poller = await client.beginAnalyzeBatch(actions, documents, "en");
 
-  poller.onProgress(() => {
+  await poller.onProgress(() => {
     console.log(
       `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`,
     );

@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Guide to migrate from @azure/event-hubs v2 to v5
 
 This guide is intended to assist in the migration from version 2 of the Event Hubs client library `@azure/event-hubs` and version 2 of the Event Processor Host library `@azure/event-processor-host` to version 5 of the `@azure/event-hubs` library.
@@ -70,7 +72,7 @@ allowing the `EventHubConsumerClient` to be the single point of entry for receiv
 | In v2                                             | Equivalent in v5                                                 | Sample                                                                                                                                                                                                                                                                     |
 | ------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `EventHubClient.createFromConnectionString()`     | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [receiveEvents](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/typescript/src/receiveEvents.ts), [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/typescript/src/sendEvents.ts) |
-| `EventHubClient.createFromAadTokenCredentials()`  | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/typescript/src/sendEvents.ts)                                                                                                                                      |
+| `EventHubClient.createFromAadTokenCredentials()`  | `new EventHubProducerClient()` or `new EventHubConsumerClient()` | [sendEvents](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/samples/v5/typescript/src/sendEvents.ts)                                                                                                                                          |
 | `EventProcessorHost.createFromConnectionString()` | `new EventHubConsumerClient(..., checkpointStore)`               | [receiveEventsUsingCheckpointStore](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/eventhubs-checkpointstore-blob/samples/v1/typescript/src/receiveEventsUsingCheckpointStore.ts)                                                                        |
 
 Other noteworthy changes:
@@ -197,7 +199,7 @@ For example, this code which receives from a partition in V2:
 const client = EventHubClient.createFromConnectionString(connectionString);
 const rcvHandler = client.receive(partitionId, onMessageHandler, onErrorHandler, {
   eventPosition: EventPosition.fromStart(),
-  consumerGroup: consumerGroupName
+  consumerGroup: consumerGroupName,
 });
 await rcvHandler.stop();
 ```
@@ -216,11 +218,11 @@ const subscription = eventHubConsumerClient.subscribe(
       initContext.setStartingPosition(earliestEventPosition);
     },
     processEvents: onMessageHandler,
-    processError: onErrorHandler
+    processError: onErrorHandler,
   },
   {
-    startPosition: earliestEventPosition
-  }
+    startPosition: earliestEventPosition,
+  },
 );
 
 await subscription.close();
@@ -250,8 +252,8 @@ const eph = EventProcessorHost.createFromConnectionString(
     onEphError: (error) => {
       // This is your error handler for errors occuring during load balancing.
       console.log("Error when running EPH: %O", error);
-    }
-  }
+    },
+  },
 );
 
 // In V2, you get a single event passed to your callback. If you had asynchronous code running in your callback,
@@ -286,7 +288,7 @@ const checkpointStore: CheckpointStore = new BlobCheckpointStore(containerClient
 const eventHubConsumerClient = new EventHubConsumerClient(
   consumerGroupName,
   ehConnectionString,
-  eventHubName
+  eventHubName,
 );
 
 const subscription = eventHubConsumerClient.subscribe(partitionId, {
@@ -318,7 +320,7 @@ const subscription = eventHubConsumerClient.subscribe(partitionId, {
     } else {
       console.log("Error from the consumer client: %O", error);
     }
-  }
+  },
 });
 
 await subscription.close();
@@ -368,5 +370,3 @@ More information about configuring and tuning retries can be found [here](https:
 ## Additional samples
 
 More examples can be found at [samples for @azure/event-hubs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/samples).
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2FMIGRATIONGUIDE.png)

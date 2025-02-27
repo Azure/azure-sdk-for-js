@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an availability group listener.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets an availability group listener.
  * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/GetAvailabilityGroupListener.json
  */
-async function getsAnAvailabilityGroupListener() {
+async function getsAnAvailabilityGroupListener(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -41,7 +39,7 @@ async function getsAnAvailabilityGroupListener() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsAnAvailabilityGroupListener();
 }
 

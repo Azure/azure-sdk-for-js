@@ -29,18 +29,19 @@ This troubleshooting guide covers failure investigation techniques, common error
   - [How to browse session messages across all sessions](#how-to-browse-session-messages-across-all-sessions)
 - [Troubleshoot receiver issues when streaming messages via `subscribe()` methods](#troubleshoot-receiver-issues-when-streaming-messages-via-subscribe-methods)
   - [Autolock renewal is not working](#autolock-renewal-is-not-working)
-- [Quotas](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quotas)
+- [Quotas](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-quotas)
 
 ## Handle Service Bus Errors
+
 The Service Bus client library will surface errors when an error is encountered by a service operation or within the client. For scenarios specific to Service Bus, a [ServiceBusError][ServiceBusError] is thrown; this is the most common error type that applications will encounter.
 
 The Service Bus clients will automatically retry errors that are considered transient, following the configured [retry options][CoreAmqpRetryOptions]. When an error is surfaced to the application, either all retries were applied unsuccessfully, or the error was considered non-transient. More information on configuring retry options can be found in the [Customizing the retry options][RetryOptionsSample] sample.
 
 ### Find information about a ServiceBusError
 
-The error includes some contextual information inherited from [MessagingError][MessagingError] to assist in understanding the context of the error and its relative severity.  These are:
+The error includes some contextual information inherited from [MessagingError][MessagingError] to assist in understanding the context of the error and its relative severity. These are:
 
-- `address`	: Address to which the network connection failed. Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
+- `address` : Address to which the network connection failed. Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
 
 - `errno`: System-provided error number. Only present if the `MessagingError` was instantiated with a Node.js `SystemError`.
 
@@ -60,13 +61,13 @@ The error includes some contextual information inherited from [MessagingError][M
 
   - **ServiceTimeout**: An operation or other request timed out while interacting with the Azure Service Bus service. This indicates that the Service Bus service did not respond to an operation within the expected amount of time. This may have been caused by a transient network issue or service problem. The Service Bus service may or may not have successfully completed the request; the status is not known. In the case of accepting the next available session, this error indicates that there were no unlocked sessions available in the entity. These are transient errors that will be automatically retried.
 
-  - **QuotaExceeded**: The quota applied to an Service Bus resource has been exceeded while interacting with the Azure Service Bus service.  This typically indicates that there are too many active receive operations for a single entity. In order to avoid this error, reduce the number of potential concurrent receives. You can use batch receives to attempt to receive multiple messages per receive request. Please see [Service Bus quotas][ServiceBusQuotas] for more information.
+  - **QuotaExceeded**: The quota applied to an Service Bus resource has been exceeded while interacting with the Azure Service Bus service. This typically indicates that there are too many active receive operations for a single entity. In order to avoid this error, reduce the number of potential concurrent receives. You can use batch receives to attempt to receive multiple messages per receive request. Please see [Service Bus quotas][ServiceBusQuotas] for more information.
 
   - **MessageSizeExceeded**: A message is larger than the maximum size allowed for its transport. This indicates that the max message size has been exceeded. The message size includes the body of the message, as well as any associated metadata and system overhead. The best approach for resolving this error is to reduce the number of messages being sent in a batch or the size of the body included in the message. Because size limits are subject to change, please refer to [Service Bus quotas][ServiceBusQuotas] for specifics.
 
   - **MessageLockLost**: The lock on the message is lost. Callers should attempt to receive and process the message again. This only applies to non-session entities. This error occurs if processing takes longer than the lock duration and the message lock is not renewed. Note that this error can also occur when the link is detached due to a transient network issue or when the link is idle for 10 minutes. See [Message or session lock is lost before lock expiration time](#message-or-session-lock-is-lost-before-lock-expiration-time) for more information.
 
-  - **SessionLockLost**: The lock on the session has expired. Callers should request the session again.  This only applies to session-enabled entities. This error occurs if processing takes longer than the lock duration and the session lock is not renewed. Note that this error can also occur when the link is detached due to a transient network issue or when the link is idle for 10 minutes. See [Message or session lock is lost before lock expiration time](#message-or-session-lock-is-lost-before-lock-expiration-time) for more information.
+  - **SessionLockLost**: The lock on the session has expired. Callers should request the session again. This only applies to session-enabled entities. This error occurs if processing takes longer than the lock duration and the session lock is not renewed. Note that this error can also occur when the link is detached due to a transient network issue or when the link is idle for 10 minutes. See [Message or session lock is lost before lock expiration time](#message-or-session-lock-is-lost-before-lock-expiration-time) for more information.
 
   - **MessageNotFound**: The requested message was not found. This occurs when attempting to receive a deferred message by sequence number for a message that either doesn't exist in the entity, or is currently locked.
 
@@ -78,9 +79,9 @@ The error includes some contextual information inherited from [MessagingError][M
 
 ### Other common errors
 
-  - **TypeError**: Thrown by clients when a parameter provided when interacting with the client is invalid. Information about the specific parameter and the nature of the problem can be found in the `message`.
+- **TypeError**: Thrown by clients when a parameter provided when interacting with the client is invalid. Information about the specific parameter and the nature of the problem can be found in the `message`.
 
-  - **Error**: generic errors that are thrown for unexpected error case in the client.  More information can be found in the error's `message` property.
+- **Error**: generic errors that are thrown for unexpected error case in the client. More information can be found in the error's `message` property.
 
 ## Permissions issues
 
@@ -98,7 +99,7 @@ For more possible solutions, see: [Troubleshooting guide for Azure Service Bus][
 
 ### Timeout when connecting to service
 
-Depending on the host environment and network, this may present to applications as either a `Error`  or a `ServiceBusError` with `code` of `ServiceTimeout` and most often occurs when the client cannot find a network path to the service.
+Depending on the host environment and network, this may present to applications as either a `Error` or a `ServiceBusError` with `code` of `ServiceTimeout` and most often occurs when the client cannot find a network path to the service.
 
 To troubleshoot:
 
@@ -110,7 +111,7 @@ To troubleshoot:
 
 - See if your network is blocking specific IP addresses. For details, see: [What IP addresses do I need to allow?][ServiceBusIPAddresses].
 
-- If applicable, verify the proxy configuration. For details, see:  [Use Proxy sample][ProxySample].
+- If applicable, verify the proxy configuration. For details, see: [Use Proxy sample][ProxySample].
 
 - For more information about troubleshooting network connectivity, see: [Troubleshooting guide for Azure Service Bus][TroubleshootingGuide].
 
@@ -142,7 +143,7 @@ For more information about the `Azure.Identity` library, see: [Authentication an
 
 ## Logging and diagnostics
 
-The Service Bus client library is fully instrumented for logging information at various levels of detail.  Logging is performed for each operation and follows the pattern of marking the starting point of the operation, it's completion, and any errors encountered. Additional information that may offer insight is also logged in the context of the associated operation.
+The Service Bus client library is fully instrumented for logging information at various levels of detail. Logging is performed for each operation and follows the pattern of marking the starting point of the operation, it's completion, and any errors encountered. Additional information that may offer insight is also logged in the context of the associated operation.
 
 ### Enable logging
 
@@ -189,6 +190,7 @@ export DEBUG=azure:service-bus:error,azure:core-amqp:error,rhea-promise:error,rh
   ```bash
     node your-test-script.js &> out.log
   ```
+
 ### Distributed tracing
 
 The Service Bus client library has **experimental** support for the the OpenTelemetry specification via the [`@azure/opentelemetry-instrumentation-azure-sdk` package](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk).
@@ -210,7 +212,7 @@ The library creates the following spans:
 `ServiceBusSessionReceiver.getSessionState`  
 `ServiceBusRuleManager.createRule`  
 `ServiceBusRuleManager.deleteRule`  
-`ServiceBusRuleManager.getRules`  
+`ServiceBusRuleManager.getRules`
 
 Most of the spans are self-explanatory and are started and stopped during the operation that bears its name. The span that ties the others together is `message`. The way that the message is traced is via the the `Diagnostic-Id` that is set in the [ServiceBusMessage.applicationProperties][ApplicationProperties] property by the library during send and schedule operations. In Application Insights, `message` spans will be displayed as linking out to the various other spans that were used to interact with the message, e.g. the `**Receiver.process` span, the `ServiceBusSender.send` span.
 
@@ -228,7 +230,7 @@ We define a message batch as either [ServiceBusMessageBatch][ServiceBusMessageBa
 
 ### Number of messages returned does not match number requested in batch receive
 
-When attempting to do a batch receive, i.e. passing a `maxMessageCount` value of 2 or greater to the [receiveMessages][ReceiveMessages] method, you are not guaranteed to receive the number of messages requested, even if the queue or subscription has that many messages available at that time, and even if the entire configured `maxWaitTimeInMs` has not yet elapsed. To maximize throughput and avoid lock expiration, once the first message comes over the wire, the receiver will wait an additional 1000ms for any additional messages before dispatching the messages for processing.  The `maxWaitTimeInMs` controls how long the receiver will wait to receive the *first* message - subsequent messages will be waited for 1000ms. Therefore, your application should not assume that all messages available will be received in one call.
+When attempting to do a batch receive, i.e. passing a `maxMessageCount` value of 2 or greater to the [receiveMessages][ReceiveMessages] method, you are not guaranteed to receive the number of messages requested, even if the queue or subscription has that many messages available at that time, and even if the entire configured `maxWaitTimeInMs` has not yet elapsed. To maximize throughput and avoid lock expiration, once the first message comes over the wire, the receiver will wait an additional 1000ms for any additional messages before dispatching the messages for processing. The `maxWaitTimeInMs` controls how long the receiver will wait to receive the _first_ message - subsequent messages will be waited for 1000ms. Therefore, your application should not assume that all messages available will be received in one call.
 
 ### Message or session lock is lost before lock expiration time
 
@@ -256,15 +258,15 @@ Information about Service Bus quotas can be found [here][ServiceBusQuotas].
 
 [ServiceBusError]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebuserror
 [CoreAmqpRetryOptions]: https://learn.microsoft.com/javascript/api/@azure/core-amqp/retryoptions
-[ServiceBusQuotas]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quotas
+[ServiceBusQuotas]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-quotas
 [MessingError]: https://learn.microsoft.com/javascript/api/@azure/core-amqp/messagingerror
 [ServiceBusClient]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusclient
-[GetConnectionString]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal#get-the-connection-string
-[AuthorizeSAS]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas
-[RBAC]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-managed-service-identity
-[TroubleshootingGuide]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-troubleshooting-guide
+[GetConnectionString]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal#get-the-connection-string
+[AuthorizeSAS]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-sas
+[RBAC]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-managed-service-identity
+[TroubleshootingGuide]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-troubleshooting-guide
 [ProxySample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples-dev/useProxy.ts
-[ServiceBusIPAddresses]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-faq#what-ip-addresses-do-i-need-to-add-to-allowlist-
+[ServiceBusIPAddresses]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-faq#what-ip-addresses-do-i-need-to-add-to-allowlist-
 [ServiceBusReceiver]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver
 [ServiceBusSessionReceiver]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussessionreceiver
 [ServiceBusSender]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussender
@@ -272,7 +274,7 @@ Information about Service Bus quotas can be found [here][ServiceBusQuotas].
 [AuthenticationAndTheAzureSDK]: https://devblogs.microsoft.com/azure-sdk/authentication-and-the-azure-sdk
 [ServiceBusMessageBatch]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusmessagebatch
 [SendMessages]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebussender#@azure-service-bus-servicebussender-sendmessages
-[LargeMessageSupport]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-premium-messaging#large-messages-support
+[LargeMessageSupport]: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-premium-messaging#large-messages-support
 [ReceiveMessages]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceiver#@azure-service-bus-servicebusreceiver-receivemessages
 [MessageState]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceivedmessage#@azure-service-bus-servicebusreceivedmessage-state
 [SequenceNumber]: https://learn.microsoft.com/javascript/api/@azure/service-bus/servicebusreceivedmessage#@azure-service-bus-servicebusreceivedmessage-sequencenumber

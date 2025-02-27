@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { GuestConfigurationClient } from "@azure/arm-guestconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get information about a guest configuration assignment
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get information about a guest configuration assignment
  * x-ms-original-file: specification/guestconfiguration/resource-manager/Microsoft.GuestConfiguration/stable/2022-01-25/examples/getGuestConfigurationHCRPAssignment.json
  */
-async function getAGuestConfigurationAssignment() {
+async function getAGuestConfigurationAssignment(): Promise<void> {
   const subscriptionId =
     process.env["GUESTCONFIGURATION_SUBSCRIPTION_ID"] || "mySubscriptionId";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function getAGuestConfigurationAssignment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAGuestConfigurationAssignment();
 }
 

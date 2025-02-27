@@ -8,6 +8,7 @@ import type { PluginConfig } from "./plugins/Plugin";
 import type { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import type { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import type { HttpClient } from "@azure/core-rest-pipeline";
+import type { EncryptionPolicy } from "./encryption/EncryptionPolicy";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 export interface Agent {
@@ -20,7 +21,7 @@ export interface Agent {
 
 export interface CosmosClientOptions {
   /** The service endpoint to use to create the client. */
-  endpoint: string;
+  endpoint?: string;
   /** The account master or readonly key */
   key?: string;
   /** An object that contains resources tokens.
@@ -48,7 +49,7 @@ export interface CosmosClientOptions {
    */
   consistencyLevel?: keyof typeof ConsistencyLevel;
   defaultHeaders?: CosmosHeaders;
-  /** An optional custom http(s) Agent to be used in NodeJS enironments
+  /** An optional custom http(s) Agent to be used in NodeJS environments
    * Use an agent such as https://github.com/TooTallNate/node-proxy-agent if you need to connect to Cosmos via a proxy
    */
   agent?: Agent;
@@ -58,6 +59,13 @@ export interface CosmosClientOptions {
   /** A custom string to append to the default SDK user agent. */
   userAgentSuffix?: string;
   diagnosticLevel?: CosmosDbDiagnosticLevel;
+  /** encryption policy for operations involving encryption
+   * must be set on the client if using client-side encryption
+   * @see {@link EncryptionPolicy}
+   */
+  encryptionPolicy?: EncryptionPolicy;
   /** @internal */
   plugins?: PluginConfig[];
+  /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */
+  connectionString?: string;
 }

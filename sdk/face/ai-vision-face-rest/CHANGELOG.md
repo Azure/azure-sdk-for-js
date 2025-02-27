@@ -1,14 +1,15 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
+## 1.0.0-beta.3 (2025-02-03)
 
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Added support for latest Detect Liveness Session API
+  - Revised the naming of the liveness session operation paths.
+  - Revised the response schema of the liveness session operations.
+  - Removed the `audit` and `list` liveness session operations as they are not supported in the v1.2 versions of the API.
+  - Revise the `CreateLivenessWithVerify` session call request schema to remove the `Parameters` JSON body and replace with individual parameters instead.
+- Removed Person Directory APIs as they are not GAed.
 
 ## 1.0.0-beta.2 (2024-10-14)
 

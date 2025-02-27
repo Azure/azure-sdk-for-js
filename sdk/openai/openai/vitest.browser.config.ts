@@ -10,18 +10,14 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      testTimeout: 250000,
+      testTimeout: 500000,
       hookTimeout: 25000,
       fileParallelism: false,
-      setupFiles: ["./test/public/utils/logging.ts"],
+      globalSetup: [resolve(__dirname, "test/utils/setup.ts")],
+      setupFiles: [resolve(__dirname, "test/utils/logging.ts")],
       include: [
         "dist-test/browser/test/**/*.spec.js",
       ],
-      alias: {
-        "@azure/openai/types": resolve("./dist/browser/types/index.js"),
-        "@azure/openai": resolve("./dist/browser/index.js"),
-        "../../dist/esm": resolve("./dist/browser"),
-      },
     },
   }),
 );

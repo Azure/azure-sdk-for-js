@@ -33,7 +33,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
     await recorder.stop();
   });
 
-  it("can abort beginBackup", async function () {
+  it("can abort beginBackup", async () => {
     const controller = new AbortController();
     controller.abort();
 
@@ -45,7 +45,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
     ).rejects.toThrow(AbortError);
   });
 
-  it("can abort beginRestore", async function () {
+  it("can abort beginRestore", async () => {
     const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
     const controller = new AbortController();
     controller.abort();
@@ -58,7 +58,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
     ).rejects.toThrow(AbortError);
   });
 
-  it("can abort beginSelectiveKeyRestore", async function () {
+  it("can abort beginSelectiveKeyRestore", async () => {
     const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
 
     const controller = new AbortController();
