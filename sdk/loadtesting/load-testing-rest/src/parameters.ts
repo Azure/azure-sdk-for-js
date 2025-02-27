@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   Test,
   FileType,
   TestAppComponents,
-  TestServerMetricConfig,
+  TestServerMetricsConfiguration,
   TestProfile,
   TestRun,
   TimeGrain,
   MetricRequestPayload,
   TestRunAppComponents,
-  TestRunServerMetricConfig,
+  TestRunServerMetricsConfiguration,
   TestProfileRun,
   Trigger,
   TriggerState,
@@ -125,12 +125,12 @@ export type LoadTestAdministrationCreateOrUpdateAppComponentsParameters =
 export type LoadTestAdministrationGetAppComponentsParameters =
   RequestParameters;
 /** Server metric configuration model. */
-export type TestServerMetricConfigResourceMergeAndPatch =
-  Partial<TestServerMetricConfig>;
+export type TestServerMetricsConfigurationResourceMergeAndPatch =
+  Partial<TestServerMetricsConfiguration>;
 
 export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam {
   /** Server metric configuration model. */
-  body: TestServerMetricConfigResourceMergeAndPatch;
+  body: TestServerMetricsConfigurationResourceMergeAndPatch;
 }
 
 export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigMediaTypesParam {
@@ -362,12 +362,12 @@ export type LoadTestRunCreateOrUpdateAppComponentsParameters =
     RequestParameters;
 export type LoadTestRunGetAppComponentsParameters = RequestParameters;
 /** Server metric configuration model. */
-export type TestRunServerMetricConfigResourceMergeAndPatch =
-  Partial<TestRunServerMetricConfig>;
+export type TestRunServerMetricsConfigurationResourceMergeAndPatch =
+  Partial<TestRunServerMetricsConfiguration>;
 
 export interface LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam {
   /** Server metric configuration model. */
-  body: TestRunServerMetricConfigResourceMergeAndPatch;
+  body: TestRunServerMetricsConfigurationResourceMergeAndPatch;
 }
 
 export interface LoadTestRunCreateOrUpdateServerMetricsConfigMediaTypesParam {

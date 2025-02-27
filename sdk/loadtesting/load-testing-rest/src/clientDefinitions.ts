@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   LoadTestAdministrationCreateOrUpdateTestParameters,
   LoadTestAdministrationDeleteTestParameters,
   LoadTestAdministrationGetTestParameters,
@@ -46,7 +46,7 @@ import {
   NotificationRuleAdministrationDeleteNotificationRuleParameters,
   NotificationRuleAdministrationListNotificationRuleParameters,
 } from "./parameters.js";
-import {
+import type {
   LoadTestAdministrationCreateOrUpdateTest200Response,
   LoadTestAdministrationCreateOrUpdateTest201Response,
   LoadTestAdministrationCreateOrUpdateTestDefaultResponse,
@@ -144,7 +144,7 @@ import {
   NotificationRuleAdministrationListNotificationRule200Response,
   NotificationRuleAdministrationListNotificationRuleDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface LoadTestAdministrationCreateOrUpdateTest {
   /** Create a new test or update an existing test by providing the test Id. */

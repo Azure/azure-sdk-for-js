@@ -188,13 +188,13 @@ export interface LoadTestConfiguration {
    */
   quickStartTest?: boolean;
   /** Configuration for quick load test */
-  optionalLoadTestConfig?: OptionalLoadTestConfig;
+  optionalLoadTestConfig?: OptionalLoadTestConfiguration;
   /** Region distribution configuration for the load test. */
   regionalLoadTestConfig?: Array<RegionalConfiguration>;
 }
 
 /** Configuration for quick load test */
-export interface OptionalLoadTestConfig {
+export interface OptionalLoadTestConfiguration {
   /** Test URL. Provide the complete HTTP URL. For example, https://contoso-app.azurewebsites.net/login */
   endpointUrl?: string;
   /** Target throughput (requests per second). This may not be necessarily achieved. The actual throughput will be lower if the application is not capable of handling it. */
@@ -223,13 +223,13 @@ export interface RegionalConfiguration {
 
 /** The input artifacts for the test. */
 export interface TestInputArtifacts {
-  /** File info */
+  /** The load test YAML file that contains the the test configuration */
   configFileInfo?: TestFileInfo;
-  /** File info */
+  /** The test script file for the test run */
   testScriptFileInfo?: TestFileInfo;
-  /** File info */
+  /** The user properties file */
   userPropFileInfo?: TestFileInfo;
-  /** File info */
+  /** The zip file with all input artifacts */
   inputArtifactsZipFileInfo?: TestFileInfo;
   /** The config json file for url based test */
   urlTestConfigFileInfo?: TestFileInfo;
@@ -264,7 +264,7 @@ export interface AppComponent {
 }
 
 /** Test server metrics configuration */
-export interface TestServerMetricConfig {
+export interface TestServerMetricsConfiguration {
   /**
    * Azure resource metrics collection {metric id : metrics object} (Refer :
    * https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition
@@ -352,8 +352,6 @@ export interface TestRun {
   certificate?: CertificateMetadata;
   /** Environment variables which are defined as a set of <name,value> pairs. */
   environmentVariables?: Record<string, string>;
-  /** The load test configuration. */
-  loadTestConfiguration?: LoadTestConfiguration;
   /** Display name of a testRun. */
   displayName?: string;
   /** Associated test Id. */
@@ -390,13 +388,13 @@ export interface TestRunArtifacts {
 
 /** The input artifacts for the test run. */
 export interface TestRunInputArtifacts {
-  /** File info */
+  /** The load test YAML file that contains the the test configuration */
   configFileInfo?: TestRunFileInfo;
-  /** File info */
+  /** The test script file for the test run */
   testScriptFileInfo?: TestRunFileInfo;
-  /** File info */
+  /** The user properties file */
   userPropFileInfo?: TestRunFileInfo;
-  /** File info */
+  /** The zip file for all input artifacts */
   inputArtifactsZipFileInfo?: TestRunFileInfo;
   /** The config json file for url based test */
   urlTestConfigFileInfo?: TestRunFileInfo;
@@ -410,9 +408,9 @@ export interface TestRunFileInfo {
 
 /** The output artifacts for the test run. */
 export interface TestRunOutputArtifacts {
-  /** File info */
+  /** The test run results file */
   resultFileInfo?: TestRunFileInfo;
-  /** File info */
+  /** The test run report with metrics */
   logsFileInfo?: TestRunFileInfo;
   /** The container for test run artifacts. */
   artifactsContainerInfo?: ArtifactsContainerInfo;
@@ -458,7 +456,7 @@ export interface TestRunAppComponents {
 }
 
 /** Test run server metrics configuration */
-export interface TestRunServerMetricConfig {
+export interface TestRunServerMetricsConfiguration {
   /**
    * Azure resource metrics collection {metric id : metrics object} (Refer :
    * https://learn.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition
@@ -484,7 +482,7 @@ export interface TestRunDetail {
    *
    * Possible values: "ACCEPTED", "NOTSTARTED", "PROVISIONING", "PROVISIONED", "CONFIGURING", "CONFIGURED", "EXECUTING", "EXECUTED", "DEPROVISIONING", "DEPROVISIONED", "DONE", "CANCELLING", "CANCELLED", "FAILED", "VALIDATION_SUCCESS", "VALIDATION_FAILURE"
    */
-  status: Status;
+  status: TestRunStatus;
   /** ID of the configuration on which the test ran. */
   configurationId: string;
   /** Key value pair of extra properties associated with the test run. */
@@ -654,7 +652,7 @@ export interface TestRunEndedNotificationEventFilter
 /** TestRunEnded Event condition. */
 export interface TestRunEndedEventCondition {
   /** The test run statuses to send notification for. */
-  testRunStatuses?: Status[];
+  testRunStatuses?: TestRunStatus[];
   /** The test run results to send notification for. */
   testRunResults?: PassFailTestResult[];
 }
@@ -718,8 +716,8 @@ export type SecretType = string;
 export type CertificateType = string;
 /** Alias for FileType */
 export type FileType = string;
-/** Alias for FileStatus */
-export type FileStatus = string;
+/** Alias for FileValidationStatus */
+export type FileValidationStatus = string;
 /** Alias for TestKind */
 export type TestKind = string;
 /** Alias for ManagedIdentityType */
@@ -728,8 +726,8 @@ export type ManagedIdentityType = string;
 export type ResourceKind = string;
 /** Alias for PassFailTestResult */
 export type PassFailTestResult = string;
-/** Alias for Status */
-export type Status = string;
+/** Alias for TestRunStatus */
+export type TestRunStatus = string;
 /** Alias for RequestDataLevel */
 export type RequestDataLevel = string;
 /** Alias for CreatedByType */

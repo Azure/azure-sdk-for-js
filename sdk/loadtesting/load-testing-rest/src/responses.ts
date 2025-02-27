@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import type {
   TestOutput,
   PagedTestOutput,
   TestFileInfoOutput,
   PagedTestFileInfoOutput,
   TestAppComponentsOutput,
-  TestServerMetricConfigOutput,
+  TestServerMetricsConfigurationOutput,
   TestProfileOutput,
   PagedTestProfileOutput,
   TestRunOutput,
@@ -20,7 +20,7 @@ import {
   MetricsOutput,
   DimensionValueListOutput,
   TestRunAppComponentsOutput,
-  TestRunServerMetricConfigOutput,
+  TestRunServerMetricsConfigurationOutput,
   TestProfileRunOutput,
   PagedTestProfileRunOutput,
   TriggerOutput,
@@ -237,14 +237,14 @@ export interface LoadTestAdministrationGetAppComponentsDefaultResponse
 export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Response
   extends HttpResponse {
   status: "200";
-  body: TestServerMetricConfigOutput;
+  body: TestServerMetricsConfigurationOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
 export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig201Response
   extends HttpResponse {
   status: "201";
-  body: TestServerMetricConfigOutput;
+  body: TestServerMetricsConfigurationOutput;
 }
 
 export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultHeaders {
@@ -264,7 +264,7 @@ export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultR
 export interface LoadTestAdministrationGetServerMetricsConfig200Response
   extends HttpResponse {
   status: "200";
-  body: TestServerMetricConfigOutput;
+  body: TestServerMetricsConfigurationOutput;
 }
 
 export interface LoadTestAdministrationGetServerMetricsConfigDefaultHeaders {
@@ -599,14 +599,14 @@ export interface LoadTestRunGetAppComponentsDefaultResponse
 export interface LoadTestRunCreateOrUpdateServerMetricsConfig200Response
   extends HttpResponse {
   status: "200";
-  body: TestRunServerMetricConfigOutput;
+  body: TestRunServerMetricsConfigurationOutput;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
 export interface LoadTestRunCreateOrUpdateServerMetricsConfig201Response
   extends HttpResponse {
   status: "201";
-  body: TestRunServerMetricConfigOutput;
+  body: TestRunServerMetricsConfigurationOutput;
 }
 
 export interface LoadTestRunCreateOrUpdateServerMetricsConfigDefaultHeaders {
@@ -626,7 +626,7 @@ export interface LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse
 export interface LoadTestRunGetServerMetricsConfig200Response
   extends HttpResponse {
   status: "200";
-  body: TestRunServerMetricConfigOutput;
+  body: TestRunServerMetricsConfigurationOutput;
 }
 
 export interface LoadTestRunGetServerMetricsConfigDefaultHeaders {

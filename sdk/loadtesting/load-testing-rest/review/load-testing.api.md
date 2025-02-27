@@ -4,20 +4,20 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorResponse } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { ErrorResponse } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
 import { SimplePollerLike } from '@azure/core-lro';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type AggregationTypeOutput = string;
+export type AggregationOutput = string;
 
 // @public
 export interface AppComponent {
@@ -145,12 +145,6 @@ export interface ErrorDetailsOutput {
 }
 
 // @public
-export type FileStatus = string;
-
-// @public
-export type FileStatusOutput = string;
-
-// @public
 export type FileType = string;
 
 // @public
@@ -158,6 +152,12 @@ export type FileTypeOutput = string;
 
 // @public
 export type FileUploadAndValidatePoller = SimplePollerLike<OperationState<LoadTestAdministrationGetTestFile200Response>, LoadTestAdministrationGetTestFile200Response>;
+
+// @public
+export type FileValidationStatus = string;
+
+// @public
+export type FileValidationStatusOutput = string;
 
 // @public
 export type Frequency = string;
@@ -398,7 +398,7 @@ export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig {
 // @public
 export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
     // (undocumented)
-    body: TestServerMetricConfigOutput;
+    body: TestServerMetricsConfigurationOutput;
     // (undocumented)
     status: "200";
 }
@@ -406,14 +406,14 @@ export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig200Respo
 // @public
 export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig201Response extends HttpResponse {
     // (undocumented)
-    body: TestServerMetricConfigOutput;
+    body: TestServerMetricsConfigurationOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam {
-    body: TestServerMetricConfigResourceMergeAndPatch;
+    body: TestServerMetricsConfigurationResourceMergeAndPatch;
 }
 
 // @public (undocumented)
@@ -567,7 +567,7 @@ export type LoadTestAdministrationGetAppComponentsParameters = RequestParameters
 // @public
 export interface LoadTestAdministrationGetServerMetricsConfig200Response extends HttpResponse {
     // (undocumented)
-    body: TestServerMetricConfigOutput;
+    body: TestServerMetricsConfigurationOutput;
     // (undocumented)
     status: "200";
 }
@@ -776,7 +776,7 @@ export interface LoadTestAdministrationUploadTestFileQueryParamProperties {
 // @public
 export interface LoadTestConfiguration {
     engineInstances?: number;
-    optionalLoadTestConfig?: OptionalLoadTestConfig;
+    optionalLoadTestConfig?: OptionalLoadTestConfiguration;
     quickStartTest?: boolean;
     regionalLoadTestConfig?: Array<RegionalConfiguration>;
     splitAllCSVs?: boolean;
@@ -785,7 +785,7 @@ export interface LoadTestConfiguration {
 // @public
 export interface LoadTestConfigurationOutput {
     engineInstances?: number;
-    optionalLoadTestConfig?: OptionalLoadTestConfigOutput;
+    optionalLoadTestConfig?: OptionalLoadTestConfigurationOutput;
     quickStartTest?: boolean;
     regionalLoadTestConfig?: Array<RegionalConfigurationOutput>;
     splitAllCSVs?: boolean;
@@ -850,7 +850,7 @@ export interface LoadTestRunCreateOrUpdateServerMetricsConfig {
 // @public
 export interface LoadTestRunCreateOrUpdateServerMetricsConfig200Response extends HttpResponse {
     // (undocumented)
-    body: TestRunServerMetricConfigOutput;
+    body: TestRunServerMetricsConfigurationOutput;
     // (undocumented)
     status: "200";
 }
@@ -858,14 +858,14 @@ export interface LoadTestRunCreateOrUpdateServerMetricsConfig200Response extends
 // @public
 export interface LoadTestRunCreateOrUpdateServerMetricsConfig201Response extends HttpResponse {
     // (undocumented)
-    body: TestRunServerMetricConfigOutput;
+    body: TestRunServerMetricsConfigurationOutput;
     // (undocumented)
     status: "201";
 }
 
 // @public (undocumented)
 export interface LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam {
-    body: TestRunServerMetricConfigResourceMergeAndPatch;
+    body: TestRunServerMetricsConfigurationResourceMergeAndPatch;
 }
 
 // @public (undocumented)
@@ -999,7 +999,7 @@ export type LoadTestRunGetAppComponentsParameters = RequestParameters;
 // @public
 export interface LoadTestRunGetServerMetricsConfig200Response extends HttpResponse {
     // (undocumented)
-    body: TestRunServerMetricConfigOutput;
+    body: TestRunServerMetricsConfigurationOutput;
     // (undocumented)
     status: "200";
 }
@@ -1353,11 +1353,11 @@ export interface MetricDefinitionCollectionOutput {
 // @public
 export interface MetricDefinitionOutput {
     description?: string;
-    dimensions?: Array<NameAndDescOutput>;
+    dimensions?: Array<NameAndDescriptionOutput>;
     metricAvailabilities?: Array<MetricAvailabilityOutput>;
     name?: string;
     namespace?: string;
-    primaryAggregationType?: AggregationTypeOutput;
+    primaryAggregationType?: AggregationOutput;
     supportedAggregationTypes?: string[];
     unit?: MetricUnitOutput;
 }
@@ -1424,7 +1424,7 @@ export interface MonthlyRecurrenceByWeekDaysOutput extends RecurrenceOutputParen
 }
 
 // @public
-export interface NameAndDescOutput {
+export interface NameAndDescriptionOutput {
     description?: string;
     name?: string;
 }
@@ -1619,7 +1619,7 @@ export type NotificationScopeType = string;
 export type NotificationScopeTypeOutput = string;
 
 // @public
-export interface OptionalLoadTestConfig {
+export interface OptionalLoadTestConfiguration {
     duration?: number;
     endpointUrl?: string;
     maxResponseTimeInMs?: number;
@@ -1629,7 +1629,7 @@ export interface OptionalLoadTestConfig {
 }
 
 // @public
-export interface OptionalLoadTestConfigOutput {
+export interface OptionalLoadTestConfigurationOutput {
     duration?: number;
     endpointUrl?: string;
     maxResponseTimeInMs?: number;
@@ -1985,12 +1985,6 @@ export interface StateDetailsOutput {
 }
 
 // @public
-export type Status = string;
-
-// @public
-export type StatusOutput = string;
-
-// @public
 export type TargetResourceConfigurations = TargetResourceConfigurationsParent | FunctionFlexConsumptionTargetResourceConfigurations;
 
 // @public
@@ -2060,7 +2054,7 @@ export interface TestFileInfoOutput {
     readonly fileType?: FileTypeOutput;
     readonly url?: string;
     readonly validationFailureDetails?: string;
-    readonly validationStatus?: FileStatusOutput;
+    readonly validationStatus?: FileValidationStatusOutput;
 }
 
 // @public
@@ -2574,7 +2568,6 @@ export interface TestRun {
     description?: string;
     displayName?: string;
     environmentVariables?: Record<string, string>;
-    loadTestConfiguration?: LoadTestConfiguration;
     passFailCriteria?: PassFailCriteria;
     requestDataLevel?: RequestDataLevel;
     secrets?: Record<string, Secret>;
@@ -2620,26 +2613,26 @@ export type TestRunCreateOrUpdateSuccessResponse = LoadTestRunCreateOrUpdateTest
 export interface TestRunDetail {
     configurationId: string;
     properties: Record<string, string>;
-    status: Status;
+    status: TestRunStatus;
 }
 
 // @public
 export interface TestRunDetailOutput {
     configurationId: string;
     properties: Record<string, string>;
-    status: StatusOutput;
+    status: TestRunStatusOutput;
 }
 
 // @public
 export interface TestRunEndedEventCondition {
     testRunResults?: PassFailTestResult[];
-    testRunStatuses?: Status[];
+    testRunStatuses?: TestRunStatus[];
 }
 
 // @public
 export interface TestRunEndedEventConditionOutput {
     testRunResults?: PassFailTestResultOutput[];
-    testRunStatuses?: StatusOutput[];
+    testRunStatuses?: TestRunStatusOutput[];
 }
 
 // @public
@@ -2666,7 +2659,7 @@ export interface TestRunFileInfoOutput {
     readonly fileType?: FileTypeOutput;
     readonly url?: string;
     readonly validationFailureDetails?: string;
-    readonly validationStatus?: FileStatusOutput;
+    readonly validationStatus?: FileValidationStatusOutput;
 }
 
 // @public
@@ -2706,7 +2699,7 @@ export interface TestRunOutput {
     readonly kind?: TestKindOutput;
     readonly lastModifiedBy?: string;
     readonly lastModifiedDateTime?: string;
-    loadTestConfiguration?: LoadTestConfigurationOutput;
+    readonly loadTestConfiguration?: LoadTestConfigurationOutput;
     passFailCriteria?: PassFailCriteriaOutput;
     readonly portalUrl?: string;
     readonly publicIPDisabled?: boolean;
@@ -2714,7 +2707,7 @@ export interface TestRunOutput {
     requestDataLevel?: RequestDataLevelOutput;
     secrets?: Record<string, SecretOutput>;
     readonly startDateTime?: string;
-    readonly status?: StatusOutput;
+    readonly status?: TestRunStatusOutput;
     readonly subnetId?: string;
     readonly testArtifacts?: TestRunArtifactsOutput;
     testId?: string;
@@ -2745,12 +2738,12 @@ export interface TestRunOutputArtifactsOutput {
 export type TestRunResourceMergeAndPatch = Partial<TestRun>;
 
 // @public
-export interface TestRunServerMetricConfig {
+export interface TestRunServerMetricsConfiguration {
     metrics?: Record<string, ResourceMetric>;
 }
 
 // @public
-export interface TestRunServerMetricConfigOutput {
+export interface TestRunServerMetricsConfigurationOutput {
     readonly createdBy?: string;
     readonly createdDateTime?: string;
     readonly lastModifiedBy?: string;
@@ -2760,7 +2753,7 @@ export interface TestRunServerMetricConfigOutput {
 }
 
 // @public
-export type TestRunServerMetricConfigResourceMergeAndPatch = Partial<TestRunServerMetricConfig>;
+export type TestRunServerMetricsConfigurationResourceMergeAndPatch = Partial<TestRunServerMetricsConfiguration>;
 
 // @public
 export interface TestRunStartedNotificationEventFilter extends TestsNotificationEventFilterParent {
@@ -2801,12 +2794,18 @@ export interface TestRunStatisticsOutput {
 }
 
 // @public
-export interface TestServerMetricConfig {
+export type TestRunStatus = string;
+
+// @public
+export type TestRunStatusOutput = string;
+
+// @public
+export interface TestServerMetricsConfiguration {
     metrics: Record<string, ResourceMetric>;
 }
 
 // @public
-export interface TestServerMetricConfigOutput {
+export interface TestServerMetricsConfigurationOutput {
     readonly createdBy?: string;
     readonly createdDateTime?: string;
     readonly lastModifiedBy?: string;
@@ -2816,7 +2815,7 @@ export interface TestServerMetricConfigOutput {
 }
 
 // @public
-export type TestServerMetricConfigResourceMergeAndPatch = Partial<TestServerMetricConfig>;
+export type TestServerMetricsConfigurationResourceMergeAndPatch = Partial<TestServerMetricsConfiguration>;
 
 // @public
 export type TestsNotificationEventFilter = TestsNotificationEventFilterParent | TestRunEndedNotificationEventFilter | TestRunStartedNotificationEventFilter | TriggerCompletedNotificationEventFilter | TriggerDisabledNotificationEventFilter;

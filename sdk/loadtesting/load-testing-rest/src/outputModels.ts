@@ -204,13 +204,13 @@ export interface LoadTestConfigurationOutput {
    */
   quickStartTest?: boolean;
   /** Configuration for quick load test */
-  optionalLoadTestConfig?: OptionalLoadTestConfigOutput;
+  optionalLoadTestConfig?: OptionalLoadTestConfigurationOutput;
   /** Region distribution configuration for the load test. */
   regionalLoadTestConfig?: Array<RegionalConfigurationOutput>;
 }
 
 /** Configuration for quick load test */
-export interface OptionalLoadTestConfigOutput {
+export interface OptionalLoadTestConfigurationOutput {
   /** Test URL. Provide the complete HTTP URL. For example, https://contoso-app.azurewebsites.net/login */
   endpointUrl?: string;
   /** Target throughput (requests per second). This may not be necessarily achieved. The actual throughput will be lower if the application is not capable of handling it. */
@@ -239,13 +239,13 @@ export interface RegionalConfigurationOutput {
 
 /** The input artifacts for the test. */
 export interface TestInputArtifactsOutput {
-  /** File info */
+  /** The load test YAML file that contains the the test configuration */
   configFileInfo?: TestFileInfoOutput;
-  /** File info */
+  /** The test script file for the test run */
   testScriptFileInfo?: TestFileInfoOutput;
-  /** File info */
+  /** The user properties file */
   userPropFileInfo?: TestFileInfoOutput;
-  /** File info */
+  /** The zip file with all input artifacts */
   inputArtifactsZipFileInfo?: TestFileInfoOutput;
   /** The config json file for url based test */
   urlTestConfigFileInfo?: TestFileInfoOutput;
@@ -272,7 +272,7 @@ export interface TestFileInfoOutput {
    *
    * Possible values: "NOT_VALIDATED", "VALIDATION_SUCCESS", "VALIDATION_FAILURE", "VALIDATION_INITIATED", "VALIDATION_NOT_REQUIRED"
    */
-  readonly validationStatus?: FileStatusOutput;
+  readonly validationStatus?: FileValidationStatusOutput;
   /** Validation failure error details */
   readonly validationFailureDetails?: string;
 }
@@ -332,7 +332,7 @@ export interface AppComponentOutput {
 }
 
 /** Test server metrics configuration */
-export interface TestServerMetricConfigOutput {
+export interface TestServerMetricsConfigurationOutput {
   /** Test identifier */
   readonly testId?: string;
   /**
@@ -470,7 +470,7 @@ export interface TestRunOutput {
    */
   readonly regionalStatistics?: Record<string, TestRunStatisticsOutput>;
   /** The load test configuration. */
-  loadTestConfiguration?: LoadTestConfigurationOutput;
+  readonly loadTestConfiguration?: LoadTestConfigurationOutput;
   /** Collection of test run artifacts */
   readonly testArtifacts?: TestRunArtifactsOutput;
   /**
@@ -492,7 +492,7 @@ export interface TestRunOutput {
    *
    * Possible values: "ACCEPTED", "NOTSTARTED", "PROVISIONING", "PROVISIONED", "CONFIGURING", "CONFIGURED", "EXECUTING", "EXECUTED", "DEPROVISIONING", "DEPROVISIONED", "DONE", "CANCELLING", "CANCELLED", "FAILED", "VALIDATION_SUCCESS", "VALIDATION_FAILURE"
    */
-  readonly status?: StatusOutput;
+  readonly status?: TestRunStatusOutput;
   /** The test run start DateTime(RFC 3339 literal format). */
   readonly startDateTime?: string;
   /** The test run end DateTime(RFC 3339 literal format). */
@@ -599,13 +599,13 @@ export interface TestRunArtifactsOutput {
 
 /** The input artifacts for the test run. */
 export interface TestRunInputArtifactsOutput {
-  /** File info */
+  /** The load test YAML file that contains the the test configuration */
   configFileInfo?: TestRunFileInfoOutput;
-  /** File info */
+  /** The test script file for the test run */
   testScriptFileInfo?: TestRunFileInfoOutput;
-  /** File info */
+  /** The user properties file */
   userPropFileInfo?: TestRunFileInfoOutput;
-  /** File info */
+  /** The zip file for all input artifacts */
   inputArtifactsZipFileInfo?: TestRunFileInfoOutput;
   /** The config json file for url based test */
   urlTestConfigFileInfo?: TestRunFileInfoOutput;
@@ -632,16 +632,16 @@ export interface TestRunFileInfoOutput {
    *
    * Possible values: "NOT_VALIDATED", "VALIDATION_SUCCESS", "VALIDATION_FAILURE", "VALIDATION_INITIATED", "VALIDATION_NOT_REQUIRED"
    */
-  readonly validationStatus?: FileStatusOutput;
+  readonly validationStatus?: FileValidationStatusOutput;
   /** Validation failure error details */
   readonly validationFailureDetails?: string;
 }
 
 /** The output artifacts for the test run. */
 export interface TestRunOutputArtifactsOutput {
-  /** File info */
+  /** The test run results file */
   resultFileInfo?: TestRunFileInfoOutput;
-  /** File info */
+  /** The test run report with metrics */
   logsFileInfo?: TestRunFileInfoOutput;
   /** The container for test run artifacts. */
   artifactsContainerInfo?: ArtifactsContainerInfoOutput;
@@ -688,7 +688,7 @@ export interface MetricDefinitionCollectionOutput {
 /** Metric definition */
 export interface MetricDefinitionOutput {
   /** List of dimensions */
-  dimensions?: Array<NameAndDescOutput>;
+  dimensions?: Array<NameAndDescriptionOutput>;
   /** The metric description */
   description?: string;
   /** The metric name */
@@ -700,7 +700,7 @@ export interface MetricDefinitionOutput {
    *
    * Possible values: "Average", "Count", "None", "Total", "Percentile75", "Percentile90", "Percentile95", "Percentile96", "Percentile97", "Percentile98", "Percentile99", "Percentile999", "Percentile9999"
    */
-  primaryAggregationType?: AggregationTypeOutput;
+  primaryAggregationType?: AggregationOutput;
   /** The collection of what all aggregation types are supported. */
   supportedAggregationTypes?: string[];
   /**
@@ -717,7 +717,7 @@ export interface MetricDefinitionOutput {
 }
 
 /** The name and description */
-export interface NameAndDescOutput {
+export interface NameAndDescriptionOutput {
   /** The description */
   description?: string;
   /** The name */
@@ -798,7 +798,7 @@ export interface TestRunAppComponentsOutput {
 }
 
 /** Test run server metrics configuration */
-export interface TestRunServerMetricConfigOutput {
+export interface TestRunServerMetricsConfigurationOutput {
   /** Test run identifier */
   readonly testRunId?: string;
   /**
@@ -869,7 +869,7 @@ export interface TestRunDetailOutput {
    *
    * Possible values: "ACCEPTED", "NOTSTARTED", "PROVISIONING", "PROVISIONED", "CONFIGURING", "CONFIGURED", "EXECUTING", "EXECUTED", "DEPROVISIONING", "DEPROVISIONED", "DONE", "CANCELLING", "CANCELLED", "FAILED", "VALIDATION_SUCCESS", "VALIDATION_FAILURE"
    */
-  status: StatusOutput;
+  status: TestRunStatusOutput;
   /** ID of the configuration on which the test ran. */
   configurationId: string;
   /** Key value pair of extra properties associated with the test run. */
@@ -1080,7 +1080,7 @@ export interface TestRunEndedNotificationEventFilterOutput
 /** TestRunEnded Event condition. */
 export interface TestRunEndedEventConditionOutput {
   /** The test run statuses to send notification for. */
-  testRunStatuses?: StatusOutput[];
+  testRunStatuses?: TestRunStatusOutput[];
   /** The test run results to send notification for. */
   testRunResults?: PassFailTestResultOutput[];
 }
@@ -1154,8 +1154,8 @@ export type SecretTypeOutput = string;
 export type CertificateTypeOutput = string;
 /** Alias for FileTypeOutput */
 export type FileTypeOutput = string;
-/** Alias for FileStatusOutput */
-export type FileStatusOutput = string;
+/** Alias for FileValidationStatusOutput */
+export type FileValidationStatusOutput = string;
 /** Alias for TestKindOutput */
 export type TestKindOutput = string;
 /** Alias for ManagedIdentityTypeOutput */
@@ -1164,14 +1164,14 @@ export type ManagedIdentityTypeOutput = string;
 export type ResourceKindOutput = string;
 /** Alias for PassFailTestResultOutput */
 export type PassFailTestResultOutput = string;
-/** Alias for StatusOutput */
-export type StatusOutput = string;
+/** Alias for TestRunStatusOutput */
+export type TestRunStatusOutput = string;
 /** Alias for RequestDataLevelOutput */
 export type RequestDataLevelOutput = string;
 /** Alias for CreatedByTypeOutput */
 export type CreatedByTypeOutput = string;
-/** Alias for AggregationTypeOutput */
-export type AggregationTypeOutput = string;
+/** Alias for AggregationOutput */
+export type AggregationOutput = string;
 /** Alias for MetricUnitOutput */
 export type MetricUnitOutput = string;
 /** Alias for TimeGrainOutput */
