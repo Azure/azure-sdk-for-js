@@ -2,7 +2,9 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/ai-form-recognizer": ["./dist/esm"]
+      "@azure/ai-form-recognizer": [
+        "./dist/esm"
+      ]
     }
   }
 }
