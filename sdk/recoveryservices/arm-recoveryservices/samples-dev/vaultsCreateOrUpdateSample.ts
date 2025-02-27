@@ -8,9 +8,7 @@
 import type { Vault } from "@azure/arm-recoveryservices";
 import { RecoveryServicesClient } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a Recovery Services vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault.json
  */
-async function createOrUpdateRecoveryServicesVault() {
+async function createOrUpdateRecoveryServicesVault(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
   const resourceGroupName =
@@ -46,7 +44,7 @@ async function createOrUpdateRecoveryServicesVault() {
  * @summary Creates or updates a Recovery Services vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_WithMonitoringSettings.json
  */
-async function createOrUpdateVaultWithMonitoringSetting() {
+async function createOrUpdateVaultWithMonitoringSetting(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
   const resourceGroupName =
@@ -87,7 +85,7 @@ async function createOrUpdateVaultWithMonitoringSetting() {
  * @summary Creates or updates a Recovery Services vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_WithRedundancySettings.json
  */
-async function createOrUpdateVaultWithRedundancySetting() {
+async function createOrUpdateVaultWithRedundancySetting(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
   const resourceGroupName =
@@ -121,7 +119,7 @@ async function createOrUpdateVaultWithRedundancySetting() {
  * @summary Creates or updates a Recovery Services vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_ResourceGuardEnabled.json
  */
-async function createOrUpdateVaultPerformingCriticalOperationWithMua() {
+async function createOrUpdateVaultPerformingCriticalOperationWithMua(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
   const resourceGroupName =
@@ -170,7 +168,7 @@ async function createOrUpdateVaultPerformingCriticalOperationWithMua() {
  * @summary Creates or updates a Recovery Services vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_WithCMK.json
  */
-async function createOrUpdateVaultWithCustomerManagedKeys() {
+async function createOrUpdateVaultWithCustomerManagedKeys(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
   const resourceGroupName =
@@ -216,7 +214,7 @@ async function createOrUpdateVaultWithCustomerManagedKeys() {
  * @summary Creates or updates a Recovery Services vault.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_WithUserAssignedIdentity.json
  */
-async function createOrUpdateVaultWithUserAssignedIdentity() {
+async function createOrUpdateVaultWithUserAssignedIdentity(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] || "77777777-b0c6-47a2-b37c-d8e65a629c18";
   const resourceGroupName =
@@ -244,7 +242,7 @@ async function createOrUpdateVaultWithUserAssignedIdentity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateRecoveryServicesVault();
   await createOrUpdateVaultWithMonitoringSetting();
   await createOrUpdateVaultWithRedundancySetting();

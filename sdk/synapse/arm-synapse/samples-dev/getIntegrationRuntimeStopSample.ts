@@ -7,9 +7,7 @@
  */
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get an integration runtime stop operation status
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get an integration runtime stop operation status
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/IntegrationRuntimes_Stop_OperationStatus.json
  */
-async function getIntegrationRuntimeOperationStatus() {
+async function getIntegrationRuntimeOperationStatus(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "2d03866b-587b-4e1f-a2fe-0a55958c655e";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "drage-felles-prod-rg";
@@ -35,7 +33,7 @@ async function getIntegrationRuntimeOperationStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getIntegrationRuntimeOperationStatus();
 }
 

@@ -13,9 +13,7 @@ import {
   RecoveryServicesClient,
 } from "@azure/arm-recoveryservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Uploads a certificate for a resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Uploads a certificate for a resource.
  * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVaultCred.json
  */
-async function downloadVaultCredentialFile() {
+async function downloadVaultCredentialFile(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICES_SUBSCRIPTION_ID"] ||
     "77777777-d41f-4550-9f70-7708a3a2283b";
@@ -51,7 +49,7 @@ async function downloadVaultCredentialFile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   downloadVaultCredentialFile();
 }
 

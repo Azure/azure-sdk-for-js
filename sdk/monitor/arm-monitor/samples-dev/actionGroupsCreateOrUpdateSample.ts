@@ -8,9 +8,7 @@
 import type { ActionGroupResource } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a new action group or update an existing one.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create a new action group or update an existing one.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/createOrUpdateActionGroup.json
  */
-async function createOrUpdateAnActionGroup() {
+async function createOrUpdateAnActionGroup(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "187f412d-1758-44d9-b052-169e2564721d";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "Default-NotificationRules";
@@ -140,7 +138,7 @@ async function createOrUpdateAnActionGroup() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateAnActionGroup();
 }
 

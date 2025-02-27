@@ -14,8 +14,7 @@ import MapsRoute, {
 } from "@azure-rest/maps-route";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 async function main(): Promise<void> {
   /**

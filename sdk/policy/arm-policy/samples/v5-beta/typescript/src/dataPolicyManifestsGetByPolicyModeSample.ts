@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary This operation retrieves the data policy manifest with the given policy mode.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2020-09-01/examples/getDataPolicyManifest.json
  */
-async function retrieveADataPolicyManifestByPolicyMode() {
+async function retrieveADataPolicyManifestByPolicyMode(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -26,7 +26,7 @@ async function retrieveADataPolicyManifestByPolicyMode() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   retrieveADataPolicyManifestByPolicyMode();
 }
 

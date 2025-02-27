@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ElasticPool, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an elastic pool.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/CreateElasticPoolWithAvailabilityZone.json
  */
-async function createOrUpdateAnElasticPoolWithAvailabilityZone() {
+async function createOrUpdateAnElasticPoolWithAvailabilityZone(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -52,7 +50,7 @@ async function createOrUpdateAnElasticPoolWithAvailabilityZone() {
  * @summary Creates or updates an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/HyperscaleElasticPoolCreateOrUpdateSetHighAvailabilityReplicaCount.json
  */
-async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter() {
+async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -82,7 +80,7 @@ async function createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCou
  * @summary Creates or updates an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolCreateOrUpdateMax.json
  */
-async function createOrUpdateElasticPoolWithAllParameter() {
+async function createOrUpdateElasticPoolWithAllParameter(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -112,7 +110,7 @@ async function createOrUpdateElasticPoolWithAllParameter() {
  * @summary Creates or updates an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolCreateOrUpdateSetMaintenanceConfiguration.json
  */
-async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter() {
+async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -142,7 +140,7 @@ async function createOrUpdateElasticPoolWithMaintenanceConfigurationParameter() 
  * @summary Creates or updates an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolCreateOrUpdateMin.json
  */
-async function createOrUpdateElasticPoolWithMinimumParameters() {
+async function createOrUpdateElasticPoolWithMinimumParameters(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -168,7 +166,7 @@ async function createOrUpdateElasticPoolWithMinimumParameters() {
  * @summary Creates or updates an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolCreateWithDefaultPreferredEnclaveType.json
  */
-async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault() {
+async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefault(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -198,7 +196,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefau
  * @summary Creates or updates an elastic pool.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ElasticPoolCreateWithVBSPreferredEnclaveType.json
  */
-async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs() {
+async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -222,7 +220,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs()
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAnElasticPoolWithAvailabilityZone();
   createOrUpdateHyperscaleElasticPoolWithHighAvailabilityReplicaCountParameter();
   createOrUpdateElasticPoolWithAllParameter();

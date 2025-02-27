@@ -6,7 +6,7 @@ import type { KeyClient } from "../../src/index.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
 import type { CreateOctKeyOptions } from "../../src/keysModels.js";
-import { KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels.js";
+import { KnownKeyExportEncryptionAlgorithm } from "../../src/index.js";
 import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import { createPipelineRequest, createDefaultHttpClient } from "@azure/core-rest-pipeline";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
@@ -223,5 +223,15 @@ describe("Keys client - create, read, update and delete operations for managed H
         }),
       ).rejects.toThrow(/exportable/i);
     });
+  });
+
+  it("can get a key with its attestation blob", async () => {
+    await hsmClient.createRsaKey("keyAttestation");
+    const key = await hsmClient.getKey("keyAttestation");
+    expect(key.properties.attestation).toBeUndefined();
+    const keyWithAttestation = await hsmClient.getKeyAttestation("keyAttestation");
+    expect(keyWithAttestation.properties.attestation).toBeDefined();
+    expect(keyWithAttestation.properties.attestation?.privateKeyAttestation).toBeDefined();
+    expect(keyWithAttestation.properties.attestation?.publicKeyAttestation).toBeDefined();
   });
 });

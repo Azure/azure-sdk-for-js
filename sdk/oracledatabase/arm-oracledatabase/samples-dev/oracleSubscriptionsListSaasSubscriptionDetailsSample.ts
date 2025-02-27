@@ -7,9 +7,7 @@
  */
 import { OracleDatabaseManagementClient } from "@azure/arm-oracledatabase";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List Saas Subscription Details
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary List Saas Subscription Details
  * x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/oracleSubscriptions_listSaasSubscriptionDetails.json
  */
-async function listSaasSubscriptionDetailsForTheOracleSubscription() {
+async function listSaasSubscriptionDetailsForTheOracleSubscription(): Promise<void> {
   const subscriptionId =
     process.env["ORACLEDATABASE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
@@ -26,7 +24,7 @@ async function listSaasSubscriptionDetailsForTheOracleSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listSaasSubscriptionDetailsForTheOracleSubscription();
 }
 

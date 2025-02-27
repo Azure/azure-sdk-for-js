@@ -19,7 +19,7 @@ import {
   CredentialSetsDeleteResponse,
   CredentialSetUpdateParameters,
   CredentialSetsUpdateOptionalParams,
-  CredentialSetsUpdateResponse
+  CredentialSetsUpdateResponse,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface CredentialSets {
   list(
     resourceGroupName: string,
     registryName: string,
-    options?: CredentialSetsListOptionalParams
+    options?: CredentialSetsListOptionalParams,
   ): PagedAsyncIterableIterator<CredentialSet>;
   /**
    * Gets the properties of the specified credential set resource.
@@ -47,7 +47,7 @@ export interface CredentialSets {
     resourceGroupName: string,
     registryName: string,
     credentialSetName: string,
-    options?: CredentialSetsGetOptionalParams
+    options?: CredentialSetsGetOptionalParams,
   ): Promise<CredentialSetsGetResponse>;
   /**
    * Creates a credential set for a container registry with the specified parameters.
@@ -62,7 +62,7 @@ export interface CredentialSets {
     registryName: string,
     credentialSetName: string,
     credentialSetCreateParameters: CredentialSet,
-    options?: CredentialSetsCreateOptionalParams
+    options?: CredentialSetsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CredentialSetsCreateResponse>,
@@ -82,7 +82,7 @@ export interface CredentialSets {
     registryName: string,
     credentialSetName: string,
     credentialSetCreateParameters: CredentialSet,
-    options?: CredentialSetsCreateOptionalParams
+    options?: CredentialSetsCreateOptionalParams,
   ): Promise<CredentialSetsCreateResponse>;
   /**
    * Deletes a credential set from a container registry.
@@ -95,7 +95,7 @@ export interface CredentialSets {
     resourceGroupName: string,
     registryName: string,
     credentialSetName: string,
-    options?: CredentialSetsDeleteOptionalParams
+    options?: CredentialSetsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CredentialSetsDeleteResponse>,
@@ -113,7 +113,7 @@ export interface CredentialSets {
     resourceGroupName: string,
     registryName: string,
     credentialSetName: string,
-    options?: CredentialSetsDeleteOptionalParams
+    options?: CredentialSetsDeleteOptionalParams,
   ): Promise<CredentialSetsDeleteResponse>;
   /**
    * Updates a credential set for a container registry with the specified parameters.
@@ -128,7 +128,7 @@ export interface CredentialSets {
     registryName: string,
     credentialSetName: string,
     credentialSetUpdateParameters: CredentialSetUpdateParameters,
-    options?: CredentialSetsUpdateOptionalParams
+    options?: CredentialSetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CredentialSetsUpdateResponse>,
@@ -148,6 +148,6 @@ export interface CredentialSets {
     registryName: string,
     credentialSetName: string,
     credentialSetUpdateParameters: CredentialSetUpdateParameters,
-    options?: CredentialSetsUpdateOptionalParams
+    options?: CredentialSetsUpdateOptionalParams,
   ): Promise<CredentialSetsUpdateResponse>;
 }

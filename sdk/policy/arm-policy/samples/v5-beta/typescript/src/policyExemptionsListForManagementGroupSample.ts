@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary This operation retrieves the list of all policy exemptions applicable to the management group that match the given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()', 'excludeExpired()' or 'policyAssignmentId eq '{value}''. If $filter=atScope() is provided, the returned list includes all policy exemptions that are assigned to the management group or the management group's ancestors.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/preview/2020-07-01-preview/examples/listPolicyExemptionsForManagementGroup.json
  */
-async function listPolicyExemptionsThatApplyToAManagementGroup() {
+async function listPolicyExemptionsThatApplyToAManagementGroup(): Promise<void> {
   const subscriptionId =
     process.env["POLICY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -39,7 +39,7 @@ async function listPolicyExemptionsThatApplyToAManagementGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listPolicyExemptionsThatApplyToAManagementGroup();
 }
 

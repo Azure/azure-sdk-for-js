@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { EventSources } from "../operationsInterfaces";
+import { EventSources } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { TimeSeriesInsightsClient } from "../timeSeriesInsightsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { TimeSeriesInsightsClient } from "../timeSeriesInsightsClient.js";
 import {
   EventSourceCreateOrUpdateParametersUnion,
   EventSourcesCreateOrUpdateOptionalParams,
@@ -23,7 +23,7 @@ import {
   EventSourcesDeleteOptionalParams,
   EventSourcesListByEnvironmentOptionalParams,
   EventSourcesListByEnvironmentResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing EventSources operations. */
 export class EventSourcesImpl implements EventSources {

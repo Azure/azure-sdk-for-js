@@ -8,9 +8,7 @@
 import type { JobsListOptionalParams } from "@azure/arm-mediaservices";
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the Jobs for the Transform.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Lists all of the Jobs for the Transform.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-created.json
  */
-async function listsJobsForTheTransformFilterByCreated() {
+async function listsJobsForTheTransformFilterByCreated(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -48,7 +46,7 @@ async function listsJobsForTheTransformFilterByCreated() {
  * @summary Lists all of the Jobs for the Transform.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-lastmodified.json
  */
-async function listsJobsForTheTransformFilterByLastmodified() {
+async function listsJobsForTheTransformFilterByLastmodified(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -78,7 +76,7 @@ async function listsJobsForTheTransformFilterByLastmodified() {
  * @summary Lists all of the Jobs for the Transform.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-name-and-state.json
  */
-async function listsJobsForTheTransformFilterByNameAndState() {
+async function listsJobsForTheTransformFilterByNameAndState(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -106,7 +104,7 @@ async function listsJobsForTheTransformFilterByNameAndState() {
  * @summary Lists all of the Jobs for the Transform.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-name.json
  */
-async function listsJobsForTheTransformFilterByName() {
+async function listsJobsForTheTransformFilterByName(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -135,7 +133,7 @@ async function listsJobsForTheTransformFilterByName() {
  * @summary Lists all of the Jobs for the Transform.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-state-eq.json
  */
-async function listsJobsForTheTransformFilterByStateEqual() {
+async function listsJobsForTheTransformFilterByStateEqual(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -163,7 +161,7 @@ async function listsJobsForTheTransformFilterByStateEqual() {
  * @summary Lists all of the Jobs for the Transform.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all-filter-by-state-ne.json
  */
-async function listsJobsForTheTransformFilterByStateNotEqual() {
+async function listsJobsForTheTransformFilterByStateNotEqual(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -191,7 +189,7 @@ async function listsJobsForTheTransformFilterByStateNotEqual() {
  * @summary Lists all of the Jobs for the Transform.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Encoding/stable/2022-07-01/examples/jobs-list-all.json
  */
-async function listsAllOfTheJobsForTheTransform() {
+async function listsAllOfTheJobsForTheTransform(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MEDIASERVICES_RESOURCE_GROUP"] || "contosoresources";
@@ -206,7 +204,7 @@ async function listsAllOfTheJobsForTheTransform() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listsJobsForTheTransformFilterByCreated();
   await listsJobsForTheTransformFilterByLastmodified();
   await listsJobsForTheTransformFilterByNameAndState();

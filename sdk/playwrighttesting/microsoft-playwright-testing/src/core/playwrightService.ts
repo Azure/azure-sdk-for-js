@@ -121,7 +121,7 @@ const getServiceConfig = (
   emitReportingUrl();
 
   const globalFunctions: any = {};
-  performOneTimeOperation(options);
+
   if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
     // mpt PAT requested and set by the customer, no need to setup entra lifecycle handlers
     validateMptPAT(exitWithFailureMessage);
@@ -148,7 +148,7 @@ const getServiceConfig = (
       );
     }
   }
-
+  performOneTimeOperation(options);
   if (options?.useCloudHostedBrowsers === false) {
     return {
       ...globalFunctions,

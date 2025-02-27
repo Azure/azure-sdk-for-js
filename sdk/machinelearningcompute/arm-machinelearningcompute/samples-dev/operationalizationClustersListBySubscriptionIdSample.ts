@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the operationalization clusters in the specified subscription.
  * x-ms-original-file: specification/machinelearningcompute/resource-manager/Microsoft.MachineLearningCompute/preview/2017-08-01-preview/examples/OperationalizationClusters_ListBySubscription.json
  */
-async function listOperationalizationClustersBySubscription() {
+async function listOperationalizationClustersBySubscription(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new MachineLearningComputeManagementClient(credential, subscriptionId);

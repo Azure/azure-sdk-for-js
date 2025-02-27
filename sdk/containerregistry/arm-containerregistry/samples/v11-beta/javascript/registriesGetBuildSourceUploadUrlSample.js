@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Get the upload location for the user to be able to upload the source.
@@ -30,7 +30,7 @@ async function registriesGetBuildSourceUploadUrl() {
 }
 
 async function main() {
-  registriesGetBuildSourceUploadUrl();
+  await registriesGetBuildSourceUploadUrl();
 }
 
 main().catch(console.error);

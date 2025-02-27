@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes a PostgreSQL server firewall rule.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/FirewallRuleDelete.json
  */
-async function firewallRuleDelete() {
+async function firewallRuleDelete(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +36,7 @@ async function firewallRuleDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   firewallRuleDelete();
 }
 

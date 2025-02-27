@@ -17,7 +17,7 @@ import {
   ReachabilityAnalysisRunsCreateResponse,
   ReachabilityAnalysisRunsDeleteOptionalParams,
   ReachabilityAnalysisRunsDeleteResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReachabilityAnalysisRuns. */

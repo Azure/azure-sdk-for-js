@@ -11,7 +11,7 @@ trigger:
       - feature/v4
   paths:
     include:
-      - sdk\liftrpinecone\arm-pineconevectordb
+      - sdk\pineconevectordb\arm-pineconevectordb
       - ci.mgmt.yml
 pr:
   branches:
@@ -24,12 +24,12 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk\liftrpinecone\arm-pineconevectordb
+      - sdk\pineconevectordb\arm-pineconevectordb
       - ci.mgmt.yml
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: .
+    ServiceDirectory: pineconevectordb
     Artifacts:
       - name: azure-arm-pineconevectordb
         safeName: azurearmpineconevectordb

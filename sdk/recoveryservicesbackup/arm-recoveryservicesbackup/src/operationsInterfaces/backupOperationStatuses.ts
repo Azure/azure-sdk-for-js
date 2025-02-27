@@ -9,7 +9,7 @@
 import {
   BackupOperationStatusesGetOptionalParams,
   BackupOperationStatusesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BackupOperationStatuses. */
 export interface BackupOperationStatuses {

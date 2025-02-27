@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List accounts in ResourceGroup
  * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/Accounts_ListByResourceGroup.json
  */
-async function accountsListByResourceGroup() {
+async function accountsListByResourceGroup(): Promise<void> {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
   const resourceGroupName = "SampleResourceGroup";
   const credential = new DefaultAzureCredential();

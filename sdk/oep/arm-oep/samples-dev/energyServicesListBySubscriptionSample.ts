@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists a collection of oep resources under the given Azure Subscription ID.
  * x-ms-original-file: specification/oep/resource-manager/Microsoft.OpenEnergyPlatform/preview/2021-06-01-preview/examples/OepResource_ListBySubscriptionId.json
  */
-async function oepResourceListBySubscriptionId() {
+async function oepResourceListBySubscriptionId(): Promise<void> {
   const subscriptionId = "0000000-0000-0000-0000-000000000001";
   const credential = new DefaultAzureCredential();
   const client = new OpenEnergyPlatformManagementServiceAPIs(credential, subscriptionId);

@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the inbound routes configured for the Virtual Hub on a particular connection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/GetInboundRoutes.json
  */
-async function inboundRoutesForTheVirtualHubOnAParticularConnection() {
+async function inboundRoutesForTheVirtualHubOnAParticularConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

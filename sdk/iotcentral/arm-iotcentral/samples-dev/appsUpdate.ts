@@ -15,7 +15,7 @@ import type { AppPatch } from "@azure/arm-iotcentral";
 import { IotCentralClient } from "@azure/arm-iotcentral";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function appsUpdate() {
+async function appsUpdate(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "resRg";
   const resourceName = "myIoTCentralApp";

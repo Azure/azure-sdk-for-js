@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary When you apply a lock at a parent scope, all child resources inherit the same lock. To create management locks, you must have access to Microsoft.Authorization/* or Microsoft.Authorization/locks/* actions. Of the built-in roles, only Owner and User Access Administrator are granted those actions.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2020-05-01/examples/ManagementLocks_CreateOrUpdateAtResourceGroupLevel.json
  */
-async function createManagementLockAtResourceGroupLevel() {
+async function createManagementLockAtResourceGroupLevel(): Promise<void> {
   const subscriptionId = "subscriptionId";
   const resourceGroupName = "resourcegroupname";
   const lockName = "testlock";

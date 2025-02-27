@@ -8,9 +8,7 @@
 import type { VirtualNetworkRule } from "@azure/arm-sql";
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an existing virtual network rule.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates an existing virtual network rule.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/VirtualNetworkRulesCreateOrUpdate.json
  */
-async function createOrUpdateAVirtualNetworkRule() {
+async function createOrUpdateAVirtualNetworkRule(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default";
@@ -40,7 +38,7 @@ async function createOrUpdateAVirtualNetworkRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateAVirtualNetworkRule();
 }
 

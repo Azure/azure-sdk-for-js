@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MaintenanceManagementClient } from "@azure/arm-maintenance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete Configuration record
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete Configuration record
  * x-ms-original-file: specification/maintenance/resource-manager/Microsoft.Maintenance/preview/2023-10-01-preview/examples/MaintenanceConfigurations_DeleteForResource.json
  */
-async function maintenanceConfigurationsDeleteForResource() {
+async function maintenanceConfigurationsDeleteForResource(): Promise<void> {
   const subscriptionId =
     process.env["MAINTENANCE_SUBSCRIPTION_ID"] ||
     "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
@@ -36,7 +34,7 @@ async function maintenanceConfigurationsDeleteForResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   maintenanceConfigurationsDeleteForResource();
 }
 

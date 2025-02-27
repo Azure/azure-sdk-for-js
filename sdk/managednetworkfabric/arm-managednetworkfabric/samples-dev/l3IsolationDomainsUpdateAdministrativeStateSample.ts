@@ -8,9 +8,7 @@
 import type { UpdateAdministrativeState } from "@azure/arm-managednetworkfabric";
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Enables racks for this Isolation Domain.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Enables racks for this Isolation Domain.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/L3IsolationDomains_updateAdministrativeState_MaximumSet_Gen.json
  */
-async function l3IsolationDomainsUpdateAdministrativeStateMaximumSetGen() {
+async function l3IsolationDomainsUpdateAdministrativeStateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] || "1234ABCD-0A1B-1234-5678-123456ABCDEF";
   const resourceGroupName = process.env["MANAGEDNETWORKFABRIC_RESOURCE_GROUP"] || "example-rg";
@@ -37,7 +35,7 @@ async function l3IsolationDomainsUpdateAdministrativeStateMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await l3IsolationDomainsUpdateAdministrativeStateMaximumSetGen();
 }
 

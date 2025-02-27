@@ -7,9 +7,7 @@
  */
 import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Restarts the troubleshooter API using applicable troubleshooter resource name as the input.<br/> It returns new resource name which should be used in subsequent request. The old resource name is obsolete after this API is invoked.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Restarts the troubleshooter API using applicable troubleshooter resource name as the input.<br/> It returns new resource name which should be used in subsequent request. The old resource name is obsolete after this API is invoked.
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/Troubleshooter_Restart.json
  */
-async function troubleshootersRestart() {
+async function troubleshootersRestart(): Promise<void> {
   const scope =
     "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp";
   const troubleshooterName = "abf168ed-1b54-454a-86f6-e4b62253d3b1";
@@ -27,7 +25,7 @@ async function troubleshootersRestart() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await troubleshootersRestart();
 }
 

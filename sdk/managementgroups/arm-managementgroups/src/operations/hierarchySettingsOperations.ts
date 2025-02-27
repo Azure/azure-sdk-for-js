@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { HierarchySettingsOperations } from "../operationsInterfaces";
+import { HierarchySettingsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ManagementGroupsAPI } from "../managementGroupsAPI";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ManagementGroupsAPI } from "../managementGroupsAPI.js";
 import {
   HierarchySettingsListOptionalParams,
   HierarchySettingsListResponse,
@@ -22,7 +22,7 @@ import {
   HierarchySettingsUpdateOptionalParams,
   HierarchySettingsUpdateResponse,
   HierarchySettingsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing HierarchySettingsOperations operations. */
 export class HierarchySettingsOperationsImpl

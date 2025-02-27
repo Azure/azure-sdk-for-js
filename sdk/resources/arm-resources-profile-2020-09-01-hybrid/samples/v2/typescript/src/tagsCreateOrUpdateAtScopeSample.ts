@@ -13,9 +13,7 @@ import {
   ResourceManagementClient
 } from "@azure/arm-resources-profile-2020-09-01-hybrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This operation allows adding or replacing the entire set of tags on the specified resource or subscription. The specified entity can have a maximum of 50 tags.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary This operation allows adding or replacing the entire set of tags on the specified resource or subscription. The specified entity can have a maximum of 50 tags.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2019-10-01/examples/PutTagsResource.json
  */
-async function updateTagsOnAResource() {
+async function updateTagsOnAResource(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function updateTagsOnAResource() {
  * @summary This operation allows adding or replacing the entire set of tags on the specified resource or subscription. The specified entity can have a maximum of 50 tags.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2019-10-01/examples/PutTagsSubscription.json
  */
-async function updateTagsOnASubscription() {
+async function updateTagsOnASubscription(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -64,7 +62,7 @@ async function updateTagsOnASubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateTagsOnAResource();
   updateTagsOnASubscription();
 }

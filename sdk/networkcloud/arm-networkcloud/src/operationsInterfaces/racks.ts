@@ -20,7 +20,7 @@ import {
   RacksDeleteResponse,
   RacksUpdateOptionalParams,
   RacksUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Racks. */

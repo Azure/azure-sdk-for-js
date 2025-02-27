@@ -41,7 +41,7 @@ import {
   Table as TableMapper,
   StorageTaskAssignment as StorageTaskAssignmentMapper,
   StorageTaskAssignmentUpdateParameters as StorageTaskAssignmentUpdateParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -101,7 +101,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-01",
+    defaultValue: "2024-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -274,6 +274,28 @@ export const fileServicesName: OperationURLParameter = {
     defaultValue: "default",
     isConstant: true,
     serializedName: "FileServicesName",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const maxpagesize1: OperationQueryParameter = {
+  parameterPath: ["options", "maxpagesize"],
+  mapper: {
+    serializedName: "$maxpagesize",
+    type: {
+      name: "Number",
+    },
+  },
+};
+
+export const fileServiceUsagesName: OperationURLParameter = {
+  parameterPath: "fileServiceUsagesName",
+  mapper: {
+    defaultValue: "default",
+    isConstant: true,
+    serializedName: "fileServiceUsagesName",
     type: {
       name: "String",
     },
@@ -583,7 +605,7 @@ export const properties3: OperationParameter = {
   mapper: ObjectReplicationPolicyMapper,
 };
 
-export const maxpagesize1: OperationQueryParameter = {
+export const maxpagesize2: OperationQueryParameter = {
   parameterPath: ["options", "maxpagesize"],
   mapper: {
     constraints: {
@@ -734,14 +756,4 @@ export const storageTaskAssignmentName: OperationURLParameter = {
 export const parameters15: OperationParameter = {
   parameterPath: "parameters",
   mapper: StorageTaskAssignmentUpdateParametersMapper,
-};
-
-export const maxpagesize2: OperationQueryParameter = {
-  parameterPath: ["options", "maxpagesize"],
-  mapper: {
-    serializedName: "$maxpagesize",
-    type: {
-      name: "Number",
-    },
-  },
 };

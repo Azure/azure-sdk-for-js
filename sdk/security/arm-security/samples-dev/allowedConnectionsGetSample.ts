@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the list of all possible traffic between resources for the subscription and location, based on connection type.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the list of all possible traffic between resources for the subscription and location, based on connection type.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/AllowedConnections/GetAllowedConnections_example.json
  */
-async function getAllowedConnections() {
+async function getAllowedConnections(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "3eeab341-f466-499c-a8be-85427e154bad";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myResourceGroup";
@@ -33,7 +31,7 @@ async function getAllowedConnections() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getAllowedConnections();
 }
 

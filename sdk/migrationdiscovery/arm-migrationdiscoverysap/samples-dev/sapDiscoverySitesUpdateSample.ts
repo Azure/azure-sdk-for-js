@@ -8,9 +8,7 @@
 import type { SAPDiscoverySiteTagsUpdate } from "@azure/arm-migrationdiscoverysap";
 import { WorkloadsClient } from "@azure/arm-migrationdiscoverysap";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a SAP Migration discovery site resource.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates a SAP Migration discovery site resource.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPDiscoverySites/preview/2023-10-01-preview/examples/SAPDiscoverySites_Update.json
  */
-async function updatesASapMigrationDiscoverySiteResource() {
+async function updatesASapMigrationDiscoverySiteResource(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATIONDISCOVERY_SUBSCRIPTION_ID"] || "6d875e77-e412-4d7d-9af4-8895278b4443";
   const resourceGroupName = process.env["MIGRATIONDISCOVERY_RESOURCE_GROUP"] || "test-rg";
@@ -34,7 +32,7 @@ async function updatesASapMigrationDiscoverySiteResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updatesASapMigrationDiscoverySiteResource();
 }
 

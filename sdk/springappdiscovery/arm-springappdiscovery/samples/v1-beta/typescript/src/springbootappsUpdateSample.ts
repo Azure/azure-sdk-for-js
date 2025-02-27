@@ -13,9 +13,7 @@ import {
   SpringAppDiscoveryManagementClient,
 } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a springbootapps resource.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update a springbootapps resource.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootapps_Update_MaximumSet_Gen.json
  */
-async function springbootappsUpdateMaximumSetGen() {
+async function springbootappsUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "jnetwlorzmxpxmcucorv";
   const resourceGroupName =
@@ -52,7 +50,7 @@ async function springbootappsUpdateMaximumSetGen() {
  * @summary Update a springbootapps resource.
  * x-ms-original-file: specification/offazurespringboot/resource-manager/Microsoft.OffAzureSpringBoot/preview/2023-01-01-preview/examples/springbootapps_Update_MinimumSet_Gen.json
  */
-async function springbootappsUpdateMinimumSetGen() {
+async function springbootappsUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "jnetwlorzmxpxmcucorv";
   const resourceGroupName =
@@ -75,7 +73,7 @@ async function springbootappsUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   springbootappsUpdateMaximumSetGen();
   springbootappsUpdateMinimumSetGen();
 }

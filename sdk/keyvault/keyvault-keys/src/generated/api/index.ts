@@ -7,6 +7,7 @@ export {
   KeyVaultClientOptionalParams,
 } from "./keyVaultContext.js";
 export {
+  getKeyAttestation,
   getRandomBytes,
   updateKeyRotationPolicy,
   getKeyRotationPolicy,
@@ -33,6 +34,7 @@ export {
   createKey,
 } from "./operations.js";
 export {
+  GetKeyAttestationOptionalParams,
   GetRandomBytesOptionalParams,
   UpdateKeyRotationPolicyOptionalParams,
   GetKeyRotationPolicyOptionalParams,

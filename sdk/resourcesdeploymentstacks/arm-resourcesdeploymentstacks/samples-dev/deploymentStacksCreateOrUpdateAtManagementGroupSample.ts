@@ -8,9 +8,7 @@
 import type { DeploymentStack } from "@azure/arm-resourcesdeploymentstacks";
 import { DeploymentStacksClient } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Deployment stack at Management Group scope.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a Deployment stack at Management Group scope.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackManagementGroupCreate.json
  */
-async function deploymentStacksManagementGroupCreateOrUpdate() {
+async function deploymentStacksManagementGroupCreateOrUpdate(): Promise<void> {
   const managementGroupId = "myMg";
   const deploymentStackName = "simpleDeploymentStack";
   const deploymentStack: DeploymentStack = {
@@ -49,7 +47,7 @@ async function deploymentStacksManagementGroupCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deploymentStacksManagementGroupCreateOrUpdate();
 }
 

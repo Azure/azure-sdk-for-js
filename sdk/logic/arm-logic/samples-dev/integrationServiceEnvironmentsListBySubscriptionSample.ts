@@ -7,9 +7,7 @@
  */
 import { LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of integration service environments by subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets a list of integration service environments by subscription.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/IntegrationServiceEnvironments_ListBySubscription.json
  */
-async function listIntegrationServiceEnvironmentsBySubscription() {
+async function listIntegrationServiceEnvironmentsBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] || "f34b22a3-2202-4fb1-b040-1332bd928c84";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listIntegrationServiceEnvironmentsBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listIntegrationServiceEnvironmentsBySubscription();
 }
 

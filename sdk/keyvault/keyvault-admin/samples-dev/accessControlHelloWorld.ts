@@ -5,18 +5,16 @@
  * @summary Uses an AccessControlClient to list, create, and assign roles to users.
  */
 
+import type { KeyVaultPermission } from "@azure/keyvault-admin";
 import {
   KeyVaultAccessControlClient,
-  KeyVaultPermission,
   KnownKeyVaultDataAction,
   KnownKeyVaultRoleScope,
 } from "@azure/keyvault-admin";
 import { DefaultAzureCredential } from "@azure/identity";
 import { randomUUID } from "@azure/core-util";
-
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
@@ -43,7 +41,7 @@ export async function main(): Promise<void> {
       ],
     },
   ];
-  let roleDefinition = await client.setRoleDefinition(globalScope, {
+  const roleDefinition = await client.setRoleDefinition(globalScope, {
     roleDefinitionName,
     roleName: "Backup Manager",
     permissions,

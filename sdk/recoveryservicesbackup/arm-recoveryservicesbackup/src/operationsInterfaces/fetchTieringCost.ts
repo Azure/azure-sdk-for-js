@@ -11,7 +11,7 @@ import {
   FetchTieringCostInfoRequestUnion,
   FetchTieringCostPostOptionalParams,
   FetchTieringCostPostResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FetchTieringCost. */
 export interface FetchTieringCost {

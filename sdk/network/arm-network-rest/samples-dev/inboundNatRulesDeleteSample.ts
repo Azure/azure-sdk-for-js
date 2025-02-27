@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Deletes the specified load balancer inbound NAT rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/InboundNatRuleDelete.json
  */
-async function inboundNatRuleDelete() {
+async function inboundNatRuleDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves details of this L3 Isolation Domain.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieves details of this L3 Isolation Domain.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/L3IsolationDomains_Get_MaximumSet_Gen.json
  */
-async function l3IsolationDomainsGetMaximumSetGen() {
+async function l3IsolationDomainsGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] ||
     "1234ABCD-0A1B-1234-5678-123456ABCDEF";
@@ -39,7 +37,7 @@ async function l3IsolationDomainsGetMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   l3IsolationDomainsGetMaximumSetGen();
 }
 

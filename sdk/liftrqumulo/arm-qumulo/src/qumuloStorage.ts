@@ -14,9 +14,9 @@ import {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { OperationsImpl, FileSystemsImpl } from "./operations";
-import { Operations, FileSystems } from "./operationsInterfaces";
-import { QumuloStorageOptionalParams } from "./models";
+import { OperationsImpl, FileSystemsImpl } from "./operations/index.js";
+import { Operations, FileSystems } from "./operationsInterfaces/index.js";
+import { QumuloStorageOptionalParams } from "./models/index.js";
 
 export class QumuloStorage extends coreClient.ServiceClient {
   $host: string;

@@ -7,9 +7,7 @@
  */
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete container.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Delete container.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/FeaturesetContainer/delete.json
  */
-async function deleteWorkspaceFeaturesetContainer() {
+async function deleteWorkspaceFeaturesetContainer(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["MACHINELEARNING_RESOURCE_GROUP"] || "test-rg";
@@ -33,7 +31,7 @@ async function deleteWorkspaceFeaturesetContainer() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await deleteWorkspaceFeaturesetContainer();
 }
 

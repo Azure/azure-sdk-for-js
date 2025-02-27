@@ -7,9 +7,7 @@
  */
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieve alert rule definitions in a subscription.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Retrieve alert rule definitions in a subscription.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/listMetricAlert.json
  */
-async function listMetricAlertRules() {
+async function listMetricAlertRules(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listMetricAlertRules() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listMetricAlertRules();
 }
 

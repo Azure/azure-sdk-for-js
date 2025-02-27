@@ -7,9 +7,7 @@
  */
 import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to delete a firmware.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary The operation to delete a firmware.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Firmwares_Delete_MaximumSet_Gen.json
  */
-async function firmwaresDeleteMaximumSetGen() {
+async function firmwaresDeleteMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "685C0C6F-9867-4B1C-A534-AA3A05B54BCE";
   const resourceGroupName =
@@ -36,7 +34,7 @@ async function firmwaresDeleteMaximumSetGen() {
  * @summary The operation to delete a firmware.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Firmwares_Delete_MinimumSet_Gen.json
  */
-async function firmwaresDeleteMinimumSetGen() {
+async function firmwaresDeleteMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] || "685C0C6F-9867-4B1C-A534-AA3A05B54BCE";
   const resourceGroupName =
@@ -49,7 +47,7 @@ async function firmwaresDeleteMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await firmwaresDeleteMaximumSetGen();
   await firmwaresDeleteMinimumSetGen();
 }

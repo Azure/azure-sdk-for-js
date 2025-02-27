@@ -8,9 +8,7 @@
 import type { FirewallRule } from "@azure/arm-mysql-flexible";
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new firewall rule or updates an existing firewall rule.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates a new firewall rule or updates an existing firewall rule.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Firewall/preview/2023-06-01-preview/examples/FirewallRuleCreate.json
  */
-async function createAFirewallRule() {
+async function createAFirewallRule(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["MYSQL_RESOURCE_GROUP"] || "TestGroup";
@@ -39,7 +37,7 @@ async function createAFirewallRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createAFirewallRule();
 }
 

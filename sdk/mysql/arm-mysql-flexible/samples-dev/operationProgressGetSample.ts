@@ -7,9 +7,7 @@
  */
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the operation result for a long running operation.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get the operation result for a long running operation.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/OperationProgress_Get_BackupAndExport.json
  */
-async function operationProgressGetBackupAndExport() {
+async function operationProgressGetBackupAndExport(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "westus";
@@ -34,7 +32,7 @@ async function operationProgressGetBackupAndExport() {
  * @summary Get the operation result for a long running operation.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/ServiceOperations/stable/2023-12-30/examples/OperationProgress_Get_ImportFromStorage.json
  */
-async function operationProgressGetImportFromStorage() {
+async function operationProgressGetImportFromStorage(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const locationName = "westus";
@@ -45,7 +43,7 @@ async function operationProgressGetImportFromStorage() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await operationProgressGetBackupAndExport();
   await operationProgressGetImportFromStorage();
 }

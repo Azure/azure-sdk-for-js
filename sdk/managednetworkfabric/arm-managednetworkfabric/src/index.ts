@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { AzureNetworkFabricManagementServiceAPI } from "./azureNetworkFabricManagementServiceAPI";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { AzureNetworkFabricManagementServiceAPI } from "./azureNetworkFabricManagementServiceAPI.js";
+export * from "./operationsInterfaces/index.js";

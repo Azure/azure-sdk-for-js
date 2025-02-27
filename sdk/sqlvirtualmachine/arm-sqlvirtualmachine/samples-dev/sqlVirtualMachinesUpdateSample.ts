@@ -8,9 +8,7 @@
 import type { SqlVirtualMachineUpdate } from "@azure/arm-sqlvirtualmachine";
 import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates a SQL virtual machine.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Updates a SQL virtual machine.
  * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/UpdateSqlVirtualMachine.json
  */
-async function updatesASqlVirtualMachineTags() {
+async function updatesASqlVirtualMachineTags(): Promise<void> {
   const subscriptionId =
     process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
@@ -34,7 +32,7 @@ async function updatesASqlVirtualMachineTags() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await updatesASqlVirtualMachineTags();
 }
 

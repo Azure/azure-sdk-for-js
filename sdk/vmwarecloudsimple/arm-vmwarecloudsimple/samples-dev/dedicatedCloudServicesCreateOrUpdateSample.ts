@@ -8,9 +8,7 @@
 import type { DedicatedCloudService } from "@azure/arm-vmwarecloudsimple";
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create dedicate cloud service
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create dedicate cloud service
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/CreateDedicatedCloudService.json
  */
-async function createDedicatedCloudService() {
+async function createDedicatedCloudService(): Promise<void> {
   const subscriptionId = process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["VMWARECLOUDSIMPLE_RESOURCE_GROUP"] || "myResourceGroup";
   const dedicatedCloudServiceName = "myService";
@@ -36,7 +34,7 @@ async function createDedicatedCloudService() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createDedicatedCloudService();
 }
 

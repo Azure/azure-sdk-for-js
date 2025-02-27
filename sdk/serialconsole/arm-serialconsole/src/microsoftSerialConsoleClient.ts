@@ -14,10 +14,10 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { SerialPortsImpl } from "./operations";
-import { SerialPorts } from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { SerialPortsImpl } from "./operations/index.js";
+import { SerialPorts } from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   MicrosoftSerialConsoleClientOptionalParams,
   ListOperationsOptionalParams,
@@ -28,7 +28,7 @@ import {
   DisableConsoleResponse,
   EnableConsoleOptionalParams,
   EnableConsoleResponse
-} from "./models";
+} from "./models/index.js";
 
 export class MicrosoftSerialConsoleClient extends coreClient.ServiceClient {
   $host: string;

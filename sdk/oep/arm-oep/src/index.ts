@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { OpenEnergyPlatformManagementServiceAPIs } from "./openEnergyPlatformManagementServiceAPIs";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { OpenEnergyPlatformManagementServiceAPIs } from "./openEnergyPlatformManagementServiceAPIs.js";
+export * from "./operationsInterfaces/index.js";

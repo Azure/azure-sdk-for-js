@@ -13,9 +13,7 @@ import {
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerCreate.json
  */
-async function createANewServer() {
+async function createANewServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -65,7 +63,7 @@ async function createANewServer() {
  * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerCreateReplica.json
  */
-async function createAReplicaServer() {
+async function createAReplicaServer(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -96,7 +94,7 @@ async function createAReplicaServer() {
  * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerCreateWithPointInTimeRestore.json
  */
-async function createAServerAsAPointInTimeRestore() {
+async function createAServerAsAPointInTimeRestore(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -131,7 +129,7 @@ async function createAServerAsAPointInTimeRestore() {
  * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/ServerCreateWithBYOK.json
  */
-async function createAServerWithByok() {
+async function createAServerWithByok(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -185,7 +183,7 @@ async function createAServerWithByok() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createANewServer();
   createAReplicaServer();
   createAServerAsAPointInTimeRestore();

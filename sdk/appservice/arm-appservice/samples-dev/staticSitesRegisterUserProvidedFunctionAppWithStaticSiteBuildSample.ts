@@ -17,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Description for Register a user provided function app with a static site build
  *
  * @summary Description for Register a user provided function app with a static site build
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/RegisterUserProvidedFunctionAppWithStaticSiteBuild.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/RegisterUserProvidedFunctionAppWithStaticSiteBuild.json
  */
 async function registerAUserProvidedFunctionAppWithAStaticSiteBuild(): Promise<void> {
   const subscriptionId =

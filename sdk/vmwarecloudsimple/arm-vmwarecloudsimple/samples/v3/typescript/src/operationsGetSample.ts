@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { VMwareCloudSimple } from "@azure/arm-vmwarecloudsimple";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Return an async operation
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Return an async operation
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/GetFailedOperationResult.json
  */
-async function getFailedOperationResult() {
+async function getFailedOperationResult(): Promise<void> {
   const subscriptionId =
     process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const regionId = "westus2";
@@ -38,7 +36,7 @@ async function getFailedOperationResult() {
  * @summary Return an async operation
  * x-ms-original-file: specification/vmwarecloudsimple/resource-manager/Microsoft.VMwareCloudSimple/stable/2019-04-01/examples/GetOperationResult.json
  */
-async function getOperationResult() {
+async function getOperationResult(): Promise<void> {
   const subscriptionId =
     process.env["VMWARECLOUDSIMPLE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const regionId = "westus2";
@@ -50,7 +48,7 @@ async function getOperationResult() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getFailedOperationResult();
   getOperationResult();
 }

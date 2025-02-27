@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a list of all relevant applications over a subscription level scope
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Get a list of all relevant applications over a subscription level scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2022-07-01-preview/examples/Applications/ListBySubscriptionApplications_example.json
  */
-async function listApplicationsSecurityBySubscriptionLevelScope() {
+async function listApplicationsSecurityBySubscriptionLevelScope(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function listApplicationsSecurityBySubscriptionLevelScope() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await listApplicationsSecurityBySubscriptionLevelScope();
 }
 

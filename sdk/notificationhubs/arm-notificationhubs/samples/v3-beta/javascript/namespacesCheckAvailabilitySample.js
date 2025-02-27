@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Checks the availability of the given service namespace across all Azure subscriptions. This is useful because the domain name is created based on the service namespace name.
@@ -31,7 +29,7 @@ async function namespacesCheckAvailability() {
 }
 
 async function main() {
-  namespacesCheckAvailability();
+  await namespacesCheckAvailability();
 }
 
 main().catch(console.error);

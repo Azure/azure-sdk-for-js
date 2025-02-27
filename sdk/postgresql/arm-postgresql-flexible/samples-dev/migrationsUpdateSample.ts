@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Updates an existing migration. The request body can contain one to many of the mutable properties present in the migration definition. Certain property updates initiate migration state transitions.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Cancel.json
  */
-async function cancelMigration() {
+async function cancelMigration(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
@@ -40,7 +40,7 @@ async function cancelMigration() {
  * @summary Updates an existing migration. The request body can contain one to many of the mutable properties present in the migration definition. Certain property updates initiate migration state transitions.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/Migrations_Update.json
  */
-async function migrationsUpdate() {
+async function migrationsUpdate(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
@@ -60,7 +60,7 @@ async function migrationsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await cancelMigration();
   await migrationsUpdate();
 }

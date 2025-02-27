@@ -11,7 +11,7 @@ import {
   CalculateExchangeRequest,
   CalculateExchangePostOptionalParams,
   CalculateExchangePostResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CalculateExchange. */
 export interface CalculateExchange {

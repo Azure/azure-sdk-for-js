@@ -11,7 +11,7 @@ import "dotenv/config";
  * @summary Deletes the specified public IP address.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressDelete.json
  */
-async function deletePublicIPAddress() {
+async function deletePublicIPAddress(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

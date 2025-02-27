@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about an available Service Fabric cluster code version by environment.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets information about an available Service Fabric cluster code version by environment.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ManagedClusterVersionGetByEnvironment_example.json
  */
-async function getClusterVersionByEnvironment() {
+async function getClusterVersionByEnvironment(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -40,7 +38,7 @@ async function getClusterVersionByEnvironment() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getClusterVersionByEnvironment();
 }
 

@@ -49,7 +49,7 @@ import {
   DataConnectorsImpl,
   DataConnectorsCheckRequirementsOperationsImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   AlertRules,
   Actions,
@@ -85,8 +85,8 @@ import {
   DataConnectors,
   DataConnectorsCheckRequirementsOperations,
   Operations
-} from "./operationsInterfaces";
-import { SecurityInsightsOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { SecurityInsightsOptionalParams } from "./models/index.js";
 
 export class SecurityInsights extends coreClient.ServiceClient {
   $host: string;

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete datastore.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Delete datastore.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/delete.json
  */
-async function deleteDatastore() {
+async function deleteDatastore(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -41,7 +39,7 @@ async function deleteDatastore() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteDatastore();
 }
 

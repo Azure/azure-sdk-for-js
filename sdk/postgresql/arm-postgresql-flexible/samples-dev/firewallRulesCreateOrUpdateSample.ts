@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Creates a new firewall rule or updates an existing firewall rule.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/FirewallRuleCreate.json
  */
-async function firewallRuleCreate() {
+async function firewallRuleCreate(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
@@ -37,7 +37,7 @@ async function firewallRuleCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await firewallRuleCreate();
 }
 

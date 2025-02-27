@@ -8,9 +8,7 @@
 import type { ResourceMoveDefinition } from "@azure/arm-sql";
 import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Renames a database.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Renames a database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/RenameDatabase.json
  */
-async function renamesADatabase() {
+async function renamesADatabase(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -38,7 +36,7 @@ async function renamesADatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await renamesADatabase();
 }
 

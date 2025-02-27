@@ -30,7 +30,7 @@ describe("Service Fabric Rest Level Client Test", () => {
   let clusterName: string;
   let applicationTypeName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
@@ -41,11 +41,11 @@ describe("Service Fabric Rest Level Client Test", () => {
     applicationTypeName = "myapplicationtypexxxy";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("clusters create test", async function () {
+  it("clusters create test", async () => {
     const parameters: ClustersCreateOrUpdateParameters = {
       body: {
         location: location,
@@ -106,7 +106,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ClusterOutput).name, clusterName);
   });
 
-  it("applicationTypes create test", async function () {
+  it("applicationTypes create test", async () => {
     const parameters: ApplicationTypesCreateOrUpdateParameters = {
       body: {
         location: location,
@@ -125,7 +125,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ApplicationTypeResourceOutput).name, applicationTypeName);
   });
 
-  it("clusters get test", async function () {
+  it("clusters get test", async () => {
     const result = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
@@ -138,7 +138,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ClusterOutput).name, clusterName);
   });
 
-  it("applicationTypes get test", async function () {
+  it("applicationTypes get test", async () => {
     const result = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}",
@@ -152,7 +152,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ApplicationTypeResourceOutput).name, applicationTypeName);
   });
 
-  it("clusters list test", async function () {
+  it("clusters list test", async () => {
     const result = await client
       .path(
         "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters",
@@ -163,7 +163,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ClusterListResultOutput).value?.length, 1);
   });
 
-  it("applicationTypes list test", async function () {
+  it("applicationTypes list test", async () => {
     const result = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes",
@@ -240,7 +240,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ClusterOutput).properties?.upgradeMode, "Automatic");
   });
 
-  it("applicationTypes delete test", async function () {
+  it("applicationTypes delete test", async () => {
     const initialResponse = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}",
@@ -266,7 +266,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ApplicationTypeResourceListOutput).value?.length, 0);
   });
 
-  it("clusters delete test", async function () {
+  it("clusters delete test", async () => {
     const deleteResult = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",

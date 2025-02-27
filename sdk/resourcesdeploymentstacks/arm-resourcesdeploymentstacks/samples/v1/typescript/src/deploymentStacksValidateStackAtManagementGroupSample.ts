@@ -13,9 +13,7 @@ import {
   DeploymentStacksClient,
 } from "@azure/arm-resourcesdeploymentstacks";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Runs preflight validation on the Management Group scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Runs preflight validation on the Management Group scoped Deployment stack template to verify its acceptance to Azure Resource Manager.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2024-03-01/examples/DeploymentStackManagementGroupValidate.json
  */
-async function deploymentStacksManagementGroupValidate() {
+async function deploymentStacksManagementGroupValidate(): Promise<void> {
   const managementGroupId = "myMg";
   const deploymentStackName = "simpleDeploymentStack";
   const deploymentStack: DeploymentStack = {
@@ -56,7 +54,7 @@ async function deploymentStacksManagementGroupValidate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   deploymentStacksManagementGroupValidate();
 }
 

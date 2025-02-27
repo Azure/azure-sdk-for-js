@@ -5,7 +5,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
@@ -27,12 +28,12 @@ describe("containerorchestratorruntime test", () => {
     client = new KubernetesRuntimeClient(credential, recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
-  it("operations list test", async function () {
+  it("operations list test", async () => {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (const item of client.operations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IPGeodataGetOptionalParams, IPGeodataGetResponse } from "../models";
+import { IPGeodataGetOptionalParams, IPGeodataGetResponse } from "../models/index.js";
 
 /** Interface representing a IPGeodata. */
 export interface IPGeodata {

@@ -18,13 +18,13 @@ import {
   PrivateZonesImpl,
   VirtualNetworkLinksImpl,
   RecordSetsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   PrivateZones,
   VirtualNetworkLinks,
   RecordSets,
-} from "./operationsInterfaces";
-import { PrivateDnsManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { PrivateDnsManagementClientOptionalParams } from "./models/index.js";
 
 export class PrivateDnsManagementClient extends coreClient.ServiceClient {
   $host: string;

@@ -23,8 +23,8 @@ import {
   DeploymentOperationsGetAtSubscriptionScopeOptionalParams,
   DeploymentOperationsGetAtSubscriptionScopeResponse,
   DeploymentOperationsGetOptionalParams,
-  DeploymentOperationsGetResponse
-} from "../models";
+  DeploymentOperationsGetResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DeploymentOperations. */
@@ -38,7 +38,7 @@ export interface DeploymentOperations {
   listAtScope(
     scope: string,
     deploymentName: string,
-    options?: DeploymentOperationsListAtScopeOptionalParams
+    options?: DeploymentOperationsListAtScopeOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentOperation>;
   /**
    * Gets all deployments operations for a deployment.
@@ -47,7 +47,7 @@ export interface DeploymentOperations {
    */
   listAtTenantScope(
     deploymentName: string,
-    options?: DeploymentOperationsListAtTenantScopeOptionalParams
+    options?: DeploymentOperationsListAtTenantScopeOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentOperation>;
   /**
    * Gets all deployments operations for a deployment.
@@ -58,7 +58,7 @@ export interface DeploymentOperations {
   listAtManagementGroupScope(
     groupId: string,
     deploymentName: string,
-    options?: DeploymentOperationsListAtManagementGroupScopeOptionalParams
+    options?: DeploymentOperationsListAtManagementGroupScopeOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentOperation>;
   /**
    * Gets all deployments operations for a deployment.
@@ -67,7 +67,7 @@ export interface DeploymentOperations {
    */
   listAtSubscriptionScope(
     deploymentName: string,
-    options?: DeploymentOperationsListAtSubscriptionScopeOptionalParams
+    options?: DeploymentOperationsListAtSubscriptionScopeOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentOperation>;
   /**
    * Gets all deployments operations for a deployment.
@@ -78,7 +78,7 @@ export interface DeploymentOperations {
   list(
     resourceGroupName: string,
     deploymentName: string,
-    options?: DeploymentOperationsListOptionalParams
+    options?: DeploymentOperationsListOptionalParams,
   ): PagedAsyncIterableIterator<DeploymentOperation>;
   /**
    * Gets a deployments operation.
@@ -91,7 +91,7 @@ export interface DeploymentOperations {
     scope: string,
     deploymentName: string,
     operationId: string,
-    options?: DeploymentOperationsGetAtScopeOptionalParams
+    options?: DeploymentOperationsGetAtScopeOptionalParams,
   ): Promise<DeploymentOperationsGetAtScopeResponse>;
   /**
    * Gets a deployments operation.
@@ -102,7 +102,7 @@ export interface DeploymentOperations {
   getAtTenantScope(
     deploymentName: string,
     operationId: string,
-    options?: DeploymentOperationsGetAtTenantScopeOptionalParams
+    options?: DeploymentOperationsGetAtTenantScopeOptionalParams,
   ): Promise<DeploymentOperationsGetAtTenantScopeResponse>;
   /**
    * Gets a deployments operation.
@@ -115,7 +115,7 @@ export interface DeploymentOperations {
     groupId: string,
     deploymentName: string,
     operationId: string,
-    options?: DeploymentOperationsGetAtManagementGroupScopeOptionalParams
+    options?: DeploymentOperationsGetAtManagementGroupScopeOptionalParams,
   ): Promise<DeploymentOperationsGetAtManagementGroupScopeResponse>;
   /**
    * Gets a deployments operation.
@@ -126,7 +126,7 @@ export interface DeploymentOperations {
   getAtSubscriptionScope(
     deploymentName: string,
     operationId: string,
-    options?: DeploymentOperationsGetAtSubscriptionScopeOptionalParams
+    options?: DeploymentOperationsGetAtSubscriptionScopeOptionalParams,
   ): Promise<DeploymentOperationsGetAtSubscriptionScopeResponse>;
   /**
    * Gets a deployments operation.
@@ -139,6 +139,6 @@ export interface DeploymentOperations {
     resourceGroupName: string,
     deploymentName: string,
     operationId: string,
-    options?: DeploymentOperationsGetOptionalParams
+    options?: DeploymentOperationsGetOptionalParams,
   ): Promise<DeploymentOperationsGetResponse>;
 }

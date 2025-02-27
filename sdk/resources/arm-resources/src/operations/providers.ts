@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Providers } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Providers } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ResourceManagementClient } from "../resourceManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ResourceManagementClient } from "../resourceManagementClient.js";
 import {
   Provider,
   ProvidersListNextOptionalParams,
@@ -33,8 +33,8 @@ import {
   ProvidersGetAtTenantScopeOptionalParams,
   ProvidersGetAtTenantScopeResponse,
   ProvidersListNextResponse,
-  ProvidersListAtTenantScopeNextResponse
-} from "../models";
+  ProvidersListAtTenantScopeNextResponse,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Providers operations. */
@@ -54,7 +54,7 @@ export class ProvidersImpl implements Providers {
    * @param options The options parameters.
    */
   public list(
-    options?: ProvidersListOptionalParams
+    options?: ProvidersListOptionalParams,
   ): PagedAsyncIterableIterator<Provider> {
     const iter = this.listPagingAll(options);
     return {
@@ -69,13 +69,13 @@ export class ProvidersImpl implements Providers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ProvidersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Provider[]> {
     let result: ProvidersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +96,7 @@ export class ProvidersImpl implements Providers {
   }
 
   private async *listPagingAll(
-    options?: ProvidersListOptionalParams
+    options?: ProvidersListOptionalParams,
   ): AsyncIterableIterator<Provider> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -108,7 +108,7 @@ export class ProvidersImpl implements Providers {
    * @param options The options parameters.
    */
   public listAtTenantScope(
-    options?: ProvidersListAtTenantScopeOptionalParams
+    options?: ProvidersListAtTenantScopeOptionalParams,
   ): PagedAsyncIterableIterator<Provider> {
     const iter = this.listAtTenantScopePagingAll(options);
     return {
@@ -123,13 +123,13 @@ export class ProvidersImpl implements Providers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAtTenantScopePagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAtTenantScopePagingPage(
     options?: ProvidersListAtTenantScopeOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Provider[]> {
     let result: ProvidersListAtTenantScopeResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +150,7 @@ export class ProvidersImpl implements Providers {
   }
 
   private async *listAtTenantScopePagingAll(
-    options?: ProvidersListAtTenantScopeOptionalParams
+    options?: ProvidersListAtTenantScopeOptionalParams,
   ): AsyncIterableIterator<Provider> {
     for await (const page of this.listAtTenantScopePagingPage(options)) {
       yield* page;
@@ -164,16 +164,19 @@ export class ProvidersImpl implements Providers {
    */
   unregister(
     resourceProviderNamespace: string,
-    options?: ProvidersUnregisterOptionalParams
+    options?: ProvidersUnregisterOptionalParams,
   ): Promise<ProvidersUnregisterResponse> {
     return this.client.sendOperationRequest(
       { resourceProviderNamespace, options },
-      unregisterOperationSpec
+      unregisterOperationSpec,
     );
   }
 
   /**
-   * Registers a management group with a resource provider.
+   * Registers a management group with a resource provider. Use this operation to register a resource
+   * provider with resource types that can be deployed at the management group scope. It does not
+   * recursively register subscriptions within the management group. Instead, you must register
+   * subscriptions individually.
    * @param resourceProviderNamespace The namespace of the resource provider to register.
    * @param groupId The management group ID.
    * @param options The options parameters.
@@ -181,11 +184,11 @@ export class ProvidersImpl implements Providers {
   registerAtManagementGroupScope(
     resourceProviderNamespace: string,
     groupId: string,
-    options?: ProvidersRegisterAtManagementGroupScopeOptionalParams
+    options?: ProvidersRegisterAtManagementGroupScopeOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceProviderNamespace, groupId, options },
-      registerAtManagementGroupScopeOperationSpec
+      registerAtManagementGroupScopeOperationSpec,
     );
   }
 
@@ -196,11 +199,11 @@ export class ProvidersImpl implements Providers {
    */
   providerPermissions(
     resourceProviderNamespace: string,
-    options?: ProvidersProviderPermissionsOptionalParams
+    options?: ProvidersProviderPermissionsOptionalParams,
   ): Promise<ProvidersProviderPermissionsResponse> {
     return this.client.sendOperationRequest(
       { resourceProviderNamespace, options },
-      providerPermissionsOperationSpec
+      providerPermissionsOperationSpec,
     );
   }
 
@@ -211,11 +214,11 @@ export class ProvidersImpl implements Providers {
    */
   register(
     resourceProviderNamespace: string,
-    options?: ProvidersRegisterOptionalParams
+    options?: ProvidersRegisterOptionalParams,
   ): Promise<ProvidersRegisterResponse> {
     return this.client.sendOperationRequest(
       { resourceProviderNamespace, options },
-      registerOperationSpec
+      registerOperationSpec,
     );
   }
 
@@ -224,7 +227,7 @@ export class ProvidersImpl implements Providers {
    * @param options The options parameters.
    */
   private _list(
-    options?: ProvidersListOptionalParams
+    options?: ProvidersListOptionalParams,
   ): Promise<ProvidersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -234,11 +237,11 @@ export class ProvidersImpl implements Providers {
    * @param options The options parameters.
    */
   private _listAtTenantScope(
-    options?: ProvidersListAtTenantScopeOptionalParams
+    options?: ProvidersListAtTenantScopeOptionalParams,
   ): Promise<ProvidersListAtTenantScopeResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listAtTenantScopeOperationSpec
+      listAtTenantScopeOperationSpec,
     );
   }
 
@@ -249,11 +252,11 @@ export class ProvidersImpl implements Providers {
    */
   get(
     resourceProviderNamespace: string,
-    options?: ProvidersGetOptionalParams
+    options?: ProvidersGetOptionalParams,
   ): Promise<ProvidersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceProviderNamespace, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -264,11 +267,11 @@ export class ProvidersImpl implements Providers {
    */
   getAtTenantScope(
     resourceProviderNamespace: string,
-    options?: ProvidersGetAtTenantScopeOptionalParams
+    options?: ProvidersGetAtTenantScopeOptionalParams,
   ): Promise<ProvidersGetAtTenantScopeResponse> {
     return this.client.sendOperationRequest(
       { resourceProviderNamespace, options },
-      getAtTenantScopeOperationSpec
+      getAtTenantScopeOperationSpec,
     );
   }
 
@@ -279,11 +282,11 @@ export class ProvidersImpl implements Providers {
    */
   private _listNext(
     nextLink: string,
-    options?: ProvidersListNextOptionalParams
+    options?: ProvidersListNextOptionalParams,
   ): Promise<ProvidersListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -294,11 +297,11 @@ export class ProvidersImpl implements Providers {
    */
   private _listAtTenantScopeNext(
     nextLink: string,
-    options?: ProvidersListAtTenantScopeNextOptionalParams
+    options?: ProvidersListAtTenantScopeNextOptionalParams,
   ): Promise<ProvidersListAtTenantScopeNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAtTenantScopeNextOperationSpec
+      listAtTenantScopeNextOperationSpec,
     );
   }
 }
@@ -306,188 +309,184 @@ export class ProvidersImpl implements Providers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const unregisterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/unregister",
+  path: "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/unregister",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Provider
+      bodyMapper: Mappers.Provider,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceProviderNamespace
+    Parameters.resourceProviderNamespace,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const registerAtManagementGroupScopeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Management/managementGroups/{groupId}/providers/{resourceProviderNamespace}/register",
+  path: "/providers/Microsoft.Management/managementGroups/{groupId}/providers/{resourceProviderNamespace}/register",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.groupId,
-    Parameters.resourceProviderNamespace
+    Parameters.resourceProviderNamespace,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const providerPermissionsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/providerPermissions",
+  path: "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/providerPermissions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderPermissionListResult
+      bodyMapper: Mappers.ProviderPermissionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceProviderNamespace
+    Parameters.resourceProviderNamespace,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const registerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/register",
+  path: "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/register",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Provider
+      bodyMapper: Mappers.Provider,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceProviderNamespace
+    Parameters.resourceProviderNamespace,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderListResult
+      bodyMapper: Mappers.ProviderListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAtTenantScopeOperationSpec: coreClient.OperationSpec = {
   path: "/providers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderListResult
+      bodyMapper: Mappers.ProviderListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Provider
+      bodyMapper: Mappers.Provider,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceProviderNamespace
+    Parameters.resourceProviderNamespace,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getAtTenantScopeOperationSpec: coreClient.OperationSpec = {
   path: "/providers/{resourceProviderNamespace}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Provider
+      bodyMapper: Mappers.Provider,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.resourceProviderNamespace],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderListResult
+      bodyMapper: Mappers.ProviderListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAtTenantScopeNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProviderListResult
+      bodyMapper: Mappers.ProviderListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

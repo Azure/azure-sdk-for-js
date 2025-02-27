@@ -19,7 +19,7 @@ import {
   PatchableDashboard,
   DashboardsUpdateOptionalParams,
   DashboardsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Dashboards. */

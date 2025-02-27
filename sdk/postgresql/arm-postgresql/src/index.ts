@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { PostgreSQLManagementClient } from "./postgreSQLManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { PostgreSQLManagementClient } from "./postgreSQLManagementClient.js";
+export * from "./operationsInterfaces/index.js";

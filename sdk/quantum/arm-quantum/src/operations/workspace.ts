@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Workspace } from "../operationsInterfaces";
+import { Workspace } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureQuantumManagementClient } from "../azureQuantumManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureQuantumManagementClient } from "../azureQuantumManagementClient.js";
 import {
   CheckNameAvailabilityParameters,
   WorkspaceCheckNameAvailabilityOptionalParams,
@@ -19,7 +19,7 @@ import {
   WorkspaceListKeysResponse,
   APIKeys,
   WorkspaceRegenerateKeysOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Workspace operations. */
 export class WorkspaceImpl implements Workspace {

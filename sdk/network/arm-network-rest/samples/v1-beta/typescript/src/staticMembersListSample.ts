@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Lists the specified static member.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerStaticMemberList.json
  */
-async function staticMembersList() {
+async function staticMembersList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

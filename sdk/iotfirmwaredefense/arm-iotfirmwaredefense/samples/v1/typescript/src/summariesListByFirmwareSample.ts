@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { IoTFirmwareDefenseClient } from "@azure/arm-iotfirmwaredefense";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists analysis result summary names of a firmware. To fetch the full summary data, get that summary by name.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists analysis result summary names of a firmware. To fetch the full summary data, get that summary by name.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Summaries_ListByFirmware_MaximumSet_Gen.json
  */
-async function summariesListByFirmwareMaximumSetGen() {
+async function summariesListByFirmwareMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function summariesListByFirmwareMaximumSetGen() {
  * @summary Lists analysis result summary names of a firmware. To fetch the full summary data, get that summary by name.
  * x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Summaries_ListByFirmware_MinimumSet_Gen.json
  */
-async function summariesListByFirmwareMinimumSetGen() {
+async function summariesListByFirmwareMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["IOTFIRMWAREDEFENSE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -68,7 +66,7 @@ async function summariesListByFirmwareMinimumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   summariesListByFirmwareMaximumSetGen();
   summariesListByFirmwareMinimumSetGen();
 }

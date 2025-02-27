@@ -13,9 +13,7 @@ import {
   SecurityInsights
 } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Query threat intelligence indicators as per filtering criteria.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Query threat intelligence indicators as per filtering criteria.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/threatintelligence/QueryThreatIntelligence.json
  */
-async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria() {
+async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "bd794837-4d29-4647-9105-6339bfdb4e6a";
@@ -52,7 +50,7 @@ async function queryThreatIntelligenceIndicatorsAsPerFilteringCriteria() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   queryThreatIntelligenceIndicatorsAsPerFilteringCriteria();
 }
 

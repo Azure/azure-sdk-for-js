@@ -8,9 +8,7 @@
 import type { Application } from "@azure/arm-managedapplications";
 import { ApplicationClient } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a managed application.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Creates or updates a managed application.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/createOrUpdateApplication.json
  */
-async function createOrUpdateManagedApplication() {
+async function createOrUpdateManagedApplication(): Promise<void> {
   const subscriptionId = process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["MANAGEDAPPLICATIONS_RESOURCE_GROUP"] || "rg";
   const applicationName = "myManagedApplication";
@@ -38,7 +36,7 @@ async function createOrUpdateManagedApplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateManagedApplication();
 }
 

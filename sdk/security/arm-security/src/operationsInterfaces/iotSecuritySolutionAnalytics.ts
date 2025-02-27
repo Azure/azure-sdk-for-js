@@ -11,7 +11,7 @@ import {
   IotSecuritySolutionAnalyticsListResponse,
   IotSecuritySolutionAnalyticsGetOptionalParams,
   IotSecuritySolutionAnalyticsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IotSecuritySolutionAnalytics. */
 export interface IotSecuritySolutionAnalytics {

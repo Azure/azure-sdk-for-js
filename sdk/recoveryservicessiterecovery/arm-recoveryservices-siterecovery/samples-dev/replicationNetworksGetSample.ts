@@ -7,9 +7,7 @@
  */
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the details of a network.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the details of a network.
  * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworks_Get.json
  */
-async function getsANetworkWithSpecifiedServerIdAndNetworkName() {
+async function getsANetworkWithSpecifiedServerIdAndNetworkName(): Promise<void> {
   const subscriptionId =
     process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
     "9112a37f-0f3e-46ec-9c00-060c6edca071";
@@ -37,7 +35,7 @@ async function getsANetworkWithSpecifiedServerIdAndNetworkName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getsANetworkWithSpecifiedServerIdAndNetworkName();
 }
 

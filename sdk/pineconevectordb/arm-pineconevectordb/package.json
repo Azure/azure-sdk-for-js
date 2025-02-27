@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-pineconevectordb",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A generated SDK for VectorDbClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -74,7 +74,6 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.6.0",
-    "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.3",
     "@vitest/coverage-istanbul": "^3.0.3",

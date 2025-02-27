@@ -8,9 +8,7 @@
 import type { SecurityAssessmentMetadataResponse } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create metadata information on an assessment type in a specific subscription
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create metadata information on an assessment type in a specific subscription
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-06-01/examples/AssessmentsMetadata/CreateAssessmentsMetadata_subscription_example.json
  */
-async function createSecurityAssessmentMetadataForSubscription() {
+async function createSecurityAssessmentMetadataForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "0980887d-03d6-408c-9566-532f3456804e";
   const assessmentMetadataName = "ca039e75-a276-4175-aebc-bcd41e4b14b7";
@@ -44,7 +42,7 @@ async function createSecurityAssessmentMetadataForSubscription() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createSecurityAssessmentMetadataForSubscription();
 }
 

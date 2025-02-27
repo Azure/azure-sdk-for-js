@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureNetworkFabricManagementServiceAPI } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the Network Device resources in a given subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all the Network Device resources in a given subscription.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/NetworkDevices_ListBySubscription_MaximumSet_Gen.json
  */
-async function networkDevicesListBySubscriptionMaximumSetGen() {
+async function networkDevicesListBySubscriptionMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] ||
     "1234ABCD-0A1B-1234-5678-123456ABCDEF";
@@ -36,7 +34,7 @@ async function networkDevicesListBySubscriptionMaximumSetGen() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkDevicesListBySubscriptionMaximumSetGen();
 }
 

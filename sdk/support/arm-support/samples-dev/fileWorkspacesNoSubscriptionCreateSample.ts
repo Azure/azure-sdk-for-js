@@ -7,9 +7,7 @@
  */
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a new file workspace.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Creates a new file workspace.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/CreateFileWorkspace.json
  */
-async function createAFileWorkspace() {
+async function createAFileWorkspace(): Promise<void> {
   const fileWorkspaceName = "testworkspace";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
@@ -25,7 +23,7 @@ async function createAFileWorkspace() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createAFileWorkspace();
 }
 

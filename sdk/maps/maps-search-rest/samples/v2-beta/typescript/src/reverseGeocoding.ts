@@ -3,9 +3,7 @@
 
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * @summary This sample demonstrates how to reverse a geocode to an address.
