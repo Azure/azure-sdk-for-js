@@ -6,19 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Delete the NGINX deployment resource
+ * This sample demonstrates how to List all API Keys of the given Nginx deployment
  *
- * @summary Delete the NGINX deployment resource
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2023-04-01/examples/Deployments_Delete.json
+ * @summary List all API Keys of the given Nginx deployment
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_List.json
  */
-async function deploymentsDelete(): Promise<void> {
+async function apiKeysList(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -27,15 +25,18 @@ async function deploymentsDelete(): Promise<void> {
   const deploymentName = "myDeployment";
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
-  const result = await client.deployments.beginDeleteAndWait(
+  const resArray = new Array();
+  for await (let item of client.apiKeys.list(
     resourceGroupName,
-    deploymentName
-  );
-  console.log(result);
+    deploymentName,
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  deploymentsDelete();
+  await apiKeysList();
 }
 
 main().catch(console.error);

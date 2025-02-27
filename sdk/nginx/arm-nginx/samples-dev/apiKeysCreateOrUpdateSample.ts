@@ -6,38 +6,36 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Get a certificate of given NGINX deployment
+ * This sample demonstrates how to Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
  *
- * @summary Get a certificate of given NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2023-04-01/examples/Certificates_Get.json
+ * @summary Create or update an API Key for the Nginx deployment in order to access the dataplane API endpoint
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_CreateOrUpdate.json
  */
-async function certificatesGet(): Promise<void> {
+async function apiKeysCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
-  const certificateName = "default";
+  const apiKeyName = "myApiKey";
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
-  const result = await client.certificates.get(
+  const result = await client.apiKeys.createOrUpdate(
     resourceGroupName,
     deploymentName,
-    certificateName
+    apiKeyName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  certificatesGet();
+  await apiKeysCreateOrUpdate();
 }
 
 main().catch(console.error);

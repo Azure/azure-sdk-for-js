@@ -21,8 +21,7 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic",
-    "cloud"
+    "isomorphic"
   ],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
@@ -33,17 +32,20 @@
     "@azure-tools/test-recorder": "^4.1.0",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^4.6.0",
     "@azure/logger": "^1.1.4",
+    "@azure/identity": "^4.7.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^3.0.5",
-    "@vitest/coverage-istanbul": "^3.0.5",
+    "@vitest/browser": "^3.0.6",
+    "@vitest/coverage-istanbul": "^3.0.6",
     "dotenv": "^16.0.0",
     "playwright": "^1.50.1",
-    "typescript": "~5.7.2",
-    "vitest": "^3.0.5"
+    "typescript": "~5.6.2",
+    "vitest": "^3.0.6"
   },
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

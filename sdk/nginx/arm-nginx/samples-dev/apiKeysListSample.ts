@@ -6,38 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { NginxManagementClient } from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
 /**
- * This sample demonstrates how to Deletes a certificate from the NGINX deployment
+ * This sample demonstrates how to List all API Keys of the given Nginx deployment
  *
- * @summary Deletes a certificate from the NGINX deployment
- * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/stable/2023-04-01/examples/Certificates_Delete.json
+ * @summary List all API Keys of the given Nginx deployment
+ * x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_List.json
  */
-async function certificatesDelete(): Promise<void> {
+async function apiKeysList(): Promise<void> {
   const subscriptionId =
     process.env["NGINX_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
-  const certificateName = "default";
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
-  const result = await client.certificates.beginDeleteAndWait(
+  const resArray = new Array();
+  for await (let item of client.apiKeys.list(
     resourceGroupName,
     deploymentName,
-    certificateName
-  );
-  console.log(result);
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  certificatesDelete();
+  await apiKeysList();
 }
 
 main().catch(console.error);
