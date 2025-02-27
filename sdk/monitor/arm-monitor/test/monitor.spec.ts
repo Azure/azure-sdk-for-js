@@ -283,7 +283,7 @@ describe("Monitor test", () => {
 
   it("logProfiles list test", async () => {
     const resArray = new Array();
-    for await (let item of client.logProfiles.list()) {
+    for await (const item of client.logProfiles.list()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -306,7 +306,7 @@ describe("Monitor test", () => {
 
   it("workspace list test", async () => {
     const resArray = new Array();
-    for await (let item of client.azureMonitorWorkspaces.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.azureMonitorWorkspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -315,7 +315,7 @@ describe("Monitor test", () => {
   it("workspace delete test", async () => {
     const resArray = new Array();
     await client.azureMonitorWorkspaces.beginDeleteAndWait(resourceGroup, azureMonitorWorkspaceName);
-    for await (let item of client.azureMonitorWorkspaces.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.azureMonitorWorkspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
@@ -349,7 +349,7 @@ describe("Monitor test", () => {
   it("logProfiles delete test", async () => {
     await client.logProfiles.delete(logProfileName);
     const resArray = new Array();
-    for await (let item of client.logProfiles.list()) {
+    for await (const item of client.logProfiles.list()) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);  //still exist sample logfile
