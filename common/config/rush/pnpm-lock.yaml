@@ -2558,7 +2558,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-text-analytics@file:projects/ai-text-analytics.tgz':
-    resolution: {integrity: sha512-1jGgJPXpBnqpTnDegMjesgQibCkWWP+sIHe9EH3z+SW5Z3EJ53VljlaafiWwNz+9z+8a+P0lnsC0J07hwnVINQ==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-gkyef86U6fABbjY5iPYkRyjDu+KvYLoGMbZRQ+N6rTvDM8pE8XxZ8ll54rRk0lxqMAO3wHBhuFfAuNgDhhTluw==, tarball: file:projects/ai-text-analytics.tgz}
     version: 0.0.0
 
   '@rush-temp/ai-translation-document@file:projects/ai-translation-document.tgz':
@@ -2574,7 +2574,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/ai-vision-image-analysis@file:projects/ai-vision-image-analysis.tgz':
-    resolution: {integrity: sha512-C7u702obHICqMaeFPSXIZNsmxVX/WH2izXwXmCdVVepetjRgFaqEHqT5qPYSHJkfKOO+0rPPbfF2DfefCiD4hg==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    resolution: {integrity: sha512-818aPAYE2nBY0rMl1Qj2o9QkGi8NiK2N5SzZ1ByScuEO/y7yBpjwKOA/+6oIrOwEhszzTAal9HUB47rFZ1OWpA==, tarball: file:projects/ai-vision-image-analysis.tgz}
     version: 0.0.0
 
   '@rush-temp/api-management-custom-widgets-scaffolder@file:projects/api-management-custom-widgets-scaffolder.tgz':
@@ -2786,11 +2786,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-containerregistry@file:projects/arm-containerregistry.tgz':
-    resolution: {integrity: sha512-7quK6b+ahtmfuADOaiKoo+RKZkLl9ePSqMKrCb6H2R4RE1YFfj9scUsD4JF8wYxBkG8agzgPg32EtcD7fRlyFQ==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-4Zdv4QnGOh91Dl7bpuu5mZQSZq5yd706p323rJ4FRmCP/eYeCPO73zKMmZ/dy+LXR+Jyko0pVz/m8Gk9s6lYEA==, tarball: file:projects/arm-containerregistry.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice-1@file:projects/arm-containerservice-1.tgz':
-    resolution: {integrity: sha512-3lTnhOIkXo566mFG1Hr9eBW5ptLClRN5W9PEml+yOI6/Z83/C+wNoVE3VZJ3L0To2q85wP5k0u5taurTGWIJ4w==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-+YaxjagnIDZ0i6eppousHV69r9ess4dAQqvm9z+W49bZxAdxbtxSKNQsg0ugY5pCp8mQyfLfeurQtlfPwRtnMA==, tarball: file:projects/arm-containerservice-1.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-containerservice@file:projects/arm-containerservice.tgz':
@@ -3202,7 +3202,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-netapp@file:projects/arm-netapp.tgz':
-    resolution: {integrity: sha512-VssJen0QUPIgME5nHkHkuhDMZN1XIlsOt6nl/m+RwoHsaHMqH9MukCrmds5WOrVncvEKxPS5Nfb4Ke2xcsUKFw==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-U9XGKtb3RuqnF9rAU8XeHTQONFK5GDQ3lmUhstyjxHbLM5kEA7LsLs5mjyv7j3lJOwRlwyioRJuJYaNRhSUDRA==, tarball: file:projects/arm-netapp.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-network-1@file:projects/arm-network-1.tgz':
@@ -3482,7 +3482,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-storage@file:projects/arm-storage.tgz':
-    resolution: {integrity: sha512-f7cvMajOmje52oArIw8e3SbxYz4MrArhvAsXBkp52pXhEyp53YlA2FHEdsXfRGYZ8FWkgdzjnr7MDcgwf+PvbA==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-u6zVKzsvKeAmSqPeR1cBmh9YoG+XZrHikZz3Cl4Af6x4wkK7fzA0z9gFg+AECNxAnKQEJRfMfmAz0Kjmou+JGg==, tarball: file:projects/arm-storage.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-storageactions@file:projects/arm-storageactions.tgz':
@@ -3766,7 +3766,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/functions-authentication-events@file:projects/functions-authentication-events.tgz':
-    resolution: {integrity: sha512-3z+Wn2tFhy1O3WnYtoshPxE8VZmpkx/LCJCQsP1kqYPotgzBWU92XQ1vVex4akjvDMaDiqL5sbs5kfmmDT7LBQ==, tarball: file:projects/functions-authentication-events.tgz}
+    resolution: {integrity: sha512-SancGMuk0aVOLc2LqvEqXKdkohnaud5TIHxy1D5x/AWaDlA88RCsdWfMwAutVVz972Dpf0v5w88w3pqsTiCAMw==, tarball: file:projects/functions-authentication-events.tgz}
     version: 0.0.0
 
   '@rush-temp/health-deidentification@file:projects/health-deidentification.tgz':
@@ -4022,19 +4022,19 @@ packages:
     version: 0.0.0
 
   '@rush-temp/quantum-jobs@file:projects/quantum-jobs.tgz':
-    resolution: {integrity: sha512-zHtPe9OjzXX4THRvBVecPTzBM/VsSsjguLMgSQYk0Uy4Ll4myk/LoUpZZwc9nIblkPCiePJh8270MZO5H6KOOA==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-x6bNUk9vu8zvYVXAVFfol08i1y10LkjNUzJZWK5219WTOFHX0YkDjmZk7ZOEOoqBl9lA+/iBWSEu5ejYUQbYAw==, tarball: file:projects/quantum-jobs.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-avro@file:projects/schema-registry-avro.tgz':
-    resolution: {integrity: sha512-pXsOSqgPhJlk4sQdIe5htRBCNPm4HnaZFgtcoEq1wFBJ2rQ/2sVV9YssxvsHBZwjcl+68iRpRMzfHq0xXN7pyg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-hdHZ0SJ7TRPDoof/ywC1v5P5T4Qtz6npoA4P2yFaNlhXIHEbmpxSS8bdk9t9oBOe5+wTx1Syz1CWbPNhpoGjdQ==, tarball: file:projects/schema-registry-avro.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry-json@file:projects/schema-registry-json.tgz':
-    resolution: {integrity: sha512-ZwFbFtIFKLrC3h+7A7Ct8dPokgFmUaCKXsxIIFETiJCMcoBGxAvvAmP59/E5S8l4AgeE7RcQuw4FdN/ySLbwBg==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-d/3GcklBP2GOnxwkWrBmQJrpJsEOTZzK7cqlzXavChVF2HfOy/a+DpNfF8APLp43f7PVpXeqkToFHXSkdEG9bg==, tarball: file:projects/schema-registry-json.tgz}
     version: 0.0.0
 
   '@rush-temp/schema-registry@file:projects/schema-registry.tgz':
-    resolution: {integrity: sha512-N8FsEoIwUNgbuQGPFtJ90JTn7qYPpk2HD7AmhgGD5SlLS6Im9t8cc+/5A74nzrSKdPiko7p8Ht2LWSGzI6WWxw==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-oI5hZC61oj/rnBpFxm7PdT9EefXIWFNZF5wQfFOjKL75XUP4TXpr7cRU5G/jLYM7CDYOrQVPgrRZN0iuNFy0VQ==, tarball: file:projects/schema-registry.tgz}
     version: 0.0.0
 
   '@rush-temp/search-documents@file:projects/search-documents.tgz':
@@ -18215,12 +18215,12 @@ snapshots:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.76
-      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
       playwright: 1.50.1
       tslib: 2.8.1
-      typescript: 5.7.3
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
