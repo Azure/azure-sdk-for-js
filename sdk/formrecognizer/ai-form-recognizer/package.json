@@ -46,7 +46,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "build": "npm run clean && dev-tool run build-package && npm run bundle:bin && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
     "build:test": "echo Obsolete.",
     "bundle:bin": "rollup -c rollup.config.bin.mjs 2>&1",
