@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 11.0.0-beta.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 11.0.0-beta.4 (2025-02-14)
 Compared with version 10.1.0
     
