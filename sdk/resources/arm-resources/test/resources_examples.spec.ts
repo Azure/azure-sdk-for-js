@@ -76,7 +76,7 @@ describe("Resources test", () => {
 
   it("resourceGroups list test", async () => {
     const resArray = new Array();
-    for await (let item of client.resourceGroups.list()) {
+    for await (const item of client.resourceGroups.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
@@ -104,16 +104,38 @@ describe("Resources test", () => {
 
   it("tagsOperations list test", async () => {
     const resArray = new Array();
-    for await (let item of client.tagsOperations.list()) {
+    for await (const item of client.tagsOperations.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
 
+
+  it("tagsOperations update test", async () => {
+    const res = await client.tagsOperations.beginUpdateAtScopeAndWait(scope, {
+      operation: "Delete",
+      properties: {
+        tags: {
+          tagkey1: "tagvalue1",
+        },
+      },
+    });
+    assert.equal(res.type, "Microsoft.Resources/tags");
+  });
+
+  it("tagsOperations delete test", async () => {
+    const resArray = new Array();
+    await client.tagsOperations.beginDeleteAtScopeAndWait(scope);
+    for await (const item of client.tagsOperations.list()) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 44);
+  });
+
   it("resourceGroups delete test", async () => {
     const resArray = new Array();
     await client.resourceGroups.beginDeleteAndWait(resourceGroup, testPollingOptions);
-    for await (let item of client.resourceGroups.list()) {
+    for await (const item of client.resourceGroups.list()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
