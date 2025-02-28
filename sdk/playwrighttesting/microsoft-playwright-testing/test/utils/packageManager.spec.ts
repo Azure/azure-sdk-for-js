@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { expect } from "@azure-tools/test-utils";
 import sinon from "sinon";
 import { getPackageManager } from "../../src/utils/packageManager";
