@@ -29,7 +29,7 @@ pr:
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: sdk/impactreporting
+    ServiceDirectory: impactreporting
     Artifacts:
       - name: azure-arm-impactreporting
         safeName: azurearmimpactreporting
