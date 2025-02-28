@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `skipFinalGet` option to skip the final GET request when polling is complete, optimizing scenarios where the final resource state is not needed.
+
 ### Breaking Changes
 
 ### Bugs Fixed
