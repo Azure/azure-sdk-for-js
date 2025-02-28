@@ -21,7 +21,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
   /**
    * The scopes for which the bearer token applies.
    */
-  scopes: string | string[];
+  scopes: string[];
 }
 
 /**
@@ -37,7 +37,7 @@ export function bearerTokenAuthenticationPolicy(
   return {
     name: bearerTokenAuthenticationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if ( !request.url.toLowerCase().startsWith("https://")) {
+      if (!request.url.toLowerCase().startsWith("https://")) {
         throw new Error(
           "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs when allowInsecureConnection is false.",
         );
@@ -46,8 +46,8 @@ export function bearerTokenAuthenticationPolicy(
         abortSignal: request.abortSignal,
         requestOptions: {
           timeout: request.timeout,
-        }
-      }
+        },
+      };
       const accessToken = await getAccessToken(scopes, getAccessTokenOptions);
 
       if (accessToken) {

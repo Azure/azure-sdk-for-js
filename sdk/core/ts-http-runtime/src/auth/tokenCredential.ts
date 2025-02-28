@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 /**
  * Represents a credential capable of providing an authentication token.
  */
@@ -16,7 +15,7 @@ export interface TokenCredential {
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | undefined>;
+  getToken(scopes: string[], options?: GetTokenOptions): Promise<AccessToken | undefined>;
 }
 
 /**
