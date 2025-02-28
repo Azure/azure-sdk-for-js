@@ -180,9 +180,9 @@ export enum KnownMetricUnit {
 
 // @public
 export enum KnownOrigin {
-    "user,system" = "user,system",
-    system = "system",
-    user = "user"
+    System = "system",
+    User = "user",
+    UserSystem = "user,system"
 }
 
 // @public
@@ -193,8 +193,8 @@ export enum KnownPlatform {
 // @public
 export enum KnownProtocol {
     FTP = "FTP",
-    HTTP = "HTTP",
-    HTTPS = "HTTPS",
+    Http = "HTTP",
+    Https = "HTTPS",
     Other = "Other",
     RDP = "RDP",
     SSH = "SSH",
@@ -224,7 +224,7 @@ export enum KnownToolset {
 
 // @public
 export enum KnownVersions {
-    v2024_05_01_preview = "2024-05-01-preview"
+    V20240501Preview = "2024-05-01-preview"
 }
 
 // @public

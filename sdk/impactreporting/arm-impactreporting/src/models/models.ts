@@ -875,9 +875,9 @@ export enum KnownProtocol {
   /** When communication protocol is UDP */
   UDP = "UDP",
   /** When communication protocol is HTTP */
-  HTTP = "HTTP",
+  Http = "HTTP",
   /** When communication protocol is HTTPS */
-  HTTPS = "HTTPS",
+  Https = "HTTPS",
   /** When communication protocol is RDP */
   RDP = "RDP",
   /** When communication protocol is FTP */
@@ -895,8 +895,8 @@ export enum KnownProtocol {
  * ### Known values supported by the service
  * **TCP**: When communication protocol is TCP \
  * **UDP**: When communication protocol is UDP \
- * **HTTP**: When communication protocol is HTTP \
- * **HTTPS**: When communication protocol is HTTPS \
+ * **Http**: When communication protocol is HTTP \
+ * **Https**: When communication protocol is HTTPS \
  * **RDP**: When communication protocol is RDP \
  * **FTP**: When communication protocol is FTP \
  * **SSH**: When communication protocol is SSH \
@@ -1178,11 +1178,11 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
   /** Indicates the operation is initiated by a user. */
-  user = "user",
+  User = "user",
   /** Indicates the operation is initiated by a system. */
-  system = "system",
+  System = "system",
   /** Indicates the operation is initiated by a user or system. */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -1190,9 +1190,9 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
+ * **User**: Indicates the operation is initiated by a user. \
+ * **System**: Indicates the operation is initiated by a system. \
+ * **UserSystem**: Indicates the operation is initiated by a user or system.
  */
 export type Origin = string;
 
@@ -1214,5 +1214,5 @@ export type ActionType = string;
 /** API Versions */
 export enum KnownVersions {
   /** May 01, 2024 Preview API Version */
-  v2024_05_01_preview = "2024-05-01-preview",
+  V20240501Preview = "2024-05-01-preview",
 }
