@@ -3,7 +3,11 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { RemoteRenderingClient } from "../src/index.js";
-import { ClientSecretCredential, DefaultAzureCredential, DeviceCodeCredential } from "@azure/identity";
+import {
+  ClientSecretCredential,
+  DefaultAzureCredential,
+  DeviceCodeCredential,
+} from "@azure/identity";
 import { setLogLevel } from "@azure/logger";
 import { describe, it } from "vitest";
 import { randomUUID } from "node:crypto";
@@ -77,7 +81,7 @@ describe("snippets", () => {
       return {
         token: "<access token>",
         expiresOnTimestamp: Date.now() + 24 * 60 * 60 * 1000,
-      }
+      };
     }
     const accessToken = await getMixedRealityAccessTokenFromWebService();
     // @ts-preserve-whitespace
@@ -107,10 +111,7 @@ describe("snippets", () => {
     // A randomly generated UUID is a good choice for a conversionId.
     const conversionId = randomUUID();
     // @ts-preserve-whitespace
-    const conversionPoller = await client.beginConversion(
-      conversionId,
-      conversionSettings,
-    );
+    const conversionPoller = await client.beginConversion(conversionId, conversionSettings);
     // @ts-preserve-whitespace
     const conversion = await conversionPoller.pollUntilDone();
     // @ts-preserve-whitespace
@@ -148,10 +149,7 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     const conversionId = randomUUID();
     // @ts-preserve-whitespace
-    const conversionPoller = await client.beginConversion(
-      conversionId,
-      conversionSettings,
-    );
+    const conversionPoller = await client.beginConversion(conversionId, conversionSettings);
     // @ts-preserve-whitespace
     const conversion = await conversionPoller.pollUntilDone();
     // @ts-preserve-whitespace
@@ -199,10 +197,7 @@ describe("snippets", () => {
     // A randomly generated UUID is a good choice for a conversionId.
     const sessionId = randomUUID();
     // @ts-preserve-whitespace
-    const sessionPoller = await client.beginSession(
-      sessionId,
-      sessionSettings,
-    );
+    const sessionPoller = await client.beginSession(sessionId, sessionSettings);
   });
 
   it("ReadmeSampleExtendLease", async () => {
