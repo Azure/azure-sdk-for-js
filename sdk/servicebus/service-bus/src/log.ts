@@ -4,7 +4,6 @@
 import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
 import type { AmqpError } from "rhea-promise";
-import { isAmqpError as rheaIsAmqpError } from "rhea-promise";
 import { isObjectWithProperties } from "@azure/core-util";
 import { isMessagingError } from "@azure/core-amqp";
 import { translateServiceBusError } from "./serviceBusError.js";
@@ -86,7 +85,7 @@ export interface ServiceBusLogger extends AzureLogger {
 }
 
 function isRetryableError(error: any): error is AmqpError {
-  if (!rheaIsAmqpError(error) && !isError(error)) {
+  if (!isError(error)) {
     return false;
   }
   const translatedError = translateServiceBusError(error);
