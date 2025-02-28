@@ -2977,6 +2977,10 @@ packages:
     resolution: {integrity: sha512-xVMlrAkVP+4wOhBNW6yd7XT893i0I7BbmS1RdKbS453C+f8CcGe5ldoOWklofd2q0vFGqw5o9H0rK14p7rG0zQ==, tarball: file:projects/arm-imagebuilder.tgz}
     version: 0.0.0
 
+  '@rush-temp/arm-impactreporting@file:projects/arm-impactreporting.tgz':
+    resolution: {integrity: sha512-CoW/ZNsF7wxxCADBqAtGGH6l1clgUkubGPR7RZLjrWS5svhcEowq5DlvTWW7ATCyRjPajg7LMeNqPG521E0CtQ==, tarball: file:projects/arm-impactreporting.tgz}
+    version: 0.0.0
+
   '@rush-temp/arm-informaticadatamanagement@file:projects/arm-informaticadatamanagement.tgz':
     resolution: {integrity: sha512-qzd7xZCaeDEQJT9aXHbhrFUofCNWra6+o3IrcY6JgkdMSn/fI5+h0pt64FguzGhnVaJRcJ3i54N6X0EiyPlcVQ==, tarball: file:projects/arm-informaticadatamanagement.tgz}
     version: 0.0.0
