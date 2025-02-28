@@ -99,7 +99,7 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/keyvault-keys": "^4.2.0",
+    "@azure/keyvault-keys": "^4.5.0",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/jws": "^3.2.2",
     "@types/ms": "^2.1.0",
