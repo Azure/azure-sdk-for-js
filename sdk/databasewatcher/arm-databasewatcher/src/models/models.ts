@@ -115,7 +115,7 @@ export enum KnownResourceProvisioningState {
 export type ResourceProvisioningState = string;
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 export function proxyResourceSerializer(item: ProxyResource): any {
   return item;
@@ -278,7 +278,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 }
 
 /** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo { }
+export interface _ErrorAdditionalInfoInfo {}
 
 export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
   return item;
