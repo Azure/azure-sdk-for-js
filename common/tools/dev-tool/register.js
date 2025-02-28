@@ -29,9 +29,9 @@ const { name: hostPackageName } = main.require("./package.json");
 const packageJsonPath = path.join(cwd, "package.json");
 const packageNameToPatch =
   hostPackageName === "@azure/dev-tool"
-    ? (existsSync(packageJsonPath) 
-       ? require(packageJsonPath).name 
-       : hostPackageName)
+    ? existsSync(packageJsonPath)
+      ? require(packageJsonPath).name
+      : hostPackageName
     : hostPackageName;
 
 if (process.env.DEBUG) {
