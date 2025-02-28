@@ -268,9 +268,10 @@ function handleErrorResponse(
     throw error;
   }
 
+  const defaultBodyMapper = errorResponseSpec?.bodyMapper;
+  const defaultHeadersMapper = errorResponseSpec?.headersMapper;
+
   try {
-    const defaultBodyMapper = errorResponseSpec?.bodyMapper;
-    const defaultHeadersMapper = errorResponseSpec?.headersMapper;
     // If error response has a body, try to deserialize it using default body mapper.
     // Then try to extract error code & message from it
     if (parsedResponse.parsedBody) {
