@@ -142,7 +142,7 @@ export enum KnownCreatedByType {
   /** The entity was created by a managed identity. */
   ManagedIdentity = "ManagedIdentity",
   /** The entity was created by a key. */
-  KEY = "Key",
+  Key = "Key",
 }
 
 /**
@@ -870,7 +870,7 @@ export enum KnownDataPointObservabilityMode {
   /** Map as histogram to OpenTelemetry. */
   Histogram = "Histogram",
   /** Map as log to OpenTelemetry. */
-  LOG = "Log",
+  Log = "Log",
 }
 
 /**
@@ -929,7 +929,7 @@ export enum KnownEventObservabilityMode {
   /** No mapping to OpenTelemetry. */
   None = "None",
   /** Map as log to OpenTelemetry. */
-  LOG = "Log",
+  Log = "Log",
 }
 
 /**

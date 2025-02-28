@@ -360,7 +360,7 @@ export enum KnownAuthenticationMethod {
 // @public
 export enum KnownCreatedByType {
     Application = "Application",
-    KEY = "Key",
+    Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
 }
@@ -370,13 +370,13 @@ export enum KnownDataPointObservabilityMode {
     Counter = "Counter",
     Gauge = "Gauge",
     Histogram = "Histogram",
-    LOG = "Log",
+    Log = "Log",
     None = "None"
 }
 
 // @public
 export enum KnownEventObservabilityMode {
-    LOG = "Log",
+    Log = "Log",
     None = "None"
 }
 
