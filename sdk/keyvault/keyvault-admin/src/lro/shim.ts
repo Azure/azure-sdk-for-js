@@ -129,11 +129,11 @@ export async function wrapPoller<TState extends OperationState<TResult>, TResult
     },
   };
   await httpPoller.submitted();
-  // clean up the final GET path so that we could skip final GET
-  // Workaround for https://github.com/Azure/azure-sdk-for-js/issues/32142
-  if ((httpPoller.operationState as any)?.config?.resourceLocation) {
-    (httpPoller.operationState as any).config.resourceLocation = undefined;
-  }
+  // // clean up the final GET path so that we could skip final GET
+  // // Workaround for https://github.com/Azure/azure-sdk-for-js/issues/32142
+  // if ((httpPoller.operationState as any)?.config?.resourceLocation) {
+  //   (httpPoller.operationState as any).config.resourceLocation = undefined;
+  // }
   return simplePoller;
 }
 

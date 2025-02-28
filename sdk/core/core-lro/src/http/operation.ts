@@ -45,8 +45,10 @@ function findResourceLocation(inputs: {
   location?: string;
   requestPath?: string;
   resourceLocationConfig?: ResourceLocationConfig;
+  // skipFinalGet?: boolean;
 }): string | undefined {
   const { location, requestMethod, requestPath, resourceLocationConfig } = inputs;
+  // todo: if skipFinalGet is true we should return undefined for all methods
   switch (requestMethod) {
     case "PUT": {
       return requestPath;

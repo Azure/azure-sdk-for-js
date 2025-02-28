@@ -683,6 +683,7 @@ export class KeyVaultBackupClient {
           onResponse: options.onResponse,
           tracingOptions: options.tracingOptions,
           updateIntervalInMs: options.intervalInMs,
+          // skipFinalGet: true,
         },
       );
     }
