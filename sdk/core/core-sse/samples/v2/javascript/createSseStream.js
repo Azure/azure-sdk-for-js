@@ -9,47 +9,48 @@ const { createRestError, getClient } = require("@azure-rest/core-client");
 const { isNodeRuntime } = require("@azure/core-util");
 
 /**
- * Retrieves a stream of events from the specified endpoint.
+ * Retrieves a stream of events from the Wikimedia recent change endpoint.
+ * To learn more about the Wikimedia recent change endpoint, see https://wikitech.wikimedia.org/wiki/EventStreams.
  * @param client - The REST client.
- * @param path - API path to the SSE endpoint.
- * @param body - Request payload.
  * @param options - Optional parameters, e.g. lastEventId.
- * @returns A promise that resolves to an EventMessageStream.
+ * @returns A promise that resolves to an ReadableStream of parsed events.
  */
-function getEvents(client, path, body, options = {}) {
-  const { lastEventId } = options;
-  return getStream(
-    client.pathUnchecked(path).get({
+async function getEnglishWikiRecentChanges(client, options) {
+  const { lastEventId } = options || {};
+  const events = await getStream(
+    client.pathUnchecked("v2/stream/recentchange").get({
       accept: "text/event-stream",
-      contentType: "application/json",
-      body,
       ...(lastEventId ? { headers: { "Last-Event-ID": lastEventId } } : {}),
     }),
   );
+  /**
+   * This stream doesn't have terminal markers in its data,
+   * but we check for one anyway to demonstrate how to filter them out.
+   */
+  return events.pipeThrough(createTerminalStream("[DONE]")).pipeThrough(createParsedStream());
 }
 
 async function main() {
   const client = getClient("https://stream.wikimedia.org");
-  const events = await getEvents(
-    client,
-    /** https://stream.wikimedia.org/?doc#/streams/get_v2_stream_mediawiki_recentchange */
-    "v2/stream/recentchange",
-    /** an empty request body */
-    {},
-    {
-      /** Start the stream of events from this position */
-      lastEventId:
-        '[{"topic": "eqiad.mediawiki.recentchange", "partition": 0, "offset": 1234567}, {"topic": "codfw.mediawiki.recentchange", "partition": 0, "timestamp": 1575906290000}]',
-    },
-  );
-  for await (const event of events) {
-    const data = JSON.parse(event.data);
-    if (data.meta.domain === "canary") {
-      continue;
+  /**
+   * The user calls the getEvents function to retrieve a stream of parsed events.
+   */
+  const events = await getEnglishWikiRecentChanges(client, {
+    /** Start the stream of events from this position */
+    lastEventId:
+      '[{"topic": "eqiad.mediawiki.recentchange", "partition": 0, "offset": 1234567}, {"topic": "codfw.mediawiki.recentchange", "partition": 0, "timestamp": 1575906290000}]',
+  });
+
+  /**
+   * The user can now consume the stream of parsed events.
+   */
+  const reader = events.getReader();
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) {
+      break;
     }
-    if (data.server_name === "en.wikipedia.org") {
-      console.log(data.title);
-    }
+    console.log(value.title);
   }
 }
 
@@ -67,14 +68,16 @@ async function getStream(res) {
   const response = await (isNodeRuntime ? res.asNodeStream() : res.asBrowserStream());
   if (isUnexpected(response)) {
     if (!response.body) {
-      throw new Error(`Received a response without a body and status code ${response.status}`);
+      throw new Error(`Received a response with status code ${response.status} and without a body`);
     }
     const body = await streamToString(response.body);
     let parsedError;
     try {
       parsedError = JSON.parse(body);
     } catch {
-      throw new Error(`The response body is not JSON: ${body}`);
+      throw new Error(
+        `Received a response with status code ${response.status} but body is not JSON: ${body}`,
+      );
     }
     throw createRestError({ ...response, body: parsedError });
   }
@@ -103,6 +106,45 @@ async function streamToString(stream) {
     }
     return result;
   }
+}
+
+/**
+ * Helper function to create a stream that filters out terminal marks.
+ */
+function createTerminalStream(terminalMark) {
+  return new TransformStream({
+    transform(event, controller) {
+      if (event.data === terminalMark) {
+        return;
+      } else {
+        controller.enqueue(event);
+      }
+    },
+  });
+}
+
+/**
+ * Helper function to create a stream that parses event data.
+ * This function filters out events where meta.domain is "canary" and only enqueues events from en.wikipedia.org.
+ * The function should be modified to fit the specific requirements of the user. In the general case,
+ * the function should parse the event data and enqueue the parsed data.
+ */
+function createParsedStream() {
+  return new TransformStream({
+    transform(event, controller) {
+      try {
+        const data = JSON.parse(event.data);
+        // Skip events where meta.domain is "canary"
+        if (data.meta.domain === "canary") return;
+        // Only enqueue events from en.wikipedia.org
+        if (data.server_name === "en.wikipedia.org") {
+          controller.enqueue(data);
+        }
+      } catch (error) {
+        console.error("Error parsing event data:", error);
+      }
+    },
+  });
 }
 
 main().catch((err) => {
