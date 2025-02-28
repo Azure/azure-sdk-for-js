@@ -6,6 +6,10 @@
 
 - Add support for stable OpenTelemetry semantic conventions.
 
+### Other Changes
+
+- Added support for detecting AKS when `KUBERNETES_SERVICE_HOST` is set.
+
 ## 1.8.1 (2025-01-28)
 
 ### Bugs Fixed
