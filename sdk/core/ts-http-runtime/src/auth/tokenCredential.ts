@@ -18,22 +18,17 @@ export interface TokenCredential {
    */
   getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | undefined>;
 }
+
+/**
+ * Options used when creating and sending HTTP requests for this operation.
+ */
 export interface GetTokenOptions {
   /**
    * The signal which can be used to abort requests.
    */
   abortSignal?: AbortSignal;
-  
-  /**
-   * Options used when creating and sending HTTP requests for this operation.
-   */
-  requestOptions?: {
-    /**
-     * The number of milliseconds a request can take before automatically being terminated.
-     */
-    timeout?: number;
-  };
 }
+
 /**
  * Represents an access token with an expiration time.
  */

@@ -123,6 +123,11 @@ export function getClient(endpoint: string, options?: ClientOptions): Client;
 export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
 // @public
+export interface GetTokenOptions {
+    abortSignal?: AbortSignal;
+}
+
+// @public
 export type HttpBrowserStreamResponse = HttpResponse & {
     body?: ReadableStream<Uint8Array>;
 };
@@ -439,7 +444,6 @@ export interface TlsSettings {
 
 // @public
 export interface TokenCredential {
-    // Warning: (ae-forgotten-export) The symbol "GetTokenOptions" needs to be exported by the entry point index.d.ts
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | undefined>;
 }
 

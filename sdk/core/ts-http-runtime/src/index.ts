@@ -43,6 +43,7 @@ export { isKeyCredential, type KeyCredential } from "./auth/keyCredential.js";
 export {
   isTokenCredential,
   type TokenCredential,
+  type GetTokenOptions,
   type AccessToken,
 } from "./auth/tokenCredential.js";
 export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
