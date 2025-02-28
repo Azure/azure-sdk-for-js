@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkGatewayGetVpnProfilePackageUrl.json
  */
-async function getVirtualNetworkGatewayVpnProfilePackageUrl() {
+async function getVirtualNetworkGatewayVpnProfilePackageUrl(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualNetworkGatewayName = "vpngw";
@@ -30,7 +28,7 @@ async function getVirtualNetworkGatewayVpnProfilePackageUrl() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getVirtualNetworkGatewayVpnProfilePackageUrl();
 }
 

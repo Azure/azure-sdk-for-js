@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context } from "mocha";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { DocumentTranslationClient } from "../../../src";
-import { default as createClient } from "../../../src";
+import type { DocumentTranslationClient } from "../../../src/index.js";
+import { default as createClient } from "../../../src/index.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
+import type { TestContext } from "vitest";
 
-export async function startRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function startRecorder(context: TestContext): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start({
     envSetupForPlayback: {
       DOCUMENT_TRANSLATION_ENDPOINT:

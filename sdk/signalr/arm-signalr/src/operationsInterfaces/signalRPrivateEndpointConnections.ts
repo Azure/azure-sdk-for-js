@@ -16,7 +16,7 @@ import {
   SignalRPrivateEndpointConnectionsUpdateOptionalParams,
   SignalRPrivateEndpointConnectionsUpdateResponse,
   SignalRPrivateEndpointConnectionsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SignalRPrivateEndpointConnections. */

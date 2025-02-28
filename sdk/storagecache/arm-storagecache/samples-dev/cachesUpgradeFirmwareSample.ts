@@ -7,9 +7,7 @@
  */
 import { StorageCacheManagementClient } from "@azure/arm-storagecache";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Upgrade a cache's firmware if a new version is available. Otherwise, this operation has no effect.
  * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/Caches_UpgradeFirmware.json
  */
-async function cachesUpgradeFirmware() {
+async function cachesUpgradeFirmware(): Promise<void> {
   const subscriptionId =
     process.env["STORAGECACHE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["STORAGECACHE_RESOURCE_GROUP"] || "scgroup";
@@ -28,7 +26,7 @@ async function cachesUpgradeFirmware() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await cachesUpgradeFirmware();
 }
 

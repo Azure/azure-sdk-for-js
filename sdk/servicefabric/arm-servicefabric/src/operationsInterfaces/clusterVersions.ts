@@ -16,7 +16,7 @@ import {
   ClusterVersionsListResponse,
   ClusterVersionsListByEnvironmentOptionalParams,
   ClusterVersionsListByEnvironmentResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ClusterVersions. */
 export interface ClusterVersions {

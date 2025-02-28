@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Deletes an Active Directory Administrator associated with the server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/AdministratorDelete.json
  */
-async function administratorDelete() {
+async function administratorDelete(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +36,7 @@ async function administratorDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   administratorDelete();
 }
 

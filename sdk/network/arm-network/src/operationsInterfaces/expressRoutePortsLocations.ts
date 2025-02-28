@@ -12,7 +12,7 @@ import {
   ExpressRoutePortsLocationsListOptionalParams,
   ExpressRoutePortsLocationsGetOptionalParams,
   ExpressRoutePortsLocationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ExpressRoutePortsLocations. */

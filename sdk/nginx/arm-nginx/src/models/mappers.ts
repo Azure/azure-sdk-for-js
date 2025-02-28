@@ -8,6 +8,248 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const NginxDeploymentApiKeyRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentApiKeyRequest",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentApiKeyRequestProperties",
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentApiKeyRequestProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NginxDeploymentApiKeyRequestProperties",
+      modelProperties: {
+        secretText: {
+          serializedName: "secretText",
+          type: {
+            name: "String",
+          },
+        },
+        endDateTime: {
+          serializedName: "endDateTime",
+          type: {
+            name: "DateTime",
+          },
+        },
+      },
+    },
+  };
+
+export const NginxDeploymentApiKeyResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentApiKeyResponse",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentApiKeyResponseProperties",
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentApiKeyResponseProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NginxDeploymentApiKeyResponseProperties",
+      modelProperties: {
+        hint: {
+          serializedName: "hint",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        endDateTime: {
+          serializedName: "endDateTime",
+          type: {
+            name: "DateTime",
+          },
+        },
+      },
+    },
+  };
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const NginxDeploymentApiKeyListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentApiKeyListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NginxDeploymentApiKeyResponse",
+            },
+          },
+        },
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const NginxCertificate: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -186,103 +428,6 @@ export const SystemData: coreClient.CompositeMapper = {
   },
 };
 
-export const ResourceProviderDefaultErrorResponse: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "ResourceProviderDefaultErrorResponse",
-      modelProperties: {
-        error: {
-          serializedName: "error",
-          type: {
-            name: "Composite",
-            className: "ErrorDetail",
-          },
-        },
-      },
-    },
-  };
-
-export const ErrorDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail",
-            },
-          },
-        },
-      },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      info: {
-        serializedName: "info",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-    },
-  },
-};
-
 export const NginxCertificateListResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -322,7 +467,7 @@ export const NginxConfigurationListResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NginxConfiguration",
+              className: "NginxConfigurationResponse",
             },
           },
         },
@@ -337,10 +482,10 @@ export const NginxConfigurationListResponse: coreClient.CompositeMapper = {
   },
 };
 
-export const NginxConfiguration: coreClient.CompositeMapper = {
+export const NginxConfigurationResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "NginxConfiguration",
+    className: "NginxConfigurationResponse",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -367,13 +512,7 @@ export const NginxConfiguration: coreClient.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Composite",
-          className: "NginxConfigurationProperties",
-        },
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String",
+          className: "NginxConfigurationResponseProperties",
         },
       },
       systemData: {
@@ -387,10 +526,177 @@ export const NginxConfiguration: coreClient.CompositeMapper = {
   },
 };
 
-export const NginxConfigurationProperties: coreClient.CompositeMapper = {
+export const NginxConfigurationResponseProperties: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NginxConfigurationResponseProperties",
+      modelProperties: {
+        provisioningState: {
+          serializedName: "provisioningState",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        files: {
+          serializedName: "files",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "NginxConfigurationFile",
+              },
+            },
+          },
+        },
+        protectedFiles: {
+          serializedName: "protectedFiles",
+          type: {
+            name: "Sequence",
+            element: {
+              type: {
+                name: "Composite",
+                className: "NginxConfigurationProtectedFileResponse",
+              },
+            },
+          },
+        },
+        package: {
+          serializedName: "package",
+          type: {
+            name: "Composite",
+            className: "NginxConfigurationPackage",
+          },
+        },
+        rootFile: {
+          serializedName: "rootFile",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const NginxConfigurationFile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "NginxConfigurationProperties",
+    className: "NginxConfigurationFile",
+    modelProperties: {
+      content: {
+        serializedName: "content",
+        type: {
+          name: "String",
+        },
+      },
+      virtualPath: {
+        serializedName: "virtualPath",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NginxConfigurationProtectedFileResponse: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NginxConfigurationProtectedFileResponse",
+      modelProperties: {
+        virtualPath: {
+          serializedName: "virtualPath",
+          type: {
+            name: "String",
+          },
+        },
+        contentHash: {
+          serializedName: "contentHash",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const NginxConfigurationPackage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxConfigurationPackage",
+    modelProperties: {
+      data: {
+        serializedName: "data",
+        type: {
+          name: "String",
+        },
+      },
+      protectedFiles: {
+        serializedName: "protectedFiles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const NginxConfigurationRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxConfigurationRequest",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "NginxConfigurationRequestProperties",
+        },
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData",
+        },
+      },
+    },
+  },
+};
+
+export const NginxConfigurationRequestProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxConfigurationRequestProperties",
     modelProperties: {
       provisioningState: {
         serializedName: "provisioningState",
@@ -418,7 +724,7 @@ export const NginxConfigurationProperties: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NginxConfigurationFile",
+              className: "NginxConfigurationProtectedFileRequest",
             },
           },
         },
@@ -440,52 +746,33 @@ export const NginxConfigurationProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const NginxConfigurationFile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NginxConfigurationFile",
-    modelProperties: {
-      content: {
-        serializedName: "content",
-        type: {
-          name: "String",
+export const NginxConfigurationProtectedFileRequest: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NginxConfigurationProtectedFileRequest",
+      modelProperties: {
+        content: {
+          serializedName: "content",
+          type: {
+            name: "String",
+          },
         },
-      },
-      virtualPath: {
-        serializedName: "virtualPath",
-        type: {
-          name: "String",
+        virtualPath: {
+          serializedName: "virtualPath",
+          type: {
+            name: "String",
+          },
         },
-      },
-    },
-  },
-};
-
-export const NginxConfigurationPackage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "NginxConfigurationPackage",
-    modelProperties: {
-      data: {
-        serializedName: "data",
-        type: {
-          name: "String",
-        },
-      },
-      protectedFiles: {
-        serializedName: "protectedFiles",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
+        contentHash: {
+          serializedName: "contentHash",
+          type: {
+            name: "String",
           },
         },
       },
     },
-  },
-};
+  };
 
 export const AnalysisCreate: coreClient.CompositeMapper = {
   type: {
@@ -533,7 +820,7 @@ export const AnalysisCreateConfig: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "NginxConfigurationFile",
+              className: "NginxConfigurationProtectedFileRequest",
             },
           },
         },
@@ -585,6 +872,18 @@ export const AnalysisResultData: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "AnalysisDiagnostic",
+            },
+          },
+        },
+      },
+      diagnostics: {
+        serializedName: "diagnostics",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DiagnosticItem",
             },
           },
         },
@@ -642,6 +941,76 @@ export const AnalysisDiagnostic: coreClient.CompositeMapper = {
       rule: {
         serializedName: "rule",
         required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const DiagnosticItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DiagnosticItem",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String",
+        },
+      },
+      directive: {
+        serializedName: "directive",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      description: {
+        serializedName: "description",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      file: {
+        serializedName: "file",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      line: {
+        serializedName: "line",
+        required: true,
+        type: {
+          name: "Number",
+        },
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      rule: {
+        serializedName: "rule",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      level: {
+        serializedName: "level",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      category: {
+        serializedName: "category",
         type: {
           name: "String",
         },
@@ -801,12 +1170,6 @@ export const NginxDeploymentProperties: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      managedResourceGroup: {
-        serializedName: "managedResourceGroup",
-        type: {
-          name: "String",
-        },
-      },
       networkProfile: {
         serializedName: "networkProfile",
         type: {
@@ -853,6 +1216,20 @@ export const NginxDeploymentProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "NginxDeploymentUserProfile",
+        },
+      },
+      nginxAppProtect: {
+        serializedName: "nginxAppProtect",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentPropertiesNginxAppProtect",
+        },
+      },
+      dataplaneApiEndpoint: {
+        serializedName: "dataplaneApiEndpoint",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -1124,6 +1501,129 @@ export const NginxDeploymentUserProfile: coreClient.CompositeMapper = {
   },
 };
 
+export const NginxDeploymentPropertiesNginxAppProtect: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NginxDeploymentPropertiesNginxAppProtect",
+      modelProperties: {
+        webApplicationFirewallSettings: {
+          serializedName: "webApplicationFirewallSettings",
+          type: {
+            name: "Composite",
+            className: "WebApplicationFirewallSettings",
+          },
+        },
+        webApplicationFirewallStatus: {
+          serializedName: "webApplicationFirewallStatus",
+          type: {
+            name: "Composite",
+            className: "WebApplicationFirewallStatus",
+          },
+        },
+      },
+    },
+  };
+
+export const WebApplicationFirewallSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebApplicationFirewallSettings",
+    modelProperties: {
+      activationState: {
+        serializedName: "activationState",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const WebApplicationFirewallStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebApplicationFirewallStatus",
+    modelProperties: {
+      attackSignaturesPackage: {
+        serializedName: "attackSignaturesPackage",
+        type: {
+          name: "Composite",
+          className: "WebApplicationFirewallPackage",
+        },
+      },
+      botSignaturesPackage: {
+        serializedName: "botSignaturesPackage",
+        type: {
+          name: "Composite",
+          className: "WebApplicationFirewallPackage",
+        },
+      },
+      threatCampaignsPackage: {
+        serializedName: "threatCampaignsPackage",
+        type: {
+          name: "Composite",
+          className: "WebApplicationFirewallPackage",
+        },
+      },
+      componentVersions: {
+        serializedName: "componentVersions",
+        type: {
+          name: "Composite",
+          className: "WebApplicationFirewallComponentVersions",
+        },
+      },
+    },
+  },
+};
+
+export const WebApplicationFirewallPackage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebApplicationFirewallPackage",
+    modelProperties: {
+      version: {
+        serializedName: "version",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      revisionDatetime: {
+        serializedName: "revisionDatetime",
+        required: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+    },
+  },
+};
+
+export const WebApplicationFirewallComponentVersions: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "WebApplicationFirewallComponentVersions",
+      modelProperties: {
+        wafEngineVersion: {
+          serializedName: "wafEngineVersion",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        wafNginxVersion: {
+          serializedName: "wafNginxVersion",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ResourceSku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1215,6 +1715,13 @@ export const NginxDeploymentUpdateProperties: coreClient.CompositeMapper = {
           className: "NginxDeploymentUserProfile",
         },
       },
+      networkProfile: {
+        serializedName: "networkProfile",
+        type: {
+          name: "Composite",
+          className: "NginxNetworkProfile",
+        },
+      },
       autoUpgradeProfile: {
         serializedName: "autoUpgradeProfile",
         type: {
@@ -1222,9 +1729,33 @@ export const NginxDeploymentUpdateProperties: coreClient.CompositeMapper = {
           className: "AutoUpgradeProfile",
         },
       },
+      nginxAppProtect: {
+        serializedName: "nginxAppProtect",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentUpdatePropertiesNginxAppProtect",
+        },
+      },
     },
   },
 };
+
+export const NginxDeploymentUpdatePropertiesNginxAppProtect: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "NginxDeploymentUpdatePropertiesNginxAppProtect",
+      modelProperties: {
+        webApplicationFirewallSettings: {
+          serializedName: "webApplicationFirewallSettings",
+          type: {
+            name: "Composite",
+            className: "WebApplicationFirewallSettings",
+          },
+        },
+      },
+    },
+  };
 
 export const NginxDeploymentListResponse: coreClient.CompositeMapper = {
   type: {

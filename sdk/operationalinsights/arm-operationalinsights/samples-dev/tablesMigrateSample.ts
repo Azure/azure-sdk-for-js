@@ -7,9 +7,7 @@
  */
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Migrate a Log Analytics table from support of the Data Collector API and Custom Fields features to support of Data Collection Rule-based Custom Logs.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Migrate a Log Analytics table from support of the Data Collector API and Custom Fields features to support of Data Collection Rule-based Custom Logs.
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2022-10-01/examples/TablesMigrate.json
  */
-async function tablesMigrate() {
+async function tablesMigrate(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName = process.env["OPERATIONALINSIGHTS_RESOURCE_GROUP"] || "oiautorest6685";
@@ -29,7 +27,7 @@ async function tablesMigrate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await tablesMigrate();
 }
 

@@ -291,11 +291,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/purview-catalog",
-      "projectFolder": "sdk/purview/purview-catalog-rest",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure-rest/purview-datamap",
       "projectFolder": "sdk/purview/purview-datamap-rest",
       "versionPolicyName": "client"

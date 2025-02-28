@@ -12,7 +12,7 @@ import {
   JobRunsListOptionalParams,
   JobRunsGetOptionalParams,
   JobRunsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a JobRuns. */

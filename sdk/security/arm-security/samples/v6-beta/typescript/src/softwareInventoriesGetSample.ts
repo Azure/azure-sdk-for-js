@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a single software data of the virtual machine.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a single software data of the virtual machine.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2021-05-01-preview/examples/SoftwareInventories/GetSoftware_example.json
  */
-async function getsASingleSoftwareDataOfTheVirtualMachine() {
+async function getsASingleSoftwareDataOfTheVirtualMachine(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "e5d1b86c-3051-44d5-8802-aa65d45a279b";
@@ -42,7 +40,7 @@ async function getsASingleSoftwareDataOfTheVirtualMachine() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsASingleSoftwareDataOfTheVirtualMachine();
 }
 

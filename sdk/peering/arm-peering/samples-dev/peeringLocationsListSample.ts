@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all of the available peering locations for the specified kind of peering.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListDirectPeeringLocations.json
  */
-async function listDirectPeeringLocations() {
+async function listDirectPeeringLocations(): Promise<void> {
   const subscriptionId = "subId";
   const kind = "Direct";
   const credential = new DefaultAzureCredential();
@@ -34,7 +34,7 @@ listDirectPeeringLocations().catch(console.error);
  * @summary Lists all of the available peering locations for the specified kind of peering.
  * x-ms-original-file: specification/peering/resource-manager/Microsoft.Peering/stable/2021-06-01/examples/ListExchangePeeringLocations.json
  */
-async function listExchangePeeringLocations() {
+async function listExchangePeeringLocations(): Promise<void> {
   const subscriptionId = "subId";
   const kind = "Exchange";
   const credential = new DefaultAzureCredential();

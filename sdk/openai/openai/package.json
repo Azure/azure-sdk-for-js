@@ -119,10 +119,11 @@
     "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "openai": "^4.83.0",
+    "openai": "^4.84.1",
     "playwright": "^1.45.3",
     "typescript": "~5.7.2",
-    "vitest": "^3.0.3"
+    "vitest": "^3.0.3",
+    "zod": "^3.24.2"
   },
   "dependencies": {
     "@azure-rest/core-client": "^2.2.0",

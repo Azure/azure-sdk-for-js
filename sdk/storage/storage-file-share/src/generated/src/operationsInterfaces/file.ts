@@ -43,7 +43,13 @@ import {
   FileForceCloseHandlesOptionalParams,
   FileForceCloseHandlesResponse,
   FileRenameOptionalParams,
-  FileRenameResponse
+  FileRenameResponse,
+  FileCreateSymbolicLinkOptionalParams,
+  FileCreateSymbolicLinkResponse,
+  FileGetSymbolicLinkOptionalParams,
+  FileGetSymbolicLinkResponse,
+  FileCreateHardLinkOptionalParams,
+  FileCreateHardLinkResponse
 } from "../models";
 
 /** Interface representing a File. */
@@ -51,13 +57,10 @@ export interface File {
   /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
    * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
-   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
-   *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param options The options parameters.
    */
   create(
     fileContentLength: number,
-    fileAttributes: string,
     options?: FileCreateOptionalParams
   ): Promise<FileCreateResponse>;
   /**
@@ -80,12 +83,9 @@ export interface File {
   delete(options?: FileDeleteOptionalParams): Promise<FileDeleteResponse>;
   /**
    * Sets HTTP headers on the file.
-   * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
-   *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param options The options parameters.
    */
   setHttpHeaders(
-    fileAttributes: string,
     options?: FileSetHttpHeadersOptionalParams
   ): Promise<FileSetHttpHeadersResponse>;
   /**
@@ -230,4 +230,30 @@ export interface File {
     renameSource: string,
     options?: FileRenameOptionalParams
   ): Promise<FileRenameResponse>;
+  /**
+   * Creates a symbolic link.
+   * @param linkText NFS only. Required. The path to the original file, the symbolic link is pointing to.
+   *                 The path is of type string which is not resolved and is stored as is. The path can be absolute path
+   *                 or the relative path depending on the content stored in the symbolic link file.
+   * @param options The options parameters.
+   */
+  createSymbolicLink(
+    linkText: string,
+    options?: FileCreateSymbolicLinkOptionalParams
+  ): Promise<FileCreateSymbolicLinkResponse>;
+  /** @param options The options parameters. */
+  getSymbolicLink(
+    options?: FileGetSymbolicLinkOptionalParams
+  ): Promise<FileGetSymbolicLinkResponse>;
+  /**
+   * Creates a hard link.
+   * @param targetFile NFS only. Required. Specifies the path of the target file to which the link will
+   *                   be created, up to 2 KiB in length. It should be full path of the target from the root.The target
+   *                   file must be in the same share and hence the same storage account.
+   * @param options The options parameters.
+   */
+  createHardLink(
+    targetFile: string,
+    options?: FileCreateHardLinkOptionalParams
+  ): Promise<FileCreateHardLinkResponse>;
 }

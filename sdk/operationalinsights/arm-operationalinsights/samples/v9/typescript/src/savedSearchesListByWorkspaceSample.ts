@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { OperationalInsightsManagementClient } from "@azure/arm-operationalinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the saved searches for a given Log Analytics Workspace
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the saved searches for a given Log Analytics Workspace
  * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2020-08-01/examples/SavedSearchesListByWorkspace.json
  */
-async function savedSearchesList() {
+async function savedSearchesList(): Promise<void> {
   const subscriptionId =
     process.env["OPERATIONALINSIGHTS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-00000000000";
@@ -39,7 +37,7 @@ async function savedSearchesList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   savedSearchesList();
 }
 

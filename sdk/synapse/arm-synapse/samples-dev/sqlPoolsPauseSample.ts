@@ -7,9 +7,7 @@
  */
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Pause a SQL pool
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Pause a SQL pool
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/PauseSqlPool.json
  */
-async function pauseASqlAnalyticsPool() {
+async function pauseASqlAnalyticsPool(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "01234567-89ab-4def-0123-456789abcdef";
   const resourceGroupName = process.env["SYNAPSE_RESOURCE_GROUP"] || "Default-SQL-SouthEastAsia";
@@ -33,7 +31,7 @@ async function pauseASqlAnalyticsPool() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await pauseASqlAnalyticsPool();
 }
 

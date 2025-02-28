@@ -16,7 +16,7 @@ import {
   VirtualHubIpConfigurationCreateOrUpdateOptionalParams,
   VirtualHubIpConfigurationCreateOrUpdateResponse,
   VirtualHubIpConfigurationDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualHubIpConfiguration. */

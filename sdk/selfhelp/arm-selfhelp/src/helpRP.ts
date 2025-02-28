@@ -24,7 +24,7 @@ import {
   TroubleshootersImpl,
   SolutionSelfHelpImpl,
   DiscoverySolutionNLPImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   CheckNameAvailability,
@@ -35,8 +35,8 @@ import {
   Troubleshooters,
   SolutionSelfHelp,
   DiscoverySolutionNLP,
-} from "./operationsInterfaces";
-import { HelpRPOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { HelpRPOptionalParams } from "./models/index.js";
 
 export class HelpRP extends coreClient.ServiceClient {
   $host: string;

@@ -9,7 +9,7 @@
 import {
   BillingAccountGetPolicyOptionalParams,
   BillingAccountGetPolicyResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BillingAccount. */
 export interface BillingAccount {

@@ -8,9 +8,7 @@
 import type { MetricAlertResource } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update an metric alert definition.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update an metric alert definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateDynamicMetricAlertMultipleResource.json
  */
-async function createOrUpdateADynamicAlertRuleForMultipleResources() {
+async function createOrUpdateADynamicAlertRuleForMultipleResources(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -77,7 +75,7 @@ async function createOrUpdateADynamicAlertRuleForMultipleResources() {
  * @summary Create or update an metric alert definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateDynamicMetricAlertSingleResource.json
  */
-async function createOrUpdateADynamicAlertRuleForSingleResource() {
+async function createOrUpdateADynamicAlertRuleForSingleResource(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -134,7 +132,7 @@ async function createOrUpdateADynamicAlertRuleForSingleResource() {
  * @summary Create or update an metric alert definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateWebTestMetricAlert.json
  */
-async function createOrUpdateAWebTestAlertRule() {
+async function createOrUpdateAWebTestAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789101";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "rg-example";
@@ -178,7 +176,7 @@ async function createOrUpdateAWebTestAlertRule() {
  * @summary Create or update an metric alert definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateMetricAlertMultipleResource.json
  */
-async function createOrUpdateAnAlertRuleForMultipleResource() {
+async function createOrUpdateAnAlertRuleForMultipleResource(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -233,7 +231,7 @@ async function createOrUpdateAnAlertRuleForMultipleResource() {
  * @summary Create or update an metric alert definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateMetricAlertSingleResource.json
  */
-async function createOrUpdateAnAlertRuleForSingleResource() {
+async function createOrUpdateAnAlertRuleForSingleResource(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -284,7 +282,7 @@ async function createOrUpdateAnAlertRuleForSingleResource() {
  * @summary Create or update an metric alert definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateMetricAlertResourceGroup.json
  */
-async function createOrUpdateAnAlertRuleOnResourceGroupS() {
+async function createOrUpdateAnAlertRuleOnResourceGroupS(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest1";
@@ -339,7 +337,7 @@ async function createOrUpdateAnAlertRuleOnResourceGroupS() {
  * @summary Create or update an metric alert definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateMetricAlertSubscription.json
  */
-async function createOrUpdateAnAlertRuleOnSubscription() {
+async function createOrUpdateAnAlertRuleOnSubscription(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -391,7 +389,7 @@ async function createOrUpdateAnAlertRuleOnSubscription() {
  * @summary Create or update an metric alert definition.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/createOrUpdateMetricAlertWithDimensions.json
  */
-async function createOrUpdateAnAlertRulesWithDimensions() {
+async function createOrUpdateAnAlertRulesWithDimensions(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
   const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
@@ -440,7 +438,7 @@ async function createOrUpdateAnAlertRulesWithDimensions() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createOrUpdateADynamicAlertRuleForMultipleResources();
   await createOrUpdateADynamicAlertRuleForSingleResource();
   await createOrUpdateAWebTestAlertRule();

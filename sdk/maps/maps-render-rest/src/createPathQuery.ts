@@ -84,8 +84,15 @@ function comosePathVal(coordinates: LatLon[], options: PathOptionsForRequest): s
  * Create a path query string for _get map static image_ request.
  *
  * @example
- * ```ts
- * const circularPath = {
+ * ```ts snippet:ReadmeSampleCreatePathQuery
+ * import { DefaultAzureCredential } from "@azure/identity";
+ * import MapsRender, { CircularPath, PolygonalPath, createPathQuery } from "@azure-rest/maps-render";
+ * import { createWriteStream } from "node:fs";
+ *
+ * const credential = new DefaultAzureCredential();
+ * const client = MapsRender(credential, "<maps-account-client-id>");
+ *
+ * const circularPath: CircularPath = {
  *   center: [52.4559, 13.228],
  *   radiusInMeters: 10000,
  *   options: {
@@ -95,7 +102,7 @@ function comosePathVal(coordinates: LatLon[], options: PathOptionsForRequest): s
  *   },
  * };
  *
- * const linearPath = {
+ * const linearPath: PolygonalPath = {
  *   coordinates: [
  *     [52.577, 13.35],
  *     [52.6, 13.2988],
@@ -108,30 +115,40 @@ function comosePathVal(coordinates: LatLon[], options: PathOptionsForRequest): s
  *   },
  * };
  *
- * const polygonPath = {
- *  coordinates: [
- *    [52.577, 13.35],
- *    [52.6, 13.2988],
- *    [52.32, 13.2988],
- *    [52.577, 13.35],
- *  ],
- *  options: {
- *    lineColor: "000000",
- *    lineOpacity: 0.9,
- *    lineWidthInPixels: 2,
- *    fillColor: "FFFFFF",
- *    fillOpacity: 0.8,
- *  },
+ * const polygonPath: PolygonalPath = {
+ *   coordinates: [
+ *     [52.577, 13.35],
+ *     [52.6, 13.2988],
+ *     [52.32, 13.2988],
+ *     [52.577, 13.35],
+ *   ],
+ *   options: {
+ *     lineColor: "000000",
+ *     lineOpacity: 0.9,
+ *     lineWidthInPixels: 2,
+ *     fillColor: "FFFFFF",
+ *     fillOpacity: 0.8,
+ *   },
  * };
  *
  * const path = createPathQuery([circularPath, linearPath, polygonPath]);
  * // Send the request
- * const response = await client.path("/map/static/{format}", "png").get({
- *  queryParameters: {
- *    bbox: [13.228,52.4559,13.5794,52.629],
- *    path: path
- *  }
- * });
+ * const response = await client
+ *   .path("/map/static")
+ *   .get({
+ *     queryParameters: {
+ *       bbox: [13.228, 52.4559, 13.5794, 52.629],
+ *       path,
+ *     },
+ *   })
+ *   .asNodeStream();
+ *
+ * // Handle the error.
+ * if (!response.body) {
+ *   throw Error("No response body");
+ * }
+ *
+ * response.body.pipe(createWriteStream("path.png"));
  * ```
  *
  * @param paths - A collection of {@link PolygonalPath} and {@link CircularPath} that you want to draw on the image.

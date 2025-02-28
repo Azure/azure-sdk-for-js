@@ -14,7 +14,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets the tenants for your account.
  * x-ms-original-file: specification/subscription/resource-manager/Microsoft.Subscription/stable/2016-06-01/examples/listTenants.json
  */
-async function listTenants() {
+async function listTenants(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const resArray = new Array();

@@ -7,9 +7,7 @@
  */
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Information protection policies of a specific management group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Information protection policies of a specific management group.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/InformationProtectionPolicies/ListInformationProtectionPolicies_example.json
  */
-async function getInformationProtectionPolicies() {
+async function getInformationProtectionPolicies(): Promise<void> {
   const scope =
     "providers/Microsoft.Management/managementGroups/148059f7-faf3-49a6-ba35-85122112291e";
   const credential = new DefaultAzureCredential();
@@ -29,7 +27,7 @@ async function getInformationProtectionPolicies() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getInformationProtectionPolicies();
 }
 

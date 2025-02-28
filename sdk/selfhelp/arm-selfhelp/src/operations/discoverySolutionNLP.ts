@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DiscoverySolutionNLP } from "../operationsInterfaces";
+import { DiscoverySolutionNLP } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HelpRP } from "../helpRP";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HelpRP } from "../helpRP.js";
 import {
   DiscoverySolutionNLPDiscoverSolutionsOptionalParams,
   DiscoverySolutionNLPDiscoverSolutionsResponse,
   DiscoverySolutionNLPDiscoverSolutionsBySubscriptionOptionalParams,
   DiscoverySolutionNLPDiscoverSolutionsBySubscriptionResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing DiscoverySolutionNLP operations. */
 export class DiscoverySolutionNLPImpl implements DiscoverySolutionNLP {

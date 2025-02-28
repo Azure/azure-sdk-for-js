@@ -18,6 +18,7 @@ export function createClientsAndDeployments(
   const { clientOptions, sku, deploymentsToSkip, modelsToSkip } = options;
   const { resourcesInfo } = getResourcesInfo();
   switch (apiVersion) {
+    case APIVersion["2024_10_01_preview"]:
     case APIVersion.Preview:
     case APIVersion.Stable: {
       const credential = createLiveCredential();

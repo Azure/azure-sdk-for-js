@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceBusManagementClient } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all migrationConfigurations
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all migrationConfigurations
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/Migrationconfigurations/SBMigrationconfigurationList.json
  */
-async function migrationConfigurationsList() {
+async function migrationConfigurationsList(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "SubscriptionId";
   const resourceGroupName =
@@ -38,7 +36,7 @@ async function migrationConfigurationsList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   migrationConfigurationsList();
 }
 

@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Queries component policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceScopeFilterByComponentId.json
  */
-async function queryLatestComponentPolicyComplianceStateAtResourceScopeFilteredByGivenComponentId() {
+async function queryLatestComponentPolicyComplianceStateAtResourceScopeFilteredByGivenComponentId(): Promise<void> {
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";
   const componentPolicyStatesResource = "latest";
@@ -38,7 +38,7 @@ async function queryLatestComponentPolicyComplianceStateAtResourceScopeFilteredB
  * @summary Queries component policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceScopeGroupByComponentTypeWithAggregate.json
  */
-async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceScopeFilteredByGivenAssignment() {
+async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceScopeFilteredByGivenAssignment(): Promise<void> {
   const resourceId =
     "subscriptions/e78961ba-36fe-4739-9212-e3031b4c8db7/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";
   const componentPolicyStatesResource = "latest";
@@ -62,7 +62,7 @@ async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentT
  * @summary Queries component policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryNestedResourceScope.json
  */
-async function queryLatestComponentPolicyStatesAtNestedResourceScope() {
+async function queryLatestComponentPolicyStatesAtNestedResourceScope(): Promise<void> {
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVault";
   const componentPolicyStatesResource = "latest";
@@ -81,7 +81,7 @@ async function queryLatestComponentPolicyStatesAtNestedResourceScope() {
  * @summary Queries component policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceScope.json
  */
-async function queryLatestComponentPolicyStatesAtResourceScope() {
+async function queryLatestComponentPolicyStatesAtResourceScope(): Promise<void> {
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/Vaults/myKVName";
   const componentPolicyStatesResource = "latest";
@@ -100,7 +100,7 @@ async function queryLatestComponentPolicyStatesAtResourceScope() {
  * @summary Queries component policy states for the resource.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceScopeExpandPolicyEvaluationDetails.json
  */
-async function queryLatestComponentPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails() {
+async function queryLatestComponentPolicyStatesAtResourceScopeAndExpandPolicyEvaluationDetails(): Promise<void> {
   const resourceId =
     "subscriptions/fff10b27-fff3-fff5-fff8-fffbe01e86a5/resourceGroups/myResourceGroup/providers/Microsoft.ContainerService/managedClusters/myCluster";
   const componentPolicyStatesResource = "latest";
@@ -121,7 +121,7 @@ async function queryLatestComponentPolicyStatesAtResourceScopeAndExpandPolicyEva
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queryLatestComponentPolicyComplianceStateAtResourceScopeFilteredByGivenComponentId();
   await queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceScopeFilteredByGivenAssignment();
   await queryLatestComponentPolicyStatesAtNestedResourceScope();

@@ -17,7 +17,7 @@
 import { Peering, PeeringManagementClient } from "@azure/arm-peering";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function createADirectPeering() {
+async function createADirectPeering(): Promise<void> {
   const subscriptionId = "subId";
   const resourceGroupName = "rgName";
   const peeringName = "peeringName";

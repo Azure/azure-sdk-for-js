@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets information about a database.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/DatabaseGet.json
  */
-async function getADatabase() {
+async function getADatabase(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "TestGroup";
@@ -27,7 +27,7 @@ async function getADatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getADatabase();
 }
 

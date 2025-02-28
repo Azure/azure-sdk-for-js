@@ -9,25 +9,16 @@
  * @summary Basic use of Metrics in Node.js application.
  */
 
-import {
-  MeterProvider,
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics";
+import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { Resource } from "@opentelemetry/resources";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import { ATTR_SERVICE_NAME } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
-  const provider = new MeterProvider({
-    resource: new Resource({
-      [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
-    }),
-  });
+export async function main(): Promise<void> {
   const exporter = new AzureMonitorMetricExporter({
     connectionString:
       // Replace with your Application Insights Connection String
@@ -38,11 +29,18 @@ export async function main() {
     exporter: exporter,
   };
   const metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-  await provider.addMetricReader(metricReader);
+
+  const provider = new MeterProvider({
+    resource: new Resource({
+      [ATTR_SERVICE_NAME]: "basic-service",
+    }),
+    readers: [metricReader],
+  });
+
   const meter = provider.getMeter("example-meter-node");
   // Create Counter instrument with the meter
-  let counter = meter.createCounter("counter");
-  await counter.add(1);
+  const counter = meter.createCounter("counter");
+  counter.add(1);
 }
 
 main().catch((error) => {

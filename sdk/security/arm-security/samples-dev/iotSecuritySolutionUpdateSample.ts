@@ -8,9 +8,7 @@
 import type { UpdateIotSecuritySolutionData } from "@azure/arm-security";
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Use this method to update existing IoT Security solution tags or user defined resources. To update other fields use the CreateOrUpdate method.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Use this method to update existing IoT Security solution tags or user defined resources. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2019-08-01/examples/IoTSecuritySolutions/UpdateIoTSecuritySolution.json
  */
-async function useThisMethodToUpdateExistingIoTSecuritySolution() {
+async function useThisMethodToUpdateExistingIoTSecuritySolution(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] || "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const resourceGroupName = process.env["SECURITY_RESOURCE_GROUP"] || "myRg";
@@ -44,7 +42,7 @@ async function useThisMethodToUpdateExistingIoTSecuritySolution() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await useThisMethodToUpdateExistingIoTSecuritySolution();
 }
 

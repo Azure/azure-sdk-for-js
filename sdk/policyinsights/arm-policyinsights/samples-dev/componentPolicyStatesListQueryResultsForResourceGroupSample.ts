@@ -16,7 +16,7 @@ import "dotenv/config";
  * @summary Queries component policy states under resource group scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceGroupScopeGroupByComponentTypeWithAggregate.json
  */
-async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceGroupScopeFilteredByGivenAssignment() {
+async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceGroupScopeFilteredByGivenAssignment(): Promise<void> {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const componentPolicyStatesResource = "latest";
@@ -44,7 +44,7 @@ async function queryLatestComponentPolicyComplianceStateCountGroupedByComponentT
  * @summary Queries component policy states under resource group scope.
  * x-ms-original-file: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/stable/2024-10-01/examples/ComponentPolicyStates_QueryResourceGroupScope.json
  */
-async function queryLatestComponentPolicyStatesAtResourceGroupScope() {
+async function queryLatestComponentPolicyStatesAtResourceGroupScope(): Promise<void> {
   const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const resourceGroupName = process.env["POLICYINSIGHTS_RESOURCE_GROUP"] || "myResourceGroup";
   const componentPolicyStatesResource = "latest";
@@ -58,7 +58,7 @@ async function queryLatestComponentPolicyStatesAtResourceGroupScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await queryLatestComponentPolicyComplianceStateCountGroupedByComponentTypeAtResourceGroupScopeFilteredByGivenAssignment();
   await queryLatestComponentPolicyStatesAtResourceGroupScope();
 }

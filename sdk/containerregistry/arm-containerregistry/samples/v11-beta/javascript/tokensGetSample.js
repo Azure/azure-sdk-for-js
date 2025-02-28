@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the properties of the specified token.
  *
  * @summary Gets the properties of the specified token.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/TokenGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/TokenGet.json
  */
 async function tokenGet() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function tokenGet() {
 }
 
 async function main() {
-  tokenGet();
+  await tokenGet();
 }
 
 main().catch(console.error);

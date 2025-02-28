@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Catalog, AzureSphereManagementClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a Catalog
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a Catalog
  * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PutCatalog.json
  */
-async function catalogsCreateOrUpdate() {
+async function catalogsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SPHERE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,7 +36,7 @@ async function catalogsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   catalogsCreateOrUpdate();
 }
 

@@ -7,16 +7,16 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Usages } from "../operationsInterfaces";
+import { Usages } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageManagementClient } from "../storageManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageManagementClient } from "../storageManagementClient.js";
 import {
   Usage,
   UsagesListByLocationOptionalParams,
   UsagesListByLocationResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Usages operations. */

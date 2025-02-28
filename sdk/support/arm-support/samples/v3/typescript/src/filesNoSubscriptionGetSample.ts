@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftSupport } from "@azure/arm-support";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns details of a specific file in a work space.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns details of a specific file in a work space.
  * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetFileDetails.json
  */
-async function getDetailsOfASubscriptionFile() {
+async function getDetailsOfASubscriptionFile(): Promise<void> {
   const fileWorkspaceName = "testworkspace";
   const fileName = "test.txt";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function getDetailsOfASubscriptionFile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDetailsOfASubscriptionFile();
 }
 

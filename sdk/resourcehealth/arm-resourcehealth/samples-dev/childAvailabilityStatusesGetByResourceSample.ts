@@ -8,9 +8,7 @@
 import type { ChildAvailabilityStatusesGetByResourceOptionalParams } from "@azure/arm-resourcehealth";
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets current availability status for a single resource
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Gets current availability status for a single resource
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/ChildAvailabilityStatus_GetByResource.json
  */
-async function getChildCurrentHealthByResource() {
+async function getChildCurrentHealthByResource(): Promise<void> {
   const resourceUri =
     "subscriptions/227b734f-e14f-4de6-b7fc-3190c21e69f6/resourceGroups/JUHACKETRHCTEST/providers/Microsoft.Compute/virtualMachineScaleSets/rhctest/virtualMachines/4";
   const expand = "recommendedactions";
@@ -31,7 +29,7 @@ async function getChildCurrentHealthByResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getChildCurrentHealthByResource();
 }
 

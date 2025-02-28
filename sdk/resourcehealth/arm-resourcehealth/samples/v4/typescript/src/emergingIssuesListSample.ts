@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists Azure services' emerging issues.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists Azure services' emerging issues.
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2022-10-01/examples/EmergingIssues_List.json
  */
-async function getEmergingIssues() {
+async function getEmergingIssues(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function getEmergingIssues() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getEmergingIssues();
 }
 

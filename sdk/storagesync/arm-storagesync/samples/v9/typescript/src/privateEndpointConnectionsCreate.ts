@@ -20,7 +20,7 @@ import {
 } from "@azure/arm-storagesync";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function privateEndpointConnectionsCreate() {
+async function privateEndpointConnectionsCreate(): Promise<void> {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "res7687";
   const storageSyncServiceName = "sss2527";

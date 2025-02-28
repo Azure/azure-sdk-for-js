@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the managementpolicy associated with the specified storage account.
  *
  * @summary Deletes the managementpolicy associated with the specified storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountDeleteManagementPolicy.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountDeleteManagementPolicy.json
  */
-async function storageAccountDeleteManagementPolicies() {
+async function storageAccountDeleteManagementPolicies(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
@@ -36,8 +32,8 @@ async function storageAccountDeleteManagementPolicies() {
   console.log(result);
 }
 
-async function main() {
-  storageAccountDeleteManagementPolicies();
+async function main(): Promise<void> {
+  await storageAccountDeleteManagementPolicies();
 }
 
 main().catch(console.error);

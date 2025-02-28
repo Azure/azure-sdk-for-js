@@ -7,9 +7,7 @@
  */
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Gets the specified subnet by virtual network and resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/SubnetGet.json
  */
-async function getSubnet() {
+async function getSubnet(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "subnet-test";
   const virtualNetworkName = "vnetname";
@@ -34,7 +32,7 @@ async function getSubnet() {
  * @summary Gets the specified subnet by virtual network and resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/SubnetGetWithDelegation.json
  */
-async function getSubnetWithADelegation() {
+async function getSubnetWithADelegation(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "subnet-test";
   const virtualNetworkName = "vnetname";
@@ -51,7 +49,7 @@ async function getSubnetWithADelegation() {
  * @summary Gets the specified subnet by virtual network and resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/SubnetGetWithSharingScope.json
  */
-async function getSubnetWithSharingScope() {
+async function getSubnetWithSharingScope(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "subnet-test";
   const virtualNetworkName = "vnetname";
@@ -62,7 +60,7 @@ async function getSubnetWithSharingScope() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await getSubnet();
   await getSubnetWithADelegation();
   await getSubnetWithSharingScope();

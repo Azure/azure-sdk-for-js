@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets properties of a specified container.
  *
  * @summary Gets properties of a specified container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersGetWithAllowProtectedAppendWritesAll.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersGetWithAllowProtectedAppendWritesAll.json
  */
-async function getBlobContainersGetWithAllowProtectedAppendWritesAll() {
+async function getBlobContainersGetWithAllowProtectedAppendWritesAll(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9871";
@@ -40,9 +36,9 @@ async function getBlobContainersGetWithAllowProtectedAppendWritesAll() {
  * This sample demonstrates how to Gets properties of a specified container.
  *
  * @summary Gets properties of a specified container.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/BlobContainersGet.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/BlobContainersGet.json
  */
-async function getContainers() {
+async function getContainers(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res9871";
@@ -58,9 +54,9 @@ async function getContainers() {
   console.log(result);
 }
 
-async function main() {
-  getBlobContainersGetWithAllowProtectedAppendWritesAll();
-  getContainers();
+async function main(): Promise<void> {
+  await getBlobContainersGetWithAllowProtectedAppendWritesAll();
+  await getContainers();
 }
 
 main().catch(console.error);

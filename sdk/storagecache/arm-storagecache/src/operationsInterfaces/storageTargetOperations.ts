@@ -12,7 +12,7 @@ import {
   StorageTargetSuspendOptionalParams,
   StorageTargetResumeOptionalParams,
   StorageTargetInvalidateOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a StorageTargetOperations. */
 export interface StorageTargetOperations {

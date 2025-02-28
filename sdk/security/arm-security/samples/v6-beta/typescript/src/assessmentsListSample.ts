@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get security assessments on all your scanned resources inside a scope
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get security assessments on all your scanned resources inside a scope
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-06-01/examples/Assessments/ListAssessments_example.json
  */
-async function listSecurityAssessments() {
+async function listSecurityAssessments(): Promise<void> {
   const scope = "subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23";
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential);
@@ -31,7 +29,7 @@ async function listSecurityAssessments() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSecurityAssessments();
 }
 

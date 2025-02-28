@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Get an account
  * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/Accounts_Get.json
  */
-async function accountsGet() {
+async function accountsGet(): Promise<void> {
   const subscriptionId = "12345678-1234-1234-12345678abc";
   const resourceGroupName = "SampleResourceGroup";
   const accountName = "account1";

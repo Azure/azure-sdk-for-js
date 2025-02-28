@@ -12,7 +12,7 @@ import {
   AdvancedThreatProtectionSetting,
   AdvancedThreatProtectionCreateOptionalParams,
   AdvancedThreatProtectionCreateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a AdvancedThreatProtection. */
 export interface AdvancedThreatProtection {

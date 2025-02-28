@@ -8,9 +8,7 @@
 import type { ReferenceDataSetCreateOrUpdateParameters } from "@azure/arm-timeseriesinsights";
 import { TimeSeriesInsightsClient } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a reference data set in the specified environment.
@@ -18,7 +16,7 @@ dotenv.config();
  * @summary Create or update a reference data set in the specified environment.
  * x-ms-original-file: specification/timeseriesinsights/resource-manager/Microsoft.TimeSeriesInsights/preview/2021-03-31-preview/examples/ReferenceDataSetsCreate.json
  */
-async function referenceDataSetsCreate() {
+async function referenceDataSetsCreate(): Promise<void> {
   const subscriptionId = process.env["TIMESERIESINSIGHTS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["TIMESERIESINSIGHTS_RESOURCE_GROUP"] || "rg1";
   const environmentName = "env1";
@@ -41,7 +39,7 @@ async function referenceDataSetsCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await referenceDataSetsCreate();
 }
 

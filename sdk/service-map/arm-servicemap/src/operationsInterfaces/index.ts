@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./machines";
-export * from "./processes";
-export * from "./ports";
-export * from "./clientGroups";
-export * from "./maps";
-export * from "./summaries";
-export * from "./machineGroups";
+export * from "./machines.js";
+export * from "./processes.js";
+export * from "./ports.js";
+export * from "./clientGroups.js";
+export * from "./maps.js";
+export * from "./summaries.js";
+export * from "./machineGroups.js";

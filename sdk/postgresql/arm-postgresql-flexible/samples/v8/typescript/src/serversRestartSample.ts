@@ -19,7 +19,7 @@ import "dotenv/config";
  * @summary Restarts a server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerRestart.json
  */
-async function serverRestart() {
+async function serverRestart(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -44,7 +44,7 @@ async function serverRestart() {
  * @summary Restarts a server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/ServerRestartWithFailover.json
  */
-async function serverRestartWithFailover() {
+async function serverRestartWithFailover(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -69,7 +69,7 @@ async function serverRestartWithFailover() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   serverRestart();
   serverRestartWithFailover();
 }

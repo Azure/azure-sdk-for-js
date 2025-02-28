@@ -7,9 +7,7 @@
  */
 import { SynapseManagementClient } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a Kusto pool principalAssignment.
@@ -17,7 +15,7 @@ dotenv.config();
  * @summary Deletes a Kusto pool principalAssignment.
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDatabasePrincipalAssignmentsDelete.json
  */
-async function kustoPoolDatabasePrincipalAssignmentsDelete() {
+async function kustoPoolDatabasePrincipalAssignmentsDelete(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] || "12345678-1234-1234-1234-123456789098";
   const workspaceName = "synapseWorkspaceName";
@@ -37,7 +35,7 @@ async function kustoPoolDatabasePrincipalAssignmentsDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await kustoPoolDatabasePrincipalAssignmentsDelete();
 }
 

@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { DiagnosticSettingsResource as DiagnosticSettingsResourceMapper } from "../models/mappers";
+import { DiagnosticSettingsResource as DiagnosticSettingsResourceMapper } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

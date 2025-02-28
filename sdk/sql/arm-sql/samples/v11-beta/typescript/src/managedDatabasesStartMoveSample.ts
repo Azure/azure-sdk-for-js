@@ -13,9 +13,7 @@ import {
   SqlManagementClient,
 } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Starts a managed database move operation.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Starts a managed database move operation.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseStartMoveMax.json
  */
-async function startsAManagedDatabaseMoveWithAllOptionalParametersSpecified() {
+async function startsAManagedDatabaseMoveWithAllOptionalParametersSpecified(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -52,7 +50,7 @@ async function startsAManagedDatabaseMoveWithAllOptionalParametersSpecified() {
  * @summary Starts a managed database move operation.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ManagedDatabaseStartMoveMin.json
  */
-async function startsAManagedDatabaseMoveWithNoOptionalParametersSpecified() {
+async function startsAManagedDatabaseMoveWithNoOptionalParametersSpecified(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -74,7 +72,7 @@ async function startsAManagedDatabaseMoveWithNoOptionalParametersSpecified() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   startsAManagedDatabaseMoveWithAllOptionalParametersSpecified();
   startsAManagedDatabaseMoveWithNoOptionalParametersSpecified();
 }

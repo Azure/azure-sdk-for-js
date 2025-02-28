@@ -13,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes the specified service endpoint policy.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceEndpointPolicyDelete.json
  */
-async function deleteServiceEndpointPolicy() {
+async function deleteServiceEndpointPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List all the performance tiers for a MySQL server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/PerformanceTiersListByServer.json
  */
-async function performanceTiersList() {
+async function performanceTiersList(): Promise<void> {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = "testrg";
   const serverName = "mysqltestsvc1";

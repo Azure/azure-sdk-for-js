@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a certificate profile.
  * x-ms-original-file: 2024-02-05-preview/CertificateProfiles_Create.json
  */
-async function createACertificateProfile() {
+async function createACertificateProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
@@ -30,7 +30,7 @@ async function createACertificateProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await createACertificateProfile();
 }
 

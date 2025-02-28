@@ -18,7 +18,7 @@ import {
   SyncIdentityProviderUpdate,
   SyncIdentityProvidersUpdateOptionalParams,
   SyncIdentityProvidersUpdateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SyncIdentityProviders. */

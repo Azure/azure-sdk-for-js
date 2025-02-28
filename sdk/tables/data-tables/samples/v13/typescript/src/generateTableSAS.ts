@@ -19,14 +19,12 @@ import {
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const tablesUrl = process.env["TABLES_URL"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
 
-async function generateTableSasSample() {
+async function generateTableSasSample(): Promise<void> {
   console.log("== Generate Table Account SAS Sample ==");
 
   // We need a NamedKeyCredential to generate the SAS token
@@ -106,7 +104,7 @@ async function generateTableSasSample() {
   await tableService.deleteTable(tableName);
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await generateTableSasSample();
 }
 

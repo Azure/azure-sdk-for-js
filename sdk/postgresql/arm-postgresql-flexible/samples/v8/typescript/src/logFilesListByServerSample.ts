@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary List all the server log files in a given server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/LogFilesListByServer.json
  */
-async function listAllServerLogFilesForAServer() {
+async function listAllServerLogFilesForAServer(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -37,7 +37,7 @@ async function listAllServerLogFilesForAServer() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllServerLogFilesForAServer();
 }
 

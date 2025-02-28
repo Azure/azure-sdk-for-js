@@ -15,7 +15,7 @@ import "dotenv/config";
  * @summary Gets a private link resource for PostgreSQL server.
  * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2024-08-01/examples/PrivateLinkResourcesGet.json
  */
-async function getsAPrivateLinkResourceForPostgreSql() {
+async function getsAPrivateLinkResourceForPostgreSql(): Promise<void> {
   const subscriptionId =
     process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -36,7 +36,7 @@ async function getsAPrivateLinkResourceForPostgreSql() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsAPrivateLinkResourceForPostgreSql();
 }
 

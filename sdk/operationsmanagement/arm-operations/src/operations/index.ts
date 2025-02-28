@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./solutions";
-export * from "./managementAssociations";
-export * from "./managementConfigurations";
-export * from "./operations";
+export * from "./solutions.js";
+export * from "./managementAssociations.js";
+export * from "./managementConfigurations.js";
+export * from "./operations.js";
