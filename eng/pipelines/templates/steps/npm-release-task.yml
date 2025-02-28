@@ -35,16 +35,6 @@ steps:
         echo "##vso[task.setvariable variable=IntendedTagVersion]$packageVersion"
       displayName: Get original tags
 
-    - task: AzurePowerShell@5
-      displayName: Get Certficate Details
-      inputs:
-        azureSubscription: 'Azure SDK PME Managed Identity'
-        scriptType: 'inlineScript'
-        pwsh: true
-        inline: |
-          Get-AzKeyVaultCertificate -VaultName 'kv-azuresdk-codesign' -Name 'azure-sdk-esrp-release-certificate'
-        workingDirectory: '$(System.DefaultWorkingDirectory)'
-
     - task: EsrpRelease@9
       displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
       inputs:
