@@ -128,9 +128,9 @@ async function reportingPerformanceRelatedImpact(): Promise<void> {
 
 async function main(): Promise<void> {
   await reportingArmOperationFailure();
-  reportingAvailabilityRelatedImpact();
-  reportingAConnectivityImpact();
-  reportingPerformanceRelatedImpact();
+  await reportingAvailabilityRelatedImpact();
+  await reportingAConnectivityImpact();
+  await reportingPerformanceRelatedImpact();
 }
 
 main().catch(console.error);

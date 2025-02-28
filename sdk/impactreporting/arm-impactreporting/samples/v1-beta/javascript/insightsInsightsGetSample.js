@@ -48,8 +48,8 @@ async function getInsightSampleForServiceHealthCategory() {
 
 async function main() {
   await getInsightSampleForDiagnosticsCategory();
-  getInsightSampleForMitigationActionCategory();
-  getInsightSampleForServiceHealthCategory();
+  await getInsightSampleForMitigationActionCategory();
+  await getInsightSampleForServiceHealthCategory();
 }
 
 main().catch(console.error);

@@ -48,8 +48,8 @@ async function getInsightSampleForServiceHealthCategory(): Promise<void> {
 
 async function main(): Promise<void> {
   await getInsightSampleForDiagnosticsCategory();
-  getInsightSampleForMitigationActionCategory();
-  getInsightSampleForServiceHealthCategory();
+  await getInsightSampleForMitigationActionCategory();
+  await getInsightSampleForServiceHealthCategory();
 }
 
 main().catch(console.error);
