@@ -25,7 +25,7 @@ import {
   TopicsImpl,
   RulesImpl,
   SubscriptionsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Namespaces,
   PrivateEndpointConnections,
@@ -37,8 +37,8 @@ import {
   Topics,
   Rules,
   Subscriptions
-} from "./operationsInterfaces";
-import { ServiceBusManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ServiceBusManagementClientOptionalParams } from "./models/index.js";
 
 export class ServiceBusManagementClient extends coreClient.ServiceClient {
   $host: string;

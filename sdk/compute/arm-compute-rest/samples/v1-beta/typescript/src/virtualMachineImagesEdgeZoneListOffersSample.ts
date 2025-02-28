@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineImagesEdgeZoneListOffersParameters
+  VirtualMachineImagesEdgeZoneListOffersParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location, edge zone and publisher.
@@ -25,7 +20,7 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
   const edgeZone = "aaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaa";
   const options: VirtualMachineImagesEdgeZoneListOffersParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
       subscriptionId,
       location,
       edgeZone,
-      publisherName
+      publisherName,
     )
     .get(options);
   console.log(result);
@@ -54,7 +49,7 @@ async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
   const edgeZone = "aaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineImagesEdgeZoneListOffersParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
@@ -62,7 +57,7 @@ async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
       subscriptionId,
       location,
       edgeZone,
-      publisherName
+      publisherName,
     )
     .get(options);
   console.log(result);

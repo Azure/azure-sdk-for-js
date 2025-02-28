@@ -6,16 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  LotsListByBillingAccountOptionalParams,
-  ConsumptionManagementClient
-} from "@azure/arm-consumption";
+import type { LotsListByBillingAccountOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a billing profile. Microsoft Azure consumption commitments are only supported for the billing account scope.
@@ -23,17 +17,14 @@ dotenv.config();
  * @summary Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a billing profile. Microsoft Azure consumption commitments are only supported for the billing account scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/LotsListByBillingAccount.json
  */
-async function lotsListByBillingAccount() {
+async function lotsListByBillingAccount(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const billingAccountId = "1234:5678";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.lotsOperations.listByBillingAccount(
-    billingAccountId
-  )) {
+  for await (const item of client.lotsOperations.listByBillingAccount(billingAccountId)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -45,28 +36,24 @@ async function lotsListByBillingAccount() {
  * @summary Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a billing profile. Microsoft Azure consumption commitments are only supported for the billing account scope.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/LotsListByBillingAccountWithFilters.json
  */
-async function lotsListByBillingAccountWithStatusFilter() {
+async function lotsListByBillingAccountWithStatusFilter(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const billingAccountId = "1234:5678";
   const filter = "status eq 'active' AND source eq 'consumptioncommitment'";
   const options: LotsListByBillingAccountOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.lotsOperations.listByBillingAccount(
-    billingAccountId,
-    options
-  )) {
+  for await (const item of client.lotsOperations.listByBillingAccount(billingAccountId, options)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  lotsListByBillingAccount();
-  lotsListByBillingAccountWithStatusFilter();
+async function main(): Promise<void> {
+  await lotsListByBillingAccount();
+  await lotsListByBillingAccountWithStatusFilter();
 }
 
 main().catch(console.error);

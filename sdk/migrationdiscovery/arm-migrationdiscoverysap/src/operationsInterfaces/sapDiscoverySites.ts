@@ -22,7 +22,7 @@ import {
   SapDiscoverySitesDeleteOptionalParams,
   SapDiscoverySitesImportEntitiesOptionalParams,
   SapDiscoverySitesImportEntitiesResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SapDiscoverySites. */

@@ -11,11 +11,6 @@ import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
 import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 
-interface GroupByResponse {
-  result: GroupByResult;
-  headers: CosmosHeaders;
-}
-
 interface GroupByResult {
   groupByItems: any[];
   payload: any;
@@ -36,39 +31,36 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     this.aggregateType = this.queryInfo.aggregates[0];
   }
 
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    // Start returning results if we have processed a full results set
-    if (this.aggregateResultArray.length > 0) {
-      return {
-        result: this.aggregateResultArray.pop(),
-        headers: getInitialHeader(),
-      };
-    }
+  public hasMoreResults(): boolean {
+    return this.executionContext.hasMoreResults();
+  }
 
+  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     if (this.completed) {
       return {
         result: undefined,
         headers: getInitialHeader(),
       };
     }
-
     const aggregateHeaders = getInitialHeader();
+    const response = await this.executionContext.fetchMore(diagnosticNode);
+    mergeHeaders(aggregateHeaders, response.headers);
 
-    while (this.executionContext.hasMoreResults()) {
-      // Grab the next result
-      const { result, headers } = (await this.executionContext.nextItem(
-        diagnosticNode,
-      )) as GroupByResponse;
-      mergeHeaders(aggregateHeaders, headers);
+    if (response === undefined || response.result === undefined) {
+      if (this.aggregators.size > 0) {
+        return this.generateAggregateResponse(aggregateHeaders);
+      }
+      return { result: undefined, headers: aggregateHeaders };
+    }
 
-      // If it exists, process it via aggregators
-      if (result) {
+    for (const item of response.result as GroupByResult[]) {
+      if (item) {
         let grouping: string = emptyGroup;
-        let payload: any = result;
-        if (result.groupByItems) {
+        let payload: any = item;
+        if (item.groupByItems) {
           // If the query contains a GROUP BY clause, it will have a payload property and groupByItems
-          payload = result.payload;
-          grouping = await hashObject(result.groupByItems);
+          payload = item.payload;
+          grouping = await hashObject(item.groupByItems);
         }
 
         const aggregator = this.aggregators.get(grouping);
@@ -99,18 +91,26 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
         headers: aggregateHeaders,
       };
     }
-    // If no results are left in the underlying execution context, convert our aggregate results to an array
+
+    if (this.executionContext.hasMoreResults()) {
+      return { result: [], headers: aggregateHeaders };
+    } else {
+      // If no results are left in the underlying execution context, convert our aggregate results to an array
+      return this.generateAggregateResponse(aggregateHeaders);
+    }
+  }
+
+  private generateAggregateResponse(aggregateHeaders: CosmosHeaders): Response<any> {
     for (const aggregator of this.aggregators.values()) {
-      this.aggregateResultArray.push(aggregator.getResult());
+      const result = aggregator.getResult();
+      if (result !== undefined) {
+        this.aggregateResultArray.push(result);
+      }
     }
     this.completed = true;
     return {
-      result: this.aggregateResultArray.pop(),
+      result: this.aggregateResultArray,
       headers: aggregateHeaders,
     };
-  }
-
-  public hasMoreResults(): boolean {
-    return this.executionContext.hasMoreResults() || this.aggregateResultArray.length > 0;
   }
 }

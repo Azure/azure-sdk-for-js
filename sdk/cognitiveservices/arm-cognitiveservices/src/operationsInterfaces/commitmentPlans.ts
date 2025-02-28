@@ -33,7 +33,7 @@ import {
   CommitmentPlansCreateOrUpdateAssociationOptionalParams,
   CommitmentPlansCreateOrUpdateAssociationResponse,
   CommitmentPlansDeleteAssociationOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CommitmentPlans. */

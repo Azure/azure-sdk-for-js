@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Connectors } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Connectors } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SecurityCenter } from "../securityCenter";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SecurityCenter } from "../securityCenter.js";
 import {
   ConnectorSetting,
   ConnectorsListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   ConnectorsCreateOrUpdateResponse,
   ConnectorsDeleteOptionalParams,
   ConnectorsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Connectors operations. */

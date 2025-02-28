@@ -18,6 +18,9 @@ package-version: 1.1.0
 v3: true
 hide-clients: true
 typescript: true
+module-kind: esm
+use-extension:
+  "@autorest/typescript": "6.0.34"
 ```
 
 ## Customizations for Track 2 Generator
@@ -78,7 +81,7 @@ directive:
   - where-model: SentimentAnalysisAction
     transform:
       $.description = "Options for a sentiment analysis action.";
-      $.properties.opinionMining.description = "Enables performing opinion mining on the input documents, a more  granular analysis around the aspects of a product or service (also known as aspect-based sentiment analysis). If set to true, {@link SentenceSentiment.opinions} will contain the results of this analysis. See {@link https://docs.microsoft.com/azure/cognitive-services/language-service/sentiment-opinion-mining/overview#opinion-mining the service documentation} for more information.";
+      $.properties.opinionMining.description = "Enables performing opinion mining on the input documents, a more  granular analysis around the aspects of a product or service (also known as aspect-based sentiment analysis). If set to true, {@link SentenceSentiment.opinions} will contain the results of this analysis. See {@link https://learn.microsoft.com/azure/cognitive-services/language-service/sentiment-opinion-mining/overview#opinion-mining the service documentation} for more information.";
       $.properties.opinionMining["x-ms-client-name"] = "includeOpinionMining";
   - rename-model:
       from: KeyPhraseTaskParameters
@@ -336,13 +339,13 @@ directive:
     transform: $.description = "Represents a warning encountered while processing a document."
   - from: swagger-document
     where: $.definitions.SentenceSentiment
-    transform: $.description = "The predicted sentiment for a given span of text. For more information regarding text sentiment, seehttps://docs.microsoft.com/azure/cognitive-services/language-service/sentiment-opinion-mining/overview."
+    transform: $.description = "The predicted sentiment for a given span of text. For more information regarding text sentiment, seehttps://learn.microsoft.com/azure/cognitive-services/language-service/sentiment-opinion-mining/overview."
   - from: swagger-document
     where: $.definitions.Match
     transform: $.description = "Details about the specific substring in a document that refers to a linked entity identified by the Language model."
   - from: swagger-document
     where: $.definitions.Entity
-    transform: $.description = "A word or phrase identified as an entity that is categorized within a taxonomy of types. The set of categories recognized by the Language service is described at https://docs.microsoft.com/azure/cognitive-services/language-service/named-entity-recognition/concepts/named-entity-categories ."
+    transform: $.description = "A word or phrase identified as an entity that is categorized within a taxonomy of types. The set of categories recognized by the Language service is described at https://learn.microsoft.com/azure/cognitive-services/language-service/named-entity-recognition/concepts/named-entity-categories ."
   - from: swagger-document
     where: $.definitions.LinkedEntity
     transform: $.description = "A word or phrase identified as a well-known entity within a database, including its formal (disambiguated) name and a link to the entity information within the source database."

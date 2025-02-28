@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all Node types of the specified managed cluster.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets all Node types of the specified managed cluster.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/NodeTypeListOperation_example.json
  */
-async function listNodeTypeOfTheSpecifiedManagedCluster() {
+async function listNodeTypeOfTheSpecifiedManagedCluster(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,7 +40,7 @@ async function listNodeTypeOfTheSpecifiedManagedCluster() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listNodeTypeOfTheSpecifiedManagedCluster();
 }
 

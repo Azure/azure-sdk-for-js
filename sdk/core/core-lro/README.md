@@ -7,8 +7,8 @@ This is the default implementation of long running operations in Azure SDK JavaS
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro)
-- [Package (npm)](https://www.npmjs.com/package/@azure/core-lro) 
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/core-lro) 
+- [Package (npm)](https://www.npmjs.com/package/@azure/core-lro)
+- [API Reference Documentation](https://learn.microsoft.com/javascript/api/@azure/core-lro)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/samples)
 
 ## Getting started
@@ -42,7 +42,7 @@ A poller is an object that can poll the long running operation on the server for
 
 A type for the operation state. It contains a `status` field with the following possible values: `notStarted`, `running`, `succeeded`, `failed`, and `canceled`. It can be accessed as follows:
 
-```typescript snippet:operation_state
+```typescript snippet:OperationStateExample
 switch (poller.operationState.status) {
   case "succeeded": // return poller.getResult();
   case "failed": // throw poller.getOperationState().error;
@@ -58,7 +58,6 @@ A function that returns an object of type `SimplePollerLike`. This poller behave
 
 - calls to `poll` and `pollUntilDone` will throw an error in case the operation has failed or canceled unless the `resolveOnUnsuccessful` option was set to true.
 - `poller.getOperationState().status` will be set to true when either the operation fails or it returns an error response.
-
 
 ## Examples
 
@@ -90,5 +89,3 @@ then run the unit tests with: `npm run unit-test`.
 This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-lro%2FREADME.png)

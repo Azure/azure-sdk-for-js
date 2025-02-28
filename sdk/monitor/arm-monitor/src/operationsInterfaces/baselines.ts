@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SingleMetricBaseline, BaselinesListOptionalParams } from "../models";
+import { SingleMetricBaseline, BaselinesListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Baselines. */

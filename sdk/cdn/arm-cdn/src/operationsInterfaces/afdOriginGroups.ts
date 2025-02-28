@@ -21,7 +21,7 @@ import {
   AfdOriginGroupsUpdateOptionalParams,
   AfdOriginGroupsUpdateResponse,
   AfdOriginGroupsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AfdOriginGroups. */

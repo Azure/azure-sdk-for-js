@@ -253,7 +253,7 @@ class UI {
     constructor(opts) {
         var _a;
         this.width = opts.width;
-        this.wrap = (_a = opts.wrap) !== null && _a !== void 0 ? _a : true;
+        this.wrap = (_a = opts.wrap) !== null && _a !== undefined ? _a : true;
         this.rows = [];
     }
     span(...args) {
@@ -523,8 +523,8 @@ let mixin;
 function cliui(opts, _mixin) {
     mixin = _mixin;
     return new UI({
-        width: (opts === null || opts === void 0 ? void 0 : opts.width) || getWindowWidth(),
-        wrap: opts === null || opts === void 0 ? void 0 : opts.wrap
+        width: (opts === null || opts === undefined ? undefined : opts.width) || getWindowWidth(),
+        wrap: opts === null || opts === undefined ? undefined : opts.wrap
     });
 }
 
@@ -875,7 +875,7 @@ const buildGetConfig = (gray, red) => {
         }
         else {
             gray("Retrieved from the command parameters");
-            Object.entries(configPartial).forEach(([key, value]) => { var _a; return value != null && gray(`${(_a = fieldIdToName[key]) !== null && _a !== void 0 ? _a : key}: ${value}`); });
+            Object.entries(configPartial).forEach(([key, value]) => { var _a; return value != null && gray(`${(_a = fieldIdToName[key]) !== null && _a !== undefined ? _a : key}: ${value}`); });
             return configPartial;
         }
     };

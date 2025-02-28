@@ -13,9 +13,7 @@ import {
   EventGridManagementClient,
 } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Asynchronously updates a partner topic with the specified parameters.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Asynchronously updates a partner topic with the specified parameters.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PartnerTopics_Update.json
  */
-async function partnerTopicsUpdate() {
+async function partnerTopicsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
     "8f6b6269-84f2-4d09-9e31-1127efcd1e40";
@@ -43,7 +41,7 @@ async function partnerTopicsUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   partnerTopicsUpdate();
 }
 

@@ -64,9 +64,10 @@ export const commandInfo = makeCommandInfo(
 
 async function commitChanges(projectFolder: string, message: string): Promise<void> {
   log.info("Committing changes, message: ", message);
-  await run(["git", "add", "."], { cwd: projectFolder });
+  await run(["git", "add", "."], { cwd: projectFolder, captureOutput: true });
   await run(["git", "commit", "--allow-empty", "-m", `Migration: ${message}`], {
     cwd: projectFolder,
+    captureOutput: true,
   });
 }
 
@@ -88,8 +89,12 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await applyCodemods(projectFolder);
 
   log.info("Formatting files");
-  await run(["rushx", "format"], { cwd: projectFolder, shell: isWindows() });
-  await commitChanges(projectFolder, "rushx format");
+  await run(["npm", "run", "format"], {
+    cwd: projectFolder,
+    shell: isWindows(),
+    captureOutput: true,
+  });
+  await commitChanges(projectFolder, "npm run format");
 
   log.info(
     "Done. Please run `rush update`, `rush build -t <project-name>`, and run tests to verify the changes.",
@@ -138,7 +143,9 @@ async function applyCodemods(projectFolder: string): Promise<void> {
       mod(sourceFile);
 
       // Clean up source file after applying the codemod
-      sourceFile.fixUnusedIdentifiers();
+      if (!sourceFile.getBaseName().includes("snippets.spec.ts")) {
+        sourceFile.fixUnusedIdentifiers();
+      }
 
       await sourceFile.save();
     }
@@ -150,9 +157,18 @@ const VITEST_CONFIG = `
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.shared.config.ts";
 
-export default viteConfig;
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
+    },
+  }),
+);
 `;
 
 const VITEST_BROWSER_CONFIG = `
@@ -166,9 +182,9 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: [
-        "dist-test/browser/test/**/*.spec.js",
-      ],
+      include: ["dist-test/browser/test/**/*.spec.js",],
+      testTimeout: 1200000,
+      hookTimeout: 1200000,
     },
   }),
 );
@@ -190,14 +206,7 @@ export default mergeConfig(
 
 async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
   const testConfig = {
-    extends: "./.tshy/build.json",
-    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts", "./test/**/*.mts"],
-    exclude: ["./test/**/node/**/*.ts"],
-    compilerOptions: {
-      outDir: "./dist-test/browser",
-      rootDir: ".",
-      skipLibCheck: true,
-    },
+    extends: ["./tsconfig.test.json", "../../../tsconfig.browser.base.json"],
   };
 
   await saveJson(resolve(packageFolder, "tsconfig.browser.config.json"), testConfig);
@@ -329,8 +338,7 @@ function setScriptsSection(
   scripts: PackageJson["scripts"],
   options: { browser: boolean; isArm: boolean },
 ): void {
-  scripts["build"] =
-    "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api";
+  scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
   if (options.browser) {
     scripts["unit-test:browser"] =
@@ -340,6 +348,7 @@ function setScriptsSection(
   scripts["unit-test:node"] = "dev-tool run test:vitest";
 
   if (options.isArm) {
+    scripts["unit-test:browser"] = "echo skipped";
     scripts["integration-test:node"] = "dev-tool run test:vitest --esm";
   }
 
@@ -390,6 +399,35 @@ function addTypeScriptHybridizer(packageJson: any, options: { browser: boolean }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function addNewPackages(packageJson: any, options: { browser: boolean }): Promise<void> {
+  // Update dev dependencies on the core projects
+  const newCorePackages: Record<string, string | undefined> = {
+    "@azure/abort-controller": undefined,
+    "@azure/core-auth": undefined,
+    "@azure/core-client": undefined,
+    "@azure/core-paging": undefined,
+    "@azure/core-rest-pipeline": undefined,
+    "@azure/core-tracing": undefined,
+    "@azure/core-util": undefined,
+    "@azure/logger": undefined,
+    tslib: undefined,
+  };
+
+  for (const [newPackage, desiredMinVersion] of Object.entries(newCorePackages)) {
+    if (packageJson.dependencies[newPackage]) {
+      let latestVersion = desiredMinVersion;
+      if (!latestVersion) {
+        // Get the latest version from npm
+        latestVersion = (
+          await run(["npm", "view", newPackage, "version"], {
+            captureOutput: true,
+            shell: isWindows(),
+          })
+        ).output;
+      }
+      packageJson.dependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
+    }
+  }
+
   const newPackages: Record<string, string | undefined> = {
     "@azure-tools/test-utils-vitest": "1.0.0",
     "@vitest/coverage-istanbul": undefined,
@@ -415,15 +453,36 @@ async function addNewPackages(packageJson: any, options: { browser: boolean }): 
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
 
+  // add workaround to fix nmet peer dependencies issue
+  packageJson.devDependencies["vitest"] = "^3.0.6";
+  packageJson.devDependencies["@vitest/coverage-istanbul"] = "^3.0.6";
+  if (options.browser) {
+    packageJson.devDependencies["@vitest/browser"] = "^3.0.6";
+  }
+
+  // Freeze these packages until we have a chance to update them
   const packagesToUpdate = [
-    { package: "@azure-tools/test-credential", version: "^2.0.0" },
-    { package: "@azure-tools/test-recorder", version: "^4.1.0" },
+    { package: "@azure-tools/test-credential", version: "2.0.0" },
+    { package: "@azure-tools/test-recorder", version: "4.1.0" },
+    { package: "@azure/identity", version: undefined },
+    { package: "@azure/logger", version: undefined },
+    { package: "@azure/core-util", version: undefined },
   ];
 
   // Update additional if there
   for (const { package: packageName, version } of packagesToUpdate) {
     if (packageJson.devDependencies[packageName]) {
-      packageJson.devDependencies[packageName] = version;
+      let latestVersion = version;
+      if (!latestVersion) {
+        // Get the latest version from npm
+        latestVersion = (
+          await run(["npm", "view", packageName, "version"], {
+            captureOutput: true,
+            shell: isWindows(),
+          })
+        ).output;
+      }
+      packageJson.devDependencies[packageName] = `^${latestVersion.replace("\n", "")}`;
     }
   }
 }
@@ -452,6 +511,7 @@ function removeLegacyPackages(packageJson: any): void {
     "puppeteer",
     "source-map-support",
     "ts-node",
+    "tsx",
     "uglify-js",
     "@types/chai-as-promised",
     "@types/mocha",

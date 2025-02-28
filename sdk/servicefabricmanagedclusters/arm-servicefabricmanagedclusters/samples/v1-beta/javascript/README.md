@@ -143,6 +143,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [servicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/samples/v1-beta/javascript/servicesGetSample.js
 [serviceslistbyapplicationssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/samples/v1-beta/javascript/servicesListByApplicationsSample.js
 [servicesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/samples/v1-beta/javascript/servicesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-servicefabricmanagedclusters?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-servicefabricmanagedclusters?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters/README.md

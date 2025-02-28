@@ -379,6 +379,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [namespaceschecknameavailabilitysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appcontainers/arm-appcontainers/samples/v2-beta/javascript/namespacesCheckNameAvailabilitySample.js
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appcontainers/arm-appcontainers/samples/v2-beta/javascript/operationsListSample.js
 [usageslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appcontainers/arm-appcontainers/samples/v2-beta/javascript/usagesListSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appcontainers?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appcontainers?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appcontainers/arm-appcontainers/README.md

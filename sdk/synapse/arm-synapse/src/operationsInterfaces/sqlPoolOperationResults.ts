@@ -10,7 +10,7 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   SqlPoolOperationResultsGetLocationHeaderResultOptionalParams,
   SqlPoolOperationResultsGetLocationHeaderResultResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolOperationResults. */
 export interface SqlPoolOperationResults {

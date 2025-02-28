@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./springbootsites";
-export * from "./operations";
-export * from "./springbootservers";
-export * from "./springbootapps";
-export * from "./summaries";
-export * from "./errorSummaries";
+export * from "./springbootsites.js";
+export * from "./operations.js";
+export * from "./springbootservers.js";
+export * from "./springbootapps.js";
+export * from "./summaries.js";
+export * from "./errorSummaries.js";

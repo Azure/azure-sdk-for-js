@@ -16,7 +16,7 @@ import {
   SubscriptionFeatureRegistrationsCreateOrUpdateOptionalParams,
   SubscriptionFeatureRegistrationsCreateOrUpdateResponse,
   SubscriptionFeatureRegistrationsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SubscriptionFeatureRegistrations. */

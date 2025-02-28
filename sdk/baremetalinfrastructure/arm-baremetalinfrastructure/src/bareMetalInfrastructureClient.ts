@@ -18,13 +18,13 @@ import {
   AzureBareMetalInstancesImpl,
   OperationsImpl,
   AzureBareMetalStorageInstancesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   AzureBareMetalInstances,
   Operations,
   AzureBareMetalStorageInstances
-} from "./operationsInterfaces";
-import { BareMetalInfrastructureClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { BareMetalInfrastructureClientOptionalParams } from "./models/index.js";
 
 export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
   $host: string;

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Device, AzureSphereManagementClient } from "@azure/arm-sphere";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a Device. Use '.unassigned' or '.default' for the device group and product names to claim a device to the catalog only.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a Device. Use '.unassigned' or '.default' for the device group and product names to claim a device to the catalog only.
  * x-ms-original-file: specification/sphere/resource-manager/Microsoft.AzureSphere/stable/2024-04-01/examples/PutDevice.json
  */
-async function devicesCreateOrUpdate() {
+async function devicesCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["SPHERE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,7 +43,7 @@ async function devicesCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   devicesCreateOrUpdate();
 }
 

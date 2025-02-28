@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the configuration of service URI and custom headers for the webhook.
  *
  * @summary Gets the configuration of service URI and custom headers for the webhook.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/WebhookGetCallbackConfig.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/WebhookGetCallbackConfig.json
  */
 async function webhookGetCallbackConfig() {
   const subscriptionId =
@@ -29,13 +29,13 @@ async function webhookGetCallbackConfig() {
   const result = await client.webhooks.getCallbackConfig(
     resourceGroupName,
     registryName,
-    webhookName
+    webhookName,
   );
   console.log(result);
 }
 
 async function main() {
-  webhookGetCallbackConfig();
+  await webhookGetCallbackConfig();
 }
 
 main().catch(console.error);

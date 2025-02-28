@@ -18,7 +18,7 @@ import {
   DevOpsConfigurationsUpdateOptionalParams,
   DevOpsConfigurationsUpdateResponse,
   DevOpsConfigurationsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DevOpsConfigurations. */

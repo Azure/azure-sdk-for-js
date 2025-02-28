@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates a database.
  *
  * @summary Updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasesUpdate.json
  */
 async function kustoDatabasesUpdate() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function kustoDatabasesUpdate() {
 }
 
 async function main() {
-  kustoDatabasesUpdate();
+  await kustoDatabasesUpdate();
 }
 
 main().catch(console.error);

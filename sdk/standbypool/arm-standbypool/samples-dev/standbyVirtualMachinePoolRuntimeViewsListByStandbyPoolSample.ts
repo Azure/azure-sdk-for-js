@@ -10,12 +10,12 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list StandbyVirtualMachinePoolRuntimeViewResource resources by StandbyVirtualMachinePoolResource
  * x-ms-original-file: 2024-03-01/StandbyVirtualMachinePoolRuntimeViews_ListByStandbyPool.json
  */
-async function standbyVirtualMachinePoolRuntimeViewsListByStandbyPool() {
+async function standbyVirtualMachinePoolRuntimeViewsListByStandbyPool(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000009";
   const client = new StandbyPoolManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.standbyVirtualMachinePoolRuntimeViews.listByStandbyPool(
+  for await (const item of client.standbyVirtualMachinePoolRuntimeViews.listByStandbyPool(
     "rgstandbypool",
     "pool",
   )) {
@@ -25,8 +25,8 @@ async function standbyVirtualMachinePoolRuntimeViewsListByStandbyPool() {
   console.log(resArray);
 }
 
-async function main() {
-  standbyVirtualMachinePoolRuntimeViewsListByStandbyPool();
+async function main(): Promise<void> {
+  await standbyVirtualMachinePoolRuntimeViewsListByStandbyPool();
 }
 
 main().catch(console.error);

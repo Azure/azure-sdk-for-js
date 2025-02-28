@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all the keys associated with this workspace. This includes keys for the storage account, app insights and password for container registry
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Workspace/listKeys.json
  */
-async function listWorkspaceKeys() {
+async function listWorkspaceKeys(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee";
@@ -39,7 +37,7 @@ async function listWorkspaceKeys() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listWorkspaceKeys();
 }
 

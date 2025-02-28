@@ -3,9 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import type { Context } from "mocha";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type {
   ApplicationTypeResourceListOutput,
   ApplicationTypeResourceOutput,
@@ -15,8 +13,9 @@ import type {
   ClustersCreateOrUpdateParameters,
   ClustersUpdateParameters,
   ServiceFabricClient,
-} from "../../src/index";
-import { getLongRunningPoller } from "../../src/index";
+} from "../../src/index.js";
+import { getLongRunningPoller } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -31,8 +30,8 @@ describe("Service Fabric Rest Level Client Test", () => {
   let clusterName: string;
   let applicationTypeName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     client = await createClient(recorder);
@@ -42,23 +41,14 @@ describe("Service Fabric Rest Level Client Test", () => {
     applicationTypeName = "myapplicationtypexxxy";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("clusters create test", async function () {
+  it("clusters create test", async () => {
     const parameters: ClustersCreateOrUpdateParameters = {
       body: {
-        type: "Microsoft.ServiceFabric/clusters",
         location: location,
-        id:
-          "/subscriptions/" +
-          subscriptionId +
-          "/resourceGroups/" +
-          resourceGroup +
-          "/providers/Microsoft.ServiceFabric/clusters/" +
-          clusterName,
-        name: clusterName,
         properties: {
           managementEndpoint: "http://myCluster.eastus.cloudapp.azure.com:19080",
           fabricSettings: [
@@ -110,27 +100,16 @@ describe("Service Fabric Rest Level Client Test", () => {
         clusterName,
       )
       .put(parameters);
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.status, "200");
     assert.equal((result.body as ClusterOutput).name, clusterName);
   });
 
-  it("applicationTypes create test", async function () {
+  it("applicationTypes create test", async () => {
     const parameters: ApplicationTypesCreateOrUpdateParameters = {
       body: {
-        type: "applicationTypes",
         location: location,
-        id:
-          "/subscriptions/" +
-          subscriptionId +
-          "/resourceGroups/" +
-          resourceGroup +
-          "/providers/Microsoft.ServiceFabric/clusters/" +
-          clusterName +
-          "/applicationTypes/" +
-          applicationTypeName,
-        name: "myCluster",
       },
     };
     const result = await client
@@ -146,7 +125,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ApplicationTypeResourceOutput).name, applicationTypeName);
   });
 
-  it("clusters get test", async function () {
+  it("clusters get test", async () => {
     const result = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
@@ -159,7 +138,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ClusterOutput).name, clusterName);
   });
 
-  it("applicationTypes get test", async function () {
+  it("applicationTypes get test", async () => {
     const result = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}",
@@ -173,7 +152,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ApplicationTypeResourceOutput).name, applicationTypeName);
   });
 
-  it("clusters list test", async function () {
+  it("clusters list test", async () => {
     const result = await client
       .path(
         "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters",
@@ -184,7 +163,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ClusterListResultOutput).value?.length, 1);
   });
 
-  it("applicationTypes list test", async function () {
+  it("applicationTypes list test", async () => {
     const result = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes",
@@ -197,9 +176,9 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ApplicationTypeResourceListOutput).value?.length, 1);
   });
 
-  it("clusters update test", async function () {
+  it("clusters update test", async function (ctx) {
     if (isPlaybackMode()) {
-      this.skip();
+      ctx.skip();
     }
     const parameters: ClustersUpdateParameters = {
       body: {
@@ -255,13 +234,13 @@ describe("Service Fabric Rest Level Client Test", () => {
         clusterName,
       )
       .patch(parameters);
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const result = await poller.pollUntilDone();
     assert.equal(result.status, "200");
     assert.equal((result.body as ClusterOutput).properties?.upgradeMode, "Automatic");
   });
 
-  it("applicationTypes delete test", async function () {
+  it("applicationTypes delete test", async () => {
     const initialResponse = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes/{applicationTypeName}",
@@ -271,7 +250,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         applicationTypeName,
       )
       .delete();
-    const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
+    const poller = await getLongRunningPoller(client, initialResponse, testPollingOptions);
     const deleteResult = await poller.pollUntilDone();
     assert.equal(deleteResult.status, "204");
 
@@ -287,7 +266,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     assert.equal((result.body as ApplicationTypeResourceListOutput).value?.length, 0);
   });
 
-  it("clusters delete test", async function () {
+  it("clusters delete test", async () => {
     const deleteResult = await client
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",

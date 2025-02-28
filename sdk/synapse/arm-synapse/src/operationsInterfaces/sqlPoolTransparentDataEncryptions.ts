@@ -15,7 +15,7 @@ import {
   SqlPoolTransparentDataEncryptionsGetResponse,
   SqlPoolTransparentDataEncryptionsCreateOrUpdateOptionalParams,
   SqlPoolTransparentDataEncryptionsCreateOrUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlPoolTransparentDataEncryptions. */

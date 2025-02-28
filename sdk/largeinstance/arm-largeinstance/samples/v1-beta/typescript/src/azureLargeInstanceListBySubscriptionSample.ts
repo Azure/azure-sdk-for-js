@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LargeInstanceManagementClient } from "@azure/arm-largeinstance";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of Azure Large Instances in the specified subscription. The
@@ -22,7 +20,7 @@ operations returns various properties of each Azure Large Instance.
 operations returns various properties of each Azure Large Instance.
  * x-ms-original-file: specification/azurelargeinstance/resource-manager/Microsoft.AzureLargeInstance/preview/2023-07-20-preview/examples/AzureLargeInstance_ListBySubscription.json
  */
-async function azureLargeInstanceListBySubscription() {
+async function azureLargeInstanceListBySubscription(): Promise<void> {
   const subscriptionId =
     process.env["LARGEINSTANCE_SUBSCRIPTION_ID"] ||
     "f0f4887f-d13c-4943-a8ba-d7da28d2a3fd";
@@ -35,7 +33,7 @@ async function azureLargeInstanceListBySubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   azureLargeInstanceListBySubscription();
 }
 

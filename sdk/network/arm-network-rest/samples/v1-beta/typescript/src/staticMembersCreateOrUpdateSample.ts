@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  StaticMembersCreateOrUpdateParameters
+  StaticMembersCreateOrUpdateParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a static member.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Creates or updates a static member.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerStaticMemberPut.json
  */
-async function staticMemberPut() {
+async function staticMemberPut(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -29,10 +24,10 @@ async function staticMemberPut() {
     body: {
       properties: {
         resourceId:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroup/rg1/providers/Microsoft.Network/virtualnetworks/vnet1"
-      }
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroup/rg1/providers/Microsoft.Network/virtualnetworks/vnet1",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -41,7 +36,7 @@ async function staticMemberPut() {
       resourceGroupName,
       networkManagerName,
       networkGroupName,
-      staticMemberName
+      staticMemberName,
     )
     .put(options);
   console.log(result);

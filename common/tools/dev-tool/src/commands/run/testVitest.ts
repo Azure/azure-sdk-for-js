@@ -90,6 +90,7 @@ export default leafCommand(commandInfo, async (options) => {
   try {
     if (options["test-proxy"]) {
       if (options["test-proxy-debug"]) process.env["Logging__LogLevel__Default"] = "Debug";
+
       return await runTestsWithProxyTool(command);
     }
 

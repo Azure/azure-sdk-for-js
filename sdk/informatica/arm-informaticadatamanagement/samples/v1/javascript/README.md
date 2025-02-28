@@ -77,6 +77,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [serverlessruntimesserverlessresourcebyidsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesServerlessResourceByIdSample.js
 [serverlessruntimesstartfailedserverlessruntimesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesStartFailedServerlessRuntimeSample.js
 [serverlessruntimesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/informatica/arm-informaticadatamanagement/samples/v1/javascript/serverlessRuntimesUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-informaticadatamanagement?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-informaticadatamanagement?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/informatica/arm-informaticadatamanagement/README.md

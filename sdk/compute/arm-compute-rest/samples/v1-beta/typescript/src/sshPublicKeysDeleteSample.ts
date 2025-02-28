@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  SshPublicKeysDeleteParameters
+  SshPublicKeysDeleteParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Delete an SSH public key.
@@ -24,14 +19,14 @@ async function sshPublicKeysDeleteMaximumSetGen() {
   const resourceGroupName = "rgcompute";
   const sshPublicKeyName = "aaaaaaaaaa";
   const options: SshPublicKeysDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}",
       subscriptionId,
       resourceGroupName,
-      sshPublicKeyName
+      sshPublicKeyName,
     )
     .delete(options);
   console.log(result);
@@ -51,14 +46,14 @@ async function sshPublicKeysDeleteMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const sshPublicKeyName = "aaaaaaaaaaaaaaaaaaa";
   const options: SshPublicKeysDeleteParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}",
       subscriptionId,
       resourceGroupName,
-      sshPublicKeyName
+      sshPublicKeyName,
     )
     .delete(options);
   console.log(result);

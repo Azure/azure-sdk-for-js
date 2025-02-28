@@ -43,7 +43,7 @@ import {
   VirtualMachinesSimulateEvictionOptionalParams,
   VirtualMachinesAssessPatchesOptionalParams,
   VirtualMachinesAssessPatchesResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a VirtualMachines. */

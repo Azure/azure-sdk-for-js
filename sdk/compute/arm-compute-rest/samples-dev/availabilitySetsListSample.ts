@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  AvailabilitySetsListParameters,
-  paginate,
-} from "@azure-rest/arm-compute";
+import type { AvailabilitySetsListParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all availability sets in a resource group.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Lists all availability sets in a resource group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_List_MaximumSet_Gen.json
  */
-async function availabilitySetsListMaximumSetGen() {
+async function availabilitySetsListMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -48,7 +42,7 @@ availabilitySetsListMaximumSetGen().catch(console.error);
  * @summary Lists all availability sets in a resource group.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/availabilitySetExamples/AvailabilitySets_List_MinimumSet_Gen.json
  */
-async function availabilitySetsListMinimumSetGen() {
+async function availabilitySetsListMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

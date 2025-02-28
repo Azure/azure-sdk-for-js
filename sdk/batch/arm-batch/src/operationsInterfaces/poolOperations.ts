@@ -22,7 +22,7 @@ import {
   PoolDisableAutoScaleResponse,
   PoolStopResizeOptionalParams,
   PoolStopResizeResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PoolOperations. */

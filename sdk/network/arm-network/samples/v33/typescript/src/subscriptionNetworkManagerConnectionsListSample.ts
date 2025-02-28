@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all network manager connections created by this subscription.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all network manager connections created by this subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerConnectionSubscriptionList.json
  */
-async function listSubscriptionNetworkManagerConnection() {
+async function listSubscriptionNetworkManagerConnection(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function listSubscriptionNetworkManagerConnection() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSubscriptionNetworkManagerConnection();
 }
 

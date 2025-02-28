@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  VirtualMachineImagesListOffersParameters
+  VirtualMachineImagesListOffersParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine image offers for the specified location and publisher.
@@ -24,14 +19,14 @@ async function virtualMachineImagesListOffersMaximumSetGen() {
   const location = "aaaaaaa";
   const publisherName = "aaaaaaaa";
   const options: VirtualMachineImagesListOffersParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers",
       subscriptionId,
       location,
-      publisherName
+      publisherName,
     )
     .get(options);
   console.log(result);
@@ -51,14 +46,14 @@ async function virtualMachineImagesListOffersMinimumSetGen() {
   const location = "aaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineImagesListOffersParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmimage/offers",
       subscriptionId,
       location,
-      publisherName
+      publisherName,
     )
     .get(options);
   console.log(result);

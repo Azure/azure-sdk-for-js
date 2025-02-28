@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a SchemaRegistry
  * x-ms-original-file: 2024-09-01-preview/Delete_SchemaRegistry.json
  */
-async function deleteSchemaRegistry() {
+async function deleteSchemaRegistry(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
   await client.schemaRegistries.delete("myResourceGroup", "my-schema-registry");
 }
 
-async function main() {
+async function main(): Promise<void> {
   deleteSchemaRegistry();
 }
 

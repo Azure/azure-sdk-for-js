@@ -15,7 +15,7 @@ import {
   AccessReviewInstanceProperties,
   AccessReviewInstancesCreateOptionalParams,
   AccessReviewInstancesCreateResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AccessReviewInstances. */

@@ -20,7 +20,7 @@ describe("NonStreamingOrderByEndpointComponent", () => {
     assert.equal(component["priorityQueueBufferSize"], bufferSize);
   });
 
-  it("should handle nextItem method correctly", async () => {
+  it("should handle fetchMore method correctly", async () => {
     let id = 1;
     let item = 1;
     const mockExecutionContext: ExecutionContext = {
@@ -32,14 +32,20 @@ describe("NonStreamingOrderByEndpointComponent", () => {
         }
       },
       nextItem: async () => ({
-        result: {
-          orderByItems: [
-            {
-              item: item++,
-            },
-          ],
-          payload: { id: id++ },
-        },
+        result: {},
+        headers: {},
+      }),
+      fetchMore: async () => ({
+        result: [
+          {
+            orderByItems: [
+              {
+                item: item++,
+              },
+            ],
+            payload: { id: id++ },
+          },
+        ],
         headers: {},
       }),
     } as ExecutionContext;
@@ -51,18 +57,15 @@ describe("NonStreamingOrderByEndpointComponent", () => {
     );
 
     let count = 1;
-    let result_id = 1;
-    // call nextItem, for first 100 items it will give empty result
+    // call fetchMore, for first 99 items it will give empty result
     while (component.hasMoreResults()) {
-      const response = await component.nextItem({} as any);
+      const response = await component.fetchMore({} as any);
       if (count < 99) {
-        assert.deepStrictEqual(response.result, {});
+        assert.deepStrictEqual(response.result, []);
       } else {
-        assert.deepStrictEqual(response.result, { id: result_id++ });
+        assert.deepStrictEqual(response.result.length, count);
       }
       count++;
     }
-    // Queue should be empty after dequeueing
-    assert.equal(component["nonStreamingOrderByPQ"].size(), 0);
   });
 });

@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   DedicatedHostsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a dedicated host .
@@ -30,9 +25,9 @@ async function createOrUpdateADedicatedHost() {
       location: "westus",
       properties: { platformFaultDomain: 1 },
       sku: { name: "DSv3-Type1" },
-      tags: { department: "HR" }
+      tags: { department: "HR" },
     },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
@@ -40,10 +35,10 @@ async function createOrUpdateADedicatedHost() {
       subscriptionId,
       resourceGroupName,
       hostGroupName,
-      hostName
+      hostName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

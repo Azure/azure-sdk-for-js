@@ -291,11 +291,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/purview-catalog",
-      "projectFolder": "sdk/purview/purview-catalog-rest",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure-rest/purview-datamap",
       "projectFolder": "sdk/purview/purview-datamap-rest",
       "versionPolicyName": "client"
@@ -461,11 +456,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/communication-job-router",
-      "projectFolder": "sdk/communication/communication-job-router",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure-rest/communication-job-router",
       "projectFolder": "sdk/communication/communication-job-router-rest",
       "versionPolicyName": "client"
@@ -583,8 +573,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/eventgrid-system-events",
-      "projectFolder": "sdk/eventgrid/eventgrid-system-events",
+      "packageName": "@azure/eventgrid-systemevents",
+      "projectFolder": "sdk/eventgrid/eventgrid-systemevents",
       "versionPolicyName": "client"
     },
     {
@@ -2154,11 +2144,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-networkanalytics",
-      "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-workloadssapvirtualinstance",
       "projectFolder": "sdk/workloads/arm-workloadssapvirtualinstance",
       "versionPolicyName": "management"
@@ -2327,6 +2312,11 @@
       "packageName": "@azure/ai-projects",
       "projectFolder": "sdk/ai/ai-projects",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-pineconevectordb",
+      "projectFolder": "sdk/pineconevectordb/arm-pineconevectordb",
+      "versionPolicyName": "management"
     }
   ]
 }

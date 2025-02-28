@@ -12,7 +12,7 @@ import {
   MetadataSyncConfig,
   SqlPoolMetadataSyncConfigsCreateOptionalParams,
   SqlPoolMetadataSyncConfigsCreateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolMetadataSyncConfigs. */
 export interface SqlPoolMetadataSyncConfigs {

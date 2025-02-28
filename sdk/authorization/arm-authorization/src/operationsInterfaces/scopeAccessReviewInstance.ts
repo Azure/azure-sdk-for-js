@@ -13,7 +13,7 @@ import {
   ScopeAccessReviewInstanceResetDecisionsOptionalParams,
   ScopeAccessReviewInstanceApplyDecisionsOptionalParams,
   ScopeAccessReviewInstanceSendRemindersOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ScopeAccessReviewInstance. */
 export interface ScopeAccessReviewInstance {

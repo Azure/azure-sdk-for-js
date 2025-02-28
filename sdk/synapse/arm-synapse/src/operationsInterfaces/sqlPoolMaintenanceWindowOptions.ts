@@ -9,7 +9,7 @@
 import {
   SqlPoolMaintenanceWindowOptionsGetOptionalParams,
   SqlPoolMaintenanceWindowOptionsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SqlPoolMaintenanceWindowOptions. */
 export interface SqlPoolMaintenanceWindowOptions {

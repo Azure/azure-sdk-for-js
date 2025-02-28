@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { NotificationHubsManagementClient } = require("@azure/arm-notificationhubs");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Test send a push notification.
@@ -35,7 +33,7 @@ async function notificationHubsDebugSend() {
 }
 
 async function main() {
-  notificationHubsDebugSend();
+  await notificationHubsDebugSend();
 }
 
 main().catch(console.error);

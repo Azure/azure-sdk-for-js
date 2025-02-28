@@ -27,20 +27,20 @@ function getCredential(client: EventHubConsumerClient | EventHubProducerClient):
   return (cred as any)["_credential"];
 }
 
-describe("Authentication via", function () {
+describe("Authentication via", () => {
   let client: EventHubConsumerClient | EventHubProducerClient;
   let connectionString: string;
-  afterEach(async function () {
+  afterEach(async () => {
     const properties = await client.getEventHubProperties();
     should.exist(properties);
     await client.close();
   });
 
-  describe("Keys", function () {
+  describe("Keys", () => {
     let sharedAccessKeyName: string;
     let sharedAccessKey: string;
 
-    beforeAll(async function () {
+    beforeAll(async () => {
       connectionString = getConnectionStringWithKey();
       const { sharedAccessKeyName: t1, sharedAccessKey: t2 } =
         parseEventHubConnectionString(connectionString);
@@ -51,22 +51,22 @@ describe("Authentication via", function () {
       sharedAccessKey = t2;
     });
 
-    describe("using connection string", function () {
-      afterEach(async function () {
+    describe("using connection string", () => {
+      afterEach(async () => {
         assert.deepEqual(getCredential(client), {
           name: sharedAccessKeyName,
           key: sharedAccessKey,
         });
       });
 
-      it("EventHubConsumerClient", async function () {
+      it("EventHubConsumerClient", async () => {
         const { consumer } = createConsumer({
           connectionString,
         });
         client = consumer;
       });
 
-      it("EventHubProducerClient", async function () {
+      it("EventHubProducerClient", async () => {
         const { producer } = createProducer({
           connectionString,
         });
@@ -74,32 +74,32 @@ describe("Authentication via", function () {
       });
     });
 
-    describe("using NamedKeyCredential", function () {
+    describe("using NamedKeyCredential", () => {
       let namedKeyCredential: AzureNamedKeyCredential;
-      beforeAll(async function () {
+      beforeAll(async () => {
         namedKeyCredential = new AzureNamedKeyCredential(sharedAccessKeyName, sharedAccessKey);
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         assert.deepEqual(getCredential(client), namedKeyCredential);
       });
 
-      it("EventHubConsumerClient", async function () {
+      it("EventHubConsumerClient", async () => {
         const { consumer } = createConsumer({ credential: namedKeyCredential });
         client = consumer;
       });
 
-      it("EventHubProducerClient", async function () {
+      it("EventHubProducerClient", async () => {
         const { producer } = createProducer({ credential: namedKeyCredential });
         client = producer;
       });
     });
   });
 
-  describe("SAS", function () {
+  describe("SAS", () => {
     let sharedAccessSignature: string;
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       connectionString = await getConnectionStringWithSAS();
       const { sharedAccessSignature: t } = parseEventHubConnectionString(connectionString);
       if (!t) {
@@ -108,21 +108,21 @@ describe("Authentication via", function () {
       sharedAccessSignature = t;
     });
 
-    describe("using connection string", function () {
-      afterEach(async function () {
+    describe("using connection string", () => {
+      afterEach(async () => {
         assert.deepEqual(getCredential(client), {
           signature: sharedAccessSignature,
         });
       });
 
-      it("EventHubConsumerClient", async function () {
+      it("EventHubConsumerClient", async () => {
         const { consumer } = createConsumer({
           connectionString,
         });
         client = consumer;
       });
 
-      it("EventHubProducerClient", async function () {
+      it("EventHubProducerClient", async () => {
         const { producer } = createProducer({
           connectionString,
         });
@@ -130,23 +130,23 @@ describe("Authentication via", function () {
       });
     });
 
-    describe("using SASCredential", function () {
+    describe("using SASCredential", () => {
       let sasCredential: AzureSASCredential;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         sasCredential = new AzureSASCredential(sharedAccessSignature);
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         assert.deepEqual(getCredential(client), sasCredential);
       });
 
-      it("EventHubConsumerClient", async function () {
+      it("EventHubConsumerClient", async () => {
         const { consumer } = createConsumer({ credential: sasCredential });
         client = consumer;
       });
 
-      it("EventHubProducerClient", async function () {
+      it("EventHubProducerClient", async () => {
         const { producer } = createProducer({ credential: sasCredential });
         client = producer;
       });

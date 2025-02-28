@@ -22,7 +22,7 @@
  * +------------+                 +-----------------+
  * |   Room     |-with component->| WifiAccessPoint |
  * +------------+                 +-----------------+
- * 
+ *
  * Scenario example of how to:
  * - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
  * - create models from file
@@ -33,14 +33,14 @@
  * - delete the created digital twins
  * - decommission the created models
  * - delete the created models
- * 
+ *
  * @summary Demonstrates a scenario with models, digital twins, event routes, and relationships using the DTDL examples found in the DTDL folder.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { v4 } from "uuid";
-import { inspect } from "util";
+import { inspect } from "node:util";
 
 import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json";
 import floorTwin from "./dtdl/digitalTwins/floorTwin.json";
@@ -55,7 +55,7 @@ import hvac from "./dtdl/models/hvac.json";
 
 import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.json";
 
-async function main() {
+async function main(): Promise<void> {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
   const url = process.env.AZURE_DIGITALTWINS_URL;
   if (url === undefined) {
@@ -98,28 +98,28 @@ async function main() {
 
   const createdBuildingTwin = await serviceClient.upsertDigitalTwin(
     buildingTwinId,
-    JSON.stringify(buildingTwin)
+    JSON.stringify(buildingTwin),
   );
   console.log(`BuildingTwin:`);
   console.log(inspect(createdBuildingTwin));
 
   const createdFloorTwin = await serviceClient.upsertDigitalTwin(
     floorTwinId,
-    JSON.stringify(floorTwin)
+    JSON.stringify(floorTwin),
   );
   console.log(`FloorTwin:`);
   console.log(inspect(createdFloorTwin));
 
   const createdHVACTwin = await serviceClient.upsertDigitalTwin(
     hvacTwinId,
-    JSON.stringify(hvacTwin)
+    JSON.stringify(hvacTwin),
   );
   console.log(`HVACTwin:`);
   console.log(inspect(createdHVACTwin));
 
   const createdRoomTwin = await serviceClient.upsertDigitalTwin(
     roomTwinId,
-    JSON.stringify(roomTwin)
+    JSON.stringify(roomTwin),
   );
   console.log(`RoomTwin:`);
   console.log(inspect(createdRoomTwin));
@@ -129,7 +129,7 @@ async function main() {
     await serviceClient.upsertRelationship(
       relationship["$sourceId"],
       relationship["$relationshipId"],
-      relationship
+      relationship,
     );
   }
 
@@ -140,7 +140,7 @@ async function main() {
   const response = await serviceClient.upsertEventRoute(
     eventRouteId,
     eventHubEndpointName,
-    eventFilter
+    eventFilter,
   );
   console.log(`Upsert Event Route response:`);
   console.log(inspect(response));
@@ -156,7 +156,7 @@ async function main() {
   for (const relationship of hospitalRelationships) {
     await serviceClient.deleteRelationship(
       relationship["$sourceId"],
-      relationship["$relationshipId"]
+      relationship["$relationshipId"],
     );
   }
 

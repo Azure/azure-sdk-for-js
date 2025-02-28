@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes a Kusto principalAssignment.
  *
  * @summary Deletes a Kusto principalAssignment.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasePrincipalAssignmentsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoDatabasePrincipalAssignmentsDelete.json
  */
 async function kustoDatabasePrincipalAssignmentsDelete() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function kustoDatabasePrincipalAssignmentsDelete() {
 }
 
 async function main() {
-  kustoDatabasePrincipalAssignmentsDelete();
+  await kustoDatabasePrincipalAssignmentsDelete();
 }
 
 main().catch(console.error);

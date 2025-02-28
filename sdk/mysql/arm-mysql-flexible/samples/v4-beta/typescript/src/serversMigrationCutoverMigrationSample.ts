@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MySQLManagementFlexibleServerClient } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Cutover migration for MySQL import, it will switch source elastic server DNS to flexible server.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Cutover migration for MySQL import, it will switch source elastic server DNS to flexible server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/FlexibleServers/stable/2023-12-30/examples/CutoverMigration.json
  */
-async function cutoverMigrationForMySqlImport() {
+async function cutoverMigrationForMySqlImport(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -38,7 +36,7 @@ async function cutoverMigrationForMySqlImport() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   cutoverMigrationForMySqlImport();
 }
 

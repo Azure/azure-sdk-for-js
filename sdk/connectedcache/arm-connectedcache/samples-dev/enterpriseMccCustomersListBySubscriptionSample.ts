@@ -10,20 +10,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary this api gets information about all enterpriseMccCustomer resources under the given subscription
  * x-ms-original-file: 2023-05-01-preview/EnterpriseMccCustomers_ListBySubscription_MaximumSet_Gen.json
  */
-async function enterpriseMccCustomersListBySubscription() {
+async function enterpriseMccCustomersListBySubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.enterpriseMccCustomers.listBySubscription()) {
+  for await (const item of client.enterpriseMccCustomers.listBySubscription()) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
-  enterpriseMccCustomersListBySubscription();
+async function main(): Promise<void> {
+  await enterpriseMccCustomersListBySubscription();
 }
 
 main().catch(console.error);

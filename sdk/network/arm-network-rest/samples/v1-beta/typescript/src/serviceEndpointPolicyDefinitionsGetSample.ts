@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ServiceEndpointPolicyDefinitionsGetParameters
+  ServiceEndpointPolicyDefinitionsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get the specified service endpoint policy definitions from service endpoint policy.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Get the specified service endpoint policy definitions from service endpoint policy.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceEndpointPolicyDefinitionGet.json
  */
-async function getServiceEndpointDefinitionInServiceEndpointPolicy() {
+async function getServiceEndpointDefinitionInServiceEndpointPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,7 +20,7 @@ async function getServiceEndpointDefinitionInServiceEndpointPolicy() {
   const serviceEndpointPolicyName = "testPolicy";
   const serviceEndpointPolicyDefinitionName = "testDefinition";
   const options: ServiceEndpointPolicyDefinitionsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getServiceEndpointDefinitionInServiceEndpointPolicy() {
       subscriptionId,
       resourceGroupName,
       serviceEndpointPolicyName,
-      serviceEndpointPolicyDefinitionName
+      serviceEndpointPolicyDefinitionName,
     )
     .get(options);
   console.log(result);

@@ -23,14 +23,14 @@ import { createConsumer, createProducer } from "../utils/clients.js";
 
 const debug = debugModule("azure:event-hubs:misc-spec");
 
-describe("Misc tests", function () {
+describe("Misc tests", () => {
   let consumerClient: EventHubConsumerClient;
   let producerClient: EventHubProducerClient;
   let hubInfo: EventHubProperties;
   let partitionId: string;
   let lastEnqueuedOffset: string;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     debug("Creating the clients..");
     producerClient = createProducer().producer;
     consumerClient = createConsumer().consumer;
@@ -40,13 +40,13 @@ describe("Misc tests", function () {
       .lastEnqueuedOffset;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     debug("Closing the clients..");
     await producerClient.close();
     await consumerClient.close();
   });
 
-  it("should be able to send and receive a large message correctly", async function () {
+  it("should be able to send and receive a large message correctly", async () => {
     const bodysize = 220 * 1024;
     const msgString = "A".repeat(220 * 1024);
     const msgBody = Buffer.from(msgString);
@@ -81,7 +81,7 @@ describe("Misc tests", function () {
     await subscription?.close();
   });
 
-  it("should be able to send and receive a JSON object as a message correctly", async function () {
+  it("should be able to send and receive a JSON object as a message correctly", async () => {
     const msgBody = {
       id: "123-456-789",
       weight: 10,
@@ -125,7 +125,7 @@ describe("Misc tests", function () {
     await subscription?.close();
   });
 
-  it("should be able to send and receive an array as a message correctly", async function () {
+  it("should be able to send and receive an array as a message correctly", async () => {
     const msgBody = [
       {
         id: "098-789-564",
@@ -167,7 +167,7 @@ describe("Misc tests", function () {
     await subscription?.close();
   });
 
-  it("should be able to send a boolean as a message correctly", async function () {
+  it("should be able to send a boolean as a message correctly", async () => {
     const msgBody = true;
     const obj: EventData = { body: msgBody };
     debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
@@ -200,7 +200,7 @@ describe("Misc tests", function () {
     await subscription?.close();
   });
 
-  it("should be able to send and receive batched messages correctly ", async function () {
+  it("should be able to send and receive batched messages correctly ", async () => {
     debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
     const messageCount = 5;
     const d: EventData[] = [];
@@ -241,7 +241,7 @@ describe("Misc tests", function () {
     }
   });
 
-  it("should be able to send and receive batched messages as JSON objects correctly ", async function () {
+  it("should be able to send and receive batched messages as JSON objects correctly ", async () => {
     debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
     const messageCount = 5;
     const d: EventData[] = [];
@@ -300,7 +300,7 @@ describe("Misc tests", function () {
     }
   });
 
-  it("should consistently send messages with partitionkey to a partitionId", async function () {
+  it("should consistently send messages with partitionkey to a partitionId", async () => {
     const { subscriptionEventHandler, startPosition } =
       await SubscriptionHandlerForTests.startingFromHere(consumerClient);
 
@@ -361,8 +361,8 @@ describe("Misc tests", function () {
   });
 });
 
-describe("extractSpanContextFromEventData", function () {
-  it("should use diagnostic Id from a properly instrumented EventData", async function () {
+describe("extractSpanContextFromEventData", () => {
+  it("should use diagnostic Id from a properly instrumented EventData", async () => {
     const tracingClientSpy = vi.spyOn(tracingClient, "parseTraceparentHeader");
     const traceparent = `00-11111111111111111111111111111111-2222222222222222-00`;
     const eventData: ReceivedEventData = {
@@ -382,7 +382,7 @@ describe("extractSpanContextFromEventData", function () {
     expect(tracingClientSpy).toBeCalledWith(traceparent);
   });
 
-  it("should return undefined when EventData is not instrumented", async function () {
+  it("should return undefined when EventData is not instrumented", async () => {
     const eventData: ReceivedEventData = {
       body: "This is a test.",
       enqueuedTimeUtc: new Date(),

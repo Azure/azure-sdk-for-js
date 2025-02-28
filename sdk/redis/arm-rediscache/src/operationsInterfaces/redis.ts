@@ -39,7 +39,7 @@ import {
   RedisExportDataOptionalParams,
   RedisFlushCacheOptionalParams,
   RedisFlushCacheResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Redis. */

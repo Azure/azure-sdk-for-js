@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a SchemaVersion
  * x-ms-original-file: 2024-09-01-preview/Get_SchemaVersion.json
  */
-async function getSchemaVersion() {
+async function getSchemaVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function getSchemaVersion() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getSchemaVersion();
 }
 

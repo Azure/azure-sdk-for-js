@@ -28,7 +28,7 @@ import {
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   TagsObject as TagsObjectMapper,
   ServerKey as ServerKeyMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

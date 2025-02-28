@@ -49,7 +49,7 @@ import {
   Setting as SettingMapper,
   ServerVulnerabilityAssessmentsSetting as ServerVulnerabilityAssessmentsSettingMapper,
   Pricing as PricingMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

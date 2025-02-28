@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get a Asset
  * x-ms-original-file: 2024-09-01-preview/Get_Asset.json
  */
-async function getAsset() {
+async function getAsset(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function getAsset() {
  * @summary get a Asset
  * x-ms-original-file: 2024-09-01-preview/Get_Asset_With_SyncStatus.json
  */
-async function getAssetWithSyncStatus() {
+async function getAssetWithSyncStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new DeviceRegistryManagementClient(credential, subscriptionId);
@@ -32,7 +32,7 @@ async function getAssetWithSyncStatus() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAsset();
   getAssetWithSyncStatus();
 }

@@ -215,7 +215,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [validateoperationresultsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup/samples/v13/typescript/src/validateOperationResultsGetSample.ts
 [validateoperationstatusesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup/samples/v13/typescript/src/validateOperationStatusesGetSample.ts
 [validateoperationtriggersample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup/samples/v13/typescript/src/validateOperationTriggerSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservicesbackup?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/recoveryservicesbackup/arm-recoveryservicesbackup/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

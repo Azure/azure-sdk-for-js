@@ -17,7 +17,7 @@ import {
   CustomLocationFindTargetResourceGroupProperties as CustomLocationFindTargetResourceGroupPropertiesMapper,
   ResourceSyncRule as ResourceSyncRuleMapper,
   PatchableResourceSyncRule as PatchableResourceSyncRuleMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

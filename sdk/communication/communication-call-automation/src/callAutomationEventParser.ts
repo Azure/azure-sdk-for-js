@@ -35,7 +35,20 @@ import type {
   CreateCallFailed,
   AnswerFailed,
   HoldFailed,
+  ConnectFailed,
+  MediaStreamingStarted,
+  MediaStreamingStopped,
+  MediaStreamingFailed,
+  StartRecordingFailed,
+  PlayStarted,
+  PlayPaused,
+  PlayResumed,
+  HoldAudioStarted,
+  HoldAudioPaused,
+  HoldAudioResumed,
+  HoldAudioCompleted,
 } from "./models/events.js";
+
 import { CloudEventMapper } from "./models/mapper.js";
 import type { CallParticipantInternal } from "./generated/src/index.js";
 
@@ -158,6 +171,42 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.HoldFailed":
       callbackEvent = { kind: "HoldFailed" } as HoldFailed;
+      break;
+    case "Microsoft.Communication.ConnectFailed":
+      callbackEvent = { kind: "ConnectFailed" } as ConnectFailed;
+      break;
+    case "Microsoft.Communication.MediaStreamingStarted":
+      callbackEvent = { kind: "MediaStreamingStarted" } as MediaStreamingStarted;
+      break;
+    case "Microsoft.Communication.MediaStreamingStopped":
+      callbackEvent = { kind: "MediaStreamingStopped" } as MediaStreamingStopped;
+      break;
+    case "Microsoft.Communication.MediaStreamingFailed":
+      callbackEvent = { kind: "MediaStreamingFailed" } as MediaStreamingFailed;
+      break;
+    case "Microsoft.Communication.StartRecordingFailed":
+      callbackEvent = { kind: "StartRecordingFailed" } as StartRecordingFailed;
+      break;
+    case "Microsoft.Communication.PlayStarted":
+      callbackEvent = { kind: "PlayStarted" } as PlayStarted;
+      break;
+    case "Microsoft.Communication.PlayPaused":
+      callbackEvent = { kind: "PlayPaused" } as PlayPaused;
+      break;
+    case "Microsoft.Communication.PlayResumed":
+      callbackEvent = { kind: "PlayResumed" } as PlayResumed;
+      break;
+    case "Microsoft.Communication.HoldAudioStarted":
+      callbackEvent = { kind: "HoldAudioStarted" } as HoldAudioStarted;
+      break;
+    case "Microsoft.Communication.HoldAudioPaused":
+      callbackEvent = { kind: "HoldAudioPaused" } as HoldAudioPaused;
+      break;
+    case "Microsoft.Communication.HoldAudioResumed":
+      callbackEvent = { kind: "HoldAudioResumed" } as HoldAudioResumed;
+      break;
+    case "Microsoft.Communication.HoldAudioCompleted":
+      callbackEvent = { kind: "HoldAudioCompleted" } as HoldAudioCompleted;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);

@@ -13,9 +13,7 @@ import {
   TrafficManagerManagementClient
 } from "@azure/arm-trafficmanager";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Checks the availability of a Traffic Manager Relative DNS name.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Checks the availability of a Traffic Manager Relative DNS name.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/NameAvailabilityTest_NameAvailable-POST-example-21.json
  */
-async function nameAvailabilityTestNameAvailablePost21() {
+async function nameAvailabilityTestNameAvailablePost21(): Promise<void> {
   const subscriptionId =
     process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,7 +43,7 @@ async function nameAvailabilityTestNameAvailablePost21() {
  * @summary Checks the availability of a Traffic Manager Relative DNS name.
  * x-ms-original-file: specification/trafficmanager/resource-manager/Microsoft.Network/stable/2022-04-01/examples/NameAvailabilityTest_NameNotAvailable-POST-example-23.json
  */
-async function nameAvailabilityTestNameNotAvailablePost23() {
+async function nameAvailabilityTestNameNotAvailablePost23(): Promise<void> {
   const subscriptionId =
     process.env["TRAFFICMANAGER_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -61,7 +59,7 @@ async function nameAvailabilityTestNameNotAvailablePost23() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   nameAvailabilityTestNameAvailablePost21();
   nameAvailabilityTestNameNotAvailablePost23();
 }

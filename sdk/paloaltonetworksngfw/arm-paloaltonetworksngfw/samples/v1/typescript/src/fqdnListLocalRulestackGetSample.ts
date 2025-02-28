@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a FqdnListLocalRulestackResource
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a FqdnListLocalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListLocalRulestack_Get_MaximumSet_Gen.json
  */
-async function fqdnListLocalRulestackGetMaximumSetGen() {
+async function fqdnListLocalRulestackGetMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -44,7 +42,7 @@ async function fqdnListLocalRulestackGetMaximumSetGen() {
  * @summary Get a FqdnListLocalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListLocalRulestack_Get_MinimumSet_Gen.json
  */
-async function fqdnListLocalRulestackGetMinimumSetGen() {
+async function fqdnListLocalRulestackGetMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -62,7 +60,7 @@ async function fqdnListLocalRulestackGetMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   fqdnListLocalRulestackGetMaximumSetGen();
   fqdnListLocalRulestackGetMinimumSetGen();
 }

@@ -13,7 +13,7 @@ import {
   ConfigurationsUpdateOptionalParams,
   ConfigurationsGetOptionalParams,
   ConfigurationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Configurations. */
 export interface Configurations {

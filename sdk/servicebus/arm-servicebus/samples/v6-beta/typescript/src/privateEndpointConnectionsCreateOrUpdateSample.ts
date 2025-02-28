@@ -13,9 +13,7 @@ import {
   ServiceBusManagementClient
 } from "@azure/arm-servicebus";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates PrivateEndpointConnections of service namespace.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates or updates PrivateEndpointConnections of service namespace.
  * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-10-01-preview/examples/NameSpaces/PrivateEndPointConnectionCreate.json
  */
-async function nameSpacePrivateEndPointConnectionCreate() {
+async function nameSpacePrivateEndPointConnectionCreate(): Promise<void> {
   const subscriptionId = process.env["SERVICEBUS_SUBSCRIPTION_ID"] || "subID";
   const resourceGroupName =
     process.env["SERVICEBUS_RESOURCE_GROUP"] || "ArunMonocle";
@@ -51,7 +49,7 @@ async function nameSpacePrivateEndPointConnectionCreate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   nameSpacePrivateEndPointConnectionCreate();
 }
 

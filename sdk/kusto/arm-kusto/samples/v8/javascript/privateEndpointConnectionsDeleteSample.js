@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes a private endpoint connection with a given name.
  *
  * @summary Deletes a private endpoint connection with a given name.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoPrivateEndpointConnectionsDelete.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoPrivateEndpointConnectionsDelete.json
  */
 async function deletesAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function deletesAPrivateEndpointConnectionWithAGivenName() {
 }
 
 async function main() {
-  deletesAPrivateEndpointConnectionWithAGivenName();
+  await deletesAPrivateEndpointConnectionWithAGivenName();
 }
 
 main().catch(console.error);

@@ -27,7 +27,7 @@ import {
   CloudServicesReimageOptionalParams,
   CloudServicesRebuildOptionalParams,
   CloudServicesDeleteInstancesOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a CloudServices. */

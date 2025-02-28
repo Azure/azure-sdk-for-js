@@ -15,11 +15,6 @@
     "Comment": "Valid package, passes build"
   },
   {
-    "Package": "@azure/identity-cache-persistence@1.0.0",
-    "ExpectedResult": true,
-    "Comment": "Valid as of 2.x, passes build"
-  },
-  {
     "Package": "@azure/identity-vscode@1.0.0",
     "ExpectedResult": true,
     "Comment": "Valid as of 2.x, passes build"

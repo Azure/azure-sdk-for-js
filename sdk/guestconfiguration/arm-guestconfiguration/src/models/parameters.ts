@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter,
 } from "@azure/core-client";
-import { GuestConfigurationAssignment as GuestConfigurationAssignmentMapper } from "../models/mappers";
+import { GuestConfigurationAssignment as GuestConfigurationAssignmentMapper } from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

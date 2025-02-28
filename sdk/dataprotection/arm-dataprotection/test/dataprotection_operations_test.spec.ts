@@ -6,20 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { DataProtectionClient } from "../src/dataProtectionClient";
+import { DataProtectionClient } from "../src/dataProtectionClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -42,23 +36,27 @@ describe("DataProtection test", () => {
   let resourceGroup: string;
   let vaultName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new DataProtectionClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new DataProtectionClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus";
     resourceGroup = "myjstest";
-    vaultName = "swaggerExample"
+    vaultName = "swaggerExample";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
   // no operation list api for dataprotection
-  it("backupVaults create test", async function () {
+  it("backupVaults create test", async () => {
     const res = await client.backupVaults.beginCreateOrUpdateAndWait(
       resourceGroup,
       vaultName,
@@ -67,37 +65,36 @@ describe("DataProtection test", () => {
         location,
         properties: {
           monitoringSettings: {
-            azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" }
+            azureMonitorAlertSettings: { alertsForAllJobFailures: "Enabled" },
           },
-          storageSettings: [
-            { type: "LocallyRedundant", datastoreType: "VaultStore" }
-          ]
+          storageSettings: [{ type: "LocallyRedundant", datastoreType: "VaultStore" }],
         },
-        tags: { key1: "val1" }
+        tags: { key1: "val1" },
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     assert.equal(res.name, vaultName);
   });
 
-  it("backupVaults get test", async function () {
+  it("backupVaults get test", async () => {
     const res = await client.backupVaults.get(resourceGroup, vaultName);
     assert.equal(res.name, vaultName);
   });
 
-  it("backupVaults list test", async function () {
+  it("backupVaults list test", async () => {
     const resArray = new Array();
-    for await (let item of client.backupVaults.listInResourceGroup(resourceGroup)) {
+    for await (const item of client.backupVaults.listInResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("backupVaults delete test", async function () {
+  it("backupVaults delete test", async () => {
     const resArray = new Array();
-    const res = await client.backupVaults.beginDeleteAndWait(resourceGroup, vaultName, testPollingOptions)
-    for await (let item of client.backupVaults.listInResourceGroup(resourceGroup)) {
+    await client.backupVaults.beginDeleteAndWait(resourceGroup, vaultName, testPollingOptions);
+    for await (const item of client.backupVaults.listInResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

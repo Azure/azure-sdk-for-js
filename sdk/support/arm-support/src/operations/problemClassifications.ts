@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ProblemClassifications } from "../operationsInterfaces";
+import { ProblemClassifications } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MicrosoftSupport } from "../microsoftSupport";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MicrosoftSupport } from "../microsoftSupport.js";
 import {
   ProblemClassification,
   ProblemClassificationsListOptionalParams,
   ProblemClassificationsListResponse,
   ProblemClassificationsGetOptionalParams,
   ProblemClassificationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ProblemClassifications operations. */

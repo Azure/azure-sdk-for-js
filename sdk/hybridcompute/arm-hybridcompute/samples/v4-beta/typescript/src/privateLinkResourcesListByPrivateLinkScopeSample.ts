@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
  * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/privateLinkScope/PrivateLinkScopePrivateLinkResource_ListGet.json
  */
-async function getsPrivateEndpointConnection() {
+async function getsPrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -39,7 +37,7 @@ async function getsPrivateEndpointConnection() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getsPrivateEndpointConnection();
 }
 

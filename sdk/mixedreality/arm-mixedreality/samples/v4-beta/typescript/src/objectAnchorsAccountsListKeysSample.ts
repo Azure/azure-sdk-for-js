@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List Both of the 2 Keys of an object anchors Account
  * x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/object-anchors/ListKeys.json
  */
-async function listObjectAnchorsAccountKey() {
+async function listObjectAnchorsAccountKey(): Promise<void> {
   const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const resourceGroupName = "MyResourceGroup";
   const accountName = "MyAccount";

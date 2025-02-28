@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Detaches all followers of a database owned by this cluster.
  *
  * @summary Detaches all followers of a database owned by this cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClusterDetachFollowerDatabases.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClusterDetachFollowerDatabases.json
  */
 async function kustoClusterDetachFollowerDatabases() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function kustoClusterDetachFollowerDatabases() {
 }
 
 async function main() {
-  kustoClusterDetachFollowerDatabases();
+  await kustoClusterDetachFollowerDatabases();
 }
 
 main().catch(console.error);

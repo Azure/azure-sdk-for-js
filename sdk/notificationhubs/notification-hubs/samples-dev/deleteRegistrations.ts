@@ -4,7 +4,7 @@
 /**
  * This sample demonstrates how to clean up a Notification Hub by removing all registrations.
  *
- * See https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
+ * See https://learn.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-registration-management
  * to learn about registrations.
  *
  *

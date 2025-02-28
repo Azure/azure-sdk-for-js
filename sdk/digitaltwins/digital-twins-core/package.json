@@ -33,7 +33,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -60,7 +60,7 @@
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
     "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/core-rest-pipeline": "^1.18.2",
     "@azure/core-tracing": "^1.2.0",
     "@azure/core-util": "^1.11.0",
     "@azure/logger": "^1.1.4",
@@ -72,15 +72,15 @@
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.0.1",
+    "@azure/identity": "^4.6.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.8",
-    "@vitest/coverage-istanbul": "^2.1.8",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "playwright": "^1.49.0",
+    "playwright": "^1.50.0",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.8"
+    "vitest": "^3.0.3"
   },
   "sideEffects": false,
   "//metadata": {
@@ -112,12 +112,13 @@
       ]
     },
     "requiredResources": {
-      "Azure Digital Twins instance": "https://docs.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal"
+      "Azure Digital Twins instance": "https://learn.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal"
     },
     "skipFolder": true
   },
   "type": "module",
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
@@ -130,8 +131,7 @@
       "browser",
       "react-native"
     ],
-    "selfLink": false,
-    "project": "./tsconfig.src.json"
+    "selfLink": false
   },
   "browser": "./dist/browser/index.js",
   "exports": {
@@ -154,5 +154,6 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  }
+  },
+  "react-native": "./dist/react-native/index.js"
 }

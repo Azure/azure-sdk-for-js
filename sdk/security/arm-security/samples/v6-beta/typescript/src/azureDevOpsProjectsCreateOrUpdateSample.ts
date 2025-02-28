@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureDevOpsProject, SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a monitored Azure DevOps project resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a monitored Azure DevOps project resource.
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-09-01-preview/examples/SecurityConnectorsDevOps/CreateOrUpdateAzureDevOpsProjects_example.json
  */
-async function createOrUpdateAzureDevOpsProjects() {
+async function createOrUpdateAzureDevOpsProjects(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "0806e1cd-cfda-4ff8-b99c-2b0af42cffd3";
@@ -46,7 +44,7 @@ async function createOrUpdateAzureDevOpsProjects() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAzureDevOpsProjects();
 }
 

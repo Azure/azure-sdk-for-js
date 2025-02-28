@@ -51,7 +51,7 @@ import {
   CustomDomainHttpsParameters as CustomDomainHttpsParametersMapper,
   CdnWebApplicationFirewallPolicy as CdnWebApplicationFirewallPolicyMapper,
   CdnWebApplicationFirewallPolicyPatchParameters as CdnWebApplicationFirewallPolicyPatchParametersMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

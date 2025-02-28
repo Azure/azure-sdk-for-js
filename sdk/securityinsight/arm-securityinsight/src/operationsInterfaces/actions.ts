@@ -16,7 +16,7 @@ import {
   ActionsCreateOrUpdateOptionalParams,
   ActionsCreateOrUpdateResponse,
   ActionsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Actions. */

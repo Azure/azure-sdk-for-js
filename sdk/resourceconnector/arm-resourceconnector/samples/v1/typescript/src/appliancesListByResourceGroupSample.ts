@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ResourceConnectorManagementClient } from "@azure/arm-resourceconnector";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of Appliances in the specified subscription and resource group. The operation returns properties of each Appliance.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a list of Appliances in the specified subscription and resource group. The operation returns properties of each Appliance.
  * x-ms-original-file: specification/resourceconnector/resource-manager/Microsoft.ResourceConnector/stable/2022-10-27/examples/AppliancesListByResourceGroup.json
  */
-async function listAppliancesByResourceGroup() {
+async function listAppliancesByResourceGroup(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCECONNECTOR_SUBSCRIPTION_ID"] ||
     "11111111-2222-3333-4444-555555555555";
@@ -40,7 +38,7 @@ async function listAppliancesByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAppliancesByResourceGroup();
 }
 

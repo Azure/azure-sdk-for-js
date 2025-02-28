@@ -16,7 +16,7 @@ describe.skip("MetricsBatchClient live tests", function () {
   let metricNames: string[];
   let metricsBatchQueryClient: MetricsClient;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     const recordedClient: RecorderAndMetricsBatchQueryClient =
       await createRecorderAndMetricsBatchQueryClient();
     resourceIds = getMetricsBatchResourceIds();

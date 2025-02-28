@@ -25,7 +25,7 @@ import {
   RegisteredServersImpl,
   WorkflowsImpl,
   OperationStatusOperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   StorageSyncServices,
@@ -37,14 +37,14 @@ import {
   RegisteredServers,
   Workflows,
   OperationStatusOperations
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   MicrosoftStorageSyncOptionalParams,
   LocationOperationStatusOptionalParams,
   LocationOperationStatusResponse
-} from "./models";
+} from "./models/index.js";
 
 export class MicrosoftStorageSync extends coreClient.ServiceClient {
   $host: string;

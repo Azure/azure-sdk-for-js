@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  ProximityPlacementGroupsListBySubscriptionParameters,
-  paginate,
-} from "@azure-rest/arm-compute";
+import type { ProximityPlacementGroupsListBySubscriptionParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { paginate } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all proximity placement groups in a subscription.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Lists all proximity placement groups in a subscription.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_ListBySubscription.json
  */
-async function createAProximityPlacementGroup() {
+async function createAProximityPlacementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

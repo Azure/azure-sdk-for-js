@@ -38,7 +38,7 @@ module.exports = function (config) {
       "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      //"dist-test/index.browser.js": ["coverage"],
+      // "dist-test/index.browser.js": ["coverage"],
     },
 
     // inject following environment values into browser testing with window.__env__
@@ -88,7 +88,13 @@ module.exports = function (config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
-    browsers: ["ChromeHeadless"],
+    browsers: ["ChromeHeadlessNoSandbox"],
+    customLaunchers: {
+      ChromeHeadlessNoSandbox: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox"],
+      },
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

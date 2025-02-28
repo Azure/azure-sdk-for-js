@@ -7,14 +7,14 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ConnectedClusterOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ConnectedClusterOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ConnectedKubernetesClient } from "../connectedKubernetesClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ConnectedKubernetesClient } from "../connectedKubernetesClient.js";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { LroImpl } from "../lroImpl.js";
 import {
   ConnectedCluster,
   ConnectedClusterListByResourceGroupNextOptionalParams,
@@ -36,7 +36,7 @@ import {
   ConnectedClusterListClusterUserCredentialResponse,
   ConnectedClusterListByResourceGroupNextResponse,
   ConnectedClusterListBySubscriptionNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectedClusterOperations operations. */

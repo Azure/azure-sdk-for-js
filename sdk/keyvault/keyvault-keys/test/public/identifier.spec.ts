@@ -5,7 +5,7 @@ import { parseKeyVaultKeyIdentifier } from "../../src/identifier.js";
 import { describe, it, assert } from "vitest";
 
 describe("Key Vault Keys Identifier", () => {
-  it("It should work with a URI of a key before it gets a version", async function () {
+  it("It should work with a URI of a key before it gets a version", async () => {
     const uri = "https://keyvault-name.vault.azure.net/keys/key-name/pending";
     const identifier = parseKeyVaultKeyIdentifier(uri);
 
@@ -17,7 +17,7 @@ describe("Key Vault Keys Identifier", () => {
     });
   });
 
-  it("It should work with a URI of a key with a specific version", async function () {
+  it("It should work with a URI of a key with a specific version", async () => {
     const uri = "https://keyvault-name.vault.azure.net/keys/key-name/version";
     const identifier = parseKeyVaultKeyIdentifier(uri);
 
@@ -29,7 +29,7 @@ describe("Key Vault Keys Identifier", () => {
     });
   });
 
-  it("It should work with a deleted key recovery ID", async function () {
+  it("It should work with a deleted key recovery ID", async () => {
     const uri = "https://keyvault-name.vault.azure.net/deletedkeys/deleted-key";
     const identifier = parseKeyVaultKeyIdentifier(uri);
 
@@ -41,7 +41,7 @@ describe("Key Vault Keys Identifier", () => {
     });
   });
 
-  it("It should work when using a URL that contains a port", async function () {
+  it("It should work when using a URL that contains a port", async () => {
     const uri = "https://localhost:8443/keys/key-name/version";
     const identifier = parseKeyVaultKeyIdentifier(uri);
 

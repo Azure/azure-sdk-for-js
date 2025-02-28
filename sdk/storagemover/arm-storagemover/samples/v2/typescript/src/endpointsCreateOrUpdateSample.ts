@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Endpoint, StorageMoverClient } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates an Endpoint resource, which represents a data transfer source or destination.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates an Endpoint resource, which represents a data transfer source or destination.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_CreateOrUpdate_AzureStorageBlobContainer.json
  */
-async function endpointsCreateOrUpdateAzureStorageBlobContainer() {
+async function endpointsCreateOrUpdateAzureStorageBlobContainer(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -54,7 +52,7 @@ async function endpointsCreateOrUpdateAzureStorageBlobContainer() {
  * @summary Creates or updates an Endpoint resource, which represents a data transfer source or destination.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_CreateOrUpdate_AzureStorageSmbFileShare.json
  */
-async function endpointsCreateOrUpdateAzureStorageSmbFileShare() {
+async function endpointsCreateOrUpdateAzureStorageSmbFileShare(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -88,7 +86,7 @@ async function endpointsCreateOrUpdateAzureStorageSmbFileShare() {
  * @summary Creates or updates an Endpoint resource, which represents a data transfer source or destination.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_CreateOrUpdate_NfsMount.json
  */
-async function endpointsCreateOrUpdateNfsMount() {
+async function endpointsCreateOrUpdateNfsMount(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -121,7 +119,7 @@ async function endpointsCreateOrUpdateNfsMount() {
  * @summary Creates or updates an Endpoint resource, which represents a data transfer source or destination.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/Endpoints_CreateOrUpdate_SmbMount.json
  */
-async function endpointsCreateOrUpdateSmbMount() {
+async function endpointsCreateOrUpdateSmbMount(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -155,7 +153,7 @@ async function endpointsCreateOrUpdateSmbMount() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   endpointsCreateOrUpdateAzureStorageBlobContainer();
   endpointsCreateOrUpdateAzureStorageSmbFileShare();
   endpointsCreateOrUpdateNfsMount();

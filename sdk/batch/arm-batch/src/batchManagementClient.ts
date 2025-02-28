@@ -25,7 +25,7 @@ import {
   PrivateEndpointConnectionOperationsImpl,
   PoolOperationsImpl,
   NetworkSecurityPerimeterOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   BatchAccountOperations,
   ApplicationPackageOperations,
@@ -37,8 +37,8 @@ import {
   PrivateEndpointConnectionOperations,
   PoolOperations,
   NetworkSecurityPerimeterOperations,
-} from "./operationsInterfaces";
-import { BatchManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { BatchManagementClientOptionalParams } from "./models/index.js";
 
 export class BatchManagementClient extends coreClient.ServiceClient {
   $host: string;

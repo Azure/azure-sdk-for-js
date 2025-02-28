@@ -16,13 +16,13 @@ import type {
   SendDtmfTonesRequest,
   Tone,
   SpeechOptions,
-  StartHoldMusicRequest,
-  StopHoldMusicRequest,
   StartTranscriptionRequest,
   StopTranscriptionRequest,
   UpdateTranscriptionRequest,
   HoldRequest,
   UnholdRequest,
+  StartMediaStreamingRequest,
+  StopMediaStreamingRequest,
 } from "./generated/src/index.js";
 import { KnownPlaySourceType, KnownRecognizeInputType } from "./generated/src/index.js";
 
@@ -44,6 +44,11 @@ import type {
   StopTranscriptionOptions,
   HoldOptions,
   UnholdOptions,
+  StartMediaStreamingOptions,
+  StopMediaStreamingOptions,
+  PlayToAllOptions,
+  UpdateTranscriptionOptions,
+  InterruptAudioAndAnnounceOptions,
 } from "./models/options.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type {
@@ -61,6 +66,7 @@ import type {
 import type { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor.js";
 import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
+import { InterruptAudioAndAnnounceRequest } from "./generated/src/models/index.js";
 
 /**
  * CallMedia class represents call media related APIs.
@@ -149,6 +155,7 @@ export class CallMedia {
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
       playOptions: {
         loop: false,
+        interruptHoldAudio: false,
       },
       operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
@@ -157,6 +164,13 @@ export class CallMedia {
     if (options.loop !== undefined) {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
+    }
+    if (options.interruptHoldAudio !== undefined) {
+      playRequest.playOptions = playRequest.playOptions || {
+        loop: false,
+        interruptHoldAudio: false,
+      }; // Ensure playOptions is defined
+      playRequest.playOptions.interruptHoldAudio = options.interruptHoldAudio;
     }
     await this.callMedia.play(this.callConnectionId, playRequest, options);
 
@@ -204,7 +218,7 @@ export class CallMedia {
    */
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
-    options: PlayOptions = { loop: false },
+    options: PlayToAllOptions = { loop: false },
   ): Promise<PlayResult> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -220,6 +234,15 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
+
+    if (options.interruptCallMediaOperation !== undefined) {
+      playRequest.playOptions = playRequest.playOptions || {
+        loop: false,
+        interruptCallMediaOperation: false,
+      }; // Ensure playOptions is defined
+      playRequest.playOptions.interruptCallMediaOperation = options.interruptCallMediaOperation;
+    }
+
     await this.callMedia.play(this.callConnectionId, playRequest, options);
 
     const playResult: PlayResult = {
@@ -287,6 +310,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -308,6 +335,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -334,6 +365,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -367,6 +402,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -647,61 +686,15 @@ export class CallMedia {
   }
 
   /**
-   * Put participant on hold while playing audio.
-   *
-   * @deprecated - This operations is deprecated, please use hold instead.
-   * @param targetParticipant - The targets to play to.
-   * @param playSource - A PlaySource representing the source to play.
-   * @param operationContext - Operation Context.
-   * @param operationCallbackUri - Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   */
-  public async startHoldMusic(
-    targetParticipant: CommunicationIdentifier,
-    playSource: FileSource | TextSource | SsmlSource | undefined = undefined,
-    loop?: boolean,
-    operationContext: string | undefined = undefined,
-    operationCallbackUri: string | undefined = undefined,
-  ): Promise<void> {
-    const holdRequest: StartHoldMusicRequest = {
-      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      playSourceInfo:
-        playSource !== undefined ? this.createPlaySourceInternal(playSource) : undefined,
-      operationContext: operationContext,
-      operationCallbackUri: operationCallbackUri,
-    };
-    if (loop) {
-      // Do nothing. Added since it needs to be backwards compatible.
-    }
-    return this.callMedia.startHoldMusic(this.callConnectionId, holdRequest);
-  }
-
-  /**
-   * Remove participant from hold.
-   *
-   * @deprecated - This operations is deprecated, please use unhold instead.
-   * @param targetParticipant - The targets to play to.
-   * @param operationContext - Operation Context.
-   */
-  public async stopHoldMusic(
-    targetParticipant: CommunicationIdentifier,
-    operationContext: string | undefined = undefined,
-  ): Promise<void> {
-    const unholdRequest: StopHoldMusicRequest = {
-      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: operationContext,
-    };
-
-    return this.callMedia.stopHoldMusic(this.callConnectionId, unholdRequest);
-  }
-
-  /**
    * Starts transcription in the call
    * @param options - Additional attributes for start transcription.
    */
   public async startTranscription(options: StartTranscriptionOptions = {}): Promise<void> {
     const startTranscriptionRequest: StartTranscriptionRequest = {
       locale: options.locale,
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
+      speechRecognitionModelEndpointId: options.speechRecognitionModelEndpointId,
+      operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
   }
@@ -712,7 +705,8 @@ export class CallMedia {
    */
   public async stopTranscription(options: StopTranscriptionOptions = {}): Promise<void> {
     const stopTranscriptionRequest: StopTranscriptionRequest = {
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.stopTranscription(this.callConnectionId, stopTranscriptionRequest, {});
   }
@@ -721,14 +715,74 @@ export class CallMedia {
    * Update transcription language.
    * @param locale - Defines new locale for transcription.
    */
-  public async updateTranscription(locale: string): Promise<void> {
+  public async updateTranscription(
+    locale: string,
+    options?: UpdateTranscriptionOptions,
+  ): Promise<void> {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
       locale: locale,
+      speechRecognitionModelEndpointId: options?.speechRecognitionModelEndpointId,
+      operationContext: options?.operationContext,
+      operationCallbackUri: options?.operationCallbackUrl,
     };
     return this.callMedia.updateTranscription(
       this.callConnectionId,
       updateTranscriptionRequest,
       {},
+    );
+  }
+  /**
+   * Starts media streaming in the call.
+   * @param options - Additional attributes for start media streaming.
+   */
+  public async startMediaStreaming(options: StartMediaStreamingOptions = {}): Promise<void> {
+    const startMediaStreamingRequest: StartMediaStreamingRequest = {
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUrl,
+    };
+    return this.callMedia.startMediaStreaming(
+      this.callConnectionId,
+      startMediaStreamingRequest,
+      options,
+    );
+  }
+
+  /**
+   * Stops media streaming in the call.
+   * @param options - Additional attributes for stop media streaming.
+   */
+  public async stopMediaStreaming(options: StopMediaStreamingOptions = {}): Promise<void> {
+    const stopMediaStreamingRequest: StopMediaStreamingRequest = {
+      operationCallbackUri: options.operationCallbackUrl,
+      operationContext: options.operationContext,
+    };
+    return this.callMedia.stopMediaStreaming(
+      this.callConnectionId,
+      stopMediaStreamingRequest,
+      options,
+    );
+  }
+
+  /**
+   * Interrupt audio and announce to specific participant.
+   *
+   * @param playSources - A PlaySource representing the sources to play.
+   * @param playTo - The targets to play to.
+   * @param options - Additional attributes for interrupt audio and announce.
+   */
+  public async interruptAudioAndAnnounce(
+    playSources: (FileSource | TextSource | SsmlSource)[],
+    playTo: CommunicationIdentifier,
+    options: InterruptAudioAndAnnounceOptions = {},
+  ): Promise<void> {
+    const interruptAudioAndAnnounceRequest: InterruptAudioAndAnnounceRequest = {
+      playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
+      playTo: serializeCommunicationIdentifier(playTo),
+      operationContext: options.operationContext,
+    };
+    return this.callMedia.interruptAudioAndAnnounce(
+      this.callConnectionId,
+      interruptAudioAndAnnounceRequest,
     );
   }
 }

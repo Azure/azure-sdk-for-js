@@ -28,7 +28,7 @@ import {
   WorkspacePrivateLinkResourcesImpl,
   OperationsImpl,
   OperationResultsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Services,
   PrivateEndpointConnections,
@@ -43,8 +43,8 @@ import {
   WorkspacePrivateLinkResources,
   Operations,
   OperationResults,
-} from "./operationsInterfaces";
-import { HealthcareApisManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { HealthcareApisManagementClientOptionalParams } from "./models/index.js";
 
 export class HealthcareApisManagementClient extends coreClient.ServiceClient {
   $host: string;

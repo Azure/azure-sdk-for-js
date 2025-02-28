@@ -17,7 +17,7 @@ import {
   FavoritesUpdateOptionalParams,
   FavoritesUpdateResponse,
   FavoritesDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Favorites. */
 export interface Favorites {

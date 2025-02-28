@@ -65,6 +65,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sample_limited_order_discrepancy_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_limited_order_discrepancy_inference_async.js
 [sample_radiology_procedure_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_radiology_procedure_inference_async.js
 [sample_sex_mismatch_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1/javascript/sample_sex_mismatch_inference_async.js
-[apiref]: https://docs.microsoft.com/javascript/api
+[apiref]: https://learn.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/README.md

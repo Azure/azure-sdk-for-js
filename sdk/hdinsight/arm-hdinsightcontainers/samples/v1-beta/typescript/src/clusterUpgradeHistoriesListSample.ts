@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns a list of upgrade history.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns a list of upgrade history.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListClusterUpgradeHistory.json
  */
-async function clusterUpgradeHistoriesListResult() {
+async function clusterUpgradeHistoriesListResult(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "10e32bab-26da-4cc4-a441-52b318f824e6";
@@ -44,7 +42,7 @@ async function clusterUpgradeHistoriesListResult() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   clusterUpgradeHistoriesListResult();
 }
 

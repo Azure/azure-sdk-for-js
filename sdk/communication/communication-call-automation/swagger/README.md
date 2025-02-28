@@ -11,17 +11,17 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2023-10-03-preview
+tag: package-2024-09-01-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/be2a0fa68829fcb15c4e6b47aa6bc4bdd566c1cf/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.3.0-beta.1
+  - https://github.com/Azure/azure-rest-api-specs/blob/c8d14e82887409318f471cb17d2fa03844e8187f/specification/communication/data-plane/CallAutomation/readme.md
+package-version: 1.4.0-beta.2
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
 azure-arm: false
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 directive:
   - rename-model:
       from: CallParticipant
@@ -164,6 +164,43 @@ directive:
   - rename-model:
       from: HoldFailed
       to: RestHoldFailed
+  - rename-model:
+      from: ConnectFailed
+      to: RestConnectFailed
+  - rename-model:
+      from: MediaStreamingStarted
+      to: RestMediaStreamingStarted
+  - rename-model:
+      from: MediaStreamingStopped
+      to: RestMediaStreamingStopped
+  - rename-model:
+      from: MediaStreamingFailed
+      to: RestMediaStreamingFailed
+  - rename-model:
+      from: StartRecordingFailed
+      to: RestStartRecordingFailed
+  - rename-model:
+      from: PlayStarted
+      to: RestPlayStarted
+  - rename-model:
+      from: PlayPaused
+      to: RestPlayPaused
+  - rename-model:
+      from: PlayResumed
+      to: RestPlayResumed
+  - rename-model:
+      from: HoldAudioStarted
+      to: RestHoldAudioStarted
+  - rename-model:
+      from: HoldAudioPaused
+      to: RestHoldAudioPaused
+  - rename-model:
+      from: HoldAudioResumed
+      to: RestHoldAudioResumed
+  - rename-model:
+      from: HoldAudioCompleted
+      to: RestHoldAudioCompleted
+module-kind: esm
 ```
 
 ```yaml
@@ -180,4 +217,20 @@ directive:
   where: "$.definitions.StartCallRecordingRequest.properties.externalStorage"
   transform: >
     $["x-ms-client-name"] = "recordingStorage";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.TranscriptionResultType.x-ms-enum"
+  transform: >
+    $["name"] = "TranscriptionResultState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.TranscriptionSubscription.properties.subscribedResultTypes"
+  transform: >
+    $["x-ms-client-name"] = "subscribedResultStates";
 ```

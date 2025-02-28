@@ -17,16 +17,16 @@ import { should, assert } from "../utils/chai.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createConsumer, createProducer } from "../utils/clients.js";
 
-describe("AmqpAnnotatedMessage", function () {
+describe("AmqpAnnotatedMessage", () => {
   let producerClient: EventHubProducerClient;
   let consumerClient: EventHubConsumerClient;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     producerClient = createProducer().producer;
     consumerClient = createConsumer().consumer;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await producerClient.close();
     await consumerClient.close();
   });
@@ -101,9 +101,9 @@ describe("AmqpAnnotatedMessage", function () {
     return producerClient.sendBatch(batch);
   }
 
-  describe("round-tripping AMQP encoding/decoding", function () {
+  describe("round-tripping AMQP encoding/decoding", () => {
     [{ useBatch: true }, { useBatch: false }].forEach(({ useBatch }) => {
-      it(`props (useBatch: ${useBatch})`, async function () {
+      it(`props (useBatch: ${useBatch})`, async () => {
         const startingPositions = await getStartingPositionsForTests(consumerClient);
         const testMessage = getSampleAmqpAnnotatedMessage();
         await sendEvents([testMessage], { useBatch });
@@ -140,7 +140,7 @@ describe("AmqpAnnotatedMessage", function () {
         );
       });
 
-      it(`values (useBatch: ${useBatch})`, async function () {
+      it(`values (useBatch: ${useBatch})`, async () => {
         const valueTypes = [[1, 2, 3], 1, 1.5, "hello", { hello: "world" }];
         for (const valueType of valueTypes) {
           const startingPositions = await getStartingPositionsForTests(consumerClient);
@@ -169,7 +169,7 @@ describe("AmqpAnnotatedMessage", function () {
         }
       });
 
-      it(`sequences (useBatch: ${useBatch})`, async function () {
+      it(`sequences (useBatch: ${useBatch})`, async () => {
         const sequenceTypes = [
           [[1], [2], [3]],
           [1, 2, 3],
@@ -202,7 +202,7 @@ describe("AmqpAnnotatedMessage", function () {
         }
       });
 
-      it(`data (useBatch: ${useBatch})`, async function () {
+      it(`data (useBatch: ${useBatch})`, async () => {
         const buff = Buffer.from("hello", "utf8");
 
         const dataTypes = [1, 1.5, "hello", { hello: "world" }, buff, [1, 2, 3]];
@@ -241,7 +241,7 @@ describe("AmqpAnnotatedMessage", function () {
           ["data", "hello"],
         ] as [BodyTypes, any][]
       ).forEach(([expectedBodyType, expectedBody]) => {
-        it(`receive ${expectedBodyType} EventData and resend (useBatch: ${useBatch})`, async function () {
+        it(`receive ${expectedBodyType} EventData and resend (useBatch: ${useBatch})`, async () => {
           let startingPositions = await getStartingPositionsForTests(consumerClient);
           // if we receive an event that was encoded to a non-data section
           // and then re-send it (again, as an EventData) we should

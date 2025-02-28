@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-deviceregistry)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-deviceregistry?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceregistry/arm-deviceregistry/samples)
 
 ## Getting started
@@ -47,26 +47,34 @@ npm install @azure/identity
 
 You will also need to **register a new AAD application and grant access to Azure DeviceRegistry** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
-For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
+For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
-```javascript
-const { DeviceRegistryManagementClient } = require("@azure/arm-deviceregistry");
-const { DefaultAzureCredential } = require("@azure/identity");
-// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
+
+```ts snippet:ReadmeSampleCreateClient_Node
+import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new DeviceRegistryManagementClient(new DefaultAzureCredential(), subscriptionId);
-
-// For client-side applications running in the browser, use this code instead:
-// const credential = new InteractiveBrowserCredential({
-//   tenantId: "<YOUR_TENANT_ID>",
-//   clientId: "<YOUR_CLIENT_ID>"
-// });
-// const client = new DeviceRegistryManagementClient(credential, subscriptionId);
 ```
 
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts snippet:ReadmeSampleCreateClient_Browser
+import { InteractiveBrowserCredential } from "@azure/identity";
+import { DeviceRegistryManagementClient } from "@azure/arm-deviceregistry";
+
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>",
+});
+const client = new DeviceRegistryManagementClient(credential, subscriptionId);
+```
 
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -81,8 +89,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
 setLogLevel("info");
 ```
 

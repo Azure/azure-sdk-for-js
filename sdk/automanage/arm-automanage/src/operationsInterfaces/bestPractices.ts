@@ -12,7 +12,7 @@ import {
   BestPracticesListByTenantOptionalParams,
   BestPracticesGetOptionalParams,
   BestPracticesGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BestPractices. */

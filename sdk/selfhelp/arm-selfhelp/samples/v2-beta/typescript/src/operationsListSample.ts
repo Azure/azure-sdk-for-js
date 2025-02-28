@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HelpRP } from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Returns list of operations.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Returns list of operations.
  * x-ms-original-file: specification/help/resource-manager/Microsoft.Help/preview/2024-03-01-preview/examples/ListOperations.json
  */
-async function listAllOperations() {
+async function listAllOperations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
   const resArray = new Array();
@@ -30,7 +28,7 @@ async function listAllOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listAllOperations();
 }
 

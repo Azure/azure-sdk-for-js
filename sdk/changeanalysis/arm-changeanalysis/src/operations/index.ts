@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./resourceChanges";
-export * from "./changes";
+export * from "./operations.js";
+export * from "./resourceChanges.js";
+export * from "./changes.js";

@@ -20,7 +20,7 @@ import {
   ManagedClustersUpdateOptionalParams,
   ManagedClustersUpdateResponse,
   ManagedClustersDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedClusters. */

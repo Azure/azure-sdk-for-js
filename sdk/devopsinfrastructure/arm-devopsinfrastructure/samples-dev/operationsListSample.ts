@@ -10,20 +10,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-10-19/ListOperations.json
  */
-async function operationsList() {
+async function operationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-00000000000";
   const client = new DevOpsInfrastructureClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
-  operationsList();
+async function main(): Promise<void> {
+  await operationsList();
 }
 
 main().catch(console.error);

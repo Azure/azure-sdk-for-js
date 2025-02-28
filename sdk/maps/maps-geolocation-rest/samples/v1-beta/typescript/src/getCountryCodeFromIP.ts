@@ -3,9 +3,7 @@
 
 import MapsGeolocation, { isUnexpected } from "@azure-rest/maps-geolocation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * @summary This sample demonstrates how to get the country code for an IP address using MapsGeolocation.

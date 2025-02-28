@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualHubBgpConnectionCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a VirtualHubBgpConnection resource if it doesn't exist else updates the existing VirtualHubBgpConnection.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates a VirtualHubBgpConnection resource if it doesn't exist else updates the existing VirtualHubBgpConnection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualHubBgpConnectionPut.json
  */
-async function virtualHubRouteTableV2Put() {
+async function virtualHubRouteTableV2Put(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -29,14 +24,13 @@ async function virtualHubRouteTableV2Put() {
     body: {
       properties: {
         hubVirtualNetworkConnection: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/hubVirtualNetworkConnections/hubVnetConn1"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1/hubVirtualNetworkConnections/hubVnetConn1",
         },
         peerAsn: 20000,
-        peerIp: "192.168.1.5"
-      }
+        peerIp: "192.168.1.5",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -44,7 +38,7 @@ async function virtualHubRouteTableV2Put() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      connectionName
+      connectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

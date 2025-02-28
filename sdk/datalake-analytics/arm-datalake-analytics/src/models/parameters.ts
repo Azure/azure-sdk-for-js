@@ -22,7 +22,7 @@ import {
   UpdateComputePolicyParameters as UpdateComputePolicyParametersMapper,
   CreateOrUpdateFirewallRuleParameters as CreateOrUpdateFirewallRuleParametersMapper,
   UpdateFirewallRuleParameters as UpdateFirewallRuleParametersMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -14,7 +14,7 @@ import {
 import {
   HealthBot as HealthBotMapper,
   HealthBotUpdateParameters as HealthBotUpdateParametersMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

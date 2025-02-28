@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerRegistryManagementClient } = require("@azure/arm-containerregistry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates an agent pool with the specified parameters.
@@ -31,13 +29,13 @@ async function agentPoolsUpdate() {
     resourceGroupName,
     registryName,
     agentPoolName,
-    updateParameters
+    updateParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  agentPoolsUpdate();
+  await agentPoolsUpdate();
 }
 
 main().catch(console.error);

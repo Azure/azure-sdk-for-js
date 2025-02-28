@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Solution } from "../operationsInterfaces";
+import { Solution } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { HelpRP } from "../helpRP";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { HelpRP } from "../helpRP.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   SolutionCreateOptionalParams,
   SolutionCreateResponse,
@@ -25,7 +25,7 @@ import {
   SolutionUpdateOptionalParams,
   SolutionUpdateResponse,
   SolutionWarmUpOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Solution operations. */
 export class SolutionImpl implements Solution {

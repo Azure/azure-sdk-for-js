@@ -9,7 +9,7 @@ import { getTrunksHttpClient } from "../../public/siprouting/utils/mockHttpClien
 import { SDK_VERSION } from "../../../src/utils/constants.js";
 import { createMockToken } from "../../public/utils/recordedClient.js";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
-import { describe, it, assert, expect, vi } from "vitest";
+import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 describe("SipRoutingClient - headers", () => {
   const endpoint = "https://contoso.spool.azure.local";
@@ -18,6 +18,10 @@ describe("SipRoutingClient - headers", () => {
     httpClient: getTrunksHttpClient,
   });
   let request: PipelineRequest;
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   it("calls the spy", async () => {
     const spy = vi.spyOn(getTrunksHttpClient, "sendRequest");
