@@ -411,7 +411,10 @@ importers:
         version: file:projects/arm-hybridnetwork.tgz
       '@rush-temp/arm-imagebuilder':
         specifier: file:./projects/arm-imagebuilder.tgz
-        version: file:projects/arm-imagebuilder.tgz
+        version: file:projects/arm-imagebuilder.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-impactreporting':
+        specifier: file:./projects/arm-impactreporting.tgz
+        version: file:projects/arm-impactreporting.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-informaticadatamanagement':
         specifier: file:./projects/arm-informaticadatamanagement.tgz
         version: file:projects/arm-informaticadatamanagement.tgz

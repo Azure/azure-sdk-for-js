@@ -20,13 +20,11 @@ import {
   FormPageRange
 } from "@azure/ai-form-recognizer";
 
-import * as fs from "fs";
-import * as os from "os";
+import * as fs from "node:fs";
+import * as os from "node:os";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 /**
  * A `FormField` that is an object with a specific shape (defined by the type
  * parameter T).
@@ -86,7 +84,7 @@ interface ReceiptItem {
   TotalPrice?: FormField;
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
