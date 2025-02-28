@@ -526,24 +526,29 @@ export class ServiceBusClient {
     );
 
     logger.verbose(`Performing operation - listSessions() with options: %j`, options);
-    const pagedResult: PagedResult<string[], { maxPageSize?: number }, number> = {
-      firstPageLink: 0,
+    const pagedResult: PagedResult<
+      string[],
+      { maxPageSize?: number },
+      { lastSkip: number; lastSessionId: string | undefined }
+    > = {
+      firstPageLink: { lastSkip: 0, lastSessionId: undefined },
       getPage: async (pageLink, maxPageSize) => {
         const top = maxPageSize ?? 100;
-        const { skip: lastSkip, "sessions-ids": sessions } = await getSessions(
+        const { skip: newLastSkip, "sessions-ids": sessions } = await getSessions(
           this._connectionContext,
           entityPath,
           this._clientOptions.retryOptions ?? {},
           {
-            skip: pageLink,
+            skip: pageLink.lastSkip,
             maxCount: top,
+            lastSessionId: pageLink.lastSessionId,
             ...options,
           },
         );
         return sessions.length
           ? {
               page: sessions,
-              nextPageLink: lastSkip,
+              nextPageLink: { lastSkip: newLastSkip, lastSessionId: sessions[sessions.length - 1] },
             }
           : undefined;
       },
@@ -649,27 +654,27 @@ export async function getSessions(
   context: ConnectionContext,
   entityPath: string,
   retryOptions: RetryOptions,
-  options?: ListRequestOptions & OperationOptions,
-): Promise<{ skip?: number; "sessions-ids": string[] }> {
+  options?: ListRequestOptions & OperationOptions & { lastSessionId?: string },
+): Promise<{ skip: number; "sessions-ids": string[]; "last-session-id"?: string }> {
   return tracingClient.withSpan(
     "ServiceBusClient.getSessions",
     options ?? {},
     async (updatedOptions) => {
-      const operationPromise = async (): Promise<{ skip?: number; "sessions-ids": string[] }> => {
+      const operationPromise = async (): Promise<{ skip: number; "sessions-ids": string[] }> => {
         return context.getManagementClient(entityPath).getSessions({
           ...updatedOptions,
           requestName: "getSessions",
           timeoutInMs: retryOptions.timeoutInMs,
         });
       };
-      const config: RetryConfig<{ skip?: number; "sessions-ids": string[] }> = {
+      const config: RetryConfig<{ skip: number; "sessions-ids": string[] }> = {
         operation: operationPromise,
         connectionId: context.connectionId,
         operationType: RetryOperationType.management,
         retryOptions: retryOptions,
         abortSignal: updatedOptions?.abortSignal,
       };
-      return retry<{ skip?: number; "sessions-ids": string[] }>(config);
+      return retry<{ skip: number; "sessions-ids": string[] }>(config);
     },
   );
 }

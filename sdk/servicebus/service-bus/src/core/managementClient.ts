@@ -1558,8 +1558,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @returns A list of session ids.
    */
   async getSessions(
-    options?: ListRequestOptions & OperationOptionsBase & SendManagementRequestOptions,
-  ): Promise<{ skip?: number; "sessions-ids": string[] }> {
+    options?: ListRequestOptions &
+      OperationOptionsBase &
+      SendManagementRequestOptions & { lastSessionId?: string },
+  ): Promise<{ skip: number; "sessions-ids": string[]; "last-session-id"?: string }> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const updatedOptions = (await this.initWithUniqueReplyTo(options)) as ListRequestOptions &
@@ -1570,8 +1572,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           ? types.wrap_int(updatedOptions.maxCount)
           : types.wrap_int(max32BitNumber),
         skip: updatedOptions?.skip ? types.wrap_int(updatedOptions.skip) : types.wrap_int(0),
+        "last-updated-time": new Date(253402300800000),
       };
-      messageBody["last-updated-time"] = new Date(253402300800000);
+      if (options?.lastSessionId && typeof options?.lastSessionId === "string") {
+        messageBody["last-session-id"] = types.wrap_string(options.lastSessionId);
+      }
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -1598,11 +1603,16 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         !Array.isArray(response.body["sessions-ids"])
       ) {
         return {
-          skip: updatedOptions?.skip,
+          skip: updatedOptions?.skip ?? 0,
           "sessions-ids": [],
         };
       }
-      return response.body as { skip?: number; "sessions-ids": string[] };
+
+      return response.body as {
+        skip: number;
+        "sessions-ids": string[];
+        "last-session-id"?: string;
+      };
     } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
