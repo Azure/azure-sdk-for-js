@@ -274,7 +274,7 @@ export interface HealthInsuranceCardUsMedicareMedicaidInfo {
 /**
  * The raw model schema.
  */
-function modelInfo() {
+function modelInfo(): any {
   return {
     modelId: "prebuilt-healthInsuranceCard.us",
     description: "Extract key information from US health insurance cards.",
