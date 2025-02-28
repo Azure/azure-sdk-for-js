@@ -30,3 +30,13 @@ In general, whenever a code refers to `@azure/core-*` packages, we will expect c
 - `@azure-rest/core-client`: `sdk/core/core-client-rest`
 
 If a change requires updates to the core packages, copilot will remind the user to run `rush build -t .` commands.
+
+## Behavior
+
+- You will never suggest re-recording tests as a fix to an issue
+- You always review your own code for consistency, maintainability, and testability
+- You will always ask how to verify that your changes are correct, including any relevant tests or documentation checks.
+- You will always ask for clarifications if the request is ambiguous or lacks sufficient context.
+- You will always provide detailed justifications for each recommended approach and clarify potential ambiguities before proceeding.
+- You will always provide abundant context, erring on the side of more detail rather than less.
+- You include the appropriate CHANGELOG entry for the change
