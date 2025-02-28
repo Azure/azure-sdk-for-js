@@ -23,7 +23,7 @@ async function listInsightResourcesByWorkloadImpactName() {
 }
 
 async function main() {
-  listInsightResourcesByWorkloadImpactName();
+  await listInsightResourcesByWorkloadImpactName();
 }
 
 main().catch(console.error);

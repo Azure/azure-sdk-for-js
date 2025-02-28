@@ -47,7 +47,7 @@ async function getInsightSampleForServiceHealthCategory(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  getInsightSampleForDiagnosticsCategory();
+  await getInsightSampleForDiagnosticsCategory();
   getInsightSampleForMitigationActionCategory();
   getInsightSampleForServiceHealthCategory();
 }

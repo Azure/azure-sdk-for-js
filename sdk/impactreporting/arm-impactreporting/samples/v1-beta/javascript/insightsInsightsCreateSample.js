@@ -38,7 +38,7 @@ async function creatingAnInsight() {
 }
 
 async function main() {
-  creatingAnInsight();
+  await creatingAnInsight();
 }
 
 main().catch(console.error);

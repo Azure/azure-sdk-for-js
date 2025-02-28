@@ -21,7 +21,7 @@ async function connectorsUpdate() {
 }
 
 async function main() {
-  connectorsUpdate();
+  await connectorsUpdate();
 }
 
 main().catch(console.error);

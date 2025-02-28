@@ -21,7 +21,7 @@ async function connectorsUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectorsUpdate();
+  await connectorsUpdate();
 }
 
 main().catch(console.error);

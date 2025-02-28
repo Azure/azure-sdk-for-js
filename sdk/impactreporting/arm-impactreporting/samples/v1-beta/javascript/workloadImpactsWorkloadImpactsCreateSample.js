@@ -127,7 +127,7 @@ async function reportingPerformanceRelatedImpact() {
 }
 
 async function main() {
-  reportingArmOperationFailure();
+  await reportingArmOperationFailure();
   reportingAvailabilityRelatedImpact();
   reportingAConnectivityImpact();
   reportingPerformanceRelatedImpact();

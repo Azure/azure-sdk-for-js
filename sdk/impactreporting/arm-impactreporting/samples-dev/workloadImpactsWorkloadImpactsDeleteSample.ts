@@ -18,7 +18,7 @@ async function deleteWorkloadImpactResourceByNameExample(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  deleteWorkloadImpactResourceByNameExample();
+  await deleteWorkloadImpactResourceByNameExample();
 }
 
 main().catch(console.error);

@@ -18,7 +18,7 @@ async function deleteWorkloadImpactResourceByNameExample() {
 }
 
 async function main() {
-  deleteWorkloadImpactResourceByNameExample();
+  await deleteWorkloadImpactResourceByNameExample();
 }
 
 main().catch(console.error);

@@ -23,7 +23,7 @@ async function connectorsListBySubscription() {
 }
 
 async function main() {
-  connectorsListBySubscription();
+  await connectorsListBySubscription();
 }
 
 main().catch(console.error);

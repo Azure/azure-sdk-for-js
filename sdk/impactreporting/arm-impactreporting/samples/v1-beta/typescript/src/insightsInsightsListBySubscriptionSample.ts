@@ -23,7 +23,7 @@ async function listInsightResourcesByWorkloadImpactName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  listInsightResourcesByWorkloadImpactName();
+  await listInsightResourcesByWorkloadImpactName();
 }
 
 main().catch(console.error);

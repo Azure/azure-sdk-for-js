@@ -26,7 +26,7 @@ async function connectorsCreateOrUpdate() {
 }
 
 async function main() {
-  connectorsCreateOrUpdate();
+  await connectorsCreateOrUpdate();
 }
 
 main().catch(console.error);

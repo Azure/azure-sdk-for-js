@@ -25,7 +25,7 @@ async function getImpactCategoriesListBySubscription() {
 }
 
 async function main() {
-  getImpactCategoriesListBySubscription();
+  await getImpactCategoriesListBySubscription();
 }
 
 main().catch(console.error);

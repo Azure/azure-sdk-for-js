@@ -47,7 +47,7 @@ async function getInsightSampleForServiceHealthCategory() {
 }
 
 async function main() {
-  getInsightSampleForDiagnosticsCategory();
+  await getInsightSampleForDiagnosticsCategory();
   getInsightSampleForMitigationActionCategory();
   getInsightSampleForServiceHealthCategory();
 }

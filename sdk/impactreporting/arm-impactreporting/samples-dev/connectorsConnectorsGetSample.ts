@@ -19,7 +19,7 @@ async function connectorsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectorsGet();
+  await connectorsGet();
 }
 
 main().catch(console.error);

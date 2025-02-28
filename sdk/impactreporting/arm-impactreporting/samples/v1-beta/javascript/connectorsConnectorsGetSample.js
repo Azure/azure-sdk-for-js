@@ -19,7 +19,7 @@ async function connectorsGet() {
 }
 
 async function main() {
-  connectorsGet();
+  await connectorsGet();
 }
 
 main().catch(console.error);

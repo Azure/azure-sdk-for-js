@@ -18,7 +18,7 @@ async function connectorsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectorsDelete();
+  await connectorsDelete();
 }
 
 main().catch(console.error);

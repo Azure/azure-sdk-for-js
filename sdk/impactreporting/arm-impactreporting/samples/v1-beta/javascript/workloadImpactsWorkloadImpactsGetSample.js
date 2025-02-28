@@ -19,7 +19,7 @@ async function getWorkloadImpactResourceByNameExample() {
 }
 
 async function main() {
-  getWorkloadImpactResourceByNameExample();
+  await getWorkloadImpactResourceByNameExample();
 }
 
 main().catch(console.error);

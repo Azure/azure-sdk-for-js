@@ -18,7 +18,7 @@ async function connectorsDelete() {
 }
 
 async function main() {
-  connectorsDelete();
+  await connectorsDelete();
 }
 
 main().catch(console.error);

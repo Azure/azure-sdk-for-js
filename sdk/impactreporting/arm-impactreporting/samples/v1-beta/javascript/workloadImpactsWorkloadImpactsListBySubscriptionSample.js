@@ -23,7 +23,7 @@ async function listWorkloadImpactResourcesBySubscription() {
 }
 
 async function main() {
-  listWorkloadImpactResourcesBySubscription();
+  await listWorkloadImpactResourcesBySubscription();
 }
 
 main().catch(console.error);

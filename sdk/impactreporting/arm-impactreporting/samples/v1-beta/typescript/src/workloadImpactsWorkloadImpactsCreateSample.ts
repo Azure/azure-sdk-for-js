@@ -127,7 +127,7 @@ async function reportingPerformanceRelatedImpact(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reportingArmOperationFailure();
+  await reportingArmOperationFailure();
   reportingAvailabilityRelatedImpact();
   reportingAConnectivityImpact();
   reportingPerformanceRelatedImpact();

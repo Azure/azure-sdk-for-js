@@ -23,7 +23,7 @@ async function connectorsListBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  connectorsListBySubscription();
+  await connectorsListBySubscription();
 }
 
 main().catch(console.error);

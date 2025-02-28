@@ -18,7 +18,7 @@ async function deleteAnInsight() {
 }
 
 async function main() {
-  deleteAnInsight();
+  await deleteAnInsight();
 }
 
 main().catch(console.error);
