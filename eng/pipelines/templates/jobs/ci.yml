@@ -38,17 +38,6 @@ jobs:
       os: linux
 
     steps:
-      - task: AzurePowerShell@5
-        displayName: Get Certficate Details
-        inputs:
-          azureSubscription: 'Azure SDK PME Managed Identity'
-          azurePowerShellVersion: LatestVersion
-          scriptType: 'InlineScript'
-          pwsh: true
-          inline: |
-            Get-AzKeyVaultCertificate -VaultName 'kv-azuresdk-codesign' -Name 'azure-sdk-esrp-release-certificate'
-          workingDirectory: '$(System.DefaultWorkingDirectory)'      
-
       - script: |
           echo "##vso[build.addbuildtag]Scheduled"
         displayName: "Tag scheduled builds"
