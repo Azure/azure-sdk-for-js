@@ -412,6 +412,9 @@ importers:
       '@rush-temp/arm-imagebuilder':
         specifier: file:./projects/arm-imagebuilder.tgz
         version: file:projects/arm-imagebuilder.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-impactreporting':
+        specifier: file:./projects/arm-impactreporting.tgz
+        version: file:projects/arm-impactreporting.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-informaticadatamanagement':
         specifier: file:./projects/arm-informaticadatamanagement.tgz
         version: file:projects/arm-informaticadatamanagement.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -3039,6 +3042,10 @@ packages:
 
   '@rush-temp/arm-imagebuilder@file:projects/arm-imagebuilder.tgz':
     resolution: {integrity: sha512-IP1RWGe4uVJR1CV2YiNb4GjTScDFgenPbTaM9a1USoJAUe/PQr1b+w4QxYGQvnnlIRLoA5g1ykDMndht0RuhsQ==, tarball: file:projects/arm-imagebuilder.tgz}
+    version: 0.0.0
+
+  '@rush-temp/arm-impactreporting@file:projects/arm-impactreporting.tgz':
+    resolution: {integrity: sha512-CoW/ZNsF7wxxCADBqAtGGH6l1clgUkubGPR7RZLjrWS5svhcEowq5DlvTWW7ATCyRjPajg7LMeNqPG521E0CtQ==, tarball: file:projects/arm-impactreporting.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-informaticadatamanagement@file:projects/arm-informaticadatamanagement.tgz':
@@ -14367,6 +14374,42 @@ snapshots:
       playwright: 1.50.1
       tslib: 2.8.1
       typescript: 5.7.3
+      vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@types/debug'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
+
+  '@rush-temp/arm-impactreporting@file:projects/arm-impactreporting.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
+    dependencies:
+      '@microsoft/api-extractor': 7.50.1(@types/node@18.19.76)
+      '@types/node': 18.19.76
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.6.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
+      '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
+      dotenv: 16.4.7
+      eslint: 9.21.0
+      playwright: 1.50.1
+      tslib: 2.8.1
+      typescript: 5.6.3
       vitest: 3.0.6(@types/debug@4.1.12)(@types/node@18.19.76)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
