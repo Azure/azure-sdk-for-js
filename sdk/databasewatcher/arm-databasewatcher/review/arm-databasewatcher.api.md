@@ -232,7 +232,7 @@ export enum KnownValidationStatus {
 
 // @public
 export enum KnownVersions {
-    V2025_01_02 = "2025-01-02"
+    V20250102 = "2025-01-02"
 }
 
 // @public
