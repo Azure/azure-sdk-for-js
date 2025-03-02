@@ -4,8 +4,9 @@
 
 ### Features Added
 
-- Adds `deleteMessages` which deletes messages from the queue.
+- Add `deleteMessages` which deletes messages from the queue.
 - Add the experimental diagnostic feature `omitMessageBody` via `PeekMessagesOptions` under `./experimental` subpath export.
+- Add `listSessions` to receivers.
 
 ### Breaking Changes
 

@@ -40,7 +40,7 @@ const listOfScientists = [
   { lastName: "Kopernikus", firstName: "Nikolaus" },
 ];
 
-export async function main() {
+export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const sbClient = new ServiceBusClient(fqdn, credential);
 
@@ -58,6 +58,8 @@ export async function main() {
     await sendMessage(sbClient, listOfScientists[7], "session-2");
     await sendMessage(sbClient, listOfScientists[8], "session-2");
     await sendMessage(sbClient, listOfScientists[9], "session-2");
+
+    await listSessions(sbClient);
 
     await receiveMessages(sbClient, "session-1");
     await receiveMessages(sbClient, "session-2");
@@ -111,7 +113,7 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
       endDate = now + 20000;
     }
 
-    let remainingTime: number = endDate - now;
+    const remainingTime: number = endDate - now;
 
     console.log(`Waiting for ${remainingTime} milliseconds for messages to arrive.`);
 
@@ -123,10 +125,18 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
 
       await receiver.close();
       break;
-    } catch (err: any) {
+    } catch {
       // `err` was already logged part of `processError` above.
       await receiver.close();
     }
+  }
+}
+
+async function listSessions(sbClient: ServiceBusClient): Promise<void> {
+  const sessionIterator = sbClient.listSessions();
+  console.log(`Listing sessions:`);
+  for await (const id of sessionIterator) {
+    console.log(`    ${id}`);
   }
 }
 
