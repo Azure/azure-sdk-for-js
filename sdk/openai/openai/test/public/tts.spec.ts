@@ -21,7 +21,7 @@ describe("Text to speech", function () {
       });
 
       describe("audio.speech.create", function () {
-        it("returns speech based on text input", async function () {
+        it("returns speech based on text input", async () => {
           await withDeployments(
             clientsAndDeployments,
             (client, deployment) =>

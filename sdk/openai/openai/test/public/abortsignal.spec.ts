@@ -16,7 +16,7 @@ describe("AbortSignal", () => {
     });
 
     // TODO: Fix the tests for client.chat.completions.create
-    it("Abort signal test for streaming method", async function () {
+    it("Abort signal test for streaming method", async () => {
       const messages = [
         {
           role: "system",

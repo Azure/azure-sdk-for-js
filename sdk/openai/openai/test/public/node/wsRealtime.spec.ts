@@ -24,7 +24,7 @@ describe("Realtime", () => {
       });
 
       describe("OpenAIRealtimeWS", function () {
-        it("ws.azure", async function () {
+        it("ws.azure", async () => {
           await withDeployments(clientAndDeployments, async (client, deploymentName) => {
             const rt = await OpenAIRealtimeWS.azure(client as AzureOpenAI, { deploymentName });
             await new Promise<void>((resolve, reject) => {

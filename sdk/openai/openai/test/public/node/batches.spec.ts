@@ -39,7 +39,7 @@ describe("Batches", () => {
           return file;
         }
 
-        it("CRUD operations", async function () {
+        it("CRUD operations", async () => {
           await withDeployments(
             clientAndDeployments,
             async (client, deploymentName) => {
