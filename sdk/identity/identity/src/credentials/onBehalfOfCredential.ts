@@ -238,7 +238,7 @@ export class OnBehalfOfCredential implements TokenCredential {
     try {
       const parts = await this.parseCertificate({ certificatePath }, this.sendCertificateChain);
       return {
-        thumbprint: parts.thumbprint,
+        thumbprintSha256: parts.thumbprintSha256,
         privateKey: parts.certificateContents,
         x5c: parts.x5c,
       };
@@ -273,14 +273,14 @@ export class OnBehalfOfCredential implements TokenCredential {
       throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
     }
 
-    const thumbprint = createHash("sha1")
+    const thumbprintSha256 = createHash("sha1")
       .update(Buffer.from(publicKeys[0], "base64"))
       .digest("hex")
       .toUpperCase();
 
     return {
       certificateContents,
-      thumbprint,
+      thumbprintSha256,
       x5c,
     };
   }
