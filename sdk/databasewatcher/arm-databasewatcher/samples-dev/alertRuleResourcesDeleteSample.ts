@@ -14,7 +14,11 @@ async function alertRuleResourcesDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "A76F9850-996B-40B3-94D4-C98110A0EEC9";
   const client = new DatabaseWatcherClient(credential, subscriptionId);
-  await client.alertRuleResources.delete("rgWatcher", "testWatcher", "testAlert");
+  await client.alertRuleResources.delete(
+    "rgWatcher",
+    "testWatcher",
+    "testAlert",
+  );
 }
 
 async function main(): Promise<void> {

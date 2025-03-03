@@ -77,13 +77,24 @@ export function startValidation(
     requestOptions: {},
   },
 ): PollerLike<OperationState<HealthValidation>, HealthValidation> {
-  return getLongRunningPoller(context, _startValidationDeserialize, ["202", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _startValidationSend(context, resourceGroupName, watcherName, healthValidationName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<HealthValidation>, HealthValidation>;
+  return getLongRunningPoller(
+    context,
+    _startValidationDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _startValidationSend(
+          context,
+          resourceGroupName,
+          watcherName,
+          healthValidationName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<HealthValidation>, HealthValidation>;
 }
 
 export function _listByParentSend(
@@ -163,7 +174,9 @@ export function _getSend(
     });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<HealthValidation> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<HealthValidation> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);

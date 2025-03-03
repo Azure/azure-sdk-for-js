@@ -14,7 +14,11 @@ async function targetsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "49e0fbd3-75e8-44e7-96fd-5b64d9ad818d";
   const client = new DatabaseWatcherClient(credential, subscriptionId);
-  await client.targets.delete("apiTest-ddat4p", "databasemo3ej9ih", "monitoringh22eed");
+  await client.targets.delete(
+    "apiTest-ddat4p",
+    "databasemo3ej9ih",
+    "monitoringh22eed",
+  );
 }
 
 async function main(): Promise<void> {

@@ -108,7 +108,9 @@ export function _$deleteSend(
     });
 }
 
-export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _$deleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -232,7 +234,9 @@ export function _getSend(
     });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<AlertRuleResource> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AlertRuleResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
