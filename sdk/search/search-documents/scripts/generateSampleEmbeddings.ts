@@ -25,7 +25,7 @@ const inputs = [
   },
 ];
 
-async function main() {
+async function main(): Promise<void> {
   const client = new OpenAIClient(
     process.env.AZURE_OPENAI_ENDPOINT!,
     new AzureKeyCredential(process.env.AZURE_OPENAI_KEY!),

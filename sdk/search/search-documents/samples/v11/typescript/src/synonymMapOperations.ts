@@ -7,14 +7,12 @@
 
 import { SearchIndexClient, AzureKeyCredential, SynonymMap } from "@azure/search-documents";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const synonymMapName = "example-synonymmap-sample-1";
 
-async function createSynonymMap(synonymMapName: string, client: SearchIndexClient) {
+async function createSynonymMap(synonymMapName: string, client: SearchIndexClient): Promise<void> {
   console.log(`Creating SynonymMap Operation`);
   const sm: SynonymMap = {
     name: synonymMapName,
@@ -23,7 +21,7 @@ async function createSynonymMap(synonymMapName: string, client: SearchIndexClien
   await client.createSynonymMap(sm);
 }
 
-async function getAndUpdateSynonymMap(synonymMapName: string, client: SearchIndexClient) {
+async function getAndUpdateSynonymMap(synonymMapName: string, client: SearchIndexClient): Promise<void> {
   console.log(`Get And Update SynonymMap Operation`);
   const sm: SynonymMap = await client.getSynonymMap(synonymMapName);
   console.log(`Update synonyms Synonym Map my-synonymmap`);
@@ -31,7 +29,7 @@ async function getAndUpdateSynonymMap(synonymMapName: string, client: SearchInde
   await client.createOrUpdateSynonymMap(sm);
 }
 
-async function listSynonymMaps(client: SearchIndexClient) {
+async function listSynonymMaps(client: SearchIndexClient): Promise<void> {
   console.log(`List SynonymMaps Operation`);
   const listOfSynonymMaps: Array<SynonymMap> = await client.listSynonymMaps();
 
@@ -46,12 +44,12 @@ async function listSynonymMaps(client: SearchIndexClient) {
   }
 }
 
-async function deleteSynonymMap(synonymMapName: string, client: SearchIndexClient) {
+async function deleteSynonymMap(synonymMapName: string, client: SearchIndexClient): Promise<void> {
   console.log(`Deleting SynonymMap Operation`);
   await client.deleteSynonymMap(synonymMapName);
 }
 
-async function main() {
+async function main(): Promise<void> {
   console.log(`Running Index Operations Sample....`);
   if (!endpoint || !apiKey) {
     console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");

@@ -11,9 +11,7 @@ import {
   SearchIndexerDataSourceConnection
 } from "@azure/search-documents";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const connectionString = process.env.CONNECTION_STRING || "";
@@ -22,7 +20,7 @@ const dataSourceConnectionName = "example-ds-connection-sample-1";
 async function createDataSourceConnection(
   dataSourceConnectionName: string,
   client: SearchIndexerClient
-) {
+): Promise<void> {
   console.log(`Creating DS Connection Operation`);
   const dataSourceConnection: SearchIndexerDataSourceConnection = {
     name: dataSourceConnectionName,
@@ -39,7 +37,7 @@ async function createDataSourceConnection(
 async function getAndUpdateDataSourceConnection(
   dataSourceConnectionName: string,
   client: SearchIndexerClient
-) {
+): Promise<void> {
   console.log(`Get And Update DS Connection Operation`);
   const ds: SearchIndexerDataSourceConnection = await client.getDataSourceConnection(
     dataSourceConnectionName
@@ -49,7 +47,7 @@ async function getAndUpdateDataSourceConnection(
   await client.createOrUpdateDataSourceConnection(ds);
 }
 
-async function listDataSourceConnections(client: SearchIndexerClient) {
+async function listDataSourceConnections(client: SearchIndexerClient): Promise<void> {
   console.log(`List DS Connection Operation`);
   const listOfDataSourceConnections: Array<SearchIndexerDataSourceConnection> = await client.listDataSourceConnections();
 
@@ -72,12 +70,12 @@ async function listDataSourceConnections(client: SearchIndexerClient) {
 async function deleteDataSourceConnection(
   dataSourceConnectionName: string,
   client: SearchIndexerClient
-) {
+): Promise<void> {
   console.log(`Deleting DS Connection Operation`);
   await client.deleteDataSourceConnection(dataSourceConnectionName);
 }
 
-async function main() {
+async function main(): Promise<void> {
   console.log(`Running DS Connection Operations Sample....`);
   if (!endpoint || !apiKey || !connectionString) {
     console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
