@@ -6,7 +6,8 @@ import viteConfig from "../../../vitest.browser.shared.config.ts";
 import { fileURLToPath } from "url";
 import { dirname, resolve } from "path";
 
-const __dirname = dirname((import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default mergeConfig(
   viteConfig,

@@ -9,5 +9,9 @@
     {
       "path": "./tsconfig.test.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "target": "ES2017",
+    "moduleResolution": "nodenext"
+  }
 }
