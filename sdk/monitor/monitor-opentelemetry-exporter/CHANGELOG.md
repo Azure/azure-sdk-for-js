@@ -11,6 +11,7 @@
 ### Other Changes
 
 - Removed faulty span exception exporting logic.
+- Remove applying cloud.* tags to statsbeat telemetry.
 
 ## 1.0.0-beta.28 (2025-01-28)
 
