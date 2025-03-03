@@ -13,8 +13,8 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 source-code-folder-path: src/siprouting
 clear-output-folder: false
-tag: package-2023-03
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/communication/data-plane/SipRouting/readme.md
+tag: package-2024-11-15-preview
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/8a218b1c6203d1ea118c3e0bcb4ae95bd44e1014/specification/communication/data-plane/SipRouting/readme.md
 optional-response-headers: true
 payload-flattening-threshold: 10
 use-extension:
