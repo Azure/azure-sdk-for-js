@@ -10,7 +10,7 @@
 import "openai/shims/node";
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
-import { writeFile } from "fs/promises";
+import { writeFile } from "node:fs/promises";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
@@ -28,7 +28,7 @@ const credential = new DefaultAzureCredential();
 const scope = "https://cognitiveservices.azure.com/.default";
 const azureADTokenProvider = getBearerTokenProvider(credential, scope);
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Text to Speech Sample ==");
 
   const openai = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });

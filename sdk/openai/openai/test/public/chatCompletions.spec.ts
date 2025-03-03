@@ -29,13 +29,13 @@ describe("Chat Completions", function () {
     describe(`[${apiVersion}] Client`, () => {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         clientsAndDeployments = createClientsAndDeployments(
           apiVersion,
           { chatCompletion: "true" },
           {
             deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
-            modelsToSkip: [{ name: "gpt-4o-audio-preview" }, {name: "o3-mini"}],
+            modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "o3-mini" }],
           },
         );
       });
@@ -79,7 +79,7 @@ describe("Chat Completions", function () {
           },
         };
 
-        it("returns completions across all models", async function () {
+        it("returns completions across all models", async () => {
           await withDeployments(
             clientsAndDeployments,
             (client, deploymentName) =>
@@ -91,7 +91,7 @@ describe("Chat Completions", function () {
           );
         });
 
-        it("calls functions", async function () {
+        it("calls functions", async () => {
           await withDeployments(
             clientsAndDeployments,
             async (client, deploymentName) => {
@@ -130,7 +130,7 @@ describe("Chat Completions", function () {
           );
         });
 
-        it("doesn't call tools if toolChoice is set to none", async function () {
+        it("doesn't call tools if toolChoice is set to none", async () => {
           await withDeployments(
             clientsAndDeployments,
             (client, deploymentName) =>
@@ -147,7 +147,7 @@ describe("Chat Completions", function () {
           );
         });
 
-        it("calls a specific tool if its name is specified", async function () {
+        it("calls a specific tool if its name is specified", async () => {
           await withDeployments(
             clientsAndDeployments,
             (client, deploymentName) =>
@@ -196,7 +196,7 @@ describe("Chat Completions", function () {
           );
         });
 
-        it("ensure schema name is not transformed with snake case", async function () {
+        it("ensure schema name is not transformed with snake case", async () => {
           const getAssetInfo = {
             name: "getAssetInfo",
             description: "Returns information about an asset",
@@ -232,7 +232,7 @@ describe("Chat Completions", function () {
           );
         });
 
-        it("respects json_object responseFormat", async function () {
+        it("respects json_object responseFormat", async () => {
           clientsAndDeployments = createClientsAndDeployments(apiVersion, {
             chatCompletion: "true",
             jsonObjectResponse: "true",
@@ -265,7 +265,7 @@ describe("Chat Completions", function () {
           );
         });
 
-        it("bring your data", async function () {
+        it("bring your data", async () => {
           await withDeployments(
             clientsAndDeployments,
             (client, deploymentName) =>
@@ -279,7 +279,7 @@ describe("Chat Completions", function () {
         });
 
         describe("return stream", function () {
-          it("returns completions across all models", async function () {
+          it("returns completions across all models", async () => {
             await withDeployments(
               clientsAndDeployments,
               async (client, deploymentName) =>
@@ -302,7 +302,7 @@ describe("Chat Completions", function () {
             );
           });
 
-          it("calls functions", async function () {
+          it("calls functions", async () => {
             await withDeployments(
               clientsAndDeployments,
               async (client, deploymentName) =>
@@ -324,7 +324,7 @@ describe("Chat Completions", function () {
             );
           });
 
-          it("calls toolCalls", async function () {
+          it("calls toolCalls", async () => {
             await withDeployments(
               clientsAndDeployments,
               async (client, deploymentName) =>
@@ -346,7 +346,7 @@ describe("Chat Completions", function () {
             );
           });
 
-          it("bring your data", async function () {
+          it("bring your data", async () => {
             const dataSources = { data_sources: [createAzureSearchExtension()] };
             await withDeployments(
               clientsAndDeployments,
@@ -367,7 +367,7 @@ describe("Chat Completions", function () {
       });
 
       describe("chat.completions.parse", function () {
-        it("structured output for chat completions", async function () {
+        it("structured output for chat completions", async () => {
           await withDeployments(
             clientsAndDeployments,
             async (client, deploymentName) => {

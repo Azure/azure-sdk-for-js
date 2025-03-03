@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createReadStream } from "fs";
+import { createReadStream } from "node:fs";
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, beforeEach } from "vitest";
 import { createClientsAndDeployments } from "../../utils/createClients.js";
@@ -20,7 +20,7 @@ describe("Whisper", function () {
     describe(`[${apiVersion}] Client`, () => {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         clientsAndDeployments = createClientsAndDeployments(
           apiVersion,
           { audio: "true" },
