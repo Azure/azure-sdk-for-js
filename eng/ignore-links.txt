@@ -20,3 +20,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-neonpostgres?view=azure-nod
 https://learn.microsoft.com/javascript/api/@azure/arm-pineconevectordb?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-databasewatcher?view=azure-node-preview
 https://learn.microsoft.com/javascript/api/@azure/arm-impactreporting?view=azure-node-preview
+https://learn.microsoft.com/javascript/api/@azure/arm-migrationassessment?view=azure-node-preview

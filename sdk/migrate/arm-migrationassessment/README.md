@@ -6,7 +6,7 @@ Azure Migrate Resource Provider management API.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/migrate/arm-migrationassessment) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-migrationassessment) |
-[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-migrationassessment) |
+[API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-migrationassessment?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
