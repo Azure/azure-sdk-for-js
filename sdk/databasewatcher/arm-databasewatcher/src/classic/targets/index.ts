@@ -71,15 +71,7 @@ function _getTargets(context: DatabaseWatcherContext) {
       targetName: string,
       resource: Target,
       options?: TargetsCreateOrUpdateOptionalParams,
-    ) =>
-      createOrUpdate(
-        context,
-        resourceGroupName,
-        watcherName,
-        targetName,
-        resource,
-        options,
-      ),
+    ) => createOrUpdate(context, resourceGroupName, watcherName, targetName, resource, options),
     get: (
       resourceGroupName: string,
       watcherName: string,
@@ -89,9 +81,7 @@ function _getTargets(context: DatabaseWatcherContext) {
   };
 }
 
-export function _getTargetsOperations(
-  context: DatabaseWatcherContext,
-): TargetsOperations {
+export function _getTargetsOperations(context: DatabaseWatcherContext): TargetsOperations {
   return {
     ..._getTargets(context),
   };

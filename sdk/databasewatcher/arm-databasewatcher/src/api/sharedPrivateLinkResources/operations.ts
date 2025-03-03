@@ -112,9 +112,7 @@ export function _$deleteSend(
     });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -140,24 +138,13 @@ export function $delete(
     requestOptions: {},
   },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _$deleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _$deleteSend(
-          context,
-          resourceGroupName,
-          watcherName,
-          sharedPrivateLinkResourceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, resourceGroupName, watcherName, sharedPrivateLinkResourceName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createSend(
@@ -213,10 +200,7 @@ export function create(
   options: SharedPrivateLinkResourcesCreateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<SharedPrivateLinkResource>,
-  SharedPrivateLinkResource
-> {
+): PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource> {
   return getLongRunningPoller(context, _createDeserialize, ["200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -230,10 +214,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<
-    OperationState<SharedPrivateLinkResource>,
-    SharedPrivateLinkResource
-  >;
+  }) as PollerLike<OperationState<SharedPrivateLinkResource>, SharedPrivateLinkResource>;
 }
 
 export function _getSend(

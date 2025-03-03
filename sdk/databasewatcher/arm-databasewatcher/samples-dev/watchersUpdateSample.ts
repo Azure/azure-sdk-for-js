@@ -22,8 +22,7 @@ async function watchersUpdateMaximumSet(): Promise<void> {
           "/subscriptions/49e0fbd3-75e8-44e7-96fd-5b64d9ad818d/resourceGroups/apiTest/providers/Microsoft.Kusto/clusters/apiTestKusto",
         kustoClusterUri: "https://kustouri-adx.eastus.kusto.windows.net",
         kustoClusterDisplayName: "kustoUri-adx",
-        kustoDataIngestionUri:
-          "https://ingest-kustouri-adx.eastus.kusto.windows.net",
+        kustoDataIngestionUri: "https://ingest-kustouri-adx.eastus.kusto.windows.net",
         kustoDatabaseName: "kustoDatabaseName1",
         kustoManagementUrl: "https://portal.azure.com/",
         kustoOfferingType: "adx",

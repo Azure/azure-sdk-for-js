@@ -104,9 +104,7 @@ export function _$deleteSend(
     });
 }
 
-export async function _$deleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -130,13 +128,7 @@ export async function $delete(
   targetName: string,
   options: TargetsDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _$deleteSend(
-    context,
-    resourceGroupName,
-    watcherName,
-    targetName,
-    options,
-  );
+  const result = await _$deleteSend(context, resourceGroupName, watcherName, targetName, options);
   return _$deleteDeserialize(result);
 }
 
@@ -168,9 +160,7 @@ export function _createOrUpdateSend(
     });
 }
 
-export async function _createOrUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Target> {
+export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Target> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -226,9 +216,7 @@ export function _getSend(
     });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<Target> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Target> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -247,12 +235,6 @@ export async function get(
   targetName: string,
   options: TargetsGetOptionalParams = { requestOptions: {} },
 ): Promise<Target> {
-  const result = await _getSend(
-    context,
-    resourceGroupName,
-    watcherName,
-    targetName,
-    options,
-  );
+  const result = await _getSend(context, resourceGroupName, watcherName, targetName, options);
   return _getDeserialize(result);
 }

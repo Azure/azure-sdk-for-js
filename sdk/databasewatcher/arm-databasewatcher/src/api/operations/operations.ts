@@ -24,16 +24,14 @@ export function _listSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  return context
-    .path("/providers/Microsoft.DatabaseWatcher/operations")
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        accept: "application/json",
-        ...options.requestOptions?.headers,
-      },
-      queryParameters: { "api-version": context.apiVersion },
-    });
+  return context.path("/providers/Microsoft.DatabaseWatcher/operations").get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    queryParameters: { "api-version": context.apiVersion },
+  });
 }
 
 export async function _listDeserialize(
