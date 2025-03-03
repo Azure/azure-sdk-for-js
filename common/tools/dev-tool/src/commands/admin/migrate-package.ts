@@ -219,11 +219,13 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
   }
   const apiExtractorJson = JSON.parse(await readFile(apiExtractorJsonPath, "utf-8"));
 
-  const oldPath = apiExtractorJson.dtsRollup.publicTrimmedFilePath;
-  const projectName = basename(oldPath, ".d.ts");
+  if (apiExtractorJson.dtsRollup.publicTrimmedFilePath) {
+    const oldPath = apiExtractorJson.dtsRollup.publicTrimmedFilePath;
+    const projectName = basename(oldPath, ".d.ts");
+    apiExtractorJson.dtsRollup.publicTrimmedFilePath = `dist/${projectName}.d.ts`;
+  }
 
   apiExtractorJson.mainEntryPointFilePath = "dist/esm/index.d.ts";
-  apiExtractorJson.dtsRollup.publicTrimmedFilePath = `dist/${projectName}.d.ts`;
 
   // TODO: Clean up the betaTrimmedFilePath
   delete apiExtractorJson.dtsRollup.betaTrimmedFilePath;
@@ -233,7 +235,7 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
 
 async function cleanupFiles(projectFolder: string): Promise<void> {
   // Remove the old test files
-  const filesToRemove = ["karma.conf.js", "karma.conf.cjs", ".nycrc"];
+  const filesToRemove = ["karma.conf.js", "karma.conf.cjs", ".nycrc", ".mocharc.json"];
   for (const file of filesToRemove) {
     try {
       await unlink(resolve(projectFolder, file));

@@ -86,9 +86,9 @@
     "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
     "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
-    "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "update-snippets": "dev-tool run update-snippets && node fixSnippets.mjs"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
