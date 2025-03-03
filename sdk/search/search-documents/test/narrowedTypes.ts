@@ -5,7 +5,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-
 type Equals<T1, T2> =
   (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;
 
