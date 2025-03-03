@@ -229,8 +229,7 @@ describe("SearchClient", { timeout: 20_000 }, () => {
           select: ["address/city"],
         });
         for await (const result of response.results) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
+          // @ts-expect-error Needs fixes from TypeScript
           result.document.category = "";
         }
       };
