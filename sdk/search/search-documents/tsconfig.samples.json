@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/search-documents": [
-        "./dist/esm"
-      ]
+      "@azure/search-documents": ["./dist/esm"]
     }
   }
 }
