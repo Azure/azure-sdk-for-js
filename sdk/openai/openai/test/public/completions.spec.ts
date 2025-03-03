@@ -16,9 +16,9 @@ describe("Legacy Completions", function () {
     describe(`[${apiVersion}] Client`, () => {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
-        clientsAndDeployments = createClientsAndDeployments(apiVersion, { completion: "true" });
-      });
+      beforeEach(async () => {
+              clientsAndDeployments = createClientsAndDeployments(apiVersion, { completion: "true" });
+            });
 
       describe("completions.create", function () {
         it("returns completions across all models", async function () {

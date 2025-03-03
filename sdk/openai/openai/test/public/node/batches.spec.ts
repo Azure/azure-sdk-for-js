@@ -16,13 +16,13 @@ describe("Batches", () => {
     describe(`[${apiVersion}] Client`, () => {
       let clientAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
-        clientAndDeployments = createClientsAndDeployments(
-          apiVersion,
-          {},
-          { sku: { name: "GlobalBatch" } },
-        );
-      });
+      beforeEach(async () => {
+              clientAndDeployments = createClientsAndDeployments(
+                apiVersion,
+                {},
+                { sku: { name: "GlobalBatch" } },
+              );
+            });
 
       describe("batches.create", function () {
         async function createBatchFile(

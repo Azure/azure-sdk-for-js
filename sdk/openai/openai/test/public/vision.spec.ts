@@ -15,15 +15,15 @@ describe("Vision", function () {
     describe(`[${apiVersion}] Client`, () => {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
-        clientsAndDeployments = createClientsAndDeployments(
-          apiVersion,
-          { chatCompletion: "true" },
-          {
-            modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "o1" }, { name: "o3-mini" }],
-          },
-        );
-      });
+      beforeEach(async () => {
+              clientsAndDeployments = createClientsAndDeployments(
+                apiVersion,
+                { chatCompletion: "true" },
+                {
+                  modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "o1" }, { name: "o3-mini" }],
+                },
+              );
+            });
 
       describe("chat.completions.create", function () {
         it("Describes an image", async function () {

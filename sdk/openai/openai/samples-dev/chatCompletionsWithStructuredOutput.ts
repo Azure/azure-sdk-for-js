@@ -18,7 +18,7 @@ import { zodResponseFormat } from "openai/helpers/zod";
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Chat Completions With Structured Output Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";

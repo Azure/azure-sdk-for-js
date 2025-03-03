@@ -18,7 +18,7 @@ import "dotenv/config";
 // The prompt to generate the embeddings vector
 const input = ["This is the sample text to be embedded"];
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Get embeddings sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";

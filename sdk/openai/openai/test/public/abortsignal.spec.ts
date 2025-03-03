@@ -11,9 +11,9 @@ describe("AbortSignal", () => {
   let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
   matrix([[APIVersion.Stable]] as const, async function (apiVersion: APIVersion) {
-    beforeEach(async function () {
-      clientsAndDeployments = createClientsAndDeployments(apiVersion, { chatCompletion: "true" });
-    });
+    beforeEach(async () => {
+          clientsAndDeployments = createClientsAndDeployments(apiVersion, { chatCompletion: "true" });
+        });
 
     // TODO: Fix the tests for client.chat.completions.create
     it("Abort signal test for streaming method", async function () {

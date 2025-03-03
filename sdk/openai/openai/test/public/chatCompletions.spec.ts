@@ -29,16 +29,16 @@ describe("Chat Completions", function () {
     describe(`[${apiVersion}] Client`, () => {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
-      beforeEach(async function () {
-        clientsAndDeployments = createClientsAndDeployments(
-          apiVersion,
-          { chatCompletion: "true" },
-          {
-            deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
-            modelsToSkip: [{ name: "gpt-4o-audio-preview" }, {name: "o3-mini"}],
-          },
-        );
-      });
+      beforeEach(async () => {
+              clientsAndDeployments = createClientsAndDeployments(
+                apiVersion,
+                { chatCompletion: "true" },
+                {
+                  deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
+                  modelsToSkip: [{ name: "gpt-4o-audio-preview" }, {name: "o3-mini"}],
+                },
+              );
+            });
 
       describe("chat.completions.create", function () {
         const pirateMessages = [

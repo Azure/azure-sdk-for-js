@@ -12,10 +12,10 @@ describe("Assistants", () => {
     describe(`[${apiVersion}] Client`, () => {
       let client: OpenAI;
 
-      beforeEach(async function () {
-        client = createClientsAndDeployments(apiVersion, { assistants: "true" })
-          .clientsAndDeployments[0].client;
-      });
+      beforeEach(async () => {
+              client = createClientsAndDeployments(apiVersion, { assistants: "true" })
+                .clientsAndDeployments[0].client;
+            });
 
       describe("all CRUD APIs", function () {
         it("uploads, gets, and lists a file assistant", async function () {
