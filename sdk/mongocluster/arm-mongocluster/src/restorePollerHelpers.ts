@@ -3,21 +3,24 @@
 
 import { MongoClusterManagementClient } from "./mongoClusterManagementClient.js";
 import {
-  _mongoClustersCreateOrUpdateDeserialize,
-  _mongoClustersUpdateDeserialize,
-  _mongoClustersDeleteDeserialize,
-  _mongoClustersPromoteDeserialize,
-} from "./api/mongoClusters/index.js";
+  _$deleteDeserialize,
+  _createDeserialize,
+} from "./api/privateEndpointConnections/operations.js";
 import {
-  _firewallRulesCreateOrUpdateDeserialize,
-  _firewallRulesDeleteDeserialize,
-} from "./api/firewallRules/index.js";
+  _$deleteDeserialize as _$deleteDeserializeFirewallRules,
+  _createOrUpdateDeserialize,
+} from "./api/firewallRules/operations.js";
 import {
-  _privateEndpointConnectionsCreateDeserialize,
-  _privateEndpointConnectionsDeleteDeserialize,
-} from "./api/privateEndpointConnections/index.js";
+  _promoteDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeMongoClusters,
+  _updateDeserialize,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeMongoClusters,
+} from "./api/mongoClusters/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import {
+  OperationOptions,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   PollerLike,
@@ -48,7 +51,9 @@ export interface RestorePollerOptions<
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: MongoClusterManagementClient,
   serializedState: string,
-  sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
+  sourceOperation: (
+    ...args: any[]
+  ) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
@@ -89,45 +94,39 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
-      deserializer: _mongoClustersCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
-    {
-      deserializer: _mongoClustersUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
-    {
-      deserializer: _mongoClustersDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/promote":
-    {
-      deserializer: _mongoClustersPromoteDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
-    {
-      deserializer: _firewallRulesCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
-    {
-      deserializer: _firewallRulesDeleteDeserialize,
+      deserializer: _$deleteDeserialize,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
-      deserializer: _privateEndpointConnectionsCreateDeserialize,
+      deserializer: _createDeserialize,
+      expectedStatuses: ["202", "200", "201"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
+    {
+      deserializer: _$deleteDeserializeFirewallRules,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/firewallRules/{firewallRuleName}":
+    {
+      deserializer: _createOrUpdateDeserialize,
       expectedStatuses: ["200", "201", "202"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/privateEndpointConnections/{privateEndpointConnectionName}":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}/promote":
+    { deserializer: _promoteDeserialize, expectedStatuses: ["202", "200"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
     {
-      deserializer: _privateEndpointConnectionsDeleteDeserialize,
+      deserializer: _$deleteDeserializeMongoClusters,
       expectedStatuses: ["202", "204", "200"],
+    },
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/mongoClusters/{mongoClusterName}":
+    {
+      deserializer: _createOrUpdateDeserializeMongoClusters,
+      expectedStatuses: ["200", "201"],
     },
 };
 
@@ -157,17 +156,24 @@ function getDeserializationHelper(
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
