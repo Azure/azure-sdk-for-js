@@ -20,8 +20,8 @@ describe("Realtime", () => {
       let clientAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async () => {
-              clientAndDeployments = createClientsAndDeployments(apiVersion, { realtime: "true" });
-            });
+        clientAndDeployments = createClientsAndDeployments(apiVersion, { realtime: "true" });
+      });
 
       describe("OpenAIRealtimeWebSocket", function () {
         it("websocket.azure", async function () {

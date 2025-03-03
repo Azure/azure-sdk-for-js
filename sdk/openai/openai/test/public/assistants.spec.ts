@@ -27,20 +27,20 @@ describe("Assistants", () => {
       }
 
       beforeEach(async () => {
-              clientsAndDeployments = createClientsAndDeployments(
-                apiVersion,
-                { assistants: "true" },
-                {
-                  deploymentsToSkip: [
-                    "gpt-4o-mini-batch",
-                    "gpt-4o-mini-2",
-                    "gpt-4o-mini-global-batch",
-                    "gpt-35-turbo",
-                    "gpt-4-turbo",
-                  ],
-                },
-              );
-            });
+        clientsAndDeployments = createClientsAndDeployments(
+          apiVersion,
+          { assistants: "true" },
+          {
+            deploymentsToSkip: [
+              "gpt-4o-mini-batch",
+              "gpt-4o-mini-2",
+              "gpt-4o-mini-global-batch",
+              "gpt-35-turbo",
+              "gpt-4-turbo",
+            ],
+          },
+        );
+      });
 
       describe("all CRUD APIs", function () {
         it("creates, gets, lists, modifies, and deletes an assistant", async function () {

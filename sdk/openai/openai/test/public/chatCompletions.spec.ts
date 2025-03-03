@@ -30,15 +30,15 @@ describe("Chat Completions", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async () => {
-              clientsAndDeployments = createClientsAndDeployments(
-                apiVersion,
-                { chatCompletion: "true" },
-                {
-                  deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
-                  modelsToSkip: [{ name: "gpt-4o-audio-preview" }, {name: "o3-mini"}],
-                },
-              );
-            });
+        clientsAndDeployments = createClientsAndDeployments(
+          apiVersion,
+          { chatCompletion: "true" },
+          {
+            deploymentsToSkip: ["o1" /** It gets stuck and never returns */],
+            modelsToSkip: [{ name: "gpt-4o-audio-preview" }, { name: "o3-mini" }],
+          },
+        );
+      });
 
       describe("chat.completions.create", function () {
         const pirateMessages = [

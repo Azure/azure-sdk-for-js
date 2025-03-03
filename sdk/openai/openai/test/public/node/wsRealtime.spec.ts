@@ -20,8 +20,8 @@ describe("Realtime", () => {
       let clientAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async () => {
-              clientAndDeployments = createClientsAndDeployments(apiVersion, { realtime: "true" });
-            });
+        clientAndDeployments = createClientsAndDeployments(apiVersion, { realtime: "true" });
+      });
 
       describe("OpenAIRealtimeWS", function () {
         it("ws.azure", async function () {

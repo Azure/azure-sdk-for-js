@@ -21,12 +21,12 @@ describe("Whisper", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async () => {
-              clientsAndDeployments = createClientsAndDeployments(
-                apiVersion,
-                { audio: "true" },
-                { sku: { capacity: 30 } },
-              );
-            });
+        clientsAndDeployments = createClientsAndDeployments(
+          apiVersion,
+          { audio: "true" },
+          { sku: { capacity: 30 } },
+        );
+      });
 
       describe("audio.transcriptions.create", function () {
         it(`returns json transcription if responseFormat wasn't specified`, async function () {

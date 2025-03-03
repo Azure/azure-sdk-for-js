@@ -13,12 +13,12 @@ describe("Text to speech", function () {
       let clientsAndDeployments: ClientsAndDeploymentsInfo;
 
       beforeEach(async () => {
-              clientsAndDeployments = createClientsAndDeployments(
-                apiVersion,
-                { audio: "true" },
-                { modelsToSkip: [{ name: "whisper" }] },
-              );
-            });
+        clientsAndDeployments = createClientsAndDeployments(
+          apiVersion,
+          { audio: "true" },
+          { modelsToSkip: [{ name: "whisper" }] },
+        );
+      });
 
       describe("audio.speech.create", function () {
         it("returns speech based on text input", async function () {
