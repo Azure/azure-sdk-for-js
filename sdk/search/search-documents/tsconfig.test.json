@@ -1,9 +1,6 @@
 {
-  "extends": ["./tsconfig.src.json"],
-  "compilerOptions": {
-    "skipLibCheck": true,
-    "target": "ES2022",
-    "noEmit": true
-  },
-  "include": ["./test", "./src"]
+  "extends": [
+    "./tsconfig.src.json",
+    "../../../tsconfig.test.base.json"
+  ]
 }

@@ -1,14 +1,10 @@
 {
-  "extends": "../../../tsconfig",
+  "extends": "../../../tsconfig.samples.base.json",
   "compilerOptions": {
     "paths": {
-      "@azure/openai": ["./dist/esm"]
-    },
-    "target": "ES2022",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "noEmit": true,
-    "composite": true
-  },
-  "include": ["./samples-dev"]
+      "@azure/search-documents": [
+        "./dist/esm"
+      ]
+    }
+  }
 }
