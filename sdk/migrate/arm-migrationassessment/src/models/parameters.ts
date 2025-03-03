@@ -25,7 +25,7 @@ import {
   ServerCollector as ServerCollectorMapper,
   SqlCollector as SqlCollectorMapper,
   VmwareCollector as VmwareCollectorMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

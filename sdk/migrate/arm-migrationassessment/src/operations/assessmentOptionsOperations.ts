@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AssessmentOptionsOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AssessmentOptionsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMigrateAssessmentService } from "../azureMigrateAssessmentService";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMigrateAssessmentService } from "../azureMigrateAssessmentService.js";
 import {
   AssessmentOptions,
   AssessmentOptionsOperationsListByAssessmentProjectNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   AssessmentOptionsOperationsGetOptionalParams,
   AssessmentOptionsOperationsGetResponse,
   AssessmentOptionsOperationsListByAssessmentProjectNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AssessmentOptionsOperations operations. */

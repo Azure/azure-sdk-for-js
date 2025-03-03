@@ -12,7 +12,7 @@ import {
   AssessmentProjectSummaryOperationsListByAssessmentProjectOptionalParams,
   AssessmentProjectSummaryOperationsGetOptionalParams,
   AssessmentProjectSummaryOperationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AssessmentProjectSummaryOperations. */

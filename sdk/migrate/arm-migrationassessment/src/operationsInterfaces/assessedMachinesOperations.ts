@@ -12,7 +12,7 @@ import {
   AssessedMachinesOperationsListByAssessmentOptionalParams,
   AssessedMachinesOperationsGetOptionalParams,
   AssessedMachinesOperationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AssessedMachinesOperations. */

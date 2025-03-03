@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AssessedSqlMachinesOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AssessedSqlMachinesOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMigrateAssessmentService } from "../azureMigrateAssessmentService";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMigrateAssessmentService } from "../azureMigrateAssessmentService.js";
 import {
   AssessedSqlMachine,
   AssessedSqlMachinesOperationsListBySqlAssessmentV2NextOptionalParams,
@@ -21,7 +21,7 @@ import {
   AssessedSqlMachinesOperationsGetOptionalParams,
   AssessedSqlMachinesOperationsGetResponse,
   AssessedSqlMachinesOperationsListBySqlAssessmentV2NextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AssessedSqlMachinesOperations operations. */

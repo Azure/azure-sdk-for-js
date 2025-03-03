@@ -40,7 +40,7 @@ import {
   SqlAssessmentOptionsOperationsImpl,
   SqlCollectorOperationsImpl,
   VmwareCollectorsOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   AssessmentProjectsOperations,
@@ -67,8 +67,8 @@ import {
   SqlAssessmentOptionsOperations,
   SqlCollectorOperations,
   VmwareCollectorsOperations,
-} from "./operationsInterfaces";
-import { AzureMigrateAssessmentServiceOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { AzureMigrateAssessmentServiceOptionalParams } from "./models/index.js";
 
 export class AzureMigrateAssessmentService extends coreClient.ServiceClient {
   $host: string;

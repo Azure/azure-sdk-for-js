@@ -12,7 +12,7 @@ import {
   AssessedSqlDatabaseV2OperationsListBySqlAssessmentV2OptionalParams,
   AssessedSqlDatabaseV2OperationsGetOptionalParams,
   AssessedSqlDatabaseV2OperationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AssessedSqlDatabaseV2Operations. */

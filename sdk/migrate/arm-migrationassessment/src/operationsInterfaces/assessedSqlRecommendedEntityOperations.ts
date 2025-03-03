@@ -12,7 +12,7 @@ import {
   AssessedSqlRecommendedEntityOperationsListBySqlAssessmentV2OptionalParams,
   AssessedSqlRecommendedEntityOperationsGetOptionalParams,
   AssessedSqlRecommendedEntityOperationsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a AssessedSqlRecommendedEntityOperations. */

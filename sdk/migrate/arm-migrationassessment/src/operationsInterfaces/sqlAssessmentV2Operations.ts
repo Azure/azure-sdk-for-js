@@ -18,7 +18,7 @@ import {
   SqlAssessmentV2OperationsDeleteOptionalParams,
   SqlAssessmentV2OperationsDownloadUrlOptionalParams,
   SqlAssessmentV2OperationsDownloadUrlResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlAssessmentV2Operations. */
