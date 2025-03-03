@@ -247,6 +247,9 @@ importers:
       '@rush-temp/arm-dashboard':
         specifier: file:./projects/arm-dashboard.tgz
         version: file:projects/arm-dashboard.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.0(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
+      '@rush-temp/arm-databasewatcher':
+        specifier: file:./projects/arm-databasewatcher.tgz
+        version: file:projects/arm-databasewatcher.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.7.3))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/arm-databoundaries':
         specifier: file:./projects/arm-databoundaries.tgz
         version: file:projects/arm-databoundaries.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.0(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -2674,6 +2677,10 @@ packages:
     resolution: {integrity: sha512-F3E5mVGf1SLYnCrCcwbwd/iS+vxKjqnAdXbAvbUh2Ai/raPFg2HwoHcPmVxMwXti8yE8TNjagtbd+MWI5nQVhg==, tarball: file:projects/arm-dashboard.tgz}
     version: 0.0.0
 
+  '@rush-temp/arm-databasewatcher@file:projects/arm-databasewatcher.tgz':
+    resolution: {integrity: sha512-TErY+b4zxOXU6OxBEWGN/uwEhCNFGsHY447WHI0c9ZDAoJQ+KRYOtDIA6BF5FhGTxCdnLXQg84GG3NMBDEc4qg==, tarball: file:projects/arm-databasewatcher.tgz}
+    version: 0.0.0
+
   '@rush-temp/arm-databoundaries@file:projects/arm-databoundaries.tgz':
     resolution: {integrity: sha512-ItqSxMC9OYnKnBBA2gLnpQ+fFb6LlU5fZtdTiJ0h6Nb8H4oMmMfJo5x33rPQU9hTwHObNAVC8WmpzTqH748lWg==, tarball: file:projects/arm-databoundaries.tgz}
     version: 0.0.0
@@ -3647,11 +3654,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity-cache-persistence@file:projects/identity-cache-persistence.tgz':
-    resolution: {integrity: sha512-mLx+AXaT6P5YQ1kQjj3u/bKAtxhYtx2v7mXjoGj3CBeBEraB72d0mPeSC1tXjg7QzAoOT7QWWGbRvbLEr2U2lQ==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-syRA2B5iCbA8HBRZfJSTyDk7Bp3Nz/zFzFXpVzJ7QP7klpH9TzRae8168DxQnnXsnwdESNsKNmfrALYZIPNO+g==, tarball: file:projects/identity-cache-persistence.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-vscode@file:projects/identity-vscode.tgz':
-    resolution: {integrity: sha512-1YbxTf+QZ28GKduvaGPfx/scl69OBfS5kOFpNo83kOFSWvXlqEYjQ8ntqkR2GtMhUPvCPl3dLDWZ797zysJSlA==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-/H15ohMKEHGSbMwslESLgFVYpavMX7mHRmKXbWlo31HISLqFRlJsA7vx+M00UM8iVkjONlV2/NC8Bq/l3lq4MQ==, tarball: file:projects/identity-vscode.tgz}
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
@@ -20898,14 +20905,15 @@ snapshots:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
-      - '@vitest/browser'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
       - msw
+      - safaridriver
       - sass
       - sass-embedded
       - stylus
@@ -20913,6 +20921,9 @@ snapshots:
       - supports-color
       - terser
       - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
       - yaml
 
   '@rush-temp/identity@file:projects/identity.tgz(@types/debug@4.1.12)(msw@2.7.3(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.2.0(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
