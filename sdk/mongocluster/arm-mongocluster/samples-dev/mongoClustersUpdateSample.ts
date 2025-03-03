@@ -8,35 +8,15 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
  *
  * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2024-10-01-preview/MongoClusters_PatchDataApi.json
- */
-async function enablesDataApiOnAMongoClusterResource(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
-  const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    { properties: { dataApi: { mode: "Enabled" } } },
-  );
-  console.log(result);
-}
-
-/**
- * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- *
- * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2024-10-01-preview/MongoClusters_PatchDiskSize.json
+ * x-ms-original-file: 2024-07-01/MongoClusters_PatchDiskSize.json
  */
 async function updatesTheDiskSizeOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    { properties: { storage: { sizeGb: 256 } } },
-  );
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: { storage: { sizeGb: 256 } },
+  });
   console.log(result);
 }
 
@@ -44,17 +24,15 @@ async function updatesTheDiskSizeOnAMongoClusterResource(): Promise<void> {
  * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
  *
  * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2024-10-01-preview/MongoClusters_PatchPrivateNetworkAccess.json
+ * x-ms-original-file: 2024-07-01/MongoClusters_PatchPrivateNetworkAccess.json
  */
 async function disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEndpointConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    { properties: { publicNetworkAccess: "Disabled" } },
-  );
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: { publicNetworkAccess: "Disabled" },
+  });
   console.log(result);
 }
 
@@ -62,21 +40,17 @@ async function disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEnd
  * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
  *
  * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2024-10-01-preview/MongoClusters_ResetPassword.json
+ * x-ms-original-file: 2024-07-01/MongoClusters_ResetPassword.json
  */
 async function resetsTheAdministratorLoginPassword(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    {
-      properties: {
-        administrator: { userName: "mongoAdmin", password: "password" },
-      },
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: {
+      administrator: { userName: "mongoAdmin", password: "password" },
     },
-  );
+  });
   console.log(result);
 }
 
@@ -84,33 +58,28 @@ async function resetsTheAdministratorLoginPassword(): Promise<void> {
  * This sample demonstrates how to updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
  *
  * @summary updates an existing mongo cluster. The request body can contain one to many of the properties present in the normal mongo cluster definition.
- * x-ms-original-file: 2024-10-01-preview/MongoClusters_Update.json
+ * x-ms-original-file: 2024-07-01/MongoClusters_Update.json
  */
 async function updatesAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new MongoClusterManagementClient(credential, subscriptionId);
-  const result = await client.mongoClusters.update(
-    "TestResourceGroup",
-    "myMongoCluster",
-    {
-      properties: {
-        administrator: { userName: "mongoAdmin" },
-        serverVersion: "5.0",
-        storage: { sizeGb: 256 },
-        compute: { tier: "M50" },
-        sharding: { shardCount: 4 },
-        highAvailability: { targetMode: "SameZone" },
-        previewFeatures: [],
-        publicNetworkAccess: "Enabled",
-      },
+  const result = await client.mongoClusters.update("TestResourceGroup", "myMongoCluster", {
+    properties: {
+      administrator: { userName: "mongoAdmin" },
+      serverVersion: "5.0",
+      storage: { sizeGb: 256 },
+      compute: { tier: "M50" },
+      sharding: { shardCount: 4 },
+      highAvailability: { targetMode: "SameZone" },
+      previewFeatures: [],
+      publicNetworkAccess: "Enabled",
     },
-  );
+  });
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await enablesDataApiOnAMongoClusterResource();
   await updatesTheDiskSizeOnAMongoClusterResource();
   await disablesPublicNetworkAccessOnAMongoClusterResourceWithAPrivateEndpointConnection();
   await resetsTheAdministratorLoginPassword();

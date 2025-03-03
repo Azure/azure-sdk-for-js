@@ -7,9 +7,17 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { MongoClusterManagementClient } from "./mongoClusterManagementClient.js";
+export {
+  MongoClusterManagementClient,
+  MongoClusterManagementClientOptionalParams,
+} from "./mongoClusterManagementClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
+  ProxyResource,
   Replica,
   MongoClusterProperties,
   KnownCreateMode,
@@ -18,7 +26,6 @@ export {
   MongoClusterReplicaParameters,
   AdministratorProperties,
   KnownProvisioningState,
-  ProvisioningState,
   KnownMongoClusterStatus,
   MongoClusterStatus,
   KnownPublicNetworkAccess,
@@ -30,9 +37,6 @@ export {
   ShardingProperties,
   ComputeProperties,
   BackupProperties,
-  DataApiProperties,
-  KnownDataApiMode,
-  DataApiMode,
   PrivateEndpointConnection,
   PrivateEndpointConnectionProperties,
   PrivateEndpoint,
@@ -48,21 +52,13 @@ export {
   ReplicationRole,
   KnownReplicationState,
   ReplicationState,
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  ProxyResource,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
   PrivateEndpointConnectionResource,
   FirewallRule,
   FirewallRuleProperties,
-  MongoCluster,
   TrackedResource,
+  MongoCluster,
   MongoClusterUpdate,
   MongoClusterUpdateProperties,
   ListConnectionStringsResult,
@@ -82,35 +78,28 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  KnownVersions,
-} from "./models/index.js";
-export { MongoClusterManagementClientOptionalParams } from "./api/index.js";
-export {
-  FirewallRulesListByMongoClusterOptionalParams,
-  FirewallRulesDeleteOptionalParams,
-  FirewallRulesCreateOrUpdateOptionalParams,
-  FirewallRulesGetOptionalParams,
-} from "./api/firewallRules/index.js";
-export {
-  MongoClustersPromoteOptionalParams,
-  MongoClustersCheckNameAvailabilityOptionalParams,
-  MongoClustersListConnectionStringsOptionalParams,
-  MongoClustersListOptionalParams,
-  MongoClustersListByResourceGroupOptionalParams,
-  MongoClustersDeleteOptionalParams,
-  MongoClustersUpdateOptionalParams,
-  MongoClustersCreateOrUpdateOptionalParams,
+  ProvisioningState,
+  OperationsListOptionalParams,
   MongoClustersGetOptionalParams,
-} from "./api/mongoClusters/index.js";
-export { OperationsListOptionalParams } from "./api/operations/index.js";
-export {
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
+  MongoClustersCreateOrUpdateOptionalParams,
+  MongoClustersUpdateOptionalParams,
+  MongoClustersDeleteOptionalParams,
+  MongoClustersListByResourceGroupOptionalParams,
+  MongoClustersListOptionalParams,
+  MongoClustersListConnectionStringsOptionalParams,
+  MongoClustersCheckNameAvailabilityOptionalParams,
+  MongoClustersPromoteOptionalParams,
+  FirewallRulesGetOptionalParams,
+  FirewallRulesCreateOrUpdateOptionalParams,
+  FirewallRulesDeleteOptionalParams,
+  FirewallRulesListByMongoClusterOptionalParams,
   PrivateEndpointConnectionsListByMongoClusterOptionalParams,
-} from "./api/privateEndpointConnections/index.js";
-export { PrivateLinksListByMongoClusterOptionalParams } from "./api/privateLinks/index.js";
-export { ReplicasListByParentOptionalParams } from "./api/replicas/index.js";
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateLinksListByMongoClusterOptionalParams,
+  ReplicasListByParentOptionalParams,
+} from "./models/index.js";
 export {
   FirewallRulesOperations,
   MongoClustersOperations,
