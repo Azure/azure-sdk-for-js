@@ -50,28 +50,28 @@ You will also need to **register a new AAD application and grant access to Azure
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
- 
+
 ```ts snippet:ReadmeSampleCreateClient_Node
-import { DatabaseWatcherClient } from "../src/index.js";
+import { DatabaseWatcherClient } from "@azure/arm-databasewatcher";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new DatabaseWatcherClient(new DefaultAzureCredential(), subscriptionId);
 ```
- 
+
 For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
- 
+
 ```ts snippet:ReadmeSampleCreateClient_Browser
 import { InteractiveBrowserCredential } from "@azure/identity";
-import { DatabaseWatcherClient } from "../src/index.js";
+import { DatabaseWatcherClient } from "@azure/arm-databasewatcher";
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const credential = new InteractiveBrowserCredential({
   tenantId: "<YOUR_TENANT_ID>",
-  clientId: "<YOUR_CLIENT_ID>",
-});
+  clientId: "<YOUR_CLIENT_ID>"
+ });
 const client = new DatabaseWatcherClient(credential, subscriptionId);
 ```
+
 
 ### JavaScript Bundle
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
