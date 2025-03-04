@@ -5,8 +5,8 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { createAADRecorder, createAADClient } from "./utils/recordedAADClient.js";
 import type { ContentSafetyClient } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
-import fs from "node:fs";
-import path from "node:path";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { isBrowser } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -56,8 +56,8 @@ describe("Content Safety AAD Client Test", () => {
       const binary = new Uint8Array(buffer);
       base64Image = uint8ArrayToBase64(binary);
     } else {
-      const imagePath = path.join("samples-dev", "example-data", "image.png");
-      const buffer = fs.readFileSync(imagePath);
+      const imagePath = join("samples-dev", "example-data", "image.png");
+      const buffer = readFileSync(imagePath);
       base64Image = buffer.toString("base64");
     }
     const response = await client.path("/image:analyze").post({

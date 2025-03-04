@@ -11,7 +11,7 @@ import {
   PrivateLinkResourcesListByServiceResponse,
   PrivateLinkResourcesGetOptionalParams,
   PrivateLinkResourcesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PrivateLinkResources. */
 export interface PrivateLinkResources {

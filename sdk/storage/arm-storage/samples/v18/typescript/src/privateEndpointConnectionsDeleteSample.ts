@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { StorageManagementClient } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the storage account.
  *
  * @summary Deletes the specified private endpoint connection associated with the storage account.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountDeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountDeletePrivateEndpointConnection.json
  */
-async function storageAccountDeletePrivateEndpointConnection() {
+async function storageAccountDeletePrivateEndpointConnection(): Promise<void> {
   const subscriptionId =
     process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res6977";
@@ -36,8 +32,8 @@ async function storageAccountDeletePrivateEndpointConnection() {
   console.log(result);
 }
 
-async function main() {
-  storageAccountDeletePrivateEndpointConnection();
+async function main(): Promise<void> {
+  await storageAccountDeletePrivateEndpointConnection();
 }
 
 main().catch(console.error);

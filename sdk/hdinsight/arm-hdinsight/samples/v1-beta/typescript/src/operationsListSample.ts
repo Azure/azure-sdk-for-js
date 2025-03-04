@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all of the available HDInsight REST API operations.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists all of the available HDInsight REST API operations.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/ListHDInsightOperations.json
  */
-async function listsAllOfTheAvailableOperations() {
+async function listsAllOfTheAvailableOperations(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function listsAllOfTheAvailableOperations() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listsAllOfTheAvailableOperations();
 }
 

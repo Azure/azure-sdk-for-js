@@ -23,7 +23,7 @@ import {
   ClusterJob as ClusterJobMapper,
   NameAvailabilityParameters as NameAvailabilityParametersMapper,
   ClusterLibraryManagementOperation as ClusterLibraryManagementOperationMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

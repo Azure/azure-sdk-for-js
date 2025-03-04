@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { IntegrationAccounts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { IntegrationAccounts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { LogicManagementClient } from "../logicManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { LogicManagementClient } from "../logicManagementClient.js";
 import {
   IntegrationAccount,
   IntegrationAccountsListBySubscriptionNextOptionalParams,
@@ -42,7 +42,7 @@ import {
   IntegrationAccountsRegenerateAccessKeyResponse,
   IntegrationAccountsListBySubscriptionNextResponse,
   IntegrationAccountsListByResourceGroupNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationAccounts operations. */

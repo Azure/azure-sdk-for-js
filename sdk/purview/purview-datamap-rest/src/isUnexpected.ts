@@ -16,8 +16,8 @@ import type {
   EntityGetDefaultResponse,
   EntityPartialUpdateAttributeByGuid200Response,
   EntityPartialUpdateAttributeByGuidDefaultResponse,
-  EntityDeleteOperation200Response,
-  EntityDeleteOperationDefaultResponse,
+  EntityDelete200Response,
+  EntityDeleteDefaultResponse,
   EntityGetClassification200Response,
   EntityGetClassificationDefaultResponse,
   EntityRemoveClassification204Response,
@@ -116,8 +116,8 @@ import type {
   GlossaryGetDefaultResponse,
   GlossaryUpdate200Response,
   GlossaryUpdateDefaultResponse,
-  GlossaryDeleteOperation204Response,
-  GlossaryDeleteOperationDefaultResponse,
+  GlossaryDelete204Response,
+  GlossaryDeleteDefaultResponse,
   GlossaryListCategories200Response,
   GlossaryListCategoriesDefaultResponse,
   GlossaryListCategoriesHeaders200Response,
@@ -148,8 +148,8 @@ import type {
   RelationshipUpdateDefaultResponse,
   RelationshipGet200Response,
   RelationshipGetDefaultResponse,
-  RelationshipDeleteOperation204Response,
-  RelationshipDeleteOperationDefaultResponse,
+  RelationshipDelete204Response,
+  RelationshipDeleteDefaultResponse,
   TypeGetBusinessMetadataDefByGuid200Response,
   TypeGetBusinessMetadataDefByGuidDefaultResponse,
   TypeGetBusinessMetadataDefByName200Response,
@@ -178,8 +178,8 @@ import type {
   TypeGetByGuidDefaultResponse,
   TypeGetByName200Response,
   TypeGetByNameDefaultResponse,
-  TypeDeleteOperation204Response,
-  TypeDeleteOperationDefaultResponse,
+  TypeDelete204Response,
+  TypeDeleteDefaultResponse,
   TypeList200Response,
   TypeListDefaultResponse,
   TypeBulkCreate200Response,
@@ -321,8 +321,8 @@ export function isUnexpected(
     | EntityPartialUpdateAttributeByGuidDefaultResponse,
 ): response is EntityPartialUpdateAttributeByGuidDefaultResponse;
 export function isUnexpected(
-  response: EntityDeleteOperation200Response | EntityDeleteOperationDefaultResponse,
-): response is EntityDeleteOperationDefaultResponse;
+  response: EntityDelete200Response | EntityDeleteDefaultResponse,
+): response is EntityDeleteDefaultResponse;
 export function isUnexpected(
   response: EntityGetClassification200Response | EntityGetClassificationDefaultResponse,
 ): response is EntityGetClassificationDefaultResponse;
@@ -499,8 +499,8 @@ export function isUnexpected(
   response: GlossaryUpdate200Response | GlossaryUpdateDefaultResponse,
 ): response is GlossaryUpdateDefaultResponse;
 export function isUnexpected(
-  response: GlossaryDeleteOperation204Response | GlossaryDeleteOperationDefaultResponse,
-): response is GlossaryDeleteOperationDefaultResponse;
+  response: GlossaryDelete204Response | GlossaryDeleteDefaultResponse,
+): response is GlossaryDeleteDefaultResponse;
 export function isUnexpected(
   response: GlossaryListCategories200Response | GlossaryListCategoriesDefaultResponse,
 ): response is GlossaryListCategoriesDefaultResponse;
@@ -547,8 +547,8 @@ export function isUnexpected(
   response: RelationshipGet200Response | RelationshipGetDefaultResponse,
 ): response is RelationshipGetDefaultResponse;
 export function isUnexpected(
-  response: RelationshipDeleteOperation204Response | RelationshipDeleteOperationDefaultResponse,
-): response is RelationshipDeleteOperationDefaultResponse;
+  response: RelationshipDelete204Response | RelationshipDeleteDefaultResponse,
+): response is RelationshipDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | TypeGetBusinessMetadataDefByGuid200Response
@@ -600,8 +600,8 @@ export function isUnexpected(
   response: TypeGetByName200Response | TypeGetByNameDefaultResponse,
 ): response is TypeGetByNameDefaultResponse;
 export function isUnexpected(
-  response: TypeDeleteOperation204Response | TypeDeleteOperationDefaultResponse,
-): response is TypeDeleteOperationDefaultResponse;
+  response: TypeDelete204Response | TypeDeleteDefaultResponse,
+): response is TypeDeleteDefaultResponse;
 export function isUnexpected(
   response: TypeList200Response | TypeListDefaultResponse,
 ): response is TypeListDefaultResponse;
@@ -639,8 +639,8 @@ export function isUnexpected(
     | EntityGetDefaultResponse
     | EntityPartialUpdateAttributeByGuid200Response
     | EntityPartialUpdateAttributeByGuidDefaultResponse
-    | EntityDeleteOperation200Response
-    | EntityDeleteOperationDefaultResponse
+    | EntityDelete200Response
+    | EntityDeleteDefaultResponse
     | EntityGetClassification200Response
     | EntityGetClassificationDefaultResponse
     | EntityRemoveClassification204Response
@@ -739,8 +739,8 @@ export function isUnexpected(
     | GlossaryGetDefaultResponse
     | GlossaryUpdate200Response
     | GlossaryUpdateDefaultResponse
-    | GlossaryDeleteOperation204Response
-    | GlossaryDeleteOperationDefaultResponse
+    | GlossaryDelete204Response
+    | GlossaryDeleteDefaultResponse
     | GlossaryListCategories200Response
     | GlossaryListCategoriesDefaultResponse
     | GlossaryListCategoriesHeaders200Response
@@ -771,8 +771,8 @@ export function isUnexpected(
     | RelationshipUpdateDefaultResponse
     | RelationshipGet200Response
     | RelationshipGetDefaultResponse
-    | RelationshipDeleteOperation204Response
-    | RelationshipDeleteOperationDefaultResponse
+    | RelationshipDelete204Response
+    | RelationshipDeleteDefaultResponse
     | TypeGetBusinessMetadataDefByGuid200Response
     | TypeGetBusinessMetadataDefByGuidDefaultResponse
     | TypeGetBusinessMetadataDefByName200Response
@@ -801,8 +801,8 @@ export function isUnexpected(
     | TypeGetByGuidDefaultResponse
     | TypeGetByName200Response
     | TypeGetByNameDefaultResponse
-    | TypeDeleteOperation204Response
-    | TypeDeleteOperationDefaultResponse
+    | TypeDelete204Response
+    | TypeDeleteDefaultResponse
     | TypeList200Response
     | TypeListDefaultResponse
     | TypeBulkCreate200Response
@@ -825,7 +825,7 @@ export function isUnexpected(
   | EntityAddClassificationDefaultResponse
   | EntityGetDefaultResponse
   | EntityPartialUpdateAttributeByGuidDefaultResponse
-  | EntityDeleteOperationDefaultResponse
+  | EntityDeleteDefaultResponse
   | EntityGetClassificationDefaultResponse
   | EntityRemoveClassificationDefaultResponse
   | EntityGetClassificationsDefaultResponse
@@ -875,7 +875,7 @@ export function isUnexpected(
   | GlossaryListRelatedTermsDefaultResponse
   | GlossaryGetDefaultResponse
   | GlossaryUpdateDefaultResponse
-  | GlossaryDeleteOperationDefaultResponse
+  | GlossaryDeleteDefaultResponse
   | GlossaryListCategoriesDefaultResponse
   | GlossaryListCategoriesHeadersDefaultResponse
   | GlossaryGetDetailedDefaultResponse
@@ -891,7 +891,7 @@ export function isUnexpected(
   | RelationshipCreateDefaultResponse
   | RelationshipUpdateDefaultResponse
   | RelationshipGetDefaultResponse
-  | RelationshipDeleteOperationDefaultResponse
+  | RelationshipDeleteDefaultResponse
   | TypeGetBusinessMetadataDefByGuidDefaultResponse
   | TypeGetBusinessMetadataDefByNameDefaultResponse
   | TypeGetClassificationDefByGuidDefaultResponse
@@ -906,7 +906,7 @@ export function isUnexpected(
   | TypeGetStructDefByNameDefaultResponse
   | TypeGetByGuidDefaultResponse
   | TypeGetByNameDefaultResponse
-  | TypeDeleteOperationDefaultResponse
+  | TypeDeleteDefaultResponse
   | TypeListDefaultResponse
   | TypeBulkCreateDefaultResponse
   | TypeBulkUpdateDefaultResponse

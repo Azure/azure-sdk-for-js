@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.2 (Unreleased)
+## 1.1.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.1.0-beta.2 (2025-02-10)
+
+### Features Added
+
+- refresh @azure-rest/communication-job-router sdk
 
 ## 1.1.0-beta.1 (2024-04-12)
 

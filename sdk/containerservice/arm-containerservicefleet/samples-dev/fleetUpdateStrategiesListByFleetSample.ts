@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List FleetUpdateStrategy resources by Fleet
@@ -20,27 +16,22 @@ dotenv.config();
  * @summary List FleetUpdateStrategy resources by Fleet
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/UpdateStrategies_ListByFleet.json
  */
-async function listTheFleetUpdateStrategyResourcesByFleet() {
+async function listTheFleetUpdateStrategyResourcesByFleet(): Promise<void> {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const fleetName = "fleet1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceFleetClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fleetUpdateStrategies.listByFleet(
-    resourceGroupName,
-    fleetName,
-  )) {
+  for await (const item of client.fleetUpdateStrategies.listByFleet(resourceGroupName, fleetName)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-async function main() {
-  listTheFleetUpdateStrategyResourcesByFleet();
+async function main(): Promise<void> {
+  await listTheFleetUpdateStrategyResourcesByFleet();
 }
 
 main().catch(console.error);

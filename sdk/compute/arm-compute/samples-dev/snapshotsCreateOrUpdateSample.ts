@@ -6,13 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { Snapshot, ComputeManagementClient } from "@azure/arm-compute";
+import type { Snapshot } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
@@ -20,17 +17,14 @@ dotenv.config();
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromADifferentSubscription.json
  */
-async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot1";
   const snapshot: Snapshot = {
     creationData: {
       createOption: "Import",
-      sourceUri:
-        "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+      sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
       storageAccountId:
         "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
     },
@@ -52,17 +46,14 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Create_ByImportingAnUnmanagedBlobFromTheSameSubscription.json
  */
-async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot1";
   const snapshot: Snapshot = {
     creationData: {
       createOption: "Import",
-      sourceUri:
-        "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+      sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
     },
     location: "West US",
   };
@@ -82,11 +73,9 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Create_FromAnElasticSanVolumeSnapshot.json
  */
-async function createASnapshotFromAnElasticSanVolumeSnapshot() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createASnapshotFromAnElasticSanVolumeSnapshot(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot";
   const snapshot: Snapshot = {
     creationData: {
@@ -112,11 +101,9 @@ async function createASnapshotFromAnElasticSanVolumeSnapshot() {
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Create_EnhancedProvisionedBandwidthCopySpeed.json
  */
-async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegionWithQuickerCopySpeed() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegionWithQuickerCopySpeed(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot2";
   const snapshot: Snapshot = {
     creationData: {
@@ -143,11 +130,9 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Create_FromAnExistingSnapshotInDifferentRegion.json
  */
-async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot2";
   const snapshot: Snapshot = {
     creationData: {
@@ -173,11 +158,9 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
  * @summary Creates or updates a snapshot.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Create_FromAnExistingSnapshot.json
  */
-async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const snapshotName = "mySnapshot2";
   const snapshot: Snapshot = {
     creationData: {
@@ -197,13 +180,13 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
   console.log(result);
 }
 
-async function main() {
-  createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription();
-  createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription();
-  createASnapshotFromAnElasticSanVolumeSnapshot();
-  createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegionWithQuickerCopySpeed();
-  createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion();
-  createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription();
+async function main(): Promise<void> {
+  await createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription();
+  await createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription();
+  await createASnapshotFromAnElasticSanVolumeSnapshot();
+  await createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegionWithQuickerCopySpeed();
+  await createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion();
+  await createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription();
 }
 
 main().catch(console.error);

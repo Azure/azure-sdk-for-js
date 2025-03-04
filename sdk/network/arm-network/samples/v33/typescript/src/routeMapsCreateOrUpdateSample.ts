@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { RouteMap, NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a RouteMap if it doesn't exist else updates the existing one.
  *
  * @summary Creates a RouteMap if it doesn't exist else updates the existing one.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/RouteMapPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/RouteMapPut.json
  */
-async function routeMapPut() {
+async function routeMapPut(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const virtualHubName = "virtualHub1";
@@ -62,7 +60,7 @@ async function routeMapPut() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   routeMapPut();
 }
 

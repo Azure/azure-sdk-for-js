@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes a maintenance configuration.
  *
  * @summary Deletes a maintenance configuration.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/MaintenanceConfigurationsDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsDelete.json
  */
 async function deleteMaintenanceConfiguration() {
   const subscriptionId =
@@ -38,7 +36,7 @@ async function deleteMaintenanceConfiguration() {
  * This sample demonstrates how to Deletes a maintenance configuration.
  *
  * @summary Deletes a maintenance configuration.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
  */
 async function deleteMaintenanceConfigurationForNodeOSUpgrade() {
   const subscriptionId =
@@ -57,8 +55,8 @@ async function deleteMaintenanceConfigurationForNodeOSUpgrade() {
 }
 
 async function main() {
-  deleteMaintenanceConfiguration();
-  deleteMaintenanceConfigurationForNodeOSUpgrade();
+  await deleteMaintenanceConfiguration();
+  await deleteMaintenanceConfigurationForNodeOSUpgrade();
 }
 
 main().catch(console.error);

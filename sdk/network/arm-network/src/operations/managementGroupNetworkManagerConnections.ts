@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ManagementGroupNetworkManagerConnections } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ManagementGroupNetworkManagerConnections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   NetworkManagerConnection,
   ManagementGroupNetworkManagerConnectionsListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   ManagementGroupNetworkManagerConnectionsGetResponse,
   ManagementGroupNetworkManagerConnectionsDeleteOptionalParams,
   ManagementGroupNetworkManagerConnectionsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagementGroupNetworkManagerConnections operations. */
@@ -275,7 +275,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken,
+    Parameters.skipToken1,
   ],
   urlParameters: [Parameters.$host, Parameters.managementGroupId],
   headerParameters: [Parameters.accept],

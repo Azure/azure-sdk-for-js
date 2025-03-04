@@ -127,15 +127,17 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
         [this.featureStatsbeatGauge],
       );
 
-      // Export Feature/Attach Statsbeat once upon app initialization
-      this.longIntervalAzureExporter.export(
-        (await this.longIntervalMetricReader.collect()).resourceMetrics,
-        (result: ExportResult) => {
-          if (result.code !== ExportResultCode.SUCCESS) {
-            diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
-          }
-        },
-      );
+      // Export Feature/Attach Statsbeat once upon app initialization after 15 second delay
+      setTimeout(async () => {
+        this.longIntervalAzureExporter.export(
+          (await this.longIntervalMetricReader.collect()).resourceMetrics,
+          (result: ExportResult) => {
+            if (result.code !== ExportResultCode.SUCCESS) {
+              diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
+            }
+          },
+        );
+      }, 15000); // 15 seconds
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
     }

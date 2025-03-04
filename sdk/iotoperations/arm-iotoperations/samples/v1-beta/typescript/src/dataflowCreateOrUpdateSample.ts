@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_ComplexContextualization.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_ComplexContextualization.json
  */
-async function dataflowCreateOrUpdateComplexContextualization() {
+async function dataflowCreateOrUpdateComplexContextualization(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -71,9 +71,9 @@ async function dataflowCreateOrUpdateComplexContextualization() {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_ComplexEventHub.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_ComplexEventHub.json
  */
-async function dataflowCreateOrUpdateComplexEventHub() {
+async function dataflowCreateOrUpdateComplexEventHub(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -157,9 +157,9 @@ async function dataflowCreateOrUpdateComplexEventHub() {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_FilterToTopic.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_FilterToTopic.json
  */
-async function dataflowCreateOrUpdateFilterToTopic() {
+async function dataflowCreateOrUpdateFilterToTopic(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -218,9 +218,9 @@ async function dataflowCreateOrUpdateFilterToTopic() {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function dataflowCreateOrUpdate() {
+async function dataflowCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -296,9 +296,9 @@ async function dataflowCreateOrUpdate() {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_SimpleEventGrid.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_SimpleEventGrid.json
  */
-async function dataflowCreateOrUpdateSimpleEventGrid() {
+async function dataflowCreateOrUpdateSimpleEventGrid(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -342,9 +342,9 @@ async function dataflowCreateOrUpdateSimpleEventGrid() {
  * This sample demonstrates how to create a DataflowResource
  *
  * @summary create a DataflowResource
- * x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_SimpleFabric.json
+ * x-ms-original-file: 2024-11-01/Dataflow_CreateOrUpdate_SimpleFabric.json
  */
-async function dataflowCreateOrUpdateSimpleFabric() {
+async function dataflowCreateOrUpdateSimpleFabric(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -391,7 +391,7 @@ async function dataflowCreateOrUpdateSimpleFabric() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dataflowCreateOrUpdateComplexContextualization();
   dataflowCreateOrUpdateComplexEventHub();
   dataflowCreateOrUpdateFilterToTopic();

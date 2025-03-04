@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a list of agent pools in the specified managed cluster.
  *
  * @summary Gets a list of agent pools in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/AgentPoolsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/AgentPoolsList.json
  */
 async function listAgentPoolsByManagedCluster() {
   const subscriptionId =
@@ -33,7 +31,7 @@ async function listAgentPoolsByManagedCluster() {
 }
 
 async function main() {
-  listAgentPoolsByManagedCluster();
+  await listAgentPoolsByManagedCluster();
 }
 
 main().catch(console.error);

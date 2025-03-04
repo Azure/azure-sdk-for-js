@@ -37,7 +37,7 @@ interface AzurePluginContext {
  *
  * Example:
  *
- * ```ts snippet:device_code_credential_example
+ * ```ts snippet:ReadmeSampleDeviceCodeCredential
  * import { DeviceCodeCredential } from "@azure/identity";
  *
  * const credential = new DeviceCodeCredential({
@@ -45,8 +45,10 @@ interface AzurePluginContext {
  *     enabled: true,
  *   },
  * });
+ *
  * // We'll use the Microsoft Graph scope as an example
  * const scope = "https://graph.microsoft.com/.default";
+ *
  * // Print out part of the access token
  * console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
  * ```

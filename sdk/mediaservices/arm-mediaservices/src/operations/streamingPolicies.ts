@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { StreamingPolicies } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { StreamingPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMediaServices } from "../azureMediaServices";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMediaServices } from "../azureMediaServices.js";
 import {
   StreamingPolicy,
   StreamingPoliciesListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   StreamingPoliciesCreateResponse,
   StreamingPoliciesDeleteOptionalParams,
   StreamingPoliciesListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing StreamingPolicies operations. */

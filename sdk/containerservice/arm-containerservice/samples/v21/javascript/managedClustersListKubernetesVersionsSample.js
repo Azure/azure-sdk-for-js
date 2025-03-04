@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Contains extra metadata on the version, including supported patch versions, capabilities, available upgrades, and details on preview status of the version
  *
  * @summary Contains extra metadata on the version, including supported patch versions, capabilities, available upgrades, and details on preview status of the version
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/KubernetesVersions_List.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/KubernetesVersions_List.json
  */
 async function listKubernetesVersions() {
   const subscriptionId =
@@ -29,7 +27,7 @@ async function listKubernetesVersions() {
 }
 
 async function main() {
-  listKubernetesVersions();
+  await listKubernetesVersions();
 }
 
 main().catch(console.error);

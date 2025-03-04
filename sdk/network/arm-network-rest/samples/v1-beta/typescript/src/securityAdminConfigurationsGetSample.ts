@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  SecurityAdminConfigurationsGetParameters
+  SecurityAdminConfigurationsGetParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves a network manager security admin configuration.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Retrieves a network manager security admin configuration.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerSecurityAdminConfigurationGet.json
  */
-async function getSecurityAdminConfigurations() {
+async function getSecurityAdminConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,7 +20,7 @@ async function getSecurityAdminConfigurations() {
   const networkManagerName = "testNetworkManager";
   const configurationName = "myTestSecurityConfig";
   const options: SecurityAdminConfigurationsGetParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getSecurityAdminConfigurations() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName
+      configurationName,
     )
     .get(options);
   console.log(result);

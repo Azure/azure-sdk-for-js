@@ -3,6 +3,7 @@
 
 import type { RequestParameters } from "@azure-rest/core-client";
 import type {
+  BusinessAttributeUpdateBehavior,
   AtlasEntityWithExtInfo,
   AtlasEntitiesWithExtInfo,
   ClassificationAssociateOptions,
@@ -17,22 +18,27 @@ import type {
   QueryOptions,
   SuggestOptions,
   AutoCompleteOptions,
+  LineageDirection,
   AtlasRelationship,
+  TypeCategory,
   AtlasTypesDef,
 } from "./models.js";
 
 export interface EntityCreateOrUpdateBodyParam {
-  body?: AtlasEntityWithExtInfo;
+  /** Body parameter. */
+  body: AtlasEntityWithExtInfo;
 }
 
 export interface EntityCreateOrUpdateQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /**
    * Used to define the update behavior for business attributes when updating
    * entities.
    *
    * Possible values: "ignore", "replace", "merge"
    */
-  businessAttributeUpdateBehavior?: string;
+  businessAttributeUpdateBehavior?: BusinessAttributeUpdateBehavior;
   /**
    * The collection where entities will be moved to. Only specify a value if you
    * need to move an entity to another collection.
@@ -48,9 +54,21 @@ export type EntityCreateOrUpdateParameters = EntityCreateOrUpdateQueryParam &
   EntityCreateOrUpdateBodyParam &
   RequestParameters;
 
+/** This is the wrapper object for the parameter `guid` with explode set to true and style set to form. */
+export interface EntityListByGuidsGuidQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: true;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface EntityListByGuidsQueryParamProperties {
-  /** An array of GUIDs of entities to list. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
-  guid: string;
+  /** The API version to use for this operation. */
+  "api-version"?: string;
+  /** An array of GUIDs of entities to list. */
+  guid: EntityListByGuidsGuidQueryParam;
   /** Whether to return minimal information for referred entities. */
   minExtInfo?: boolean;
   /** Whether to ignore relationship attributes. */
@@ -64,10 +82,13 @@ export interface EntityListByGuidsQueryParam {
 export type EntityListByGuidsParameters = EntityListByGuidsQueryParam & RequestParameters;
 
 export interface EntityBulkCreateOrUpdateBodyParam {
-  body?: AtlasEntitiesWithExtInfo;
+  /** Body parameter. */
+  body: AtlasEntitiesWithExtInfo;
 }
 
 export interface EntityBulkCreateOrUpdateQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /**
    * The collection where entities will be moved to. Only specify a value if you
    * need to move an entity to another collection.
@@ -79,7 +100,7 @@ export interface EntityBulkCreateOrUpdateQueryParamProperties {
    *
    * Possible values: "ignore", "replace", "merge"
    */
-  businessAttributeUpdateBehavior?: string;
+  businessAttributeUpdateBehavior?: BusinessAttributeUpdateBehavior;
 }
 
 export interface EntityBulkCreateOrUpdateQueryParam {
@@ -90,9 +111,19 @@ export type EntityBulkCreateOrUpdateParameters = EntityBulkCreateOrUpdateQueryPa
   EntityBulkCreateOrUpdateBodyParam &
   RequestParameters;
 
+/** This is the wrapper object for the parameter `guid` with explode set to true and style set to form. */
+export interface EntityBulkDeleteGuidQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: true;
+  /** Style of the value */
+  style: "form";
+}
+
 export interface EntityBulkDeleteQueryParamProperties {
-  /** An array of GUIDs of entities to delete. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
-  guid: string;
+  /** An array of GUIDs of entities to delete. */
+  guid: EntityBulkDeleteGuidQueryParam;
 }
 
 export interface EntityBulkDeleteQueryParam {
@@ -102,7 +133,8 @@ export interface EntityBulkDeleteQueryParam {
 export type EntityBulkDeleteParameters = EntityBulkDeleteQueryParam & RequestParameters;
 
 export interface EntityAddClassificationBodyParam {
-  body?: ClassificationAssociateOptions;
+  /** Body parameter. */
+  body: ClassificationAssociateOptions;
 }
 
 export type EntityAddClassificationParameters = EntityAddClassificationBodyParam &
@@ -180,7 +212,8 @@ export type EntityGetByUniqueAttributesParameters = EntityGetByUniqueAttributesQ
   RequestParameters;
 
 export interface EntityPartialUpdateByUniqueAttributesBodyParam {
-  body?: AtlasEntityWithExtInfo;
+  /** Body parameter. */
+  body: AtlasEntityWithExtInfo;
 }
 
 export interface EntityPartialUpdateByUniqueAttributesQueryParamProperties {
@@ -275,7 +308,8 @@ export type EntityUpdateClassificationsByUniqueAttributeParameters =
     RequestParameters;
 
 export interface EntityBulkSetClassificationsBodyParam {
-  body?: AtlasEntityHeaders;
+  /** Body parameter. */
+  body: AtlasEntityHeaders;
 }
 
 export type EntityBulkSetClassificationsParameters = EntityBulkSetClassificationsBodyParam &
@@ -350,7 +384,8 @@ export type EntityAddOrUpdateBusinessMetadataAttributesParameters =
 export type EntityGetSampleBusinessMetadataTemplateParameters = RequestParameters;
 
 export interface EntityImportBusinessMetadataBodyParam {
-  body?: BusinessMetadataOptions;
+  /** Body parameter. */
+  body: BusinessMetadataOptions;
 }
 
 export interface EntityImportBusinessMetadataMediaTypesParam {
@@ -450,10 +485,13 @@ export type EntityAddLabelsByUniqueAttributeParameters =
     RequestParameters;
 
 export interface EntityMoveEntitiesToCollectionBodyParam {
-  body?: MoveEntitiesOptions;
+  /** Body parameter. */
+  body: MoveEntitiesOptions;
 }
 
 export interface EntityMoveEntitiesToCollectionQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version": string;
   /** The collection where entities will be moved to. */
   collectionId: string;
 }
@@ -467,6 +505,8 @@ export type EntityMoveEntitiesToCollectionParameters = EntityMoveEntitiesToColle
   RequestParameters;
 
 export interface GlossaryListQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -484,7 +524,8 @@ export interface GlossaryListQueryParam {
 export type GlossaryListParameters = GlossaryListQueryParam & RequestParameters;
 
 export interface GlossaryCreateBodyParam {
-  body?: AtlasGlossary;
+  /** Body parameter. */
+  body: AtlasGlossary;
 }
 
 export type GlossaryCreateParameters = GlossaryCreateBodyParam & RequestParameters;
@@ -498,14 +539,16 @@ export type GlossaryCreateCategoriesParameters = GlossaryCreateCategoriesBodyPar
   RequestParameters;
 
 export interface GlossaryCreateCategoryBodyParam {
-  body?: AtlasGlossaryCategory;
+  /** Body parameter. */
+  body: AtlasGlossaryCategory;
 }
 
 export type GlossaryCreateCategoryParameters = GlossaryCreateCategoryBodyParam & RequestParameters;
 export type GlossaryGetCategoryParameters = RequestParameters;
 
 export interface GlossaryUpdateCategoryBodyParam {
-  body?: AtlasGlossaryCategory;
+  /** Body parameter. */
+  body: AtlasGlossaryCategory;
 }
 
 export type GlossaryUpdateCategoryParameters = GlossaryUpdateCategoryBodyParam & RequestParameters;
@@ -555,7 +598,8 @@ export type GlossaryListCategoryTermsParameters = GlossaryListCategoryTermsQuery
   RequestParameters;
 
 export interface GlossaryCreateTermBodyParam {
-  body?: AtlasGlossaryTerm;
+  /** Body parameter. */
+  body: AtlasGlossaryTerm;
 }
 
 export interface GlossaryCreateTermQueryParamProperties {
@@ -570,13 +614,26 @@ export interface GlossaryCreateTermQueryParam {
 export type GlossaryCreateTermParameters = GlossaryCreateTermQueryParam &
   GlossaryCreateTermBodyParam &
   RequestParameters;
-export type GlossaryGetTermParameters = RequestParameters;
+
+export interface GlossaryGetTermQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
+}
+
+export interface GlossaryGetTermQueryParam {
+  queryParameters?: GlossaryGetTermQueryParamProperties;
+}
+
+export type GlossaryGetTermParameters = GlossaryGetTermQueryParam & RequestParameters;
 
 export interface GlossaryUpdateTermBodyParam {
-  body?: AtlasGlossaryTerm;
+  /** Body parameter. */
+  body: AtlasGlossaryTerm;
 }
 
 export interface GlossaryUpdateTermQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /** Whether include term hierarchy */
   includeTermHierarchy?: boolean;
 }
@@ -599,6 +656,8 @@ export interface GlossaryPartialUpdateTermBodyParam {
 }
 
 export interface GlossaryPartialUpdateTermQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /** Whether include term hierarchy */
   includeTermHierarchy?: boolean;
 }
@@ -617,6 +676,8 @@ export interface GlossaryCreateTermsBodyParam {
 }
 
 export interface GlossaryCreateTermsQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /** Whether include term hierarchy */
   includeTermHierarchy?: boolean;
 }
@@ -662,6 +723,8 @@ export type GlossaryDeleteTermAssignmentFromEntitiesParameters =
   GlossaryDeleteTermAssignmentFromEntitiesBodyParam & RequestParameters;
 
 export interface GlossaryListRelatedTermsQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -679,10 +742,13 @@ export type GlossaryListRelatedTermsParameters = GlossaryListRelatedTermsQueryPa
 export type GlossaryGetParameters = RequestParameters;
 
 export interface GlossaryUpdateBodyParam {
-  body?: AtlasGlossary;
+  /** Body parameter. */
+  body: AtlasGlossary;
 }
 
 export interface GlossaryUpdateQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /** Whether ignore terms and categories */
   ignoreTermsAndCategories?: boolean;
 }
@@ -726,7 +792,17 @@ export interface GlossaryListCategoriesHeadersQueryParam {
 
 export type GlossaryListCategoriesHeadersParameters = GlossaryListCategoriesHeadersQueryParam &
   RequestParameters;
-export type GlossaryGetDetailedParameters = RequestParameters;
+
+export interface GlossaryGetDetailedQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
+}
+
+export interface GlossaryGetDetailedQueryParam {
+  queryParameters?: GlossaryGetDetailedQueryParamProperties;
+}
+
+export type GlossaryGetDetailedParameters = GlossaryGetDetailedQueryParam & RequestParameters;
 
 export interface GlossaryPartialUpdateBodyParam {
   /**
@@ -737,6 +813,8 @@ export interface GlossaryPartialUpdateBodyParam {
 }
 
 export interface GlossaryPartialUpdateQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /** Whether ignore terms and categories */
   ignoreTermsAndCategories?: boolean;
 }
@@ -750,6 +828,8 @@ export type GlossaryPartialUpdateParameters = GlossaryPartialUpdateQueryParam &
   RequestParameters;
 
 export interface GlossaryListTermsQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /** The page size - by default there is no paging. */
   limit?: number;
   /** The offset for pagination purpose. */
@@ -781,22 +861,58 @@ export type GlossaryListTermHeadersParameters = GlossaryListTermHeadersQueryPara
   RequestParameters;
 
 export interface DiscoveryQueryBodyParam {
-  body?: QueryOptions;
+  /** Body parameter. */
+  body: QueryOptions;
 }
 
-export type DiscoveryQueryParameters = DiscoveryQueryBodyParam & RequestParameters;
+export interface DiscoveryQueryQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version": string;
+}
+
+export interface DiscoveryQueryQueryParam {
+  queryParameters: DiscoveryQueryQueryParamProperties;
+}
+
+export type DiscoveryQueryParameters = DiscoveryQueryQueryParam &
+  DiscoveryQueryBodyParam &
+  RequestParameters;
 
 export interface DiscoverySuggestBodyParam {
-  body?: SuggestOptions;
+  /** Body parameter. */
+  body: SuggestOptions;
 }
 
-export type DiscoverySuggestParameters = DiscoverySuggestBodyParam & RequestParameters;
+export interface DiscoverySuggestQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version": string;
+}
+
+export interface DiscoverySuggestQueryParam {
+  queryParameters: DiscoverySuggestQueryParamProperties;
+}
+
+export type DiscoverySuggestParameters = DiscoverySuggestQueryParam &
+  DiscoverySuggestBodyParam &
+  RequestParameters;
 
 export interface DiscoveryAutoCompleteBodyParam {
-  body?: AutoCompleteOptions;
+  /** Body parameter. */
+  body: AutoCompleteOptions;
 }
 
-export type DiscoveryAutoCompleteParameters = DiscoveryAutoCompleteBodyParam & RequestParameters;
+export interface DiscoveryAutoCompleteQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version": string;
+}
+
+export interface DiscoveryAutoCompleteQueryParam {
+  queryParameters: DiscoveryAutoCompleteQueryParamProperties;
+}
+
+export type DiscoveryAutoCompleteParameters = DiscoveryAutoCompleteQueryParam &
+  DiscoveryAutoCompleteBodyParam &
+  RequestParameters;
 
 export interface LineageGetQueryParamProperties {
   /** The number of hops for lineage. */
@@ -806,7 +922,7 @@ export interface LineageGetQueryParamProperties {
    *
    * Possible values: "INPUT", "OUTPUT", "BOTH"
    */
-  direction: string;
+  direction: LineageDirection;
 }
 
 export interface LineageGetQueryParam {
@@ -816,12 +932,14 @@ export interface LineageGetQueryParam {
 export type LineageGetParameters = LineageGetQueryParam & RequestParameters;
 
 export interface LineageGetNextPageQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version": string;
   /**
    * The direction of the lineage, which could be INPUT, OUTPUT or BOTH.
    *
    * Possible values: "INPUT", "OUTPUT", "BOTH"
    */
-  direction: string;
+  direction: LineageDirection;
   /** The offset for pagination purpose. */
   offset?: number;
   /** The page size - by default there is no paging. */
@@ -842,7 +960,7 @@ export interface LineageGetByUniqueAttributeQueryParamProperties {
    *
    * Possible values: "INPUT", "OUTPUT", "BOTH"
    */
-  direction: string;
+  direction: LineageDirection;
   /**
    * The qualified name of the entity. (This is only an example. qualifiedName can
    * be changed to other unique attributes)
@@ -858,13 +976,15 @@ export type LineageGetByUniqueAttributeParameters = LineageGetByUniqueAttributeQ
   RequestParameters;
 
 export interface RelationshipCreateBodyParam {
-  body?: AtlasRelationship;
+  /** Body parameter. */
+  body: AtlasRelationship;
 }
 
 export type RelationshipCreateParameters = RelationshipCreateBodyParam & RequestParameters;
 
 export interface RelationshipUpdateBodyParam {
-  body?: AtlasRelationship;
+  /** Body parameter. */
+  body: AtlasRelationship;
 }
 
 export type RelationshipUpdateParameters = RelationshipUpdateBodyParam & RequestParameters;
@@ -897,6 +1017,8 @@ export type TypeGetByNameParameters = RequestParameters;
 export type TypeDeleteParameters = RequestParameters;
 
 export interface TypeListQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /**
    * Whether include termtemplatedef when return all typedefs.
    * This is always true
@@ -908,7 +1030,7 @@ export interface TypeListQueryParamProperties {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  type?: string;
+  type?: TypeCategory;
 }
 
 export interface TypeListQueryParam {
@@ -918,24 +1040,29 @@ export interface TypeListQueryParam {
 export type TypeListParameters = TypeListQueryParam & RequestParameters;
 
 export interface TypeBulkCreateBodyParam {
-  body?: AtlasTypesDef;
+  /** Body parameter. */
+  body: AtlasTypesDef;
 }
 
 export type TypeBulkCreateParameters = TypeBulkCreateBodyParam & RequestParameters;
 
 export interface TypeBulkUpdateBodyParam {
-  body?: AtlasTypesDef;
+  /** Body parameter. */
+  body: AtlasTypesDef;
 }
 
 export type TypeBulkUpdateParameters = TypeBulkUpdateBodyParam & RequestParameters;
 
 export interface TypeBulkDeleteBodyParam {
-  body?: AtlasTypesDef;
+  /** Body parameter. */
+  body: AtlasTypesDef;
 }
 
 export type TypeBulkDeleteParameters = TypeBulkDeleteBodyParam & RequestParameters;
 
 export interface TypeListHeadersQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version"?: string;
   /**
    * Whether include termtemplatedef when return all typedefs.
    * This is always true
@@ -947,7 +1074,7 @@ export interface TypeListHeadersQueryParamProperties {
    *
    * Possible values: "PRIMITIVE", "OBJECT_ID_TYPE", "ENUM", "STRUCT", "CLASSIFICATION", "ENTITY", "ARRAY", "MAP", "RELATIONSHIP", "TERM_TEMPLATE"
    */
-  type?: string;
+  type?: TypeCategory;
 }
 
 export interface TypeListHeadersQueryParam {
@@ -955,5 +1082,27 @@ export interface TypeListHeadersQueryParam {
 }
 
 export type TypeListHeadersParameters = TypeListHeadersQueryParam & RequestParameters;
-export type TypeGetTermTemplateDefByGuidParameters = RequestParameters;
-export type TypeGetTermTemplateDefByNameParameters = RequestParameters;
+
+export interface TypeGetTermTemplateDefByGuidQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version": string;
+}
+
+export interface TypeGetTermTemplateDefByGuidQueryParam {
+  queryParameters: TypeGetTermTemplateDefByGuidQueryParamProperties;
+}
+
+export type TypeGetTermTemplateDefByGuidParameters = TypeGetTermTemplateDefByGuidQueryParam &
+  RequestParameters;
+
+export interface TypeGetTermTemplateDefByNameQueryParamProperties {
+  /** The API version to use for this operation. */
+  "api-version": string;
+}
+
+export interface TypeGetTermTemplateDefByNameQueryParam {
+  queryParameters: TypeGetTermTemplateDefByNameQueryParamProperties;
+}
+
+export type TypeGetTermTemplateDefByNameParameters = TypeGetTermTemplateDefByNameQueryParam &
+  RequestParameters;

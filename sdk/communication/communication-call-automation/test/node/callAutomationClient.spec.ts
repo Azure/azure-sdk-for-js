@@ -13,7 +13,7 @@ import type {
   CommunicationIdentifier,
   MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
-import type { CallInvite, CallConnection } from "../../src/index.js";
+import type { CallInvite, CallConnection, AnswerCallOptions } from "../../src/index.js";
 import type {
   AnswerCallEventResult,
   CreateCallEventResult,
@@ -38,16 +38,6 @@ vi.mock("../src/index.js", async (importActual) => {
 });
 
 import { CallAutomationClient } from "../../src/index.js";
-
-function createOPSCallAutomationClient(
-  oPSSourceIdentity: MicrosoftTeamsAppIdentifier,
-): CallAutomationClient {
-  const connectionString = "endpoint=https://redacted.communication.azure.com/;accesskey=redacted";
-
-  return new CallAutomationClient(connectionString, {
-    opsSourceIdentity: oPSSourceIdentity,
-  });
-}
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
@@ -132,21 +122,6 @@ describe("Call Automation Client Unit Tests", () => {
     // defined dummy variables
     const appId = "28:acs:redacted";
     const appCloud = KnownCommunicationCloudEnvironmentModel.Public;
-    const oPSSouceStub = {
-      teamsAppId: appId,
-      cloud: appCloud,
-    };
-
-    // stub an OPS CallAutomationClient
-    const createOPSClientStub = vi
-      .fn()
-      .mockImplementation(() => createOPSCallAutomationClient(oPSSouceStub));
-
-    // Use the stubbed factory function to create the client
-    const oPSClient: MockedObject<CallAutomationClient> = createOPSClientStub();
-
-    // Explicitly stub the createCall method
-    oPSClient.createCall = vi.fn();
 
     // mocks
     const createCallResultMock: CreateCallResult = {
@@ -163,14 +138,26 @@ describe("Call Automation Client Unit Tests", () => {
       },
     };
 
-    vi.spyOn(oPSClient, "createCall").mockResolvedValue(createCallResultMock);
-    const promiseResult = oPSClient.createCall(target, CALL_CALLBACK_URL);
+    vi.spyOn(client, "createCall").mockResolvedValue(createCallResultMock);
+    const promiseResult = client.createCall(target, CALL_CALLBACK_URL, {
+      teamsAppSource: {
+        rawId: appId,
+        teamsAppId: appId,
+        cloud: appCloud,
+      } as MicrosoftTeamsAppIdentifier,
+    });
 
     // asserts
     promiseResult
       .then((result: CreateCallResult) => {
         assert.isNotNull(result);
-        expect(oPSClient.createCall).toHaveBeenCalledWith(target, CALL_CALLBACK_URL);
+        expect(client.createCall).toHaveBeenCalledWith(target, CALL_CALLBACK_URL, {
+          teamsAppSource: {
+            rawId: appId,
+            teamsAppId: appId,
+            cloud: appCloud,
+          } as MicrosoftTeamsAppIdentifier,
+        });
         assert.equal(result, createCallResultMock);
         return;
       })
@@ -195,6 +182,38 @@ describe("Call Automation Client Unit Tests", () => {
 
     assert.isNotNull(result);
     expect(client.answerCall).toHaveBeenCalledWith(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL);
+    assert.equal(result, answerCallResultMock);
+  });
+
+  it("AnswerCall with custom context", async () => {
+    // mocks
+    const answerCallResultMock: AnswerCallResult = {
+      callConnectionProperties: {} as CallConnectionProperties,
+      callConnection: {} as CallConnection,
+      waitForEventProcessor: async () => {
+        return {} as AnswerCallEventResult;
+      },
+    };
+    vi.spyOn(client, "answerCall").mockResolvedValue(answerCallResultMock);
+    const answerCallOptions: AnswerCallOptions = {
+      operationContext: "operationContextAnswerCall",
+      customCallingContext: [{ kind: "voip", key: "foo", value: "bar" }],
+    };
+    const promiseResult = client.answerCall(
+      CALL_INCOMING_CALL_CONTEXT,
+      CALL_CALLBACK_URL,
+      answerCallOptions,
+    );
+
+    // asserts
+    const result = await promiseResult;
+
+    assert.isNotNull(result);
+    expect(client.answerCall).toHaveBeenCalledWith(
+      CALL_INCOMING_CALL_CONTEXT,
+      CALL_CALLBACK_URL,
+      answerCallOptions,
+    );
     assert.equal(result, answerCallResultMock);
   });
 

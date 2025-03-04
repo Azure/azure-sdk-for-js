@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import AzureCommunicationRoutingServiceClient from "./azureCommunicationRoutingServiceClient.js";
+import AzureCommunicationRoutingServiceClient from "./azureCommunicationRoutingServiceCustmizedClient.js";
 
 export * from "./azureCommunicationRoutingServiceClient.js";
 export * from "./parameters.js";

@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   HubVirtualNetworkConnectionsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a hub virtual network connection if it doesn't exist else updates the existing one.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates a hub virtual network connection if it doesn't exist else updates the existing one.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/HubVirtualNetworkConnectionPut.json
  */
-async function hubVirtualNetworkConnectionPut() {
+async function hubVirtualNetworkConnectionPut(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -30,50 +25,45 @@ async function hubVirtualNetworkConnectionPut() {
       properties: {
         enableInternetSecurity: false,
         remoteVirtualNetwork: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/SpokeVnet1"
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/SpokeVnet1",
         },
         routingConfiguration: {
           associatedRouteTable: {
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1"
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1",
           },
           inboundRouteMap: {
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap1"
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap1",
           },
           outboundRouteMap: {
-            id:
-              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap2"
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap2",
           },
           propagatedRouteTables: {
             ids: [
               {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1"
-              }
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/hubRouteTables/hubRouteTable1",
+              },
             ],
-            labels: ["label1", "label2"]
+            labels: ["label1", "label2"],
           },
           vnetRoutes: {
             staticRoutes: [
               {
                 name: "route1",
                 addressPrefixes: ["10.1.0.0/16", "10.2.0.0/16"],
-                nextHopIpAddress: "10.0.0.68"
+                nextHopIpAddress: "10.0.0.68",
               },
               {
                 name: "route2",
                 addressPrefixes: ["10.3.0.0/16", "10.4.0.0/16"],
-                nextHopIpAddress: "10.0.0.65"
-              }
+                nextHopIpAddress: "10.0.0.65",
+              },
             ],
-            staticRoutesConfig: { vnetLocalRouteOverrideCriteria: "Equal" }
-          }
-        }
-      }
+            staticRoutesConfig: { vnetLocalRouteOverrideCriteria: "Equal" },
+          },
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -81,7 +71,7 @@ async function hubVirtualNetworkConnectionPut() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      connectionName
+      connectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

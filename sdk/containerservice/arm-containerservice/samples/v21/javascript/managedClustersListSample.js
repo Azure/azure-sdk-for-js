@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a list of managed clusters in the specified subscription.
  *
  * @summary Gets a list of managed clusters in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/ManagedClustersList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/ManagedClustersList.json
  */
 async function listManagedClusters() {
   const subscriptionId =
@@ -31,7 +29,7 @@ async function listManagedClusters() {
 }
 
 async function main() {
-  listManagedClusters();
+  await listManagedClusters();
 }
 
 main().catch(console.error);

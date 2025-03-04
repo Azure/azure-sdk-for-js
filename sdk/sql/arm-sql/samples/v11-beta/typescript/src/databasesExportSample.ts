@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ExportDatabaseDefinition, SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Exports a database.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Exports a database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ExportDatabaseWithNetworkIsolation.json
  */
-async function exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount() {
+async function exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -60,7 +58,7 @@ async function exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStor
  * @summary Exports a database.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ExportDatabase.json
  */
-async function exportsADatabase() {
+async function exportsADatabase(): Promise<void> {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -88,7 +86,7 @@ async function exportsADatabase() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount();
   exportsADatabase();
 }

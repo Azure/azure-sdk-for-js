@@ -50,24 +50,34 @@ The following section shows you how to initialize and authenticate your client, 
 
 ### List All Clusters
 
-```typescript
-import ServiceFabricManagementClient from "@azure-rest/arm-servicefabric";
+```ts snippet:ReadmeSampleListAllClusters
 import { DefaultAzureCredential } from "@azure/identity";
+import ServiceFabricManagementClient, {
+  isUnexpected,
+  paginate,
+} from "@azure-rest/arm-servicefabric";
 
-async function listClusters() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const credential = new DefaultAzureCredential();
-  const client = ServiceFabricManagementClient(credential);
-  const result = await client
-    .path(
-      "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters",
-      subscriptionId,
-    )
-    .get();
-  console.log(result);
+const subscriptionId = "00000000-0000-0000-0000-000000000000";
+const credential = new DefaultAzureCredential();
+const client = ServiceFabricManagementClient(credential);
+
+const result = await client
+  .path(
+    "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters",
+    subscriptionId,
+  )
+  .get();
+
+if (isUnexpected(result)) {
+  throw result.body.error;
 }
 
-listClusters().catch(console.error);
+const clusters = paginate(client, result);
+for await (const cluster of clusters) {
+  console.log(`Cluster name: ${cluster.name}`);
+  console.log(`Cluster id: ${cluster.id}`);
+  console.log(`Cluster type: ${cluster.type}`);
+}
 ```
 
 ## Troubleshooting
@@ -76,7 +86,7 @@ listClusters().catch(console.error);
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");

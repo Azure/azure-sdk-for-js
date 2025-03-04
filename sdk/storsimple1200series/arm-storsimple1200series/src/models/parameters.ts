@@ -32,7 +32,7 @@ import {
   IscsiServer as IscsiServerMapper,
   StorageAccountCredential as StorageAccountCredentialMapper,
   StorageDomain as StorageDomainMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

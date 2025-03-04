@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary get details of a certificate profile.
  * x-ms-original-file: 2024-02-05-preview/CertificateProfiles_Get.json
  */
-async function getDetailsOfACertificateProfile() {
+async function getDetailsOfACertificateProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function getDetailsOfACertificateProfile() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDetailsOfACertificateProfile();
 }
 

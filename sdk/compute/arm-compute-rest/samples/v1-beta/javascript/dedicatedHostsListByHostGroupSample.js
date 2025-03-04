@@ -28,7 +28,7 @@ async function dedicatedHostsListByHostGroupMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts",
       subscriptionId,
       resourceGroupName,
-      hostGroupName
+      hostGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -60,7 +60,7 @@ async function dedicatedHostsListByHostGroupMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts",
       subscriptionId,
       resourceGroupName,
-      hostGroupName
+      hostGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

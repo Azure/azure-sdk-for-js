@@ -13,9 +13,7 @@ import {
   MobileNetworkManagementClient,
 } from "@azure/arm-mobilenetwork";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates data network tags.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Updates data network tags.
  * x-ms-original-file: specification/mobilenetwork/resource-manager/Microsoft.MobileNetwork/stable/2024-04-01/examples/DataNetworkUpdateTags.json
  */
-async function updateDataNetworkTags() {
+async function updateDataNetworkTags(): Promise<void> {
   const subscriptionId =
     process.env["MOBILENETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +41,7 @@ async function updateDataNetworkTags() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   updateDataNetworkTags();
 }
 

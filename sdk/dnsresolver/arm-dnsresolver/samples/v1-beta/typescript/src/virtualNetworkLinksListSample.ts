@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { DnsResolverManagementClient } from "@azure/arm-dnsresolver";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists virtual network links to a DNS forwarding ruleset.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists virtual network links to a DNS forwarding ruleset.
  * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/preview/2023-07-01-preview/examples/VirtualNetworkLink_List.json
  */
-async function listVirtualNetworkLinksToADnsForwardingRuleset() {
+async function listVirtualNetworkLinksToADnsForwardingRuleset(): Promise<void> {
   const subscriptionId =
     process.env["DNSRESOLVER_SUBSCRIPTION_ID"] ||
     "abdd4249-9f34-4cc6-8e42-c2e32110603e";
@@ -39,7 +37,7 @@ async function listVirtualNetworkLinksToADnsForwardingRuleset() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listVirtualNetworkLinksToADnsForwardingRuleset();
 }
 

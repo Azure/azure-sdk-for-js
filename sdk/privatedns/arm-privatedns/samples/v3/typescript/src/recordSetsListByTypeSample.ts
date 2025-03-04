@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { PrivateDnsManagementClient } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the record sets of a specified type in a Private DNS zone.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the record sets of a specified type in a Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAList.json
  */
-async function getPrivateDnsZoneARecordSets() {
+async function getPrivateDnsZoneARecordSets(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -46,7 +44,7 @@ async function getPrivateDnsZoneARecordSets() {
  * @summary Lists the record sets of a specified type in a Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetAAAAList.json
  */
-async function getPrivateDnsZoneAaaaRecordSets() {
+async function getPrivateDnsZoneAaaaRecordSets(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -72,7 +70,7 @@ async function getPrivateDnsZoneAaaaRecordSets() {
  * @summary Lists the record sets of a specified type in a Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetCNAMEList.json
  */
-async function getPrivateDnsZoneCnameRecordSets() {
+async function getPrivateDnsZoneCnameRecordSets(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -98,7 +96,7 @@ async function getPrivateDnsZoneCnameRecordSets() {
  * @summary Lists the record sets of a specified type in a Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetMXList.json
  */
-async function getPrivateDnsZoneMxRecordSets() {
+async function getPrivateDnsZoneMxRecordSets(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -124,7 +122,7 @@ async function getPrivateDnsZoneMxRecordSets() {
  * @summary Lists the record sets of a specified type in a Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetPTRList.json
  */
-async function getPrivateDnsZonePtrRecordSets() {
+async function getPrivateDnsZonePtrRecordSets(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -150,7 +148,7 @@ async function getPrivateDnsZonePtrRecordSets() {
  * @summary Lists the record sets of a specified type in a Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSOAList.json
  */
-async function getPrivateDnsZoneSoaRecordSets() {
+async function getPrivateDnsZoneSoaRecordSets(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -176,7 +174,7 @@ async function getPrivateDnsZoneSoaRecordSets() {
  * @summary Lists the record sets of a specified type in a Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetSRVList.json
  */
-async function getPrivateDnsZoneSrvRecordSets() {
+async function getPrivateDnsZoneSrvRecordSets(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -202,7 +200,7 @@ async function getPrivateDnsZoneSrvRecordSets() {
  * @summary Lists the record sets of a specified type in a Private DNS zone.
  * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/RecordSetTXTList.json
  */
-async function getPrivateDnsZoneTxtRecordSets() {
+async function getPrivateDnsZoneTxtRecordSets(): Promise<void> {
   const subscriptionId =
     process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
   const resourceGroupName =
@@ -222,7 +220,7 @@ async function getPrivateDnsZoneTxtRecordSets() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getPrivateDnsZoneARecordSets();
   getPrivateDnsZoneAaaaRecordSets();
   getPrivateDnsZoneCnameRecordSets();

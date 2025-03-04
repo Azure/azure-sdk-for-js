@@ -16,7 +16,7 @@ import {
   Experiment as ExperimentMapper,
   ExperimentUpdate as ExperimentUpdateMapper,
   Target as TargetMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

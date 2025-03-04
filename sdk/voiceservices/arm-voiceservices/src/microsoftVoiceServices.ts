@@ -19,14 +19,14 @@ import {
   CommunicationsGatewaysImpl,
   NameAvailabilityImpl,
   TestLinesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   CommunicationsGateways,
   NameAvailability,
   TestLines
-} from "./operationsInterfaces";
-import { MicrosoftVoiceServicesOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MicrosoftVoiceServicesOptionalParams } from "./models/index.js";
 
 export class MicrosoftVoiceServices extends coreClient.ServiceClient {
   $host: string;

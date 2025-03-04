@@ -129,7 +129,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [reportslistbyconfigurationprofileassignmentssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/automanage/arm-automanage/samples/v1/typescript/src/reportsListByConfigurationProfileAssignmentsSample.ts
 [serviceprincipalsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/automanage/arm-automanage/samples/v1/typescript/src/servicePrincipalsGetSample.ts
 [serviceprincipalslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/automanage/arm-automanage/samples/v1/typescript/src/servicePrincipalsListBySubscriptionSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-automanage?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-automanage?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/automanage/arm-automanage/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

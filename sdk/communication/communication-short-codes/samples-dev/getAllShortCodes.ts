@@ -8,10 +8,9 @@
 import { ShortCodesClient } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Get All Short Codes Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -23,11 +22,11 @@ export async function main() {
   const client = new ShortCodesClient(connectionString);
 
   // get all short codes for a resource
-  var shortCodes = await client.listShortCodes({
+  const shortCodes = await client.listShortCodes({
     onResponse:
       (response) =>
       (res = response) => {
-        if (!res || res.status != 201) {
+        if (!res || res.status !== 201) {
           throw new Error(
             `Short Codes listing failed.
             Status code: ${res.status}; 

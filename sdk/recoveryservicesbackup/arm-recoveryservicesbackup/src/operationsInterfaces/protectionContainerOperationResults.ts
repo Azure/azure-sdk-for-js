@@ -9,7 +9,7 @@
 import {
   ProtectionContainerOperationResultsGetOptionalParams,
   ProtectionContainerOperationResultsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProtectionContainerOperationResults. */
 export interface ProtectionContainerOperationResults {

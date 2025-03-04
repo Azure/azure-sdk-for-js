@@ -53,6 +53,8 @@ const envSetupForPlayback: Record<string, string> = {
   DISPATCHER_ENDPOINT: "https://Sanitized",
   SERVICEBUS_STRING: "redacted.servicebus.windows.net",
   FILE_SOURCE_URL: "https:///Sanitized/audio/test.wav",
+  TRANSPORT_URL: "https://Sanitized",
+  COGNITIVE_SERVICE_ENDPOINT: "https://Sanitized",
 };
 
 const fakeToken = generateToken();
@@ -65,8 +67,17 @@ const serviceBusString: string = !isPlaybackMode()
 export const fileSourceUrl: string = !isPlaybackMode()
   ? (env["FILE_SOURCE_URL"] ?? envSetupForPlayback["FILE_SOURCE_URL"])
   : envSetupForPlayback["FILE_SOURCE_URL"];
+export const transportUrl: string = !isPlaybackMode()
+  ? (env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"])
+  : envSetupForPlayback["TRANSPORT_URL"];
+export const cognitiveServiceEndpoint: string = !isPlaybackMode()
+  ? (env["COGNITIVE_SERVICE_ENDPOINT"] ?? envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"])
+  : envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"];
 
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
+export const dummyFileSource: string = !isPlaybackMode()
+  ? "https://dummy.com/dummyurl.wav"
+  : "https://Sanitized/dummyurl.wav";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
   string,
   ServiceBusReceiver
@@ -301,14 +312,7 @@ export function persistEvents(testName: string): void {
     const sanitizedEvents: any[] = [];
     for (const event of eventsToPersist) {
       const jsonData = JSON.parse(event);
-      sanitizeObject(jsonData, [
-        "rawId",
-        "id",
-        "incomingCallContext",
-        "value",
-        "correlationId",
-        "serverCallId",
-      ]);
+      sanitizeObject(jsonData, ["rawId", "id", "incomingCallContext", "value", "serverCallId"]);
       sanitizedEvents.push(jsonData);
     }
 

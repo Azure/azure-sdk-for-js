@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Lists available upgrades for all service meshes in a specific cluster.
  *
  * @summary Lists available upgrades for all service meshes in a specific cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/ManagedClustersList_MeshUpgradeProfiles.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/ManagedClustersList_MeshUpgradeProfiles.json
  */
 async function listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInACluster() {
   const subscriptionId =
@@ -36,7 +34,7 @@ async function listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInAC
 }
 
 async function main() {
-  listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInACluster();
+  await listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInACluster();
 }
 
 main().catch(console.error);

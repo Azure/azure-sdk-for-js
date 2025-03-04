@@ -83,6 +83,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [resourcegroupsexporttemplatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/resourceGroupsExportTemplateSample.js
 [tagscreateorupdateatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/tagsCreateOrUpdateAtScopeSample.js
 [tagsgetatscopesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/resources/arm-resources/samples/v5/javascript/tagsGetAtScopeSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-resources?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-resources?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources/arm-resources/README.md

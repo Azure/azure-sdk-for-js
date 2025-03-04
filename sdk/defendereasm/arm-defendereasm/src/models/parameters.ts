@@ -16,7 +16,7 @@ import {
   WorkspacePatchResource as WorkspacePatchResourceMapper,
   LabelResource as LabelResourceMapper,
   LabelPatchResource as LabelPatchResourceMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

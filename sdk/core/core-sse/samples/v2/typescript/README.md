@@ -2,9 +2,9 @@
 
 These sample programs show how to use the TypeScript client libraries for Azure SDK Core in some common scenarios.
 
-| **File Name**                         | **Description**            |
-| ------------------------------------- | -------------------------- |
-| [createSseStream.ts][createssestream] | parses server-sent events. |
+| **File Name**                         | **Description**                                                        |
+| ------------------------------------- | ---------------------------------------------------------------------- |
+| [createSseStream.ts][createssestream] | Demonstrates streaming events from Wikimedia’s recent change endpoint. |
 
 ## Prerequisites
 
@@ -57,7 +57,7 @@ npx dev-tool run vendored cross-env  node dist/createSseStream.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [createssestream]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-sse/samples/v2/typescript/src/createSseStream.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/core-sse
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/core-sse
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-sse/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

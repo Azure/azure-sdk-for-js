@@ -17,7 +17,7 @@ import {
   ExtensionsGetResponse,
   ExtensionsUpdateOptionalParams,
   ExtensionsUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Extensions. */
 export interface Extensions {

@@ -22,7 +22,7 @@ import {
   WorkbooksUpdateResponse,
   WorkbooksRevisionGetOptionalParams,
   WorkbooksRevisionGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Workbooks. */

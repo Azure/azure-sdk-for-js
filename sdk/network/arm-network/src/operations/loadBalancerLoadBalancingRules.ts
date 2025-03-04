@@ -7,12 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { LoadBalancerLoadBalancingRules } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { LoadBalancerLoadBalancingRules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl.js";
 import {
   LoadBalancingRule,
   LoadBalancerLoadBalancingRulesListNextOptionalParams,
@@ -20,8 +26,10 @@ import {
   LoadBalancerLoadBalancingRulesListResponse,
   LoadBalancerLoadBalancingRulesGetOptionalParams,
   LoadBalancerLoadBalancingRulesGetResponse,
+  LoadBalancerLoadBalancingRulesHealthOptionalParams,
+  LoadBalancerLoadBalancingRulesHealthResponse,
   LoadBalancerLoadBalancingRulesListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LoadBalancerLoadBalancingRules operations. */
@@ -155,6 +163,101 @@ export class LoadBalancerLoadBalancingRulesImpl
   }
 
   /**
+   * Get health details of a load balancing rule.
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param loadBalancingRuleName The name of the load balancing rule.
+   * @param options The options parameters.
+   */
+  async beginHealth(
+    groupName: string,
+    loadBalancerName: string,
+    loadBalancingRuleName: string,
+    options?: LoadBalancerLoadBalancingRulesHealthOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LoadBalancerLoadBalancingRulesHealthResponse>,
+      LoadBalancerLoadBalancingRulesHealthResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<LoadBalancerLoadBalancingRulesHealthResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { groupName, loadBalancerName, loadBalancingRuleName, options },
+      spec: healthOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      LoadBalancerLoadBalancingRulesHealthResponse,
+      OperationState<LoadBalancerLoadBalancingRulesHealthResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Get health details of a load balancing rule.
+   * @param groupName The name of the resource group.
+   * @param loadBalancerName The name of the load balancer.
+   * @param loadBalancingRuleName The name of the load balancing rule.
+   * @param options The options parameters.
+   */
+  async beginHealthAndWait(
+    groupName: string,
+    loadBalancerName: string,
+    loadBalancingRuleName: string,
+    options?: LoadBalancerLoadBalancingRulesHealthOptionalParams,
+  ): Promise<LoadBalancerLoadBalancingRulesHealthResponse> {
+    const poller = await this.beginHealth(
+      groupName,
+      loadBalancerName,
+      loadBalancingRuleName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group.
    * @param loadBalancerName The name of the load balancer.
@@ -215,6 +318,37 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.loadBalancerName,
     Parameters.loadBalancingRuleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const healthOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/loadBalancingRules/{loadBalancingRuleName}/health",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.LoadBalancerHealthPerRule,
+    },
+    201: {
+      bodyMapper: Mappers.LoadBalancerHealthPerRule,
+    },
+    202: {
+      bodyMapper: Mappers.LoadBalancerHealthPerRule,
+    },
+    204: {
+      bodyMapper: Mappers.LoadBalancerHealthPerRule,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.groupName1,
+    Parameters.loadBalancerName1,
+    Parameters.loadBalancingRuleName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,

@@ -19,7 +19,7 @@ import {
   ResourcePoolsUpdateOptionalParams,
   ResourcePoolsUpdateResponse,
   ResourcePoolsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ResourcePools. */

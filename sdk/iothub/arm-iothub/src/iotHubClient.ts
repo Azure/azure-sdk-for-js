@@ -22,7 +22,7 @@ import {
   IotHubImpl,
   PrivateLinkResourcesOperationsImpl,
   PrivateEndpointConnectionsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   IotHubResource,
@@ -31,8 +31,8 @@ import {
   IotHub,
   PrivateLinkResourcesOperations,
   PrivateEndpointConnections
-} from "./operationsInterfaces";
-import { IotHubClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { IotHubClientOptionalParams } from "./models/index.js";
 
 export class IotHubClient extends coreClient.ServiceClient {
   $host: string;

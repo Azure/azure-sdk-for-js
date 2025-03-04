@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary The Update Domain Service operation can be used to update the existing deployment. The update call only supports the properties listed in the PATCH body.
  * x-ms-original-file: specification/domainservices/resource-manager/Microsoft.AAD/stable/2021-05-01/examples/UpdateDomainService.json
  */
-async function updateDomainService() {
+async function updateDomainService(): Promise<void> {
   const subscriptionId = "1639790a-76a2-4ac4-98d9-8562f5dfcb4d";
   const resourceGroupName = "TestResourceGroup";
   const domainServiceName = "TestDomainService.com";

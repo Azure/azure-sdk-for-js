@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary create a StorageClassResource
  * x-ms-original-file: 2024-03-01/StorageClass_CreateOrUpdate.json
  */
-async function storageClassCreateOrUpdate0() {
+async function storageClassCreateOrUpdate0(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const result = await client.storageClass.createOrUpdate(
@@ -25,8 +25,8 @@ async function storageClassCreateOrUpdate0() {
   console.log(result);
 }
 
-async function main() {
-  storageClassCreateOrUpdate0();
+async function main(): Promise<void> {
+  await storageClassCreateOrUpdate0();
 }
 
 main().catch(console.error);

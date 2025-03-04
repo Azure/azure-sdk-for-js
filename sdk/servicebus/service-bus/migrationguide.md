@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Guide to migrate from @azure/service-bus v1 to v7
 
 This guide is intended to assist in the migration from version 1 of the Service Bus client library `@azure/service-bus` to version 7 of the same library. It will focus on side-by-side comparisons for similar operations between the two packages.
@@ -94,12 +96,12 @@ const { ServiceBusClient } = require("@azure/service-bus");
 const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
 
 const credential = await interactiveLogin({
-  tokenAudience: "https://servicebus.azure.net/"
+  tokenAudience: "https://servicebus.azure.net/",
 });
 
 const serviceBusClient = ServiceBusClient.createFromAadTokenCredentials(
   "my-namespace.servicebus.windows.net",
-  credential
+  credential,
 );
 ```
 
@@ -204,7 +206,7 @@ In version 7 of this library, we simplified this as below:
     processError: async (args: ProcessErrorArgs) => {
       // additional information is in 'args' to provide context for the error.
       onErrorFn(args.error);
-    }
+    },
   });
   ```
 
@@ -257,11 +259,9 @@ Additionally, since a message cannot be settled if the receiver that was used to
 
 ## Upcoming features
 
-- [Transactions](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transactions-in-service-bus) to group two or more operations together into an execution scope to ensure that all operations belonging to a given group of operations either succeed or fail jointly.
-- Optional [prefetch](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-prefetch) support to speed up the message flow by having a message readily available for local retrieval when and before the application asks for one.
+- [Transactions](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transactions-in-service-bus) to group two or more operations together into an execution scope to ensure that all operations belonging to a given group of operations either succeed or fail jointly.
+- Optional [prefetch](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-prefetch) support to speed up the message flow by having a message readily available for local retrieval when and before the application asks for one.
 - An optional method on `ServiceBusSender` to allow pre-initializing the sender link to remove the upfront cost from the first send operation.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FMIGRATIONGUIDE.png)
 
 ## Additional samples
 

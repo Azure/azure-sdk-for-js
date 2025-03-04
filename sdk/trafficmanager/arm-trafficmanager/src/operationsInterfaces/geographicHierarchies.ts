@@ -9,7 +9,7 @@
 import {
   GeographicHierarchiesGetDefaultOptionalParams,
   GeographicHierarchiesGetDefaultResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GeographicHierarchies. */
 export interface GeographicHierarchies {

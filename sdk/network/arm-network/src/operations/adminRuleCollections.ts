@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { AdminRuleCollections } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { AdminRuleCollections } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   AdminRuleCollection,
   AdminRuleCollectionsListNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   AdminRuleCollectionsCreateOrUpdateResponse,
   AdminRuleCollectionsDeleteOptionalParams,
   AdminRuleCollectionsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AdminRuleCollections operations. */
@@ -350,19 +350,19 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AdminRuleCollectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken,
+    Parameters.skipToken1,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
     Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
@@ -376,7 +376,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AdminRuleCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -384,9 +384,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
     Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.ruleCollectionName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -402,18 +402,18 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AdminRuleCollection,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
-  requestBody: Parameters.ruleCollection,
+  requestBody: Parameters.ruleCollection1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
     Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.ruleCollectionName1,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -428,7 +428,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
@@ -436,9 +436,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
     Parameters.configurationName,
-    Parameters.ruleCollectionName,
+    Parameters.ruleCollectionName1,
   ],
   headerParameters: [Parameters.accept],
   serializer,
@@ -451,7 +451,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AdminRuleCollectionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.CommonErrorResponse,
     },
   },
   urlParameters: [
@@ -459,7 +459,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkManagerName,
+    Parameters.networkManagerName1,
     Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],

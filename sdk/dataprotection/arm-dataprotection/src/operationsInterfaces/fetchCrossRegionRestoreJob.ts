@@ -10,7 +10,7 @@ import {
   CrossRegionRestoreJobRequest,
   FetchCrossRegionRestoreJobGetOptionalParams,
   FetchCrossRegionRestoreJobGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a FetchCrossRegionRestoreJob. */
 export interface FetchCrossRegionRestoreJob {

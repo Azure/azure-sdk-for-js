@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The credit summary by billingAccountId and billingProfileId.
@@ -20,10 +16,9 @@ dotenv.config();
  * @summary The credit summary by billingAccountId and billingProfileId.
  * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/CreditSummaryByBillingProfile.json
  */
-async function creditSummaryByBillingProfile() {
+async function creditSummaryByBillingProfile(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const billingAccountId = "1234:5678";
   const billingProfileId = "2468";
   const credential = new DefaultAzureCredential();
@@ -32,8 +27,8 @@ async function creditSummaryByBillingProfile() {
   console.log(result);
 }
 
-async function main() {
-  creditSummaryByBillingProfile();
+async function main(): Promise<void> {
+  await creditSummaryByBillingProfile();
 }
 
 main().catch(console.error);

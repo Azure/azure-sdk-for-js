@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,16 +15,13 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets a link in the hub.
  * x-ms-original-file: specification/customer-insights/resource-manager/Microsoft.CustomerInsights/stable/2017-04-26/examples/LinksGet.json
  */
-async function linksGet() {
+async function linksGet(): Promise<void> {
   const subscriptionId = "subid";
   const resourceGroupName = "TestHubRG";
   const hubName = "sdkTestHub";
   const linkName = "linkTest4806";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.links.get(resourceGroupName, hubName, linkName);
   console.log(result);
 }

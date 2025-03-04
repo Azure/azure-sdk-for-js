@@ -23,7 +23,7 @@ import {
   DevBoxDefinitionsDeleteResponse,
   DevBoxDefinitionsGetByProjectOptionalParams,
   DevBoxDefinitionsGetByProjectResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DevBoxDefinitions. */

@@ -53,6 +53,16 @@ export interface SharedOptions {
    * Throughput Bucket for a request.
    * 
    * <p>Default value is null. In this case the default bucket with 100% RU is used </p>
+   * For more information, visit [Cosmos DB RU Bucketing](https://aka.ms/cosmsodb-bucketing).
    */
   throughputBucket?: number;
+
+  /** Consistency level required by the client. */
+  consistencyLevel?: string;
+
+  /**
+   * DisableRUPerMinuteUsage is used to enable/disable Request Units(RUs)/minute capacity
+   * to serve the request if regular provisioned RUs/second is exhausted.
+   */
+  disableRUPerMinuteUsage?: boolean;
 }

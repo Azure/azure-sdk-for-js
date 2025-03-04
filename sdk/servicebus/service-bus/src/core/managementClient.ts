@@ -52,7 +52,7 @@ import {
   throwTypeErrorIfParameterTypeMismatch,
 } from "../util/errors.js";
 import { max32BitNumber } from "../util/constants.js";
-import { Buffer } from "buffer";
+import { Buffer } from "node:buffer";
 import type { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ReceiveMode } from "../models.js";
@@ -1345,7 +1345,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         return [];
       }
 
-      // Reference: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
+      // Reference: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
       const result: { "rule-description": Typed }[] = response.body.rules || [];
       const rules: RuleProperties[] = [];
       result.forEach((x) => {

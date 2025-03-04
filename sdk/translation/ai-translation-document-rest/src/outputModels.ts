@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 /** Translation job Status Response */
 export interface TranslationsStatusOutput {
   /** The summary status of individual operation */

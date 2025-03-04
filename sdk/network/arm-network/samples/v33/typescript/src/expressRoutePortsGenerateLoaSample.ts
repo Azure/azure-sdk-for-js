@@ -13,17 +13,15 @@ import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Generate a letter of authorization for the requested ExpressRoutePort resource.
  *
  * @summary Generate a letter of authorization for the requested ExpressRoutePort resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/GenerateExpressRoutePortsLOA.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/GenerateExpressRoutePortsLOA.json
  */
-async function generateExpressRoutePortLoa() {
+async function generateExpressRoutePortLoa(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["NETWORK_RESOURCE_GROUP"] || "rg1";
   const expressRoutePortName = "portName";
@@ -40,7 +38,7 @@ async function generateExpressRoutePortLoa() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   generateExpressRoutePortLoa();
 }
 

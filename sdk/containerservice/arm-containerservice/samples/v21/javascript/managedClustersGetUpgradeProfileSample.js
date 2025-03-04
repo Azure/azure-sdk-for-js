@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the upgrade profile of a managed cluster.
  *
  * @summary Gets the upgrade profile of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/ManagedClustersGetUpgradeProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/ManagedClustersGetUpgradeProfile.json
  */
 async function getUpgradeProfileForManagedCluster() {
   const subscriptionId =
@@ -30,7 +28,7 @@ async function getUpgradeProfileForManagedCluster() {
 }
 
 async function main() {
-  getUpgradeProfileForManagedCluster();
+  await getUpgradeProfileForManagedCluster();
 }
 
 main().catch(console.error);

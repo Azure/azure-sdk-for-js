@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpResponse } from "@azure-rest/core-client";
 import type {
   EntityMutationResultOutput,
@@ -13,10 +14,10 @@ import type {
   BulkImportResultOutput,
   AtlasGlossaryOutput,
   AtlasGlossaryCategoryOutput,
+  AtlasRelatedCategoryHeaderOutput,
   AtlasRelatedTermHeaderOutput,
   AtlasGlossaryTermOutput,
   AtlasRelatedObjectIdOutput,
-  AtlasRelatedCategoryHeaderOutput,
   AtlasGlossaryExtInfoOutput,
   QueryResultOutput,
   SuggestResultOutput,
@@ -113,12 +114,12 @@ export interface EntityPartialUpdateAttributeByGuidDefaultResponse extends HttpR
 }
 
 /** The request has succeeded. */
-export interface EntityDeleteOperation200Response extends HttpResponse {
+export interface EntityDelete200Response extends HttpResponse {
   status: "200";
   body: EntityMutationResultOutput;
 }
 
-export interface EntityDeleteOperationDefaultResponse extends HttpResponse {
+export interface EntityDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -311,11 +312,16 @@ export interface EntityAddOrUpdateBusinessMetadataAttributesDefaultResponse exte
   body: AtlasErrorResponseOutput;
 }
 
+export interface EntityGetSampleBusinessMetadataTemplate200Headers {
+  "content-type": "application/octet-stream";
+}
+
 /** The request has succeeded. */
 export interface EntityGetSampleBusinessMetadataTemplate200Response extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
+  headers: RawHttpHeaders & EntityGetSampleBusinessMetadataTemplate200Headers;
 }
 
 export interface EntityGetSampleBusinessMetadataTemplateDefaultResponse extends HttpResponse {
@@ -644,11 +650,11 @@ export interface GlossaryUpdateDefaultResponse extends HttpResponse {
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface GlossaryDeleteOperation204Response extends HttpResponse {
+export interface GlossaryDelete204Response extends HttpResponse {
   status: "204";
 }
 
-export interface GlossaryDeleteOperationDefaultResponse extends HttpResponse {
+export interface GlossaryDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -819,11 +825,11 @@ export interface RelationshipGetDefaultResponse extends HttpResponse {
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface RelationshipDeleteOperation204Response extends HttpResponse {
+export interface RelationshipDelete204Response extends HttpResponse {
   status: "204";
 }
 
-export interface RelationshipDeleteOperationDefaultResponse extends HttpResponse {
+export interface RelationshipDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }
@@ -983,11 +989,11 @@ export interface TypeGetByNameDefaultResponse extends HttpResponse {
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface TypeDeleteOperation204Response extends HttpResponse {
+export interface TypeDelete204Response extends HttpResponse {
   status: "204";
 }
 
-export interface TypeDeleteOperationDefaultResponse extends HttpResponse {
+export interface TypeDeleteDefaultResponse extends HttpResponse {
   status: string;
   body: AtlasErrorResponseOutput;
 }

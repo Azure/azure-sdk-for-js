@@ -30,7 +30,7 @@ import {
   OperationsImpl,
   NodeTypesImpl,
   NodeTypeSkusImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   ApplicationTypes,
   ApplicationTypeVersions,
@@ -47,8 +47,8 @@ import {
   Operations,
   NodeTypes,
   NodeTypeSkus,
-} from "./operationsInterfaces";
-import { ServiceFabricManagedClustersManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ServiceFabricManagedClustersManagementClientOptionalParams } from "./models/index.js";
 
 export class ServiceFabricManagedClustersManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -137,7 +137,7 @@ export class ServiceFabricManagedClustersManagementClient extends coreClient.Ser
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-06-01-preview";
+    this.apiVersion = options.apiVersion || "2024-09-01-preview";
     this.applicationTypes = new ApplicationTypesImpl(this);
     this.applicationTypeVersions = new ApplicationTypeVersionsImpl(this);
     this.applications = new ApplicationsImpl(this);

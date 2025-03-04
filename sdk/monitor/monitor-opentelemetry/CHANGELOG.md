@@ -1,17 +1,22 @@
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.9.0 ()
 
 ### Features Added
 
-### Breaking Changes
+- Add support for stable OpenTelemetry semantic conventions.
+
+### Other Changes
+
+- Added support for detecting AKS when `KUBERNETES_SERVICE_HOST` is set.
+
+## 1.8.1 (2025-01-28)
 
 ### Bugs Fixed
 
 - Should not use reserved 7th bit for statsbeat instrumentations.
 - Fix incorrectly setting the cloud role name and role instance to undefined on standard metrics in AKS environments.
-
-### Other Changes
+- Handle exceptions thrown when no http url is present on request telemetry quickpulse documents.
 
 ## 1.8.0 (2024-10-23)
 

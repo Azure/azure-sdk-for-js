@@ -14,22 +14,22 @@ import { getConnectionStringWithKey, isMock } from "../utils/vars.js";
 
 const TEST_FAILURE = "test failure";
 
-describe.skipIf(isMock())("Authentication via", function () {
+describe.skipIf(isMock())("Authentication via", () => {
   let connectionString: string;
 
-  beforeAll(async function () {
+  beforeAll(async () => {
     vi.useFakeTimers({ now: new Date(), shouldAdvanceTime: true });
   });
 
-  afterAll(async function () {
+  afterAll(async () => {
     vi.useRealTimers();
   });
 
-  describe("AzureNamedKeyCredential", function () {
+  describe("AzureNamedKeyCredential", () => {
     let sharedAccessKeyName: string;
     let sharedAccessKey: string;
 
-    beforeAll(async function () {
+    beforeAll(async () => {
       connectionString = getConnectionStringWithKey();
       const { sharedAccessKeyName: t1, sharedAccessKey: t2 } =
         parseEventHubConnectionString(connectionString);
@@ -40,8 +40,8 @@ describe.skipIf(isMock())("Authentication via", function () {
       sharedAccessKey = t2;
     });
 
-    describe("supports key rotation", function () {
-      it("EventHubConsumerClient $management calls", async function () {
+    describe("supports key rotation", () => {
+      it("EventHubConsumerClient $management calls", async () => {
         const namedKeyCredential = new AzureNamedKeyCredential(
           sharedAccessKeyName,
           sharedAccessKey,
@@ -69,7 +69,7 @@ describe.skipIf(isMock())("Authentication via", function () {
         await consumerClient.close();
       });
 
-      it("EventHubConsumerClient receive calls", async function () {
+      it("EventHubConsumerClient receive calls", async () => {
         const namedKeyCredential = new AzureNamedKeyCredential(
           sharedAccessKeyName,
           sharedAccessKey,
@@ -138,7 +138,7 @@ describe.skipIf(isMock())("Authentication via", function () {
         await consumerClient.close();
       });
 
-      it("EventHubProducerClient send calls", async function () {
+      it("EventHubProducerClient send calls", async () => {
         const namedKeyCredential = new AzureNamedKeyCredential(
           sharedAccessKeyName!,
           sharedAccessKey!,
@@ -181,10 +181,10 @@ describe.skipIf(isMock())("Authentication via", function () {
     });
   });
 
-  describe("AzureSASCredential", function () {
+  describe("AzureSASCredential", () => {
     let sharedAccessSignature: string;
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       connectionString = await getConnectionStringWithSAS();
       const { sharedAccessSignature: t } = parseEventHubConnectionString(connectionString);
       if (!t) {
@@ -193,8 +193,8 @@ describe.skipIf(isMock())("Authentication via", function () {
       sharedAccessSignature = t;
     });
 
-    describe("supports key rotation", function () {
-      it("EventHubConsumerClient $management calls", async function () {
+    describe("supports key rotation", () => {
+      it("EventHubConsumerClient $management calls", async () => {
         const sasCredential = new AzureSASCredential(sharedAccessSignature);
 
         const consumerClient = createConsumer({
@@ -228,7 +228,7 @@ describe.skipIf(isMock())("Authentication via", function () {
         await consumerClient.close();
       });
 
-      it("EventHubConsumerClient receive calls", async function () {
+      it("EventHubConsumerClient receive calls", async () => {
         const sasCredential = new AzureSASCredential(sharedAccessSignature);
 
         const consumerClient = createConsumer({
@@ -294,7 +294,7 @@ describe.skipIf(isMock())("Authentication via", function () {
         await consumerClient.close();
       });
 
-      it("EventHubProducerClient send calls", async function () {
+      it("EventHubProducerClient send calls", async () => {
         const sasCredential = new AzureSASCredential(sharedAccessSignature);
 
         const producerClient = createProducer({

@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates or updates a snapshot.
  *
  * @summary Creates or updates a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/SnapshotsCreate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/SnapshotsCreate.json
  */
 async function createOrUpdateSnapshot() {
   const subscriptionId =
@@ -38,7 +36,7 @@ async function createOrUpdateSnapshot() {
 }
 
 async function main() {
-  createOrUpdateSnapshot();
+  await createOrUpdateSnapshot();
 }
 
 main().catch(console.error);

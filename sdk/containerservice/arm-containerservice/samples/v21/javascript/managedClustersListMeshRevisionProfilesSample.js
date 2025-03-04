@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Contains extra metadata on each revision, including supported revisions, cluster compatibility and available upgrades
  *
  * @summary Contains extra metadata on each revision, including supported revisions, cluster compatibility and available upgrades
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/ManagedClustersList_MeshRevisionProfiles.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/ManagedClustersList_MeshRevisionProfiles.json
  */
 async function listMeshRevisionProfilesInALocation() {
   const subscriptionId =
@@ -32,7 +30,7 @@ async function listMeshRevisionProfilesInALocation() {
 }
 
 async function main() {
-  listMeshRevisionProfilesInALocation();
+  await listMeshRevisionProfilesInALocation();
 }
 
 main().catch(console.error);

@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./hubs";
-export * from "./profiles";
-export * from "./interactions";
-export * from "./relationships";
-export * from "./relationshipLinks";
-export * from "./authorizationPolicies";
-export * from "./connectors";
-export * from "./connectorMappings";
-export * from "./kpi";
-export * from "./widgetTypes";
-export * from "./views";
-export * from "./links";
-export * from "./roles";
-export * from "./roleAssignments";
-export * from "./images";
-export * from "./predictions";
+export * from "./operations.js";
+export * from "./hubs.js";
+export * from "./profiles.js";
+export * from "./interactions.js";
+export * from "./relationships.js";
+export * from "./relationshipLinks.js";
+export * from "./authorizationPolicies.js";
+export * from "./connectors.js";
+export * from "./connectorMappings.js";
+export * from "./kpi.js";
+export * from "./widgetTypes.js";
+export * from "./views.js";
+export * from "./links.js";
+export * from "./roles.js";
+export * from "./roleAssignments.js";
+export * from "./images.js";
+export * from "./predictions.js";

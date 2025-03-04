@@ -27,16 +27,16 @@ describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  afterAll(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode()) {
       await deleteEverySetting();
     }
@@ -173,7 +173,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function (ctx) {
+    it.skip("accepts  operation options", async (ctx) => {
       if (isPlaybackMode()) ctx.skip();
       const key = recorder.variable(
         "addConfigTestTwice",
@@ -327,10 +327,8 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function (ctx) {
+    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-
-      if (isPlaybackMode()) ctx.skip();
       const key = recorder.variable(
         "deleteConfigTest",
         `deleteConfigTest${Math.floor(Math.random() * 1000)}`,
@@ -457,8 +455,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function (ctx) {
-      if (isPlaybackMode()) ctx.skip();
+    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
       const key = recorder.variable(
         "getConfigTest",
         `getConfigTest${Math.floor(Math.random() * 1000)}`,
@@ -987,15 +984,12 @@ describe("AppConfigurationClient", () => {
       assert.ok(foundMyExactSettingToo);
     });
 
-    it("list with multiple pages", async function (ctx) {
-      // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
-      // To avoid hitting the service with too many requests, skipping the test in live.
-      // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
-      //
-      // Remove the following line if you want to hit the live service.
-
-      if (isLiveMode()) ctx.skip();
-
+    // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
+    // To avoid hitting the service with too many requests, skipping the test in live.
+    // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
+    //
+    // Remove the following line if you want to hit the live service.
+    it("list with multiple pages", { skip: isLiveMode() }, async () => {
       const key = recorder.variable(
         "listMultiplePagesOfResults",
         `listMultiplePagesOfResults${Math.floor(Math.random() * 1000)}`,
@@ -1043,14 +1037,12 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it("list with multiple pages - bypage and etags", async function (ctx) {
-      // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
-      // To avoid hitting the service with too many requests, skipping the test in live.
-      // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
-      //
-      // Remove the following line if you want to hit the live service.
-      if (isLiveMode()) ctx.skip();
-
+    // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
+    // To avoid hitting the service with too many requests, skipping the test in live.
+    // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
+    //
+    // Remove the following line if you want to hit the live service.
+    it("list with multiple pages - bypage and etags", { skip: isLiveMode() }, async () => {
       const key = recorder.variable(
         "listMultiplePagesOfResults",
         `listMultiplePagesOfResults${Math.floor(Math.random() * 1000)}`,
@@ -1142,8 +1134,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function (ctx) {
-      if (isPlaybackMode()) ctx.skip();
+    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
       await assertThrowsAbortError(async () => {
         const settingsIterator = client.listConfigurationSettings({
           requestOptions: { timeout: 1 },
@@ -1153,7 +1144,7 @@ describe("AppConfigurationClient", () => {
     });
   });
 
-  describe("listConfigSettings", function () {
+  describe("listConfigSettings", () => {
     let key1: string;
     let key2: string;
     beforeEach(async () => {
@@ -1191,7 +1182,7 @@ describe("AppConfigurationClient", () => {
       ).forEach(async (setting) => {
         try {
           await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
-        } catch (_) {
+        } catch {
           /** empty code block */
         }
       });
@@ -1319,8 +1310,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function (ctx) {
-      if (isPlaybackMode()) ctx.skip();
+    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
       await assertThrowsAbortError(async () => {
         const iter = client.listRevisions({ labelFilter: labelA, requestOptions: { timeout: 1 } });
         await iter.next();
@@ -1592,8 +1582,7 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function (ctx) {
-      if (isPlaybackMode()) ctx.skip();
+    it.skip("accepts  operation options", { skip: isPlaybackMode() }, async () => {
       const key = recorder.variable(
         `setConfigTestNA`,
         `setConfigTestNA${Math.floor(Math.random() * 1000)}`,

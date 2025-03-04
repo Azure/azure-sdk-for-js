@@ -3,19 +3,12 @@
 
 import type { RequestParameters } from "@azure-rest/core-client";
 import type {
-  AnalyzeTextOptions,
   AnalyzeImageOptions,
+  AnalyzeTextOptions,
   TextBlocklist,
   AddOrUpdateTextBlocklistItemsOptions,
   RemoveTextBlocklistItemsOptions,
 } from "./models.js";
-
-export interface AnalyzeTextBodyParam {
-  /** The text analysis request. */
-  body: AnalyzeTextOptions;
-}
-
-export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
 
 export interface AnalyzeImageBodyParam {
   /** The image analysis request. */
@@ -23,6 +16,13 @@ export interface AnalyzeImageBodyParam {
 }
 
 export type AnalyzeImageParameters = AnalyzeImageBodyParam & RequestParameters;
+
+export interface AnalyzeTextBodyParam {
+  /** The text analysis request. */
+  body: AnalyzeTextOptions;
+}
+
+export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
 export type GetTextBlocklistParameters = RequestParameters;
 /** The resource instance. */
 export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;

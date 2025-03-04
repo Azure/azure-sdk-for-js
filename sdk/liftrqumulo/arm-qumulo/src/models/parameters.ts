@@ -14,7 +14,7 @@ import {
 import {
   FileSystemResource as FileSystemResourceMapper,
   FileSystemResourceUpdate as FileSystemResourceUpdateMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

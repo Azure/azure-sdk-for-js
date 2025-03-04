@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DataBoxEdgeDevice,
-  DataBoxEdgeManagementClient
-} from "@azure/arm-databoxedge";
+import type { DataBoxEdgeDevice } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -20,21 +16,21 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates or updates a Data Box Edge/Data Box Gateway resource.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/DataBoxEdgeDevicePut.json
  */
-async function dataBoxEdgeDevicePut() {
+async function dataBoxEdgeDevicePut(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";
   const resourceGroupName = "GroupForEdgeAutomation";
   const dataBoxEdgeDevice: DataBoxEdgeDevice = {
     location: "WUS",
     sku: { name: "Edge", tier: "Standard" },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const result = await client.devices.createOrUpdate(
     deviceName,
     resourceGroupName,
-    dataBoxEdgeDevice
+    dataBoxEdgeDevice,
   );
   console.log(result);
 }
@@ -47,7 +43,7 @@ dataBoxEdgeDevicePut().catch(console.error);
  * @summary Creates or updates a Data Box Edge/Data Box Gateway resource.
  * x-ms-original-file: specification/databoxedge/resource-manager/Microsoft.DataBoxEdge/stable/2021-06-01/examples/DataBoxEdgeDevicePutWithDataResidency.json
  */
-async function dataBoxEdgeDevicePutWithDataResidency() {
+async function dataBoxEdgeDevicePutWithDataResidency(): Promise<void> {
   const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
   const deviceName = "testedgedevice";
   const resourceGroupName = "GroupForEdgeAutomation";
@@ -55,14 +51,14 @@ async function dataBoxEdgeDevicePutWithDataResidency() {
     dataResidency: { type: "ZoneReplication" },
     location: "WUS",
     sku: { name: "Edge", tier: "Standard" },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const result = await client.devices.createOrUpdate(
     deviceName,
     resourceGroupName,
-    dataBoxEdgeDevice
+    dataBoxEdgeDevice,
   );
   console.log(result);
 }

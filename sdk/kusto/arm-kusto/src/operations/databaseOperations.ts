@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { DatabaseOperations } from "../operationsInterfaces";
+import { DatabaseOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
 import {
   DatabaseInviteFollowerRequest,
   DatabaseInviteFollowerOptionalParams,
-  DatabaseInviteFollowerResponse
-} from "../models";
+  DatabaseInviteFollowerResponse,
+} from "../models/index.js";
 
 /** Class containing DatabaseOperations operations. */
 export class DatabaseOperationsImpl implements DatabaseOperations {
@@ -42,11 +42,11 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
     clusterName: string,
     databaseName: string,
     parameters: DatabaseInviteFollowerRequest,
-    options?: DatabaseInviteFollowerOptionalParams
+    options?: DatabaseInviteFollowerOptionalParams,
   ): Promise<DatabaseInviteFollowerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, databaseName, parameters, options },
-      inviteFollowerOperationSpec
+      inviteFollowerOperationSpec,
     );
   }
 }
@@ -54,16 +54,15 @@ export class DatabaseOperationsImpl implements DatabaseOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const inviteFollowerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/inviteFollower",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/inviteFollower",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DatabaseInviteFollowerResult
+      bodyMapper: Mappers.DatabaseInviteFollowerResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
@@ -72,9 +71,9 @@ const inviteFollowerOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.databaseName
+    Parameters.databaseName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

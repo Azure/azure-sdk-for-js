@@ -12,7 +12,7 @@ import {
   LabCost,
   CostsCreateOrUpdateOptionalParams,
   CostsCreateOrUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Costs. */
 export interface Costs {

@@ -59,6 +59,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [controllerslistconnectiondetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devspaces/arm-devspaces/samples/v2/javascript/controllersListConnectionDetailsSample.js
 [controllerslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devspaces/arm-devspaces/samples/v2/javascript/controllersListSample.js
 [controllersupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/devspaces/arm-devspaces/samples/v2/javascript/controllersUpdateSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-devspaces?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-devspaces?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devspaces/arm-devspaces/README.md

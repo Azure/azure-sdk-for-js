@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a list of virtual machine extension image types.
@@ -20,17 +16,13 @@ dotenv.config();
  * @summary Gets a list of virtual machine extension image types.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MaximumSet_Gen.json
  */
-async function virtualMachineExtensionImageListTypesMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+async function virtualMachineExtensionImageListTypesMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const publisherName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineExtensionImages.listTypes(
-    location,
-    publisherName,
-  );
+  const result = await client.virtualMachineExtensionImages.listTypes(location, publisherName);
   console.log(result);
 }
 
@@ -40,23 +32,19 @@ async function virtualMachineExtensionImageListTypesMaximumSetGen() {
  * @summary Gets a list of virtual machine extension image types.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MinimumSet_Gen.json
  */
-async function virtualMachineExtensionImageListTypesMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+async function virtualMachineExtensionImageListTypesMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const location = "aaaa";
   const publisherName = "aa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineExtensionImages.listTypes(
-    location,
-    publisherName,
-  );
+  const result = await client.virtualMachineExtensionImages.listTypes(location, publisherName);
   console.log(result);
 }
 
-async function main() {
-  virtualMachineExtensionImageListTypesMaximumSetGen();
-  virtualMachineExtensionImageListTypesMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineExtensionImageListTypesMaximumSetGen();
+  await virtualMachineExtensionImageListTypesMinimumSetGen();
 }
 
 main().catch(console.error);

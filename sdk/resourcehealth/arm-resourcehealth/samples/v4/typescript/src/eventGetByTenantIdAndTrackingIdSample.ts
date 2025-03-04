@@ -13,9 +13,7 @@ import {
   MicrosoftResourceHealth
 } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Service health event in the tenant by event tracking id
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Service health event in the tenant by event tracking id
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2022-10-01/examples/Event_GetByTenantIdAndTrackingId.json
  */
-async function eventByTenantIdAndTrackingId() {
+async function eventByTenantIdAndTrackingId(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -43,7 +41,7 @@ async function eventByTenantIdAndTrackingId() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   eventByTenantIdAndTrackingId();
 }
 

@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Experiments } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Experiments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { FrontDoorManagementClient } from "../frontDoorManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { FrontDoorManagementClient } from "../frontDoorManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   Experiment,
   ExperimentsListByProfileNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   ExperimentsUpdateResponse,
   ExperimentsDeleteOptionalParams,
   ExperimentsListByProfileNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Experiments operations. */

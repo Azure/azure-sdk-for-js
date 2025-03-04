@@ -22,7 +22,7 @@ import {
   PreconfiguredEndpointsImpl,
   ExperimentsImpl,
   ReportsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Policies,
   ManagedRuleSets,
@@ -36,8 +36,8 @@ import {
   PreconfiguredEndpoints,
   Experiments,
   Reports,
-} from "./operationsInterfaces";
-import { FrontDoorManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { FrontDoorManagementClientOptionalParams } from "./models/index.js";
 
 export class FrontDoorManagementClient extends coreClient.ServiceClient {
   $host: string;

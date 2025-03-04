@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Database } from "../operationsInterfaces";
+import { Database } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient.js";
 import {
   Metric,
   DatabaseListMetricsOptionalParams,
@@ -22,7 +22,7 @@ import {
   MetricDefinition,
   DatabaseListMetricDefinitionsOptionalParams,
   DatabaseListMetricDefinitionsResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Database operations. */

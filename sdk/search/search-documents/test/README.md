@@ -6,7 +6,7 @@ The Azure Cognitive Search client does not have any recorded tests and so, all t
 
 The Azure resource that is used by the tests in this project is:
 
-- An [Azure Cognitive Search](https://docs.microsoft.com/azure/search/search-what-is-azure-search) account.
+- An [Azure Cognitive Search](https://learn.microsoft.com/azure/search/search-what-is-azure-search) account.
 
 To run the live tests, you will also need to set the below environment variables:
 
@@ -16,5 +16,3 @@ To run the live tests, you will also need to set the below environment variables
 - `ENDPOINT`: The endpoint of your Azure Search account.
 
 The live tests in this project will create, populate and search over search indexes inside of the provided Azure Cognitive Search account.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fsearch%2Fsearch-documents%2Ftest%2FREADME.png)

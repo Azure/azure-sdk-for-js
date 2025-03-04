@@ -18,20 +18,20 @@ type ClientCommonMethods = Pick<
   "close" | "getEventHubProperties" | "getPartitionIds" | "getPartitionProperties"
 >;
 
-describe("Tracing", function () {
-  describe("EventHub Sender", function () {
+describe("Tracing", () => {
+  describe("EventHub Sender", () => {
     let producerClient: EventHubProducerClient;
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       producerClient = createProducer().producer;
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await producerClient.close();
     });
 
-    describe("Create batch", function () {
-      it("can be manually traced", async function () {
+    describe("Create batch", () => {
+      it("can be manually traced", async () => {
         const list = [{ name: "Albert" }, { name: "Marie" }];
 
         await assert.supportsTracing(
@@ -50,7 +50,7 @@ describe("Tracing", function () {
         );
       });
 
-      it("supports tracing", async function () {
+      it("supports tracing", async () => {
         const list = [{ name: "Albert" }, { name: "Marie" }];
         const eventDataBatch = await producerClient.createBatch({
           partitionId: "0",
@@ -67,7 +67,7 @@ describe("Tracing", function () {
         );
       });
 
-      it("supports tracing multiple events", async function () {
+      it("supports tracing multiple events", async () => {
         const events: EventData[] = [];
         for (let i = 0; i < 5; i++) {
           events.push({ body: `multiple messages - manual trace propgation: ${i}` });
@@ -84,7 +84,7 @@ describe("Tracing", function () {
       });
     });
   });
-  describe("RuntimeInformation", function () {
+  describe("RuntimeInformation", () => {
     const clientTypes = [
       "EventHubBufferedProducerClient",
       "EventHubConsumerClient",
@@ -92,22 +92,22 @@ describe("Tracing", function () {
     ] as const;
     const clientMap = new Map<(typeof clientTypes)[number], ClientCommonMethods>();
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       const bufferedProducer = createBufferedProducer();
       clientMap.set("EventHubBufferedProducerClient", bufferedProducer.producer);
       clientMap.set("EventHubConsumerClient", createConsumer().consumer);
       clientMap.set("EventHubProducerClient", createProducer().producer);
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       for (const client of clientMap.values()) {
         await client.close();
       }
     });
 
     clientTypes.forEach((clientType) => {
-      describe(`${clientType}.getPartitionIds`, function () {
-        it("can be manually traced", async function () {
+      describe(`${clientType}.getPartitionIds`, () => {
+        it("can be manually traced", async () => {
           const client = clientMap.get(clientType)!;
           await assert.supportsTracing(
             (options) => client.getPartitionIds(options),
@@ -116,8 +116,8 @@ describe("Tracing", function () {
         });
       });
 
-      describe(`${clientType}.getEventHubProperties`, function () {
-        it("can be manually traced", async function () {
+      describe(`${clientType}.getEventHubProperties`, () => {
+        it("can be manually traced", async () => {
           const client = clientMap.get(clientType)!;
           await assert.supportsTracing(
             (options) => client.getEventHubProperties(options),
@@ -126,8 +126,8 @@ describe("Tracing", function () {
         });
       });
 
-      describe(`${clientType}.getPartitionProperties`, function () {
-        it("can be manually traced", async function () {
+      describe(`${clientType}.getPartitionProperties`, () => {
+        it("can be manually traced", async () => {
           const client = clientMap.get(clientType)!;
           await assert.supportsTracing(
             (options) => client.getPartitionProperties("0", options),
@@ -137,8 +137,8 @@ describe("Tracing", function () {
       });
     });
   });
-  describe("#getAdditionalSpanOptions", function () {
-    it("returns the initial set of attributes", async function () {
+  describe("#getAdditionalSpanOptions", () => {
+    it("returns the initial set of attributes", async () => {
       assert.deepEqual(toSpanOptions({ entityPath: "testPath", host: "testHost" }, "receive"), {
         spanAttributes: {
           "messaging.operation": "receive",
@@ -149,7 +149,7 @@ describe("Tracing", function () {
       });
     });
 
-    it("sets the spanKind if provided", async function () {
+    it("sets the spanKind if provided", async () => {
       const expectedSpanKind = "client";
       assert.equal(
         toSpanOptions({ entityPath: "", host: "" }, "receive", expectedSpanKind).spanKind,
@@ -157,12 +157,12 @@ describe("Tracing", function () {
       );
     });
   });
-  describe("#instrumentEventData", function () {
-    afterEach(async function () {
+  describe("#instrumentEventData", () => {
+    afterEach(async () => {
       vi.restoreAllMocks();
     });
 
-    it("is idempotent", async function () {
+    it("is idempotent", async () => {
       const tracingClientSpy = vi.spyOn(tracingClient, "startSpan");
       const instrumentedEventData = {
         body: "test",
@@ -182,7 +182,7 @@ describe("Tracing", function () {
       expect(tracingClientSpy).toBeCalledTimes(0);
     });
 
-    it("returns early if the span is not recording", async function () {
+    it("returns early if the span is not recording", async () => {
       const instrumenter = new MockInstrumenter();
       const { span: nonRecordingSpan } = instrumenter.startSpan("test");
       (nonRecordingSpan as MockTracingSpan).setIsRecording(false);
@@ -202,8 +202,8 @@ describe("Tracing", function () {
       assert.notExists(event.properties?.[TRACEPARENT_PROPERTY]);
     });
 
-    describe("when the span is valid", function () {
-      it("sets the traceparent on eventData", async function () {
+    describe("when the span is valid", () => {
+      it("sets the traceparent on eventData", async () => {
         const instrumenter = new MockInstrumenter();
         const { span: recordingSpan } = instrumenter.startSpan("test");
         (recordingSpan as MockTracingSpan).setIsRecording(true);
@@ -232,11 +232,11 @@ describe("Tracing", function () {
   describe("Consumer client span options", function (): void {
     let client: EventHubConsumerClient;
 
-    afterEach(async function () {
+    afterEach(async () => {
       await client.close();
     });
 
-    it("getEventHubProperties() creates a span with a peer.address attribute as the FQDN", async function () {
+    it("getEventHubProperties() creates a span with a peer.address attribute as the FQDN", async () => {
       const { consumer, fqdn, eventhubName } = createConsumer();
       client = consumer;
       assert.equal(client.fullyQualifiedNamespace, fqdn);

@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   MaintenanceConfiguration,
   ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary Creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/MaintenanceConfigurationsCreate_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsCreate_Update.json
  */
-async function createOrUpdateMaintenanceConfiguration() {
+async function createOrUpdateMaintenanceConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -55,9 +51,9 @@ async function createOrUpdateMaintenanceConfiguration() {
  * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
  *
  * @summary Creates or updates a maintenance configuration in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsCreate_Update_MaintenanceWindow.json
  */
-async function createOrUpdateMaintenanceConfigurationWithMaintenanceWindow() {
+async function createOrUpdateMaintenanceConfigurationWithMaintenanceWindow(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -95,9 +91,9 @@ async function createOrUpdateMaintenanceConfigurationWithMaintenanceWindow() {
   console.log(result);
 }
 
-async function main() {
-  createOrUpdateMaintenanceConfiguration();
-  createOrUpdateMaintenanceConfigurationWithMaintenanceWindow();
+async function main(): Promise<void> {
+  await createOrUpdateMaintenanceConfiguration();
+  await createOrUpdateMaintenanceConfigurationWithMaintenanceWindow();
 }
 
 main().catch(console.error);

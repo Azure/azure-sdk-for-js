@@ -106,7 +106,10 @@ export class OptOutsClient {
   ): Promise<OptOutRemoveResult[]> {
     const { operationOptions } = extractOperationOptions(options);
     return tracingClient.withSpan("OptOuts-Remove", operationOptions, async (updatedOptions) => {
-      const response = await this.api.optOuts.add(generateOptOutRequest(from, to), updatedOptions);
+      const response = await this.api.optOuts.remove(
+        generateOptOutRequest(from, to),
+        updatedOptions,
+      );
 
       return response.value.map((optOutResponseItem: OptOutResponseItem) => {
         return {

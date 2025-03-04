@@ -6,12 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { LiveToken } from "../operationsInterfaces";
+import { LiveToken } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
-import { LiveTokenGetOptionalParams, LiveTokenGetResponse } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient.js";
+import { LiveTokenGetOptionalParams, LiveTokenGetResponse } from "../models/index.js";
 
 /** Class containing LiveToken operations. */
 export class LiveTokenImpl implements LiveToken {

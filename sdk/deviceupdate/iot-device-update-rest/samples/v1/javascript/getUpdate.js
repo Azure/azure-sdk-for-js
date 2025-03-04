@@ -32,7 +32,7 @@ async function main() {
       name +
       "' and version '" +
       version +
-      "'..."
+      "'...",
   );
   const updateResult = await client
     .path(
@@ -40,7 +40,7 @@ async function main() {
       instanceId,
       provider,
       name,
-      version
+      version,
     )
     .get();
 
@@ -67,7 +67,7 @@ async function main() {
       instanceId,
       provider,
       name,
-      version
+      version,
     )
     .get();
 
@@ -87,7 +87,7 @@ async function main() {
         provider,
         name,
         version,
-        fileId
+        fileId,
       )
       .get();
 

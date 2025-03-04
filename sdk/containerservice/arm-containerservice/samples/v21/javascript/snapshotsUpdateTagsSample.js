@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Updates tags on a snapshot.
  *
  * @summary Updates tags on a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/SnapshotsUpdateTags.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/SnapshotsUpdateTags.json
  */
 async function updateSnapshotTags() {
   const subscriptionId =
@@ -31,7 +29,7 @@ async function updateSnapshotTags() {
 }
 
 async function main() {
-  updateSnapshotTags();
+  await updateSnapshotTags();
 }
 
 main().catch(console.error);

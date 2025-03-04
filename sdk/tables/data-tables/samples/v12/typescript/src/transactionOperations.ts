@@ -10,12 +10,10 @@
 import { TableClient, TransactionAction } from "@azure/data-tables";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
 
-async function batchOperations() {
+async function batchOperations(): Promise<void> {
   console.log("== Batch Operations Sample ==");
   const tableName = `transactionsSample`;
 

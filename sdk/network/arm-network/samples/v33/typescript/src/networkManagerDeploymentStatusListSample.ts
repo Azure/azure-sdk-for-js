@@ -13,17 +13,15 @@ import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Post to List of Network Manager Deployment Status.
  *
  * @summary Post to List of Network Manager Deployment Status.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerDeploymentStatusList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerDeploymentStatusList.json
  */
-async function networkManagerDeploymentStatusList() {
+async function networkManagerDeploymentStatusList(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -45,7 +43,7 @@ async function networkManagerDeploymentStatusList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkManagerDeploymentStatusList();
 }
 

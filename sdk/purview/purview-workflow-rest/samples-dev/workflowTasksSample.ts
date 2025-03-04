@@ -157,7 +157,7 @@ async function main(): Promise<void> {
       orderby: "createdTime desc",
     },
   };
-  workflowTasksList(client, queryParameters);
+  await workflowTasksList(client, queryParameters);
 
   // ================================================== Get a workflow task ==================================================
 
@@ -167,7 +167,7 @@ async function main(): Promise<void> {
   */
 
   const taskId1 = "b02404fc-b413-11ed-afa1-0242ac120002"; // This is an example task id, user could get task id either from the response of list workflow tasks api.
-  workTaskGet(client, taskId1);
+  await workTaskGet(client, taskId1);
 
   /*
     After get the workflow task id, user could according to the workflow task type or requirement to decide how to handle this workflow task.
@@ -180,7 +180,7 @@ async function main(): Promise<void> {
   const approvePayload: ApproveApprovalTaskParameters = {
     body: { comment: "Thanks for raising this!" },
   }; // This payload is an example payload, please replace the payload with real data.
-  approveWorkflowTask(client, taskId2, approvePayload);
+  await approveWorkflowTask(client, taskId2, approvePayload);
 
   // ================================================== Reject a workflow task ==================================================
 
@@ -190,7 +190,7 @@ async function main(): Promise<void> {
     body: { comment: "Thanks for raising this!" },
   }; // This payload is an example payload, please replace the payload with real data.
 
-  rejectWorkflowTask(client, taskId3, rejectPayload);
+  await rejectWorkflowTask(client, taskId3, rejectPayload);
 
   // ================================================== Update the status of a workflow task ==================================================
 
@@ -199,7 +199,7 @@ async function main(): Promise<void> {
   const updateStatusPayload: UpdateTaskStatusParameters = {
     body: { comment: "Thanks!", newStatus: "InProgress" },
   }; // This payload is an example payload, please replace the payload with real data.
-  updateWorkflowTaskStatus(client, taskId4, updateStatusPayload);
+  await updateWorkflowTaskStatus(client, taskId4, updateStatusPayload);
 
   // ================================================== Reassign a workflow task ==================================================
 
@@ -215,7 +215,7 @@ async function main(): Promise<void> {
       ],
     },
   }; // This payload is an example payload, please replace the payload with real data.
-  workflowTaskReassign(client, taskId5, reassignPayload);
+  await workflowTaskReassign(client, taskId5, reassignPayload);
 }
 
 main().catch(console.error);

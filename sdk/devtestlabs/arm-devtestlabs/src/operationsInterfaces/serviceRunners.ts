@@ -13,7 +13,7 @@ import {
   ServiceRunnersCreateOrUpdateOptionalParams,
   ServiceRunnersCreateOrUpdateResponse,
   ServiceRunnersDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ServiceRunners. */
 export interface ServiceRunners {

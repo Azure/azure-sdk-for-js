@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineScaleSetRollingUpgradesCancelParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachineScaleSetRollingUpgradesCancelParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Cancels the current virtual machine scale set rolling upgrade.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Cancels the current virtual machine scale set rolling upgrade.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_Cancel_MaximumSet_Gen.json
  */
-async function virtualMachineScaleSetRollingUpgradesCancelMaximumSetGen() {
+async function virtualMachineScaleSetRollingUpgradesCancelMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -35,7 +29,7 @@ async function virtualMachineScaleSetRollingUpgradesCancelMaximumSetGen() {
       vmScaleSetName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -47,7 +41,7 @@ virtualMachineScaleSetRollingUpgradesCancelMaximumSetGen().catch(console.error);
  * @summary Cancels the current virtual machine scale set rolling upgrade.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrades_Cancel_MinimumSet_Gen.json
  */
-async function virtualMachineScaleSetRollingUpgradesCancelMinimumSetGen() {
+async function virtualMachineScaleSetRollingUpgradesCancelMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -64,7 +58,7 @@ async function virtualMachineScaleSetRollingUpgradesCancelMinimumSetGen() {
       vmScaleSetName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

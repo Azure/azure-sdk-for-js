@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkInterfacesCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a network interface.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates a network interface.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceCreate.json
  */
-async function createNetworkInterface() {
+async function createNetworkInterface(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -35,26 +30,24 @@ async function createNetworkInterface() {
             name: "ipconfig1",
             properties: {
               publicIPAddress: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip"
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
               },
               subnet: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default"
-              }
-            }
-          }
-        ]
-      }
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default",
+              },
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
       subscriptionId,
       resourceGroupName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -69,7 +62,7 @@ createNetworkInterface().catch(console.error);
  * @summary Creates or updates a network interface.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkInterfaceCreateGatewayLoadBalancerConsumer.json
  */
-async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured() {
+async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -85,30 +78,27 @@ async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured()
             name: "ipconfig1",
             properties: {
               gatewayLoadBalancer: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider"
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider",
               },
               publicIPAddress: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip"
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip",
               },
               subnet: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default"
-              }
-            }
-          }
-        ]
-      }
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/rg1-vnet/subnets/default",
+              },
+            },
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
       subscriptionId,
       resourceGroupName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -116,6 +106,4 @@ async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured()
   console.log(result);
 }
 
-createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured().catch(
-  console.error
-);
+createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured().catch(console.error);

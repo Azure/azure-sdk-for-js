@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list OrganizationResource resources by resource group
  * x-ms-original-file: 2024-08-01-preview/Organizations_ListByResourceGroup_MaximumSet_Gen.json
  */
-async function organizationsListByResourceGroup() {
+async function organizationsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "1178323D-8270-4757-B639-D528B6266487";
   const client = new PostgresClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function organizationsListByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   organizationsListByResourceGroup();
 }
 

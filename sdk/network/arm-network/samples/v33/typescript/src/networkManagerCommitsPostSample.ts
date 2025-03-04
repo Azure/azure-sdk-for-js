@@ -13,17 +13,15 @@ import {
   NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Post a Network Manager Commit.
  *
  * @summary Post a Network Manager Commit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerCommitPost.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerCommitPost.json
  */
-async function networkManageCommitPost() {
+async function networkManageCommitPost(): Promise<void> {
   const subscriptionId =
     process.env["NETWORK_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -47,7 +45,7 @@ async function networkManageCommitPost() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   networkManageCommitPost();
 }
 

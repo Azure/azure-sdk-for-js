@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List supported trusted access roles.
  *
  * @summary List supported trusted access roles.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/TrustedAccessRoles_List.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/TrustedAccessRoles_List.json
  */
-async function listTrustedAccessRoles() {
+async function listTrustedAccessRoles(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,8 +30,8 @@ async function listTrustedAccessRoles() {
   console.log(resArray);
 }
 
-async function main() {
-  listTrustedAccessRoles();
+async function main(): Promise<void> {
+  await listTrustedAccessRoles();
 }
 
 main().catch(console.error);

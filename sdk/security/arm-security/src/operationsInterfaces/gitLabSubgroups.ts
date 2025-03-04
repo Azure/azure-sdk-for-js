@@ -9,7 +9,7 @@
 import {
   GitLabSubgroupsListOptionalParams,
   GitLabSubgroupsListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a GitLabSubgroups. */
 export interface GitLabSubgroups {

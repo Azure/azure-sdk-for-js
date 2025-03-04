@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { VirtualMachineScaleSetVMs } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { VirtualMachineScaleSetVMs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ComputeManagementClient } from "../computeManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ComputeManagementClient } from "../computeManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   VirtualMachineScaleSetVM,
   VirtualMachineScaleSetVMsListNextOptionalParams,
@@ -51,7 +51,7 @@ import {
   VirtualMachineScaleSetVMsRunCommandOptionalParams,
   VirtualMachineScaleSetVMsRunCommandResponse,
   VirtualMachineScaleSetVMsListNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing VirtualMachineScaleSetVMs operations. */
@@ -759,7 +759,8 @@ export class VirtualMachineScaleSetVMsImpl
   /**
    * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
    * are getting charged for the resources. Instead, use deallocate to release resources and avoid
-   * charges.
+   * charges. Additionally, this operation is not allowed on a virtual machine that is being deallocated
+   * or already has been deallocated.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.
@@ -825,7 +826,8 @@ export class VirtualMachineScaleSetVMsImpl
   /**
    * Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached and you
    * are getting charged for the resources. Instead, use deallocate to release resources and avoid
-   * charges.
+   * charges. Additionally, this operation is not allowed on a virtual machine that is being deallocated
+   * or already has been deallocated.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
    * @param instanceId The instance ID of the virtual machine.

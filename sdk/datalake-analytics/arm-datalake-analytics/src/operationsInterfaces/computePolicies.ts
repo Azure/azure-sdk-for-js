@@ -18,7 +18,7 @@ import {
   ComputePoliciesUpdateOptionalParams,
   ComputePoliciesUpdateResponse,
   ComputePoliciesDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ComputePolicies. */

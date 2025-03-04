@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { NetworkManagementClient } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets information about all public IP addresses on a virtual machine scale set level.
  *
  * @summary Gets information about all public IP addresses on a virtual machine scale set level.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/VmssPublicIpListAll.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VmssPublicIpListAll.json
  */
-async function listVmssPublicIP() {
+async function listVmssPublicIP(): Promise<void> {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["NETWORK_RESOURCE_GROUP"] || "vmss-tester";
@@ -37,7 +35,7 @@ async function listVmssPublicIP() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listVmssPublicIP();
 }
 

@@ -53,6 +53,7 @@ export interface AgentPool extends SubResource {
     linuxOSConfig?: LinuxOSConfig;
     maxCount?: number;
     maxPods?: number;
+    messageOfTheDay?: string;
     minCount?: number;
     mode?: AgentPoolMode;
     networkProfile?: AgentPoolNetworkProfile;
@@ -1134,6 +1135,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     linuxOSConfig?: LinuxOSConfig;
     maxCount?: number;
     maxPods?: number;
+    messageOfTheDay?: string;
     minCount?: number;
     mode?: AgentPoolMode;
     networkProfile?: AgentPoolNetworkProfile;

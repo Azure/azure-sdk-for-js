@@ -26,7 +26,7 @@ async function listGalleriesInAResourceGroup() {
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries",
       subscriptionId,
-      resourceGroupName
+      resourceGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

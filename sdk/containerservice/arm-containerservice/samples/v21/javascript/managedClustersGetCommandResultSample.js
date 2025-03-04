@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/RunCommandResultFailed.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/RunCommandResultFailed.json
  */
 async function commandFailedResult() {
   const subscriptionId =
@@ -38,7 +36,7 @@ async function commandFailedResult() {
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/RunCommandResultSucceed.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/RunCommandResultSucceed.json
  */
 async function commandSucceedResult() {
   const subscriptionId =
@@ -57,8 +55,8 @@ async function commandSucceedResult() {
 }
 
 async function main() {
-  commandFailedResult();
-  commandSucceedResult();
+  await commandFailedResult();
+  await commandSucceedResult();
 }
 
 main().catch(console.error);

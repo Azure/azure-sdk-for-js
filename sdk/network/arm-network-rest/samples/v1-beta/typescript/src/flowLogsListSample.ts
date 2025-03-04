@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   FlowLogsListParameters,
-  paginate
+  paginate,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists all flow log resources for the specified Network Watcher.
@@ -18,21 +13,21 @@ dotenv.config();
  * @summary Lists all flow log resources for the specified Network Watcher.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherFlowLogList.json
  */
-async function listConnectionMonitors() {
+async function listConnectionMonitors(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
   const resourceGroupName = "rg1";
   const networkWatcherName = "nw1";
   const options: FlowLogsListParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs",
       subscriptionId,
       resourceGroupName,
-      networkWatcherName
+      networkWatcherName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

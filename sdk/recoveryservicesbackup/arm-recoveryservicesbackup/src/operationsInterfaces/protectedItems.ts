@@ -13,7 +13,7 @@ import {
   ProtectedItemsCreateOrUpdateOptionalParams,
   ProtectedItemsCreateOrUpdateResponse,
   ProtectedItemsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ProtectedItems. */
 export interface ProtectedItems {

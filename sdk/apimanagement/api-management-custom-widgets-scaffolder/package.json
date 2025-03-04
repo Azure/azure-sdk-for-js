@@ -50,7 +50,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -61,13 +61,13 @@
     "@types/node": "^18.0.0",
     "@types/yargs": "^17.0.32",
     "@types/yargs-parser": "^21.0.3",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "eslint": "^9.9.0",
     "magic-string": "^0.30.8",
     "prettier": "^3.3.3",
     "rollup": "^4.14.0",
     "typescript": "~5.7.2",
-    "vitest": "^2.0.5"
+    "vitest": "^3.0.3"
   },
   "dependencies": {
     "chalk": "^4.1.2",

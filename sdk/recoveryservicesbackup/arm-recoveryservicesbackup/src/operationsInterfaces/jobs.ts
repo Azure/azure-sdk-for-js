@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { JobsExportOptionalParams } from "../models";
+import { JobsExportOptionalParams } from "../models/index.js";
 
 /** Interface representing a Jobs. */
 export interface Jobs {

@@ -13,17 +13,15 @@ import {
   ServiceFabricManagedClustersManagementClient,
 } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Send a request to resume the current application upgrade. This will resume the application upgrade from where it was paused.
  *
  * @summary Send a request to resume the current application upgrade. This will resume the application upgrade from where it was paused.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ApplicationActionResumeUpgrade_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationActionResumeUpgrade_example.json
  */
-async function resumeUpgrade() {
+async function resumeUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -48,7 +46,7 @@ async function resumeUpgrade() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   resumeUpgrade();
 }
 

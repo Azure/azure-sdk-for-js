@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a URL to download the pricesheet for an invoice. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
@@ -20,7 +16,7 @@ dotenv.config();
  * @summary Gets a URL to download the pricesheet for an invoice. The operation is supported for billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/PricesheetDownload.json
  */
-async function pricesheetDownload() {
+async function pricesheetDownload(): Promise<void> {
   const billingAccountName =
     "7c05a543-80ff-571e-9f98-1063b3b53cf2:99ad03ad-2d1b-4889-a452-090ad407d25f_2019-05-31";
   const billingProfileName = "2USN-TPCD-BG7-TGB";
@@ -30,13 +26,13 @@ async function pricesheetDownload() {
   const result = await client.priceSheet.beginDownloadAndWait(
     billingAccountName,
     billingProfileName,
-    invoiceName
+    invoiceName,
   );
   console.log(result);
 }
 
-async function main() {
-  pricesheetDownload();
+async function main(): Promise<void> {
+  await pricesheetDownload();
 }
 
 main().catch(console.error);

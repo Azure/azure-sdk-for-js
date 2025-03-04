@@ -3,7 +3,11 @@
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import { ChatCompletionsOutput, ModelInfoOutput, EmbeddingsResultOutput } from "./outputModels.js";
+import {
+  ChatCompletionsOutput,
+  ModelInfoOutput,
+  EmbeddingsResultOutput,
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface GetChatCompletions200Response extends HttpResponse {

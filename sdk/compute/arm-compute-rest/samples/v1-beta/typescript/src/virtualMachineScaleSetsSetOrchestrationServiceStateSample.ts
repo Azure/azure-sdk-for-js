@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetsSetOrchestrationServiceStateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Changes ServiceState property for a given service
@@ -26,24 +21,22 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen(
   const vmScaleSetName = "aaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsSetOrchestrationServiceStateParameters = {
     body: { action: "Resume", serviceName: "AutomaticRepairs" },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen().catch(
-  console.error
-);
+virtualMachineScaleSetsSetOrchestrationServiceStateMaximumSetGen().catch(console.error);
 /**
  * This sample demonstrates how to Changes ServiceState property for a given service
  *
@@ -58,21 +51,19 @@ async function virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen(
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsSetOrchestrationServiceStateParameters = {
     body: { action: "Resume", serviceName: "AutomaticRepairs" },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/setOrchestrationServiceState",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen().catch(
-  console.error
-);
+virtualMachineScaleSetsSetOrchestrationServiceStateMinimumSetGen().catch(console.error);

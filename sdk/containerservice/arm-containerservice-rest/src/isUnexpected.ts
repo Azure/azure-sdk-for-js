@@ -2,137 +2,137 @@
 // Licensed under the MIT License.
 
 import type {
-  AgentPoolsCreateOrUpdate200Response,
-  AgentPoolsCreateOrUpdate201Response,
-  AgentPoolsCreateOrUpdatedefaultResponse,
-  AgentPoolsDelete202Response,
-  AgentPoolsDelete204Response,
-  AgentPoolsDeletedefaultResponse,
-  AgentPoolsGet200Response,
-  AgentPoolsGetUpgradeProfile200Response,
-  AgentPoolsGetUpgradeProfiledefaultResponse,
-  AgentPoolsGetdefaultResponse,
-  AgentPoolsList200Response,
-  AgentPoolsListdefaultResponse,
-  AgentPoolsUpgradeNodeImageVersion200Response,
-  AgentPoolsUpgradeNodeImageVersion202Response,
-  AgentPoolsUpgradeNodeImageVersiondefaultResponse,
-  MaintenanceConfigurationsCreateOrUpdate200Response,
-  MaintenanceConfigurationsCreateOrUpdatedefaultResponse,
-  MaintenanceConfigurationsDelete200Response,
-  MaintenanceConfigurationsDelete204Response,
-  MaintenanceConfigurationsDeletedefaultResponse,
-  MaintenanceConfigurationsGet200Response,
-  MaintenanceConfigurationsGetdefaultResponse,
-  MaintenanceConfigurationsListByManagedCluster200Response,
-  MaintenanceConfigurationsListByManagedClusterdefaultResponse,
-  ManagedClusterSnapshotsCreateOrUpdate200Response,
-  ManagedClusterSnapshotsCreateOrUpdate201Response,
-  ManagedClusterSnapshotsCreateOrUpdatedefaultResponse,
-  ManagedClusterSnapshotsDelete200Response,
-  ManagedClusterSnapshotsDelete204Response,
-  ManagedClusterSnapshotsDeletedefaultResponse,
-  ManagedClusterSnapshotsGet200Response,
-  ManagedClusterSnapshotsGetdefaultResponse,
-  ManagedClusterSnapshotsList200Response,
-  ManagedClusterSnapshotsListByResourceGroup200Response,
-  ManagedClusterSnapshotsListByResourceGroupdefaultResponse,
-  ManagedClusterSnapshotsListdefaultResponse,
-  ManagedClusterSnapshotsUpdateTags200Response,
-  ManagedClusterSnapshotsUpdateTagsdefaultResponse,
+  OperationsList200Response,
+  OperationsListDefaultResponse,
+  ManagedClustersGetOSOptions200Response,
+  ManagedClustersGetOSOptionsDefaultResponse,
+  ManagedClustersList200Response,
+  ManagedClustersListDefaultResponse,
+  ManagedClustersListByResourceGroup200Response,
+  ManagedClustersListByResourceGroupDefaultResponse,
+  ManagedClustersGetUpgradeProfile200Response,
+  ManagedClustersGetUpgradeProfileDefaultResponse,
+  ManagedClustersGetAccessProfile200Response,
+  ManagedClustersGetAccessProfileDefaultResponse,
+  ManagedClustersListClusterAdminCredentials200Response,
+  ManagedClustersListClusterAdminCredentialsDefaultResponse,
+  ManagedClustersListClusterUserCredentials200Response,
+  ManagedClustersListClusterUserCredentialsDefaultResponse,
+  ManagedClustersListClusterMonitoringUserCredentials200Response,
+  ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse,
+  ManagedClustersGet200Response,
+  ManagedClustersGetDefaultResponse,
   ManagedClustersCreateOrUpdate200Response,
   ManagedClustersCreateOrUpdate201Response,
-  ManagedClustersCreateOrUpdatedefaultResponse,
+  ManagedClustersCreateOrUpdateDefaultResponse,
+  ManagedClustersUpdateTags200Response,
+  ManagedClustersUpdateTagsDefaultResponse,
   ManagedClustersDelete202Response,
   ManagedClustersDelete204Response,
-  ManagedClustersDeletedefaultResponse,
-  ManagedClustersGet200Response,
-  ManagedClustersGetAccessProfile200Response,
-  ManagedClustersGetAccessProfiledefaultResponse,
-  ManagedClustersGetCommandResult200Response,
-  ManagedClustersGetCommandResult202Response,
-  ManagedClustersGetCommandResultdefaultResponse,
-  ManagedClustersGetOSOptions200Response,
-  ManagedClustersGetOSOptionsdefaultResponse,
-  ManagedClustersGetUpgradeProfile200Response,
-  ManagedClustersGetUpgradeProfiledefaultResponse,
-  ManagedClustersGetdefaultResponse,
-  ManagedClustersList200Response,
-  ManagedClustersListByResourceGroup200Response,
-  ManagedClustersListByResourceGroupdefaultResponse,
-  ManagedClustersListClusterAdminCredentials200Response,
-  ManagedClustersListClusterAdminCredentialsdefaultResponse,
-  ManagedClustersListClusterMonitoringUserCredentials200Response,
-  ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse,
-  ManagedClustersListClusterUserCredentials200Response,
-  ManagedClustersListClusterUserCredentialsdefaultResponse,
-  ManagedClustersListOutboundNetworkDependenciesEndpoints200Response,
-  ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse,
-  ManagedClustersListdefaultResponse,
-  ManagedClustersResetAADProfile200Response,
-  ManagedClustersResetAADProfile202Response,
-  ManagedClustersResetAADProfiledefaultResponse,
+  ManagedClustersDeleteDefaultResponse,
   ManagedClustersResetServicePrincipalProfile200Response,
   ManagedClustersResetServicePrincipalProfile202Response,
-  ManagedClustersResetServicePrincipalProfiledefaultResponse,
+  ManagedClustersResetServicePrincipalProfileDefaultResponse,
+  ManagedClustersResetAADProfile200Response,
+  ManagedClustersResetAADProfile202Response,
+  ManagedClustersResetAADProfileDefaultResponse,
   ManagedClustersRotateClusterCertificates202Response,
   ManagedClustersRotateClusterCertificates204Response,
-  ManagedClustersRotateClusterCertificatesdefaultResponse,
+  ManagedClustersRotateClusterCertificatesDefaultResponse,
   ManagedClustersRotateServiceAccountSigningKeys202Response,
   ManagedClustersRotateServiceAccountSigningKeys204Response,
-  ManagedClustersRotateServiceAccountSigningKeysdefaultResponse,
-  ManagedClustersRunCommand200Response,
-  ManagedClustersRunCommand202Response,
-  ManagedClustersRunCommanddefaultResponse,
-  ManagedClustersStart202Response,
-  ManagedClustersStart204Response,
-  ManagedClustersStartdefaultResponse,
+  ManagedClustersRotateServiceAccountSigningKeysDefaultResponse,
   ManagedClustersStop202Response,
   ManagedClustersStop204Response,
-  ManagedClustersStopdefaultResponse,
-  ManagedClustersUpdateTags200Response,
-  ManagedClustersUpdateTagsdefaultResponse,
-  OperationsList200Response,
-  OperationsListdefaultResponse,
+  ManagedClustersStopDefaultResponse,
+  ManagedClustersStart202Response,
+  ManagedClustersStart204Response,
+  ManagedClustersStartDefaultResponse,
+  ManagedClustersRunCommand200Response,
+  ManagedClustersRunCommand202Response,
+  ManagedClustersRunCommandDefaultResponse,
+  ManagedClustersGetCommandResult200Response,
+  ManagedClustersGetCommandResult202Response,
+  ManagedClustersGetCommandResultDefaultResponse,
+  ManagedClustersListOutboundNetworkDependenciesEndpoints200Response,
+  ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse,
+  MaintenanceConfigurationsListByManagedCluster200Response,
+  MaintenanceConfigurationsListByManagedClusterDefaultResponse,
+  MaintenanceConfigurationsGet200Response,
+  MaintenanceConfigurationsGetDefaultResponse,
+  MaintenanceConfigurationsCreateOrUpdate200Response,
+  MaintenanceConfigurationsCreateOrUpdateDefaultResponse,
+  MaintenanceConfigurationsDelete200Response,
+  MaintenanceConfigurationsDelete204Response,
+  MaintenanceConfigurationsDeleteDefaultResponse,
+  AgentPoolsList200Response,
+  AgentPoolsListDefaultResponse,
+  AgentPoolsGet200Response,
+  AgentPoolsGetDefaultResponse,
+  AgentPoolsCreateOrUpdate200Response,
+  AgentPoolsCreateOrUpdate201Response,
+  AgentPoolsCreateOrUpdateDefaultResponse,
+  AgentPoolsDelete202Response,
+  AgentPoolsDelete204Response,
+  AgentPoolsDeleteDefaultResponse,
+  AgentPoolsGetUpgradeProfile200Response,
+  AgentPoolsGetUpgradeProfileDefaultResponse,
+  AgentPoolsUpgradeNodeImageVersion200Response,
+  AgentPoolsUpgradeNodeImageVersion202Response,
+  AgentPoolsUpgradeNodeImageVersionDefaultResponse,
+  PrivateEndpointConnectionsList200Response,
+  PrivateEndpointConnectionsListDefaultResponse,
+  PrivateEndpointConnectionsGet200Response,
+  PrivateEndpointConnectionsGetDefaultResponse,
+  PrivateEndpointConnectionsUpdate200Response,
+  PrivateEndpointConnectionsUpdateDefaultResponse,
   PrivateEndpointConnectionsDelete200Response,
   PrivateEndpointConnectionsDelete204Response,
-  PrivateEndpointConnectionsDeletedefaultResponse,
-  PrivateEndpointConnectionsGet200Response,
-  PrivateEndpointConnectionsGetdefaultResponse,
-  PrivateEndpointConnectionsList200Response,
-  PrivateEndpointConnectionsListdefaultResponse,
-  PrivateEndpointConnectionsUpdate200Response,
-  PrivateEndpointConnectionsUpdatedefaultResponse,
+  PrivateEndpointConnectionsDeleteDefaultResponse,
   PrivateLinkResourcesList200Response,
-  PrivateLinkResourcesListdefaultResponse,
+  PrivateLinkResourcesListDefaultResponse,
   ResolvePrivateLinkServiceIdPost200Response,
-  ResolvePrivateLinkServiceIdPostdefaultResponse,
+  ResolvePrivateLinkServiceIdPostDefaultResponse,
+  SnapshotsList200Response,
+  SnapshotsListDefaultResponse,
+  SnapshotsListByResourceGroup200Response,
+  SnapshotsListByResourceGroupDefaultResponse,
+  SnapshotsGet200Response,
+  SnapshotsGetDefaultResponse,
   SnapshotsCreateOrUpdate200Response,
   SnapshotsCreateOrUpdate201Response,
-  SnapshotsCreateOrUpdatedefaultResponse,
+  SnapshotsCreateOrUpdateDefaultResponse,
+  SnapshotsUpdateTags200Response,
+  SnapshotsUpdateTagsDefaultResponse,
   SnapshotsDelete200Response,
   SnapshotsDelete204Response,
-  SnapshotsDeletedefaultResponse,
-  SnapshotsGet200Response,
-  SnapshotsGetdefaultResponse,
-  SnapshotsList200Response,
-  SnapshotsListByResourceGroup200Response,
-  SnapshotsListByResourceGroupdefaultResponse,
-  SnapshotsListdefaultResponse,
-  SnapshotsUpdateTags200Response,
-  SnapshotsUpdateTagsdefaultResponse,
+  SnapshotsDeleteDefaultResponse,
+  ManagedClusterSnapshotsList200Response,
+  ManagedClusterSnapshotsListDefaultResponse,
+  ManagedClusterSnapshotsListByResourceGroup200Response,
+  ManagedClusterSnapshotsListByResourceGroupDefaultResponse,
+  ManagedClusterSnapshotsGet200Response,
+  ManagedClusterSnapshotsGetDefaultResponse,
+  ManagedClusterSnapshotsCreateOrUpdate200Response,
+  ManagedClusterSnapshotsCreateOrUpdate201Response,
+  ManagedClusterSnapshotsCreateOrUpdateDefaultResponse,
+  ManagedClusterSnapshotsUpdateTags200Response,
+  ManagedClusterSnapshotsUpdateTagsDefaultResponse,
+  ManagedClusterSnapshotsDelete200Response,
+  ManagedClusterSnapshotsDelete204Response,
+  ManagedClusterSnapshotsDeleteDefaultResponse,
+  TrustedAccessRolesList200Response,
+  TrustedAccessRolesListDefaultResponse,
+  TrustedAccessRoleBindingsList200Response,
+  TrustedAccessRoleBindingsListDefaultResponse,
+  TrustedAccessRoleBindingsGet200Response,
+  TrustedAccessRoleBindingsGetDefaultResponse,
   TrustedAccessRoleBindingsCreateOrUpdate200Response,
-  TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse,
+  TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse,
   TrustedAccessRoleBindingsDelete200Response,
   TrustedAccessRoleBindingsDelete204Response,
-  TrustedAccessRoleBindingsDeletedefaultResponse,
-  TrustedAccessRoleBindingsGet200Response,
-  TrustedAccessRoleBindingsGetdefaultResponse,
-  TrustedAccessRoleBindingsList200Response,
-  TrustedAccessRoleBindingsListdefaultResponse,
-  TrustedAccessRolesList200Response,
-  TrustedAccessRolesListdefaultResponse,
-} from "./responses";
+  TrustedAccessRoleBindingsDeleteDefaultResponse,
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /providers/Microsoft.ContainerService/operations": ["200"],
@@ -161,33 +161,33 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}":
     ["202", "204"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile":
     ["200", "202"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates":
-    ["202", "204"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile":
+    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates":
     ["202", "204"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates":
     ["202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys":
     ["202", "204"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys":
     ["202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop":
     ["202", "204"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop":
     ["202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start":
     ["202", "204"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand":
-    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start":
+    ["202", "204"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/commandResults/{commandId}":
     ["200", "202"],
@@ -213,9 +213,9 @@ const responseMap: Record<string, string[]> = {
     ["200"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/availableAgentPoolVersions":
     ["200"],
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion":
-    ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion":
+    ["200", "202"],
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion":
     ["200", "202"],
   "GET /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections":
     ["200"],
@@ -265,506 +265,517 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: OperationsList200Response | OperationsListdefaultResponse,
-): response is OperationsListdefaultResponse;
+  response: OperationsList200Response | OperationsListDefaultResponse,
+): response is OperationsListDefaultResponse;
 export function isUnexpected(
-  response: ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsdefaultResponse,
-): response is ManagedClustersGetOSOptionsdefaultResponse;
+  response: ManagedClustersGetOSOptions200Response | ManagedClustersGetOSOptionsDefaultResponse,
+): response is ManagedClustersGetOSOptionsDefaultResponse;
 export function isUnexpected(
-  response: ManagedClustersList200Response | ManagedClustersListdefaultResponse,
-): response is ManagedClustersListdefaultResponse;
+  response: ManagedClustersList200Response | ManagedClustersListDefaultResponse,
+): response is ManagedClustersListDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersListByResourceGroup200Response
-    | ManagedClustersListByResourceGroupdefaultResponse,
-): response is ManagedClustersListByResourceGroupdefaultResponse;
+    | ManagedClustersListByResourceGroupDefaultResponse,
+): response is ManagedClustersListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersGetUpgradeProfile200Response
-    | ManagedClustersGetUpgradeProfiledefaultResponse,
-): response is ManagedClustersGetUpgradeProfiledefaultResponse;
+    | ManagedClustersGetUpgradeProfileDefaultResponse,
+): response is ManagedClustersGetUpgradeProfileDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersGetAccessProfile200Response
-    | ManagedClustersGetAccessProfiledefaultResponse,
-): response is ManagedClustersGetAccessProfiledefaultResponse;
+    | ManagedClustersGetAccessProfileDefaultResponse,
+): response is ManagedClustersGetAccessProfileDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersListClusterAdminCredentials200Response
-    | ManagedClustersListClusterAdminCredentialsdefaultResponse,
-): response is ManagedClustersListClusterAdminCredentialsdefaultResponse;
+    | ManagedClustersListClusterAdminCredentialsDefaultResponse,
+): response is ManagedClustersListClusterAdminCredentialsDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersListClusterUserCredentials200Response
-    | ManagedClustersListClusterUserCredentialsdefaultResponse,
-): response is ManagedClustersListClusterUserCredentialsdefaultResponse;
+    | ManagedClustersListClusterUserCredentialsDefaultResponse,
+): response is ManagedClustersListClusterUserCredentialsDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersListClusterMonitoringUserCredentials200Response
-    | ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse,
-): response is ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse;
+    | ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse,
+): response is ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse;
 export function isUnexpected(
-  response: ManagedClustersGet200Response | ManagedClustersGetdefaultResponse,
-): response is ManagedClustersGetdefaultResponse;
+  response: ManagedClustersGet200Response | ManagedClustersGetDefaultResponse,
+): response is ManagedClustersGetDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersCreateOrUpdate200Response
     | ManagedClustersCreateOrUpdate201Response
-    | ManagedClustersCreateOrUpdatedefaultResponse,
-): response is ManagedClustersCreateOrUpdatedefaultResponse;
+    | ManagedClustersCreateOrUpdateDefaultResponse,
+): response is ManagedClustersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsdefaultResponse,
-): response is ManagedClustersUpdateTagsdefaultResponse;
+  response: ManagedClustersUpdateTags200Response | ManagedClustersUpdateTagsDefaultResponse,
+): response is ManagedClustersUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersDelete202Response
     | ManagedClustersDelete204Response
-    | ManagedClustersDeletedefaultResponse,
-): response is ManagedClustersDeletedefaultResponse;
+    | ManagedClustersDeleteDefaultResponse,
+): response is ManagedClustersDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersResetServicePrincipalProfile200Response
     | ManagedClustersResetServicePrincipalProfile202Response
-    | ManagedClustersResetServicePrincipalProfiledefaultResponse,
-): response is ManagedClustersResetServicePrincipalProfiledefaultResponse;
+    | ManagedClustersResetServicePrincipalProfileDefaultResponse,
+): response is ManagedClustersResetServicePrincipalProfileDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersResetAADProfile200Response
     | ManagedClustersResetAADProfile202Response
-    | ManagedClustersResetAADProfiledefaultResponse,
-): response is ManagedClustersResetAADProfiledefaultResponse;
+    | ManagedClustersResetAADProfileDefaultResponse,
+): response is ManagedClustersResetAADProfileDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersRotateClusterCertificates202Response
     | ManagedClustersRotateClusterCertificates204Response
-    | ManagedClustersRotateClusterCertificatesdefaultResponse,
-): response is ManagedClustersRotateClusterCertificatesdefaultResponse;
+    | ManagedClustersRotateClusterCertificatesDefaultResponse,
+): response is ManagedClustersRotateClusterCertificatesDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersRotateServiceAccountSigningKeys202Response
     | ManagedClustersRotateServiceAccountSigningKeys204Response
-    | ManagedClustersRotateServiceAccountSigningKeysdefaultResponse,
-): response is ManagedClustersRotateServiceAccountSigningKeysdefaultResponse;
+    | ManagedClustersRotateServiceAccountSigningKeysDefaultResponse,
+): response is ManagedClustersRotateServiceAccountSigningKeysDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersStop202Response
     | ManagedClustersStop204Response
-    | ManagedClustersStopdefaultResponse,
-): response is ManagedClustersStopdefaultResponse;
+    | ManagedClustersStopDefaultResponse,
+): response is ManagedClustersStopDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersStart202Response
     | ManagedClustersStart204Response
-    | ManagedClustersStartdefaultResponse,
-): response is ManagedClustersStartdefaultResponse;
+    | ManagedClustersStartDefaultResponse,
+): response is ManagedClustersStartDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersRunCommand200Response
     | ManagedClustersRunCommand202Response
-    | ManagedClustersRunCommanddefaultResponse,
-): response is ManagedClustersRunCommanddefaultResponse;
+    | ManagedClustersRunCommandDefaultResponse,
+): response is ManagedClustersRunCommandDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersGetCommandResult200Response
     | ManagedClustersGetCommandResult202Response
-    | ManagedClustersGetCommandResultdefaultResponse,
-): response is ManagedClustersGetCommandResultdefaultResponse;
+    | ManagedClustersGetCommandResultDefaultResponse,
+): response is ManagedClustersGetCommandResultDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClustersListOutboundNetworkDependenciesEndpoints200Response
-    | ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse,
-): response is ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse;
+    | ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse,
+): response is ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse;
 export function isUnexpected(
   response:
     | MaintenanceConfigurationsListByManagedCluster200Response
-    | MaintenanceConfigurationsListByManagedClusterdefaultResponse,
-): response is MaintenanceConfigurationsListByManagedClusterdefaultResponse;
+    | MaintenanceConfigurationsListByManagedClusterDefaultResponse,
+): response is MaintenanceConfigurationsListByManagedClusterDefaultResponse;
 export function isUnexpected(
-  response: MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetdefaultResponse,
-): response is MaintenanceConfigurationsGetdefaultResponse;
+  response: MaintenanceConfigurationsGet200Response | MaintenanceConfigurationsGetDefaultResponse,
+): response is MaintenanceConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | MaintenanceConfigurationsCreateOrUpdate200Response
-    | MaintenanceConfigurationsCreateOrUpdatedefaultResponse,
-): response is MaintenanceConfigurationsCreateOrUpdatedefaultResponse;
+    | MaintenanceConfigurationsCreateOrUpdateDefaultResponse,
+): response is MaintenanceConfigurationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | MaintenanceConfigurationsDelete200Response
     | MaintenanceConfigurationsDelete204Response
-    | MaintenanceConfigurationsDeletedefaultResponse,
-): response is MaintenanceConfigurationsDeletedefaultResponse;
+    | MaintenanceConfigurationsDeleteDefaultResponse,
+): response is MaintenanceConfigurationsDeleteDefaultResponse;
 export function isUnexpected(
-  response: AgentPoolsList200Response | AgentPoolsListdefaultResponse,
-): response is AgentPoolsListdefaultResponse;
+  response: AgentPoolsList200Response | AgentPoolsListDefaultResponse,
+): response is AgentPoolsListDefaultResponse;
 export function isUnexpected(
-  response: AgentPoolsGet200Response | AgentPoolsGetdefaultResponse,
-): response is AgentPoolsGetdefaultResponse;
+  response: AgentPoolsGet200Response | AgentPoolsGetDefaultResponse,
+): response is AgentPoolsGetDefaultResponse;
 export function isUnexpected(
   response:
     | AgentPoolsCreateOrUpdate200Response
     | AgentPoolsCreateOrUpdate201Response
-    | AgentPoolsCreateOrUpdatedefaultResponse,
-): response is AgentPoolsCreateOrUpdatedefaultResponse;
+    | AgentPoolsCreateOrUpdateDefaultResponse,
+): response is AgentPoolsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | AgentPoolsDelete202Response
     | AgentPoolsDelete204Response
-    | AgentPoolsDeletedefaultResponse,
-): response is AgentPoolsDeletedefaultResponse;
+    | AgentPoolsDeleteDefaultResponse,
+): response is AgentPoolsDeleteDefaultResponse;
 export function isUnexpected(
-  response: AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfiledefaultResponse,
-): response is AgentPoolsGetUpgradeProfiledefaultResponse;
+  response: AgentPoolsGetUpgradeProfile200Response | AgentPoolsGetUpgradeProfileDefaultResponse,
+): response is AgentPoolsGetUpgradeProfileDefaultResponse;
 export function isUnexpected(
   response:
     | AgentPoolsUpgradeNodeImageVersion200Response
     | AgentPoolsUpgradeNodeImageVersion202Response
-    | AgentPoolsUpgradeNodeImageVersiondefaultResponse,
-): response is AgentPoolsUpgradeNodeImageVersiondefaultResponse;
+    | AgentPoolsUpgradeNodeImageVersionDefaultResponse,
+): response is AgentPoolsUpgradeNodeImageVersionDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateEndpointConnectionsList200Response
-    | PrivateEndpointConnectionsListdefaultResponse,
-): response is PrivateEndpointConnectionsListdefaultResponse;
+    | PrivateEndpointConnectionsListDefaultResponse,
+): response is PrivateEndpointConnectionsListDefaultResponse;
 export function isUnexpected(
-  response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetdefaultResponse,
-): response is PrivateEndpointConnectionsGetdefaultResponse;
+  response: PrivateEndpointConnectionsGet200Response | PrivateEndpointConnectionsGetDefaultResponse,
+): response is PrivateEndpointConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateEndpointConnectionsUpdate200Response
-    | PrivateEndpointConnectionsUpdatedefaultResponse,
-): response is PrivateEndpointConnectionsUpdatedefaultResponse;
+    | PrivateEndpointConnectionsUpdateDefaultResponse,
+): response is PrivateEndpointConnectionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateEndpointConnectionsDelete200Response
     | PrivateEndpointConnectionsDelete204Response
-    | PrivateEndpointConnectionsDeletedefaultResponse,
-): response is PrivateEndpointConnectionsDeletedefaultResponse;
+    | PrivateEndpointConnectionsDeleteDefaultResponse,
+): response is PrivateEndpointConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response: PrivateLinkResourcesList200Response | PrivateLinkResourcesListdefaultResponse,
-): response is PrivateLinkResourcesListdefaultResponse;
+  response: PrivateLinkResourcesList200Response | PrivateLinkResourcesListDefaultResponse,
+): response is PrivateLinkResourcesListDefaultResponse;
 export function isUnexpected(
   response:
     | ResolvePrivateLinkServiceIdPost200Response
-    | ResolvePrivateLinkServiceIdPostdefaultResponse,
-): response is ResolvePrivateLinkServiceIdPostdefaultResponse;
+    | ResolvePrivateLinkServiceIdPostDefaultResponse,
+): response is ResolvePrivateLinkServiceIdPostDefaultResponse;
 export function isUnexpected(
-  response: SnapshotsList200Response | SnapshotsListdefaultResponse,
-): response is SnapshotsListdefaultResponse;
+  response: SnapshotsList200Response | SnapshotsListDefaultResponse,
+): response is SnapshotsListDefaultResponse;
 export function isUnexpected(
-  response: SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupdefaultResponse,
-): response is SnapshotsListByResourceGroupdefaultResponse;
+  response: SnapshotsListByResourceGroup200Response | SnapshotsListByResourceGroupDefaultResponse,
+): response is SnapshotsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: SnapshotsGet200Response | SnapshotsGetdefaultResponse,
-): response is SnapshotsGetdefaultResponse;
+  response: SnapshotsGet200Response | SnapshotsGetDefaultResponse,
+): response is SnapshotsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SnapshotsCreateOrUpdate200Response
     | SnapshotsCreateOrUpdate201Response
-    | SnapshotsCreateOrUpdatedefaultResponse,
-): response is SnapshotsCreateOrUpdatedefaultResponse;
+    | SnapshotsCreateOrUpdateDefaultResponse,
+): response is SnapshotsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SnapshotsUpdateTags200Response | SnapshotsUpdateTagsdefaultResponse,
-): response is SnapshotsUpdateTagsdefaultResponse;
+  response: SnapshotsUpdateTags200Response | SnapshotsUpdateTagsDefaultResponse,
+): response is SnapshotsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | SnapshotsDelete200Response
     | SnapshotsDelete204Response
-    | SnapshotsDeletedefaultResponse,
-): response is SnapshotsDeletedefaultResponse;
+    | SnapshotsDeleteDefaultResponse,
+): response is SnapshotsDeleteDefaultResponse;
 export function isUnexpected(
-  response: ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListdefaultResponse,
-): response is ManagedClusterSnapshotsListdefaultResponse;
+  response: ManagedClusterSnapshotsList200Response | ManagedClusterSnapshotsListDefaultResponse,
+): response is ManagedClusterSnapshotsListDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClusterSnapshotsListByResourceGroup200Response
-    | ManagedClusterSnapshotsListByResourceGroupdefaultResponse,
-): response is ManagedClusterSnapshotsListByResourceGroupdefaultResponse;
+    | ManagedClusterSnapshotsListByResourceGroupDefaultResponse,
+): response is ManagedClusterSnapshotsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetdefaultResponse,
-): response is ManagedClusterSnapshotsGetdefaultResponse;
+  response: ManagedClusterSnapshotsGet200Response | ManagedClusterSnapshotsGetDefaultResponse,
+): response is ManagedClusterSnapshotsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClusterSnapshotsCreateOrUpdate200Response
     | ManagedClusterSnapshotsCreateOrUpdate201Response
-    | ManagedClusterSnapshotsCreateOrUpdatedefaultResponse,
-): response is ManagedClusterSnapshotsCreateOrUpdatedefaultResponse;
+    | ManagedClusterSnapshotsCreateOrUpdateDefaultResponse,
+): response is ManagedClusterSnapshotsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClusterSnapshotsUpdateTags200Response
-    | ManagedClusterSnapshotsUpdateTagsdefaultResponse,
-): response is ManagedClusterSnapshotsUpdateTagsdefaultResponse;
+    | ManagedClusterSnapshotsUpdateTagsDefaultResponse,
+): response is ManagedClusterSnapshotsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | ManagedClusterSnapshotsDelete200Response
     | ManagedClusterSnapshotsDelete204Response
-    | ManagedClusterSnapshotsDeletedefaultResponse,
-): response is ManagedClusterSnapshotsDeletedefaultResponse;
+    | ManagedClusterSnapshotsDeleteDefaultResponse,
+): response is ManagedClusterSnapshotsDeleteDefaultResponse;
 export function isUnexpected(
-  response: TrustedAccessRolesList200Response | TrustedAccessRolesListdefaultResponse,
-): response is TrustedAccessRolesListdefaultResponse;
+  response: TrustedAccessRolesList200Response | TrustedAccessRolesListDefaultResponse,
+): response is TrustedAccessRolesListDefaultResponse;
 export function isUnexpected(
-  response: TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListdefaultResponse,
-): response is TrustedAccessRoleBindingsListdefaultResponse;
+  response: TrustedAccessRoleBindingsList200Response | TrustedAccessRoleBindingsListDefaultResponse,
+): response is TrustedAccessRoleBindingsListDefaultResponse;
 export function isUnexpected(
-  response: TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetdefaultResponse,
-): response is TrustedAccessRoleBindingsGetdefaultResponse;
+  response: TrustedAccessRoleBindingsGet200Response | TrustedAccessRoleBindingsGetDefaultResponse,
+): response is TrustedAccessRoleBindingsGetDefaultResponse;
 export function isUnexpected(
   response:
     | TrustedAccessRoleBindingsCreateOrUpdate200Response
-    | TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse,
-): response is TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse;
+    | TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse,
+): response is TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | TrustedAccessRoleBindingsDelete200Response
     | TrustedAccessRoleBindingsDelete204Response
-    | TrustedAccessRoleBindingsDeletedefaultResponse,
-): response is TrustedAccessRoleBindingsDeletedefaultResponse;
+    | TrustedAccessRoleBindingsDeleteDefaultResponse,
+): response is TrustedAccessRoleBindingsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | OperationsList200Response
-    | OperationsListdefaultResponse
+    | OperationsListDefaultResponse
     | ManagedClustersGetOSOptions200Response
-    | ManagedClustersGetOSOptionsdefaultResponse
+    | ManagedClustersGetOSOptionsDefaultResponse
     | ManagedClustersList200Response
-    | ManagedClustersListdefaultResponse
+    | ManagedClustersListDefaultResponse
     | ManagedClustersListByResourceGroup200Response
-    | ManagedClustersListByResourceGroupdefaultResponse
+    | ManagedClustersListByResourceGroupDefaultResponse
     | ManagedClustersGetUpgradeProfile200Response
-    | ManagedClustersGetUpgradeProfiledefaultResponse
+    | ManagedClustersGetUpgradeProfileDefaultResponse
     | ManagedClustersGetAccessProfile200Response
-    | ManagedClustersGetAccessProfiledefaultResponse
+    | ManagedClustersGetAccessProfileDefaultResponse
     | ManagedClustersListClusterAdminCredentials200Response
-    | ManagedClustersListClusterAdminCredentialsdefaultResponse
+    | ManagedClustersListClusterAdminCredentialsDefaultResponse
     | ManagedClustersListClusterUserCredentials200Response
-    | ManagedClustersListClusterUserCredentialsdefaultResponse
+    | ManagedClustersListClusterUserCredentialsDefaultResponse
     | ManagedClustersListClusterMonitoringUserCredentials200Response
-    | ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse
+    | ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse
     | ManagedClustersGet200Response
-    | ManagedClustersGetdefaultResponse
+    | ManagedClustersGetDefaultResponse
     | ManagedClustersCreateOrUpdate200Response
     | ManagedClustersCreateOrUpdate201Response
-    | ManagedClustersCreateOrUpdatedefaultResponse
+    | ManagedClustersCreateOrUpdateDefaultResponse
     | ManagedClustersUpdateTags200Response
-    | ManagedClustersUpdateTagsdefaultResponse
+    | ManagedClustersUpdateTagsDefaultResponse
     | ManagedClustersDelete202Response
     | ManagedClustersDelete204Response
-    | ManagedClustersDeletedefaultResponse
+    | ManagedClustersDeleteDefaultResponse
     | ManagedClustersResetServicePrincipalProfile200Response
     | ManagedClustersResetServicePrincipalProfile202Response
-    | ManagedClustersResetServicePrincipalProfiledefaultResponse
+    | ManagedClustersResetServicePrincipalProfileDefaultResponse
     | ManagedClustersResetAADProfile200Response
     | ManagedClustersResetAADProfile202Response
-    | ManagedClustersResetAADProfiledefaultResponse
+    | ManagedClustersResetAADProfileDefaultResponse
     | ManagedClustersRotateClusterCertificates202Response
     | ManagedClustersRotateClusterCertificates204Response
-    | ManagedClustersRotateClusterCertificatesdefaultResponse
+    | ManagedClustersRotateClusterCertificatesDefaultResponse
     | ManagedClustersRotateServiceAccountSigningKeys202Response
     | ManagedClustersRotateServiceAccountSigningKeys204Response
-    | ManagedClustersRotateServiceAccountSigningKeysdefaultResponse
+    | ManagedClustersRotateServiceAccountSigningKeysDefaultResponse
     | ManagedClustersStop202Response
     | ManagedClustersStop204Response
-    | ManagedClustersStopdefaultResponse
+    | ManagedClustersStopDefaultResponse
     | ManagedClustersStart202Response
     | ManagedClustersStart204Response
-    | ManagedClustersStartdefaultResponse
+    | ManagedClustersStartDefaultResponse
     | ManagedClustersRunCommand200Response
     | ManagedClustersRunCommand202Response
-    | ManagedClustersRunCommanddefaultResponse
+    | ManagedClustersRunCommandDefaultResponse
     | ManagedClustersGetCommandResult200Response
     | ManagedClustersGetCommandResult202Response
-    | ManagedClustersGetCommandResultdefaultResponse
+    | ManagedClustersGetCommandResultDefaultResponse
     | ManagedClustersListOutboundNetworkDependenciesEndpoints200Response
-    | ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse
+    | ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse
     | MaintenanceConfigurationsListByManagedCluster200Response
-    | MaintenanceConfigurationsListByManagedClusterdefaultResponse
+    | MaintenanceConfigurationsListByManagedClusterDefaultResponse
     | MaintenanceConfigurationsGet200Response
-    | MaintenanceConfigurationsGetdefaultResponse
+    | MaintenanceConfigurationsGetDefaultResponse
     | MaintenanceConfigurationsCreateOrUpdate200Response
-    | MaintenanceConfigurationsCreateOrUpdatedefaultResponse
+    | MaintenanceConfigurationsCreateOrUpdateDefaultResponse
     | MaintenanceConfigurationsDelete200Response
     | MaintenanceConfigurationsDelete204Response
-    | MaintenanceConfigurationsDeletedefaultResponse
+    | MaintenanceConfigurationsDeleteDefaultResponse
     | AgentPoolsList200Response
-    | AgentPoolsListdefaultResponse
+    | AgentPoolsListDefaultResponse
     | AgentPoolsGet200Response
-    | AgentPoolsGetdefaultResponse
+    | AgentPoolsGetDefaultResponse
     | AgentPoolsCreateOrUpdate200Response
     | AgentPoolsCreateOrUpdate201Response
-    | AgentPoolsCreateOrUpdatedefaultResponse
+    | AgentPoolsCreateOrUpdateDefaultResponse
     | AgentPoolsDelete202Response
     | AgentPoolsDelete204Response
-    | AgentPoolsDeletedefaultResponse
+    | AgentPoolsDeleteDefaultResponse
     | AgentPoolsGetUpgradeProfile200Response
-    | AgentPoolsGetUpgradeProfiledefaultResponse
+    | AgentPoolsGetUpgradeProfileDefaultResponse
     | AgentPoolsUpgradeNodeImageVersion200Response
     | AgentPoolsUpgradeNodeImageVersion202Response
-    | AgentPoolsUpgradeNodeImageVersiondefaultResponse
+    | AgentPoolsUpgradeNodeImageVersionDefaultResponse
     | PrivateEndpointConnectionsList200Response
-    | PrivateEndpointConnectionsListdefaultResponse
+    | PrivateEndpointConnectionsListDefaultResponse
     | PrivateEndpointConnectionsGet200Response
-    | PrivateEndpointConnectionsGetdefaultResponse
+    | PrivateEndpointConnectionsGetDefaultResponse
     | PrivateEndpointConnectionsUpdate200Response
-    | PrivateEndpointConnectionsUpdatedefaultResponse
+    | PrivateEndpointConnectionsUpdateDefaultResponse
     | PrivateEndpointConnectionsDelete200Response
     | PrivateEndpointConnectionsDelete204Response
-    | PrivateEndpointConnectionsDeletedefaultResponse
+    | PrivateEndpointConnectionsDeleteDefaultResponse
     | PrivateLinkResourcesList200Response
-    | PrivateLinkResourcesListdefaultResponse
+    | PrivateLinkResourcesListDefaultResponse
     | ResolvePrivateLinkServiceIdPost200Response
-    | ResolvePrivateLinkServiceIdPostdefaultResponse
+    | ResolvePrivateLinkServiceIdPostDefaultResponse
     | SnapshotsList200Response
-    | SnapshotsListdefaultResponse
+    | SnapshotsListDefaultResponse
     | SnapshotsListByResourceGroup200Response
-    | SnapshotsListByResourceGroupdefaultResponse
+    | SnapshotsListByResourceGroupDefaultResponse
     | SnapshotsGet200Response
-    | SnapshotsGetdefaultResponse
+    | SnapshotsGetDefaultResponse
     | SnapshotsCreateOrUpdate200Response
     | SnapshotsCreateOrUpdate201Response
-    | SnapshotsCreateOrUpdatedefaultResponse
+    | SnapshotsCreateOrUpdateDefaultResponse
     | SnapshotsUpdateTags200Response
-    | SnapshotsUpdateTagsdefaultResponse
+    | SnapshotsUpdateTagsDefaultResponse
     | SnapshotsDelete200Response
     | SnapshotsDelete204Response
-    | SnapshotsDeletedefaultResponse
+    | SnapshotsDeleteDefaultResponse
     | ManagedClusterSnapshotsList200Response
-    | ManagedClusterSnapshotsListdefaultResponse
+    | ManagedClusterSnapshotsListDefaultResponse
     | ManagedClusterSnapshotsListByResourceGroup200Response
-    | ManagedClusterSnapshotsListByResourceGroupdefaultResponse
+    | ManagedClusterSnapshotsListByResourceGroupDefaultResponse
     | ManagedClusterSnapshotsGet200Response
-    | ManagedClusterSnapshotsGetdefaultResponse
+    | ManagedClusterSnapshotsGetDefaultResponse
     | ManagedClusterSnapshotsCreateOrUpdate200Response
     | ManagedClusterSnapshotsCreateOrUpdate201Response
-    | ManagedClusterSnapshotsCreateOrUpdatedefaultResponse
+    | ManagedClusterSnapshotsCreateOrUpdateDefaultResponse
     | ManagedClusterSnapshotsUpdateTags200Response
-    | ManagedClusterSnapshotsUpdateTagsdefaultResponse
+    | ManagedClusterSnapshotsUpdateTagsDefaultResponse
     | ManagedClusterSnapshotsDelete200Response
     | ManagedClusterSnapshotsDelete204Response
-    | ManagedClusterSnapshotsDeletedefaultResponse
+    | ManagedClusterSnapshotsDeleteDefaultResponse
     | TrustedAccessRolesList200Response
-    | TrustedAccessRolesListdefaultResponse
+    | TrustedAccessRolesListDefaultResponse
     | TrustedAccessRoleBindingsList200Response
-    | TrustedAccessRoleBindingsListdefaultResponse
+    | TrustedAccessRoleBindingsListDefaultResponse
     | TrustedAccessRoleBindingsGet200Response
-    | TrustedAccessRoleBindingsGetdefaultResponse
+    | TrustedAccessRoleBindingsGetDefaultResponse
     | TrustedAccessRoleBindingsCreateOrUpdate200Response
-    | TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse
+    | TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse
     | TrustedAccessRoleBindingsDelete200Response
     | TrustedAccessRoleBindingsDelete204Response
-    | TrustedAccessRoleBindingsDeletedefaultResponse,
+    | TrustedAccessRoleBindingsDeleteDefaultResponse,
 ): response is
-  | OperationsListdefaultResponse
-  | ManagedClustersGetOSOptionsdefaultResponse
-  | ManagedClustersListdefaultResponse
-  | ManagedClustersListByResourceGroupdefaultResponse
-  | ManagedClustersGetUpgradeProfiledefaultResponse
-  | ManagedClustersGetAccessProfiledefaultResponse
-  | ManagedClustersListClusterAdminCredentialsdefaultResponse
-  | ManagedClustersListClusterUserCredentialsdefaultResponse
-  | ManagedClustersListClusterMonitoringUserCredentialsdefaultResponse
-  | ManagedClustersGetdefaultResponse
-  | ManagedClustersCreateOrUpdatedefaultResponse
-  | ManagedClustersUpdateTagsdefaultResponse
-  | ManagedClustersDeletedefaultResponse
-  | ManagedClustersResetServicePrincipalProfiledefaultResponse
-  | ManagedClustersResetAADProfiledefaultResponse
-  | ManagedClustersRotateClusterCertificatesdefaultResponse
-  | ManagedClustersRotateServiceAccountSigningKeysdefaultResponse
-  | ManagedClustersStopdefaultResponse
-  | ManagedClustersStartdefaultResponse
-  | ManagedClustersRunCommanddefaultResponse
-  | ManagedClustersGetCommandResultdefaultResponse
-  | ManagedClustersListOutboundNetworkDependenciesEndpointsdefaultResponse
-  | MaintenanceConfigurationsListByManagedClusterdefaultResponse
-  | MaintenanceConfigurationsGetdefaultResponse
-  | MaintenanceConfigurationsCreateOrUpdatedefaultResponse
-  | MaintenanceConfigurationsDeletedefaultResponse
-  | AgentPoolsListdefaultResponse
-  | AgentPoolsGetdefaultResponse
-  | AgentPoolsCreateOrUpdatedefaultResponse
-  | AgentPoolsDeletedefaultResponse
-  | AgentPoolsGetUpgradeProfiledefaultResponse
-  | AgentPoolsUpgradeNodeImageVersiondefaultResponse
-  | PrivateEndpointConnectionsListdefaultResponse
-  | PrivateEndpointConnectionsGetdefaultResponse
-  | PrivateEndpointConnectionsUpdatedefaultResponse
-  | PrivateEndpointConnectionsDeletedefaultResponse
-  | PrivateLinkResourcesListdefaultResponse
-  | ResolvePrivateLinkServiceIdPostdefaultResponse
-  | SnapshotsListdefaultResponse
-  | SnapshotsListByResourceGroupdefaultResponse
-  | SnapshotsGetdefaultResponse
-  | SnapshotsCreateOrUpdatedefaultResponse
-  | SnapshotsUpdateTagsdefaultResponse
-  | SnapshotsDeletedefaultResponse
-  | ManagedClusterSnapshotsListdefaultResponse
-  | ManagedClusterSnapshotsListByResourceGroupdefaultResponse
-  | ManagedClusterSnapshotsGetdefaultResponse
-  | ManagedClusterSnapshotsCreateOrUpdatedefaultResponse
-  | ManagedClusterSnapshotsUpdateTagsdefaultResponse
-  | ManagedClusterSnapshotsDeletedefaultResponse
-  | TrustedAccessRolesListdefaultResponse
-  | TrustedAccessRoleBindingsListdefaultResponse
-  | TrustedAccessRoleBindingsGetdefaultResponse
-  | TrustedAccessRoleBindingsCreateOrUpdatedefaultResponse
-  | TrustedAccessRoleBindingsDeletedefaultResponse {
+  | OperationsListDefaultResponse
+  | ManagedClustersGetOSOptionsDefaultResponse
+  | ManagedClustersListDefaultResponse
+  | ManagedClustersListByResourceGroupDefaultResponse
+  | ManagedClustersGetUpgradeProfileDefaultResponse
+  | ManagedClustersGetAccessProfileDefaultResponse
+  | ManagedClustersListClusterAdminCredentialsDefaultResponse
+  | ManagedClustersListClusterUserCredentialsDefaultResponse
+  | ManagedClustersListClusterMonitoringUserCredentialsDefaultResponse
+  | ManagedClustersGetDefaultResponse
+  | ManagedClustersCreateOrUpdateDefaultResponse
+  | ManagedClustersUpdateTagsDefaultResponse
+  | ManagedClustersDeleteDefaultResponse
+  | ManagedClustersResetServicePrincipalProfileDefaultResponse
+  | ManagedClustersResetAADProfileDefaultResponse
+  | ManagedClustersRotateClusterCertificatesDefaultResponse
+  | ManagedClustersRotateServiceAccountSigningKeysDefaultResponse
+  | ManagedClustersStopDefaultResponse
+  | ManagedClustersStartDefaultResponse
+  | ManagedClustersRunCommandDefaultResponse
+  | ManagedClustersGetCommandResultDefaultResponse
+  | ManagedClustersListOutboundNetworkDependenciesEndpointsDefaultResponse
+  | MaintenanceConfigurationsListByManagedClusterDefaultResponse
+  | MaintenanceConfigurationsGetDefaultResponse
+  | MaintenanceConfigurationsCreateOrUpdateDefaultResponse
+  | MaintenanceConfigurationsDeleteDefaultResponse
+  | AgentPoolsListDefaultResponse
+  | AgentPoolsGetDefaultResponse
+  | AgentPoolsCreateOrUpdateDefaultResponse
+  | AgentPoolsDeleteDefaultResponse
+  | AgentPoolsGetUpgradeProfileDefaultResponse
+  | AgentPoolsUpgradeNodeImageVersionDefaultResponse
+  | PrivateEndpointConnectionsListDefaultResponse
+  | PrivateEndpointConnectionsGetDefaultResponse
+  | PrivateEndpointConnectionsUpdateDefaultResponse
+  | PrivateEndpointConnectionsDeleteDefaultResponse
+  | PrivateLinkResourcesListDefaultResponse
+  | ResolvePrivateLinkServiceIdPostDefaultResponse
+  | SnapshotsListDefaultResponse
+  | SnapshotsListByResourceGroupDefaultResponse
+  | SnapshotsGetDefaultResponse
+  | SnapshotsCreateOrUpdateDefaultResponse
+  | SnapshotsUpdateTagsDefaultResponse
+  | SnapshotsDeleteDefaultResponse
+  | ManagedClusterSnapshotsListDefaultResponse
+  | ManagedClusterSnapshotsListByResourceGroupDefaultResponse
+  | ManagedClusterSnapshotsGetDefaultResponse
+  | ManagedClusterSnapshotsCreateOrUpdateDefaultResponse
+  | ManagedClusterSnapshotsUpdateTagsDefaultResponse
+  | ManagedClusterSnapshotsDeleteDefaultResponse
+  | TrustedAccessRolesListDefaultResponse
+  | TrustedAccessRoleBindingsListDefaultResponse
+  | TrustedAccessRoleBindingsGetDefaultResponse
+  | TrustedAccessRoleBindingsCreateOrUpdateDefaultResponse
+  | TrustedAccessRoleBindingsDeleteDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
   let pathDetails = responseMap[`${method} ${url.pathname}`];
   if (!pathDetails) {
-    pathDetails = geParametrizedPathSuccess(url.pathname);
+    pathDetails = getParametrizedPathSuccess(method, url.pathname);
   }
   return !pathDetails.includes(response.status);
 }
 
-function geParametrizedPathSuccess(path: string): string[] {
+function getParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
+
+  // Traverse list to match the longest candidate
+  // matchedLen: the length of candidate path
+  // matchedValue: the matched status code array
+  let matchedLen = -1,
+    matchedValue: string[] = [];
 
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
     // Extracting the path from the map key which is in format
     // GET /path/foo
+    if (!key.startsWith(method)) {
+      continue;
+    }
     const candidatePath = getPathFromMapKey(key);
     // Get each part of the url path
     const candidateParts = candidatePath.split("/");
 
-    // If the candidate and actual paths don't match in size
-    // we move on to the next candidate path
-    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
-      // track if we have found a match to return the values found.
-      let found = true;
-      for (let i = 0; i < candidateParts.length; i++) {
-        if (candidateParts[i].startsWith("{") && candidateParts[i].endsWith("}")) {
-          // If the current part of the candidate is a "template" part
-          // it is a match with the actual path part on hand
-          // skip as the parameterized part can match anything
-          continue;
-        }
+    // track if we have found a match to return the values found.
+    let found = true;
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+        const start = candidateParts[i]!.indexOf("}") + 1,
+          end = candidateParts[i]?.length;
+        // If the current part of the candidate is a "template" part
+        // Try to use the suffix of pattern to match the path
+        // {guid} ==> $
+        // {guid}:export ==> :export$
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
-        // If the candidate part is not a template and
-        // the parts don't match mark the candidate as not found
-        // to move on with the next candidate path.
-        if (candidateParts[i] !== pathParts[i]) {
+        if (!isMatched) {
           found = false;
           break;
         }
+        continue;
       }
 
-      // We finished evaluating the current candidate parts
-      // if all parts matched we return the success values form
-      // the path mapping.
-      if (found) {
-        return value;
+      // If the candidate part is not a template and
+      // the parts don't match mark the candidate as not found
+      // to move on with the next candidate path.
+      if (candidateParts[i] !== pathParts[j]) {
+        found = false;
+        break;
       }
+    }
+
+    // We finished evaluating the current candidate parts
+    // Update the matched value if and only if we found the longer pattern
+    if (found && candidatePath.length > matchedLen) {
+      matchedLen = candidatePath.length;
+      matchedValue = value;
     }
   }
 
-  // No match was found, return an empty array.
-  return [];
-}
-
-function hasParametrizedPath(path: string): boolean {
-  return path.includes("/{");
+  return matchedValue;
 }
 
 function getPathFromMapKey(mapKey: string): string {

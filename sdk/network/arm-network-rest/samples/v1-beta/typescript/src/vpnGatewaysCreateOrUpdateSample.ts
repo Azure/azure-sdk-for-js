@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnGatewaysCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayPut.json
  */
-async function vpnGatewayPut() {
+async function vpnGatewayPut(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -33,22 +28,21 @@ async function vpnGatewayPut() {
           bgpPeeringAddresses: [
             {
               customBgpIpAddresses: ["169.254.21.5"],
-              ipconfigurationId: "Instance0"
+              ipconfigurationId: "Instance0",
             },
             {
               customBgpIpAddresses: ["169.254.21.10"],
-              ipconfigurationId: "Instance1"
-            }
+              ipconfigurationId: "Instance1",
+            },
           ],
-          peerWeight: 0
+          peerWeight: 0,
         },
         connections: [
           {
             name: "vpnConnection1",
             properties: {
               remoteVpnSite: {
-                id:
-                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1"
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
               },
               vpnLinkConnections: [
                 {
@@ -57,21 +51,19 @@ async function vpnGatewayPut() {
                     connectionBandwidth: 200,
                     egressNatRules: [
                       {
-                        id:
-                          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03"
-                      }
+                        id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/nat03",
+                      },
                     ],
                     sharedKey: "key",
                     vpnConnectionProtocolType: "IKEv2",
                     vpnSiteLink: {
-                      id:
-                        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1"
-                    }
-                  }
-                }
-              ]
-            }
-          }
+                      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1/vpnSiteLinks/siteLink1",
+                    },
+                  },
+                },
+              ],
+            },
+          },
         ],
         enableBgpRouteTranslationForNat: false,
         isRoutingPreferenceInternet: false,
@@ -83,25 +75,24 @@ async function vpnGatewayPut() {
               externalMappings: [{ addressSpace: "192.168.0.0/26" }],
               internalMappings: [{ addressSpace: "0.0.0.0/26" }],
               ipConfigurationId: "",
-              mode: "EgressSnat"
-            }
-          }
+              mode: "EgressSnat",
+            },
+          },
         ],
         virtualHub: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1"
-        }
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1",
+        },
       },
-      tags: { key1: "value1" }
+      tags: { key1: "value1" },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

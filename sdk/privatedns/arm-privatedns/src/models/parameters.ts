@@ -15,7 +15,7 @@ import {
   PrivateZone as PrivateZoneMapper,
   VirtualNetworkLink as VirtualNetworkLinkMapper,
   RecordSet as RecordSetMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

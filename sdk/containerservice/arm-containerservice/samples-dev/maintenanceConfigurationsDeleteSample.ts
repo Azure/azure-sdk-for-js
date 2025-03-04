@@ -6,21 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerServiceClient } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a maintenance configuration.
  *
  * @summary Deletes a maintenance configuration.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/MaintenanceConfigurationsDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsDelete.json
  */
-async function deleteMaintenanceConfiguration() {
+async function deleteMaintenanceConfiguration(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -42,9 +38,9 @@ async function deleteMaintenanceConfiguration() {
  * This sample demonstrates how to Deletes a maintenance configuration.
  *
  * @summary Deletes a maintenance configuration.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
  */
-async function deleteMaintenanceConfigurationForNodeOSUpgrade() {
+async function deleteMaintenanceConfigurationForNodeOSUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -62,9 +58,9 @@ async function deleteMaintenanceConfigurationForNodeOSUpgrade() {
   console.log(result);
 }
 
-async function main() {
-  deleteMaintenanceConfiguration();
-  deleteMaintenanceConfigurationForNodeOSUpgrade();
+async function main(): Promise<void> {
+  await deleteMaintenanceConfiguration();
+  await deleteMaintenanceConfigurationForNodeOSUpgrade();
 }
 
 main().catch(console.error);

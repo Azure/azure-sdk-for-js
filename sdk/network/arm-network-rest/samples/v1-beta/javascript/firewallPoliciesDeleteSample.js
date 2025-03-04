@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified Firewall Policy.
@@ -28,7 +28,7 @@ async function deleteFirewallPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

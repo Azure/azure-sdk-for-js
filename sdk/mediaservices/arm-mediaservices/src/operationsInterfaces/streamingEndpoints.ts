@@ -28,7 +28,7 @@ import {
   StreamingEndpointsAsyncOperationResponse,
   StreamingEndpointsOperationLocationOptionalParams,
   StreamingEndpointsOperationLocationResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a StreamingEndpoints. */

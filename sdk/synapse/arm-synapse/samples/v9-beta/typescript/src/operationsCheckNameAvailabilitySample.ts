@@ -13,9 +13,7 @@ import {
   SynapseManagementClient
 } from "@azure/arm-synapse";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Check whether a workspace name is available
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Check whether a workspace name is available
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CheckNameAvailabilityWorkspaceAlreadyExists.json
  */
-async function checkForAWorkspaceNameThatAlreadyExists() {
+async function checkForAWorkspaceNameThatAlreadyExists(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -43,7 +41,7 @@ async function checkForAWorkspaceNameThatAlreadyExists() {
  * @summary Check whether a workspace name is available
  * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/CheckNameAvailabilityWorkspaceAvailable.json
  */
-async function checkForAWorkspaceNameThatIsAvailable() {
+async function checkForAWorkspaceNameThatIsAvailable(): Promise<void> {
   const subscriptionId =
     process.env["SYNAPSE_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -57,7 +55,7 @@ async function checkForAWorkspaceNameThatIsAvailable() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkForAWorkspaceNameThatAlreadyExists();
   checkForAWorkspaceNameThatIsAvailable();
 }

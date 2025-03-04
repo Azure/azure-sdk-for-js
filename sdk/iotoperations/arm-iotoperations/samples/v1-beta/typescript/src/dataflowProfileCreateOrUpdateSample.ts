@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a DataflowProfileResource
  *
  * @summary create a DataflowProfileResource
- * x-ms-original-file: 2024-09-15-preview/DataflowProfile_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/DataflowProfile_CreateOrUpdate_MaximumSet_Gen.json
  */
-async function dataflowProfileCreateOrUpdate() {
+async function dataflowProfileCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -39,9 +39,9 @@ async function dataflowProfileCreateOrUpdate() {
  * This sample demonstrates how to create a DataflowProfileResource
  *
  * @summary create a DataflowProfileResource
- * x-ms-original-file: 2024-09-15-preview/DataflowProfile_CreateOrUpdate_Minimal.json
+ * x-ms-original-file: 2024-11-01/DataflowProfile_CreateOrUpdate_Minimal.json
  */
-async function dataflowProfileCreateOrUpdateMinimal() {
+async function dataflowProfileCreateOrUpdateMinimal(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -64,9 +64,9 @@ async function dataflowProfileCreateOrUpdateMinimal() {
  * This sample demonstrates how to create a DataflowProfileResource
  *
  * @summary create a DataflowProfileResource
- * x-ms-original-file: 2024-09-15-preview/DataflowProfile_CreateOrUpdate_Multi.json
+ * x-ms-original-file: 2024-11-01/DataflowProfile_CreateOrUpdate_Multi.json
  */
-async function dataflowProfileCreateOrUpdateMulti() {
+async function dataflowProfileCreateOrUpdateMulti(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
@@ -85,7 +85,7 @@ async function dataflowProfileCreateOrUpdateMulti() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   dataflowProfileCreateOrUpdate();
   dataflowProfileCreateOrUpdateMinimal();
   dataflowProfileCreateOrUpdateMulti();

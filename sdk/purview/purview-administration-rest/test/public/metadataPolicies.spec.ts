@@ -5,10 +5,11 @@ import type { PurviewMetadataPolicies } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createMetadataClient } from "./utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { MetadataPolicyListOutput } from "../../src/metadataPolicies/outputModels.js";
 
 describe("List Metadata", () => {
   let recorder: Recorder;
-  let client: PurviewMetadataPolicies.Client.PurviewMetadataPoliciesRestClient;
+  let client: PurviewMetadataPolicies.Client.PurviewMetadataPoliciesClient;
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
@@ -26,7 +27,7 @@ describe("List Metadata", () => {
       console.log(result.request.url);
       assert.fail(`GET "/metadataPolicies" failed with ${result.status}`);
     }
-
-    assert.isDefined(result.body.values.length);
+    const metadataPolicyListOutput = result.body as MetadataPolicyListOutput;
+    assert.isDefined(metadataPolicyListOutput.values.length);
   });
 });

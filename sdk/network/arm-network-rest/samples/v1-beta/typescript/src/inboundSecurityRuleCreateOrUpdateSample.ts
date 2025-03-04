@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   InboundSecurityRuleCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates the specified Network Virtual Appliance Inbound Security Rules.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/InboundSecurityRulePut.json
  */
-async function createNetworkVirtualApplianceInboundSecurityRules() {
+async function createNetworkVirtualApplianceInboundSecurityRules(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -32,12 +27,12 @@ async function createNetworkVirtualApplianceInboundSecurityRules() {
           {
             destinationPortRange: 22,
             sourceAddressPrefix: "50.20.121.5/32",
-            protocol: "TCP"
-          }
-        ]
-      }
+            protocol: "TCP",
+          },
+        ],
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
@@ -45,7 +40,7 @@ async function createNetworkVirtualApplianceInboundSecurityRules() {
       subscriptionId,
       resourceGroupName,
       networkVirtualApplianceName,
-      ruleCollectionName
+      ruleCollectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Retrieves all the devices which can be used as failover targets for the given device.
  * x-ms-original-file: specification/storsimple1200series/resource-manager/Microsoft.StorSimple/stable/2016-10-01/examples/DevicesListFailoverTarget.json
  */
-async function devicesListFailoverTarget() {
+async function devicesListFailoverTarget(): Promise<void> {
   const subscriptionId = "9eb689cd-7243-43b4-b6f6-5c65cb296641";
   const deviceName = "HSDK-4XY4FI2IVG";
   const resourceGroupName = "ResourceGroupForSDKTest";

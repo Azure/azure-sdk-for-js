@@ -23,7 +23,7 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   VolumeSnapshotsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Skus,
@@ -33,8 +33,8 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   VolumeSnapshots,
-} from "./operationsInterfaces";
-import { ElasticSanManagementOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ElasticSanManagementOptionalParams } from "./models/index.js";
 
 export class ElasticSanManagement extends coreClient.ServiceClient {
   $host: string;

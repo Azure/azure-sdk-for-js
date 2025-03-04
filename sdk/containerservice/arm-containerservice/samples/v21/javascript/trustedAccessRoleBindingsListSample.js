@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to List trusted access role bindings.
  *
  * @summary List trusted access role bindings.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/TrustedAccessRoleBindings_List.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/TrustedAccessRoleBindings_List.json
  */
 async function listTrustedAccessRoleBindings() {
   const subscriptionId =
@@ -33,7 +31,7 @@ async function listTrustedAccessRoleBindings() {
 }
 
 async function main() {
-  listTrustedAccessRoleBindings();
+  await listTrustedAccessRoleBindings();
 }
 
 main().catch(console.error);

@@ -8,8 +8,6 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
-import type { Paged } from '@azure/core-paging';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
@@ -101,7 +99,7 @@ export interface AssetPageResultOutput {
 }
 
 // @public
-export type AssetResourceOutput = AsAssetResourceOutput | ContactAssetResourceOutput | DomainAssetResourceOutput | HostAssetResourceOutput | IpAddressAssetResourceOutput | IpBlockAssetResourceOutput | PageAssetResourceOutput | SslCertAssetResourceOutput;
+export type AssetResourceOutput = AssetResourceOutputParent | AsAssetResourceOutput | ContactAssetResourceOutput | DomainAssetResourceOutput | HostAssetResourceOutput | IpAddressAssetResourceOutput | IpBlockAssetResourceOutput | PageAssetResourceOutput | SslCertAssetResourceOutput;
 
 // @public
 export interface AssetResourceOutputParent {
@@ -117,7 +115,7 @@ export interface AssetResourceOutputParent {
     name?: string;
     // (undocumented)
     reason?: string;
-    state?: string;
+    state?: AssetStateOutput;
     updatedDate?: string;
     uuid?: string;
     wildcard?: boolean;
@@ -144,6 +142,9 @@ export interface AssetSecurityPolicyOutput {
 }
 
 // @public
+export type AssetStateOutput = string;
+
+// @public
 export interface AssetSummaryResultOutput {
     children?: Array<AssetSummaryResultOutput>;
     count?: number;
@@ -161,9 +162,18 @@ export interface AssetSummaryResultOutput {
 export interface AssetUpdateData {
     externalId?: string;
     labels?: Record<string, boolean>;
-    state?: string;
-    transfers?: string;
+    state?: AssetUpdateState;
+    transfers?: AssetUpdateTransfers;
 }
+
+// @public
+export type AssetUpdateState = string;
+
+// @public
+export type AssetUpdateStateOutput = string;
+
+// @public
+export type AssetUpdateTransfers = string;
 
 // @public (undocumented)
 export interface AttributeOutput {
@@ -184,19 +194,20 @@ export interface AttributeOutput {
 }
 
 // @public
+export type AuditTrailItemKindOutput = string;
+
+// @public
 export interface AuditTrailItemOutput {
     displayName?: string;
     id?: string;
-    kind?: string;
+    kind?: AuditTrailItemKindOutput;
     name?: string;
     reason?: string;
 }
 
 // @public (undocumented)
 export interface AzureDataExplorerDataConnectionData extends DataConnectionDataParent {
-    // (undocumented)
     kind: "azureDataExplorer";
-    // (undocumented)
     properties: AzureDataExplorerDataConnectionProperties;
 }
 
@@ -318,7 +329,7 @@ export interface CookieOutput {
 }
 
 // @public
-function createClient(endpoint: string, subscriptionId: string, resourceGroupName: string, workspaceName: string, credentials: TokenCredential, options?: ClientOptions): EasmClient;
+function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: EasmClientOptions): EasmClient;
 export default createClient;
 
 // @public
@@ -332,7 +343,7 @@ export interface CreateOrReplaceDataConnection200Response extends HttpResponse {
 // @public (undocumented)
 export interface CreateOrReplaceDataConnectionBodyParam {
     // (undocumented)
-    body?: DataConnectionData;
+    body: DataConnectionData;
 }
 
 // @public (undocumented)
@@ -364,7 +375,7 @@ export interface CreateOrReplaceDiscoGroup200Response extends HttpResponse {
 // @public (undocumented)
 export interface CreateOrReplaceDiscoGroupBodyParam {
     // (undocumented)
-    body?: DiscoGroupData;
+    body: DiscoGroupData;
 }
 
 // @public (undocumented)
@@ -396,7 +407,7 @@ export interface CreateOrReplaceSavedFilter200Response extends HttpResponse {
 // @public (undocumented)
 export interface CreateOrReplaceSavedFilterBodyParam {
     // (undocumented)
-    body?: SavedFilterData;
+    body: SavedFilterData;
 }
 
 // @public (undocumented)
@@ -467,29 +478,41 @@ export interface Cvss3SummaryOutput {
     version?: string;
 }
 
+// @public
+export type DataConnectionContent = string;
+
+// @public
+export type DataConnectionContentOutput = string;
+
 // @public (undocumented)
-export type DataConnectionData = LogAnalyticsDataConnectionData | AzureDataExplorerDataConnectionData;
+export type DataConnectionData = DataConnectionDataParent | LogAnalyticsDataConnectionData | AzureDataExplorerDataConnectionData;
 
 // @public (undocumented)
 export interface DataConnectionDataParent {
-    content?: string;
-    frequency?: string;
+    content?: DataConnectionContent;
+    frequency?: DataConnectionFrequency;
     frequencyOffset?: number;
     // (undocumented)
     kind: string;
     name?: string;
 }
 
+// @public
+export type DataConnectionFrequency = string;
+
+// @public
+export type DataConnectionFrequencyOutput = string;
+
 // @public (undocumented)
-export type DataConnectionOutput = LogAnalyticsDataConnectionOutput | AzureDataExplorerDataConnectionOutput;
+export type DataConnectionOutput = DataConnectionOutputParent | LogAnalyticsDataConnectionOutput | AzureDataExplorerDataConnectionOutput;
 
 // @public (undocumented)
 export interface DataConnectionOutputParent {
     active?: boolean;
-    content?: string;
+    content?: DataConnectionContentOutput;
     readonly createdDate?: string;
     displayName?: string;
-    frequency?: string;
+    frequency?: DataConnectionFrequencyOutput;
     frequencyOffset?: number;
     id?: string;
     readonly inactiveMessage?: string;
@@ -650,21 +673,30 @@ export interface DiscoRunResultOutput {
     names?: string[];
     seeds?: Array<DiscoSourceOutput>;
     startedDate?: string;
-    state?: string;
+    state?: DiscoRunStateOutput;
     submittedDate?: string;
     tier?: string;
     totalAssetsFoundCount?: number;
 }
 
 // @public
+export type DiscoRunStateOutput = string;
+
+// @public
 export interface DiscoSource {
-    kind?: string;
+    kind?: DiscoSourceKind;
     name?: string;
 }
 
 // @public
+export type DiscoSourceKind = string;
+
+// @public
+export type DiscoSourceKindOutput = string;
+
+// @public
 export interface DiscoSourceOutput {
-    kind?: string;
+    kind?: DiscoSourceKindOutput;
     name?: string;
 }
 
@@ -683,7 +715,7 @@ export interface DiscoTemplateOutput {
 }
 
 // @public (undocumented)
-export interface DomainAssetOutput extends InventoryAssetOutput {
+export interface DomainAssetOutput {
     // (undocumented)
     adminContacts?: Array<ObservedStringOutput>;
     // (undocumented)
@@ -758,6 +790,11 @@ export interface DomainAssetResourceOutput extends AssetResourceOutputParent {
 export type EasmClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface EasmClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface ErrorDetailOutput {
@@ -837,7 +874,7 @@ export type GetBillableParameters = RequestParameters;
 export interface GetDataConnection {
     delete(options?: DeleteDataConnectionParameters): StreamableMethod<DeleteDataConnection204Response | DeleteDataConnectionDefaultResponse>;
     get(options?: GetDataConnectionParameters): StreamableMethod<GetDataConnection200Response | GetDataConnectionDefaultResponse>;
-    put(options?: CreateOrReplaceDataConnectionParameters): StreamableMethod<CreateOrReplaceDataConnection200Response | CreateOrReplaceDataConnectionDefaultResponse>;
+    put(options: CreateOrReplaceDataConnectionParameters): StreamableMethod<CreateOrReplaceDataConnection200Response | CreateOrReplaceDataConnectionDefaultResponse>;
 }
 
 // @public
@@ -869,7 +906,7 @@ export type GetDataConnectionParameters = RequestParameters;
 // @public (undocumented)
 export interface GetDiscoGroup {
     get(options?: GetDiscoGroupParameters): StreamableMethod<GetDiscoGroup200Response | GetDiscoGroupDefaultResponse>;
-    put(options?: CreateOrReplaceDiscoGroupParameters): StreamableMethod<CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse>;
+    put(options: CreateOrReplaceDiscoGroupParameters): StreamableMethod<CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse>;
 }
 
 // @public
@@ -930,7 +967,7 @@ export interface GetDiscoTemplateDefaultResponse extends HttpResponse {
 export type GetDiscoTemplateParameters = RequestParameters;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -939,7 +976,7 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
 export interface GetSavedFilter {
     delete(options?: DeleteSavedFilterParameters): StreamableMethod<DeleteSavedFilter204Response | DeleteSavedFilterDefaultResponse>;
     get(options?: GetSavedFilterParameters): StreamableMethod<GetSavedFilter200Response | GetSavedFilterDefaultResponse>;
-    put(options?: CreateOrReplaceSavedFilterParameters): StreamableMethod<CreateOrReplaceSavedFilter200Response | CreateOrReplaceSavedFilterDefaultResponse>;
+    put(options: CreateOrReplaceSavedFilterParameters): StreamableMethod<CreateOrReplaceSavedFilter200Response | CreateOrReplaceSavedFilterDefaultResponse>;
 }
 
 // @public
@@ -970,7 +1007,7 @@ export type GetSavedFilterParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GetSnapshot {
-    post(options?: GetSnapshotParameters): StreamableMethod<GetSnapshot200Response | GetSnapshotDefaultResponse>;
+    post(options: GetSnapshotParameters): StreamableMethod<GetSnapshot200Response | GetSnapshotDefaultResponse>;
 }
 
 // @public
@@ -984,7 +1021,7 @@ export interface GetSnapshot200Response extends HttpResponse {
 // @public (undocumented)
 export interface GetSnapshotBodyParam {
     // (undocumented)
-    body?: ReportAssetSnapshotRequest;
+    body: ReportAssetSnapshotRequest;
 }
 
 // @public (undocumented)
@@ -1007,7 +1044,7 @@ export type GetSnapshotParameters = GetSnapshotBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface GetSummary {
-    post(options?: GetSummaryParameters): StreamableMethod<GetSummary200Response | GetSummaryDefaultResponse>;
+    post(options: GetSummaryParameters): StreamableMethod<GetSummary200Response | GetSummaryDefaultResponse>;
 }
 
 // @public
@@ -1021,7 +1058,7 @@ export interface GetSummary200Response extends HttpResponse {
 // @public (undocumented)
 export interface GetSummaryBodyParam {
     // (undocumented)
-    body?: ReportAssetSummaryRequest;
+    body: ReportAssetSummaryRequest;
 }
 
 // @public (undocumented)
@@ -1247,7 +1284,7 @@ export interface InnerErrorOutput {
     value?: any;
 }
 
-// @public (undocumented)
+// @public
 export interface InventoryAssetOutput {
 }
 
@@ -1816,9 +1853,7 @@ export interface LocationOutput {
 
 // @public (undocumented)
 export interface LogAnalyticsDataConnectionData extends DataConnectionDataParent {
-    // (undocumented)
     kind: "logAnalytics";
-    // (undocumented)
     properties: LogAnalyticsDataConnectionProperties;
 }
 
@@ -1892,8 +1927,11 @@ export interface ObservedLongOutput extends ObservedValueOutput {
 export interface ObservedPortStateOutput extends ObservedValueOutput {
     // (undocumented)
     port?: number;
-    value?: string;
+    value?: ObservedPortStateValueOutput;
 }
+
+// @public
+export type ObservedPortStateValueOutput = string;
 
 // @public (undocumented)
 export interface ObservedStringOutput extends ObservedValueOutput {
@@ -1993,7 +2031,7 @@ export interface PageAssetOutput extends InventoryAssetOutput {
     nonHtmlFrames?: Array<ObservedBooleanOutput>;
     // (undocumented)
     parkedPage?: Array<ObservedBooleanOutput>;
-    redirectType?: string;
+    redirectType?: PageAssetRedirectTypeOutput;
     // (undocumented)
     redirectUrls?: Array<ObservedStringOutput>;
     // (undocumented)
@@ -2040,6 +2078,9 @@ export interface PageAssetOutput extends InventoryAssetOutput {
     windows?: Array<ObservedBooleanOutput>;
 }
 
+// @public
+export type PageAssetRedirectTypeOutput = string;
+
 // @public (undocumented)
 export interface PageAssetResourceOutput extends AssetResourceOutputParent {
     asset: PageAssetOutput;
@@ -2065,22 +2106,59 @@ export interface PageCauseOutput {
 }
 
 // @public
-export type PagedAssetResourceOutput = Paged<AssetResourceOutput>;
+export interface PagedAssetResourceOutput {
+    mark?: string;
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<AssetResourceOutput>;
+}
 
 // @public
-export type PagedDataConnectionOutput = Paged<DataConnectionOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export type PagedDiscoGroupOutput = Paged<DiscoGroupOutput>;
+export interface PagedDataConnectionOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<DataConnectionOutput>;
+}
 
 // @public
-export type PagedDiscoTemplateOutput = Paged<DiscoTemplateOutput>;
+export interface PagedDiscoGroupOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<DiscoGroupOutput>;
+}
 
 // @public
-export type PagedSavedFilterOutput = Paged<SavedFilterOutput>;
+export interface PagedDiscoTemplateOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<DiscoTemplateOutput>;
+}
 
 // @public
-export type PagedTaskOutput = Paged<TaskOutput>;
+export interface PagedSavedFilterOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<SavedFilterOutput>;
+}
+
+// @public
+export interface PagedTaskOutput {
+    nextLink?: string;
+    totalElements?: number;
+    value: Array<TaskOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -2143,9 +2221,12 @@ export interface ReportAssetSummaryResultOutput {
 }
 
 // @public
+export type ReportBillableAssetBreakdownKindOutput = string;
+
+// @public
 export interface ReportBillableAssetBreakdownOutput {
     count?: number;
-    kind?: string;
+    kind?: ReportBillableAssetBreakdownKindOutput;
 }
 
 // @public (undocumented)
@@ -2401,7 +2482,7 @@ export interface SslCertAssetOutput extends InventoryAssetOutput {
     subjectOrganizations?: string[];
     // (undocumented)
     subjectState?: string[];
-    validationType?: string;
+    validationType?: SslCertAssetValidationTypeOutput;
     // (undocumented)
     version?: number;
 }
@@ -2411,6 +2492,9 @@ export interface SslCertAssetResourceOutput extends AssetResourceOutputParent {
     asset: SslCertAssetOutput;
     kind: "sslCert";
 }
+
+// @public
+export type SslCertAssetValidationTypeOutput = string;
 
 // @public (undocumented)
 export interface SslServerConfigOutput {
@@ -2456,11 +2540,17 @@ export interface TaskOutput {
     readonly id: string;
     lastPolledAt?: string;
     metadata?: Record<string, any>;
-    phase?: string;
+    phase?: TaskPhaseOutput;
     reason?: string;
     startedAt?: string;
-    state?: string;
+    state?: TaskStateOutput;
 }
+
+// @public
+export type TaskPhaseOutput = string;
+
+// @public
+export type TaskStateOutput = string;
 
 // @public
 export interface UpdateAssets200Response extends HttpResponse {
@@ -2473,7 +2563,7 @@ export interface UpdateAssets200Response extends HttpResponse {
 // @public (undocumented)
 export interface UpdateAssetsBodyParam {
     // (undocumented)
-    body?: AssetUpdateData;
+    body: AssetUpdateData;
 }
 
 // @public (undocumented)
@@ -2507,7 +2597,7 @@ export interface UpdateAssetsQueryParamProperties {
 
 // @public (undocumented)
 export interface ValidateDataConnection {
-    post(options?: ValidateDataConnectionParameters): StreamableMethod<ValidateDataConnection200Response | ValidateDataConnectionDefaultResponse>;
+    post(options: ValidateDataConnectionParameters): StreamableMethod<ValidateDataConnection200Response | ValidateDataConnectionDefaultResponse>;
 }
 
 // @public
@@ -2521,7 +2611,7 @@ export interface ValidateDataConnection200Response extends HttpResponse {
 // @public (undocumented)
 export interface ValidateDataConnectionBodyParam {
     // (undocumented)
-    body?: DataConnectionData;
+    body: DataConnectionData;
 }
 
 // @public (undocumented)
@@ -2544,7 +2634,7 @@ export type ValidateDataConnectionParameters = ValidateDataConnectionBodyParam &
 
 // @public (undocumented)
 export interface ValidateDiscoGroup {
-    post(options?: ValidateDiscoGroupParameters): StreamableMethod<ValidateDiscoGroup200Response | ValidateDiscoGroupDefaultResponse>;
+    post(options: ValidateDiscoGroupParameters): StreamableMethod<ValidateDiscoGroup200Response | ValidateDiscoGroupDefaultResponse>;
 }
 
 // @public
@@ -2558,7 +2648,7 @@ export interface ValidateDiscoGroup200Response extends HttpResponse {
 // @public (undocumented)
 export interface ValidateDiscoGroupBodyParam {
     // (undocumented)
-    body?: DiscoGroupData;
+    body: DiscoGroupData;
 }
 
 // @public (undocumented)
@@ -2579,7 +2669,7 @@ export interface ValidateDiscoGroupDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type ValidateDiscoGroupParameters = ValidateDiscoGroupBodyParam & RequestParameters;
 
-// @public (undocumented)
+// @public
 export interface ValidateResultOutput {
     error?: ErrorDetailOutput;
 }

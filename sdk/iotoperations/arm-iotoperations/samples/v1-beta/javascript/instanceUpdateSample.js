@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update a InstanceResource
  *
  * @summary update a InstanceResource
- * x-ms-original-file: 2024-09-15-preview/Instance_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2024-11-01/Instance_Update_MaximumSet_Gen.json
  */
 async function instanceUpdate() {
   const credential = new DefaultAzureCredential();

@@ -39,7 +39,7 @@ export interface RoleAssignmentsListRoleAssignmentsQueryParam {
 }
 
 export interface RoleAssignmentsListRoleAssignmentsHeaderParam {
-  headers: RawHttpHeadersInput & RoleAssignmentsListRoleAssignmentsHeaders;
+  headers?: RawHttpHeadersInput & RoleAssignmentsListRoleAssignmentsHeaders;
 }
 
 export type RoleAssignmentsListRoleAssignmentsParameters =

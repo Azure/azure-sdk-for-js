@@ -6,16 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./groupQuotas";
-export * from "./groupQuotaSubscriptions";
-export * from "./groupQuotaSubscriptionRequests";
-export * from "./groupQuotaLimits";
-export * from "./groupQuotaLimitsRequest";
-export * from "./groupQuotaSubscriptionAllocation";
-export * from "./groupQuotaSubscriptionAllocationRequest";
-export * from "./groupQuotaUsages";
-export * from "./groupQuotaLocationSettings";
-export * from "./usages";
-export * from "./quota";
-export * from "./quotaRequestStatus";
-export * from "./quotaOperation";
+export * from "./groupQuotas.js";
+export * from "./groupQuotaSubscriptions.js";
+export * from "./groupQuotaSubscriptionRequests.js";
+export * from "./groupQuotaLimitsRequest.js";
+export * from "./groupQuotaLimits.js";
+export * from "./groupQuotaSubscriptionAllocationRequest.js";
+export * from "./groupQuotaSubscriptionAllocation.js";
+export * from "./usages.js";
+export * from "./quota.js";
+export * from "./quotaRequestStatus.js";
+export * from "./quotaOperation.js";

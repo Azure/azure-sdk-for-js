@@ -486,6 +486,12 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
             name: "String",
           },
         },
+        messageOfTheDay: {
+          serializedName: "messageOfTheDay",
+          type: {
+            name: "String",
+          },
+        },
         vnetSubnetID: {
           serializedName: "vnetSubnetID",
           type: {
@@ -5004,6 +5010,12 @@ export const AgentPool: coreClient.CompositeMapper = {
       },
       workloadRuntime: {
         serializedName: "properties.workloadRuntime",
+        type: {
+          name: "String",
+        },
+      },
+      messageOfTheDay: {
+        serializedName: "properties.messageOfTheDay",
         type: {
           name: "String",
         },

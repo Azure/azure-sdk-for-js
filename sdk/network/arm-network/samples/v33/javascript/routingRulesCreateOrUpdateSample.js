@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an routing rule.
  *
  * @summary Creates or updates an routing rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerRoutingRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingRulePut.json
  */
 async function createADefaultRoutingRule() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function createADefaultRoutingRule() {
  * This sample demonstrates how to Creates or updates an routing rule.
  *
  * @summary Creates or updates an routing rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/NetworkManagerRoutingRulePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerRoutingRulePut.json
  */
 async function createAnRoutingRule() {
   const subscriptionId =

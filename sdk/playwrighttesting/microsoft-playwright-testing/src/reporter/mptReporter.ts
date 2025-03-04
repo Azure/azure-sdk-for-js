@@ -29,7 +29,7 @@ import { CIInfoProvider } from "../utils/cIInfoProvider";
 import ReporterUtils from "../utils/reporterUtils";
 import { ServiceClient } from "../utils/serviceClient";
 import { StorageClient } from "../utils/storageClient";
-import type { MPTReporterConfig } from "../common/types";
+import type { ReporterConfiguration } from "../common/types";
 import { ServiceErrorMessageConstants } from "../common/messages";
 import { validateMptPAT, populateValuesFromServiceUrl } from "../utils/utils";
 
@@ -78,7 +78,7 @@ class MPTReporter implements Reporter {
   private testRunUrl: string = "";
   private enableResultPublish: boolean = true;
 
-  constructor(config: Partial<MPTReporterConfig>) {
+  constructor(config: Partial<ReporterConfiguration>) {
     if (config?.enableGitHubSummary !== undefined) {
       this.enableGitHubSummary = config.enableGitHubSummary;
     }
@@ -266,16 +266,21 @@ class MPTReporter implements Reporter {
       const testResultObject: MPTTestResult = this.reporterUtils.getTestResultObject(
         test,
         result,
-        this.ciInfo.jobId!,
+        this.ciInfo.jobName!,
       );
       this.testResultBatch.add(testResultObject);
       // Store test attachments in array
       const testAttachments: string[] = [];
+      const otherAttachments: any[] = [];
       for (const attachment of result.attachments) {
         if (attachment.path !== undefined && attachment.path !== "") {
           testAttachments.push(attachment.path);
           this.uploadMetadata.numTotalAttachments++;
           this.uploadMetadata.sizeTotalAttachments += ReporterUtils.getFileSize(attachment.path);
+        } else if (attachment.body instanceof Buffer) {
+          otherAttachments.push(attachment);
+          this.uploadMetadata.numTotalAttachments++;
+          this.uploadMetadata.sizeTotalAttachments += ReporterUtils.getBufferSize(attachment.body);
         }
       }
 
@@ -283,7 +288,11 @@ class MPTReporter implements Reporter {
       const rawTestResult: RawTestResult = this.reporterUtils.getRawTestResultObject(result);
       this.testRawResults.set(testResultObject.testExecutionId, JSON.stringify(rawTestResult));
       this._testEndPromises.push(
-        this._uploadTestResultAttachments(testResultObject.testExecutionId, testAttachments),
+        this._uploadTestResultAttachments(
+          testResultObject.testExecutionId,
+          testAttachments,
+          otherAttachments,
+        ),
       );
     } catch (err: any) {
       this._addError(`Name: ${err.name}, Message: ${err.message}, Stack: ${err.stack}`);
@@ -309,10 +318,21 @@ class MPTReporter implements Reporter {
       reporterLogger.error(`\nError in uploading test run information: ${err.message}`);
     }
   }
-
+  private renewSasUriIfNeeded = async (): Promise<void> => {
+    if (
+      this.sasUri === undefined ||
+      !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
+    ) {
+      this.sasUri = await this.serviceClient.createStorageUri();
+      reporterLogger.info(
+        `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
+      );
+    }
+  };
   private async _uploadTestResultAttachments(
     testExecutionId: string,
     testAttachments: string[],
+    otherAttachments: any[],
   ): Promise<void> {
     try {
       this.isTestRunStartSuccess = await this.promiseOnBegin;
@@ -320,30 +340,26 @@ class MPTReporter implements Reporter {
         this._addError(`\nUnable to initialize test run report.`);
         return;
       }
+
       for (const attachmentPath of testAttachments) {
-        const fileRelativePath = `${testExecutionId}/${ReporterUtils.getFileRelativePath(
-          attachmentPath,
-        )}`;
-        if (
-          this.sasUri === undefined ||
-          !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
-        ) {
-          // Renew the sas uri
-          this.sasUri = await this.serviceClient.createStorageUri();
-          reporterLogger.info(
-            `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
-          );
-        }
+        const fileRelativePath = `${testExecutionId}/${ReporterUtils.getFileRelativePath(attachmentPath)}`;
+        await this.renewSasUriIfNeeded();
         await this.storageClient.uploadFile(this.sasUri.uri, attachmentPath, fileRelativePath);
       }
-      const rawTestResult = this.testRawResults.get(testExecutionId);
-      if (
-        this.sasUri === undefined ||
-        !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
-      ) {
-        // Renew the sas uri
-        this.sasUri = await this.serviceClient.createStorageUri();
+
+      for (const otherAttachment of otherAttachments) {
+        await this.renewSasUriIfNeeded();
+        const match = otherAttachment?.contentType?.match(/charset=(.*)/);
+        const charset = match && match.length > 1 ? match[1] : "utf-8";
+        await this.storageClient.uploadBuffer(
+          this.sasUri.uri,
+          otherAttachment.body.toString((charset as any) || "utf-8"),
+          `${testExecutionId}/${otherAttachment.name}`,
+        );
       }
+
+      const rawTestResult = this.testRawResults.get(testExecutionId);
+      await this.renewSasUriIfNeeded();
       await this.storageClient.uploadBuffer(
         this.sasUri.uri,
         rawTestResult[0]!,
@@ -361,12 +377,14 @@ class MPTReporter implements Reporter {
       this.isTokenValid = false;
       return;
     }
-    if (!process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]) {
+    if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]) {
       process.stdout.write("\nReporting service url not found.");
       this.isTokenValid = false;
       return;
     }
-    reporterLogger.info(`Reporting url - ${process.env["PLAYWRIGHT_SERVICE_REPORTING_URL"]}`);
+    reporterLogger.info(
+      `Reporting url - ${process.env[InternalEnvironmentVariables.MPT_SERVICE_REPORTING_URL]}`,
+    );
     if (this.envVariables.accessToken === undefined || this.envVariables.accessToken === "") {
       process.stdout.write(`\n${ServiceErrorMessageConstants.NO_AUTH_ERROR.message}`);
       this.isTokenValid = false;

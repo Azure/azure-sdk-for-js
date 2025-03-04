@@ -8,6 +8,13 @@ import { Span, BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import { Resource } from "@opentelemetry/resources";
 import {
+  ATTR_CLIENT_ADDRESS,
+  ATTR_HTTP_REQUEST_METHOD,
+  ATTR_HTTP_RESPONSE_STATUS_CODE,
+  ATTR_HTTP_ROUTE,
+  ATTR_NETWORK_PEER_ADDRESS,
+  ATTR_URL_FULL,
+  ATTR_USER_AGENT_ORIGINAL,
   DBSYSTEMVALUES_HIVE,
   DBSYSTEMVALUES_MONGODB,
   DBSYSTEMVALUES_MYSQL,
@@ -619,6 +626,64 @@ describe("spanUtils.ts", () => {
           expectedBaseData,
         );
       });
+      it("(HTTP) [new sem conv] should create a Request Envelope for Server Spans", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.SERVER,
+          "parentSpanId",
+          [{ context: { traceId: "traceid", spanId: "spanId", traceFlags: 0 } }],
+        );
+        span.setAttributes({
+          [ATTR_HTTP_REQUEST_METHOD]: "GET",
+          [ATTR_HTTP_ROUTE]: "/api/example",
+          [ATTR_URL_FULL]: "https://example.com/api/example",
+          [ATTR_HTTP_RESPONSE_STATUS_CODE]: 200,
+          [ATTR_CLIENT_ADDRESS]: "10.1.2.80",
+          [ATTR_USER_AGENT_ORIGINAL]: "test",
+          "extra.attribute": "foo",
+        });
+        span.setStatus({
+          code: SpanStatusCode.OK,
+        });
+        span.end();
+        const expectedTags: Tags = {};
+        expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationName] = "GET /api/example";
+        expectedTags[KnownContextTagKeys.AiLocationIp] = "10.1.2.80";
+        expectedTags["ai.user.userAgent"] = "test";
+        const expectedProperties = {
+          "extra.attribute": "foo",
+          "_MS.links": JSON.stringify([{ operation_Id: "traceid", id: "spanId" }]),
+        };
+
+        const expectedBaseData: Partial<RequestData> = {
+          id: `${span.spanContext().spanId}`,
+          success: true,
+          responseCode: "200",
+          url: "https://example.com/api/example",
+          name: expectedTags[KnownContextTagKeys.AiOperationName],
+          version: 2,
+          source: undefined,
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.Request",
+          100,
+          "RequestData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData,
+        );
+      });
       it("should set AiOperationName when only httpUrl is set", () => {
         const span = new Span(
           tracer,
@@ -633,6 +698,60 @@ describe("spanUtils.ts", () => {
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
           [SEMATTRS_HTTP_STATUS_CODE]: 200,
           [SEMATTRS_NET_PEER_IP]: "192.168.123.132",
+          "extra.attribute": "foo",
+        });
+        span.setStatus({
+          code: SpanStatusCode.OK,
+        });
+        span.end();
+        const expectedTags: Tags = {};
+        expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationName] = "GET /api/example";
+        expectedTags[KnownContextTagKeys.AiLocationIp] = "192.168.123.132";
+
+        const expectedProperties = {
+          "extra.attribute": "foo",
+        };
+
+        const expectedBaseData: Partial<RequestData> = {
+          id: `${span.spanContext().spanId}`,
+          success: true,
+          responseCode: "200",
+          url: "https://example.com/api/example",
+          name: expectedTags[KnownContextTagKeys.AiOperationName],
+          version: 2,
+          source: undefined,
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.Request",
+          100,
+          "RequestData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData,
+        );
+      });
+      it("[new sem conv] should set AiOperationName when only httpUrl is set", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.SERVER,
+          "parentSpanId",
+        );
+        span.setAttributes({
+          [ATTR_HTTP_REQUEST_METHOD]: "GET",
+          [ATTR_URL_FULL]: "https://example.com/api/example",
+          [ATTR_HTTP_RESPONSE_STATUS_CODE]: 200,
+          [ATTR_NETWORK_PEER_ADDRESS]: "192.168.123.132",
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -725,6 +844,58 @@ describe("spanUtils.ts", () => {
           expectedBaseData,
         );
       });
+      it("[new sem conv] should set AiLocationIp when httpMethod not set and netPeerIp is", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.SERVER,
+          "parentSpanId",
+        );
+        span.setAttributes({
+          [ATTR_URL_FULL]: "https://example.com/api/example",
+          [ATTR_HTTP_RESPONSE_STATUS_CODE]: 200,
+          [ATTR_NETWORK_PEER_ADDRESS]: "192.168.123.132",
+          "extra.attribute": "foo",
+        });
+        span.setStatus({
+          code: SpanStatusCode.OK,
+        });
+        span.end();
+        const expectedTags: Tags = {};
+        expectedTags[KnownContextTagKeys.AiOperationId] = "traceid";
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        expectedTags[KnownContextTagKeys.AiOperationName] = "parent span";
+        expectedTags[KnownContextTagKeys.AiLocationIp] = "192.168.123.132";
+
+        const expectedProperties = {
+          "extra.attribute": "foo",
+        };
+
+        const expectedBaseData: Partial<RequestData> = {
+          id: `${span.spanContext().spanId}`,
+          success: true,
+          responseCode: "0",
+          name: expectedTags[KnownContextTagKeys.AiOperationName],
+          version: 2,
+          source: undefined,
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.Request",
+          100,
+          "RequestData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData,
+        );
+      });
       it("should create a Dependency Envelope for Client Spans", () => {
         const span = new Span(
           tracer,
@@ -739,6 +910,58 @@ describe("spanUtils.ts", () => {
           [SEMATTRS_HTTP_URL]: "https://example.com/api/example",
           [SEMATTRS_PEER_SERVICE]: "https://someotherexample.com/api/example",
           [SEMATTRS_HTTP_STATUS_CODE]: 200,
+          "extra.attribute": "foo",
+        });
+        span.setStatus({
+          code: SpanStatusCode.OK,
+        });
+        span.end();
+        const expectedTags: Tags = {};
+        expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+        expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
+        const expectedProperties = {
+          "extra.attribute": "foo",
+        };
+
+        const expectedBaseData: Partial<RemoteDependencyData> = {
+          id: `spanId`,
+          success: true,
+          resultCode: "200",
+          type: "Http",
+          target: "https://someotherexample.com/api/example",
+          data: "https://example.com/api/example",
+          name: `GET /api/example`,
+          version: 2,
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.RemoteDependency",
+          100,
+          "RemoteDependencyData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData,
+        );
+      });
+      it("[new sem conv] should create a Dependency Envelope for Client Spans", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.CLIENT,
+          "parentSpanId",
+        );
+        span.setAttributes({
+          [ATTR_HTTP_REQUEST_METHOD]: "GET",
+          [ATTR_URL_FULL]: "https://example.com/api/example",
+          [SEMATTRS_PEER_SERVICE]: "https://someotherexample.com/api/example",
+          [ATTR_HTTP_RESPONSE_STATUS_CODE]: 200,
           "extra.attribute": "foo",
         });
         span.setStatus({
@@ -1263,25 +1486,6 @@ describe("spanUtils.ts", () => {
         undefined,
         expectedBaseData,
       );
-    });
-    it("should not create an envelope for client exception span events", () => {
-      const testError = new Error("test error");
-      const span = new Span(
-        tracer,
-        ROOT_CONTEXT,
-        "parent span",
-        { traceId: "4bf92f3577b34da6a3ce929d0e0e4736", spanId: "00f067aa0ba902b7", traceFlags: 0 },
-        SpanKind.CLIENT,
-        "parentSpanId",
-      );
-      span.recordException(testError);
-      span.end();
-      const envelopes = spanEventsToEnvelopes(span, "ikey");
-
-      const expectedTags: Tags = {};
-      expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
-      expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
-      assert.ok(envelopes.length === 0);
     });
   });
   it("should create an envelope for internal exception span events", () => {

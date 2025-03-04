@@ -38,7 +38,7 @@ import {
   RecoveryPlanUnplannedFailoverInput,
   ReplicationRecoveryPlansUnplannedFailoverOptionalParams,
   ReplicationRecoveryPlansUnplannedFailoverResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ReplicationRecoveryPlans. */

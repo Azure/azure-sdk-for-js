@@ -3,7 +3,7 @@
 
 import { WebPubSubServiceClient, odata } from "../src/index.js";
 import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import ws from "ws";
+import { WebSocket } from "ws";
 import { describe, it, assert } from "vitest";
 
 function defer<T>(): {
@@ -111,7 +111,7 @@ describe("ServiceClient to manage the connected WebSocket connections", () => {
       const token = await serviceClient.getClientAccessToken();
       const endSignal = defer<void>();
       // Start simple WebSocket connections
-      const client = new ws.WebSocket(token.url);
+      const client = new WebSocket(token.url);
       client.on("message", (data, isBinary) => {
         const frame = new SimpleWebSocketFrame(data, isBinary);
         console.log(frame.toString());
@@ -161,7 +161,7 @@ describe("ServiceClient to manage the connected WebSocket connections", () => {
       const end1Signal = defer<void>();
       const end2Signal = defer<void>();
       // Start simple WebSocket connections
-      const client = new ws.WebSocket(token.url);
+      const client = new WebSocket(token.url);
       client.on("message", (data, isBinary) => {
         const frame = new SimpleWebSocketFrame(data, isBinary);
         console.log(frame.toString());
@@ -216,7 +216,7 @@ describe("ServiceClient to manage the connected WebSocket connections", () => {
       const endSignal = defer<void>();
       const connectedSignal = defer<void>();
       // Start simple WebSocket connections
-      const client = new ws.WebSocket(token.url, "json.webpubsub.azure.v1");
+      const client = new WebSocket(token.url, "json.webpubsub.azure.v1");
 
       client.on("message", (data, isBinary) => {
         const frame = new PubSubWebSocketFrame(data, isBinary);
@@ -274,7 +274,7 @@ describe("ServiceClient to manage the connected WebSocket connections", () => {
     const token = await serviceClient.getClientAccessToken({ groups: ["groupA"] });
     const endSignal = defer<void>();
     // Start simple WebSocket connections
-    const client = new ws.WebSocket(token.url);
+    const client = new WebSocket(token.url);
 
     client.on("message", (data, isBinary) => {
       const frame = new SimpleWebSocketFrame(data, isBinary);
@@ -328,8 +328,8 @@ describe("ServiceClient to manage the connected WebSocket connections", () => {
     const startSignal = defer<void>();
     const endSignal = defer<void>();
     // Start simple WebSocket connections
-    const client1 = new ws.WebSocket(token.url);
-    const client2 = new ws.WebSocket(token.url);
+    const client1 = new WebSocket(token.url);
+    const client2 = new WebSocket(token.url);
     let opened = 0;
 
     const onOpen = (): void => {

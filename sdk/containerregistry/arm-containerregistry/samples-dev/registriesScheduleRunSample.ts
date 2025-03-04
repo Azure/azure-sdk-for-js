@@ -6,19 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   DockerBuildRequest,
   EncodedTaskRunRequest,
   FileTaskRunRequest,
   TaskRunRequest,
-  ContainerRegistryManagementClient
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Schedules a new run based on the request parameters and add it to the run queue.
@@ -26,7 +22,7 @@ dotenv.config();
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun.json
  */
-async function registriesScheduleRun() {
+async function registriesScheduleRun(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -41,8 +37,8 @@ async function registriesScheduleRun() {
       {
         name: "mysecrettestargument",
         isSecret: true,
-        value: "mysecrettestvalue"
-      }
+        value: "mysecrettestvalue",
+      },
     ],
     dockerFilePath: "DockerFile",
     imageNames: ["azurerest:testtag"],
@@ -51,17 +47,17 @@ async function registriesScheduleRun() {
     noCache: true,
     platform: { architecture: "amd64", os: "Linux" },
     sourceLocation:
-      "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D"
+      "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -72,7 +68,7 @@ async function registriesScheduleRun() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_EncodedTaskRun.json
  */
-async function registriesScheduleRunEncodedTaskRun() {
+async function registriesScheduleRunEncodedTaskRun(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -91,19 +87,19 @@ async function registriesScheduleRunEncodedTaskRun() {
       {
         name: "mysecrettestargument",
         isSecret: true,
-        value: "mysecrettestvalue"
-      }
-    ]
+        value: "mysecrettestvalue",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -114,7 +110,7 @@ async function registriesScheduleRunEncodedTaskRun() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_FileTaskRun.json
  */
-async function registriesScheduleRunFileTaskRun() {
+async function registriesScheduleRunFileTaskRun(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -133,20 +129,20 @@ async function registriesScheduleRunFileTaskRun() {
       {
         name: "mysecrettestargument",
         isSecret: true,
-        value: "mysecrettestvalue"
-      }
+        value: "mysecrettestvalue",
+      },
     ],
-    valuesFilePath: "prod-values.yaml"
+    valuesFilePath: "prod-values.yaml",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -157,7 +153,7 @@ async function registriesScheduleRunFileTaskRun() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_Task.json
  */
-async function registriesScheduleRunTask() {
+async function registriesScheduleRunTask(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -172,28 +168,32 @@ async function registriesScheduleRunTask() {
         {
           name: "mysecrettestargument",
           isSecret: true,
-          value: "mysecrettestvalue"
-        }
+          value: "mysecrettestvalue",
+        },
       ],
       file: "overriddenDockerfile",
       target: "build",
       updateTriggerToken: "aGVsbG8gd29ybGQ=",
       values: [
         { name: "mytestname", isSecret: false, value: "mytestvalue" },
-        { name: "mysecrettestname", isSecret: true, value: "mysecrettestvalue" }
-      ]
+        {
+          name: "mysecrettestname",
+          isSecret: true,
+          value: "mysecrettestvalue",
+        },
+      ],
     },
-    taskId: "myTask"
+    taskId: "myTask",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -204,7 +204,7 @@ async function registriesScheduleRunTask() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_FileTask_WithCustomCredentials.json
  */
-async function registriesScheduleRunTaskWithCustomCredentials() {
+async function registriesScheduleRunTaskWithCustomCredentials(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -217,10 +217,10 @@ async function registriesScheduleRunTaskWithCustomCredentials() {
       customRegistries: {
         myregistryAzurecrIo: {
           password: { type: "Opaque", value: "***" },
-          userName: { type: "Opaque", value: "reg1" }
-        }
+          userName: { type: "Opaque", value: "reg1" },
+        },
       },
-      sourceRegistry: { loginMode: "Default" }
+      sourceRegistry: { loginMode: "Default" },
     },
     platform: { os: "Linux" },
     taskFilePath: "acb.yaml",
@@ -229,19 +229,19 @@ async function registriesScheduleRunTaskWithCustomCredentials() {
       {
         name: "mysecrettestargument",
         isSecret: true,
-        value: "mysecrettestvalue"
-      }
-    ]
+        value: "mysecrettestvalue",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -252,7 +252,7 @@ async function registriesScheduleRunTaskWithCustomCredentials() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_WithCustomCredentials.json
  */
-async function registriesScheduleRunWithCustomCredentials() {
+async function registriesScheduleRunWithCustomCredentials(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -267,21 +267,21 @@ async function registriesScheduleRunWithCustomCredentials() {
       {
         name: "mysecrettestargument",
         isSecret: true,
-        value: "mysecrettestvalue"
-      }
+        value: "mysecrettestvalue",
+      },
     ],
     credentials: {
       customRegistries: {
         myregistryAzurecrIo: {
           password: { type: "Opaque", value: "***" },
-          userName: { type: "Opaque", value: "reg1" }
+          userName: { type: "Opaque", value: "reg1" },
         },
         myregistry2AzurecrIo: {
           password: { type: "Opaque", value: "***" },
-          userName: { type: "Opaque", value: "reg2" }
-        }
+          userName: { type: "Opaque", value: "reg2" },
+        },
       },
-      sourceRegistry: { loginMode: "Default" }
+      sourceRegistry: { loginMode: "Default" },
     },
     dockerFilePath: "DockerFile",
     imageNames: ["azurerest:testtag"],
@@ -291,17 +291,17 @@ async function registriesScheduleRunWithCustomCredentials() {
     platform: { architecture: "amd64", os: "Linux" },
     sourceLocation:
       "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
-    target: "stage1"
+    target: "stage1",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
@@ -312,7 +312,7 @@ async function registriesScheduleRunWithCustomCredentials() {
  * @summary Schedules a new run based on the request parameters and add it to the run queue.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RegistriesScheduleRun_WithLogTemplate.json
  */
-async function registriesScheduleRunWithLogTemplate() {
+async function registriesScheduleRunWithLogTemplate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -327,8 +327,8 @@ async function registriesScheduleRunWithLogTemplate() {
       {
         name: "mysecrettestargument",
         isSecret: true,
-        value: "mysecrettestvalue"
-      }
+        value: "mysecrettestvalue",
+      },
     ],
     dockerFilePath: "DockerFile",
     imageNames: ["azurerest:testtag"],
@@ -338,29 +338,29 @@ async function registriesScheduleRunWithLogTemplate() {
     noCache: true,
     platform: { architecture: "amd64", os: "Linux" },
     sourceLocation:
-      "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D"
+      "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.registries.beginScheduleRunAndWait(
     resourceGroupName,
     registryName,
-    runRequest
+    runRequest,
   );
   console.log(result);
 }
 
-async function main() {
-  registriesScheduleRun();
-  registriesScheduleRunEncodedTaskRun();
-  registriesScheduleRunFileTaskRun();
-  registriesScheduleRunTask();
-  registriesScheduleRunTaskWithCustomCredentials();
-  registriesScheduleRunWithCustomCredentials();
-  registriesScheduleRunWithLogTemplate();
+async function main(): Promise<void> {
+  await registriesScheduleRun();
+  await registriesScheduleRunEncodedTaskRun();
+  await registriesScheduleRunFileTaskRun();
+  await registriesScheduleRunTask();
+  await registriesScheduleRunTaskWithCustomCredentials();
+  await registriesScheduleRunWithCustomCredentials();
+  await registriesScheduleRunWithLogTemplate();
 }
 
 main().catch(console.error);

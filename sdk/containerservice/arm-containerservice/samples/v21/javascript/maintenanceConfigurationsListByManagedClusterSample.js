@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Gets a list of maintenance configurations in the specified managed cluster.
  *
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/MaintenanceConfigurationsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsList.json
  */
 async function listMaintenanceConfigurationsByManagedCluster() {
   const subscriptionId =
@@ -39,7 +37,7 @@ async function listMaintenanceConfigurationsByManagedCluster() {
  * This sample demonstrates how to Gets a list of maintenance configurations in the specified managed cluster.
  *
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
  */
 async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster() {
   const subscriptionId =
@@ -59,8 +57,8 @@ async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByMan
 }
 
 async function main() {
-  listMaintenanceConfigurationsByManagedCluster();
-  listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster();
+  await listMaintenanceConfigurationsByManagedCluster();
+  await listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster();
 }
 
 main().catch(console.error);

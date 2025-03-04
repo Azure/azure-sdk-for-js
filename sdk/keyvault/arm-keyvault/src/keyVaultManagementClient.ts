@@ -26,7 +26,7 @@ import {
   MhsmRegionsImpl,
   OperationsImpl,
   SecretsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Keys,
   ManagedHsmKeys,
@@ -39,8 +39,8 @@ import {
   MhsmRegions,
   Operations,
   Secrets
-} from "./operationsInterfaces";
-import { KeyVaultManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { KeyVaultManagementClientOptionalParams } from "./models/index.js";
 
 export class KeyVaultManagementClient extends coreClient.ServiceClient {
   $host: string;

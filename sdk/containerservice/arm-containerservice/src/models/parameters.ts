@@ -24,7 +24,7 @@ import {
   PrivateLinkResource as PrivateLinkResourceMapper,
   Snapshot as SnapshotMapper,
   TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -53,7 +53,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-09-01",
+    defaultValue: "2024-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

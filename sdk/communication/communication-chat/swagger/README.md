@@ -18,14 +18,14 @@ add-credentials: false
 disable-async-iterators: true
 package-version: 1.5.5
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 tracing-info:
   namespace: "Azure.Communication"
   packagePrefix: "Microsoft.Communication"
-
 typescript:
   generate-metadata: false
   azure-arm: false
+module-kind: esm
 ```
 
 ### Rename CommunicationError to ChatError

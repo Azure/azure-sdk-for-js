@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { ContainerServiceClient } = require("@azure/arm-containerservice");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to See [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle.
  *
  * @summary See [supported Kubernetes versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about the version lifecycle.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-09-01/examples/AgentPoolsGetAgentPoolAvailableVersions.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2024-10-01/examples/AgentPoolsGetAgentPoolAvailableVersions.json
  */
 async function getAvailableVersionsForAgentPool() {
   const subscriptionId =
@@ -33,7 +31,7 @@ async function getAvailableVersionsForAgentPool() {
 }
 
 async function main() {
-  getAvailableVersionsForAgentPool();
+  await getAvailableVersionsForAgentPool();
 }
 
 main().catch(console.error);

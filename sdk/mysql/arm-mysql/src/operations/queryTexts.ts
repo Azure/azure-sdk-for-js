@@ -7,12 +7,12 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { QueryTexts } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { QueryTexts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MySQLManagementClient } from "../mySQLManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MySQLManagementClient } from "../mySQLManagementClient.js";
 import {
   QueryText,
   QueryTextsListByServerNextOptionalParams,
@@ -21,7 +21,7 @@ import {
   QueryTextsGetOptionalParams,
   QueryTextsGetResponse,
   QueryTextsListByServerNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing QueryTexts operations. */

@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Costs } from "../operationsInterfaces";
+import { Costs } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { DevTestLabsClient } from "../devTestLabsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { DevTestLabsClient } from "../devTestLabsClient.js";
 import {
   CostsGetOptionalParams,
   CostsGetResponse,
   LabCost,
   CostsCreateOrUpdateOptionalParams,
   CostsCreateOrUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Costs operations. */
 export class CostsImpl implements Costs {

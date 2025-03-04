@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/UpdateAccountManagedIdentity.json
  */
-async function updateAccountManagedIdentities() {
+async function updateAccountManagedIdentities(): Promise<void> {
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myMapsAccount";
@@ -59,7 +59,7 @@ updateAccountManagedIdentities().catch(console.error);
  * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/UpdateAccount.json
  */
-async function updateAccountTags() {
+async function updateAccountTags(): Promise<void> {
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myMapsAccount";
@@ -84,7 +84,7 @@ updateAccountTags().catch(console.error);
  * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/UpdateAccountGen1.json
  */
-async function updateToGen1Account() {
+async function updateToGen1Account(): Promise<void> {
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myMapsAccount";
@@ -110,7 +110,7 @@ updateToGen1Account().catch(console.error);
  * @summary Updates a Maps Account. Only a subset of the parameters may be updated after creation, such as Sku, Tags, Properties.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/preview/2021-12-01-preview/examples/UpdateAccountGen2.json
  */
-async function updateToGen2Account() {
+async function updateToGen2Account(): Promise<void> {
   const subscriptionId = "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
   const resourceGroupName = "myResourceGroup";
   const accountName = "myMapsAccount";
