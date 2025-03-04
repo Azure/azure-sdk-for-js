@@ -15,7 +15,7 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 // Load the .env file if it exists
 import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Batch Chat Completions Sample ==");
 
   const apiVersion = "2024-11-01-preview";

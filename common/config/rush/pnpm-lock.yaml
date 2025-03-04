@@ -990,7 +990,7 @@ importers:
         version: file:projects/identity-cache-persistence.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/identity-vscode':
         specifier: file:./projects/identity-vscode.tgz
-        version: file:projects/identity-vscode.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)
+        version: file:projects/identity-vscode.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
       '@rush-temp/iot-device-update':
         specifier: file:./projects/iot-device-update.tgz
         version: file:projects/iot-device-update.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)
@@ -3179,7 +3179,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/arm-migrationassessment@file:projects/arm-migrationassessment.tgz':
-    resolution: {integrity: sha512-hJ8ypv8nxLi67I9XUChRQba3RXNebF/Bc8UG64SiwaFR+0NJeTRq7PydzI0tcjiC8bprDuUQF9L2TBYvTnNdWA==, tarball: file:projects/arm-migrationassessment.tgz}
+    resolution: {integrity: sha512-MokiZvVfjDHsLf3nvUE9QGsEPUKw7HlFMGrgqPlDc8i7Y5zDSb9LsmLLw6VYYKy7H6wO2E7ojjDBk9l/sIo50A==, tarball: file:projects/arm-migrationassessment.tgz}
     version: 0.0.0
 
   '@rush-temp/arm-migrationdiscoverysap@file:projects/arm-migrationdiscoverysap.tgz':
@@ -3811,11 +3811,11 @@ packages:
     version: 0.0.0
 
   '@rush-temp/identity-cache-persistence@file:projects/identity-cache-persistence.tgz':
-    resolution: {integrity: sha512-mLx+AXaT6P5YQ1kQjj3u/bKAtxhYtx2v7mXjoGj3CBeBEraB72d0mPeSC1tXjg7QzAoOT7QWWGbRvbLEr2U2lQ==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-syRA2B5iCbA8HBRZfJSTyDk7Bp3Nz/zFzFXpVzJ7QP7klpH9TzRae8168DxQnnXsnwdESNsKNmfrALYZIPNO+g==, tarball: file:projects/identity-cache-persistence.tgz}
     version: 0.0.0
 
   '@rush-temp/identity-vscode@file:projects/identity-vscode.tgz':
-    resolution: {integrity: sha512-1YbxTf+QZ28GKduvaGPfx/scl69OBfS5kOFpNo83kOFSWvXlqEYjQ8ntqkR2GtMhUPvCPl3dLDWZ797zysJSlA==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-/H15ohMKEHGSbMwslESLgFVYpavMX7mHRmKXbWlo31HISLqFRlJsA7vx+M00UM8iVkjONlV2/NC8Bq/l3lq4MQ==, tarball: file:projects/identity-vscode.tgz}
     version: 0.0.0
 
   '@rush-temp/identity@file:projects/identity.tgz':
@@ -3891,7 +3891,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/mixed-reality-remote-rendering@file:projects/mixed-reality-remote-rendering.tgz':
-    resolution: {integrity: sha512-4Wx6KxuTYKmgYWfmzLs2BW2MkwATk98Fdx88WL7/sa632gevVbfOCT5WWUUsqW2OtLN36jpr8Vi6UfKrxEON0g==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-TN6cq8PIrYAy/tJ4mQIkcRn1Wkr5lBxnDY8UeSvQP9D61ZN0iESKb4j+wnXPJp2RNKa9tBpg8NcOt5Jc7qhwaQ==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     version: 0.0.0
 
   '@rush-temp/mock-hub@file:projects/mock-hub.tgz':
@@ -3919,7 +3919,7 @@ packages:
     version: 0.0.0
 
   '@rush-temp/openai@file:projects/openai.tgz':
-    resolution: {integrity: sha512-QnN8rZhPnF3/GYsh3cLlyCb6JgnWdpPVrjGoau5jvxZQWcBIWb108P7yNZwXptJcPti/jGYJPFQuwRWW7CxgvA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-EB6z+wWho8coz2hCDFUcYTJ+Jw5CfJ20yzKpIZeNk4OxpglGY7XTSiWxsuCHa++eVGTTXRHMwG/gdOtAv9mZkw==, tarball: file:projects/openai.tgz}
     version: 0.0.0
 
   '@rush-temp/opentelemetry-instrumentation-azure-sdk@file:projects/opentelemetry-instrumentation-azure-sdk.tgz':
@@ -21191,9 +21191,10 @@ snapshots:
       - webdriverio
       - yaml
 
-  '@rush-temp/identity-vscode@file:projects/identity-vscode.tgz(@types/debug@4.1.12)(@vitest/browser@3.0.6)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(yaml@2.7.0)':
+  '@rush-temp/identity-vscode@file:projects/identity-vscode.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
     dependencies:
       '@types/node': 18.19.76
+      '@vitest/browser': 3.0.6(@types/node@18.19.76)(playwright@1.50.1)(typescript@5.7.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(vitest@3.0.6)
       '@vitest/coverage-istanbul': 3.0.6(vitest@3.0.6)
       dotenv: 16.4.7
       eslint: 9.21.0
@@ -21205,14 +21206,15 @@ snapshots:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@types/debug'
-      - '@vitest/browser'
       - '@vitest/ui'
+      - bufferutil
       - happy-dom
       - jiti
       - jsdom
       - less
       - lightningcss
       - msw
+      - safaridriver
       - sass
       - sass-embedded
       - stylus
@@ -21220,6 +21222,9 @@ snapshots:
       - supports-color
       - terser
       - tsx
+      - utf-8-validate
+      - vite
+      - webdriverio
       - yaml
 
   '@rush-temp/identity@file:projects/identity.tgz(@types/debug@4.1.12)(msw@2.7.2(@types/node@22.7.9)(typescript@5.8.2))(tsx@4.19.3)(vite@6.1.1(@types/node@22.7.9)(tsx@4.19.3)(yaml@2.7.0))(yaml@2.7.0)':
@@ -23908,7 +23913,7 @@ snapshots:
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 22.7.9
+      '@types/node': 18.19.76
 
   '@types/bunyan@1.8.11':
     dependencies:
@@ -23974,7 +23979,7 @@ snapshots:
 
   '@types/fs-extra@8.1.5':
     dependencies:
-      '@types/node': 22.7.9
+      '@types/node': 18.19.76
 
   '@types/glob@7.2.0':
     dependencies:
@@ -24096,7 +24101,7 @@ snapshots:
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 22.7.9
+      '@types/node': 18.19.76
       '@types/send': 0.17.4
 
   '@types/shimmer@1.2.0': {}

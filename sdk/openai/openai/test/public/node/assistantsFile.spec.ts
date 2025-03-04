@@ -12,13 +12,13 @@ describe("Assistants", () => {
     describe(`[${apiVersion}] Client`, () => {
       let client: OpenAI;
 
-      beforeEach(async function () {
+      beforeEach(async () => {
         client = createClientsAndDeployments(apiVersion, { assistants: "true" })
           .clientsAndDeployments[0].client;
       });
 
       describe("all CRUD APIs", function () {
-        it("uploads, gets, and lists a file assistant", async function () {
+        it("uploads, gets, and lists a file assistant", async () => {
           const filename = "sample_file_for_upload.json";
           const text =
             "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.";

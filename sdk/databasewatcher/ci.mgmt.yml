@@ -29,7 +29,7 @@ pr:
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: sdk/databasewatcher
+    ServiceDirectory: databasewatcher
     Artifacts:
       - name: azure-arm-databasewatcher
         safeName: azurearmdatabasewatcher
