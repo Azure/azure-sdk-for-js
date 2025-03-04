@@ -279,8 +279,8 @@ describe("#StandardMetricsHandler", () => {
     }
 
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;

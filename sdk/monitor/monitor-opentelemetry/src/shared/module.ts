@@ -13,6 +13,8 @@ import { fileURLToPath } from "node:url";
  * An ESM module loader for Azure Function Core.
  */
 export function loadAzureFunctionCore(): ReturnType<typeof require> {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore ESM only output
   return createRequire(import.meta.url)("@azure/functions-core");
 }
 
@@ -22,5 +24,7 @@ export function loadAzureFunctionCore(): ReturnType<typeof require> {
  * @returns The directory name of the current module.
  */
 export function dirName(): string {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore ESM only output
   return dirname(fileURLToPath(import.meta.url));
 }

@@ -28,13 +28,12 @@ import {
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
 } from "@opentelemetry/semantic-conventions";
+import { StandardMetricIds, StandardMetricPropertyNames } from "./types.js";
 import type {
   MetricDependencyDimensions,
   MetricDimensionTypeKeys,
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
-  StandardMetricIds,
-  StandardMetricPropertyNames,
 } from "./types.js";
 import type { LogRecord } from "@opentelemetry/sdk-logs";
 import type { Resource } from "@opentelemetry/resources";
