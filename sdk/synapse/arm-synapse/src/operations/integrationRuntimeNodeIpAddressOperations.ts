@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { IntegrationRuntimeNodeIpAddressOperations } from "../operationsInterfaces";
+import { IntegrationRuntimeNodeIpAddressOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { SynapseManagementClient } from "../synapseManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { SynapseManagementClient } from "../synapseManagementClient.js";
 import {
   IntegrationRuntimeNodeIpAddressGetOptionalParams,
   IntegrationRuntimeNodeIpAddressGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing IntegrationRuntimeNodeIpAddressOperations operations. */
 export class IntegrationRuntimeNodeIpAddressOperationsImpl

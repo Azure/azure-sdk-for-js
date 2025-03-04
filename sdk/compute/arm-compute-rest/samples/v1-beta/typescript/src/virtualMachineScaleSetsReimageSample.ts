@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   VirtualMachineScaleSetsReimageParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
@@ -26,17 +21,17 @@ async function virtualMachineScaleSetsReimageMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsReimageParameters = {
     body: { instanceIds: ["aaaaaaaaaa"], tempDisk: true },
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -55,17 +50,17 @@ async function virtualMachineScaleSetsReimageMinimumSetGen() {
   const resourceGroupName = "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
   const options: VirtualMachineScaleSetsReimageParameters = {
-    queryParameters: { "api-version": "2022-08-01" }
+    queryParameters: { "api-version": "2022-08-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ExpressRouteGateways } from "../operationsInterfaces";
+import { ExpressRouteGateways } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { NetworkManagementClient } from "../networkManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { NetworkManagementClient } from "../networkManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ExpressRouteGatewaysListBySubscriptionOptionalParams,
   ExpressRouteGatewaysListBySubscriptionResponse,
@@ -31,7 +31,7 @@ import {
   ExpressRouteGatewaysGetOptionalParams,
   ExpressRouteGatewaysGetResponse,
   ExpressRouteGatewaysDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ExpressRouteGateways operations. */
 export class ExpressRouteGatewaysImpl implements ExpressRouteGateways {

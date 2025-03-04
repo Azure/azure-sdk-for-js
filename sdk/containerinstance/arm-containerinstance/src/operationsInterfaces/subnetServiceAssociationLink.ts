@@ -7,7 +7,7 @@
  */
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import { SubnetServiceAssociationLinkDeleteOptionalParams } from "../models";
+import { SubnetServiceAssociationLinkDeleteOptionalParams } from "../models/index.js";
 
 /** Interface representing a SubnetServiceAssociationLink. */
 export interface SubnetServiceAssociationLink {

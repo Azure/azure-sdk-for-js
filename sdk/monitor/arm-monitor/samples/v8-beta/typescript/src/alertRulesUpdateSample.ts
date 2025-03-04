@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AlertRuleResourcePatch, MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates an existing classic metric AlertRuleResource. To update other fields use the CreateOrUpdate method.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Updates an existing classic metric AlertRuleResource. To update other fields use the CreateOrUpdate method.
  * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2016-03-01/examples/patchAlertRule.json
  */
-async function patchAnAlertRule() {
+async function patchAnAlertRule(): Promise<void> {
   const subscriptionId =
     process.env["MONITOR_SUBSCRIPTION_ID"] ||
     "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
@@ -62,7 +60,7 @@ async function patchAnAlertRule() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   patchAnAlertRule();
 }
 

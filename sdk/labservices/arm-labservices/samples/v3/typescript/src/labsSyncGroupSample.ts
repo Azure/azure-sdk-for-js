@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { LabServicesClient } from "@azure/arm-labservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Action used to manually kick off an AAD group sync job.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Action used to manually kick off an AAD group sync job.
  * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Labs/syncLab.json
  */
-async function syncLab() {
+async function syncLab(): Promise<void> {
   const subscriptionId =
     process.env["LABSERVICES_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -36,7 +34,7 @@ async function syncLab() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   syncLab();
 }
 

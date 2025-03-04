@@ -6,13 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation.
@@ -20,11 +16,9 @@ dotenv.config();
  * @summary Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_ConvertToManagedDisks_MaximumSet_Gen.json
  */
-async function virtualMachineConvertToManagedDisksMaximumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineConvertToManagedDisksMaximumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -41,11 +35,9 @@ async function virtualMachineConvertToManagedDisksMaximumSetGen() {
  * @summary Converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_ConvertToManagedDisks_MinimumSet_Gen.json
  */
-async function virtualMachineConvertToManagedDisksMinimumSetGen() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
+async function virtualMachineConvertToManagedDisksMinimumSetGen(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmName = "aaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -56,9 +48,9 @@ async function virtualMachineConvertToManagedDisksMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
-  virtualMachineConvertToManagedDisksMaximumSetGen();
-  virtualMachineConvertToManagedDisksMinimumSetGen();
+async function main(): Promise<void> {
+  await virtualMachineConvertToManagedDisksMaximumSetGen();
+  await virtualMachineConvertToManagedDisksMinimumSetGen();
 }
 
 main().catch(console.error);

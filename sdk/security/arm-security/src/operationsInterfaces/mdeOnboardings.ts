@@ -11,7 +11,7 @@ import {
   MdeOnboardingsListResponse,
   MdeOnboardingsGetOptionalParams,
   MdeOnboardingsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MdeOnboardings. */
 export interface MdeOnboardings {

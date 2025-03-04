@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary implements local CheckNameAvailability operations
  * x-ms-original-file: 2023-11-01/FabricCapacities_CheckNameAvailability.json
  */
-async function checkNameAvailabilityOfACapacity() {
+async function checkNameAvailabilityOfACapacity(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function checkNameAvailabilityOfACapacity() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkNameAvailabilityOfACapacity();
 }
 

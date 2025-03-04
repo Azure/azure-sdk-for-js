@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ComponentLinkedStorageAccountsOperations } from "../operationsInterfaces";
+import { ComponentLinkedStorageAccountsOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient.js";
 import {
   StorageType,
   ComponentLinkedStorageAccountsGetOptionalParams,
@@ -22,7 +22,7 @@ import {
   ComponentLinkedStorageAccountsUpdateOptionalParams,
   ComponentLinkedStorageAccountsUpdateResponse,
   ComponentLinkedStorageAccountsDeleteOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ComponentLinkedStorageAccountsOperations operations. */
 export class ComponentLinkedStorageAccountsOperationsImpl

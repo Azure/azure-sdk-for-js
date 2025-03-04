@@ -19,7 +19,7 @@ import {
   OriginGroupsUpdateOptionalParams,
   OriginGroupsUpdateResponse,
   OriginGroupsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a OriginGroups. */

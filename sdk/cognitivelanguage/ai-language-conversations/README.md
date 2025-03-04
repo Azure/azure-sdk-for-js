@@ -4,14 +4,14 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 The language service conversations API is a suite of natural language processing (NLP) skills that can be used to analyze structured conversations (textual or spoken). The synchronous API in this suite accepts a request and mediates among multiple language projects, such as LUIS Generally Available, Question Answering, Conversational Language Understanding, and then calls the best candidate service to handle the request. At last, it returns a response with the candidate service's response as a payload.
 
- In some cases, this API needs to forward requests and responses between the caller and an upstream service. The asynchronous APIs in this suite enable tasks like Conversation Summarization and Conversational PII detection.
+In some cases, this API needs to forward requests and responses between the caller and an upstream service. The asynchronous APIs in this suite enable tasks like Conversation Summarization and Conversational PII detection.
 
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/ai-language-conversations)
 - [API reference documentation](https://aka.ms/clujsapidocs)
-- [Product documentation](https://docs.microsoft.com/azure/cognitive-services/language-service/)
+- [Product documentation](https://learn.microsoft.com/azure/cognitive-services/language-service/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/samples-dev)
 
 ## Getting started
@@ -64,14 +64,17 @@ az cognitiveservices account keys list --resource-group <your-resource-group-nam
 
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
-```javascript
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { ConversationAnalysisClient } = require("@azure/ai-language-conversations");
+```ts snippet:ReadmeSampleCreateClient_Node
+import { AzureKeyCredential } from "@azure/core-auth";
+import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
 
-const client = new ConversationAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const endpoint = "https://<resource name>.cognitiveservices.azure.com";
+const credential = new AzureKeyCredential("<api key>");
+const client = new ConversationAnalysisClient(endpoint, credential);
 ```
 
 ### JavaScript Bundle
+
 To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
@@ -86,8 +89,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
 setLogLevel("info");
 ```
 
@@ -105,9 +109,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcognitivelanguage%2Fai-language-conversations%2FREADME.png)
 
-[azure_cli]: https://docs.microsoft.com/cli/azure
+
+[azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity

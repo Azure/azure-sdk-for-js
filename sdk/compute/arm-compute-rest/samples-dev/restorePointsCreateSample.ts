@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  RestorePointsCreateParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { RestorePointsCreateParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary The operation to create the restore point. Updating properties of an existing restore point is not allowed
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
  */
-async function copyARestorePointToADifferentRegion() {
+async function copyARestorePointToADifferentRegion(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -44,7 +38,7 @@ async function copyARestorePointToADifferentRegion() {
       restorePointName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -56,7 +50,7 @@ copyARestorePointToADifferentRegion().catch(console.error);
  * @summary The operation to create the restore point. Updating properties of an existing restore point is not allowed
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/restorePointExamples/RestorePoint_Create.json
  */
-async function createARestorePoint() {
+async function createARestorePoint(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -84,7 +78,7 @@ async function createARestorePoint() {
       restorePointName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

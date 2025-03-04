@@ -16,7 +16,7 @@ import {
   WebPubSubPrivateEndpointConnectionsUpdateOptionalParams,
   WebPubSubPrivateEndpointConnectionsUpdateResponse,
   WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a WebPubSubPrivateEndpointConnections. */

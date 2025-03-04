@@ -58,7 +58,7 @@ export async function main(): Promise<void> {
     console.log("The rendering session encountered an error: " + session.error.message);
   }
 
-  client.endSession(sessionId);
+  await client.endSession(sessionId);
 }
 
 main().catch((err) => {

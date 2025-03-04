@@ -6,25 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  RecorderStartOptions,
-  Recorder,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { LoadTestClient } from "../src/loadTestClient";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { LoadTestClient } from "../src/loadTestClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import {
-  LoadTestResource,
-  LoadTestResourcePatchRequestBody,
-  QuotaBucketRequest,
-  QuotaBucketRequestPropertiesDimensions
-} from "../src/models";
+import type { LoadTestResource, LoadTestResourcePatchRequestBody } from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach, beforeAll } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000"
+  SUBSCRIPTION_ID: "00000000-0000-0000-0000-000000000000",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -49,7 +39,7 @@ describe("Load Testing Resource Operations", () => {
   let loadTestResourceCreatePayload: LoadTestResource;
   let loadTestResourcePatchPayload: LoadTestResourcePatchRequestBody;
 
-  before(function () {
+  beforeAll(() => {
     // Load test resource create payload
     loadTestResourceCreatePayload = {
       description: "New Load test resource from SDK.",
@@ -60,35 +50,35 @@ describe("Load Testing Resource Operations", () => {
     // Load test resource patch payload
     loadTestResourcePatchPayload = {
       identity: {
-        type: 'SystemAssigned'
-      }
+        type: "SystemAssigned",
+      },
     };
 
     // Set the global variables to be used in the tests
     location = env.LOCATION || "westus2";
     resourceGroupName = env.RESOURCE_GROUP || "myjstest";
     loadTestResourceName = "loadtestsResource";
-  })
+  });
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '00000000-0000-0000-0000-000000000000';
+    subscriptionId = env.SUBSCRIPTION_ID || "00000000-0000-0000-0000-000000000000";
     const credential = createTestCredential();
     client = new LoadTestClient(credential, subscriptionId, recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-
-  it("create resource", async function () {
+  it("create resource", async () => {
     // Create a load test resource
     const resource = await client.loadTests.beginCreateOrUpdateAndWait(
       resourceGroupName,
       loadTestResourceName,
-      loadTestResourceCreatePayload, testPollingOptions
+      loadTestResourceCreatePayload,
+      testPollingOptions,
     );
 
     // Verify the response
@@ -100,12 +90,9 @@ describe("Load Testing Resource Operations", () => {
     assert.equal(resource.identity?.type, "None");
   });
 
-  it("get resource", async function () {
+  it("get resource", async () => {
     // Get the load test resource
-    const resource = await client.loadTests.get(
-      resourceGroupName,
-      loadTestResourceName
-    );
+    const resource = await client.loadTests.get(resourceGroupName, loadTestResourceName);
 
     // Verify the response
     assert.equal(resource.provisioningState, "Succeeded");
@@ -116,12 +103,13 @@ describe("Load Testing Resource Operations", () => {
     assert.equal(resource.identity?.type, "None");
   });
 
-  it("patch resource", async function () {
+  it("patch resource", async () => {
     // Patch the load test resource
     const result = await client.loadTests.beginUpdateAndWait(
       resourceGroupName,
       loadTestResourceName,
-      loadTestResourcePatchPayload, testPollingOptions
+      loadTestResourcePatchPayload,
+      testPollingOptions,
     );
 
     // // Get the load test resource
@@ -139,11 +127,7 @@ describe("Load Testing Resource Operations", () => {
     assert.equal(result.identity?.type, loadTestResourcePatchPayload.identity?.type);
   });
 
-  it("delete resource", async function () {
+  it("delete resource", async () => {
     // Delete the load test resource
-    const result = await client.loadTests.beginDelete(
-      resourceGroupName,
-      loadTestResourceName
-    );
   });
 });

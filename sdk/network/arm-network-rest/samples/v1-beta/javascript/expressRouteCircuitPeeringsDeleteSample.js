@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Deletes the specified peering from the specified express route circuit.
@@ -30,10 +30,10 @@ async function deleteExpressRouteCircuitPeerings() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      peeringName
+      peeringName,
     )
     .delete(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

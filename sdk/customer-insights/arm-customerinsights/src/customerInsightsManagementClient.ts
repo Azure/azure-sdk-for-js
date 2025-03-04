@@ -32,7 +32,7 @@ import {
   RoleAssignmentsImpl,
   ImagesImpl,
   PredictionsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Hubs,
@@ -51,8 +51,8 @@ import {
   RoleAssignments,
   Images,
   Predictions
-} from "./operationsInterfaces";
-import { CustomerInsightsManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { CustomerInsightsManagementClientOptionalParams } from "./models/index.js";
 
 export class CustomerInsightsManagementClient extends coreClient.ServiceClient {
   $host: string;

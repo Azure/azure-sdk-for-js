@@ -36,7 +36,7 @@ import {
   EdgeNodesImpl,
   PoliciesImpl,
   ManagedRuleSetsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   AfdProfiles,
   AfdCustomDomains,
@@ -59,9 +59,9 @@ import {
   EdgeNodes,
   Policies,
   ManagedRuleSets,
-} from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+} from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   CdnManagementClientOptionalParams,
   CheckEndpointNameAvailabilityInput,
@@ -75,7 +75,7 @@ import {
   ValidateProbeInput,
   ValidateProbeOptionalParams,
   ValidateProbeResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class CdnManagementClient extends coreClient.ServiceClient {
   $host: string;

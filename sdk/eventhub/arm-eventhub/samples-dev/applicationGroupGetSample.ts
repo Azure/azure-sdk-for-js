@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets an ApplicationGroup for a Namespace.
  *
  * @summary Gets an ApplicationGroup for a Namespace.
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/ApplicationGroup/ApplicationGroupGet.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/ApplicationGroup/ApplicationGroupGet.json
  */
-async function applicationGroupGet() {
+async function applicationGroupGet(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -38,8 +36,8 @@ async function applicationGroupGet() {
   console.log(result);
 }
 
-async function main() {
-  applicationGroupGet();
+async function main(): Promise<void> {
+  await applicationGroupGet();
 }
 
 main().catch(console.error);

@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  P2SVpnGatewaysUpdateTagsParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { P2SVpnGatewaysUpdateTagsParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Updates virtual wan p2s vpn gateway tags.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Updates virtual wan p2s vpn gateway tags.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/P2SVpnGatewayUpdateTags.json
  */
-async function p2SVpnGatewayUpdate() {
+async function p2SVpnGatewayUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

@@ -10,7 +10,7 @@ import {
   CertificateRequest,
   VaultCertificatesCreateOptionalParams,
   VaultCertificatesCreateResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a VaultCertificates. */
 export interface VaultCertificates {

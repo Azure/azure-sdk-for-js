@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./connector";
-export * from "./linker";
-export * from "./linkers";
-export * from "./operations";
-export * from "./configurationNames";
+export * from "./connector.js";
+export * from "./linker.js";
+export * from "./linkers.js";
+export * from "./operations.js";
+export * from "./configurationNames.js";

@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 import { Constants } from "../common";
 import type { CosmosHeaders } from "../queryExecutionContext/headerUtils";
-import { getRequestChargeIfAny } from "../queryExecutionContext/headerUtils";
-import { IndexMetricWriter, IndexUtilizationInfo } from "../indexMetrics";
+import {
+  decodeAndParseJSONString,
+  getRequestChargeIfAny,
+} from "../queryExecutionContext/headerUtils";
 import type { CosmosDiagnostics } from "../CosmosDiagnostics";
 
 export class FeedResponse<TResource> {
@@ -33,11 +35,6 @@ export class FeedResponse<TResource> {
     return this.headers[Constants.HttpHeaders.CorrelatedActivityId];
   }
   public get indexMetrics(): string {
-    const writer = new IndexMetricWriter();
-    const indexUtilizationInfo = IndexUtilizationInfo.createFromString(
-      this.headers[Constants.HttpHeaders.IndexUtilization],
-      true,
-    );
-    return writer.writeIndexMetrics(indexUtilizationInfo);
+    return decodeAndParseJSONString(this.headers[Constants.HttpHeaders.IndexUtilization]);
   }
 }

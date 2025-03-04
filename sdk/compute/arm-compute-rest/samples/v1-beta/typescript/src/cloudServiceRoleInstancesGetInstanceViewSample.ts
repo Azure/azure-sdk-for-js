@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
-  CloudServiceRoleInstancesGetInstanceViewParameters
+  CloudServiceRoleInstancesGetInstanceViewParameters,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves information about the run-time state of a role instance in a cloud service.
@@ -25,7 +20,7 @@ async function getInstanceViewOfCloudServiceRoleInstance() {
   const cloudServiceName = "{cs-name}";
   const roleInstanceName = "{roleInstance-name}";
   const options: CloudServiceRoleInstancesGetInstanceViewParameters = {
-    queryParameters: { "api-version": "2022-04-04" }
+    queryParameters: { "api-version": "2022-04-04" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getInstanceViewOfCloudServiceRoleInstance() {
       subscriptionId,
       resourceGroupName,
       cloudServiceName,
-      roleInstanceName
+      roleInstanceName,
     )
     .get(options);
   console.log(result);

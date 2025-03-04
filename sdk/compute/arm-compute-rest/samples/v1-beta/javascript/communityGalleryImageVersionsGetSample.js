@@ -31,7 +31,7 @@ async function getACommunityGalleryImageVersion() {
       location,
       publicGalleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .get(options);
   console.log(result);

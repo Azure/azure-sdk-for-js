@@ -11,7 +11,7 @@ import {
   CloudManifestFileListResponse,
   CloudManifestFileGetOptionalParams,
   CloudManifestFileGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CloudManifestFile. */
 export interface CloudManifestFile {

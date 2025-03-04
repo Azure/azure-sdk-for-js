@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { Apms } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { Apms } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AppPlatformManagementClient } from "../appPlatformManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AppPlatformManagementClient } from "../appPlatformManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ApmResource,
   ApmsListNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   ApmsListSecretKeysOptionalParams,
   ApmsListSecretKeysResponse,
   ApmsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Apms operations. */

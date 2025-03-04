@@ -4,6 +4,12 @@ parameters:
   TestPipeline: false
 
 steps:
+  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+    parameters:
+      PackageName: "@azure/template"
+      ServiceDirectory: "template"
+      TestPipeline: ${{ parameters.TestPipeline }}
+
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -22,12 +28,6 @@ steps:
       arguments: -ChangedServices "$(ChangedServices)"
       pwsh: true
     displayName: Spell check public API
-
-  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
-    parameters:
-      PackageName: "@azure/template"
-      ServiceDirectory: "template"
-      TestPipeline: ${{ parameters.TestPipeline }}
 
   - template: /eng/common/pipelines/templates/steps/verify-readmes.yml
     parameters:
@@ -64,12 +64,8 @@ steps:
       node common/scripts/install-run-rush.js install
     displayName: "Install dependencies"
 
-  - script: |
-      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
-    displayName: "Build libraries"
-
   - pwsh: |
-      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
+      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
       node eng/tools/rush-runner/index.js lint "$(ChangedServices)" -p max
     displayName: "Build ESLint Plugin and Lint Libraries"
 

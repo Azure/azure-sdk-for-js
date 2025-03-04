@@ -25,7 +25,7 @@ import {
   SbomComponentsImpl,
   SummariesImpl,
   WorkspacesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   BinaryHardening,
   CryptoCertificates,
@@ -37,8 +37,8 @@ import {
   SbomComponents,
   Summaries,
   Workspaces,
-} from "./operationsInterfaces";
-import { IoTFirmwareDefenseClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { IoTFirmwareDefenseClientOptionalParams } from "./models/index.js";
 
 export class IoTFirmwareDefenseClient extends coreClient.ServiceClient {
   $host: string;

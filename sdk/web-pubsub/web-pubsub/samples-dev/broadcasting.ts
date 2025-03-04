@@ -7,12 +7,10 @@
 
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const chatHub = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, "chat");
 
-async function main() {
+async function main(): Promise<void> {
   // send a text message to the entire hub
   await chatHub.sendToAll("Hi there!");
 
@@ -25,7 +23,7 @@ async function main() {
   for (let i = 0; i < 10; i++) {
     data[i] = i;
   }
-  chatHub.sendToAll(data.buffer);
+  await chatHub.sendToAll(data.buffer);
 }
 
 main().catch((e) => {

@@ -27,7 +27,7 @@ import {
 import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions.js";
 import { createValidator } from "../../utils/fieldValidator.js";
 import { PrebuiltModels } from "../../utils/prebuilts.js";
-import type { PrebuiltIdDocumentDocument } from "../../../samples-dev/prebuilt/prebuilt-idDocument.js";
+import type { PrebuiltIdDocumentDocument } from "../../utils/schemas/prebuilt-idDocument.js";
 import { ASSET_PATH, makeTestUrl } from "../../utils/etc.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -42,7 +42,7 @@ matrix([[true, false]] as const, async (useAad) => {
     let client: DocumentAnalysisClient;
     let recorder: Recorder;
 
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       recorder = await createRecorder(ctx);
       await recorder.setMatcher("BodilessMatcher");
       client = new DocumentAnalysisClient(

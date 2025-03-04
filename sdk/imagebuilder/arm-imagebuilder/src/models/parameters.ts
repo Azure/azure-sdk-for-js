@@ -15,7 +15,7 @@ import {
   ImageTemplate as ImageTemplateMapper,
   ImageTemplateUpdateParameters as ImageTemplateUpdateParametersMapper,
   Trigger as TriggerMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

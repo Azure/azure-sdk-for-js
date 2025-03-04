@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { ADCCatalog as ADCCatalogMapper } from "../models/mappers";
+import { ADCCatalog as ADCCatalogMapper } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

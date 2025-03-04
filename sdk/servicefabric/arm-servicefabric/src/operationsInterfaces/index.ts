@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./clusters";
-export * from "./clusterVersions";
-export * from "./operations";
-export * from "./applicationTypes";
-export * from "./applicationTypeVersions";
-export * from "./applications";
-export * from "./services";
+export * from "./clusters.js";
+export * from "./clusterVersions.js";
+export * from "./operations.js";
+export * from "./applicationTypes.js";
+export * from "./applicationTypeVersions.js";
+export * from "./applications.js";
+export * from "./services.js";

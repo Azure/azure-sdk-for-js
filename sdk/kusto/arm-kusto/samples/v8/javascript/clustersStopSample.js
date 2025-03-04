@@ -10,13 +10,13 @@
 // Licensed under the MIT License.
 const { KustoManagementClient } = require("@azure/arm-kusto");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Stops a Kusto cluster.
  *
  * @summary Stops a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersStop.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2024-04-13/examples/KustoClustersStop.json
  */
 async function kustoClustersStop() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function kustoClustersStop() {
 }
 
 async function main() {
-  kustoClustersStop();
+  await kustoClustersStop();
 }
 
 main().catch(console.error);

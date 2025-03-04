@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { VirtualMachineSizes } from "../operationsInterfaces";
+import { VirtualMachineSizes } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AzureMachineLearningServicesManagementClient } from "../azureMachineLearningServicesManagementClient.js";
 import {
   VirtualMachineSizesListOptionalParams,
   VirtualMachineSizesListResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing VirtualMachineSizes operations. */
 export class VirtualMachineSizesImpl implements VirtualMachineSizes {

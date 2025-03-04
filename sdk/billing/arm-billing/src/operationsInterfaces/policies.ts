@@ -30,7 +30,7 @@ import {
   PoliciesCreateOrUpdateByBillingAccountResponse,
   PoliciesGetBySubscriptionOptionalParams,
   PoliciesGetBySubscriptionResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Policies. */
 export interface Policies {

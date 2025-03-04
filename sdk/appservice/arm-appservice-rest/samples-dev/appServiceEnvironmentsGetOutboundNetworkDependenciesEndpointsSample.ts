@@ -2,9 +2,6 @@
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  */
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import WebSiteManagementClient, { paginate } from "@azure-rest/arm-appservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -30,7 +27,7 @@ async function getOutboundNetworkDependenciesEndpoints() {
     )
     .get();
   const res = paginate(client, initialResposne);
-  for await (let item of res) {
+  for await (const item of res) {
     result.push(item);
   }
   console.log(result);

@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.13.0",
+  "version": "6.0.0-beta.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -40,7 +40,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "generate-certs": "tsx ./scripts/generateCerts.mts",
+    "generate-certs": "node generateCerts.mjs",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run vendored cross-env TEST_MODE=live dev-tool run test:vitest --browser --no-test-proxy",
     "integration-test:node": "dev-tool run vendored cross-env TEST_MODE=live npm run vitest:node --esm",
@@ -54,7 +54,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run vendored cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" AZURE_LOG_LEVEL=\"info\" npm run vitest:node",
-    "update-snippets": "echo skipped",
+    "update-snippets": "dev-tool run update-snippets",
     "vitest:node": "dev-tool run test:vitest --no-test-proxy"
   },
   "//metadata": {
@@ -83,7 +83,7 @@
       "azure-event-hubs"
     ],
     "requiredResources": {
-      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
+      "Azure Event Hub": "https://learn.microsoft.com/azure/event-hubs/event-hubs-create"
     }
   },
   "tshy": {
@@ -107,12 +107,12 @@
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "^1.1.2",
     "@azure/core-util": "^1.9.1",
-    "@azure/logger": "^1.0.0",
+    "@azure/logger": "^1.1.4",
     "buffer": "^6.0.3",
     "is-buffer": "^2.0.5",
     "process": "^0.11.10",
     "rhea-promise": "^3.0.0",
-    "tslib": "^2.6.3"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
@@ -120,28 +120,27 @@
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.4.1",
-    "@azure/keyvault-secrets": "^4.8.0",
+    "@azure/identity": "^4.6.0",
+    "@azure/keyvault-secrets": "^4.9.0",
     "@azure/mock-hub": "^1.0.0",
     "@rollup/plugin-inject": "^5.0.5",
-    "@types/chai-as-promised": "^7.1.8",
-    "@types/debug": "^4.1.4",
+    "@types/chai-as-promised": "^8.0.1",
+    "@types/debug": "^4.1.12",
     "@types/node": "^18.0.0",
     "@types/ws": "^7.2.4",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
-    "chai": "^5.1.1",
-    "chai-as-promised": "^8.0.0",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
+    "chai": "^5.1.2",
+    "chai-as-promised": "^8.0.1",
     "chai-exclude": "^3.0.0",
     "copyfiles": "^2.4.1",
-    "debug": "^4.1.1",
+    "debug": "^4.4.0",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "https-proxy-agent": "^7.0.0",
     "playwright": "^1.45.3",
-    "tsx": "^4.16.2",
     "typescript": "~5.7.2",
-    "vitest": "^2.0.5",
+    "vitest": "^3.0.3",
     "ws": "^8.2.0"
   },
   "exports": {

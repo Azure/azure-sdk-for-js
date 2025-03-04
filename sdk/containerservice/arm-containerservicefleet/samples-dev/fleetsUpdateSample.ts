@@ -6,17 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  FleetPatch,
-  FleetsUpdateOptionalParams,
-  ContainerServiceFleetClient,
-} from "@azure/arm-containerservicefleet";
+import type { FleetPatch, FleetsUpdateOptionalParams } from "@azure/arm-containerservicefleet";
+import { ContainerServiceFleetClient } from "@azure/arm-containerservicefleet";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a Fleet
@@ -24,11 +17,9 @@ dotenv.config();
  * @summary Update a Fleet
  * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2024-05-02-preview/examples/Fleets_PatchTags.json
  */
-async function updateAFleet() {
-  const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
-  const resourceGroupName =
-    process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+async function updateAFleet(): Promise<void> {
+  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const ifMatch = "dfjkwelr7384";
   const fleetName = "fleet1";
   const properties: FleetPatch = { tags: { env: "prod", tier: "secure" } };
@@ -44,8 +35,8 @@ async function updateAFleet() {
   console.log(result);
 }
 
-async function main() {
-  updateAFleet();
+async function main(): Promise<void> {
+  await updateAFleet();
 }
 
 main().catch(console.error);

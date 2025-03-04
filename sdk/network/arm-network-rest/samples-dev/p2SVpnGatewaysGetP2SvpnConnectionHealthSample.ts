@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  P2SVpnGatewaysGetP2SVpnConnectionHealthParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { P2SVpnGatewaysGetP2SVpnConnectionHealthParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
@@ -18,7 +11,7 @@ dotenv.config();
  * @summary Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/P2SVpnGatewayGetConnectionHealth.json
  */
-async function p2SVpnGatewayGetConnectionHealth() {
+async function p2SVpnGatewayGetConnectionHealth(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

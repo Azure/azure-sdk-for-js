@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HDInsightContainersManagementClient } from "@azure/arm-hdinsightcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List a cluster available upgrade.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List a cluster available upgrade.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/ListClusterAvailableUpgrades.json
  */
-async function getClusterAvailableUpgrade() {
+async function getClusterAvailableUpgrade(): Promise<void> {
   const subscriptionId =
     process.env["HDINSIGHT_SUBSCRIPTION_ID"] ||
     "10e32bab-26da-4cc4-a441-52b318f824e6";
@@ -44,7 +42,7 @@ async function getClusterAvailableUpgrade() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getClusterAvailableUpgrade();
 }
 

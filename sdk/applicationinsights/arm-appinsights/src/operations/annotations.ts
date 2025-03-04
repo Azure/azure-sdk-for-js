@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { Annotations } from "../operationsInterfaces";
+import { Annotations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ApplicationInsightsManagementClient } from "../applicationInsightsManagementClient.js";
 import {
   Annotation,
   AnnotationsListOptionalParams,
@@ -21,7 +21,7 @@ import {
   AnnotationsDeleteOptionalParams,
   AnnotationsGetOptionalParams,
   AnnotationsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Annotations operations. */

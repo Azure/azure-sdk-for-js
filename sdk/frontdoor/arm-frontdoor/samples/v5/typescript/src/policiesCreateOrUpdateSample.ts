@@ -13,9 +13,7 @@ import {
   FrontDoorManagementClient,
 } from "@azure/arm-frontdoor";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update policy with specified rule set name within a resource group.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Create or update policy with specified rule set name within a resource group.
  * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2024-02-01/examples/WafPolicyCreateOrUpdate.json
  */
-async function createsSpecificPolicy() {
+async function createsSpecificPolicy(): Promise<void> {
   const subscriptionId = process.env["FRONTDOOR_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["FRONTDOOR_RESOURCE_GROUP"] || "rg1";
   const policyName = "Policy1";
@@ -141,7 +139,7 @@ async function createsSpecificPolicy() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsSpecificPolicy();
 }
 

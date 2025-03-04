@@ -6,16 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   RunUpdateParameters,
-  ContainerRegistryManagementClient
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Patch the run properties.
@@ -23,7 +19,7 @@ dotenv.config();
  * @summary Patch the run properties.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/RunsUpdate.json
  */
-async function runsUpdate() {
+async function runsUpdate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -35,19 +31,19 @@ async function runsUpdate() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.runs.beginUpdateAndWait(
     resourceGroupName,
     registryName,
     runId,
-    runUpdateParameters
+    runUpdateParameters,
   );
   console.log(result);
 }
 
-async function main() {
-  runsUpdate();
+async function main(): Promise<void> {
+  await runsUpdate();
 }
 
 main().catch(console.error);

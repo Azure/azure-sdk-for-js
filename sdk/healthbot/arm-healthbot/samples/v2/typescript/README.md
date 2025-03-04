@@ -69,7 +69,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [botslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthbot/arm-healthbot/samples/v2/typescript/src/botsListSample.ts
 [botsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthbot/arm-healthbot/samples/v2/typescript/src/botsUpdateSample.ts
 [operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthbot/arm-healthbot/samples/v2/typescript/src/operationsListSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-healthbot?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-healthbot?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthbot/arm-healthbot/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

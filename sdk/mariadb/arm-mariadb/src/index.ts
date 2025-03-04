@@ -7,7 +7,7 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export { getContinuationToken } from "./pagingHelper";
-export * from "./models";
-export { MariaDBManagementClient } from "./mariaDBManagementClient";
-export * from "./operationsInterfaces";
+export { getContinuationToken } from "./pagingHelper.js";
+export * from "./models/index.js";
+export { MariaDBManagementClient } from "./mariaDBManagementClient.js";
+export * from "./operationsInterfaces/index.js";

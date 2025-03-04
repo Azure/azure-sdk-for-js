@@ -95,7 +95,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [spacecraftslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/orbital/arm-orbital/samples/v2/typescript/src/spacecraftsListBySubscriptionSample.ts
 [spacecraftslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/orbital/arm-orbital/samples/v2/typescript/src/spacecraftsListSample.ts
 [spacecraftsupdatetagssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/orbital/arm-orbital/samples/v2/typescript/src/spacecraftsUpdateTagsSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-orbital?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-orbital?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/orbital/arm-orbital/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

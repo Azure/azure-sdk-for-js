@@ -14,9 +14,7 @@ import {
   HybridConnectivityManagementAPI
 } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets the endpoint access credentials to the resource.
@@ -24,7 +22,7 @@ dotenv.config();
  * @summary Gets the endpoint access credentials to the resource.
  * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsPostListCredentials.json
  */
-async function hybridConnectivityEndpointsPostListCredentials() {
+async function hybridConnectivityEndpointsPostListCredentials(): Promise<void> {
   const resourceUri =
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine";
   const endpointName = "default";
@@ -44,7 +42,7 @@ async function hybridConnectivityEndpointsPostListCredentials() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   hybridConnectivityEndpointsPostListCredentials();
 }
 

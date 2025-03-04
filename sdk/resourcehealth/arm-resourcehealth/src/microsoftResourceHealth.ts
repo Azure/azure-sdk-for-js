@@ -25,7 +25,7 @@ import {
   ChildAvailabilityStatusesImpl,
   ChildResourcesImpl,
   EmergingIssuesImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   AvailabilityStatuses,
   Operations,
@@ -37,8 +37,8 @@ import {
   ChildAvailabilityStatuses,
   ChildResources,
   EmergingIssues
-} from "./operationsInterfaces";
-import { MicrosoftResourceHealthOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { MicrosoftResourceHealthOptionalParams } from "./models/index.js";
 
 export class MicrosoftResourceHealth extends coreClient.ServiceClient {
   $host: string;

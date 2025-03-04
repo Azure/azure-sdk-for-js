@@ -6,14 +6,12 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { Durations, Metric, MetricsQueryClient } from "@azure/monitor-query";
-import * as dotenv from "dotenv";
-
-dotenv.config();
-
+import type { Metric } from "@azure/monitor-query";
+import { Durations, MetricsQueryClient } from "@azure/monitor-query";
+import "dotenv/config";
 const metricsResourceId = process.env.METRICS_RESOURCE_ID;
 
-export async function main() {
+export async function main(): Promise<void> {
   const tokenCredential = new DefaultAzureCredential();
   const metricsQueryClient = new MetricsQueryClient(tokenCredential);
 
@@ -22,7 +20,7 @@ export async function main() {
   }
 
   const iterator = metricsQueryClient.listMetricDefinitions(metricsResourceId);
-  let metricNames: string[] = [];
+  const metricNames: string[] = [];
   for await (const result of iterator) {
     console.log(` metricDefinitions - ${result.id}, ${result.name}`);
     if (result.name) {

@@ -32,7 +32,7 @@ import {
   EventsOperationsImpl,
   LotsOperationsImpl,
   CreditsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   UsageDetails,
   Marketplaces,
@@ -51,8 +51,8 @@ import {
   EventsOperations,
   LotsOperations,
   Credits
-} from "./operationsInterfaces";
-import { ConsumptionManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ConsumptionManagementClientOptionalParams } from "./models/index.js";
 
 export class ConsumptionManagementClient extends coreClient.ServiceClient {
   $host: string;

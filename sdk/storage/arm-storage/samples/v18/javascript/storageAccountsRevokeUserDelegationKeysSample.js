@@ -6,17 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 const { StorageManagementClient } = require("@azure/arm-storage");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Revoke user delegation keys.
  *
  * @summary Revoke user delegation keys.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-05-01/examples/StorageAccountRevokeUserDelegationKeys.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountRevokeUserDelegationKeys.json
  */
 async function storageAccountRevokeUserDelegationKeys() {
   const subscriptionId = process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -32,7 +30,7 @@ async function storageAccountRevokeUserDelegationKeys() {
 }
 
 async function main() {
-  storageAccountRevokeUserDelegationKeys();
+  await storageAccountRevokeUserDelegationKeys();
 }
 
 main().catch(console.error);

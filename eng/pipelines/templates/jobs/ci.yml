@@ -90,6 +90,7 @@ jobs:
             TestProxy: ${{ parameters.TestProxy }}
           ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
             EnablePRGeneration: true
+            PRMatrixSparseIndirect: false
             PreGenerationSteps:
               - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
                 parameters:

@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list FabricCapacity resources by resource group
  * x-ms-original-file: 2023-11-01/FabricCapacities_ListByResourceGroup.json
  */
-async function listCapacitiesByResourceGroup() {
+async function listCapacitiesByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
@@ -24,7 +24,7 @@ async function listCapacitiesByResourceGroup() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listCapacitiesByResourceGroup();
 }
 

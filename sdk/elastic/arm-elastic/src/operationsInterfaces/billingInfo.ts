@@ -9,7 +9,7 @@
 import {
   BillingInfoGetOptionalParams,
   BillingInfoGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BillingInfo. */
 export interface BillingInfo {

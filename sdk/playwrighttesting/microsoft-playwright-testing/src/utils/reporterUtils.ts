@@ -217,7 +217,7 @@ class ReporterUtils {
   public getRawTestResultObject(result: TestResult): RawTestResult {
     const rawTestResult: RawTestResult = {
       steps: this.dedupeSteps(result.steps).map((step) => this.serializeTestStep(step)),
-      errors: result.errors ? JSON.stringify(result.errors, null, 2) : "",
+      errors: this.getTestError(result),
       stdErr: result.stderr ? JSON.stringify(result.stderr, null, 2) : "",
       stdOut: result.stdout ? JSON.stringify(result.stdout, null, 2) : "",
     };
@@ -404,7 +404,7 @@ class ReporterUtils {
 
   private getTestRunConfig(): TestRunConfig {
     const testRunConfig: TestRunConfig = {
-      workers: this.config.workers,
+      workers: this.getWorkers(),
       pwVersion: this.config.version,
       timeout: this.config.globalTimeout,
       repeatEach: this.config.projects[0].repeatEach,
@@ -624,6 +624,35 @@ class ReporterUtils {
 
   public static isNullOrEmpty(str: string | null | undefined): boolean {
     return !str || str.trim() === "";
+  }
+
+  private getTestError(result: TestResult): string {
+    if (!result.errors || result.errors.length === 0) return "";
+    const errorMessages: { message: string }[] = [];
+    result.errors.forEach((error) => {
+      if (error.message) errorMessages.push({ message: error.message });
+      if (error.snippet && error.location) {
+        errorMessages.push({
+          message: error.snippet + "\n\n" + this.getReadableLineLocation(error.location),
+        });
+      } else if (error.snippet) errorMessages.push({ message: error.snippet });
+    });
+    return JSON.stringify(errorMessages, null, 2);
+  }
+
+  private getReadableLineLocation(location: Location): string {
+    return `at ${location.file}:${location.line}:${location.column}`;
+  }
+
+  private getWorkers(): number {
+    if (
+      this.config.metadata &&
+      "actualWorkers" in this.config.metadata &&
+      typeof this.config.metadata.actualWorkers === "number"
+    ) {
+      return this.config.metadata.actualWorkers;
+    }
+    return this.config.workers;
   }
 }
 

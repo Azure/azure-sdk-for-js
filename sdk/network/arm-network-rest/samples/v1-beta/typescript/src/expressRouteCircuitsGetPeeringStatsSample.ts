@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ExpressRouteCircuitsGetPeeringStatsParameters
+  ExpressRouteCircuitsGetPeeringStatsParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets all stats from an express route circuit in a resource group.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Gets all stats from an express route circuit in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteCircuitPeeringStats.json
  */
-async function getExpressRouteCircuitPeeringTrafficStats() {
+async function getExpressRouteCircuitPeeringTrafficStats(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -25,7 +20,7 @@ async function getExpressRouteCircuitPeeringTrafficStats() {
   const circuitName = "circuitName";
   const peeringName = "peeringName";
   const options: ExpressRouteCircuitsGetPeeringStatsParameters = {
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -33,7 +28,7 @@ async function getExpressRouteCircuitPeeringTrafficStats() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      peeringName
+      peeringName,
     )
     .get(options);
   console.log(result);

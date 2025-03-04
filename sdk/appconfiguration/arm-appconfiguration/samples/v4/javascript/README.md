@@ -101,6 +101,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [replicaslistbyconfigurationstoresample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/arm-appconfiguration/samples/v4/javascript/replicasListByConfigurationStoreSample.js
 [snapshotscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/arm-appconfiguration/samples/v4/javascript/snapshotsCreateSample.js
 [snapshotsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/arm-appconfiguration/samples/v4/javascript/snapshotsGetSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-appconfiguration?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-appconfiguration?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/arm-appconfiguration/README.md

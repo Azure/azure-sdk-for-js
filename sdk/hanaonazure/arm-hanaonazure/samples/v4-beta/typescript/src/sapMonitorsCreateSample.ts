@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Creates a SAP monitor for the specified subscription, resource group, and resource name.
  * x-ms-original-file: specification/hanaonazure/resource-manager/Microsoft.HanaOnAzure/preview/2020-02-07-preview/examples/SapMonitors_Create.json
  */
-async function createASapMonitor() {
+async function createASapMonitor(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = "myResourceGroup";
   const sapMonitorName = "mySapMonitor";

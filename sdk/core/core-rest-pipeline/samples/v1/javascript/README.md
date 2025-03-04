@@ -45,6 +45,6 @@ npx dev-tool run vendored cross-env  node node-sample.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [node-sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/samples/v1/javascript/node-sample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/core-rest-pipeline
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/core-rest-pipeline
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline/README.md

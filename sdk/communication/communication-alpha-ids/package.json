@@ -8,7 +8,7 @@
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:autorest": "autorest --typescript --version=3.0.6267 --v3 ./swagger/README.md && dev-tool admin migrate-source && rushx format",
+    "build:autorest": "autorest --typescript --v3 ./swagger/README.md",
     "build:browser": "dev-tool run build-package && dev-tool run bundle",
     "build:clean": "rush update --recheck && rush rebuild && npm run build",
     "build:node": "dev-tool run build-package && dev-tool run bundle",
@@ -32,7 +32,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",
@@ -76,13 +76,13 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.1.4",
-    "@vitest/coverage-istanbul": "^2.1.4",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.48.2",
     "typescript": "~5.7.2",
-    "vitest": "^2.1.4"
+    "vitest": "^3.0.3"
   },
   "//metadata": {
     "constantPaths": [
@@ -111,7 +111,7 @@
       "azure-communication-services"
     ],
     "requiredResources": {
-      "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
+      "Azure Communication Services account": "https://learn.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
     }
   },
   "type": "module",

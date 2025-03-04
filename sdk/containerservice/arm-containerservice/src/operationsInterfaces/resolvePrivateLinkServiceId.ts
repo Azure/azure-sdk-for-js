@@ -10,7 +10,7 @@ import {
   PrivateLinkResource,
   ResolvePrivateLinkServiceIdPostOptionalParams,
   ResolvePrivateLinkServiceIdPostResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ResolvePrivateLinkServiceId. */
 export interface ResolvePrivateLinkServiceId {

@@ -10,19 +10,19 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2024-03-01/Operations_List.json
  */
-async function operationsList0() {
+async function operationsList0(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
   console.log(resArray);
 }
 
-async function main() {
-  operationsList0();
+async function main(): Promise<void> {
+  await operationsList0();
 }
 
 main().catch(console.error);

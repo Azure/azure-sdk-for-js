@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Retrieves the subscription's current quota information in a particular region.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Retrieves the subscription's current quota information in a particular region.
  * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Subscription_ListQuotas.json
  */
-async function listSubscriptionQuotaInformationInWestUs() {
+async function listSubscriptionQuotaInformationInWestUs(): Promise<void> {
   const subscriptionId =
     process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
     "56b5e0a9-b645-407d-99b0-c64f86013e3d";
@@ -34,7 +32,7 @@ async function listSubscriptionQuotaInformationInWestUs() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listSubscriptionQuotaInformationInWestUs();
 }
 

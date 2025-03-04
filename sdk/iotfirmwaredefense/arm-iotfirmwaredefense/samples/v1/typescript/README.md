@@ -101,7 +101,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [workspaceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iotfirmwaredefense/arm-iotfirmwaredefense/samples/v1/typescript/src/workspacesListByResourceGroupSample.ts
 [workspaceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iotfirmwaredefense/arm-iotfirmwaredefense/samples/v1/typescript/src/workspacesListBySubscriptionSample.ts
 [workspacesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/iotfirmwaredefense/arm-iotfirmwaredefense/samples/v1/typescript/src/workspacesUpdateSample.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-iotfirmwaredefense?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-iotfirmwaredefense?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iotfirmwaredefense/arm-iotfirmwaredefense/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

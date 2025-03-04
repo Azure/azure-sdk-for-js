@@ -6,12 +6,14 @@
  */
 
 import { isNode } from "@azure/core-util";
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import NotificationClient, { 
+import type { TokenCredential }  from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import type { 
     Send202Response,
     MessageTemplate,
     MessageTemplateValue,
-    MessageTemplateBindings,
+    MessageTemplateBindings} from "@azure-rest/communication-messages";
+import NotificationClient, {
     isUnexpected,
 } from "@azure-rest/communication-messages";
 

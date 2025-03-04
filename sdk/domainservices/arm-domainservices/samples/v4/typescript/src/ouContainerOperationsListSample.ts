@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Lists all the available OuContainer operations.
  * x-ms-original-file: specification/domainservices/resource-manager/Microsoft.AAD/stable/2021-05-01/examples/GetOperations.json
  */
-async function getOperations() {
+async function getOperations(): Promise<void> {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new DomainServicesResourceProvider(credential, subscriptionId);

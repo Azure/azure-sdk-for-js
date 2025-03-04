@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  VirtualMachineScaleSetsGetParameters,
-} from "@azure-rest/arm-compute";
+import type { VirtualMachineScaleSetsGetParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Display information about a virtual machine scale set.
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Display information about a virtual machine scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithDiskControllerType.json
  */
-async function getVMScaleSetVMWithDiskControllerType() {
+async function getVMScaleSetVMWithDiskControllerType(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -44,7 +39,7 @@ getVMScaleSetVMWithDiskControllerType().catch(console.error);
  * @summary Display information about a virtual machine scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get.json
  */
-async function getAVirtualMachineScaleSet() {
+async function getAVirtualMachineScaleSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -71,7 +66,7 @@ getAVirtualMachineScaleSet().catch(console.error);
  * @summary Display information about a virtual machine scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_AutoPlacedOnDedicatedHostGroup.json
  */
-async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
+async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -100,7 +95,7 @@ getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement()
  * @summary Display information about a virtual machine scale set.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithUserData.json
  */
-async function getAVirtualMachineScaleSetWithUserData() {
+async function getAVirtualMachineScaleSetWithUserData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";

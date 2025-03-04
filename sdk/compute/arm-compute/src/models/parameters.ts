@@ -87,7 +87,7 @@ import {
   CloudServiceUpdate as CloudServiceUpdateMapper,
   RoleInstances as RoleInstancesMapper,
   UpdateDomain as UpdateDomainMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -1490,7 +1490,7 @@ export const cloudServiceName: OperationURLParameter = {
 export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-04",
+    defaultValue: "2024-11-04",
     isConstant: true,
     serializedName: "api-version",
     type: {

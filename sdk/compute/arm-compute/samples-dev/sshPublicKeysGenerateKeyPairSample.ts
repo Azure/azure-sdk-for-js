@@ -6,17 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   SshGenerateKeyPairInputParameters,
   SshPublicKeysGenerateKeyPairOptionalParams,
-  ComputeManagementClient,
 } from "@azure/arm-compute";
+import { ComputeManagementClient } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Generates and returns a public/private key pair and populates the SSH public key resource with the public key. The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource.
@@ -24,11 +20,9 @@ dotenv.config();
  * @summary Generates and returns a public/private key pair and populates the SSH public key resource with the public key. The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_GenerateKeyPair_EncryptionWithEd25519.json
  */
-async function generateAnSshKeyPairWithEd25519Encryption() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function generateAnSshKeyPairWithEd25519Encryption(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const sshPublicKeyName = "mySshPublicKeyName";
   const parameters: SshGenerateKeyPairInputParameters = {
     encryptionType: "Ed25519",
@@ -50,11 +44,9 @@ async function generateAnSshKeyPairWithEd25519Encryption() {
  * @summary Generates and returns a public/private key pair and populates the SSH public key resource with the public key. The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_GenerateKeyPair_EncryptionWithRSA.json
  */
-async function generateAnSshKeyPairWithRsaEncryption() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function generateAnSshKeyPairWithRsaEncryption(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const sshPublicKeyName = "mySshPublicKeyName";
   const parameters: SshGenerateKeyPairInputParameters = {
     encryptionType: "RSA",
@@ -76,25 +68,20 @@ async function generateAnSshKeyPairWithRsaEncryption() {
  * @summary Generates and returns a public/private key pair and populates the SSH public key resource with the public key. The length of the key will be 3072 bits. This operation can only be performed once per SSH public key resource.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/sshPublicKeyExamples/SshPublicKey_GenerateKeyPair.json
  */
-async function generateAnSshKeyPair() {
-  const subscriptionId =
-    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+async function generateAnSshKeyPair(): Promise<void> {
+  const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const sshPublicKeyName = "mySshPublicKeyName";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.sshPublicKeys.generateKeyPair(
-    resourceGroupName,
-    sshPublicKeyName,
-  );
+  const result = await client.sshPublicKeys.generateKeyPair(resourceGroupName, sshPublicKeyName);
   console.log(result);
 }
 
-async function main() {
-  generateAnSshKeyPairWithEd25519Encryption();
-  generateAnSshKeyPairWithRsaEncryption();
-  generateAnSshKeyPair();
+async function main(): Promise<void> {
+  await generateAnSshKeyPairWithEd25519Encryption();
+  await generateAnSshKeyPairWithRsaEncryption();
+  await generateAnSshKeyPair();
 }
 
 main().catch(console.error);

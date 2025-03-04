@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HDInsightManagementClient } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets properties of the specified application.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets properties of the specified application.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetApplicationInProgress.json
  */
-async function getApplicationOnHdInsightClusterCreationInProgress() {
+async function getApplicationOnHdInsightClusterCreationInProgress(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -41,7 +39,7 @@ async function getApplicationOnHdInsightClusterCreationInProgress() {
  * @summary Gets properties of the specified application.
  * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetApplicationCreated.json
  */
-async function getApplicationOnHdInsightClusterSuccessfullyCreated() {
+async function getApplicationOnHdInsightClusterSuccessfullyCreated(): Promise<void> {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["HDINSIGHT_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cluster1";
@@ -56,7 +54,7 @@ async function getApplicationOnHdInsightClusterSuccessfullyCreated() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getApplicationOnHdInsightClusterCreationInProgress();
   getApplicationOnHdInsightClusterSuccessfullyCreated();
 }

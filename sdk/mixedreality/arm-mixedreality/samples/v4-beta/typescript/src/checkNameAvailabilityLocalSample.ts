@@ -20,7 +20,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Check Name Availability for local uniqueness
  * x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/proxy/CheckNameAvailabilityForLocalUniqueness.json
  */
-async function checkLocalNameAvailability() {
+async function checkLocalNameAvailability(): Promise<void> {
   const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const location = "eastus2euap";
   const checkNameAvailability: CheckNameAvailabilityRequest = {

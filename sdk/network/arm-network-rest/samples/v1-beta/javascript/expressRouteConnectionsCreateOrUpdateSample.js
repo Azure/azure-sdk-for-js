@@ -6,7 +6,7 @@
 const createNetworkManagementClient = require("@azure-rest/arm-network").default,
   { getLongRunningPoller } = require("@azure-rest/arm-network");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+require("dotenv/config");
 
 /**
  * This sample demonstrates how to Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
@@ -66,7 +66,7 @@ async function expressRouteConnectionCreate() {
       subscriptionId,
       resourceGroupName,
       expressRouteGatewayName,
-      connectionName
+      connectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

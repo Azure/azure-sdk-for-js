@@ -27,7 +27,7 @@ import {
   HybridComputePrivateLinkScope as HybridComputePrivateLinkScopeMapper,
   TagsResource as TagsResourceMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

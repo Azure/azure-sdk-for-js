@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Service health event details in the tenant by event tracking id. This can be used to fetch sensitive properties for Security Advisory events
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Service health event details in the tenant by event tracking id. This can be used to fetch sensitive properties for Security Advisory events
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2022-10-01/examples/Event_fetchDetailsByTenantIdAndTrackingId.json
  */
-async function eventDetailsByTenantIdAndTrackingId() {
+async function eventDetailsByTenantIdAndTrackingId(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,7 +31,7 @@ async function eventDetailsByTenantIdAndTrackingId() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   eventDetailsByTenantIdAndTrackingId();
 }
 

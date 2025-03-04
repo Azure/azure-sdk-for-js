@@ -10,7 +10,7 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TdeCertificate,
   ManagedInstanceTdeCertificatesCreateOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a ManagedInstanceTdeCertificates. */
 export interface ManagedInstanceTdeCertificates {

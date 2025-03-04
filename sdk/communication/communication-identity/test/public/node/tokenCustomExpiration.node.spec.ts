@@ -27,10 +27,8 @@ matrix([[true, false]], async (useAad: boolean) => {
       }
     });
 
-    afterEach(async (ctx) => {
-      if (!ctx.task.pending) {
-        await recorder.stop();
-      }
+    afterEach(async () => {
+      await recorder.stop();
     });
 
     function tokenExpirationWithinAllowedDeviation(

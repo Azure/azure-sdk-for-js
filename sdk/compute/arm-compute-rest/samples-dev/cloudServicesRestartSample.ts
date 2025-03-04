@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createComputeManagementClient, {
-  CloudServicesRestartParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-compute";
+import type { CloudServicesRestartParameters } from "@azure-rest/arm-compute";
+import createComputeManagementClient, { getLongRunningPoller } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Restarts one or more role instances in a cloud service.
@@ -18,7 +12,7 @@ dotenv.config();
  * @summary Restarts one or more role instances in a cloud service.
  * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/CloudserviceRP/stable/2022-04-04/examples/CloudServiceRoleInstance_Restart_ByCloudService.json
  */
-async function restartCloudServiceRoleInstancesInACloudService() {
+async function restartCloudServiceRoleInstancesInACloudService(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createComputeManagementClient(credential);
   const subscriptionId = "";
@@ -36,7 +30,7 @@ async function restartCloudServiceRoleInstancesInACloudService() {
       cloudServiceName,
     )
     .post(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

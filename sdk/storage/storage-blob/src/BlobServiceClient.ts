@@ -487,7 +487,7 @@ export class BlobServiceClient extends StorageClient {
   }
 
   /**
-   * Create a Blob container. @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   * Create a Blob container. @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-container
    *
    * @param containerName - Name of the container to create.
    * @param options - Options to configure Container Create operation.
@@ -617,7 +617,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Gets the properties of a storage account’s Blob service, including properties
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
    *
    * @param options - Options to the Service Get Properties operation.
    * @returns Response data for the Service Get Properties operation.
@@ -642,7 +642,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Sets properties for a storage account’s Blob service endpoint, including properties
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/set-blob-service-properties
    *
    * @param properties -
    * @param options - Options to the Service Set Properties operation.
@@ -670,7 +670,7 @@ export class BlobServiceClient extends StorageClient {
    * Retrieves statistics related to replication for the Blob service. It is only
    * available on the secondary location endpoint when read-access geo-redundant
    * replication is enabled for the storage account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-stats
    *
    * @param options - Options to the Service Get Statistics operation.
    * @returns Response data for the Service Get Statistics operation.
@@ -697,7 +697,7 @@ export class BlobServiceClient extends StorageClient {
    * for the specified account.
    * The Get Account Information operation is available on service versions beginning
    * with version 2018-03-28.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-account-information
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-account-information
    *
    * @param options - Options to the Service Get Account Info operation.
    * @returns Response data for the Service Get Account Info operation.
@@ -721,7 +721,7 @@ export class BlobServiceClient extends StorageClient {
 
   /**
    * Returns a list of the containers under the specified account.
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-containers2
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/list-containers2
    *
    * @param marker - A string value that identifies the portion of
    *                        the list of containers to be returned with the next listing operation. The
@@ -875,7 +875,7 @@ export class BlobServiceClient extends StorageClient {
    *
    * .byPage() returns an async iterable iterator to list the blobs in pages.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-blob-service-properties
    *
    * Example using `for await` syntax:
    *
@@ -1155,7 +1155,7 @@ export class BlobServiceClient extends StorageClient {
    * Retrieves a user delegation key for the Blob service. This is only a valid operation when using
    * bearer token authentication.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/get-user-delegation-key
    *
    * @param startsOn -      The start time for the user delegation SAS. Must be within 7 days of the current time
    * @param expiresOn -     The end time for the user delegation SAS. Must be within 7 days of the current time
@@ -1214,7 +1214,7 @@ export class BlobServiceClient extends StorageClient {
   /**
    * Creates a BlobBatchClient object to conduct batch operations.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/blob-batch
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/blob-batch
    *
    * @returns A new BlobBatchClient object for this service.
    */
@@ -1228,7 +1228,7 @@ export class BlobServiceClient extends StorageClient {
    * Generates a Blob account Shared Access Signature (SAS) URI based on the client properties
    * and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.
@@ -1273,7 +1273,7 @@ export class BlobServiceClient extends StorageClient {
    * Generates string to sign for a Blob account Shared Access Signature (SAS) URI based on
    * the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
    *
-   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/create-account-sas
    *
    * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
    * @param permissions - Specifies the list of permissions to be associated with the SAS.

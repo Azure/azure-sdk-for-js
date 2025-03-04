@@ -34,7 +34,8 @@ rest-level-client: true
 security: AzureKey
 security-header-name: subscription-key
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```
 
 ## Customization for Track 2 Generator

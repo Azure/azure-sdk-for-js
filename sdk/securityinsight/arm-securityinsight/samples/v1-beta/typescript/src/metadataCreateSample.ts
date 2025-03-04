@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MetadataModel, SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create a Metadata.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create a Metadata.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/metadata/PutMetadata.json
  */
-async function createOrUpdateFullMetadata() {
+async function createOrUpdateFullMetadata(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -107,7 +105,7 @@ async function createOrUpdateFullMetadata() {
  * @summary Create a Metadata.
  * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/metadata/PutMetadataMinimal.json
  */
-async function createOrUpdateMinimalMetadata() {
+async function createOrUpdateMinimalMetadata(): Promise<void> {
   const subscriptionId =
     process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] ||
     "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
@@ -132,7 +130,7 @@ async function createOrUpdateMinimalMetadata() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateFullMetadata();
   createOrUpdateMinimalMetadata();
 }

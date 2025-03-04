@@ -17,7 +17,7 @@ import {
   B2CTenantUpdateRequest as B2CTenantUpdateRequestMapper,
   GuestUsagesResource as GuestUsagesResourceMapper,
   GuestUsagesResourcePatch as GuestUsagesResourcePatchMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

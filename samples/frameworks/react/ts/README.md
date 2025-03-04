@@ -29,7 +29,7 @@ The above template will create the necessary resources for you and the output ta
 
 Authentication will still need to be set-up manually using the following instructions:
 
-- See https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+- See https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
   to register a new application in the Azure Active Directory.
 - Note down the client id and tenant id from the above step.
   You will need to set these in the .env file below.
@@ -74,9 +74,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [react]: https://create-react-app.dev/
 [typescript]: https://www.typescriptlang.org/docs/home.html
 [freesub]: https://azure.microsoft.com/free
-[eventhubs]: https://docs.microsoft.com/javascript/api/@azure/event-hubs
-[servicebus]: https://docs.microsoft.com/javascript/api/@azure/service-bus
-[storageblob]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
-[identity]: https://docs.microsoft.com/javascript/api/@azure/identity
-[apiref]: https://docs.microsoft.com/javascript/api/
-[implicitgrantflow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
+[eventhubs]: https://learn.microsoft.com/javascript/api/@azure/event-hubs
+[servicebus]: https://learn.microsoft.com/javascript/api/@azure/service-bus
+[storageblob]: https://learn.microsoft.com/javascript/api/@azure/storage-blob
+[identity]: https://learn.microsoft.com/javascript/api/@azure/identity
+[apiref]: https://learn.microsoft.com/javascript/api/
+[implicitgrantflow]: https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow

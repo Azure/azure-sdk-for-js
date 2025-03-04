@@ -20,7 +20,7 @@ import {
   TransformationsImpl,
   ClustersImpl,
   PrivateEndpointsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Functions,
   Inputs,
@@ -32,8 +32,8 @@ import {
   Transformations,
   Clusters,
   PrivateEndpoints,
-} from "./operationsInterfaces";
-import { StreamAnalyticsManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { StreamAnalyticsManagementClientOptionalParams } from "./models/index.js";
 
 export class StreamAnalyticsManagementClient extends coreClient.ServiceClient {
   $host: string;

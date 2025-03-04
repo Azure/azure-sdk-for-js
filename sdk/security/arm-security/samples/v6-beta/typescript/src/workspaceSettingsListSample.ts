@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/WorkspaceSettings/GetWorkspaceSettings_example.json
  */
-async function getWorkspaceSettingsOnSubscription() {
+async function getWorkspaceSettingsOnSubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -33,7 +31,7 @@ async function getWorkspaceSettingsOnSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getWorkspaceSettingsOnSubscription();
 }
 

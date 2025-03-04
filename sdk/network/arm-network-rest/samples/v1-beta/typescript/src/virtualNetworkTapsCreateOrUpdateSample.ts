@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkTapsCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Virtual Network Tap.
@@ -18,7 +13,7 @@ dotenv.config();
  * @summary Creates or updates a Virtual Network Tap.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkTapCreate.json
  */
-async function createVirtualNetworkTap() {
+async function createVirtualNetworkTap(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -29,19 +24,18 @@ async function createVirtualNetworkTap() {
       location: "centraluseuap",
       properties: {
         destinationNetworkInterfaceIPConfiguration: {
-          id:
-            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/ipconfig1"
-        }
-      }
+          id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/testNetworkInterface/ipConfigurations/ipconfig1",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
       subscriptionId,
       resourceGroupName,
-      tapName
+      tapName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

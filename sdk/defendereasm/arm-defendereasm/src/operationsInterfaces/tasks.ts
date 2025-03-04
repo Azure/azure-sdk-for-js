@@ -9,7 +9,7 @@
 import {
   TasksGetByWorkspaceOptionalParams,
   TasksGetByWorkspaceResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Tasks. */
 export interface Tasks {

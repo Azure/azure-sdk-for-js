@@ -20,7 +20,7 @@ import {
   FirewallRule as FirewallRuleMapper,
   Role as RoleMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

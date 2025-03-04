@@ -17,7 +17,7 @@ import { getLongRunningPoller, isUnexpected } from "../../../src/index.js";
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  beforeEach(async function (context) {
+  beforeEach(async (context) => {
     recorder = await createRecorder(context);
     await recorder.setMatcher("BodilessMatcher");
     client = DocumentIntelligence(
@@ -27,11 +27,11 @@ describe("DocumentIntelligenceClient", () => {
     );
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("API Key works - getInfo", async function () {
+  it("API Key works - getInfo", async () => {
     const response = await client.path("/info").get();
     if (isUnexpected(response)) {
       throw response.body.error;

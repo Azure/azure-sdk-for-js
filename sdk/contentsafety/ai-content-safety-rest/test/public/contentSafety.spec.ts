@@ -7,8 +7,8 @@ import { createRecorder, createClient } from "./utils/recordedClient.js";
 import type { ContentSafetyClient, TextBlocklistItemOutput } from "../../src/index.js";
 import { isUnexpected, paginate } from "../../src/index.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import fs from "node:fs";
-import path from "node:path";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { isBrowser, delay } from "@azure/core-util";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
@@ -62,8 +62,8 @@ describe("Content Safety Client Test", () => {
       const binary = new Uint8Array(buffer);
       base64Image = uint8ArrayToBase64(binary);
     } else {
-      const imagePath = path.join("samples-dev", "example-data", "image.png");
-      const buffer = fs.readFileSync(imagePath);
+      const imagePath = join("samples-dev", "example-data", "image.png");
+      const buffer = readFileSync(imagePath);
       base64Image = buffer.toString("base64");
     }
     const response = await client.path("/image:analyze").post({

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { HybridConnectivityManagementAPI } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List of endpoints to the target resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List of endpoints to the target resource.
  * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsList.json
  */
-async function hybridConnectivityEndpointsGet() {
+async function hybridConnectivityEndpointsGet(): Promise<void> {
   const resourceUri =
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine";
   const credential = new DefaultAzureCredential();
@@ -32,7 +30,7 @@ async function hybridConnectivityEndpointsGet() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   hybridConnectivityEndpointsGet();
 }
 

@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createComputeManagementClient, {
   DisksCreateOrUpdateParameters,
-  getLongRunningPoller
+  getLongRunningPoller,
 } from "@azure-rest/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a disk.
@@ -31,36 +26,33 @@ async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey
         creationData: {
           createOption: "FromImage",
           imageReference: {
-            id:
-              "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0"
-          }
+            id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
+          },
         },
         osType: "Windows",
         securityProfile: {
           secureVMDiskEncryptionSetId:
             "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
-          securityType: "ConfidentialVM_DiskEncryptedWithCustomerKey"
-        }
-      }
+          securityType: "ConfidentialVM_DiskEncryptedWithCustomerKey",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey().catch(
-  console.error
-);
+createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a disk.
  *
@@ -81,20 +73,20 @@ async function createAManagedDiskAndAssociateWithDiskAccessResource() {
         diskAccessId:
           "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/{existing-diskAccess-name}",
         diskSizeGB: 200,
-        networkAccessPolicy: "AllowPrivate"
-      }
+        networkAccessPolicy: "AllowPrivate",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -120,21 +112,21 @@ async function createAManagedDiskAndAssociateWithDiskEncryptionSet() {
         diskSizeGB: 200,
         encryption: {
           diskEncryptionSetId:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
-        }
-      }
+            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -159,21 +151,21 @@ async function createAManagedDiskByCopyingASnapshot() {
         creationData: {
           createOption: "Copy",
           sourceResourceId:
-            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
-        }
-      }
+            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -197,31 +189,28 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscri
       properties: {
         creationData: {
           createOption: "Import",
-          sourceUri:
-            "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+          sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
           storageAccountId:
-            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount"
-        }
-      }
+            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription().catch(
-  console.error
-);
+createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a disk.
  *
@@ -240,29 +229,26 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscripti
       properties: {
         creationData: {
           createOption: "Import",
-          sourceUri:
-            "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
-        }
-      }
+          sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription().catch(
-  console.error
-);
+createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a disk.
  *
@@ -281,31 +267,28 @@ async function createAManagedDiskFromImportSecureCreateOption() {
       properties: {
         creationData: {
           createOption: "ImportSecure",
-          securityDataUri:
-            "https://mystorageaccount.blob.core.windows.net/osimages/vmgs.vhd",
-          sourceUri:
-            "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+          securityDataUri: "https://mystorageaccount.blob.core.windows.net/osimages/vmgs.vhd",
+          sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
           storageAccountId:
-            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount"
+            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
         },
         osType: "Windows",
         securityProfile: {
-          securityType:
-            "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey"
-        }
-      }
+          securityType: "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -329,23 +312,23 @@ async function createAManagedDiskFromUploadPreparedSecureCreateOption() {
       properties: {
         creationData: {
           createOption: "UploadPreparedSecure",
-          uploadSizeBytes: 10737418752
+          uploadSizeBytes: 10737418752,
         },
         osType: "Windows",
-        securityProfile: { securityType: "TrustedLaunch" }
-      }
+        securityProfile: { securityType: "TrustedLaunch" },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -370,24 +353,23 @@ async function createAManagedDiskFromAPlatformImage() {
         creationData: {
           createOption: "FromImage",
           imageReference: {
-            id:
-              "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0"
-          }
+            id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
+          },
         },
-        osType: "Windows"
-      }
+        osType: "Windows",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -413,30 +395,28 @@ async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage() {
           createOption: "FromImage",
           galleryImageReference: {
             communityGalleryImageId:
-              "/CommunityGalleries/{communityGalleryPublicGalleryName}/Images/{imageName}/Versions/1.0.0"
-          }
+              "/CommunityGalleries/{communityGalleryPublicGalleryName}/Images/{imageName}/Versions/1.0.0",
+          },
         },
-        osType: "Windows"
-      }
+        osType: "Windows",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAManagedDiskFromAnAzureComputeGalleryCommunityImage().catch(
-  console.error
-);
+createAManagedDiskFromAnAzureComputeGalleryCommunityImage().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a disk.
  *
@@ -457,30 +437,28 @@ async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage() {
           createOption: "FromImage",
           galleryImageReference: {
             sharedGalleryImageId:
-              "/SharedGalleries/{sharedGalleryUniqueName}/Images/{imageName}/Versions/1.0.0"
-          }
+              "/SharedGalleries/{sharedGalleryUniqueName}/Images/{imageName}/Versions/1.0.0",
+          },
         },
-        osType: "Windows"
-      }
+        osType: "Windows",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage().catch(
-  console.error
-);
+createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a disk.
  *
@@ -500,24 +478,23 @@ async function createAManagedDiskFromAnAzureComputeGalleryImage() {
         creationData: {
           createOption: "FromImage",
           galleryImageReference: {
-            id:
-              "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Providers/Microsoft.Compute/Galleries/{galleryName}/Images/{imageName}/Versions/1.0.0"
-          }
+            id: "/Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Providers/Microsoft.Compute/Galleries/{galleryName}/Images/{imageName}/Versions/1.0.0",
+          },
         },
-        osType: "Windows"
-      }
+        osType: "Windows",
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -542,28 +519,26 @@ async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSu
         creationData: {
           createOption: "Copy",
           sourceResourceId:
-            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1"
-        }
-      }
+            "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1",
+        },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription().catch(
-  console.error
-);
+createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a disk.
  *
@@ -582,20 +557,20 @@ async function createAManagedDiskWithDataAccessAuthMode() {
       properties: {
         creationData: { createOption: "Empty" },
         dataAccessAuthMode: "AzureActiveDirectory",
-        diskSizeGB: 200
-      }
+        diskSizeGB: 200,
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -619,20 +594,20 @@ async function createAManagedDiskWithOptimizedForFrequentAttach() {
       properties: {
         creationData: { createOption: "Empty" },
         diskSizeGB: 200,
-        optimizedForFrequentAttach: true
-      }
+        optimizedForFrequentAttach: true,
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -654,20 +629,20 @@ async function createAManagedDiskWithPerformancePlus() {
     body: {
       location: "West US",
       properties: {
-        creationData: { createOption: "Upload", performancePlus: true }
-      }
+        creationData: { createOption: "Upload", performancePlus: true },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -692,21 +667,21 @@ async function createAManagedDiskWithPremiumV2AccountType() {
         creationData: { createOption: "Empty" },
         diskIOPSReadWrite: 125,
         diskMBpsReadWrite: 3000,
-        diskSizeGB: 200
+        diskSizeGB: 200,
       },
-      sku: { name: "PremiumV2_LRS" }
+      sku: { name: "PremiumV2_LRS" },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -731,25 +706,24 @@ async function createAManagedDiskWithSecurityProfile() {
         creationData: {
           createOption: "FromImage",
           imageReference: {
-            id:
-              "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}"
-          }
+            id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}",
+          },
         },
         osType: "Windows",
-        securityProfile: { securityType: "TrustedLaunch" }
-      }
+        securityProfile: { securityType: "TrustedLaunch" },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -771,19 +745,19 @@ async function createAManagedDiskWithSsdZrsAccountType() {
     body: {
       location: "West US",
       properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 },
-      sku: { name: "Premium_ZRS" }
+      sku: { name: "Premium_ZRS" },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -809,28 +783,26 @@ async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet() {
         diskIOPSReadWrite: 125,
         diskMBpsReadWrite: 3000,
         diskSizeGB: 200,
-        encryption: { type: "EncryptionAtRestWithPlatformKey" }
+        encryption: { type: "EncryptionAtRestWithPlatformKey" },
       },
-      sku: { name: "UltraSSD_LRS" }
+      sku: { name: "UltraSSD_LRS" },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
 
-createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet().catch(
-  console.error
-);
+createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet().catch(console.error);
 /**
  * This sample demonstrates how to Creates or updates a disk.
  *
@@ -847,20 +819,20 @@ async function createAManagedUploadDisk() {
     body: {
       location: "West US",
       properties: {
-        creationData: { createOption: "Upload", uploadSizeBytes: 10737418752 }
-      }
+        creationData: { createOption: "Upload", uploadSizeBytes: 10737418752 },
+      },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -882,19 +854,19 @@ async function createAnEmptyManagedDiskInExtendedLocation() {
     body: {
       extendedLocation: { name: "{edge-zone-id}", type: "EdgeZone" },
       location: "West US",
-      properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 }
+      properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -915,19 +887,19 @@ async function createAnEmptyManagedDisk() {
   const options: DisksCreateOrUpdateParameters = {
     body: {
       location: "West US",
-      properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 }
+      properties: { creationData: { createOption: "Empty" }, diskSizeGB: 200 },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }
@@ -950,21 +922,21 @@ async function createAnUltraManagedDiskWithLogicalSectorSize512E() {
       location: "West US",
       properties: {
         creationData: { createOption: "Empty", logicalSectorSize: 512 },
-        diskSizeGB: 200
+        diskSizeGB: 200,
       },
-      sku: { name: "UltraSSD_LRS" }
+      sku: { name: "UltraSSD_LRS" },
     },
-    queryParameters: { "api-version": "2022-07-02" }
+    queryParameters: { "api-version": "2022-07-02" },
   };
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
-  const poller = getLongRunningPoller(client, initialResponse);
+  const poller = await getLongRunningPoller(client, initialResponse);
   const result = await poller.pollUntilDone();
   console.log(result);
 }

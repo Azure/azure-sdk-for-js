@@ -7,11 +7,11 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { LocalUsersOperations } from "../operationsInterfaces";
+import { LocalUsersOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageManagementClient } from "../storageManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageManagementClient } from "../storageManagementClient.js";
 import {
   LocalUser,
   LocalUsersListOptionalParams,
@@ -25,7 +25,7 @@ import {
   LocalUsersListKeysResponse,
   LocalUsersRegeneratePasswordOptionalParams,
   LocalUsersRegeneratePasswordResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LocalUsersOperations operations. */
@@ -256,7 +256,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
-    Parameters.maxpagesize1,
+    Parameters.maxpagesize2,
     Parameters.include2,
   ],
   urlParameters: [

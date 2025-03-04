@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { EventGridManagementClient } from "@azure/arm-eventgrid";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all registered topic types.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all registered topic types.
  * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/TopicTypes_List.json
  */
-async function topicTypesList() {
+async function topicTypesList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new EventGridManagementClient(credential);
   const resArray = new Array();
@@ -30,7 +28,7 @@ async function topicTypesList() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   topicTypesList();
 }
 

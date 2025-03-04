@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { ManagementLockObject as ManagementLockObjectMapper } from "../models/mappers";
+import { ManagementLockObject as ManagementLockObjectMapper } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

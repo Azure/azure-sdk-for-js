@@ -26,6 +26,7 @@ import {
   ApplicationInsightsAvailabilityBaseType,
   ApplicationInsightsAvailabilityName,
   ApplicationInsightsBaseType,
+  ApplicationInsightsCustomEventName,
   ApplicationInsightsEventBaseType,
   ApplicationInsightsEventName,
   ApplicationInsightsExceptionBaseType,
@@ -51,36 +52,47 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let baseType: string;
   let baseData: MonitorDomain;
 
-  if (!log.attributes[ApplicationInsightsBaseType]) {
-    // Get Exception attributes if available
-    const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
-    if (exceptionType) {
-      const exceptionMessage = log.attributes[ATTR_EXCEPTION_MESSAGE];
-      const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
-      name = ApplicationInsightsExceptionName;
-      baseType = ApplicationInsightsExceptionBaseType;
-      const exceptionDetails: TelemetryExceptionDetails = {
-        typeName: String(exceptionType),
-        message: String(exceptionMessage),
-        hasFullStack: exceptionStacktrace ? true : false,
-        stack: String(exceptionStacktrace),
-      };
-      const exceptionData: TelemetryExceptionData = {
-        exceptions: [exceptionDetails],
-        severityLevel: String(getSeverity(log.severityNumber)),
-        version: 2,
-      };
-      baseData = exceptionData;
-    } else {
-      name = ApplicationInsightsMessageName;
-      baseType = ApplicationInsightsMessageBaseType;
-      const messageData: MessageData = {
-        message: String(log.body),
-        severityLevel: String(getSeverity(log.severityNumber)),
-        version: 2,
-      };
-      baseData = messageData;
-    }
+  const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
+  const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
+  const isExceptionType: boolean = !!(exceptionType && exceptionStacktrace) || false;
+  const isMessageType: boolean =
+    !log.attributes[ApplicationInsightsBaseType] &&
+    !log.attributes[ApplicationInsightsCustomEventName] &&
+    !exceptionType;
+  if (isExceptionType) {
+    const exceptionMessage = log.attributes[ATTR_EXCEPTION_MESSAGE];
+    name = ApplicationInsightsExceptionName;
+    baseType = ApplicationInsightsExceptionBaseType;
+    const exceptionDetails: TelemetryExceptionDetails = {
+      typeName: String(exceptionType),
+      message: String(exceptionMessage),
+      hasFullStack: exceptionStacktrace ? true : false,
+      stack: String(exceptionStacktrace),
+    };
+    const exceptionData: TelemetryExceptionData = {
+      exceptions: [exceptionDetails],
+      severityLevel: String(getSeverity(log.severityNumber)),
+      version: 2,
+    };
+    baseData = exceptionData;
+  } else if (log.attributes[ApplicationInsightsCustomEventName]) {
+    name = ApplicationInsightsEventName;
+    baseType = ApplicationInsightsEventBaseType;
+    const eventData: TelemetryEventData = {
+      name: String(log.attributes[ApplicationInsightsCustomEventName]),
+      version: 2,
+    };
+    baseData = eventData;
+    measurements = getLegacyApplicationInsightsMeasurements(log);
+  } else if (isMessageType) {
+    name = ApplicationInsightsMessageName;
+    baseType = ApplicationInsightsMessageBaseType;
+    const messageData: MessageData = {
+      message: String(log.body),
+      severityLevel: String(getSeverity(log.severityNumber)),
+      version: 2,
+    };
+    baseData = messageData;
   } else {
     // If Legacy Application Insights Log
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
@@ -144,6 +156,7 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
       if (
         !(
           key.startsWith("_MS.") ||
+          key.startsWith("microsoft") ||
           key === ATTR_EXCEPTION_TYPE ||
           key === ATTR_EXCEPTION_MESSAGE ||
           key === ATTR_EXCEPTION_STACKTRACE ||

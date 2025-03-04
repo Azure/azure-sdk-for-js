@@ -44,6 +44,10 @@ import type {
   RestPlayStarted,
   RestPlayPaused,
   RestPlayResumed,
+  RestHoldAudioStarted,
+  RestHoldAudioPaused,
+  RestHoldAudioResumed,
+  RestHoldAudioCompleted,
 } from "../generated/src/models/index.js";
 
 import type { CallParticipant } from "./models.js";
@@ -87,7 +91,11 @@ export type CallAutomationEvent =
   | StartRecordingFailed
   | PlayStarted
   | PlayPaused
-  | PlayResumed;
+  | PlayResumed
+  | HoldAudioStarted
+  | HoldAudioPaused
+  | HoldAudioResumed
+  | HoldAudioCompleted;
 
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -797,4 +805,76 @@ export interface PlayResumed
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "PlayResumed";
+}
+
+/** Event when hold audio play was successfully started. */
+export interface HoldAudioStarted
+  extends Omit<
+    RestHoldAudioStarted,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "HoldAudioStarted";
+}
+
+/** Event when hold audio play was successfully paused. */
+export interface HoldAudioPaused
+  extends Omit<
+    RestHoldAudioPaused,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "HoldAudioPaused";
+}
+
+/** Event when hold audio play was successfully resumed. */
+export interface HoldAudioResumed
+  extends Omit<
+    RestHoldAudioResumed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "HoldAudioResumed";
+}
+
+/** Event when hold audio play was successfully completed. */
+export interface HoldAudioCompleted
+  extends Omit<
+    RestHoldAudioCompleted,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "HoldAudioCompleted";
 }

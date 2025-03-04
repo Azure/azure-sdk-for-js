@@ -28,7 +28,7 @@ async function getManagedCluster() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .post();
   console.log(result);

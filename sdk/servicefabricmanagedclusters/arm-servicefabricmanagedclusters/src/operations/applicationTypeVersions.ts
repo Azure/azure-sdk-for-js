@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { ApplicationTypeVersions } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { ApplicationTypeVersions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ServiceFabricManagedClustersManagementClient } from "../serviceFabricManagedClustersManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ServiceFabricManagedClustersManagementClient } from "../serviceFabricManagedClustersManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ApplicationTypeVersionResource,
   ApplicationTypeVersionsListByApplicationTypesNextOptionalParams,
@@ -33,7 +33,7 @@ import {
   ApplicationTypeVersionsUpdateResponse,
   ApplicationTypeVersionsDeleteOptionalParams,
   ApplicationTypeVersionsListByApplicationTypesNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationTypeVersions operations. */

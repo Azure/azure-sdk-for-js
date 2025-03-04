@@ -14,7 +14,7 @@ import {
 import {
   CheckZonePeersRequest as CheckZonePeersRequestMapper,
   ResourceName as ResourceNameMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

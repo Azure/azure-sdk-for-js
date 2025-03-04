@@ -163,6 +163,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [updateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azurestackhci/arm-azurestackhci/samples/v4-beta/javascript/updatesListSample.js
 [updatespostsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azurestackhci/arm-azurestackhci/samples/v4-beta/javascript/updatesPostSample.js
 [updatesputsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/azurestackhci/arm-azurestackhci/samples/v4-beta/javascript/updatesPutSample.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-azurestackhci?view=azure-node-preview
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-azurestackhci?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurestackhci/arm-azurestackhci/README.md

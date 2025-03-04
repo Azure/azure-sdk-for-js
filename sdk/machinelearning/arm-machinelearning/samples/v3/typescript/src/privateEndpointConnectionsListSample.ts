@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List all the private endpoint connections associated with the workspace.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List all the private endpoint connections associated with the workspace.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/PrivateEndpointConnection/list.json
  */
-async function storageAccountListPrivateEndpointConnections() {
+async function storageAccountListPrivateEndpointConnections(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -42,7 +40,7 @@ async function storageAccountListPrivateEndpointConnections() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   storageAccountListPrivateEndpointConnections();
 }
 

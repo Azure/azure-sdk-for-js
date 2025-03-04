@@ -76,7 +76,7 @@ async function main() {
   const pipeline = newPipeline(new AnonymousCredential());
 
   // Inject customized factory into default pipeline
-  pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
+  await pipeline.factories.unshift(new RequestIDPolicyFactory("Prefix"));
 
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net${accountSas}`,

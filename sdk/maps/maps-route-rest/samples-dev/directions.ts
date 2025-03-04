@@ -23,7 +23,7 @@ async function main(): Promise<void> {
    * In this sample you can populate the three AZURE_CLIENT_ID, AZURE_CLIENT_SECRET & AZURE_TENANT_ID variables for Microsoft Entra ID auth,
    * or put MAPS_SUBSCRIPTION_KEY into .env file to use the shared key authentication.
    *
-   * More info is available at https://docs.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
+   * More info is available at https://learn.microsoft.com/en-us/azure/azure-maps/azure-maps-authentication.
    */
 
   /** Microsoft Entra ID authentication */
@@ -68,7 +68,7 @@ async function main(): Promise<void> {
     throw getRouteDirectionsResult.body.error;
   }
 
-  getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  await getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
     console.log(
       `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
@@ -126,7 +126,7 @@ async function main(): Promise<void> {
     throw routeDirectionsWithParamResult.body.error;
   }
 
-  getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+  await getRouteDirectionsResult.body.routes.forEach(({ summary, legs }) => {
     console.log(
       `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
@@ -186,7 +186,7 @@ async function main(): Promise<void> {
     routeDirectionBatchInitRes as RouteRequestRouteDirectionsBatchSync200Response
   ).body;
   console.log(`${summary.successfulRequests}/${summary.totalRequests} requests succeeded.`);
-  batchItems.forEach((item, index) => {
+  await batchItems.forEach((item, index) => {
     if (item.response.error) {
       console.error(`Request ${index} failed with error: ${item.response.error.message}`);
     } else {

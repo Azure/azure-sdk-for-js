@@ -1,11 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-/*
- * Copyright (c) Microsoft Corporation.
- * Licensed under the MIT License.
- */
-
 import type {
   AnalyzeConversationJobsInput,
   AnalyzeConversationOptionalParams,
@@ -38,13 +32,12 @@ import { conversationAnalysisAzureKeyCredentialPolicy } from "./azureKeyCredenti
  *
  * #### API Key
  *
- * ```js
+ * ```ts snippet:ReadmeSampleCreateClient_Node
  * import { AzureKeyCredential } from "@azure/core-auth";
  * import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new AzureKeyCredential("<api key>");
- *
  * const client = new ConversationAnalysisClient(endpoint, credential);
  * ```
  *
@@ -53,13 +46,12 @@ import { conversationAnalysisAzureKeyCredentialPolicy } from "./azureKeyCredenti
  * See the [`@azure/identity`](https://npmjs.com/package/\@azure/identity)
  * package for more information about authenticating with Azure Active Directory.
  *
- * ```js
- * import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
+ * ```ts snippet:ReadmeSampleCreateClient_ActiveDirectory
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import { ConversationAnalysisClient } from "@azure/ai-language-conversations";
  *
  * const endpoint = "https://<resource name>.cognitiveservices.azure.com";
  * const credential = new DefaultAzureCredential();
- *
  * const client = new ConversationAnalysisClient(endpoint, credential);
  * ```
  */

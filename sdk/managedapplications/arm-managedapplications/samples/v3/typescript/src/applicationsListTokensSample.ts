@@ -13,9 +13,7 @@ import {
   ApplicationClient
 } from "@azure/arm-managedapplications";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List tokens for application.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary List tokens for application.
  * x-ms-original-file: specification/solutions/resource-manager/Microsoft.Solutions/stable/2021-07-01/examples/listToken.json
  */
-async function listTokensForApplication() {
+async function listTokensForApplication(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDAPPLICATIONS_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
@@ -43,7 +41,7 @@ async function listTokensForApplication() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   listTokensForApplication();
 }
 

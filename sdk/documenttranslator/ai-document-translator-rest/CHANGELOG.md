@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (2024-12-16)
+## 1.0.0-beta.2 (2025-02-10)
 
 ### Features Added
 - refresh @azure-rest/ai-document-translator sdk

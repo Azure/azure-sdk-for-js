@@ -12,7 +12,7 @@ dotenv.config();
 
 export async function main() {
   // Labels allow you to add an extra dimension for your setting and gives you a simple way to create conventions for environments.
-  // More info - https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
+  // More info - https://learn.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
   console.log("Running helloworldWithLabels sample");
 
   // Set the following environment variable or edit the value on the following line.

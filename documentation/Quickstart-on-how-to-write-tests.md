@@ -45,6 +45,7 @@ Please notice that this quickstart is based on 3.x.y version of recorder tool (`
   - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
 
 To be able to leverage the asset-sync workflow
+
 - Install [Powershell](https://github.com/PowerShell/PowerShell)
   - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
 - Add `dev-tool` to the `devDependencies` in the `package.json`.
@@ -147,7 +148,9 @@ If we have existing recordings, then the tests have been run against generated t
 > export TEST_MODE=playback
 > rushx test
 ```
+
 ## How to push test recordings to assets repo
+
 We need to push test recording files to [asset repo](https://github.com/Azure/azure-sdk-assets) after testing your test cases.
 
 `Notice`: Before pushing your recording file, you must confirm that you are able to push recordings to the `azure-sdk-assets` repo, you need write-access to the assets repo. [Permissions to `Azure/azure-sdk-assets`](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/785/Externalizing-Recordings-(Asset-Sync)?anchor=permissions-to-%60azure/azure-sdk-assets%60)
@@ -155,6 +158,7 @@ We need to push test recording files to [asset repo](https://github.com/Azure/az
 ### Push test recording
 
 #### New Package - No recorded tests
+
 This section assumes that your package is new to the JS repo and that you're trying to onboard your tests with recorder, and the asset-sync workflow.
 
 Generate an `sdk/<service-folder>/<package-name>/assets.json` file by running the following command.
@@ -162,6 +166,7 @@ Generate an `sdk/<service-folder>/<package-name>/assets.json` file by running th
 ```bash
 npx dev-tool test-proxy init
 ```
+
 Note: If you [install `dev-tool` globally](https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool#installation), you don't need `npx` prefix in the above command
 
 This command would generate an `assets.json` file with an empty tag.
@@ -183,14 +188,14 @@ After `init` the `assets.json` file, [run your test with record mode](#run-tests
 
 Then, go to the next step to [Existing package - Tests have been pushed before](#existing-package---tests-have-been-pushed-before).
 
-
 #### Existing package - Tests have been pushed before
+
 At this point, you should have an `assets.json` file under your SDK. `sdk/<service-folder>/<package-name>/assets.json`.
 
 With asset sync enabled, there is one extra step that must be taken before you create a PR with changes to recorded tests: you must push the new recordings to the assets repo. This is done with the following command:
 
 `Notice`: the tests have to be recorded using the `TEST_MODE=record` environment variable in order for the recording files to be generated, then you can push them to `assets repo`
- 
+
 ```bash
 npx dev-tool test-proxy push
 ```
@@ -202,18 +207,20 @@ This command will:
 
 You should stage and commit the `assets.json` update as part of your PR. If you don't run the `push` command before creating a PR, the CI (and anyone else who tries to run your recorded tests) will use the old recordings, which will cause failures.
 
-
 ### How to find recording files
 
 #### Find local recording files
+
 You can find your recording files in `./azure-sdk-for-js/.assets`
 
 If you want to search your recording quickly, you can open `.breadcrumb` file and search your package in which folder.
 
 #### Find recording files in assets repo
+
 You can get the tag in `assets.json` in your package root, which is a tag `pointing` to your recordings in the `Azure/azure-sdk-assets` repo.
 
 Example `assets.json` from `arm-network` SDK:
+
 ```json
 {
   "AssetsRepo": "Azure/azure-sdk-assets",
@@ -237,7 +244,7 @@ There are several ways to authenticate to Azure and most common ways are AzureAD
 
 #### AzureAD OAuth2 Authentication
 
-If your service uses AzureAD OAuth2 token for authentication, a common solution is to provide [an application and its service principal](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals) and to provide RBAC to the service principal for the access to the Azure resource of your service.
+If your service uses AzureAD OAuth2 token for authentication, a common solution is to provide [an application and its service principal](https://learn.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals) and to provide RBAC to the service principal for the access to the Azure resource of your service.
 
 Client requires following three variables for the service principal using client ID/secret for authentication:
 
@@ -276,7 +283,7 @@ const envSetupForPlayback: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  AZURE_SUBSCRIPTION_ID: "azure_subscription_id"
+  AZURE_SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {

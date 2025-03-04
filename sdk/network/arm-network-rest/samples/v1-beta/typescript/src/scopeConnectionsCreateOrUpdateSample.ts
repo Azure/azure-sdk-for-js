@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
-  ScopeConnectionsCreateOrUpdateParameters
+  ScopeConnectionsCreateOrUpdateParameters,
 } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates scope connection from Network Manager
@@ -17,7 +12,7 @@ dotenv.config();
  * @summary Creates or updates scope connection from Network Manager
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerScopeConnectionPut.json
  */
-async function createOrUpdateNetworkManagerScopeConnection() {
+async function createOrUpdateNetworkManagerScopeConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -27,13 +22,12 @@ async function createOrUpdateNetworkManagerScopeConnection() {
   const options: ScopeConnectionsCreateOrUpdateParameters = {
     body: {
       properties: {
-        description:
-          "This is a scope connection to a cross tenant subscription.",
+        description: "This is a scope connection to a cross tenant subscription.",
         resourceId: "subscriptions/f0dc2b34-dfad-40e4-83e0-2309fed8d00b",
-        tenantId: "6babcaad-604b-40ac-a9d7-9fd97c0b779f"
-      }
+        tenantId: "6babcaad-604b-40ac-a9d7-9fd97c0b779f",
+      },
     },
-    queryParameters: { "api-version": "2022-05-01" }
+    queryParameters: { "api-version": "2022-05-01" },
   };
   const result = await client
     .path(
@@ -41,7 +35,7 @@ async function createOrUpdateNetworkManagerScopeConnection() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      scopeConnectionName
+      scopeConnectionName,
     )
     .put(options);
   console.log(result);

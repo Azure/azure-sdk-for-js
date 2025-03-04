@@ -21,7 +21,7 @@ import {
   SpringbootappsImpl,
   SummariesImpl,
   ErrorSummariesImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Springbootsites,
   Operations,
@@ -29,8 +29,8 @@ import {
   Springbootapps,
   Summaries,
   ErrorSummaries,
-} from "./operationsInterfaces";
-import { SpringAppDiscoveryManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { SpringAppDiscoveryManagementClientOptionalParams } from "./models/index.js";
 
 export class SpringAppDiscoveryManagementClient extends coreClient.ServiceClient {
   $host: string;

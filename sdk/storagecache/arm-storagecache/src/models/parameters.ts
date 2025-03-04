@@ -23,7 +23,7 @@ import {
   PrimingJob as PrimingJobMapper,
   PrimingJobIdParameter as PrimingJobIdParameterMapper,
   StorageTarget as StorageTargetMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

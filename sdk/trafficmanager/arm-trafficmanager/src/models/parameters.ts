@@ -15,7 +15,7 @@ import {
   Endpoint as EndpointMapper,
   CheckTrafficManagerRelativeDnsNameAvailabilityParameters as CheckTrafficManagerRelativeDnsNameAvailabilityParametersMapper,
   Profile as ProfileMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
