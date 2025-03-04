@@ -6,14 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { NotebookOperationResultGetOptionalParams } from "../models/index.js";
+import { NotebookOperationResultGetOptionalParams } from "../models/index.js";
 
 /** Interface representing a NotebookOperationResult. */
 export interface NotebookOperationResult {
   /**
    * Get notebook operation result
-   * @param operationId - Operation ID.
-   * @param options - The options parameters.
+   * @param operationId Operation ID.
+   * @param options The options parameters.
    */
-  get(operationId: string, options?: NotebookOperationResultGetOptionalParams): Promise<void>;
+  get(
+    operationId: string,
+    options?: NotebookOperationResultGetOptionalParams,
+  ): Promise<void>;
 }

@@ -7,14 +7,14 @@
  */
 
 import { tracingClient } from "../tracing.js";
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "../pagingHelper.js";
-import type { KqlScripts } from "../operationsInterfaces/index.js";
+import { KqlScripts } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers.js";
 import * as Parameters from "../models/parameters.js";
-import type { ArtifactsClient } from "../artifactsClient.js";
-import type {
+import { ArtifactsClient } from "../artifactsClient.js";
+import {
   KqlScriptResource,
   KqlScriptsGetAllNextOptionalParams,
   KqlScriptsGetAllOptionalParams,
@@ -22,6 +22,113 @@ import type {
   KqlScriptsGetAllNextResponse,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
+/** Class containing KqlScripts operations. */
+export class KqlScriptsImpl implements KqlScripts {
+  private readonly client: ArtifactsClient;
+
+  /**
+   * Initialize a new instance of the class KqlScripts class.
+   * @param client Reference to the service client
+   */
+  constructor(client: ArtifactsClient) {
+    this.client = client;
+  }
+
+  /**
+   * Get all KQL scripts
+   * @param options The options parameters.
+   */
+  public listAll(
+    options?: KqlScriptsGetAllOptionalParams,
+  ): PagedAsyncIterableIterator<KqlScriptResource> {
+    const iter = this.getAllPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getAllPagingPage(options, settings);
+      },
+    };
+  }
+
+  private async *getAllPagingPage(
+    options?: KqlScriptsGetAllOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<KqlScriptResource[]> {
+    let result: KqlScriptsGetAllResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getAll(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getAllNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getAllPagingAll(
+    options?: KqlScriptsGetAllOptionalParams,
+  ): AsyncIterableIterator<KqlScriptResource> {
+    for await (const page of this.getAllPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Get all KQL scripts
+   * @param options The options parameters.
+   */
+  private async _getAll(
+    options?: KqlScriptsGetAllOptionalParams,
+  ): Promise<KqlScriptsGetAllResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._getAll",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getAllOperationSpec,
+        ) as Promise<KqlScriptsGetAllResponse>;
+      },
+    );
+  }
+
+  /**
+   * GetAllNext
+   * @param nextLink The nextLink from the previous successful call to the GetAll method.
+   * @param options The options parameters.
+   */
+  private async _getAllNext(
+    nextLink: string,
+    options?: KqlScriptsGetAllNextOptionalParams,
+  ): Promise<KqlScriptsGetAllNextResponse> {
+    return tracingClient.withSpan(
+      "ArtifactsClient._getAllNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getAllNextOperationSpec,
+        ) as Promise<KqlScriptsGetAllNextResponse>;
+      },
+    );
+  }
+}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -56,110 +163,3 @@ const getAllNextOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-
-/** Class containing KqlScripts operations. */
-export class KqlScriptsImpl implements KqlScripts {
-  private readonly client: ArtifactsClient;
-
-  /**
-   * Initialize a new instance of the class KqlScripts class.
-   * @param client - Reference to the service client
-   */
-  constructor(client: ArtifactsClient) {
-    this.client = client;
-  }
-
-  /**
-   * Get all KQL scripts
-   * @param options - The options parameters.
-   */
-  public listAll(
-    options?: KqlScriptsGetAllOptionalParams,
-  ): PagedAsyncIterableIterator<KqlScriptResource> {
-    const iter = this.getAllPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.getAllPagingPage(options, settings);
-      },
-    };
-  }
-
-  private async *getAllPagingPage(
-    options?: KqlScriptsGetAllOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<KqlScriptResource[]> {
-    let result: KqlScriptsGetAllResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._getAll(options);
-      const page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._getAllNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      const page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *getAllPagingAll(
-    options?: KqlScriptsGetAllOptionalParams,
-  ): AsyncIterableIterator<KqlScriptResource> {
-    for await (const page of this.getAllPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Get all KQL scripts
-   * @param options - The options parameters.
-   */
-  private async _getAll(
-    options?: KqlScriptsGetAllOptionalParams,
-  ): Promise<KqlScriptsGetAllResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._getAll",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { updatedOptions },
-          getAllOperationSpec,
-        ) as Promise<KqlScriptsGetAllResponse>;
-      },
-    );
-  }
-
-  /**
-   * GetAllNext
-   * @param nextLink - The nextLink from the previous successful call to the GetAll method.
-   * @param options - The options parameters.
-   */
-  private async _getAllNext(
-    nextLink: string,
-    options?: KqlScriptsGetAllNextOptionalParams,
-  ): Promise<KqlScriptsGetAllNextResponse> {
-    return tracingClient.withSpan(
-      "ArtifactsClient._getAllNext",
-      options ?? {},
-      async (updatedOptions) => {
-        return this.client.sendOperationRequest(
-          { nextLink, updatedOptions },
-          getAllNextOperationSpec,
-        ) as Promise<KqlScriptsGetAllNextResponse>;
-      },
-    );
-  }
-}

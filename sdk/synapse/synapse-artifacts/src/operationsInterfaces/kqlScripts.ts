@@ -6,14 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { KqlScriptResource, KqlScriptsGetAllOptionalParams } from "../models/index.js";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import {
+  KqlScriptResource,
+  KqlScriptsGetAllOptionalParams,
+} from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a KqlScripts. */
 export interface KqlScripts {
   /**
    * Get all KQL scripts
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
-  listAll(options?: KqlScriptsGetAllOptionalParams): PagedAsyncIterableIterator<KqlScriptResource>;
+  listAll(
+    options?: KqlScriptsGetAllOptionalParams,
+  ): PagedAsyncIterableIterator<KqlScriptResource>;
 }
