@@ -12,14 +12,14 @@ describe("Agents - threads", () => {
   let agents: AgentsOperations;
 
   beforeEach(async (context: VitestTestContext) => {
-      recorder = await createRecorder(context);
-      projectsClient = createProjectsClient(recorder);
-      agents = projectsClient.agents;
-    });
+    recorder = await createRecorder(context);
+    projectsClient = createProjectsClient(recorder);
+    agents = projectsClient.agents;
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("client and agents operations are accessible", async function () {
     assert.isNotNull(projectsClient);

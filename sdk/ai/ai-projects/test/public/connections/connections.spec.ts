@@ -12,14 +12,14 @@ describe("Agents - assistants", () => {
   let connections: ConnectionsOperations;
 
   beforeEach(async (context: VitestTestContext) => {
-      recorder = await createRecorder(context);
-      projectsClient = createProjectsClient(recorder);
-      connections = projectsClient.connections;
-    });
+    recorder = await createRecorder(context);
+    projectsClient = createProjectsClient(recorder);
+    connections = projectsClient.connections;
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   it("client and connection operations are accessible", async function () {
     assert.isNotNull(projectsClient);

@@ -24,22 +24,22 @@ describe("Agents - function tool", () => {
   let getCurrentDateTimeTool: FunctionToolDefinition;
 
   beforeEach(async (context: VitestTestContext) => {
-      recorder = await createRecorder(context);
-      projectsClient = createProjectsClient(recorder);
-      agents = projectsClient.agents;
-      getCurrentDateTimeTool = {
-        type: "function",
-        function: {
-          name: "getCurrentDateTime",
-          description: "Get current date time",
-          parameters: {},
-        },
-      };
-    });
+    recorder = await createRecorder(context);
+    projectsClient = createProjectsClient(recorder);
+    agents = projectsClient.agents;
+    getCurrentDateTimeTool = {
+      type: "function",
+      function: {
+        name: "getCurrentDateTime",
+        description: "Get current date time",
+        parameters: {},
+      },
+    };
+  });
 
   afterEach(async () => {
-      await recorder.stop();
-    });
+    await recorder.stop();
+  });
 
   function getCurrentDateTime(): {} {
     return { currentDateTime: "2024-10-10 12:30:19" };
