@@ -29,11 +29,16 @@ export interface BeginSearchAvailablePhoneNumbersOptions extends OperationOption
 export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export type ExpandEnum = "trunks/health";
+// @public
+export type ExpandEnum = string;
 
 // @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
+
+// @public
+export enum KnownExpandEnum {
+    TrunksHealth = "trunks/health"
+}
 
 // @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
@@ -63,12 +68,10 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
 
 // @public
 export interface ListSipRoutesOptions extends OperationOptions {
-    expand?: ExpandEnum;
 }
 
 // @public
-export interface ListSipTrunksOptions extends OperationOptions {
-    expand?: ExpandEnum;
+export interface ListSipTrunksOptions extends SipRoutingGetOptionalParams {
 }
 
 // @public
@@ -283,7 +286,7 @@ export interface SipRoutingError {
 }
 
 // @public
-export interface SipRoutingGetOptions extends OperationOptions {
+export interface SipRoutingGetOptionalParams extends coreClient.OperationOptions {
     expand?: ExpandEnum;
 }
 

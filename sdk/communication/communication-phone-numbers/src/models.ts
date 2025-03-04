@@ -8,7 +8,10 @@ import type {
   PhoneNumbersListAreaCodesOptionalParams,
   PhoneNumberType,
 } from "./generated/src/models/index.js";
-import type { RoutesForNumber } from "./generated/src/siprouting/models/index.js";
+import type {
+  RoutesForNumber,
+  SipRoutingGetOptionalParams,
+} from "./generated/src/siprouting/models/index.js";
 
 /**
  * The result of the phone numbers purchase operation.
@@ -77,18 +80,12 @@ export interface SearchOperatorInformationOptions extends OperationOptions {
 /**
  * Additional options that can be passed to list SIP routes.
  */
-export interface ListSipRoutesOptions extends OperationOptions {
-  /** Sip configuration expand. Optional. */
-  expand?: ExpandEnum;
-}
+export interface ListSipRoutesOptions extends OperationOptions {}
 
 /**
  * Additional options that can be passed to list SIP trunks.
  */
-export interface ListSipTrunksOptions extends OperationOptions {
-  /** Sip configuration expand. Optional. */
-  expand?: ExpandEnum;
-}
+export interface ListSipTrunksOptions extends SipRoutingGetOptionalParams {}
 
 /**
  * Additional options that can be passed to the available offerings request.
@@ -125,6 +122,9 @@ export {
   SipRoutingError,
   SipTrunkRoute,
   RoutesForNumber,
+  SipRoutingGetOptionalParams,
+  ExpandEnum,
+  KnownExpandEnum,
 } from "./generated/src/siprouting/models/index.js";
 
 /**
@@ -141,15 +141,7 @@ export interface SipTrunk {
   sipSignalingPort: number;
 }
 
-export type ExpandEnum = "trunks/health";
-
-/**
- * Additional options that can be passed to get sip routing.
- */
-export interface SipRoutingGetOptions extends OperationOptions {
-  /** Sip configuration expand. Optional. */
-  expand?: ExpandEnum;
-}
+// export type ExpandEnum = "trunks/health";
 
 /**
  * Test Routes with number response.

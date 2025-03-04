@@ -18,7 +18,6 @@ import type {
 import type {
   ListSipRoutesOptions,
   ListSipTrunksOptions,
-  SipRoutingGetOptions,
   SipTrunk,
   SipTrunkRoute,
   TestRoutesWithNumberResponse,
@@ -333,16 +332,12 @@ export class SipRoutingClient {
     return this.client.sipRouting.testRoutesWithNumber(targetPhoneNumber, optionalParams);
   }
 
-  private async getRoutesInternal(options: SipRoutingGetOptions): Promise<SipTrunkRoute[]> {
-    const optionalParams = {
-      expand: options.expand !== undefined ? options.expand : undefined,
-      ...options,
-    };
-    const config = await this.client.sipRouting.get(optionalParams);
+  private async getRoutesInternal(options: OperationOptions): Promise<SipTrunkRoute[]> {
+    const config = await this.client.sipRouting.get(options);
     return config.routes || [];
   }
 
-  private async getTrunksInternal(options: SipRoutingGetOptions): Promise<SipTrunk[]> {
+  private async getTrunksInternal(options: ListSipTrunksOptions): Promise<SipTrunk[]> {
     const optionalParams = {
       expand: options.expand !== undefined ? options.expand : undefined,
       ...options,
@@ -370,14 +365,14 @@ export class SipRoutingClient {
   private async *listTrunksPagingPage(
     options: ListSipTrunksOptions = {},
   ): AsyncIterableIterator<SipTrunk[]> {
-    const apiResult = await this.getTrunksInternal(options as SipRoutingGetOptions);
+    const apiResult = await this.getTrunksInternal(options);
     yield apiResult;
   }
 
   private async *listRoutesPagingPage(
     options: ListSipRoutesOptions = {},
   ): AsyncIterableIterator<SipTrunkRoute[]> {
-    const apiResult = await this.getRoutesInternal(options as SipRoutingGetOptions);
+    const apiResult = await this.getRoutesInternal(options as OperationOptions);
     yield apiResult;
   }
 }
