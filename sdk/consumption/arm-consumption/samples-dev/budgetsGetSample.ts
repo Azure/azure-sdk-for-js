@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,8 +18,7 @@ import "dotenv/config";
  */
 async function budget(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
   const budgetName = "TestBudget";
   const credential = new DefaultAzureCredential();
@@ -31,7 +28,7 @@ async function budget(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  budget();
+  await budget();
 }
 
 main().catch(console.error);

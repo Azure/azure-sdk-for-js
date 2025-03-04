@@ -42,7 +42,7 @@ async function main(): Promise<void> {
     reachableRange: { center, boundary },
   } = routeRangeResult.body;
   console.log(`For the center (${center.latitude}, ${center.longitude}), the reachable range is:`);
-  console.table(boundary);
+  await console.table(boundary);
 }
 
 main().catch((err) => {

@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  DataBoxEdgeDeviceExtendedInfoPatch,
-  DataBoxEdgeManagementClient
-} from "@azure/arm-databoxedge";
+import type { DataBoxEdgeDeviceExtendedInfoPatch } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -30,7 +26,7 @@ async function getUpdateExtendedInfo(): Promise<void> {
   const result = await client.devices.updateExtendedInformation(
     deviceName,
     resourceGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

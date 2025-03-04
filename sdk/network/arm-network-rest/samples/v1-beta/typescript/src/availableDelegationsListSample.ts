@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   AvailableDelegationsListParameters,
   paginate,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all of the available subnet delegations for this subscription in this region.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/AvailableDelegationsSubscriptionGet.json
  */
-async function getAvailableDelegations() {
+async function getAvailableDelegations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

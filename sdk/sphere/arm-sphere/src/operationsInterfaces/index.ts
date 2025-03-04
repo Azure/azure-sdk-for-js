@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./catalogs";
-export * from "./certificates";
-export * from "./images";
-export * from "./products";
-export * from "./deviceGroups";
-export * from "./deployments";
-export * from "./devices";
+export * from "./operations.js";
+export * from "./catalogs.js";
+export * from "./certificates.js";
+export * from "./images.js";
+export * from "./products.js";
+export * from "./deviceGroups.js";
+export * from "./deployments.js";
+export * from "./devices.js";

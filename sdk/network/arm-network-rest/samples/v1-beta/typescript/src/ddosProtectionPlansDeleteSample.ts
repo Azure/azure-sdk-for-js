@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   DdosProtectionPlansDeleteParameters,
   getLongRunningPoller,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Deletes the specified DDoS protection plan.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/DdosProtectionPlanDelete.json
  */
-async function deleteDDoSProtectionPlan() {
+async function deleteDDoSProtectionPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

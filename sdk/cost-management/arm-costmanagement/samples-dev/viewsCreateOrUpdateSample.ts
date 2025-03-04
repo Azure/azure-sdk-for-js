@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { View, CostManagementClient } from "@azure/arm-costmanagement";
+import type { View } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -28,7 +27,7 @@ async function createOrUpdatePrivateView(): Promise<void> {
       aggregation: { totalCost: { name: "PreTaxCost", function: "Sum" } },
       granularity: "Daily",
       grouping: [],
-      sorting: [{ name: "UsageDate", direction: "Ascending" }]
+      sorting: [{ name: "UsageDate", direction: "Ascending" }],
     },
     displayName: "swagger Example",
     eTag: '"1d4ff9fe66f1d10"',
@@ -37,17 +36,16 @@ async function createOrUpdatePrivateView(): Promise<void> {
       {
         type: "Budget",
         enabled: true,
-        id:
-          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Consumption/budgets/swaggerDemo"
-      }
+        id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Consumption/budgets/swaggerDemo",
+      },
     ],
     metric: "ActualCost",
     pivots: [
       { name: "ServiceName", type: "Dimension" },
       { name: "MeterCategory", type: "Dimension" },
-      { name: "swaggerTagKey", type: "TagKey" }
+      { name: "swaggerTagKey", type: "TagKey" },
     ],
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -56,7 +54,7 @@ async function createOrUpdatePrivateView(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  createOrUpdatePrivateView();
+  await createOrUpdatePrivateView();
 }
 
 main().catch(console.error);

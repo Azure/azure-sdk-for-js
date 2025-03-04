@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ReservationTransactionsListByBillingProfileOptionalParams,
-  ConsumptionManagementClient
-} from "@azure/arm-consumption";
+import type { ReservationTransactionsListByBillingProfileOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,23 +19,21 @@ import "dotenv/config";
  */
 async function reservationTransactionsByBillingProfileId(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const filter =
-    "properties/eventDate+ge+2020-05-20+AND+properties/eventDate+le+2020-05-30";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const filter = "properties/eventDate+ge+2020-05-20+AND+properties/eventDate+le+2020-05-30";
   const billingAccountId =
     "fcebaabc-fced-4284-a83d-79f83dee183c:45796ba8-988f-45ad-bea9-7b71fc6c7513_2018-09-30";
   const billingProfileId = "Z76D-SGAF-BG7-TGB";
   const options: ReservationTransactionsListByBillingProfileOptionalParams = {
-    filter
+    filter,
   };
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationTransactions.listByBillingProfile(
+  for await (const item of client.reservationTransactions.listByBillingProfile(
     billingAccountId,
     billingProfileId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -47,7 +41,7 @@ async function reservationTransactionsByBillingProfileId(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  reservationTransactionsByBillingProfileId();
+  await reservationTransactionsByBillingProfileId();
 }
 
 main().catch(console.error);

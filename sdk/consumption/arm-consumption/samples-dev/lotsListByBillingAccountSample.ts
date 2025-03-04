@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  LotsListByBillingAccountOptionalParams,
-  ConsumptionManagementClient
-} from "@azure/arm-consumption";
+import type { LotsListByBillingAccountOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,15 +19,12 @@ import "dotenv/config";
  */
 async function lotsListByBillingAccount(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const billingAccountId = "1234:5678";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.lotsOperations.listByBillingAccount(
-    billingAccountId
-  )) {
+  for await (const item of client.lotsOperations.listByBillingAccount(billingAccountId)) {
     resArray.push(item);
   }
   console.log(resArray);
@@ -45,26 +38,22 @@ async function lotsListByBillingAccount(): Promise<void> {
  */
 async function lotsListByBillingAccountWithStatusFilter(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const billingAccountId = "1234:5678";
   const filter = "status eq 'active' AND source eq 'consumptioncommitment'";
   const options: LotsListByBillingAccountOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.lotsOperations.listByBillingAccount(
-    billingAccountId,
-    options
-  )) {
+  for await (const item of client.lotsOperations.listByBillingAccount(billingAccountId, options)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  lotsListByBillingAccount();
-  lotsListByBillingAccountWithStatusFilter();
+  await lotsListByBillingAccount();
+  await lotsListByBillingAccountWithStatusFilter();
 }
 
 main().catch(console.error);

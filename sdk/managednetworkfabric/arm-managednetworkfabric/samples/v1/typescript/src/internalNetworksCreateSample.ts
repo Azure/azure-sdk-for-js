@@ -13,9 +13,7 @@ import {
   AzureNetworkFabricManagementServiceAPI
 } from "@azure/arm-managednetworkfabric";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates InternalNetwork PUT method.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Creates InternalNetwork PUT method.
  * x-ms-original-file: specification/managednetworkfabric/resource-manager/Microsoft.ManagedNetworkFabric/stable/2023-06-15/examples/InternalNetworks_Create_MaximumSet_Gen.json
  */
-async function internalNetworksCreateMaximumSetGen() {
+async function internalNetworksCreateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["MANAGEDNETWORKFABRIC_SUBSCRIPTION_ID"] ||
     "1234ABCD-0A1B-1234-5678-123456ABCDEF";
@@ -94,7 +92,7 @@ async function internalNetworksCreateMaximumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   internalNetworksCreateMaximumSetGen();
 }
 

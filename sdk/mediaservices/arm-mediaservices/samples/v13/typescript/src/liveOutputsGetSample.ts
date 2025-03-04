@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Gets a live output.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Gets a live output.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Streaming/stable/2022-08-01/examples/liveoutput-list-by-name.json
  */
-async function getALiveOutputByName() {
+async function getALiveOutputByName(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "0a6ec948-5a62-437d-b9df-934dc7c1b722";
@@ -40,7 +38,7 @@ async function getALiveOutputByName() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getALiveOutputByName();
 }
 

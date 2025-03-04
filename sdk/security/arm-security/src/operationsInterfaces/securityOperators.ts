@@ -14,7 +14,7 @@ import {
   SecurityOperatorsCreateOrUpdateOptionalParams,
   SecurityOperatorsCreateOrUpdateResponse,
   SecurityOperatorsDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SecurityOperators. */
 export interface SecurityOperators {

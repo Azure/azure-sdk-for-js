@@ -48,7 +48,9 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 
 For more information about how to create an Azure AD Application check out [this guide](https://learn.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
-```javascript
+Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
+
+```ts snippet:ReadmeSampleCreateClient_Node
 const { AzureArcVMwareManagementServiceAPI } = require("@azure/arm-connectedvmware");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
@@ -62,6 +64,12 @@ const client = new AzureArcVMwareManagementServiceAPI(new DefaultAzureCredential
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
 // const client = new AzureArcVMwareManagementServiceAPI(credential, subscriptionId);
+```
+
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts snippet:ReadmeSampleCreateClient_Browser
+
 ```
 
 ### JavaScript Bundle
@@ -80,7 +88,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts snippet:SetLogLevel
 const { setLogLevel } = require("@azure/logger");
 setLogLevel("info");
 ```
@@ -99,7 +107,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fconnectedvmware%2Farm-connectedvmware%2FREADME.png)
+
 
 [azure_cli]: https://learn.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/

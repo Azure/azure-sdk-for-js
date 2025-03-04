@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   Task,
-  ContainerRegistryManagementClient
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -44,14 +42,14 @@ async function tasksCreate(): Promise<void> {
         {
           name: "mysecrettestargument",
           isSecret: true,
-          value: "mysecrettestvalue"
-        }
+          value: "mysecrettestvalue",
+        },
       ],
       contextPath: "src",
       dockerFilePath: "src/DockerFile",
       imageNames: ["azurerest:testtag"],
       isPushEnabled: true,
-      noCache: false
+      noCache: false,
     },
     tags: { testkey: "value" },
     trigger: {
@@ -59,7 +57,7 @@ async function tasksCreate(): Promise<void> {
         name: "myBaseImageTrigger",
         baseImageTriggerType: "Runtime",
         updateTriggerEndpoint: "https://user:pass@mycicd.webhook.com?token=foo",
-        updateTriggerPayloadType: "Token"
+        updateTriggerPayloadType: "Token",
       },
       sourceTriggers: [
         {
@@ -68,24 +66,24 @@ async function tasksCreate(): Promise<void> {
             branch: "master",
             repositoryUrl: "https://github.com/Azure/azure-rest-api-specs",
             sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" },
-            sourceControlType: "Github"
+            sourceControlType: "Github",
           },
-          sourceTriggerEvents: ["commit"]
-        }
+          sourceTriggerEvents: ["commit"],
+        },
       ],
-      timerTriggers: [{ name: "myTimerTrigger", schedule: "30 9 * * 1-5" }]
-    }
+      timerTriggers: [{ name: "myTimerTrigger", schedule: "30 9 * * 1-5" }],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.tasks.beginCreateAndWait(
     resourceGroupName,
     registryName,
     taskName,
-    taskCreateParameters
+    taskCreateParameters,
   );
   console.log(result);
 }
@@ -110,18 +108,18 @@ async function tasksCreateQuickTask(): Promise<void> {
     location: "eastus",
     logTemplate: "acr/tasks:{{.Run.OS}}",
     status: "Enabled",
-    tags: { testkey: "value" }
+    tags: { testkey: "value" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.tasks.beginCreateAndWait(
     resourceGroupName,
     registryName,
     taskName,
-    taskCreateParameters
+    taskCreateParameters,
   );
   console.log(result);
 }
@@ -145,8 +143,9 @@ async function tasksCreateWithSystemAndUserIdentities(): Promise<void> {
     identity: {
       type: "SystemAssigned, UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/f9d7ebedAdbd4cb4B973Aaf82c136138/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2": {}
-      }
+        "/subscriptions/f9d7ebedAdbd4cb4B973Aaf82c136138/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2":
+          {},
+      },
     },
     isSystemTask: false,
     location: "eastus",
@@ -160,14 +159,14 @@ async function tasksCreateWithSystemAndUserIdentities(): Promise<void> {
         {
           name: "mysecrettestargument",
           isSecret: true,
-          value: "mysecrettestvalue"
-        }
+          value: "mysecrettestvalue",
+        },
       ],
       contextPath: "src",
       dockerFilePath: "src/DockerFile",
       imageNames: ["azurerest:testtag"],
       isPushEnabled: true,
-      noCache: false
+      noCache: false,
     },
     tags: { testkey: "value" },
     trigger: {
@@ -175,7 +174,7 @@ async function tasksCreateWithSystemAndUserIdentities(): Promise<void> {
         name: "myBaseImageTrigger",
         baseImageTriggerType: "Runtime",
         updateTriggerEndpoint: "https://user:pass@mycicd.webhook.com?token=foo",
-        updateTriggerPayloadType: "Default"
+        updateTriggerPayloadType: "Default",
       },
       sourceTriggers: [
         {
@@ -184,24 +183,24 @@ async function tasksCreateWithSystemAndUserIdentities(): Promise<void> {
             branch: "master",
             repositoryUrl: "https://github.com/Azure/azure-rest-api-specs",
             sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" },
-            sourceControlType: "Github"
+            sourceControlType: "Github",
           },
-          sourceTriggerEvents: ["commit"]
-        }
+          sourceTriggerEvents: ["commit"],
+        },
       ],
-      timerTriggers: [{ name: "myTimerTrigger", schedule: "30 9 * * 1-5" }]
-    }
+      timerTriggers: [{ name: "myTimerTrigger", schedule: "30 9 * * 1-5" }],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.tasks.beginCreateAndWait(
     resourceGroupName,
     registryName,
     taskName,
-    taskCreateParameters
+    taskCreateParameters,
   );
   console.log(result);
 }
@@ -225,9 +224,11 @@ async function tasksCreateWithUserIdentities(): Promise<void> {
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/f9d7ebedAdbd4cb4B973Aaf82c136138/resourcegroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {},
-        "/subscriptions/f9d7ebedAdbd4cb4B973Aaf82c136138/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2": {}
-      }
+        "/subscriptions/f9d7ebedAdbd4cb4B973Aaf82c136138/resourcegroups/myResourceGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+          {},
+        "/subscriptions/f9d7ebedAdbd4cb4B973Aaf82c136138/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2":
+          {},
+      },
     },
     isSystemTask: false,
     location: "eastus",
@@ -241,14 +242,14 @@ async function tasksCreateWithUserIdentities(): Promise<void> {
         {
           name: "mysecrettestargument",
           isSecret: true,
-          value: "mysecrettestvalue"
-        }
+          value: "mysecrettestvalue",
+        },
       ],
       contextPath: "src",
       dockerFilePath: "src/DockerFile",
       imageNames: ["azurerest:testtag"],
       isPushEnabled: true,
-      noCache: false
+      noCache: false,
     },
     tags: { testkey: "value" },
     trigger: {
@@ -256,7 +257,7 @@ async function tasksCreateWithUserIdentities(): Promise<void> {
         name: "myBaseImageTrigger",
         baseImageTriggerType: "Runtime",
         updateTriggerEndpoint: "https://user:pass@mycicd.webhook.com?token=foo",
-        updateTriggerPayloadType: "Default"
+        updateTriggerPayloadType: "Default",
       },
       sourceTriggers: [
         {
@@ -265,24 +266,24 @@ async function tasksCreateWithUserIdentities(): Promise<void> {
             branch: "master",
             repositoryUrl: "https://github.com/Azure/azure-rest-api-specs",
             sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" },
-            sourceControlType: "Github"
+            sourceControlType: "Github",
           },
-          sourceTriggerEvents: ["commit"]
-        }
+          sourceTriggerEvents: ["commit"],
+        },
       ],
-      timerTriggers: [{ name: "myTimerTrigger", schedule: "30 9 * * 1-5" }]
-    }
+      timerTriggers: [{ name: "myTimerTrigger", schedule: "30 9 * * 1-5" }],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.tasks.beginCreateAndWait(
     resourceGroupName,
     registryName,
     taskName,
-    taskCreateParameters
+    taskCreateParameters,
   );
   console.log(result);
 }
@@ -316,20 +317,20 @@ async function tasksCreateWithUserIdentitiesWithSystemIdentity(): Promise<void> 
         {
           name: "mysecrettestargument",
           isSecret: true,
-          value: "mysecrettestvalue"
-        }
+          value: "mysecrettestvalue",
+        },
       ],
       contextPath: "src",
       dockerFilePath: "src/DockerFile",
       imageNames: ["azurerest:testtag"],
       isPushEnabled: true,
-      noCache: false
+      noCache: false,
     },
     tags: { testkey: "value" },
     trigger: {
       baseImageTrigger: {
         name: "myBaseImageTrigger",
-        baseImageTriggerType: "Runtime"
+        baseImageTriggerType: "Runtime",
       },
       sourceTriggers: [
         {
@@ -338,34 +339,34 @@ async function tasksCreateWithUserIdentitiesWithSystemIdentity(): Promise<void> 
             branch: "master",
             repositoryUrl: "https://github.com/Azure/azure-rest-api-specs",
             sourceControlAuthProperties: { token: "xxxxx", tokenType: "PAT" },
-            sourceControlType: "Github"
+            sourceControlType: "Github",
           },
-          sourceTriggerEvents: ["commit"]
-        }
+          sourceTriggerEvents: ["commit"],
+        },
       ],
-      timerTriggers: [{ name: "myTimerTrigger", schedule: "30 9 * * 1-5" }]
-    }
+      timerTriggers: [{ name: "myTimerTrigger", schedule: "30 9 * * 1-5" }],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.tasks.beginCreateAndWait(
     resourceGroupName,
     registryName,
     taskName,
-    taskCreateParameters
+    taskCreateParameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  tasksCreate();
-  tasksCreateQuickTask();
-  tasksCreateWithSystemAndUserIdentities();
-  tasksCreateWithUserIdentities();
-  tasksCreateWithUserIdentitiesWithSystemIdentity();
+  await tasksCreate();
+  await tasksCreateQuickTask();
+  await tasksCreateWithSystemAndUserIdentities();
+  await tasksCreateWithUserIdentities();
+  await tasksCreateWithUserIdentitiesWithSystemIdentity();
 }
 
 main().catch(console.error);

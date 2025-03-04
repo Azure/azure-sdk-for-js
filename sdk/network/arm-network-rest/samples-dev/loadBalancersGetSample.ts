@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, { LoadBalancersGetParameters } from "@azure-rest/arm-network";
+import type { LoadBalancersGetParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -13,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the specified load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerGet.json
  */
-async function getLoadBalancer() {
+async function getLoadBalancer(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -40,7 +38,7 @@ getLoadBalancer().catch(console.error);
  * @summary Gets the specified load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerGetInboundNatRulePortMapping.json
  */
-async function getLoadBalancerWithInboundNatRulePortMapping() {
+async function getLoadBalancerWithInboundNatRulePortMapping(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

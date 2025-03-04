@@ -10,6 +10,7 @@ export enum FetchResultType {
 /** @hidden */
 export class FetchResult {
   public feedResponse: any;
+  public headers: any;
   public fetchResultType: FetchResultType;
   public error: any;
   /**
@@ -20,10 +21,11 @@ export class FetchResult {
    * @param error - The exception meant to be buffered on an unsuccessful fetch
    * @hidden
    */
-  constructor(feedResponse: unknown, error: unknown) {
+  constructor(feedResponse: unknown, error: unknown, headers?: unknown) {
     // TODO: feedResponse/error
     if (feedResponse !== undefined) {
       this.feedResponse = feedResponse;
+      this.headers = headers;
       this.fetchResultType = FetchResultType.Result;
     } else {
       this.error = error;

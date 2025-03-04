@@ -29,7 +29,7 @@ async function listsAllTheVirtualMachinesUnderTheSpecifiedSubscriptionForTheSpec
 }
 
 async function main(): Promise<void> {
-  await listsAllTheVirtualMachinesUnderTheSpecifiedSubscriptionForTheSpecifiedLocation()
+  await listsAllTheVirtualMachinesUnderTheSpecifiedSubscriptionForTheSpecifiedLocation();
 }
 
 main().catch(console.error);

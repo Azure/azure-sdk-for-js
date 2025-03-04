@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Lists all the tasks for a specified container registry.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TasksList.json
  */
-async function tasksList() {
+async function tasksList(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -28,7 +28,7 @@ async function tasksList() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.tasks.list(resourceGroupName, registryName)) {
@@ -37,8 +37,8 @@ async function tasksList() {
   console.log(resArray);
 }
 
-async function main() {
-  tasksList();
+async function main(): Promise<void> {
+  await tasksList();
 }
 
 main().catch(console.error);

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -23,14 +21,12 @@ async function restartVirtualMachine(): Promise<void> {
     "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.HybridCompute/machines/DemoVM";
   const credential = new DefaultAzureCredential();
   const client = new AzureArcVMwareManagementServiceAPI(credential);
-  const result = await client.virtualMachineInstances.beginRestartAndWait(
-    resourceUri
-  );
+  const result = await client.virtualMachineInstances.beginRestartAndWait(resourceUri);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  restartVirtualMachine();
+  await restartVirtualMachine();
 }
 
 main().catch(console.error);

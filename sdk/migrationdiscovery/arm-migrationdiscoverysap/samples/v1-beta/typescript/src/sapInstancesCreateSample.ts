@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SAPInstance, WorkloadsClient } from "@azure/arm-migrationdiscoverysap";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates the SAP Instance resource. <br><br>This will be used by service only. PUT operation on this resource by end user will return a Bad Request error.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates the SAP Instance resource. <br><br>This will be used by service only. PUT operation on this resource by end user will return a Bad Request error.
  * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/SAPDiscoverySites/preview/2023-10-01-preview/examples/SAPInstances_Create.json
  */
-async function createsTheSapInstanceResource() {
+async function createsTheSapInstanceResource(): Promise<void> {
   const subscriptionId =
     process.env["MIGRATIONDISCOVERY_SUBSCRIPTION_ID"] ||
     "6d875e77-e412-4d7d-9af4-8895278b4443";
@@ -44,7 +42,7 @@ async function createsTheSapInstanceResource() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createsTheSapInstanceResource();
 }
 

@@ -23,5 +23,6 @@ add-credentials: true
 credential-scopes: "https://cognitiveservices.azure.com/.default"
 credential-key-header-name: "Ocp-Apim-Subscription-Key"
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
+module-kind: esm
 ```

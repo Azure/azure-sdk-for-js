@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   InboundNatRulesListParameters,
   paginate,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all the inbound NAT rules in a load balancer.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/InboundNatRuleList.json
  */
-async function inboundNatRuleList() {
+async function inboundNatRuleList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

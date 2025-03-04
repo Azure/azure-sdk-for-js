@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ApplicationGatewaysBackendHealthOnDemandParameters,
   getLongRunningPoller,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayBackendHealthTest.json
  */
-async function testBackendHealth() {
+async function testBackendHealth(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

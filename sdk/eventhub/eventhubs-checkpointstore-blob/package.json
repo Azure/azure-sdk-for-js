@@ -1,7 +1,7 @@
 {
   "name": "@azure/eventhubs-checkpointstore-blob",
   "sdk-type": "client",
-  "version": "1.1.0-beta.2",
+  "version": "2.0.0-beta.2",
   "description": "An Azure Storage Blob solution to store checkpoints when using Event Hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -51,7 +51,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "update-snippets": "echo skipped",
+    "update-snippets": "dev-tool run update-snippets",
     "vitest:node": "dev-tool run test:vitest --no-test-proxy"
   },
   "tshy": {
@@ -72,9 +72,9 @@
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-paging": "^1.6.2",
-    "@azure/event-hubs": "^5.13.0",
-    "@azure/logger": "^1.1.3",
-    "@azure/storage-blob": "^12.24.0",
+    "@azure/event-hubs": "6.0.0-beta.1",
+    "@azure/logger": "^1.1.4",
+    "@azure/storage-blob": "^12.26.0",
     "tslib": "^2.6.3"
   },
   "devDependencies": {
@@ -85,13 +85,13 @@
     "@azure/core-util": "^1.9.1",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.4.1",
+    "@azure/identity": "^4.6.0",
     "@rollup/plugin-inject": "^5.0.5",
-    "@types/chai-as-promised": "^7.1.8",
+    "@types/chai-as-promised": "^8.0.1",
     "@types/debug": "^4.1.12",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^2.0.5",
-    "@vitest/coverage-istanbul": "^2.0.5",
+    "@vitest/browser": "^3.0.3",
+    "@vitest/coverage-istanbul": "^3.0.3",
     "buffer": "^6.0.3",
     "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
@@ -101,9 +101,8 @@
     "playwright": "^1.45.3",
     "process": "^0.11.10",
     "stream": "^0.0.3",
-    "tsx": "^4.16.2",
     "typescript": "~5.7.2",
-    "vitest": "^2.0.5"
+    "vitest": "^3.0.3"
   },
   "//sampleConfiguration": {
     "skipFolder": true,

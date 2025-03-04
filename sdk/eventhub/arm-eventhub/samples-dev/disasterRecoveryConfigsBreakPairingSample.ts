@@ -10,17 +10,15 @@
 // Licensed under the MIT License.
 import { EventHubManagementClient } from "@azure/arm-eventhub";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to This operation disables the Disaster Recovery and stops replicating changes from primary to secondary namespaces
  *
  * @summary This operation disables the Disaster Recovery and stops replicating changes from primary to secondary namespaces
- * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2024-01-01/examples/disasterRecoveryConfigs/EHAliasBreakPairing.json
+ * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/preview/2024-05-01-preview/examples/disasterRecoveryConfigs/EHAliasBreakPairing.json
  */
-async function ehAliasBreakPairing() {
+async function ehAliasBreakPairing(): Promise<void> {
   const subscriptionId =
     process.env["EVENTHUB_SUBSCRIPTION_ID"] || "exampleSubscriptionId";
   const resourceGroupName =
@@ -37,7 +35,7 @@ async function ehAliasBreakPairing() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await ehAliasBreakPairing();
 }
 

@@ -14,7 +14,7 @@ async function loadBalancersList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const resArray = new Array();
-  for await (let item of client.loadBalancers.list(
+  for await (const item of client.loadBalancers.list(
     "subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/example/providers/Microsoft.Kubernetes/connectedClusters/cluster1",
   )) {
     resArray.push(item);
@@ -24,7 +24,7 @@ async function loadBalancersList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  loadBalancersList();
+  await loadBalancersList();
 }
 
 main().catch(console.error);

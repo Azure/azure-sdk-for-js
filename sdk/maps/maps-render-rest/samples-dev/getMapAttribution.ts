@@ -42,7 +42,7 @@ async function main(): Promise<void> {
   }
 
   console.log("Copyright attribution for microsoft.base: ");
-  baseResponse.body.copyrights.forEach((copyright) => console.log(copyright));
+  await baseResponse.body.copyrights.forEach((copyright) => console.log(copyright));
 
   /** Map attribution for different tileset */
   const imageryResponse = await client.path("/map/attribution").get({
@@ -59,7 +59,7 @@ async function main(): Promise<void> {
   }
 
   console.log("Copyright attribution for microsoft.imagery: ");
-  imageryResponse.body.copyrights.forEach((copyright) => console.log(copyright));
+  await imageryResponse.body.copyrights.forEach((copyright) => console.log(copyright));
 }
 
 main().catch((err) => {

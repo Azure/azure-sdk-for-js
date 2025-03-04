@@ -13,9 +13,7 @@ import {
   PaloAltoNetworksCloudngfw
 } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a LocalRulestackResource
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update a LocalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_Update_MaximumSet_Gen.json
  */
-async function localRulestacksUpdateMaximumSetGen() {
+async function localRulestacksUpdateMaximumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -74,7 +72,7 @@ async function localRulestacksUpdateMaximumSetGen() {
  * @summary Update a LocalRulestackResource
  * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_Update_MinimumSet_Gen.json
  */
-async function localRulestacksUpdateMinimumSetGen() {
+async function localRulestacksUpdateMinimumSetGen(): Promise<void> {
   const subscriptionId =
     process.env["PALOALTONETWORKSNGFW_SUBSCRIPTION_ID"] ||
     "2bf4a339-294d-4c25-b0b2-ef649e9f5c27";
@@ -92,7 +90,7 @@ async function localRulestacksUpdateMinimumSetGen() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   localRulestacksUpdateMaximumSetGen();
   localRulestacksUpdateMinimumSetGen();
 }

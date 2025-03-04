@@ -14,12 +14,11 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { AzureQuantumManagementClient } from "../src/azureQuantumManagementClient";
+import { AzureQuantumManagementClient } from "../src/azureQuantumManagementClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -42,24 +41,27 @@ describe("quantum test", () => {
   let resourceGroup: string;
   let resourcename: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new AzureQuantumManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new AzureQuantumManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resource-test1";
-
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("workspaces create test", async function () {
+  it("workspaces create test", async () => {
     const res = await client.workspaces.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
@@ -70,24 +72,29 @@ describe("quantum test", () => {
             {
               providerId: "microsoft-qc",
               providerSku: "learn-and-develop",
-            }
+            },
           ],
-          storageAccount: "/subscriptions/" + subscriptionId + "/resourcegroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/czwtestsa",
+          storageAccount:
+            "/subscriptions/" +
+            subscriptionId +
+            "/resourcegroups/" +
+            resourceGroup +
+            "/providers/Microsoft.Storage/storageAccounts/czwtestsa",
         },
-        identity: { type: "SystemAssigned" }
+        identity: { type: "SystemAssigned" },
       },
-      testPollingOptions);
+      testPollingOptions,
+    );
     await delay(isPlaybackMode() ? 1000 : 10000);
     assert.equal(res.name, resourcename);
   });
 
-  it("workspaces get test", async function () {
-    const res = await client.workspaces.get(resourceGroup,
-      resourcename);
+  it("workspaces get test", async () => {
+    const res = await client.workspaces.get(resourceGroup, resourcename);
     assert.equal(res.name, resourcename);
   });
 
-  it("workspaces list test", async function () {
+  it("workspaces list test", async () => {
     const resArray = new Array();
     for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -95,13 +102,12 @@ describe("quantum test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("workspaces delete test", async function () {
+  it("workspaces delete test", async () => {
     const resArray = new Array();
-    const res = await client.workspaces.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions
-    )
+    await client.workspaces.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions);
     for await (let item of client.workspaces.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
   });
-})
+});

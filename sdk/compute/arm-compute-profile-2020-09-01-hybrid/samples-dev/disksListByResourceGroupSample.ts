@@ -29,7 +29,7 @@ async function listAllManagedDisksInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listAllManagedDisksInAResourceGroup()
+  await listAllManagedDisksInAResourceGroup();
 }
 
 main().catch(console.error);

@@ -36,7 +36,7 @@ async function createOrUpdateAProximityPlacementGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createOrUpdateAProximityPlacementGroup()
+  await createOrUpdateAProximityPlacementGroup();
 }
 
 main().catch(console.error);

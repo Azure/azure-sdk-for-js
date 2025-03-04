@@ -45,7 +45,7 @@ async function main(): Promise<void> {
   if (!res1.body) {
     throw Error("No response body");
   }
-  res1.body.pipe(createWriteStream("image1.png"));
+  await res1.body.pipe(createWriteStream("image1.png"));
 
   /** The other way is to assign center with image width and height to the queryParameters */
   const res2 = await client
@@ -62,7 +62,7 @@ async function main(): Promise<void> {
   if (!res2.body) {
     throw Error("No response body");
   }
-  res2.body.pipe(createWriteStream("image2.png"));
+  await res2.body.pipe(createWriteStream("image2.png"));
 
   /** In a more complex scenario, we can also add pins and paths on the map to make it more vivid */
   // Prepare pins sets
@@ -121,7 +121,7 @@ async function main(): Promise<void> {
   if (!res3.body) {
     throw Error("No response body");
   }
-  res3.body.pipe(createWriteStream("image3.png"));
+  await res3.body.pipe(createWriteStream("image3.png"));
 }
 
 main().catch((err) => {

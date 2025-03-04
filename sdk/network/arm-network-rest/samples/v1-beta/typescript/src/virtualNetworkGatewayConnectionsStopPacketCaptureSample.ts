@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewayConnectionsStopPacketCaptureParameters,
   getLongRunningPoller,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Stops packet capture on virtual network gateway connection in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayConnectionStopPacketCapture.json
  */
-async function stopPacketCaptureOnVirtualNetworkGatewayConnection() {
+async function stopPacketCaptureOnVirtualNetworkGatewayConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

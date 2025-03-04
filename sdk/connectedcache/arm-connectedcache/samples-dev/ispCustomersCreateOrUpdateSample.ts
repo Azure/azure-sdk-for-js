@@ -54,7 +54,7 @@ async function ispCustomerCreateOrUpdateGeneratedByMaximumSetRule(): Promise<voi
 }
 
 async function main(): Promise<void> {
-  ispCustomerCreateOrUpdateGeneratedByMaximumSetRule();
+  await ispCustomerCreateOrUpdateGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

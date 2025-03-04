@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { ServiceFabricManagedClustersManagementClient } from "@azure/arm-servicefabricmanagedclusters";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get a Service Fabric application type name resource created or in the process of being created in the Service Fabric managed cluster resource.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get a Service Fabric application type name resource created or in the process of being created in the Service Fabric managed cluster resource.
  * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-09-01-preview/examples/ApplicationTypeNameGetOperation_example.json
  */
-async function getAnApplicationType() {
+async function getAnApplicationType(): Promise<void> {
   const subscriptionId =
     process.env["SERVICEFABRICMANAGEDCLUSTERS_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -41,7 +39,7 @@ async function getAnApplicationType() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAnApplicationType();
 }
 

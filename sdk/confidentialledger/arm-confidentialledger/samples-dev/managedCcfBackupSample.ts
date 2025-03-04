@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ManagedCCFBackup,
-  ConfidentialLedgerClient,
-} from "@azure/arm-confidentialledger";
+import type { ManagedCCFBackup } from "@azure/arm-confidentialledger";
+import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,11 +19,9 @@ import "dotenv/config";
  */
 async function managedCcfBackup(): Promise<void> {
   const subscriptionId =
-    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
-    "0000000-0000-0000-0000-000000000001";
+    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] || "0000000-0000-0000-0000-000000000001";
   const resourceGroupName =
-    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] ||
-    "DummyResourceGroupName";
+    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] || "DummyResourceGroupName";
   const appName = "DummyMccfAppName";
   const managedCCF: ManagedCCFBackup = {
     restoreRegion: "EastUS",
@@ -44,7 +38,7 @@ async function managedCcfBackup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  managedCcfBackup();
+  await managedCcfBackup();
 }
 
 main().catch(console.error);

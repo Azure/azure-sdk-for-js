@@ -31,7 +31,7 @@ async function startAnExtensionRollingUpgrade(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await startAnExtensionRollingUpgrade()
+  await startAnExtensionRollingUpgrade();
 }
 
 main().catch(console.error);

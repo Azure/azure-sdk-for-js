@@ -21,7 +21,7 @@ async function enterpriseMccCustomersUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCustomersUpdate();
+  await enterpriseMccCustomersUpdate();
 }
 
 main().catch(console.error);

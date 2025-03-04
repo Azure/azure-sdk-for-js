@@ -1154,26 +1154,26 @@ async function createAVMWithSshAuthentication(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createACustomImageVMFromAnUnmanagedGeneralizedOSImage()
-  await createAPlatformImageVMWithUnmanagedOSAndDataDisks()
-  await createAVMFromACustomImage()
-  await createAVMInAnAvailabilitySet()
-  await createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk()
-  await createAVMWithHostEncryptionUsingEncryptionAtHostProperty()
-  await createAVMWithAMarketplaceImagePlan()
-  await createAVMWithAPatchSettingPatchModeOfAutomaticByOS()
-  await createAVMWithAPatchSettingPatchModeOfAutomaticByPlatform()
-  await createAVMWithAPatchSettingPatchModeOfManual()
-  await createAVMWithAnExtensionsTimeBudget()
-  await createAVMWithBootDiagnostics()
-  await createAVMWithEmptyDataDisks()
-  await createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty()
-  await createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty()
-  await createAVMWithEphemeralOSDisk()
-  await createAVMWithManagedBootDiagnostics()
-  await createAVMWithPasswordAuthentication()
-  await createAVMWithPremiumStorage()
-  await createAVMWithSshAuthentication()
+  await createACustomImageVMFromAnUnmanagedGeneralizedOSImage();
+  await createAPlatformImageVMWithUnmanagedOSAndDataDisks();
+  await createAVMFromACustomImage();
+  await createAVMInAnAvailabilitySet();
+  await createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk();
+  await createAVMWithHostEncryptionUsingEncryptionAtHostProperty();
+  await createAVMWithAMarketplaceImagePlan();
+  await createAVMWithAPatchSettingPatchModeOfAutomaticByOS();
+  await createAVMWithAPatchSettingPatchModeOfAutomaticByPlatform();
+  await createAVMWithAPatchSettingPatchModeOfManual();
+  await createAVMWithAnExtensionsTimeBudget();
+  await createAVMWithBootDiagnostics();
+  await createAVMWithEmptyDataDisks();
+  await createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty();
+  await createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty();
+  await createAVMWithEphemeralOSDisk();
+  await createAVMWithManagedBootDiagnostics();
+  await createAVMWithPasswordAuthentication();
+  await createAVMWithPremiumStorage();
+  await createAVMWithSshAuthentication();
 }
 
 main().catch(console.error);

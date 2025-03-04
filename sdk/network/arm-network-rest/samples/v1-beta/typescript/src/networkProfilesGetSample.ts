@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   NetworkProfilesGetParameters,
 } from "@azure-rest/arm-network";
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Gets the specified network profile in a specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkProfileGetConfigOnly.json
  */
-async function getNetworkProfile() {
+async function getNetworkProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -42,7 +39,7 @@ getNetworkProfile().catch(console.error);
  * @summary Gets the specified network profile in a specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkProfileGetWithContainerNic.json
  */
-async function getNetworkProfileWithContainerNetworkInterfaces() {
+async function getNetworkProfileWithContainerNetworkInterfaces(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

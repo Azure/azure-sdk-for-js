@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import type { Client } from "@azure-rest/core-client";
+import type { Client } from "../src/index.js";
 
 interface GetOperationResult {}
 interface DetectFromUrl {}
@@ -14,7 +14,7 @@ interface Routes {
 }
 
 describe("snippets", () => {
-  it("path_example", () => {
+  it("PathExample", () => {
     type MyClient = Client & {
       path: Routes;
     };

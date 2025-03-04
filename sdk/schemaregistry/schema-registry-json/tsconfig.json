@@ -10,5 +10,7 @@
       "path": "./tsconfig.test.json"
     }
   ],
-  "files": []
+  "compilerOptions": {
+    "esModuleInterop": true
+  }
 }

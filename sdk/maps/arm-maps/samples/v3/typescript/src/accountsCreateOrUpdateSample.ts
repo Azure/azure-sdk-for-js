@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MapsAccount, AzureMapsManagementClient } from "@azure/arm-maps";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateAccountEncryption.json
  */
-async function createAccountWithEncryption() {
+async function createAccountWithEncryption(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -67,7 +65,7 @@ async function createAccountWithEncryption() {
  * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateAccountManagedIdentity.json
  */
-async function createAccountWithManagedIdentities() {
+async function createAccountWithManagedIdentities(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -117,7 +115,7 @@ async function createAccountWithManagedIdentities() {
  * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateAccount.json
  */
-async function createGen1Account() {
+async function createGen1Account(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -159,7 +157,7 @@ async function createGen1Account() {
  * @summary Create or update a Maps Account. A Maps Account holds the keys which allow access to the Maps REST APIs.
  * x-ms-original-file: specification/maps/resource-manager/Microsoft.Maps/stable/2023-06-01/examples/CreateAccountGen2.json
  */
-async function createGen2Account() {
+async function createGen2Account(): Promise<void> {
   const subscriptionId =
     process.env["MAPS_SUBSCRIPTION_ID"] ||
     "21a9967a-e8a9-4656-a70b-96ff1c4d05a0";
@@ -195,7 +193,7 @@ async function createGen2Account() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createAccountWithEncryption();
   createAccountWithManagedIdentities();
   createGen1Account();

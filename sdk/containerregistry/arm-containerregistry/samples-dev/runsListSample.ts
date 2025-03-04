@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   RunsListOptionalParams,
-  ContainerRegistryManagementClient
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -34,13 +32,13 @@ async function runsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.runs.list(
     resourceGroupName,
     registryName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -48,7 +46,7 @@ async function runsList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  runsList();
+  await runsList();
 }
 
 main().catch(console.error);

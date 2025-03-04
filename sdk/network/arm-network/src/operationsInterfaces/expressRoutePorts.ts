@@ -23,7 +23,7 @@ import {
   GenerateExpressRoutePortsLOARequest,
   ExpressRoutePortsGenerateLOAOptionalParams,
   ExpressRoutePortsGenerateLOAResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ExpressRoutePorts. */

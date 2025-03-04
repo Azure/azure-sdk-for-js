@@ -21,7 +21,7 @@ async function servicesGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesGet();
+  await servicesGet();
 }
 
 main().catch(console.error);

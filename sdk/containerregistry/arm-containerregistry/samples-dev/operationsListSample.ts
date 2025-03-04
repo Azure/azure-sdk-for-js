@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all of the available Azure Container Registry REST API operations.
  *
  * @summary Lists all of the available Azure Container Registry REST API operations.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/OperationList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/OperationList.json
  */
 async function operationList(): Promise<void> {
   const subscriptionId =
@@ -25,7 +23,7 @@ async function operationList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.operations.list()) {
@@ -35,7 +33,7 @@ async function operationList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  operationList();
+  await operationList();
 }
 
 main().catch(console.error);

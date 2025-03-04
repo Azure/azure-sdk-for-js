@@ -59,7 +59,7 @@ export class CIInfoProvider {
       return {
         provider: CI_PROVIDERS.ADO,
         repo: process.env["BUILD_REPOSITORY_ID"] || null,
-        branch: process.env["BUILD_SOURCEBRANCHNAME"] || null,
+        branch: process.env["BUILD_SOURCEBRANCH"] || null,
         author: process.env["BUILD_REQUESTEDFOR"] || null,
         commitId: process.env["BUILD_SOURCEVERSION"] || null,
         revisionUrl: process.env["SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"]
@@ -70,7 +70,7 @@ export class CIInfoProvider {
           ? parseInt(process.env["RELEASE_ATTEMPTNUMBER"], 10)
           : parseInt(process.env["SYSTEM_JOBATTEMPT"] ?? "", 10),
         jobName:
-          process.env["SYSTEM_JOBDISPLAYNAME"] ?? process.env["RELEASE_DEPLOYMENTID"] ?? null,
+          process.env["SYSTEM_JOBDISPLAYNAME"] || process.env["RELEASE_DEPLOYMENTID"] || null,
       };
     } else {
       // Handle unsupported CI provider

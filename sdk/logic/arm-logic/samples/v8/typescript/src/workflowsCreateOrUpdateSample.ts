@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { Workflow, LogicManagementClient } from "@azure/arm-logic";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a workflow.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a workflow.
  * x-ms-original-file: specification/logic/resource-manager/Microsoft.Logic/stable/2019-05-01/examples/Workflows_CreateOrUpdate.json
  */
-async function createOrUpdateAWorkflow() {
+async function createOrUpdateAWorkflow(): Promise<void> {
   const subscriptionId =
     process.env["LOGIC_SUBSCRIPTION_ID"] ||
     "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -84,7 +82,7 @@ async function createOrUpdateAWorkflow() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   createOrUpdateAWorkflow();
 }
 

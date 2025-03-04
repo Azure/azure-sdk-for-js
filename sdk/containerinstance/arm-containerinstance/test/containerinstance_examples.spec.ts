@@ -6,18 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ContainerInstanceManagementClient } from "../src/containerInstanceManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
+  SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -32,7 +28,6 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-
 describe("ContainerInstance test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
@@ -42,74 +37,83 @@ describe("ContainerInstance test", () => {
   let containerGroupName: string;
   let containerInstanceName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ContainerInstanceManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new ContainerInstanceManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     location = "eastus2";
     resourceGroup = "myjstest";
     containerGroupName = "mycontainerGroupxxx";
     containerInstanceName = "my-containerinstancexx";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   it("containerGroups create test", async function () {
-    const res = await client.containerGroups.beginCreateOrUpdateAndWait(resourceGroup, containerGroupName, {
-      location: location,
-      identity: {
-        type: "SystemAssigned"
-      },
-      containers: [
-        {
-          name: containerInstanceName,
-          command: [],
-          environmentVariables: [],
-          image: "nginx",
-          ports: [
-            {
-              port: 80
-            }
-          ],
-          resources: {
-            requests: {
-              cpu: 1,
-              memoryInGB: 1.5,
-              // gpu: {
-              //   count: 1,
-              //   sku: "K80"
-              // }
-            }
-          },
-          volumeMounts: [
-            {
-              name: "empty-volume",
+    const res = await client.containerGroups.beginCreateOrUpdateAndWait(
+      resourceGroup,
+      containerGroupName,
+      {
+        location: location,
+        identity: {
+          type: "SystemAssigned",
+        },
+        containers: [
+          {
+            name: containerInstanceName,
+            command: [],
+            environmentVariables: [],
+            image: "nginx",
+            ports: [
+              {
+                port: 80,
+              },
+            ],
+            resources: {
+              requests: {
+                cpu: 1,
+                memoryInGB: 1.5,
+                // gpu: {
+                //   count: 1,
+                //   sku: "K80"
+                // }
+              },
+            },
+            volumeMounts: [
+              {
+                name: "empty-volume",
 
-              mountPath: "mnt/mydir"
-            }
-          ]
-        }
-      ],
-      diagnostics: {
-        logAnalytics: {
-          workspaceId: "workspaceid",
-          workspaceKey: "workspaceKey"
-        }
+                mountPath: "mnt/mydir",
+              },
+            ],
+          },
+        ],
+        diagnostics: {
+          logAnalytics: {
+            workspaceId: "workspaceid",
+            workspaceKey: "workspaceKey",
+          },
+        },
+        osType: "Linux",
+        restartPolicy: "OnFailure",
+        volumes: [
+          {
+            name: "empty-volume",
+            emptyDir: {},
+          },
+        ],
       },
-      osType: "Linux",
-      restartPolicy: "OnFailure",
-      volumes: [
-        {
-          name: "empty-volume",
-          emptyDir: {}
-        }
-      ]
-    }, testPollingOptions)
+      testPollingOptions,
+    );
     assert.equal(res.name, containerGroupName);
   });
 
@@ -120,7 +124,7 @@ describe("ContainerInstance test", () => {
 
   it("containerGroups list test", async function () {
     const resArray = new Array();
-    for await (let item of client.containerGroups.listByResourceGroup(resourceGroup)) {
+    for await (const item of client.containerGroups.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
@@ -128,8 +132,12 @@ describe("ContainerInstance test", () => {
 
   it("containerGroups delete test", async function () {
     const resArray = new Array();
-    await client.containerGroups.beginDeleteAndWait(resourceGroup, containerGroupName, testPollingOptions);
-    for await (let item of client.containerGroups.listByResourceGroup(resourceGroup)) {
+    await client.containerGroups.beginDeleteAndWait(
+      resourceGroup,
+      containerGroupName,
+      testPollingOptions,
+    );
+    for await (const item of client.containerGroups.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

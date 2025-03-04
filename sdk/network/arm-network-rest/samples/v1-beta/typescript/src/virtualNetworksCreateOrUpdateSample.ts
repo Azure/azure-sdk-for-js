@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworksCreateOrUpdateParameters,
   getLongRunningPoller,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreate.json
  */
-async function createVirtualNetwork() {
+async function createVirtualNetwork(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -52,7 +49,7 @@ createVirtualNetwork().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateWithBgpCommunities.json
  */
-async function createVirtualNetworkWithBgpCommunities() {
+async function createVirtualNetworkWithBgpCommunities(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -89,7 +86,7 @@ createVirtualNetworkWithBgpCommunities().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateSubnetWithDelegation.json
  */
-async function createVirtualNetworkWithDelegatedSubnets() {
+async function createVirtualNetworkWithDelegatedSubnets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -138,7 +135,7 @@ createVirtualNetworkWithDelegatedSubnets().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateWithEncryption.json
  */
-async function createVirtualNetworkWithEncryption() {
+async function createVirtualNetworkWithEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -175,7 +172,7 @@ createVirtualNetworkWithEncryption().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateServiceEndpoints.json
  */
-async function createVirtualNetworkWithServiceEndpoints() {
+async function createVirtualNetworkWithServiceEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -219,7 +216,7 @@ createVirtualNetworkWithServiceEndpoints().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateServiceEndpointPolicy.json
  */
-async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy() {
+async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -268,7 +265,7 @@ createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy().catch(console
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateSubnet.json
  */
-async function createVirtualNetworkWithSubnet() {
+async function createVirtualNetworkWithSubnet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";
@@ -304,7 +301,7 @@ createVirtualNetworkWithSubnet().catch(console.error);
  * @summary Creates or updates a virtual network in the specified resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkCreateSubnetWithAddressPrefixes.json
  */
-async function createVirtualNetworkWithSubnetContainingAddressPrefixes() {
+async function createVirtualNetworkWithSubnetContainingAddressPrefixes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

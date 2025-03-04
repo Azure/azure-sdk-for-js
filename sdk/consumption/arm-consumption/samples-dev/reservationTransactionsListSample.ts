@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ReservationTransactionsListOptionalParams,
-  ConsumptionManagementClient
-} from "@azure/arm-consumption";
+import type { ReservationTransactionsListOptionalParams } from "@azure/arm-consumption";
+import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,26 +19,21 @@ import "dotenv/config";
  */
 async function reservationTransactionsByEnrollmentNumber(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const filter =
-    "properties/eventDate+ge+2020-05-20+AND+properties/eventDate+le+2020-05-30";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const filter = "properties/eventDate+ge+2020-05-20+AND+properties/eventDate+le+2020-05-30";
   const billingAccountId = "123456";
   const options: ReservationTransactionsListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.reservationTransactions.list(
-    billingAccountId,
-    options
-  )) {
+  for await (const item of client.reservationTransactions.list(billingAccountId, options)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main(): Promise<void> {
-  reservationTransactionsByEnrollmentNumber();
+  await reservationTransactionsByEnrollmentNumber();
 }
 
 main().catch(console.error);

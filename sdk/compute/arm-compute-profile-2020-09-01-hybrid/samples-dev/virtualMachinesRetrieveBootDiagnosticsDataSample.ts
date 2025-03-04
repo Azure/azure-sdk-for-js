@@ -36,7 +36,7 @@ async function retrieveBootDiagnosticsDataOfAVirtualMachine(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await retrieveBootDiagnosticsDataOfAVirtualMachine()
+  await retrieveBootDiagnosticsDataOfAVirtualMachine();
 }
 
 main().catch(console.error);

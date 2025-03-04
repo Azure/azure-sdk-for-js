@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  ManagementGroupNetworkManagerConnectionsDeleteParameters,
-} from "@azure-rest/arm-network";
+import type { ManagementGroupNetworkManagerConnectionsDeleteParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +11,7 @@ import "dotenv/config";
  * @summary Delete specified pending connection created by this management group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectionManagementGroupDelete.json
  */
-async function deleteManagementGroupNetworkManagerConnection() {
+async function deleteManagementGroupNetworkManagerConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const managementGroupId = "managementGroupA";

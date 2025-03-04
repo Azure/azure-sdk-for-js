@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   RouteFilterRulesGetParameters,
 } from "@azure-rest/arm-network";
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Gets the specified rule from a route filter.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/RouteFilterRuleGet.json
  */
-async function routeFilterRuleGet() {
+async function routeFilterRuleGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

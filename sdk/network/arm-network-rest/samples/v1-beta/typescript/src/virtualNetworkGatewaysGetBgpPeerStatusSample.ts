@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualNetworkGatewaysGetBgpPeerStatusParameters,
   getLongRunningPoller,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary The GetBgpPeerStatus operation retrieves the status of all BGP peers.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayGetBGPPeerStatus.json
  */
-async function getVirtualNetworkGatewayBgpPeerStatus() {
+async function getVirtualNetworkGatewayBgpPeerStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

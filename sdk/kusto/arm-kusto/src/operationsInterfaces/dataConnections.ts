@@ -23,8 +23,8 @@ import {
   DataConnectionsCreateOrUpdateResponse,
   DataConnectionsUpdateOptionalParams,
   DataConnectionsUpdateResponse,
-  DataConnectionsDeleteOptionalParams
-} from "../models";
+  DataConnectionsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DataConnections. */
@@ -40,7 +40,7 @@ export interface DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: DataConnectionsListByDatabaseOptionalParams
+    options?: DataConnectionsListByDatabaseOptionalParams,
   ): PagedAsyncIterableIterator<DataConnectionUnion>;
   /**
    * Checks that the data connection parameters are valid.
@@ -55,7 +55,7 @@ export interface DataConnections {
     clusterName: string,
     databaseName: string,
     parameters: DataConnectionValidation,
-    options?: DataConnectionsDataConnectionValidationOptionalParams
+    options?: DataConnectionsDataConnectionValidationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataConnectionsDataConnectionValidationResponse>,
@@ -75,7 +75,7 @@ export interface DataConnections {
     clusterName: string,
     databaseName: string,
     parameters: DataConnectionValidation,
-    options?: DataConnectionsDataConnectionValidationOptionalParams
+    options?: DataConnectionsDataConnectionValidationOptionalParams,
   ): Promise<DataConnectionsDataConnectionValidationResponse>;
   /**
    * Checks that the data connection name is valid and is not already in use.
@@ -90,7 +90,7 @@ export interface DataConnections {
     clusterName: string,
     databaseName: string,
     dataConnectionName: DataConnectionCheckNameRequest,
-    options?: DataConnectionsCheckNameAvailabilityOptionalParams
+    options?: DataConnectionsCheckNameAvailabilityOptionalParams,
   ): Promise<DataConnectionsCheckNameAvailabilityResponse>;
   /**
    * Returns a data connection.
@@ -105,7 +105,7 @@ export interface DataConnections {
     clusterName: string,
     databaseName: string,
     dataConnectionName: string,
-    options?: DataConnectionsGetOptionalParams
+    options?: DataConnectionsGetOptionalParams,
   ): Promise<DataConnectionsGetResponse>;
   /**
    * Creates or updates a data connection.
@@ -122,7 +122,7 @@ export interface DataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: DataConnectionsCreateOrUpdateOptionalParams
+    options?: DataConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataConnectionsCreateOrUpdateResponse>,
@@ -144,7 +144,7 @@ export interface DataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: DataConnectionsCreateOrUpdateOptionalParams
+    options?: DataConnectionsCreateOrUpdateOptionalParams,
   ): Promise<DataConnectionsCreateOrUpdateResponse>;
   /**
    * Updates a data connection.
@@ -161,7 +161,7 @@ export interface DataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: DataConnectionsUpdateOptionalParams
+    options?: DataConnectionsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DataConnectionsUpdateResponse>,
@@ -183,7 +183,7 @@ export interface DataConnections {
     databaseName: string,
     dataConnectionName: string,
     parameters: DataConnectionUnion,
-    options?: DataConnectionsUpdateOptionalParams
+    options?: DataConnectionsUpdateOptionalParams,
   ): Promise<DataConnectionsUpdateResponse>;
   /**
    * Deletes the data connection with the given name.
@@ -198,7 +198,7 @@ export interface DataConnections {
     clusterName: string,
     databaseName: string,
     dataConnectionName: string,
-    options?: DataConnectionsDeleteOptionalParams
+    options?: DataConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the data connection with the given name.
@@ -213,6 +213,6 @@ export interface DataConnections {
     clusterName: string,
     databaseName: string,
     dataConnectionName: string,
-    options?: DataConnectionsDeleteOptionalParams
+    options?: DataConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

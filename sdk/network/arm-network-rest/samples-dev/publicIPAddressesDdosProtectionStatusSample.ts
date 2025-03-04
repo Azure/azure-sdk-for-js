@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  PublicIPAddressesDdosProtectionStatusParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { PublicIPAddressesDdosProtectionStatusParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +11,7 @@ import "dotenv/config";
  * @summary Gets the Ddos Protection Status of a Public IP Address
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressGetDdosProtectionStatus.json
  */
-async function getDdosProtectionStatusOfAPublicIPAddress() {
+async function getDdosProtectionStatusOfAPublicIPAddress(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

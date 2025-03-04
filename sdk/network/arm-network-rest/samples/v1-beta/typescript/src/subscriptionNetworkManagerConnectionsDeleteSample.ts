@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   SubscriptionNetworkManagerConnectionsDeleteParameters,
 } from "@azure-rest/arm-network";
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Delete specified connection created by this subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkManagerConnectionSubscriptionDelete.json
  */
-async function deleteSubscriptionNetworkManagerConnection() {
+async function deleteSubscriptionNetworkManagerConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

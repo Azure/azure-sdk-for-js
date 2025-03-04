@@ -101,7 +101,7 @@ export interface ModelInfoOutput {
   /**
    * The type of the AI model. A Unique identifier for the profile.
    *
-   * Possible values: "embeddings", "image_generation", "text_generation", "image_embeddings", "audio_generation", "chat"
+   * Possible values: "embeddings", "image_generation", "text_generation", "image_embeddings", "audio_generation", "chat_completion"
    */
   model_type: ModelTypeOutput;
   /** The model provider name. For example: `Microsoft Research` */
@@ -114,6 +114,8 @@ export interface ModelInfoOutput {
  * recommendations, and other similar scenarios.
  */
 export interface EmbeddingsResultOutput {
+  /** Unique identifier for the embeddings result. */
+  id: string;
   /** Embedding values for the prompts submitted in the request. */
   data: Array<EmbeddingItemOutput>;
   /** Usage counts for tokens input using the embeddings API. */

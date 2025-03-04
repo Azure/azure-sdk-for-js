@@ -8,7 +8,7 @@ import { UnbalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategie
 import { should } from "../utils/chai.js";
 import { describe, it } from "vitest";
 
-describe("LoadBalancingStrategy", function () {
+describe("LoadBalancingStrategy", () => {
   function createOwnershipMap(
     partitionToOwner: Record<string, string>,
   ): Map<string, PartitionOwnership> {
@@ -29,8 +29,8 @@ describe("LoadBalancingStrategy", function () {
     return ownershipMap;
   }
 
-  describe("UnbalancedLoadBalancingStrategy", function () {
-    it("all", async function () {
+  describe("UnbalancedLoadBalancingStrategy", () => {
+    it("all", async () => {
       const m = new Map<string, PartitionOwnership>();
       const lb = new UnbalancedLoadBalancingStrategy();
 
@@ -38,7 +38,7 @@ describe("LoadBalancingStrategy", function () {
       should.equal(m.size, 0);
     });
 
-    it("claim partitions we already own", async function () {
+    it("claim partitions we already own", async () => {
       const m = new Map<string, PartitionOwnership>();
 
       m.set("1", {
@@ -67,10 +67,10 @@ describe("LoadBalancingStrategy", function () {
     });
   });
 
-  describe("BalancedLoadBalancingStrategy", function () {
+  describe("BalancedLoadBalancingStrategy", () => {
     const lb = new BalancedLoadBalancingStrategy(1000 * 60);
 
-    it("odd number of partitions per processor", async function () {
+    it("odd number of partitions per processor", async () => {
       const allPartitions = ["0", "1", "2"];
 
       // at this point 'a' has it's fair share of partitions (there are 3 total)
@@ -107,7 +107,7 @@ describe("LoadBalancingStrategy", function () {
       );
     });
 
-    it("even number of partitions per processor", async function () {
+    it("even number of partitions per processor", async () => {
       const allPartitions = ["0", "1", "2", "3"];
 
       // at this point 'a' has it's fair share of partitions (there are 4 total)
@@ -147,7 +147,7 @@ describe("LoadBalancingStrategy", function () {
     // 1. we were simply racing against other processors
     // 2. we're coming in later after all partitions have been allocated (ie, scaling out)
     // 3. timing issues, death of a processor, etc...
-    it("stealing", async function () {
+    it("stealing", async () => {
       // something like this could happen if 'a' were just the only processor
       // and now we're spinning up 'b'
       let partitionsToOwn = lb.getPartitionsToClaim(
@@ -185,7 +185,7 @@ describe("LoadBalancingStrategy", function () {
       );
     });
 
-    it("don't steal when you can just wait", async function () {
+    it("don't steal when you can just wait", async () => {
       // @chradek's case: let's say we have this partition layout:
       // AAAABBBCCD
       //
@@ -231,7 +231,7 @@ describe("LoadBalancingStrategy", function () {
       );
     });
 
-    it("avoid thrash", async function () {
+    it("avoid thrash", async () => {
       // this is a case where we shouldn't steal - we have
       // the minimum number of partitions and stealing at this
       // point will just keep thrashing both processors.
@@ -249,7 +249,7 @@ describe("LoadBalancingStrategy", function () {
       partitionsToOwn.should.deep.equal([], "should not re-steal when things are balanced");
     });
 
-    it("general cases", async function () {
+    it("general cases", async () => {
       const allPartitions = ["0", "1", "2", "3"];
 
       // in the presence of no owners we claim a random partition
@@ -297,7 +297,7 @@ describe("LoadBalancingStrategy", function () {
       partitionsToOwn.should.be.deep.equal([], "balanced: b should not grab anymore partitions");
     });
 
-    it("honors the partitionOwnershipExpirationIntervalInMs", async function () {
+    it("honors the partitionOwnershipExpirationIntervalInMs", async () => {
       const intervalInMs = 1000;
       const lbs = new BalancedLoadBalancingStrategy(intervalInMs);
       const allPartitions = ["0", "1"];
@@ -319,10 +319,10 @@ describe("LoadBalancingStrategy", function () {
     });
   });
 
-  describe("GreedyLoadBalancingStrategy", function () {
+  describe("GreedyLoadBalancingStrategy", () => {
     const lb = new GreedyLoadBalancingStrategy(1000 * 60);
 
-    it("odd number of partitions per processor", async function () {
+    it("odd number of partitions per processor", async () => {
       const allPartitions = ["0", "1", "2"];
 
       // at this point 'a' has it's fair share of partitions (there are 3 total)
@@ -359,7 +359,7 @@ describe("LoadBalancingStrategy", function () {
       );
     });
 
-    it("even number of partitions per processor", async function () {
+    it("even number of partitions per processor", async () => {
       const allPartitions = ["0", "1", "2", "3"];
 
       // at this point 'a' has it's fair share of partitions (there are 4 total)
@@ -399,7 +399,7 @@ describe("LoadBalancingStrategy", function () {
     // 1. we were simply racing against other processors
     // 2. we're coming in later after all partitions have been allocated (ie, scaling out)
     // 3. timing issues, death of a processor, etc...
-    it("stealing", async function () {
+    it("stealing", async () => {
       // something like this could happen if 'a' were just the only processor
       // and now we're spinning up 'b'
       let partitionsToOwn = lb.getPartitionsToClaim(
@@ -437,7 +437,7 @@ describe("LoadBalancingStrategy", function () {
       );
     });
 
-    it("claims unowned then steals", async function () {
+    it("claims unowned then steals", async () => {
       const allPartitions = [];
       for (let i = 0; i < 8; i++) {
         allPartitions.push(`${i}`);
@@ -465,7 +465,7 @@ describe("LoadBalancingStrategy", function () {
         .should.deep.equal(["0", "1", "2"], "should have claimed unclaimed partitions first.");
     });
 
-    it("don't steal when you can just wait", async function () {
+    it("don't steal when you can just wait", async () => {
       // @chradek's case: let's say we have this partition layout:
       // AAAABBBCCD
       //
@@ -511,7 +511,7 @@ describe("LoadBalancingStrategy", function () {
       );
     });
 
-    it("avoid thrash", async function () {
+    it("avoid thrash", async () => {
       // this is a case where we shouldn't steal - we have
       // the minimum number of partitions and stealing at this
       // point will just keep thrashing both processors.
@@ -529,7 +529,7 @@ describe("LoadBalancingStrategy", function () {
       partitionsToOwn.should.deep.equal([], "should not re-steal when things are balanced");
     });
 
-    it("general cases", async function () {
+    it("general cases", async () => {
       const allPartitions = ["0", "1", "2", "3"];
 
       // in the presence of no owners we claim a random partition
@@ -577,7 +577,7 @@ describe("LoadBalancingStrategy", function () {
       partitionsToOwn.should.be.deep.equal([], "balanced: b should not grab anymore partitions");
     });
 
-    it("honors the partitionOwnershipExpirationIntervalInMs", async function () {
+    it("honors the partitionOwnershipExpirationIntervalInMs", async () => {
       const intervalInMs = 1000;
       const lbs = new GreedyLoadBalancingStrategy(intervalInMs);
       const allPartitions = ["0", "1", "2", "3"];

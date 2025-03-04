@@ -10,8 +10,8 @@ Container registry service methods throw [`RestError`] on failure.
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
-const { setLogLevel } = require("@azure/logger");
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
@@ -73,11 +73,22 @@ In rare cases, transient error (such as connection reset) can happen during blob
 
 The following code snippet shows how to access detailed error information:
 
-```ts
-const config = Buffer.from(`{"hello":"world"}`);
+```ts snippet:SampleReadmeErrorHandling
+import { ContainerRegistryContentClient } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
+import { isRestError } from "@azure/core-rest-pipeline";
 
+const endpoint = "https://myregistryname.azurecr.io";
+const repository = "library/hello-world";
+const client = new ContainerRegistryContentClient(
+  endpoint,
+  repository,
+  new DefaultAzureCredential(),
+);
+
+const config = Buffer.from(`{"hello":"world"}`);
 try {
-  const uploadResult = await contentClient.uploadBlob(config);
+  const uploadResult = await client.uploadBlob(config);
   console.log(`Uploaded blob: digest - ${uploadResult.digest}, size - ${uploadResult.sizeInBytes}`);
 } catch (e) {
   // isRestError is exported by @azure/core-rest-pipeline
@@ -103,5 +114,3 @@ try {
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-with-the-defaultazurecredential
 [enable client logging]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/TROUBLESHOOTING.md#enable-client-logging
 [troubleshoot network issues with registry]: https://learn.microsoft.com/azure/container-registry/container-registry-troubleshoot-access
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcontainerregistry%2Fcontainer-registry%TROUBLESHOOTING.png)

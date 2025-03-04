@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./azureDevOpsConnectorOperations";
-export * from "./azureDevOpsRepoOperations";
-export * from "./azureDevOpsConnectorStatsOperations";
-export * from "./azureDevOpsOrgOperations";
-export * from "./azureDevOpsProjectOperations";
-export * from "./gitHubConnectorOperations";
-export * from "./gitHubRepoOperations";
-export * from "./gitHubConnectorStatsOperations";
-export * from "./gitHubOwnerOperations";
-export * from "./operations";
+export * from "./azureDevOpsConnectorOperations.js";
+export * from "./azureDevOpsRepoOperations.js";
+export * from "./azureDevOpsConnectorStatsOperations.js";
+export * from "./azureDevOpsOrgOperations.js";
+export * from "./azureDevOpsProjectOperations.js";
+export * from "./gitHubConnectorOperations.js";
+export * from "./gitHubRepoOperations.js";
+export * from "./gitHubConnectorStatsOperations.js";
+export * from "./gitHubOwnerOperations.js";
+export * from "./operations.js";

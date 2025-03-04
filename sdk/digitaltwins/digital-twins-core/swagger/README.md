@@ -8,7 +8,7 @@ typescript:
   title: GeneratedClient
   description: Digitaltwins Client
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.6.20221226.1"
+  "@autorest/typescript": "6.0.34"
 generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
@@ -16,6 +16,7 @@ input-file: https://github.com/Azure/azure-rest-api-specs/blob/main/specificatio
 output-folder: ../
 source-code-folder-path: ./src/generated
 package-version: 2.0.0
+module-kind: esm
 ```
 
 ## Customizations for Track 2 Generator

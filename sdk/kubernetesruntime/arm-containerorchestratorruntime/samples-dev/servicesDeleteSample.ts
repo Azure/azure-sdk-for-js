@@ -20,7 +20,7 @@ async function servicesDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  servicesDelete();
+  await servicesDelete();
 }
 
 main().catch(console.error);

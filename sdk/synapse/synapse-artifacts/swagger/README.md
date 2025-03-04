@@ -20,15 +20,14 @@ tracing-info:
   packagePrefix: "Microsoft.Synapse"
 require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/02e1bd495ad6215aacec5d636a5ef7ad6f20281e/specification/synapse/data-plane/readme.md
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.34"
 tag: package-artifacts-composite-v7
-
 typescript:
   generate-metadata: false
   azure-arm: true
-
 modelerfour:
   lenient-model-deduplication: true
+module-kind: esm
 ```
 
 ```yaml

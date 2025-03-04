@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -28,7 +26,7 @@ async function tasksList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.tasks.list(resourceGroupName, registryName)) {
@@ -38,7 +36,7 @@ async function tasksList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tasksList();
+  await tasksList();
 }
 
 main().catch(console.error);

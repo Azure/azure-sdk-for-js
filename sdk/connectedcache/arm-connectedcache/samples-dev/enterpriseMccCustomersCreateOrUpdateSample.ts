@@ -58,7 +58,7 @@ async function enterpriseMccCustomersCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseMccCustomersCreateOrUpdate();
+  await enterpriseMccCustomersCreateOrUpdate();
 }
 
 main().catch(console.error);

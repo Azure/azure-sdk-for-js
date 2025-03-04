@@ -27,7 +27,7 @@ async function getInformationAboutAVirtualMachineImage(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await getInformationAboutAVirtualMachineImage()
+  await getInformationAboutAVirtualMachineImage();
 }
 
 main().catch(console.error);

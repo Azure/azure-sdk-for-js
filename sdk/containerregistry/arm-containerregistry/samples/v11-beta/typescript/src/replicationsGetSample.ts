@@ -16,9 +16,9 @@ import "dotenv/config";
  * This sample demonstrates how to Gets the properties of the specified replication.
  *
  * @summary Gets the properties of the specified replication.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ReplicationGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ReplicationGet.json
  */
-async function replicationGet() {
+async function replicationGet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -29,18 +29,18 @@ async function replicationGet() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.replications.get(
     resourceGroupName,
     registryName,
-    replicationName
+    replicationName,
   );
   console.log(result);
 }
 
-async function main() {
-  replicationGet();
+async function main(): Promise<void> {
+  await replicationGet();
 }
 
 main().catch(console.error);

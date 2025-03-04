@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./monitors";
-export * from "./operations";
-export * from "./tagRules";
-export * from "./singleSignOn";
+export * from "./monitors.js";
+export * from "./operations.js";
+export * from "./tagRules.js";
+export * from "./singleSignOn.js";

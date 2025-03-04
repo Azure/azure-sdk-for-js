@@ -18,7 +18,7 @@ import "dotenv/config";
  * @summary Gets the detailed information for a given task run.
  * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2019-06-01-preview/examples/TaskRunsGet.json
  */
-async function taskRunsGet() {
+async function taskRunsGet(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "4385cf00-2d3a-425a-832f-f4285b1c9dce";
@@ -29,18 +29,18 @@ async function taskRunsGet() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.taskRuns.get(
     resourceGroupName,
     registryName,
-    taskRunName
+    taskRunName,
   );
   console.log(result);
 }
 
-async function main() {
-  taskRunsGet();
+async function main(): Promise<void> {
+  await taskRunsGet();
 }
 
 main().catch(console.error);

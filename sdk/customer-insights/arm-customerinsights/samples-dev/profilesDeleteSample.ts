@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -23,15 +21,8 @@ async function profilesDelete(): Promise<void> {
   const hubName = "sdkTestHub";
   const profileName = "TestProfileType396";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
-  const result = await client.profiles.beginDeleteAndWait(
-    resourceGroupName,
-    hubName,
-    profileName
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
+  const result = await client.profiles.beginDeleteAndWait(resourceGroupName, hubName, profileName);
   console.log(result);
 }
 

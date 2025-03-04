@@ -10,7 +10,7 @@ import {
   DataConnectorsCheckRequirementsUnion,
   DataConnectorsCheckRequirementsPostOptionalParams,
   DataConnectorsCheckRequirementsPostResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a DataConnectorsCheckRequirementsOperations. */
 export interface DataConnectorsCheckRequirementsOperations {

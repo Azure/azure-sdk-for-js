@@ -132,4 +132,16 @@ describe("Connection String", () => {
       parseServiceBusConnectionString(connectionString);
     }, /Connection string/);
   });
+
+  it("Extracts UseDevelopmentEmulator property", () => {
+    const connectionString = "Endpoint=sb://192.168.y.z;UseDevelopmentEmulator=true;";
+    const parsed = parseServiceBusConnectionString(connectionString);
+    assert.equal(parsed.useDevelopmentEmulator, true);
+  });
+
+  it("sets UseDevelopmentEmulator default value", () => {
+    const connectionString = `Endpoint=${expectedEndpoint};`;
+    const parsed = parseServiceBusConnectionString(connectionString);
+    assert.equal(parsed.useDevelopmentEmulator, false);
+  });
 });

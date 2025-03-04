@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
-import "./env.js";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

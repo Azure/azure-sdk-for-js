@@ -9,7 +9,7 @@
 import {
   IntegrationRuntimeMonitoringDataListOptionalParams,
   IntegrationRuntimeMonitoringDataListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimeMonitoringDataOperations. */
 export interface IntegrationRuntimeMonitoringDataOperations {

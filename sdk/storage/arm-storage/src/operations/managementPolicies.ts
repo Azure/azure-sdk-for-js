@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagementPolicies } from "../operationsInterfaces";
+import { ManagementPolicies } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { StorageManagementClient } from "../storageManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { StorageManagementClient } from "../storageManagementClient.js";
 import {
   ManagementPolicyName,
   ManagementPoliciesGetOptionalParams,
@@ -19,7 +19,7 @@ import {
   ManagementPoliciesCreateOrUpdateOptionalParams,
   ManagementPoliciesCreateOrUpdateResponse,
   ManagementPoliciesDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ManagementPolicies operations. */
 export class ManagementPoliciesImpl implements ManagementPolicies {

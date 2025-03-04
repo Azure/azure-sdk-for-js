@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary List Resources by Resource Group
  * x-ms-original-file: specification/mixedreality/resource-manager/Microsoft.MixedReality/preview/2021-03-01-preview/examples/spatial-anchors/GetByResourceGroup.json
  */
-async function listSpatialAnchorAccountsByResourceGroup() {
+async function listSpatialAnchorAccountsByResourceGroup(): Promise<void> {
   const subscriptionId = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx";
   const resourceGroupName = "MyResourceGroup";
   const credential = new DefaultAzureCredential();

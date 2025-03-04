@@ -12,6 +12,5 @@
   ],
   "compilerOptions": {
     "esModuleInterop": true
-  },
-  "files": []
+  }
 }

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -24,9 +22,9 @@ async function savingsPlanUtilizationSummariesMonthlyWithSavingsPlanId(): Promis
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const resArray = new Array();
-  for await (let item of client.benefitUtilizationSummaries.listBySavingsPlanId(
+  for await (const item of client.benefitUtilizationSummaries.listBySavingsPlanId(
     savingsPlanOrderId,
-    savingsPlanId
+    savingsPlanId,
   )) {
     resArray.push(item);
   }
@@ -34,7 +32,7 @@ async function savingsPlanUtilizationSummariesMonthlyWithSavingsPlanId(): Promis
 }
 
 async function main(): Promise<void> {
-  savingsPlanUtilizationSummariesMonthlyWithSavingsPlanId();
+  await savingsPlanUtilizationSummariesMonthlyWithSavingsPlanId();
 }
 
 main().catch(console.error);

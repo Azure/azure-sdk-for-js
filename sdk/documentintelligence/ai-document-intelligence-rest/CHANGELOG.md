@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Release History
 
 ## 1.0.0 (2024-12-16)
@@ -22,7 +24,7 @@
       "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
       "prebuilt-layout",
       resultId,
-      figureId
+      figureId,
     )
     .get()
     .asNodeStream(); // output.body would be NodeJS.ReadableStream
@@ -61,7 +63,7 @@
     .path(
       "/documentModels/{modelId}/analyzeBatchResults/{resultId}",
       "prebuilt-layout",
-      batchResultId
+      batchResultId,
     )
     .get();
   ```

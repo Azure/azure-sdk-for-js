@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -29,13 +27,13 @@ async function reservationDetails(): Promise<void> {
     billingAccountId,
     billingProfileId,
     startDate,
-    endDate
+    endDate,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  reservationDetails();
+  await reservationDetails();
 }
 
 main().catch(console.error);

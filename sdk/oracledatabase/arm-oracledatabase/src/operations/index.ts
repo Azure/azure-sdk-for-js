@@ -6,20 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./autonomousDatabases";
-export * from "./cloudExadataInfrastructures";
-export * from "./cloudVmClusters";
-export * from "./autonomousDatabaseCharacterSets";
-export * from "./autonomousDatabaseNationalCharacterSets";
-export * from "./autonomousDatabaseVersions";
-export * from "./dbSystemShapes";
-export * from "./dnsPrivateViews";
-export * from "./dnsPrivateZones";
-export * from "./giVersions";
-export * from "./systemVersions";
-export * from "./oracleSubscriptions";
-export * from "./autonomousDatabaseBackups";
-export * from "./dbServers";
-export * from "./dbNodes";
-export * from "./virtualNetworkAddresses";
+export * from "./operations.js";
+export * from "./autonomousDatabases.js";
+export * from "./cloudExadataInfrastructures.js";
+export * from "./cloudVmClusters.js";
+export * from "./autonomousDatabaseCharacterSets.js";
+export * from "./autonomousDatabaseNationalCharacterSets.js";
+export * from "./autonomousDatabaseVersions.js";
+export * from "./dbSystemShapes.js";
+export * from "./dnsPrivateViews.js";
+export * from "./dnsPrivateZones.js";
+export * from "./giVersions.js";
+export * from "./systemVersions.js";
+export * from "./oracleSubscriptions.js";
+export * from "./autonomousDatabaseBackups.js";
+export * from "./dbServers.js";
+export * from "./dbNodes.js";
+export * from "./virtualNetworkAddresses.js";

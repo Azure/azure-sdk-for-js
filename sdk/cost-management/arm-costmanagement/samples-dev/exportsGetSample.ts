@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -34,8 +32,7 @@ async function exportGetByBillingAccount(): Promise<void> {
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportGetByDepartment.json
  */
 async function exportGetByDepartment(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12/departments/1234";
+  const scope = "providers/Microsoft.Billing/billingAccounts/12/departments/1234";
   const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -50,8 +47,7 @@ async function exportGetByDepartment(): Promise<void> {
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportGetByEnrollmentAccount.json
  */
 async function exportGetByEnrollmentAccount(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -81,8 +77,7 @@ async function exportGetByManagementGroup(): Promise<void> {
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportGetByResourceGroup.json
  */
 async function exportGetByResourceGroup(): Promise<void> {
-  const scope =
-    "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
+  const scope = "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
   const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -106,12 +101,12 @@ async function exportGetBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportGetByBillingAccount();
-  exportGetByDepartment();
-  exportGetByEnrollmentAccount();
-  exportGetByManagementGroup();
-  exportGetByResourceGroup();
-  exportGetBySubscription();
+  await exportGetByBillingAccount();
+  await exportGetByDepartment();
+  await exportGetByEnrollmentAccount();
+  await exportGetByManagementGroup();
+  await exportGetByResourceGroup();
+  await exportGetBySubscription();
 }
 
 main().catch(console.error);

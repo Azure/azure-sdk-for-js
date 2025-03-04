@@ -10,8 +10,7 @@ import createClient, {
   isUnexpected,
 } from "@azure-rest/health-deidentification";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();

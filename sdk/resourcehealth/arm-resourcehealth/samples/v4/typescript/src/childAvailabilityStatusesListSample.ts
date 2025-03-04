@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MicrosoftResourceHealth } from "@azure/arm-resourcehealth";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Lists the historical availability statuses for a single child resource. Use the nextLink property in the response to get the next page of availability status
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Lists the historical availability statuses for a single child resource. Use the nextLink property in the response to get the next page of availability status
  * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2022-10-01/examples/ChildAvailabilityStatuses_List.json
  */
-async function getChildHealthHistoryByResource() {
+async function getChildHealthHistoryByResource(): Promise<void> {
   const subscriptionId =
     process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -35,7 +33,7 @@ async function getChildHealthHistoryByResource() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getChildHealthHistoryByResource();
 }
 

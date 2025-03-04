@@ -23,7 +23,7 @@ async function getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCus
 }
 
 async function main(): Promise<void> {
-  getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCustomerParentResourceGeneratedByMaximumSetRule();
+  await getsEnterpriseMccCacheNodeResourceInformationOfAnEnterpriseMccCustomerParentResourceGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VirtualRoutersListByResourceGroupParameters,
   paginate,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Lists all Virtual Routers in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualRouterListByResourceGroup.json
  */
-async function listAllVirtualRouterForAGivenResourceGroup() {
+async function listAllVirtualRouterForAGivenResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

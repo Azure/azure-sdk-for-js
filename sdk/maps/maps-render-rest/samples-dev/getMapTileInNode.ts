@@ -50,7 +50,7 @@ async function main(): Promise<void> {
   if (!response.body) {
     throw Error("No response body");
   }
-  response.body.pipe(createWriteStream("tile.png"));
+  await response.body.pipe(createWriteStream("tile.png"));
 }
 
 main().catch((err) => {

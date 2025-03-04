@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ConsumptionManagementClient } from "../src/consumptionManagementClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
@@ -20,7 +16,7 @@ const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -44,31 +40,35 @@ describe("Consumption test", () => {
   let vmName: string;
   let scope: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new ConsumptionManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new ConsumptionManagementClient(
+      credential,
+      subscriptionId,
+      recorder.configureClientOptions({}),
+    );
     resourceGroup = "myjstest";
     budgetName = "mybudgetxxxy";
     vmName = "myvmxxx";
     scope = "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("budgets create test", async function () {
+  it("budgets create test", async () => {
     const res = await client.budgets.createOrUpdate(scope, budgetName, {
       category: "Cost",
       amount: 100,
       timeGrain: "Monthly",
       timePeriod: {
         startDate: new Date("2023-09-01T00:00:00Z"),
-        endDate: new Date("2023-09-31T00:00:00Z")
+        endDate: new Date("2023-09-31T00:00:00Z"),
       },
       filter: {
         and: [
@@ -77,48 +77,44 @@ describe("Consumption test", () => {
               name: "ResourceId",
               operator: "In",
               values: [
-                "subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroup + "/providers/Microsoft.Compute/virtualMachines/" + vmName
-              ]
-            }
+                "subscriptions/" +
+                  subscriptionId +
+                  "/resourceGroups/" +
+                  resourceGroup +
+                  "/providers/Microsoft.Compute/virtualMachines/" +
+                  vmName,
+              ],
+            },
           },
           {
             tags: {
               name: "category",
               operator: "In",
-              values: [
-                "Dev",
-                "Prod"
-              ]
-            }
-          }
-        ]
+              values: ["Dev", "Prod"],
+            },
+          },
+        ],
       },
       notifications: {
         Actual_GreaterThan_80_Percent: {
           enabled: true,
           operator: "GreaterThan",
           threshold: 80,
-          contactEmails: [
-            "johndoe@contoso.com",
-            "janesmith@contoso.com"
-          ],
-          contactRoles: [
-            "Contributor",
-            "Reader"
-          ],
-          thresholdType: "Actual"
-        }
-      }
+          contactEmails: ["johndoe@contoso.com", "janesmith@contoso.com"],
+          contactRoles: ["Contributor", "Reader"],
+          thresholdType: "Actual",
+        },
+      },
     });
     assert.equal(res.name, budgetName);
   });
 
-  it("budgets get test", async function () {
+  it("budgets get test", async () => {
     const res = await client.budgets.get(scope, budgetName);
     assert.equal(res.name, budgetName);
   });
 
-  it("budgets delete test", async function () {
+  it("budgets delete test", async () => {
     await client.budgets.delete(scope, budgetName);
   });
 });

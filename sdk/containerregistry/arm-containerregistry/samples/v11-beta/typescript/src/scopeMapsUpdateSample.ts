@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ScopeMapUpdateParameters,
-  ContainerRegistryManagementClient
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,9 +19,9 @@ import "dotenv/config";
  * This sample demonstrates how to Updates a scope map with the specified parameters.
  *
  * @summary Updates a scope map with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ScopeMapUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ScopeMapUpdate.json
  */
-async function scopeMapUpdate() {
+async function scopeMapUpdate(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -33,25 +33,25 @@ async function scopeMapUpdate() {
     description: "Developer Scopes",
     actions: [
       "repositories/myrepository/contentWrite",
-      "repositories/myrepository/contentRead"
-    ]
+      "repositories/myrepository/contentRead",
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.scopeMaps.beginUpdateAndWait(
     resourceGroupName,
     registryName,
     scopeMapName,
-    scopeMapUpdateParameters
+    scopeMapUpdateParameters,
   );
   console.log(result);
 }
 
-async function main() {
-  scopeMapUpdate();
+async function main(): Promise<void> {
+  await scopeMapUpdate();
 }
 
 main().catch(console.error);

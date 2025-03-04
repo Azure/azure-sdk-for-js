@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -34,8 +32,7 @@ async function exportDeleteByBillingAccount(): Promise<void> {
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportDeleteByDepartment.json
  */
 async function exportDeleteByDepartment(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/12/departments/1234";
+  const scope = "providers/Microsoft.Billing/billingAccounts/12/departments/1234";
   const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -50,8 +47,7 @@ async function exportDeleteByDepartment(): Promise<void> {
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportDeleteByEnrollmentAccount.json
  */
 async function exportDeleteByEnrollmentAccount(): Promise<void> {
-  const scope =
-    "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
+  const scope = "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
   const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -81,8 +77,7 @@ async function exportDeleteByManagementGroup(): Promise<void> {
  * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportDeleteByResourceGroup.json
  */
 async function exportDeleteByResourceGroup(): Promise<void> {
-  const scope =
-    "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
+  const scope = "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
   const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
@@ -106,12 +101,12 @@ async function exportDeleteBySubscription(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  exportDeleteByBillingAccount();
-  exportDeleteByDepartment();
-  exportDeleteByEnrollmentAccount();
-  exportDeleteByManagementGroup();
-  exportDeleteByResourceGroup();
-  exportDeleteBySubscription();
+  await exportDeleteByBillingAccount();
+  await exportDeleteByDepartment();
+  await exportDeleteByEnrollmentAccount();
+  await exportDeleteByManagementGroup();
+  await exportDeleteByResourceGroup();
+  await exportDeleteBySubscription();
 }
 
 main().catch(console.error);

@@ -21,7 +21,7 @@ async function loadBalancersGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  loadBalancersGet();
+  await loadBalancersGet();
 }
 
 main().catch(console.error);

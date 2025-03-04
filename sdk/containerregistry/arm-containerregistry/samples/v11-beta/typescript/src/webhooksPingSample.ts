@@ -16,9 +16,9 @@ import "dotenv/config";
  * This sample demonstrates how to Triggers a ping event to be sent to the webhook.
  *
  * @summary Triggers a ping event to be sent to the webhook.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/WebhookPing.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/WebhookPing.json
  */
-async function webhookPing() {
+async function webhookPing(): Promise<void> {
   const subscriptionId =
     process.env["CONTAINERREGISTRY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -29,18 +29,18 @@ async function webhookPing() {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.webhooks.ping(
     resourceGroupName,
     registryName,
-    webhookName
+    webhookName,
   );
   console.log(result);
 }
 
-async function main() {
-  webhookPing();
+async function main(): Promise<void> {
+  await webhookPing();
 }
 
 main().catch(console.error);

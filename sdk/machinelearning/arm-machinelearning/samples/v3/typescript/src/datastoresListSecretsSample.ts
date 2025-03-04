@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMachineLearningServicesManagementClient } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get datastore secrets.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Get datastore secrets.
  * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2024-04-01/examples/Datastore/listSecrets.json
  */
-async function getDatastoreSecrets() {
+async function getDatastoreSecrets(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNING_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -41,7 +39,7 @@ async function getDatastoreSecrets() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getDatastoreSecrets();
 }
 

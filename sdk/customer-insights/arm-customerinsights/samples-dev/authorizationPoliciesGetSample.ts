@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -23,14 +21,11 @@ async function authorizationPoliciesGet(): Promise<void> {
   const hubName = "azSdkTestHub";
   const authorizationPolicyName = "testPolicy4222";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.authorizationPolicies.get(
     resourceGroupName,
     hubName,
-    authorizationPolicyName
+    authorizationPolicyName,
   );
   console.log(result);
 }

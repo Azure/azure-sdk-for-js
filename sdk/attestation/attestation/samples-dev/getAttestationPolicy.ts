@@ -31,7 +31,7 @@ import { writeBanner } from "./utils/helpers.js";
 import "dotenv/config";
 
 async function getCurrentAttestationPolicyAad(): Promise<void> {
-  writeBanner("Get Current Attestation Policy - AAD instance.");
+  await writeBanner("Get Current Attestation Policy - AAD instance.");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -46,7 +46,7 @@ async function getCurrentAttestationPolicyAad(): Promise<void> {
 }
 
 async function getCurrentAttestationPolicyShared(): Promise<void> {
-  writeBanner("Get Current Attestation Policy - Shared instance.");
+  await writeBanner("Get Current Attestation Policy - Shared instance.");
 
   // Use the the West US shared instance.
   //

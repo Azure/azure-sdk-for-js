@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { EventData, ActivityLogsListOptionalParams } from "../models";
+import { EventData, ActivityLogsListOptionalParams } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ActivityLogs. */

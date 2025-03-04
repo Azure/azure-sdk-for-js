@@ -21,7 +21,7 @@ async function enterpriseCustomerOperationsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  enterpriseCustomerOperationsDelete();
+  await enterpriseCustomerOperationsDelete();
 }
 
 main().catch(console.error);

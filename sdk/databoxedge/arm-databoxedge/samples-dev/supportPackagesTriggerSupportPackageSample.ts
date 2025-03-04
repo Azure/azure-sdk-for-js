@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  TriggerSupportPackageRequest,
-  DataBoxEdgeManagementClient
-} from "@azure/arm-databoxedge";
+import type { TriggerSupportPackageRequest } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -27,14 +23,14 @@ async function triggerSupportPackage(): Promise<void> {
   const triggerSupportPackageRequest: TriggerSupportPackageRequest = {
     include: "DefaultWithDumps",
     maximumTimeStamp: new Date("2018-12-18T02:19:51.4270267Z"),
-    minimumTimeStamp: new Date("2018-12-18T02:18:51.4270267Z")
+    minimumTimeStamp: new Date("2018-12-18T02:18:51.4270267Z"),
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
   const result = await client.supportPackages.beginTriggerSupportPackageAndWait(
     deviceName,
     resourceGroupName,
-    triggerSupportPackageRequest
+    triggerSupportPackageRequest,
   );
   console.log(result);
 }

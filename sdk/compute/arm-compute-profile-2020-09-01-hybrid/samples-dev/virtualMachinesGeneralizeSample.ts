@@ -27,7 +27,7 @@ async function generalizeAVirtualMachine(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await generalizeAVirtualMachine()
+  await generalizeAVirtualMachine();
 }
 
 main().catch(console.error);

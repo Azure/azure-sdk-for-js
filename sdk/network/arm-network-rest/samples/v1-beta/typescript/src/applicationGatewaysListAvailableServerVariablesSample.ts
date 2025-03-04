@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   ApplicationGatewaysListAvailableServerVariablesParameters,
 } from "@azure-rest/arm-network";
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Lists all available server variables.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayAvailableServerVariablesGet.json
  */
-async function getAvailableServerVariables() {
+async function getAvailableServerVariables(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

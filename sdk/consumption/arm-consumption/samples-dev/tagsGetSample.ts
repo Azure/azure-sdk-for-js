@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,8 +18,7 @@ import "dotenv/config";
  */
 async function tagsGet(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const scope = "providers/Microsoft.CostManagement/billingAccounts/1234";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
@@ -30,7 +27,7 @@ async function tagsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  tagsGet();
+  await tagsGet();
 }
 
 main().catch(console.error);

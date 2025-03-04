@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   CustomIPPrefixesListAllParameters,
   paginate,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all the custom IP prefixes in a subscription.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/CustomIpPrefixListAll.json
  */
-async function listAllCustomIPPrefixes() {
+async function listAllCustomIPPrefixes(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

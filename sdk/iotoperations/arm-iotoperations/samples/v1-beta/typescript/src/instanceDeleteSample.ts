@@ -10,14 +10,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary delete a InstanceResource
  * x-ms-original-file: 2024-11-01/Instance_Delete_MaximumSet_Gen.json
  */
-async function instanceDelete() {
+async function instanceDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
   await client.instance.delete("rgiotoperations", "aio-instance");
 }
 
-async function main() {
+async function main(): Promise<void> {
   instanceDelete();
 }
 

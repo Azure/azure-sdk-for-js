@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   LoadBalancerLoadBalancingRulesGetParameters,
 } from "@azure-rest/arm-network";
@@ -15,7 +12,7 @@ import "dotenv/config";
  * @summary Gets the specified load balancer load balancing rule.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/LoadBalancerLoadBalancingRuleGet.json
  */
-async function loadBalancerLoadBalancingRuleGet() {
+async function loadBalancerLoadBalancingRuleGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

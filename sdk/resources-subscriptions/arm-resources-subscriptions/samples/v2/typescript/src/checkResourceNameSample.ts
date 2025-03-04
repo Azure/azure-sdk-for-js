@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SubscriptionClient } from "@azure/arm-resources-subscriptions";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to A resource name is valid if it is not a reserved word, does not contains a reserved word and does not start with a reserved word
@@ -20,14 +18,14 @@ dotenv.config();
  * @summary A resource name is valid if it is not a reserved word, does not contains a reserved word and does not start with a reserved word
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-12-01/examples/CheckResourceName.json
  */
-async function checkValidityForAResourceName() {
+async function checkValidityForAResourceName(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new SubscriptionClient(credential);
   const result = await client.checkResourceName();
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   checkValidityForAResourceName();
 }
 

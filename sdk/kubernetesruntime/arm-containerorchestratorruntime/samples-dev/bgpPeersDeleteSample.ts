@@ -20,7 +20,7 @@ async function bgpPeersDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bgpPeersDelete();
+  await bgpPeersDelete();
 }
 
 main().catch(console.error);

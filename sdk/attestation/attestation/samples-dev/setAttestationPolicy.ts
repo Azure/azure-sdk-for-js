@@ -46,7 +46,7 @@ import "dotenv/config";
  * Sets the OpenEnclave attestation policy using an Unsecured attestation policy.
  */
 async function setOpenEnclaveAttestationPolicyAadUnsecured(): Promise<void> {
-  writeBanner("Set OpenEnclave Attestation Policy - Unsecured policy");
+  await writeBanner("Set OpenEnclave Attestation Policy - Unsecured policy");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -99,7 +99,7 @@ async function setOpenEnclaveAttestationPolicyAadUnsecured(): Promise<void> {
 }
 
 async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
-  writeBanner("Set Open Enclave Attestation Policy - Secured policy");
+  await writeBanner("Set Open Enclave Attestation Policy - Secured policy");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_AAD_URL;
@@ -150,7 +150,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
   // the certificate sent in the request.
 
   const policySetCertificate = new X509();
-  policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
+  await policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
   console.log("Signer subject name: ", policySetCertificate.getSubjectString());
 
   // Now reset the policy to the default policy. Note that we use an unsecured
@@ -162,7 +162,7 @@ async function setOpenEnclaveAttestationPolicyAadSecured(): Promise<void> {
 }
 
 async function setSgxEnclaveAttestationPolicyIsolatedSecured(): Promise<void> {
-  writeBanner("Set SGX Enclave Attestation Policy - Secured policy");
+  await writeBanner("Set SGX Enclave Attestation Policy - Secured policy");
 
   // Use the specified attestion URL.
   const endpoint = process.env.ATTESTATION_ISOLATED_URL;
@@ -220,7 +220,7 @@ async function setSgxEnclaveAttestationPolicyIsolatedSecured(): Promise<void> {
   // the certificate sent in the request.
 
   const policySetCertificate = new X509();
-  policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
+  await policySetCertificate.readCertPEM(setPolicyResult.body.policySigner?.certificates[0]);
   console.log("Signer subject name: ", policySetCertificate.getSubjectString());
 
   // Now reset the policy to the default policy.

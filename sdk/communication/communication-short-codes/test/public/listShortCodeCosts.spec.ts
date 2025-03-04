@@ -13,10 +13,8 @@ describe(`ShortCodeCostsClient - lists Short Code Costs`, function () {
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async (ctx) => {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   it("can list all short code costs", { timeout: 30000 }, async () => {

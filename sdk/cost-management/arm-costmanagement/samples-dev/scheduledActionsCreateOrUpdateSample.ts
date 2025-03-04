@@ -6,13 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
+import type {
   ScheduledAction,
   ScheduledActionsCreateOrUpdateOptionalParams,
-  CostManagementClient
 } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -30,7 +28,7 @@ async function createOrUpdatePrivateScheduledAction(): Promise<void> {
     kind: "Email",
     notification: {
       subject: "Cost by resource this month",
-      to: ["user@gmail.com", "team@gmail.com"]
+      to: ["user@gmail.com", "team@gmail.com"],
     },
     schedule: {
       daysOfWeek: ["Monday"],
@@ -38,24 +36,20 @@ async function createOrUpdatePrivateScheduledAction(): Promise<void> {
       frequency: "Monthly",
       hourOfDay: 10,
       startDate: new Date("2020-06-19T22:21:51.1287144Z"),
-      weeksOfMonth: ["First", "Third"]
+      weeksOfMonth: ["First", "Third"],
     },
     status: "Enabled",
-    viewId: "/providers/Microsoft.CostManagement/views/swaggerExample"
+    viewId: "/providers/Microsoft.CostManagement/views/swaggerExample",
   };
   const options: ScheduledActionsCreateOrUpdateOptionalParams = { ifMatch };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.scheduledActions.createOrUpdate(
-    name,
-    scheduledAction,
-    options
-  );
+  const result = await client.scheduledActions.createOrUpdate(name, scheduledAction, options);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  createOrUpdatePrivateScheduledAction();
+  await createOrUpdatePrivateScheduledAction();
 }
 
 main().catch(console.error);

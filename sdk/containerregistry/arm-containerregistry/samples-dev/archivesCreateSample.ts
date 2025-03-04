@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   Archive,
-  ContainerRegistryManagementClient
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a archive for a container registry with the specified parameters.
  *
  * @summary Creates a archive for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ArchiveCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ArchiveCreate.json
  */
 async function archiveCreate(): Promise<void> {
   const subscriptionId =
@@ -33,25 +31,25 @@ async function archiveCreate(): Promise<void> {
   const archiveCreateParameters: Archive = {
     packageSource: { type: "remote", url: "string" },
     publishedVersion: "string",
-    repositoryEndpointPrefix: "string"
+    repositoryEndpointPrefix: "string",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.archives.beginCreateAndWait(
     resourceGroupName,
     registryName,
     packageType,
     archiveName,
-    archiveCreateParameters
+    archiveCreateParameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  archiveCreate();
+  await archiveCreate();
 }
 
 main().catch(console.error);

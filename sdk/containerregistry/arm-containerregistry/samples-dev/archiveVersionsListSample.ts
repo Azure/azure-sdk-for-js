@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -16,7 +14,7 @@ import "dotenv/config";
  * This sample demonstrates how to Lists all archive versions for the specified container registry, repository type and archive name.
  *
  * @summary Lists all archive versions for the specified container registry, repository type and archive name.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ArchiveVersionList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ArchiveVersionList.json
  */
 async function archiveVersionList(): Promise<void> {
   const subscriptionId =
@@ -30,14 +28,14 @@ async function archiveVersionList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.archiveVersions.list(
     resourceGroupName,
     registryName,
     packageType,
-    archiveName
+    archiveName,
   )) {
     resArray.push(item);
   }
@@ -45,7 +43,7 @@ async function archiveVersionList(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  archiveVersionList();
+  await archiveVersionList();
 }
 
 main().catch(console.error);

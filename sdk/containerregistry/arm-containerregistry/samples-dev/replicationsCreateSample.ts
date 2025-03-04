@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   Replication,
-  ContainerRegistryManagementClient
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -19,7 +17,7 @@ import "dotenv/config";
  * This sample demonstrates how to Creates a replication for a container registry with the specified parameters.
  *
  * @summary Creates a replication for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ReplicationCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ReplicationCreate.json
  */
 async function replicationCreate(): Promise<void> {
   const subscriptionId =
@@ -31,18 +29,18 @@ async function replicationCreate(): Promise<void> {
   const replicationName = "myReplication";
   const replication: Replication = {
     location: "eastus",
-    tags: { key: "value" }
+    tags: { key: "value" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.replications.beginCreateAndWait(
     resourceGroupName,
     registryName,
     replicationName,
-    replication
+    replication,
   );
   console.log(result);
 }
@@ -51,7 +49,7 @@ async function replicationCreate(): Promise<void> {
  * This sample demonstrates how to Creates a replication for a container registry with the specified parameters.
  *
  * @summary Creates a replication for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ReplicationCreateZoneRedundant.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2024-11-01-preview/examples/ReplicationCreateZoneRedundant.json
  */
 async function replicationCreateZoneRedundant(): Promise<void> {
   const subscriptionId =
@@ -65,25 +63,25 @@ async function replicationCreateZoneRedundant(): Promise<void> {
     location: "eastus",
     regionEndpointEnabled: true,
     tags: { key: "value" },
-    zoneRedundancy: "Enabled"
+    zoneRedundancy: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.replications.beginCreateAndWait(
     resourceGroupName,
     registryName,
     replicationName,
-    replication
+    replication,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  replicationCreate();
-  replicationCreateZoneRedundant();
+  await replicationCreate();
+  await replicationCreateZoneRedundant();
 }
 
 main().catch(console.error);

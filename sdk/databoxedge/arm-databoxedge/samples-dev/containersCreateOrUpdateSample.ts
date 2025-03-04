@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { Container, DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
+import type { Container } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -31,7 +30,7 @@ async function containerPut(): Promise<void> {
     storageAccountName,
     containerName,
     resourceGroupName,
-    container
+    container,
   );
   console.log(result);
 }

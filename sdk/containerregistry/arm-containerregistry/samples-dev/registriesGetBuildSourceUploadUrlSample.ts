@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -28,17 +26,17 @@ async function registriesGetBuildSourceUploadUrl(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.registries.getBuildSourceUploadUrl(
     resourceGroupName,
-    registryName
+    registryName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  registriesGetBuildSourceUploadUrl();
+  await registriesGetBuildSourceUploadUrl();
 }
 
 main().catch(console.error);

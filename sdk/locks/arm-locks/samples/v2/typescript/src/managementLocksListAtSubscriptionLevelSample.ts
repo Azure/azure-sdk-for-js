@@ -17,7 +17,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary Gets all the management locks for a subscription.
  * x-ms-original-file: specification/resources/resource-manager/Microsoft.Authorization/stable/2020-05-01/examples/ManagementLocks_ListAtSubscriptionLevel.json
  */
-async function listManagementLocksAtSubscriptionLevel() {
+async function listManagementLocksAtSubscriptionLevel(): Promise<void> {
   const subscriptionId = "subscriptionId";
   const credential = new DefaultAzureCredential();
   const client = new ManagementLockClient(credential, subscriptionId);

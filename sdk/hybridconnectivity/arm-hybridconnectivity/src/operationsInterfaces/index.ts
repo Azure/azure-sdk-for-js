@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./endpoints";
-export * from "./serviceConfigurations";
+export * from "./operations.js";
+export * from "./endpoints.js";
+export * from "./serviceConfigurations.js";

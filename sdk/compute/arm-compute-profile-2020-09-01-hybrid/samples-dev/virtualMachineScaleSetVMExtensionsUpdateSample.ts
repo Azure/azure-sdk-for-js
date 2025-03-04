@@ -43,7 +43,7 @@ async function updateVirtualMachineScaleSetVMExtension(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await updateVirtualMachineScaleSetVMExtension()
+  await updateVirtualMachineScaleSetVMExtension();
 }
 
 main().catch(console.error);

@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  CheckNameAvailabilityRequest,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { CheckNameAvailabilityRequest } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -24,18 +20,16 @@ import "dotenv/config";
 async function scheduledActionCheckNameAvailability(): Promise<void> {
   const checkNameAvailabilityRequest: CheckNameAvailabilityRequest = {
     name: "testName",
-    type: "Microsoft.CostManagement/ScheduledActions"
+    type: "Microsoft.CostManagement/ScheduledActions",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.scheduledActions.checkNameAvailability(
-    checkNameAvailabilityRequest
-  );
+  const result = await client.scheduledActions.checkNameAvailability(checkNameAvailabilityRequest);
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  scheduledActionCheckNameAvailability();
+  await scheduledActionCheckNameAvailability();
 }
 
 main().catch(console.error);

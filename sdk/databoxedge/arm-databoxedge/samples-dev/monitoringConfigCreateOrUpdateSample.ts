@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  MonitoringMetricConfiguration,
-  DataBoxEdgeManagementClient
-} from "@azure/arm-databoxedge";
+import type { MonitoringMetricConfiguration } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -31,9 +27,9 @@ async function putMonitoringConfig(): Promise<void> {
         counterSets: [{ counters: [{ name: "test" }] }],
         mdmAccount: "test",
         metricNameSpace: "test",
-        resourceId: "test"
-      }
-    ]
+        resourceId: "test",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
@@ -41,7 +37,7 @@ async function putMonitoringConfig(): Promise<void> {
     deviceName,
     roleName,
     resourceGroupName,
-    monitoringMetricConfiguration
+    monitoringMetricConfiguration,
   );
   console.log(result);
 }

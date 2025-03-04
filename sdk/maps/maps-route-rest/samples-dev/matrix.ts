@@ -69,7 +69,7 @@ async function main(): Promise<void> {
   console.log(
     `${summary.successfulRoutes}/${summary.totalRoutes} routes are successfully calculated. Following is the detailed info:`,
   );
-  matrix.forEach((row) => {
+  await matrix.forEach((row) => {
     row.forEach((cell) => {
       if (cell.response) console.dir(cell.response.routeSummary);
     });

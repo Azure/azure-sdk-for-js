@@ -13,9 +13,7 @@ import {
   MySQLManagementFlexibleServerClient,
 } from "@azure/arm-mysql-flexible";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update a list of configurations in a given server.
@@ -23,7 +21,7 @@ dotenv.config();
  * @summary Update a list of configurations in a given server.
  * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/Configurations/preview/2023-06-01-preview/examples/ConfigurationsBatchUpdate.json
  */
-async function configurationList() {
+async function configurationList(): Promise<void> {
   const subscriptionId =
     process.env["MYSQL_SUBSCRIPTION_ID"] ||
     "ffffffff-ffff-ffff-ffff-ffffffffffff";
@@ -49,7 +47,7 @@ async function configurationList() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   configurationList();
 }
 

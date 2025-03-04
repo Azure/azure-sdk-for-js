@@ -10,14 +10,11 @@
 import DeviceUpdate, { getLongRunningPoller, isUnexpected } from "@azure-rest/iot-device-update";
 
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
-
+import "dotenv/config";
 const endpoint = process.env["ENDPOINT"] || "";
 const instanceId = process.env["INSTANCE_ID"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== Delete update ==");
   const updateProvider = process.env["DEVICEUPDATE_UPDATE_PROVIDER"] || "";
   const updateName = process.env["DEVICEUPDATE_UPDATE_NAME"] || "";

@@ -27,7 +27,7 @@ import {
   TopicRegenerateKeyRequest,
   TopicsRegenerateKeyOptionalParams,
   TopicsRegenerateKeyResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Topics. */

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,8 +18,7 @@ import "dotenv/config";
  */
 async function eventsListByBillingProfile(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const billingAccountId = "1234:5678";
   const billingProfileId = "4268";
   const startDate = "2019-09-01";
@@ -29,11 +26,11 @@ async function eventsListByBillingProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.eventsOperations.listByBillingProfile(
+  for await (const item of client.eventsOperations.listByBillingProfile(
     billingAccountId,
     billingProfileId,
     startDate,
-    endDate
+    endDate,
   )) {
     resArray.push(item);
   }
@@ -41,7 +38,7 @@ async function eventsListByBillingProfile(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  eventsListByBillingProfile();
+  await eventsListByBillingProfile();
 }
 
 main().catch(console.error);

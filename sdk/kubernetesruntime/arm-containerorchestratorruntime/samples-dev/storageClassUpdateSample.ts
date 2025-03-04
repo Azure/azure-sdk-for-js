@@ -22,7 +22,7 @@ async function storageClassUpdate0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  storageClassUpdate0();
+  await storageClassUpdate0();
 }
 
 main().catch(console.error);

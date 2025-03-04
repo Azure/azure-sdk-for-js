@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ManagedGrafana,
-  DashboardManagementClient
-} from "@azure/arm-dashboard";
+import type { ManagedGrafana } from "@azure/arm-dashboard";
+import { DashboardManagementClient } from "@azure/arm-dashboard";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -23,10 +19,8 @@ import "dotenv/config";
  */
 async function grafanaCreate(): Promise<void> {
   const subscriptionId =
-    process.env["DASHBOARD_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["DASHBOARD_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DASHBOARD_RESOURCE_GROUP"] || "myResourceGroup";
   const workspaceName = "myWorkspace";
   const requestBodyParameters: ManagedGrafana = {
     identity: { type: "SystemAssigned" },
@@ -36,7 +30,7 @@ async function grafanaCreate(): Promise<void> {
       deterministicOutboundIP: "Enabled",
       enterpriseConfigurations: {
         marketplaceAutoRenew: "Enabled",
-        marketplacePlanId: "myPlanId"
+        marketplacePlanId: "myPlanId",
       },
       grafanaConfigurations: {
         smtp: {
@@ -47,37 +41,37 @@ async function grafanaCreate(): Promise<void> {
           password: "<password>",
           skipVerify: true,
           startTLSPolicy: "OpportunisticStartTLS",
-          user: "username"
-        }
+          user: "username",
+        },
       },
       grafanaIntegrations: {
         azureMonitorWorkspaceIntegrations: [
           {
             azureMonitorWorkspaceResourceId:
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/microsoft.monitor/accounts/myAzureMonitorWorkspace"
-          }
-        ]
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/microsoft.monitor/accounts/myAzureMonitorWorkspace",
+          },
+        ],
       },
       grafanaMajorVersion: "9",
       grafanaPlugins: { samplePluginId: {} },
       publicNetworkAccess: "Enabled",
-      zoneRedundancy: "Enabled"
+      zoneRedundancy: "Enabled",
     },
     sku: { name: "Standard" },
-    tags: { environment: "Dev" }
+    tags: { environment: "Dev" },
   };
   const credential = new DefaultAzureCredential();
   const client = new DashboardManagementClient(credential, subscriptionId);
   const result = await client.grafana.beginCreateAndWait(
     resourceGroupName,
     workspaceName,
-    requestBodyParameters
+    requestBodyParameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  grafanaCreate();
+  await grafanaCreate();
 }
 
 main().catch(console.error);

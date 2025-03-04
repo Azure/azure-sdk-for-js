@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { expect } from "@azure-tools/test-utils";
 import { CIInfoProvider, CI_PROVIDERS } from "../../src/utils/cIInfoProvider";
 import sinon from "sinon";
@@ -79,7 +82,7 @@ describe("CIInfoProvider", () => {
 
     expect(ciInfo.provider).to.equal(CI_PROVIDERS.ADO);
     expect(ciInfo.repo).to.equal("repo123");
-    expect(ciInfo.branch).to.equal("main");
+    expect(ciInfo.branch).to.equal("refs/head/main");
     expect(ciInfo.author).to.equal("testAuthor");
     expect(ciInfo.commitId).to.equal("commitSha123");
     expect(ciInfo.revisionUrl).to.equal(
@@ -93,7 +96,8 @@ describe("CIInfoProvider", () => {
     process.env["AZURE_HTTP_USER_AGENT"] = "someAgent";
     process.env["TF_BUILD"] = "true";
     process.env["BUILD_REPOSITORY_ID"] = "repo123";
-    process.env["BUILD_SOURCEBRANCH"] = "main";
+    process.env["BUILD_SOURCEBRANCH"] = "refs/head/main";
+    process.env["BUILD_SOURCEBRANCHNAME"] = "main";
     process.env["BUILD_REQUESTEDFOR"] = "testAuthor";
     process.env["BUILD_SOURCEVERSION"] = "commitSha123";
     process.env["SYSTEM_TEAMFOUNDATIONCOLLECTIONURI"] = "https://dev.azure.com/";
@@ -109,7 +113,7 @@ describe("CIInfoProvider", () => {
 
     expect(ciInfo.provider).to.equal(CI_PROVIDERS.ADO);
     expect(ciInfo.repo).to.equal("repo123");
-    expect(ciInfo.branch).to.equal("main");
+    expect(ciInfo.branch).to.equal("refs/head/main");
     expect(ciInfo.author).to.equal("testAuthor");
     expect(ciInfo.commitId).to.equal("commitSha123");
     expect(ciInfo.revisionUrl).to.equal(

@@ -16,60 +16,29 @@ const logger = credentialLogger(msiName);
 
 const imdsHost = "http://169.254.169.254";
 const imdsEndpointPath = "/metadata/identity/oauth2/token";
-const imdsApiVersion = "2018-02-01";
 
 /**
- * Generates the options used on the request for an access token.
+ * Generates an invalid request options to get a response quickly from IMDS endpoint.
+ * The response indicates the availability of IMSD service; otherwise the request would time out.
  */
-function prepareRequestOptions(
-  scopes: string | string[],
-  clientId?: string,
-  resourceId?: string,
-  options?: {
-    skipQuery?: boolean;
-    skipMetadataHeader?: boolean;
-  },
-): PipelineRequestOptions {
+function prepareInvalidRequestOptions(scopes: string | string[]): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
     throw new Error(`${msiName}: Multiple scopes are not supported.`);
   }
 
-  const { skipQuery, skipMetadataHeader } = options || {};
-  let query = "";
-
   // Pod Identity will try to process this request even if the Metadata header is missing.
   // We can exclude the request query to ensure no IMDS endpoint tries to process the ping request.
-  if (!skipQuery) {
-    const queryParameters: Record<string, string> = {
-      resource,
-      "api-version": imdsApiVersion,
-    };
-    if (clientId) {
-      queryParameters.client_id = clientId;
-    }
-    if (resourceId) {
-      queryParameters.msi_res_id = resourceId;
-    }
-    const params = new URLSearchParams(queryParameters);
-    query = `?${params.toString()}`;
-  }
-
   const url = new URL(imdsEndpointPath, process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST ?? imdsHost);
 
   const rawHeaders: Record<string, string> = {
     Accept: "application/json",
-    Metadata: "true",
+    // intentionally leave out the Metadata header to invoke an error from IMDS endpoint.
   };
 
-  // Remove the Metadata header to invoke a request error from some IMDS endpoints.
-  if (skipMetadataHeader) {
-    delete rawHeaders.Metadata;
-  }
-
   return {
-    // In this case, the `?` should be added in the "query" variable `skipQuery` is not set.
-    url: `${url}${query}`,
+    // intentionally not including any query
+    url: `${url}`,
     method: "GET",
     headers: createHttpHeaders(rawHeaders),
   };
@@ -89,7 +58,7 @@ export const imdsMsi = {
     resourceId?: string;
     getTokenOptions?: GetTokenOptions;
   }): Promise<boolean> {
-    const { scopes, identityClient, clientId, resourceId, getTokenOptions } = options;
+    const { scopes, identityClient, getTokenOptions } = options;
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -105,10 +74,7 @@ export const imdsMsi = {
       throw new Error("Missing IdentityClient");
     }
 
-    const requestOptions = prepareRequestOptions(resource, clientId, resourceId, {
-      skipMetadataHeader: true,
-      skipQuery: true,
-    });
+    const requestOptions = prepareInvalidRequestOptions(resource);
 
     return tracingClient.withSpan(
       "ManagedIdentityCredential-pingImdsEndpoint",

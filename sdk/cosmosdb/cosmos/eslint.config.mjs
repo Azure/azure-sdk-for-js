@@ -24,8 +24,6 @@ export default azsdkEslint.config([
       "@azure/azure-sdk/ts-apisurface-supportcancellation": "warn",
       // this rule requires introducing breaking changes, should be fixed by the cosmos team
       "@azure/azure-sdk/ts-naming-options": "warn",
-      // left to the cosmos team make this rule error again
-      "@azure/azure-sdk/ts-package-json-module": "warn",
       "@azure/azure-sdk/ts-doc-internal": "warn",
     },
   },

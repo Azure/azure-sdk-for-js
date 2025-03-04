@@ -8,18 +8,16 @@ import type { FullOperationResponse, OperationOptions } from "@azure/core-client
 import type { DynamicAlphaIdConfiguration } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe(`AlphaIdsClient - manage configuration`, function () {
+describe(`AlphaIdsClient - manage configuration`, () => {
   let recorder: Recorder;
   let client: AlphaIdsClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (ctx) {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   const _upsertConfiguration = async (config: boolean): Promise<DynamicAlphaIdConfiguration> => {
@@ -83,7 +81,7 @@ describe(`AlphaIdsClient - manage configuration`, function () {
     }
   };
 
-  it("can manage configuration", { timeout: 30000 }, async function () {
+  it("can manage configuration", { timeout: 30000 }, async () => {
     let configuration: DynamicAlphaIdConfiguration;
     let configurationResponse: FullOperationResponse | undefined;
 
@@ -108,7 +106,7 @@ describe(`AlphaIdsClient - manage configuration`, function () {
     );
   });
 
-  it("can list all dynamic alpha ids countries", { timeout: 20000 }, async function () {
+  it("can list all dynamic alpha ids countries", { timeout: 20000 }, async () => {
     const countries = await _getDynamicCountries();
     countries?.forEach((countryCode) => {
       assert.isNotNull(countryCode);

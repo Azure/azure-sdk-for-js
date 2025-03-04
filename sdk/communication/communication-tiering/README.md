@@ -35,8 +35,9 @@ Once you have a key, you can authenticate the `TieringClient` with any of the fo
 
 ### Using a connection string
 
-```javascript
-const { TieringClient } = require("@azure-tools/communication-tiering");
+```ts snippet:ReadmeSampleCreateClient_ConnectionString
+import { TieringClient } from "@azure-tools/communication-tiering";
+
 const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new TieringClient(connectionString);
 ```
@@ -45,9 +46,10 @@ const client = new TieringClient(connectionString);
 
 If you use a key to initialize the client you will also need to provide the appropriate endpoint. You can get this endpoint from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key and endpoint, you can authenticate with the following code:
 
-```javascript
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { TieringClient } = require("@azure-tools/communication-tiering");
+```ts snippet:ReadmeSampleCreateClient_KeyCredential
+import { AzureKeyCredential } from "@azure/core-auth";
+import { TieringClient } from "@azure-tools/communication-tiering";
+
 const credential = new AzureKeyCredential("<key-from-resource>");
 const client = new TieringClient("<endpoint-from-resource>", credential);
 ```
@@ -62,9 +64,9 @@ npm install @azure/identity
 
 The [`@azure/identity`][azure_identity] package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`][azure_identity_readme] provides more details and samples to get you started.
 
-```javascript
-const { DefaultAzureCredential } = require("@azure/identity");
-const { TieringClient } = require("@azure-tools/communication-tiering");
+```ts snippet:ReadmeSampleCreateClient_TokenCredential
+import { DefaultAzureCredential } from "@azure/identity";
+import { TieringClient } from "@azure-tools/communication-tiering";
 
 const credential = new DefaultAzureCredential();
 const client = new TieringClient("<endpoint-from-resource>", credential);
@@ -79,45 +81,53 @@ The following sections provide code snippets that cover some of the common tasks
 
 ### Get acquired number limits
 
-```typescript
-import { Tiering } from "@azure-tools/communication-tiering";
-const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
-const client = new Tiering(connectionString);
+```ts snippet:SampleReadmeGetAcquiredNumberLimits
+import { DefaultAzureCredential } from "@azure/identity";
+import { TieringClient } from "@azure-tools/communication-tiering";
 
-async function main() {
-  const resourceId = "5d41e908-de88-4bbf-94dc-fe9a1b51029b";
+const credential = new DefaultAzureCredential();
+const client = new TieringClient("<endpoint-from-resource>", credential);
 
-  // Get acquired numbers and limits for a resource
-  const acquiredNumberLimits = await client.getAcquiredNumberLimits(resourceId);
+const resourceId = "5d41e908-de88-4bbf-94dc-fe9a1b51029b";
 
-  // print all number limits
-  console.log(acquiredNumberLimits);
-}
+// Get acquired numbers and limits for a resource
+const acquiredNumberLimits = await client.getAcquiredNumberLimits(resourceId);
 
-main();
+// print all number limits
+console.log(acquiredNumberLimits);
 ```
 
 ### Get tier info
 
-```typescript
-import { Tiering } from "@azure-tools/communication-tiering";
-const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
-const client = new Tiering(connectionString);
+```ts snippet:ReadmeSampleGetTierInfo
+import { DefaultAzureCredential } from "@azure/identity";
+import { TieringClient } from "@azure-tools/communication-tiering";
 
-async function main() {
-  const resourceId = "5d41e908-de88-4bbf-94dc-fe9a1b51029b";
+const credential = new DefaultAzureCredential();
+const client = new TieringClient("<endpoint-from-resource>", credential);
 
-  // Get tier info for a resource
-  const tierInfo = await client.getTierByResourceId(resourceId);
+const resourceId = "5d41e908-de88-4bbf-94dc-fe9a1b51029b";
 
-  // print all tier info
-  console.log(tierInfo);
-}
+// Get tier info for a resource
+const tierInfo = await client.getTierByResourceId(resourceId);
 
-main();
+// print all tier info
+console.log(tierInfo);
 ```
 
 ## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
+
+```ts snippet:SetLogLevel
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+```
+
+For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 ## Next steps
 
@@ -138,5 +148,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure_identity_readme]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-toll-free-verification%2FREADME.png)

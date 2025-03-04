@@ -6,13 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  InventoryItem,
-  InventoryItemsCreateOptionalParams,
-  AzureArcVMwareManagementServiceAPI
-} from "@azure/arm-connectedvmware";
+import type { InventoryItem, InventoryItemsCreateOptionalParams } from "@azure/arm-connectedvmware";
+import { AzureArcVMwareManagementServiceAPI } from "@azure/arm-connectedvmware";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -24,30 +19,25 @@ import "dotenv/config";
  */
 async function createInventoryItem(): Promise<void> {
   const subscriptionId =
-    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] ||
-    "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-  const resourceGroupName =
-    process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
+    process.env["CONNECTEDVMWARE_SUBSCRIPTION_ID"] || "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+  const resourceGroupName = process.env["CONNECTEDVMWARE_RESOURCE_GROUP"] || "testrg";
   const vcenterName = "ContosoVCenter";
   const inventoryItemName = "testItem";
   const body: InventoryItem = { inventoryType: "ResourcePool" };
   const options: InventoryItemsCreateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
-  const client = new AzureArcVMwareManagementServiceAPI(
-    credential,
-    subscriptionId
-  );
+  const client = new AzureArcVMwareManagementServiceAPI(credential, subscriptionId);
   const result = await client.inventoryItems.create(
     resourceGroupName,
     vcenterName,
     inventoryItemName,
-    options
+    options,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  createInventoryItem();
+  await createInventoryItem();
 }
 
 main().catch(console.error);

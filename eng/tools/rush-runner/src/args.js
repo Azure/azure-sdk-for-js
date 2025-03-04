@@ -16,6 +16,7 @@ export function parseArgs() {
   let inFlags = false;
   let isPackageFilter = false;
   let artifactNames = "";
+  let ciFlag = false;
   const services = [],
     flags = [];
   const [_scriptPath, action, ...givenArgs] = process.argv.slice(1);
@@ -29,7 +30,11 @@ export function parseArgs() {
     }
 
     if (inFlags) {
-      flags.push(arg);
+      if (arg === "--ci") {
+        ciFlag = true;
+      } else {
+        flags.push(arg);
+      }
     } else if (isPackageFilter) {
       artifactNames = arg;
       isPackageFilter = false;
@@ -41,5 +46,5 @@ export function parseArgs() {
     }
   }
 
-  return { action, serviceDirs: services, rushParams: flags, artifactNames };
+  return { action, serviceDirs: services, rushParams: flags, artifactNames, ciFlag };
 }

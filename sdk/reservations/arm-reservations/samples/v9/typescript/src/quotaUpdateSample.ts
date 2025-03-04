@@ -13,9 +13,7 @@ import {
   AzureReservationAPI
 } from "@azure/arm-reservations";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Update the quota (service limits) of this resource to the requested value.
@@ -31,7 +29,7 @@ dotenv.config();
   • To update the quota. use the PATCH operation.
  * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/patchComputeQuotaRequest.json
  */
-async function quotasRequestPatchForCompute() {
+async function quotasRequestPatchForCompute(): Promise<void> {
   const subscriptionId = "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3";
   const providerId = "Microsoft.Compute";
   const location = "eastus";
@@ -55,7 +53,7 @@ async function quotasRequestPatchForCompute() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   quotasRequestPatchForCompute();
 }
 

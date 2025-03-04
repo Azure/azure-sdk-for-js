@@ -32,7 +32,7 @@ async function cacheNodesOperationsCreateorUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cacheNodesOperationsCreateorUpdate();
+  await cacheNodesOperationsCreateorUpdate();
 }
 
 main().catch(console.error);

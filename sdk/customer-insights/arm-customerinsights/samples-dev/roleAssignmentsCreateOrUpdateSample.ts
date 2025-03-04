@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  RoleAssignmentResourceFormat,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { RoleAssignmentResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -29,22 +25,19 @@ async function roleAssignmentsCreateOrUpdate(): Promise<void> {
     principals: [
       {
         principalId: "4c54c38ffa9b416ba5a6d6c8a20cbe7e",
-        principalType: "User"
+        principalType: "User",
       },
-      { principalId: "93061d15a5054f2b9948ae25724cf9d5", principalType: "User" }
+      { principalId: "93061d15a5054f2b9948ae25724cf9d5", principalType: "User" },
     ],
-    role: "Admin"
+    role: "Admin",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.roleAssignments.beginCreateOrUpdateAndWait(
     resourceGroupName,
     hubName,
     assignmentName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

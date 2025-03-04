@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   VpnLinkConnectionsListByVpnConnectionParameters,
   paginate,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnSiteLinkConnectionList.json
  */
-async function vpnSiteLinkConnectionList() {
+async function vpnSiteLinkConnectionList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

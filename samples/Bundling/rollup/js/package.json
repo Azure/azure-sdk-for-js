@@ -8,11 +8,10 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@azure/core-lro": "^2.0.0",
-    "@azure/storage-blob": "^12.7.0",
-    "@rollup/plugin-json": "^4.0.0",
-    "@rollup/plugin-commonjs": "^11.0.1",
-    "@rollup/plugin-node-resolve": "^7.0.0",
+    "@azure/storage-blob": "^12.26.0",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
     "rollup-plugin-shim": "^1.0.0"
   },
   "dependencies": {}

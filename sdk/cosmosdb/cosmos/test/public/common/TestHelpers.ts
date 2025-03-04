@@ -3,7 +3,9 @@
 /* eslint-disable no-unused-expressions */
 import assert from "assert";
 import type {
+  ClientConfigDiagnostic,
   Container,
+  CosmosClientOptions,
   CosmosDiagnostics,
   Database,
   DatabaseDefinition,
@@ -12,12 +14,23 @@ import type {
   MetadataLookUpDiagnostic,
   PartitionKey,
   PartitionKeyDefinition,
+  PartitionKeyRange,
   PermissionDefinition,
+  QueryIterator,
   RequestOptions,
   Response,
   UserDefinition,
 } from "../../../src";
-import { CosmosClient, CosmosDbDiagnosticLevel, MetadataLookUpType } from "../../../src";
+import {
+  ClientContext,
+  ConnectionMode,
+  ConsistencyLevel,
+  Constants,
+  CosmosClient,
+  CosmosDbDiagnosticLevel,
+  GlobalEndpointManager,
+  MetadataLookUpType,
+} from "../../../src";
 import type {
   ItemDefinition,
   ItemResponse,
@@ -40,6 +53,7 @@ import { getCurrentTimestampInMs } from "../../../src/utils/time";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey";
 import fs from "fs";
 import path from "path";
+import sinon from "sinon";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -716,4 +730,89 @@ export function readAndParseJSONFile(fileName: string): any {
     console.error("Error parsing JSON file:", error);
   }
   return parsedData;
+}
+
+export function initializeMockPartitionKeyRanges(
+  createMockPartitionKeyRange: (
+    id: string,
+    minInclusive: string,
+    maxExclusive: string,
+  ) => {
+    id: string; // Range ID
+    _rid: string; // Resource ID of the partition key range
+    minInclusive: string; // Minimum value of the partition key range
+    maxExclusive: string; // Maximum value of the partition key range
+    _etag: string; // ETag for concurrency control
+    _self: string; // Self-link
+    throughputFraction: number; // Throughput assigned to this partition
+    status: string;
+  },
+  clientContext: ClientContext,
+  ranges: [string, string][],
+): void {
+  const partitionKeyRanges = ranges.map((range, index) =>
+    createMockPartitionKeyRange(index.toString(), range[0], range[1]),
+  );
+
+  const fetchAllInternalStub = sinon.stub().resolves({
+    resources: partitionKeyRanges,
+    headers: { "x-ms-request-charge": "1.23" },
+    code: 200,
+  });
+  sinon.stub(clientContext, "queryPartitionKeyRanges").returns({
+    fetchAllInternal: fetchAllInternalStub, // Add fetchAllInternal to mimic expected structure
+  } as unknown as QueryIterator<PartitionKeyRange>);
+}
+
+export function createTestClientContext(
+  options: Partial<CosmosClientOptions>,
+  diagnosticLevel: CosmosDbDiagnosticLevel,
+): ClientContext {
+  const clientOps: CosmosClientOptions = {
+    endpoint: "",
+    connectionPolicy: {
+      connectionMode: ConnectionMode.Gateway,
+      requestTimeout: 60000,
+      enableEndpointDiscovery: true,
+      preferredLocations: [],
+      retryOptions: {
+        maxRetryAttemptCount: 9,
+        fixedRetryIntervalInMilliseconds: 0,
+        maxWaitTimeInSeconds: 30,
+      },
+      useMultipleWriteLocations: true,
+      endpointRefreshRateInMs: 300000,
+      enableBackgroundEndpointRefreshing: true,
+    },
+    ...options,
+  };
+  const globalEndpointManager = new GlobalEndpointManager(
+    clientOps,
+    async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
+      expect(opts).to.exist;
+      const dummyAccount: any = diagnosticNode;
+      return dummyAccount;
+    },
+  );
+  const clientConfig: ClientConfigDiagnostic = {
+    endpoint: "",
+    resourceTokensConfigured: true,
+    tokenProviderConfigured: true,
+    aadCredentialsConfigured: true,
+    connectionPolicyConfigured: true,
+    consistencyLevel: ConsistencyLevel.BoundedStaleness,
+    defaultHeaders: {},
+    agentConfigured: true,
+    userAgentSuffix: "",
+    pluginsConfigured: true,
+    sDKVersion: Constants.SDKVersion,
+    ...options,
+  };
+  const clientContext = new ClientContext(
+    clientOps,
+    globalEndpointManager,
+    clientConfig,
+    diagnosticLevel,
+  );
+  return clientContext;
 }

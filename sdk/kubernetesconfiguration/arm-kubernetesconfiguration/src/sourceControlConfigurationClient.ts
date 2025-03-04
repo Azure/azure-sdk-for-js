@@ -21,7 +21,7 @@ import {
   FluxConfigOperationStatusImpl,
   SourceControlConfigurationsImpl,
   OperationsImpl
-} from "./operations";
+} from "./operations/index.js";
 import {
   Extensions,
   OperationStatus,
@@ -29,8 +29,8 @@ import {
   FluxConfigOperationStatus,
   SourceControlConfigurations,
   Operations
-} from "./operationsInterfaces";
-import { SourceControlConfigurationClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { SourceControlConfigurationClientOptionalParams } from "./models/index.js";
 
 export class SourceControlConfigurationClient extends coreClient.ServiceClient {
   $host: string;

@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { JobDefinition, StorageMoverClient } from "@azure/arm-storagemover";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Creates or updates a Job Definition resource, which contains configuration for a single unit of managed data transfer.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Creates or updates a Job Definition resource, which contains configuration for a single unit of managed data transfer.
  * x-ms-original-file: specification/storagemover/resource-manager/Microsoft.StorageMover/stable/2024-07-01/examples/JobDefinitions_CreateOrUpdate.json
  */
-async function jobDefinitionsCreateOrUpdate() {
+async function jobDefinitionsCreateOrUpdate(): Promise<void> {
   const subscriptionId =
     process.env["STORAGEMOVER_SUBSCRIPTION_ID"] ||
     "60bcfc77-6589-4da2-b7fd-f9ec9322cf95";
@@ -50,7 +48,7 @@ async function jobDefinitionsCreateOrUpdate() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   jobDefinitionsCreateOrUpdate();
 }
 

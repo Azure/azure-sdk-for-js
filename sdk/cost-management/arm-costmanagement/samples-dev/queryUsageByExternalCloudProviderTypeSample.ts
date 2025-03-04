@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  QueryDefinition,
-  CostManagementClient
-} from "@azure/arm-costmanagement";
+import type { QueryDefinition } from "@azure/arm-costmanagement";
+import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -35,37 +31,37 @@ async function externalBillingAccountQueryList(): Promise<void> {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.query.usageByExternalCloudProviderType(
     externalCloudProviderType,
     externalCloudProviderId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -90,44 +86,44 @@ async function externalSubscriptionsQuery(): Promise<void> {
                 dimensions: {
                   name: "ResourceLocation",
                   operator: "In",
-                  values: ["East US", "West Europe"]
-                }
+                  values: ["East US", "West Europe"],
+                },
               },
               {
                 tags: {
                   name: "Environment",
                   operator: "In",
-                  values: ["UAT", "Prod"]
-                }
-              }
-            ]
+                  values: ["UAT", "Prod"],
+                },
+              },
+            ],
           },
           {
             dimensions: {
               name: "ResourceGroup",
               operator: "In",
-              values: ["API"]
-            }
-          }
-        ]
+              values: ["API"],
+            },
+          },
+        ],
       },
-      granularity: "Daily"
+      granularity: "Daily",
     },
-    timeframe: "MonthToDate"
+    timeframe: "MonthToDate",
   };
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
   const result = await client.query.usageByExternalCloudProviderType(
     externalCloudProviderType,
     externalCloudProviderId,
-    parameters
+    parameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  externalBillingAccountQueryList();
-  externalSubscriptionsQuery();
+  await externalBillingAccountQueryList();
+  await externalSubscriptionsQuery();
 }
 
 main().catch(console.error);

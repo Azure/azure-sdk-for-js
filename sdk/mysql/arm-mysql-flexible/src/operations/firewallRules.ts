@@ -7,18 +7,18 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { FirewallRules } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { FirewallRules } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleServerClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MySQLManagementFlexibleServerClient } from "../mySQLManagementFlexibleServerClient.js";
 import {
   SimplePollerLike,
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   FirewallRule,
   FirewallRulesListByServerNextOptionalParams,
@@ -30,7 +30,7 @@ import {
   FirewallRulesGetOptionalParams,
   FirewallRulesGetResponse,
   FirewallRulesListByServerNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FirewallRules operations. */

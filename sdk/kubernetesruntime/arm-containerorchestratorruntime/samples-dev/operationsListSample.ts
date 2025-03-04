@@ -14,7 +14,7 @@ async function operationsList0(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new KubernetesRuntimeClient(credential);
   const resArray = new Array();
-  for await (let item of client.operations.list()) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
@@ -22,7 +22,7 @@ async function operationsList0(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  operationsList0();
+  await operationsList0();
 }
 
 main().catch(console.error);

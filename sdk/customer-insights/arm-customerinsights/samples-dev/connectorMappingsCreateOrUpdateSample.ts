@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  ConnectorMappingResourceFormat,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { ConnectorMappingResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -36,7 +32,7 @@ async function connectorMappingsCreateOrUpdate(): Promise<void> {
       availability: { frequency: "Hour", interval: 5 },
       completeOperation: {
         completionOperationType: "DeleteFile",
-        destinationFolder: "fakePath"
+        destinationFolder: "fakePath",
       },
       errorManagement: { errorLimit: 10, errorManagementType: "StopImport" },
       fileFilter: "unknown",
@@ -46,23 +42,20 @@ async function connectorMappingsCreateOrUpdate(): Promise<void> {
         {
           columnName: "unknown1",
           isEncrypted: false,
-          propertyName: "unknwon1"
+          propertyName: "unknwon1",
         },
-        { columnName: "unknown2", isEncrypted: true, propertyName: "unknwon2" }
-      ]
-    }
+        { columnName: "unknown2", isEncrypted: true, propertyName: "unknwon2" },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.connectorMappings.createOrUpdate(
     resourceGroupName,
     hubName,
     connectorName,
     mappingName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

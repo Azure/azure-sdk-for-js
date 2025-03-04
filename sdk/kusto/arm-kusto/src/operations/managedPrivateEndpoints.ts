@@ -7,17 +7,17 @@
  */
 
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ManagedPrivateEndpoints } from "../operationsInterfaces";
+import { ManagedPrivateEndpoints } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { KustoManagementClient } from "../kustoManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { KustoManagementClient } from "../kustoManagementClient.js";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { createLroSpec } from "../lroImpl.js";
 import {
   ManagedPrivateEndpoint,
   ManagedPrivateEndpointsListOptionalParams,
@@ -31,8 +31,8 @@ import {
   ManagedPrivateEndpointsCreateOrUpdateResponse,
   ManagedPrivateEndpointsUpdateOptionalParams,
   ManagedPrivateEndpointsUpdateResponse,
-  ManagedPrivateEndpointsDeleteOptionalParams
-} from "../models";
+  ManagedPrivateEndpointsDeleteOptionalParams,
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedPrivateEndpoints operations. */
@@ -56,7 +56,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   public list(
     resourceGroupName: string,
     clusterName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedPrivateEndpoint> {
     const iter = this.listPagingAll(resourceGroupName, clusterName, options);
     return {
@@ -74,9 +74,9 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     options?: ManagedPrivateEndpointsListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<ManagedPrivateEndpoint[]> {
     let result: ManagedPrivateEndpointsListResponse;
     result = await this._list(resourceGroupName, clusterName, options);
@@ -94,12 +94,12 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private async *listPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): AsyncIterableIterator<ManagedPrivateEndpoint> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -116,11 +116,11 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     resourceName: ManagedPrivateEndpointsCheckNameRequest,
-    options?: ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams
+    options?: ManagedPrivateEndpointsCheckNameAvailabilityOptionalParams,
   ): Promise<ManagedPrivateEndpointsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, resourceName, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -133,11 +133,11 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   private _list(
     resourceGroupName: string,
     clusterName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): Promise<ManagedPrivateEndpointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -152,11 +152,11 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsGetOptionalParams
+    options?: ManagedPrivateEndpointsGetOptionalParams,
   ): Promise<ManagedPrivateEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, managedPrivateEndpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -173,7 +173,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>,
@@ -182,21 +182,20 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -205,8 +204,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -214,8 +213,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -226,16 +225,16 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         clusterName,
         managedPrivateEndpointName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedPrivateEndpointsCreateOrUpdateResponse,
       OperationState<ManagedPrivateEndpointsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -254,14 +253,14 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<ManagedPrivateEndpointsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       managedPrivateEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -279,7 +278,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams
+    options?: ManagedPrivateEndpointsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedPrivateEndpointsUpdateResponse>,
@@ -288,21 +287,20 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ManagedPrivateEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -311,8 +309,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -320,8 +318,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -332,16 +330,16 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         clusterName,
         managedPrivateEndpointName,
         parameters,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ManagedPrivateEndpointsUpdateResponse,
       OperationState<ManagedPrivateEndpointsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -360,14 +358,14 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     clusterName: string,
     managedPrivateEndpointName: string,
     parameters: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsUpdateOptionalParams
+    options?: ManagedPrivateEndpointsUpdateOptionalParams,
   ): Promise<ManagedPrivateEndpointsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
       managedPrivateEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -383,25 +381,24 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -410,8 +407,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -419,8 +416,8 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -430,13 +427,13 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         resourceGroupName,
         clusterName,
         managedPrivateEndpointName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -453,13 +450,13 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       managedPrivateEndpointName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -468,16 +465,15 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpointsCheckNameAvailability",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpointsCheckNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameResult
+      bodyMapper: Mappers.CheckNameResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resourceName2,
   queryParameters: [Parameters.apiVersion],
@@ -485,45 +481,22 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpointListResult
+      bodyMapper: Mappers.ManagedPrivateEndpointListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ManagedPrivateEndpoint
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -531,31 +504,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.managedPrivateEndpointName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ManagedPrivateEndpoint,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+    Parameters.managedPrivateEndpointName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpoint
+      bodyMapper: Mappers.ManagedPrivateEndpoint,
     },
     201: {
-      bodyMapper: Mappers.ManagedPrivateEndpoint
+      bodyMapper: Mappers.ManagedPrivateEndpoint,
     },
     202: {
-      bodyMapper: Mappers.ManagedPrivateEndpoint
+      bodyMapper: Mappers.ManagedPrivateEndpoint,
     },
     204: {
-      bodyMapper: Mappers.ManagedPrivateEndpoint
+      bodyMapper: Mappers.ManagedPrivateEndpoint,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -564,32 +557,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.managedPrivateEndpointName
+    Parameters.managedPrivateEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedPrivateEndpoint
+      bodyMapper: Mappers.ManagedPrivateEndpoint,
     },
     201: {
-      bodyMapper: Mappers.ManagedPrivateEndpoint
+      bodyMapper: Mappers.ManagedPrivateEndpoint,
     },
     202: {
-      bodyMapper: Mappers.ManagedPrivateEndpoint
+      bodyMapper: Mappers.ManagedPrivateEndpoint,
     },
     204: {
-      bodyMapper: Mappers.ManagedPrivateEndpoint
+      bodyMapper: Mappers.ManagedPrivateEndpoint,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
@@ -598,15 +590,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.managedPrivateEndpointName
+    Parameters.managedPrivateEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/managedPrivateEndpoints/{managedPrivateEndpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -614,8 +605,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -623,8 +614,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
-    Parameters.managedPrivateEndpointName
+    Parameters.managedPrivateEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

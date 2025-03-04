@@ -22,7 +22,7 @@ async function cacheNodesOperationsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cacheNodesOperationsGet();
+  await cacheNodesOperationsGet();
 }
 
 main().catch(console.error);

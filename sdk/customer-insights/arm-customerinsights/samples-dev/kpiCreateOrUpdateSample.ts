@@ -6,12 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import {
-  KpiResourceFormat,
-  CustomerInsightsManagementClient
-} from "@azure/arm-customerinsights";
+import type { KpiResourceFormat } from "@azure/arm-customerinsights";
+import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -36,18 +32,15 @@ async function kpiCreateOrUpdate(): Promise<void> {
     function: "Sum",
     groupBy: ["SavingAccountBalance"],
     thresHolds: { increasingKpi: true, lowerLimit: 5, upperLimit: 50 },
-    unit: "unit"
+    unit: "unit",
   };
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const result = await client.kpi.beginCreateOrUpdateAndWait(
     resourceGroupName,
     hubName,
     kpiName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

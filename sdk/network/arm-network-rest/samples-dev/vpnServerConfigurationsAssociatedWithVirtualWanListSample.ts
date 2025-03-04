@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  VpnServerConfigurationsAssociatedWithVirtualWanListParameters,
-  getLongRunningPoller,
-} from "@azure-rest/arm-network";
+import type { VpnServerConfigurationsAssociatedWithVirtualWanListParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient, { getLongRunningPoller } from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -16,7 +11,7 @@ import "dotenv/config";
  * @summary Gives the list of VpnServerConfigurations associated with Virtual Wan in a resource group.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/GetVirtualWanVpnServerConfigurations.json
  */
-async function getVirtualWanVpnServerConfigurations() {
+async function getVirtualWanVpnServerConfigurations(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

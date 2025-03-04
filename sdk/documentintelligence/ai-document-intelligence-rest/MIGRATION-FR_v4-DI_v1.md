@@ -1,3 +1,5 @@
+<!-- dev-tool snippets ignore -->
+
 # Migrating from `@azure/ai-form-recognizer` Version 4.0.0 to `@azure-rest/ai-document-intelligence` Version 1.0.0-beta.1
 
 In this first preview of `@azure-rest/ai-document-intelligence` Rest Level Client Library, this package introduces a new design for the Azure AI Document Intelligence service (formerly known as Form Recognizer), targeting service API version `"2023-10-31-preview"`.
@@ -162,7 +164,7 @@ const { pages, tables } = await poller.pollUntilDone();
 ```ts
 const client = DocumentIntelligence(
   process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-  { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" }
+  { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
 );
 
 const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
@@ -178,8 +180,7 @@ if (isUnexpected(initialResponse)) {
 }
 
 const poller = await getLongRunningPoller(client, initialResponse);
-const analyzeResult = ((await poller.pollUntilDone().body) as AnalyzeOperationOutput)
-  .analyzeResult;
+const analyzeResult = ((await poller.pollUntilDone().body) as AnalyzeOperationOutput).analyzeResult;
 
 const pages = analyzeResult?.pages;
 const tables = analyzeResult?.tables;

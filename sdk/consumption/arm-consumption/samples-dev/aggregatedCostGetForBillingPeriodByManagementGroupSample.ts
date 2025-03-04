@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,21 +18,20 @@ import "dotenv/config";
  */
 async function aggregatedCostListForBillingPeriodByManagementGroup(): Promise<void> {
   const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "managementGroupForTest";
   const billingPeriodName = "201807";
   const credential = new DefaultAzureCredential();
   const client = new ConsumptionManagementClient(credential, subscriptionId);
   const result = await client.aggregatedCost.getForBillingPeriodByManagementGroup(
     managementGroupId,
-    billingPeriodName
+    billingPeriodName,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  aggregatedCostListForBillingPeriodByManagementGroup();
+  await aggregatedCostListForBillingPeriodByManagementGroup();
 }
 
 main().catch(console.error);

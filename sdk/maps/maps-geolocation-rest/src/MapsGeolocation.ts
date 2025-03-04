@@ -13,9 +13,9 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  * Creates an instance of MapsGeolocationClient from a subscription key.
  *
  * @example
- * ```ts
- * import MapsGeolocation from "@azure-rest/maps-geolocation";
+ * ```ts snippet:ReadmeSampleCreateClient_SubscriptionKey
  * import { AzureKeyCredential } from "@azure/core-auth";
+ * import MapsGeolocation from "@azure-rest/maps-geolocation";
  *
  * const credential = new AzureKeyCredential("<subscription-key>");
  * const client = MapsGeolocation(credential);
@@ -32,9 +32,9 @@ export default function MapsGeolocation(
  * Creates an instance of MapsGeolocation from an Azure Identity `TokenCredential`.
  *
  * @example
- * ```ts
- * import MapsGeolocation from "@azure-rest/maps-geo-location";
+ * ```ts snippet:ReadmeSampleCreateClient_TokenCredential
  * import { DefaultAzureCredential } from "@azure/identity";
+ * import MapsGeolocation from "@azure-rest/maps-geolocation";
  *
  * const credential = new DefaultAzureCredential();
  * const client = MapsGeolocation(credential, "<maps-account-client-id>");
@@ -53,9 +53,9 @@ export default function MapsGeolocation(
  * Creates an instance of MapsGeolocation from an Azure Identity `AzureSASCredential`.
  *
  * @example
- * ```ts
- * import MapsGeolocation from "@azure-rest/maps-geo-location";
+ * ```ts snippet:ReadmeSampleCreateClient_SASToken
  * import { AzureSASCredential } from "@azure/core-auth";
+ * import MapsGeolocation from "@azure-rest/maps-geolocation";
  *
  * const credential = new AzureSASCredential("<SAS Token>");
  * const client = MapsGeolocation(credential);

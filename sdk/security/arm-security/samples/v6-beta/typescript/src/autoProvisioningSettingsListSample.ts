@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { SecurityCenter } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Exposes the auto provisioning settings of the subscriptions
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Exposes the auto provisioning settings of the subscriptions
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/AutoProvisioningSettings/GetAutoProvisioningSettingsSubscription_example.json
  */
-async function getAutoProvisioningSettingsForSubscription() {
+async function getAutoProvisioningSettingsForSubscription(): Promise<void> {
   const subscriptionId =
     process.env["SECURITY_SUBSCRIPTION_ID"] ||
     "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
@@ -33,7 +31,7 @@ async function getAutoProvisioningSettingsForSubscription() {
   console.log(resArray);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getAutoProvisioningSettingsForSubscription();
 }
 

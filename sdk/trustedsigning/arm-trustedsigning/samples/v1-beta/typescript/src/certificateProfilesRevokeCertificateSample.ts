@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary revoke a certificate under a certificate profile.
  * x-ms-original-file: 2024-02-05-preview/CertificateProfiles_RevokeCertificate.json
  */
-async function revokeACertificateUnderACertificateProfile() {
+async function revokeACertificateUnderACertificateProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
@@ -28,7 +28,7 @@ async function revokeACertificateUnderACertificateProfile() {
   );
 }
 
-async function main() {
+async function main(): Promise<void> {
   revokeACertificateUnderACertificateProfile();
 }
 

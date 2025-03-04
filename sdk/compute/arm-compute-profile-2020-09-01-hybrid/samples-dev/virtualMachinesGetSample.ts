@@ -43,8 +43,8 @@ async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlac
 }
 
 async function main(): Promise<void> {
-  await getAVirtualMachine()
-  await getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement()
+  await getAVirtualMachine();
+  await getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement();
 }
 
 main().catch(console.error);

@@ -42,6 +42,11 @@ export interface ServiceBusConnectionStringProperties {
    * user and appended to the connection string for ease of use.
    */
   sharedAccessSignature?: string;
+  /**
+   * The value for "UseDevelopmentEmulator" in the connection string. This is typically only present in
+   * the connection string for emulator running locally.
+   */
+  useDevelopmentEmulator?: boolean;
 }
 
 /**
@@ -59,6 +64,7 @@ export function parseServiceBusConnectionString(
     SharedAccessSignature?: string;
     SharedAccessKey?: string;
     SharedAccessKeyName?: string;
+    UseDevelopmentEmulator?: string;
   }>(connectionString);
   if (!parsedResult.Endpoint) {
     throw new Error("Connection string should have an Endpoint key.");
@@ -98,5 +104,7 @@ export function parseServiceBusConnectionString(
     output.sharedAccessKey = parsedResult.SharedAccessKey;
     output.sharedAccessKeyName = parsedResult.SharedAccessKeyName;
   }
+  output.useDevelopmentEmulator = Boolean(parsedResult.UseDevelopmentEmulator);
+
   return output;
 }

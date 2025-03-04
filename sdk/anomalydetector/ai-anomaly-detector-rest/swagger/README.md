@@ -22,6 +22,9 @@ generate-test: true
 #   "@autorest/typescript": "6.0.0-rc.1.20220928.1"
 use-extension:
   "@autorest/modelerfour": "https://tinyurl.com/2dx6b9fg"
+module-kind: esm
+use-extension:
+  "@autorest/typescript": "6.0.34"
 ```
 
 ```yaml

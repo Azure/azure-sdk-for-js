@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { AzureMediaServices } from "@azure/arm-mediaservices";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List supported group IDs.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary List supported group IDs.
  * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/Accounts/stable/2021-11-01/examples/private-link-resources-list.json
  */
-async function getListOfAllGroupIDs() {
+async function getListOfAllGroupIDs(): Promise<void> {
   const subscriptionId =
     process.env["MEDIASERVICES_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -36,7 +34,7 @@ async function getListOfAllGroupIDs() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   getListOfAllGroupIDs();
 }
 

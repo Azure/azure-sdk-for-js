@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import createNetworkManagementClient, {
-  ApplicationGatewaysListAvailableWafRuleSetsParameters,
-} from "@azure-rest/arm-network";
+import type { ApplicationGatewaysListAvailableWafRuleSetsParameters } from "@azure-rest/arm-network";
+import createNetworkManagementClient from "@azure-rest/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
 
@@ -15,7 +11,7 @@ import "dotenv/config";
  * @summary Lists all available web application firewall rule sets.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayAvailableWafRuleSetsGet.json
  */
-async function getAvailableWafRuleSets() {
+async function getAvailableWafRuleSets(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

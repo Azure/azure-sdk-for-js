@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { ConfidentialLedgerClient } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-
 import type { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

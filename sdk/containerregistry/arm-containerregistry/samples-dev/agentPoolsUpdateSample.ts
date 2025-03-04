@@ -6,11 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import {
   AgentPoolUpdateParameters,
-  ContainerRegistryManagementClient
+  ContainerRegistryManagementClient,
 } from "@azure/arm-containerregistry";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -33,19 +31,19 @@ async function agentPoolsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new ContainerRegistryManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.agentPools.beginUpdateAndWait(
     resourceGroupName,
     registryName,
     agentPoolName,
-    updateParameters
+    updateParameters,
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  agentPoolsUpdate();
+  await agentPoolsUpdate();
 }
 
 main().catch(console.error);

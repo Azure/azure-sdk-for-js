@@ -116,7 +116,14 @@ async function findAllSnippetLocations(info: ProjectInfo): Promise<SnippetLocati
           openFence = undefined;
 
           // We don't care about bash, text, etc. snippets. Only JS/TS in any incarnation.
-          if (!["js", "ts", "javascript", "typescript"].includes(language)) continue;
+          if (!["js", "ts", "javascript", "typescript"].includes(language)) {
+            continue;
+          }
+
+          // Ignore if it says snippet:ignore
+          if (snippetName?.trim()?.startsWith("snippet:ignore")) {
+            continue;
+          }
 
           if (!snippetName?.trim()?.startsWith("snippet:")) {
             log.error(

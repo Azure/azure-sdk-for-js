@@ -5,14 +5,14 @@
  * @summary Get the Alpha IDs configuration that's applied for the current resource
  */
 
-import { DynamicAlphaIdConfiguration, AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
+import type { DynamicAlphaIdConfiguration } from "@azure-tools/communication-alpha-ids";
+import { AlphaIdsClient } from "@azure-tools/communication-alpha-ids";
 import { RestError } from "@azure/core-rest-pipeline";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Get the Alpha IDs configuration that's applied for the current resource ==\n");
 
   // You will need to set this environment variable or edit the following values

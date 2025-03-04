@@ -282,6 +282,20 @@ describe("Main functions", () => {
     assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `k${os}m_`);
   });
 
+  it("should capture the AKS SDK prefix correctly", () => {
+    const os = getOsPrefix();
+    const env = <{ [id: string]: string }>{};
+    env.KUBERNETES_SERVICE_HOST = "test-AKS";
+    process.env = env;
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `k${os}m_`);
+  });
+
   it("should prioritize resource detectors in env var OTEL_NODE_RESOURCE_DETECTORS", () => {
     const expectedResourceAttributeNamespaces = new Set(["os", "service", "telemetry"]);
     const env = <{ [id: string]: string }>{};

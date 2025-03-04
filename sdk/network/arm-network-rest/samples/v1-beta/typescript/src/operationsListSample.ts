@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   OperationsListParameters,
   paginate,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Lists all of the available Network Rest API operations.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/OperationList.json
  */
-async function getAListOfOperationsForAResourceProvider() {
+async function getAListOfOperationsForAResourceProvider(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const options: OperationsListParameters = {

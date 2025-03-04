@@ -6,9 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { Share, DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
+import type { Share } from "@azure/arm-databoxedge";
+import { DataBoxEdgeManagementClient } from "@azure/arm-databoxedge";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
@@ -29,7 +28,7 @@ async function sharePut(): Promise<void> {
       containerName: "testContainerSMB",
       dataFormat: "BlockBlob",
       storageAccountCredentialId:
-        "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/storageAccountCredentials/sac1"
+        "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/storageAccountCredentials/sac1",
     },
     dataPolicy: "Cloud",
     monitoringStatus: "Enabled",
@@ -38,9 +37,9 @@ async function sharePut(): Promise<void> {
       {
         accessType: "Change",
         userId:
-          "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users/user2"
-      }
-    ]
+          "/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/GroupForEdgeAutomation/providers/Microsoft.DataBoxEdge/dataBoxEdgeDevices/testedgedevice/users/user2",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new DataBoxEdgeManagementClient(credential, subscriptionId);
@@ -48,7 +47,7 @@ async function sharePut(): Promise<void> {
     deviceName,
     name,
     resourceGroupName,
-    share
+    share,
   );
   console.log(result);
 }

@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { CustomerInsightsManagementClient } from "@azure/arm-customerinsights";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -23,15 +21,12 @@ async function connectorMappingsListByConnector(): Promise<void> {
   const hubName = "sdkTestHub";
   const connectorName = "testConnector8858";
   const credential = new DefaultAzureCredential();
-  const client = new CustomerInsightsManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new CustomerInsightsManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.connectorMappings.listByConnector(
+  for await (const item of client.connectorMappings.listByConnector(
     resourceGroupName,
     hubName,
-    connectorName
+    connectorName,
   )) {
     resArray.push(item);
   }

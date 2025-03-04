@@ -17,7 +17,7 @@ const fullyQualifiedNamespace = process.env["EVENTHUB_FQDN"] || "<your fully qua
 const eventHubName = process.env["EVENTHUB_NAME"] || "<your eventhub name>";
 const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log(`Running receiveEvents sample`);
 
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ export async function main() {
   );
 
   // Wait for a bit before cleaning up the sample
-  setTimeout(async () => {
+  await setTimeout(async () => {
     await subscription.close();
     await consumerClient.close();
     console.log(`Exiting receiveEvents sample`);

@@ -21,7 +21,7 @@ async function cacheNodesOperationsDelete(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  cacheNodesOperationsDelete();
+  await cacheNodesOperationsDelete();
 }
 
 main().catch(console.error);

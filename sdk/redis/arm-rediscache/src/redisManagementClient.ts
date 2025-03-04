@@ -25,7 +25,7 @@ import {
   AsyncOperationStatusImpl,
   AccessPolicyImpl,
   AccessPolicyAssignmentImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   Operations,
   Redis,
@@ -37,8 +37,8 @@ import {
   AsyncOperationStatus,
   AccessPolicy,
   AccessPolicyAssignment,
-} from "./operationsInterfaces";
-import { RedisManagementClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { RedisManagementClientOptionalParams } from "./models/index.js";
 
 export class RedisManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -72,7 +72,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-rediscache/8.1.1`;
+    const packageDetails = `azsdk-js-arm-rediscache/8.2.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -126,7 +126,7 @@ export class RedisManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-03-01";
+    this.apiVersion = options.apiVersion || "2024-11-01";
     this.operations = new OperationsImpl(this);
     this.redis = new RedisImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);

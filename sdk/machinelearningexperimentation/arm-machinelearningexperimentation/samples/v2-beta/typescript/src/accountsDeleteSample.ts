@@ -10,9 +10,7 @@
 // Licensed under the MIT License.
 import { MLTeamAccountManagementClient } from "@azure/arm-machinelearningexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Deletes a machine learning team account.
@@ -20,7 +18,7 @@ dotenv.config();
  * @summary Deletes a machine learning team account.
  * x-ms-original-file: specification/machinelearningexperimentation/resource-manager/Microsoft.MachineLearningExperimentation/preview/2017-05-01-preview/examples/DeleteAccount.json
  */
-async function accountDelete() {
+async function accountDelete(): Promise<void> {
   const subscriptionId =
     process.env["MACHINELEARNINGEXPERIMENTATION_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
@@ -34,7 +32,7 @@ async function accountDelete() {
   console.log(result);
 }
 
-async function main() {
+async function main(): Promise<void> {
   accountDelete();
 }
 

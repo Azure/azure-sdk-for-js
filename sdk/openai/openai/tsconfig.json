@@ -13,6 +13,5 @@
   "compilerOptions": {
     "target": "ES2017",
     "moduleResolution": "nodenext"
-  },
-  "files": []
+  }
 }

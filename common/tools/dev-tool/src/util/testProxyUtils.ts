@@ -8,13 +8,33 @@ import fs from "fs-extra";
 import path from "node:path";
 import { extract } from "tar";
 import * as unzipper from "unzipper";
-import envPaths from "env-paths";
 import { promisify } from "node:util";
 import { PassThrough } from "node:stream";
 import { pipeline } from "node:stream/promises";
+import { delay } from "./checkWithTimeout";
+import process from "node:process";
+import os from "node:os";
 
 const log = createPrinter("test-proxy");
-const downloadLocation = path.join(envPaths("azsdk-dev-tool").cache, "test-proxy");
+const downloadLocation = getTestProxyDownloadLocation();
+
+export function getTestProxyDownloadLocation(): string {
+  const homedir = os.homedir();
+  const downloadPath = "azsdk-dev-tool";
+  switch (process.platform) {
+    case "win32":
+      return path.join(
+        process.env["LOCALAPPDATA"] || path.join(homedir, "AppData", "Local"),
+        downloadPath,
+        "Cache",
+      );
+    case "darwin":
+      return path.join(path.join(homedir, "Library"), "Caches", downloadPath);
+    default:
+      // Assume Linux
+      return path.join(process.env["XDG_CACHE_HOME"] || path.join(homedir, ".cache"), downloadPath);
+  }
+}
 
 /**
  * Represents a test proxy binary artifact archive that is built against a specific platform and architecture.
@@ -183,15 +203,15 @@ function runCommand(executable: string, argv: string[], options: SpawnOptions = 
 }
 
 export async function runTestProxyCommand(argv: string[]): Promise<void> {
-  const result = runCommand(await getTestProxyExecutable(), argv, {
+  const executable = await getTestProxyExecutable();
+  await delay(1000);
+  await runCommand(executable, argv, {
     stdio: "inherit",
     env: { ...process.env },
   }).result;
   if (await fs.pathExists("assets.json")) {
     await linkRecordingsDirectory();
   }
-
-  return result;
 }
 
 export function createAssetsJson(project: ProjectInfo): Promise<void> {

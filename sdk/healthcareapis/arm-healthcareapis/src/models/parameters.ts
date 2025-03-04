@@ -26,7 +26,7 @@ import {
   FhirService as FhirServiceMapper,
   FhirServicePatchResource as FhirServicePatchResourceMapper,
   PrivateEndpointConnectionDescription as PrivateEndpointConnectionDescriptionMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

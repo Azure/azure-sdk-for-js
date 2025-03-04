@@ -5,32 +5,11 @@
  * @summary Backs up an Azure Key Vault secret to a local file and restores from it.
  */
 
-import * as fs from "node:fs";
-
+import { readFile, writeFile } from "node:fs/promises";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { DefaultAzureCredential } from "@azure/identity";
-
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-function writeFile(filename: string, text: Uint8Array): Promise<void> {
-  return new Promise((resolve, reject) => {
-    fs.writeFile(filename, text, (err) => {
-      if (err) reject(err);
-      else resolve();
-    });
-  });
-}
-
-function readFile(filename: string): Promise<Uint8Array> {
-  return new Promise((resolve, reject) => {
-    fs.readFile(filename, (err, data) => {
-      if (err) reject(err);
-      else resolve(data);
-    });
-  });
-}
+import "dotenv/config";
 
 function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -59,7 +38,7 @@ export async function main(): Promise<void> {
 
   // Delete the secret
   console.log("about to delete");
-  let deletePoller = await client.beginDeleteSecret(secretName);
+  const deletePoller = await client.beginDeleteSecret(secretName);
   await deletePoller.pollUntilDone();
 
   // Purge the deleted secret

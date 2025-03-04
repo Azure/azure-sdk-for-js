@@ -6,8 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import { ConfidentialLedgerClient } from "@azure/arm-confidentialledger";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
@@ -20,11 +18,9 @@ import "dotenv/config";
  */
 async function confidentialLedgerGet(): Promise<void> {
   const subscriptionId =
-    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] ||
-    "0000000-0000-0000-0000-000000000001";
+    process.env["CONFIDENTIALLEDGER_SUBSCRIPTION_ID"] || "0000000-0000-0000-0000-000000000001";
   const resourceGroupName =
-    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] ||
-    "DummyResourceGroupName";
+    process.env["CONFIDENTIALLEDGER_RESOURCE_GROUP"] || "DummyResourceGroupName";
   const ledgerName = "DummyLedgerName";
   const credential = new DefaultAzureCredential();
   const client = new ConfidentialLedgerClient(credential, subscriptionId);
@@ -33,7 +29,7 @@ async function confidentialLedgerGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  confidentialLedgerGet();
+  await confidentialLedgerGet();
 }
 
 main().catch(console.error);

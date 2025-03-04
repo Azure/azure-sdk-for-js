@@ -42,7 +42,7 @@ async function createADiskEncryptionSet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createADiskEncryptionSet()
+  await createADiskEncryptionSet();
 }
 
 main().catch(console.error);

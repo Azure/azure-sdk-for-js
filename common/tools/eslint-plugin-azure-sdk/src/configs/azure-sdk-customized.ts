@@ -72,7 +72,6 @@ const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
 
 const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
   "@azure/azure-sdk/github-source-headers": "error",
-  "@azure/azure-sdk/ts-apiextractor-json-types": "error",
   "@azure/azure-sdk/ts-apisurface-standardized-verbs": "error",
   "@azure/azure-sdk/ts-doc-internal-private-member": "warn",
   "@azure/azure-sdk/ts-error-handling": "off",
@@ -89,7 +88,6 @@ const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
   "@azure/azure-sdk/ts-package-json-keywords": "error",
   "@azure/azure-sdk/ts-package-json-license": "error",
   "@azure/azure-sdk/ts-package-json-main-is-cjs": "error",
-  "@azure/azure-sdk/ts-package-json-module": "error",
   "@azure/azure-sdk/ts-package-json-name": "error",
   "@azure/azure-sdk/ts-package-json-repo": "error",
   "@azure/azure-sdk/ts-package-json-required-scripts": "error",

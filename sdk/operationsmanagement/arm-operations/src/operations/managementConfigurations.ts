@@ -6,11 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { ManagementConfigurations } from "../operationsInterfaces";
+import { ManagementConfigurations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { OperationsManagementClient } from "../operationsManagementClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { OperationsManagementClient } from "../operationsManagementClient.js";
 import {
   ManagementConfigurationsListBySubscriptionOptionalParams,
   ManagementConfigurationsListBySubscriptionResponse,
@@ -20,7 +20,7 @@ import {
   ManagementConfigurationsDeleteOptionalParams,
   ManagementConfigurationsGetOptionalParams,
   ManagementConfigurationsGetResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing ManagementConfigurations operations. */
 export class ManagementConfigurationsImpl implements ManagementConfigurations {

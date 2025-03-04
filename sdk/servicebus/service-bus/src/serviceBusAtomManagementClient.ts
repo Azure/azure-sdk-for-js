@@ -168,6 +168,8 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
   private serviceVersion: ServiceBusAtomAPIVersion;
 
+  private useTls: boolean;
+
   /**
    * Singleton instances of serializers used across the various operations.
    */
@@ -218,6 +220,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
     let authPolicy: PipelinePolicy;
+    let useTls: boolean = true;
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
@@ -243,6 +246,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       } catch {
         throw new Error("Endpoint in the connection string is not valid.");
       }
+      if (connectionStringObj.UseDevelopmentEmulator) {
+        useTls = false;
+      }
       credentials = new SasServiceClientCredentials({
         key: connectionStringObj.SharedAccessKey,
         name: connectionStringObj.SharedAccessKeyName,
@@ -264,6 +270,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       ? "sb://" + fullyQualifiedNamespace
       : "sb://" + fullyQualifiedNamespace + "/";
     this.serviceVersion = options.serviceVersion ?? Constants.CURRENT_API_VERSION;
+    this.useTls = useTls;
     this.credentials = credentials;
     this.namespaceResourceSerializer = new NamespaceResourceSerializer();
     this.queueResourceSerializer = new QueueResourceSerializer();
@@ -1949,6 +1956,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const request: PipelineRequest = createPipelineRequest({
           url: this.getUrl(name),
           method: "PUT",
+          allowInsecureConnection: !this.useTls,
         });
         if (isUpdate) {
           request.headers.set("If-Match", "*");
@@ -2007,6 +2015,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const request = createPipelineRequest({
           url: this.getUrl(name),
           method: "GET",
+          allowInsecureConnection: !this.useTls,
         });
 
         const response = await executeAtomXmlOperation(this, request, serializer, updatedOptions);
@@ -2055,6 +2064,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const request = createPipelineRequest({
           url: this.getUrl(name, queryParams),
           method: "GET",
+          allowInsecureConnection: !this.useTls,
         });
 
         return executeAtomXmlOperation(this, request, serializer, updatedOptions);
@@ -2077,6 +2087,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         const request = createPipelineRequest({
           url: this.getUrl(name),
           method: "DELETE",
+          allowInsecureConnection: !this.useTls,
         });
         return executeAtomXmlOperation(this, request, serializer, updatedOptions);
       },
@@ -2084,7 +2095,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   }
 
   private getUrl(path: string, queryParams?: { [key: string]: string }): string {
-    const baseUri = `https://${this.endpoint}/${path}`;
+    const baseUri = `${this.useTls ? "https" : "http"}://${this.endpoint}/${path}`;
 
     const requestUrl = new URL(baseUri);
     requestUrl.searchParams.set(Constants.API_VERSION_QUERY_KEY, this.serviceVersion);

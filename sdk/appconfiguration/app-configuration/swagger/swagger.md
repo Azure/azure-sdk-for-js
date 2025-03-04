@@ -22,6 +22,9 @@ disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
+module-kind: esm
+use-extension:
+  "@autorest/typescript": "6.0.34"
 ```
 
 ### Patch endpoints for exception handling

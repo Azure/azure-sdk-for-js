@@ -6,24 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
-  env,
-  Recorder,
-  RecorderStartOptions,
-  delay,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { SecurityInsights } from "../src/securityInsights";
-import { SentinelOnboardingState, SentinelOnboardingStatesCreateOptionalParams } from "../src/models";
+import { SecurityInsights } from "../src/securityInsights.js";
+import {
+  SentinelOnboardingState,
+  SentinelOnboardingStatesCreateOptionalParams,
+} from "../src/models/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
 const recorderOptions: RecorderStartOptions = {
@@ -42,69 +38,66 @@ describe("securityinsight test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: SecurityInsights;
-  let location: string;
   let resourceGroup: string;
   let workspaceName: string;
   let sentinelOnboardingStateName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || "";
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new SecurityInsights(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
     resourceGroup = "myjstest";
     workspaceName = "myWorkspace";
     sentinelOnboardingStateName = "default";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("sentinel create test", async function () {
+  it("sentinel create test", async () => {
     const sentinelOnboardingStateParameter: SentinelOnboardingState = {
-      customerManagedKey: false
+      customerManagedKey: false,
     };
     const options: SentinelOnboardingStatesCreateOptionalParams = {
-      sentinelOnboardingStateParameter
+      sentinelOnboardingStateParameter,
     };
     const res = await client.sentinelOnboardingStates.create(
       resourceGroup,
       workspaceName,
       sentinelOnboardingStateName,
-      options
+      options,
     );
     assert.equal(res.name, sentinelOnboardingStateName);
   });
 
-  it("sentinel get test", async function () {
+  it("sentinel get test", async () => {
     const res = await client.sentinelOnboardingStates.get(
       resourceGroup,
       workspaceName,
-      sentinelOnboardingStateName);
+      sentinelOnboardingStateName,
+    );
     assert.equal(res.name, sentinelOnboardingStateName);
   });
 
-  it("sentinel list test", async function () {
+  it("sentinel list test", async () => {
     const resArray = new Array();
-    const result = await client.sentinelOnboardingStates.list(
-      resourceGroup,
-      workspaceName
-    );
+    const result = await client.sentinelOnboardingStates.list(resourceGroup, workspaceName);
     for await (let item of result.value) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("sentinel delete test", async function () {
-    const resArray = new Array();
+  it("sentinel delete test", async () => {
     const res = await client.sentinelOnboardingStates.delete(
       resourceGroup,
       workspaceName,
-      sentinelOnboardingStateName);
+      sentinelOnboardingStateName,
+    );
+    assert.ok(res);
   });
-})
+});

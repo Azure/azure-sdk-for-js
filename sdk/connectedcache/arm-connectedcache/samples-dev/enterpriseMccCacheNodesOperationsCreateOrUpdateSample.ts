@@ -67,7 +67,7 @@ async function createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule(
 }
 
 async function main(): Promise<void> {
-  createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule();
+  await createsAnEnterpriseMccCacheNodeResourceGeneratedByMaximumSetRule();
 }
 
 main().catch(console.error);

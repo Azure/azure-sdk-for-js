@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import createNetworkManagementClient, {
   BgpServiceCommunitiesListParameters,
   paginate,
@@ -16,7 +13,7 @@ import "dotenv/config";
  * @summary Gets all the available bgp service communities.
  * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ServiceCommunityList.json
  */
-async function serviceCommunityList() {
+async function serviceCommunityList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = createNetworkManagementClient(credential);
   const subscriptionId = "";

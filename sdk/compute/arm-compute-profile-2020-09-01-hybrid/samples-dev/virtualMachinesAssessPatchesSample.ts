@@ -27,7 +27,7 @@ async function assessPatchStateOfAVirtualMachine(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await assessPatchStateOfAVirtualMachine()
+  await assessPatchStateOfAVirtualMachine();
 }
 
 main().catch(console.error);

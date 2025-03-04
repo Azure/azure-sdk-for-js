@@ -22,7 +22,7 @@ async function bgpPeersCreateOrUpdate(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  bgpPeersCreateOrUpdate();
+  await bgpPeersCreateOrUpdate();
 }
 
 main().catch(console.error);
