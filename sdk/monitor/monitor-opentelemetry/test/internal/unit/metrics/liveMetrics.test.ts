@@ -19,13 +19,13 @@ import {
   ATTR_URL_FULL,
 } from "@opentelemetry/semantic-conventions";
 import type { MockInstance } from "vitest";
-import { afterAll, afterEach, assert, beforeAll, describe, expect, it, vi } from "vitest";
+import { afterAll, afterEach, assert, beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("#LiveMetrics", () => {
   let exportStub: MockInstance<(typeof autoCollect)["quickpulseExporter"]["export"]>;
   let autoCollect: LiveMetrics;
 
-  beforeAll(() => {
+  beforeEach(() => {
     const config = new InternalConfig();
     config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
