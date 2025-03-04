@@ -10,7 +10,7 @@ import {
 } from "../../src/Declarations/Constants.js";
 import nock from "nock";
 import { NetworkStatsbeatMetrics } from "../../src/export/statsbeat/networkStatsbeatMetrics.js";
-import { StatsbeatCounter } from "../../src/export/statsbeat/types.js";
+import { AZURE_MONITOR_AUTO_ATTACH, StatsbeatCounter } from "../../src/export/statsbeat/types.js";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics.js";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 import { diag } from "@opentelemetry/api";
@@ -135,6 +135,23 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.ok(statsbeat["os"]);
         assert.ok(statsbeat["runtimeVersion"]);
         assert.ok(statsbeat["version"]);
+      });
+
+      it("should add correct attach value to the attach metric", () => {
+        const originalEnv = process.env;
+        const newEnv = <{ [id: string]: string }>{};
+        process.env = newEnv;
+        newEnv[AZURE_MONITOR_AUTO_ATTACH] = "true";
+        const statsbeat = new NetworkStatsbeatMetrics(options);
+        // eslint-disable-next-line no-unused-expressions
+        statsbeat["statsCollectionShortInterval"];
+        statsbeat.countSuccess(100);
+        const metric = statsbeat["networkStatsbeatCollection"][0];
+        assert.strictEqual(metric.intervalRequestExecutionTime, 100);
+
+        // Ensure network statsbeat attributes are populated
+        assert.strictEqual(statsbeat["attach"], "IntegratedAuto");
+        process.env = originalEnv;
       });
 
       it("should set common properties correctly", () => {
