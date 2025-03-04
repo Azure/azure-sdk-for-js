@@ -11,22 +11,22 @@ describe("Agents - vector stores file batches", () => {
   let projectsClient: AIProjectsClient;
   let agents: AgentsOperations;
 
-  beforeEach(async function (context: VitestTestContext) {
+  beforeEach(async (context: VitestTestContext) => {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("client and agents operations are accessible", async function () {
+  it("client and agents operations are accessible", async () => {
     assert.isNotNull(projectsClient);
     assert.isNotNull(agents);
   });
 
-  it("should create a vector store file batch", async function () {
+  it("should create a vector store file batch", async () => {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
@@ -70,7 +70,7 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("should retrieve a vector store file batch", async function () {
+  it("should retrieve a vector store file batch", async () => {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
@@ -122,7 +122,7 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("should list vector store file batches", async function () {
+  it("should list vector store file batches", async () => {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
@@ -174,7 +174,7 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("should cancel a vector store file batch", async function () {
+  it("should cancel a vector store file batch", async () => {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
@@ -222,7 +222,7 @@ describe("Agents - vector stores file batches", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("should create a vector store file batch and poll", async function () {
+  it("should create a vector store file batch and poll", async () => {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);

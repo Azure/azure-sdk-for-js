@@ -12,17 +12,17 @@ describe("Agents - Run", () => {
   let projectsClient: AIProjectsClient;
   let agents: AgentsOperations;
 
-  beforeEach(async function (context: VitestTestContext) {
+  beforeEach(async (context: VitestTestContext) => {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should create agent and run agent", async function () {
+  it("should create agent and run agent", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",
@@ -51,7 +51,7 @@ describe("Agents - Run", () => {
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
-  it("should create and get run", async function () {
+  it("should create and get run", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",
@@ -87,7 +87,7 @@ describe("Agents - Run", () => {
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
-  it("should create and get run status", async function () {
+  it("should create and get run status", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",
@@ -160,7 +160,7 @@ describe("Agents - Run", () => {
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
-  it("should create and list runs", async function () {
+  it("should create and list runs", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",
@@ -210,7 +210,7 @@ describe("Agents - Run", () => {
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
-  it("should create and run in single call", async function () {
+  it("should create and run in single call", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",

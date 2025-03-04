@@ -11,22 +11,22 @@ describe("Agents - messages", () => {
   let projectsClient: AIProjectsClient;
   let agents: AgentsOperations;
 
-  beforeEach(async function (context: VitestTestContext) {
+  beforeEach(async (context: VitestTestContext) => {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("client and agents operations are accessible", async function () {
+  it("client and agents operations are accessible", async () => {
     assert.isNotNull(projectsClient);
     assert.isNotNull(agents);
   });
 
-  it("should create message", async function () {
+  it("should create message", async () => {
     // Create thread
     const thread = await agents.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
@@ -45,7 +45,7 @@ describe("Agents - messages", () => {
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
-  it("should list messages", async function () {
+  it("should list messages", async () => {
     // Create thread
     const thread = await agents.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
@@ -74,7 +74,7 @@ describe("Agents - messages", () => {
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
-  it("should update message", async function () {
+  it("should update message", async () => {
     // Create thread
     const thread = await agents.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
