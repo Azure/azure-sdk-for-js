@@ -71,6 +71,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
+    "@azure/communication-call-automation": "file:",
     "@azure/communication-common": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
@@ -89,9 +90,9 @@
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/communication-identity": "^1.2.0",
     "@azure/communication-phone-numbers": "^1.2.0",
-    "@azure/identity": "^4.5.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^4.5.0",
     "@azure/service-bus": "^7.9.5",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^3.0.3",
@@ -102,22 +103,6 @@
     "playwright": "^1.48.2",
     "typescript": "~5.7.2",
     "vitest": "^3.0.3"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/models/constants.ts",
-        "prefix": "packageVersion"
-      },
-      {
-        "path": "src/generated/src/callAutomationApiClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      }
-    ]
   },
   "//metadata": {
     "constantPaths": [
