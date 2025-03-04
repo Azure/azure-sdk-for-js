@@ -22,6 +22,35 @@ import type { RequestParameters } from '@azure-rest/core-client';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
+// @public
+export type ActionBindings = ActionBindingsParent | WhatsAppListActionBindings | WhatsAppButtonActionBindings | WhatsAppUrlActionBindings;
+
+// @public
+export interface ActionBindingsParent {
+    // (undocumented)
+    kind: MessageActionBindingKind;
+}
+
+// @public
+export interface ActionGroup {
+    items: Array<ActionGroupItem>;
+    title: string;
+}
+
+// @public
+export interface ActionGroupContent extends MessageContentParent {
+    groups: Array<ActionGroup>;
+    kind: "group";
+    title: string;
+}
+
+// @public
+export interface ActionGroupItem {
+    description: string;
+    id: string;
+    title: string;
+}
+
 // @public (undocumented)
 export interface AddParticipants {
     post(options: AddParticipantsParameters): StreamableMethod<AddParticipants207Response | AddParticipantsDefaultResponse>;
@@ -169,6 +198,18 @@ export interface BotContact extends ContactParent {
 export interface BotContactOutput extends ContactOutputParent {
     botAppId: string;
     kind: "bot";
+}
+
+// @public
+export interface ButtonContent {
+    id: string;
+    title: string;
+}
+
+// @public
+export interface ButtonSetContent extends MessageContentParent {
+    buttons: Array<ButtonContent>;
+    kind: "buttonSet";
 }
 
 // @public (undocumented)
@@ -421,6 +462,12 @@ export interface DocumentConversationMessageContentOutput extends ConversationMe
 }
 
 // @public
+export interface DocumentMessageContent extends MessageContentParent {
+    kind: "document";
+    mediaUri: string;
+}
+
+// @public
 export interface DocumentNotificationContent extends NotificationContentParent {
     caption?: string;
     fileName?: string;
@@ -568,10 +615,30 @@ export interface ImageConversationMessageContentOutput extends ConversationMessa
 }
 
 // @public
+export interface ImageMessageContent extends MessageContentParent {
+    kind: "image";
+    mediaUri: string;
+}
+
+// @public
 export interface ImageNotificationContent extends NotificationContentParent {
     caption?: string;
     kind: "image";
     mediaUri: string;
+}
+
+// @public
+export interface InteractiveMessage {
+    action: ActionBindings;
+    body: TextMessageContent;
+    footer?: TextMessageContent;
+    header?: MessageContent;
+}
+
+// @public
+export interface InteractiveNotificationContent extends NotificationContentParent {
+    interactiveMessage: InteractiveMessage;
+    kind: "interactive";
 }
 
 // @public
@@ -624,6 +691,13 @@ export function isUnexpected(response: DeleteConversation204Response | DeleteCon
 
 // @public (undocumented)
 export function isUnexpected(response: TerminateConversation200Response | TerminateConversationDefaultResponse): response is TerminateConversationDefaultResponse;
+
+// @public
+export interface LinkContent extends MessageContentParent {
+    kind: "url";
+    title: string;
+    url: string;
+}
 
 // @public (undocumented)
 export interface ListConversations {
@@ -822,6 +896,21 @@ export interface Message {
 }
 
 // @public
+export type MessageActionBindingKind = string;
+
+// @public
+export type MessageContent = MessageContentParent | TextMessageContent | DocumentMessageContent | ImageMessageContent | VideoMessageContent | ButtonSetContent | LinkContent | ActionGroupContent;
+
+// @public
+export type MessageContentKind = string;
+
+// @public
+export interface MessageContentParent {
+    // (undocumented)
+    kind: MessageContentKind;
+}
+
+// @public
 export type MessagePlatformKind = string;
 
 // @public
@@ -1017,7 +1106,7 @@ export interface MessageTemplateVideoOutput extends MessageTemplateValueOutputPa
 }
 
 // @public
-export type NotificationContent = NotificationContentParent | TextNotificationContent | MediaNotificationContent | ImageNotificationContent | DocumentNotificationContent | VideoNotificationContent | AudioNotificationContent | TemplateNotificationContent;
+export type NotificationContent = NotificationContentParent | TextNotificationContent | MediaNotificationContent | ImageNotificationContent | DocumentNotificationContent | VideoNotificationContent | AudioNotificationContent | ReactionNotificationContent | StickerNotificationContent | InteractiveNotificationContent | TemplateNotificationContent;
 
 // @public
 export interface NotificationContentParent {
@@ -1087,6 +1176,13 @@ export type ParticipantKindOutput = string;
 export { ParticipantsAddedEvent }
 
 export { ParticipantsRemovedEvent }
+
+// @public
+export interface ReactionNotificationContent extends NotificationContentParent {
+    emoji: string;
+    kind: "reaction";
+    messageId: string;
+}
 
 // @public (undocumented)
 export interface RemoveParticipants {
@@ -1304,6 +1400,12 @@ export interface SendMessageResultOutput {
 export type SendParameters = SendHeaderParam & SendBodyParam & RequestParameters;
 
 // @public
+export interface StickerNotificationContent extends NotificationContentParent {
+    kind: "sticker";
+    mediaUri: string;
+}
+
+// @public
 export interface TemplateConversationMessageContent extends ConversationMessageContentParent {
     kind: "template";
     template: MessageTemplate;
@@ -1384,6 +1486,12 @@ export interface TextConversationMessageContentOutput extends ConversationMessag
 }
 
 // @public
+export interface TextMessageContent extends MessageContentParent {
+    kind: "text";
+    text: string;
+}
+
+// @public
 export interface TextNotificationContent extends NotificationContentParent {
     content: string;
     kind: "text";
@@ -1410,10 +1518,22 @@ export interface VideoConversationMessageContentOutput extends ConversationMessa
 }
 
 // @public
+export interface VideoMessageContent extends MessageContentParent {
+    kind: "video";
+    mediaUri: string;
+}
+
+// @public
 export interface VideoNotificationContent extends NotificationContentParent {
     caption?: string;
     kind: "video";
     mediaUri: string;
+}
+
+// @public
+export interface WhatsAppButtonActionBindings extends ActionBindingsParent {
+    content: ButtonSetContent;
+    kind: "whatsAppButtonAction";
 }
 
 // @public
@@ -1424,6 +1544,12 @@ export interface WhatsAppContact extends ContactParent {
 // @public
 export interface WhatsAppContactOutput extends ContactOutputParent {
     kind: "whatsApp";
+}
+
+// @public
+export interface WhatsAppListActionBindings extends ActionBindingsParent {
+    content: ActionGroupContent;
+    kind: "whatsAppListAction";
 }
 
 // @public
@@ -1476,6 +1602,12 @@ export interface WhatsAppMessageTemplateBindingsOutput extends MessageTemplateBi
 export interface WhatsAppMessageTemplateItemOutput extends MessageTemplateItemOutputParent {
     content?: any;
     kind: "whatsApp";
+}
+
+// @public
+export interface WhatsAppUrlActionBindings extends ActionBindingsParent {
+    content: LinkContent;
+    kind: "whatsAppUrlAction";
 }
 
 // (No @packageDocumentation comment for this package)
