@@ -46,7 +46,7 @@ export function addCredentialPipelinePolicy(
   if (isTokenCredential(credential)) {
     const tokenPolicy = bearerTokenAuthenticationPolicy({
       credential,
-      scopes: clientOptions?.credentials?.scopes ?? `${endpoint}/.default`,
+      scopes: clientOptions?.credentials?.scopes ?? [`${endpoint}/.default`],
     });
     pipeline.addPolicy(tokenPolicy);
   } else if (isKeyCredential(credential)) {
