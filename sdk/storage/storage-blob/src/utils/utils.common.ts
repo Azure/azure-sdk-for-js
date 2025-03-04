@@ -28,12 +28,13 @@ import {
   PathStylePorts,
   URLConstants,
 } from "./constants";
-import type {
+import {
   Tags,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
   ObjectReplicationStatus,
   HttpAuthorization,
+  StorageChecksumAlgorithm,
 } from "../models";
 import type {
   ListBlobsFlatSegmentResponseModel,
@@ -44,6 +45,10 @@ import type {
   PageRangeInfo,
 } from "../generatedModels";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { Stream } from "stream";
+import { HttpRequestBody } from "..";
+import { StorageCRC64Calculator } from "./StorageCRC64Calculator";
+import { StructuredMessageEncodingStream } from "./StructuredMessageEncodingStream";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -1019,3 +1024,56 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
 
   throw new TypeError(`Unexpected response object ${response}`);
 }
+
+export function isNodeReadableStream(source: any) : boolean {
+  return source !== null && source instanceof Stream && typeof (source as any)._read == 'function' && typeof (source as any)._readableState == 'object' && typeof source.pipe === "function"
+}
+
+export function isBrowserReadableStream(source: any) : boolean {
+  return source !== null && typeof source.tee === "function"
+}
+
+interface UploadChecksumParametersLike {
+  transactionalContentMD5?: Uint8Array;
+  transactionalContentCrc64?: Uint8Array;  
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  structuredBodyType?: string,
+  structuredContentLength?: number
+}
+
+interface UploadCheckSumBody {
+  contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+  body: HttpRequestBody,
+  contentLength: number,
+}
+
+export async function setUploadChecksumParameters(
+  body: HttpRequestBody,
+  contentLength: number,
+  parameters: UploadChecksumParametersLike,
+  uploadOptions: UploadChecksumParametersLike,
+  configContentChecksumAlgorithm?: StorageChecksumAlgorithm) : Promise<UploadCheckSumBody> {
+        let contentChecksumAlgorithm = uploadOptions.contentChecksumAlgorithm ?? configContentChecksumAlgorithm;
+        if ((contentChecksumAlgorithm === undefined)
+          || (StorageChecksumAlgorithm.Auto)) {
+          contentChecksumAlgorithm = StorageChecksumAlgorithm.Customized;
+        }
+  
+        let bodyInfo = undefined;
+        if (contentChecksumAlgorithm === StorageChecksumAlgorithm.Customized) {
+          parameters.transactionalContentMD5 = uploadOptions.transactionalContentMD5;
+          parameters.transactionalContentCrc64 = uploadOptions.transactionalContentCrc64;
+        }
+        else if (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) {
+          await StorageCRC64Calculator.init();
+          bodyInfo = await StructuredMessageEncodingStream.init(body, contentLength);
+          parameters.structuredBodyType = "XSM/1.0; properties=crc64";
+          parameters.structuredContentLength = contentLength;
+        }
+
+        return {
+          body: (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) ? bodyInfo!.body : body,
+          contentLength: (contentChecksumAlgorithm === StorageChecksumAlgorithm.StorageCrc64) ? bodyInfo!.encoded_content_length : contentLength,
+          contentChecksumAlgorithm: contentChecksumAlgorithm
+        }
+  }

@@ -62,7 +62,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
     const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
-    tmr.setDate(tmr.getDate() + 1);
+    tmr.setDate(tmr.getDate() + 20);
 
     const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
 
@@ -77,11 +77,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
-        startsOn: now,
-        version: "2016-05-31",
+        startsOn: now
       },
       sharedKeyCredential,
     ).toString();
+
+    console.log(sas);
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
     const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());

@@ -6,7 +6,8 @@
     "lib": ["dom", "es2019"],
     "paths": {
       "@azure/storage-blob": ["./src/index"]
-    }
+    },
+    "allowJs": true
   },
   "compileOnSave": true,
   "include": [
