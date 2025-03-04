@@ -10,12 +10,14 @@ import {
   CommunicationIdentityCreateOptionalParams,
   CommunicationIdentityCreateResponse,
   CommunicationIdentityDeleteOptionalParams,
+  CommunicationIdentityGetOptionalParams,
+  CommunicationIdentityGetResponse,
   CommunicationIdentityRevokeAccessTokensOptionalParams,
   CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams,
   CommunicationIdentityExchangeTeamsUserAccessTokenResponse,
   CommunicationIdentityTokenScope,
   CommunicationIdentityIssueAccessTokenOptionalParams,
-  CommunicationIdentityIssueAccessTokenResponse
+  CommunicationIdentityIssueAccessTokenResponse,
 } from "../models/index.js";
 
 /** Interface representing a CommunicationIdentityOperations. */
@@ -25,7 +27,7 @@ export interface CommunicationIdentityOperations {
    * @param options The options parameters.
    */
   create(
-    options?: CommunicationIdentityCreateOptionalParams
+    options?: CommunicationIdentityCreateOptionalParams,
   ): Promise<CommunicationIdentityCreateResponse>;
   /**
    * Delete the identity, revoke all tokens for the identity and delete all associated data.
@@ -34,8 +36,17 @@ export interface CommunicationIdentityOperations {
    */
   delete(
     id: string,
-    options?: CommunicationIdentityDeleteOptionalParams
+    options?: CommunicationIdentityDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Get an identity by its id.
+   * @param id Identifier of the identity.
+   * @param options The options parameters.
+   */
+  get(
+    id: string,
+    options?: CommunicationIdentityGetOptionalParams,
+  ): Promise<CommunicationIdentityGetResponse>;
   /**
    * Revoke all access tokens for the specific identity.
    * @param id Identifier of the identity.
@@ -43,7 +54,7 @@ export interface CommunicationIdentityOperations {
    */
   revokeAccessTokens(
     id: string,
-    options?: CommunicationIdentityRevokeAccessTokensOptionalParams
+    options?: CommunicationIdentityRevokeAccessTokensOptionalParams,
   ): Promise<void>;
   /**
    * Exchange an Azure Active Directory (Azure AD) access token of a Teams user for a new Communication
@@ -60,7 +71,7 @@ export interface CommunicationIdentityOperations {
     token: string,
     appId: string,
     userId: string,
-    options?: CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams
+    options?: CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams,
   ): Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse>;
   /**
    * Issue a new token for an identity.
@@ -71,6 +82,6 @@ export interface CommunicationIdentityOperations {
   issueAccessToken(
     id: string,
     scopes: CommunicationIdentityTokenScope[],
-    options?: CommunicationIdentityIssueAccessTokenOptionalParams
+    options?: CommunicationIdentityIssueAccessTokenOptionalParams,
   ): Promise<CommunicationIdentityIssueAccessTokenResponse>;
 }

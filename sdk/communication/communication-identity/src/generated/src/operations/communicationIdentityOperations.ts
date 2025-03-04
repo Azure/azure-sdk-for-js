@@ -16,17 +16,20 @@ import {
   CommunicationIdentityCreateOptionalParams,
   CommunicationIdentityCreateResponse,
   CommunicationIdentityDeleteOptionalParams,
+  CommunicationIdentityGetOptionalParams,
+  CommunicationIdentityGetResponse,
   CommunicationIdentityRevokeAccessTokensOptionalParams,
   CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams,
   CommunicationIdentityExchangeTeamsUserAccessTokenResponse,
   CommunicationIdentityTokenScope,
   CommunicationIdentityIssueAccessTokenOptionalParams,
-  CommunicationIdentityIssueAccessTokenResponse
+  CommunicationIdentityIssueAccessTokenResponse,
 } from "../models/index.js";
 
 /** Class containing CommunicationIdentityOperations operations. */
 export class CommunicationIdentityOperationsImpl
-  implements CommunicationIdentityOperations {
+  implements CommunicationIdentityOperations
+{
   private readonly client: IdentityRestClient;
 
   /**
@@ -42,7 +45,7 @@ export class CommunicationIdentityOperationsImpl
    * @param options The options parameters.
    */
   async create(
-    options?: CommunicationIdentityCreateOptionalParams
+    options?: CommunicationIdentityCreateOptionalParams,
   ): Promise<CommunicationIdentityCreateResponse> {
     return tracingClient.withSpan(
       "IdentityRestClient.create",
@@ -50,9 +53,9 @@ export class CommunicationIdentityOperationsImpl
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          createOperationSpec
+          createOperationSpec,
         ) as Promise<CommunicationIdentityCreateResponse>;
-      }
+      },
     );
   }
 
@@ -63,7 +66,7 @@ export class CommunicationIdentityOperationsImpl
    */
   async delete(
     id: string,
-    options?: CommunicationIdentityDeleteOptionalParams
+    options?: CommunicationIdentityDeleteOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "IdentityRestClient.delete",
@@ -71,9 +74,30 @@ export class CommunicationIdentityOperationsImpl
       async (options) => {
         return this.client.sendOperationRequest(
           { id, options },
-          deleteOperationSpec
+          deleteOperationSpec,
         ) as Promise<void>;
-      }
+      },
+    );
+  }
+
+  /**
+   * Get an identity by its id.
+   * @param id Identifier of the identity.
+   * @param options The options parameters.
+   */
+  async get(
+    id: string,
+    options?: CommunicationIdentityGetOptionalParams,
+  ): Promise<CommunicationIdentityGetResponse> {
+    return tracingClient.withSpan(
+      "IdentityRestClient.get",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { id, options },
+          getOperationSpec,
+        ) as Promise<CommunicationIdentityGetResponse>;
+      },
     );
   }
 
@@ -84,7 +108,7 @@ export class CommunicationIdentityOperationsImpl
    */
   async revokeAccessTokens(
     id: string,
-    options?: CommunicationIdentityRevokeAccessTokensOptionalParams
+    options?: CommunicationIdentityRevokeAccessTokensOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "IdentityRestClient.revokeAccessTokens",
@@ -92,9 +116,9 @@ export class CommunicationIdentityOperationsImpl
       async (options) => {
         return this.client.sendOperationRequest(
           { id, options },
-          revokeAccessTokensOperationSpec
+          revokeAccessTokensOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -113,7 +137,7 @@ export class CommunicationIdentityOperationsImpl
     token: string,
     appId: string,
     userId: string,
-    options?: CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams
+    options?: CommunicationIdentityExchangeTeamsUserAccessTokenOptionalParams,
   ): Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse> {
     return tracingClient.withSpan(
       "IdentityRestClient.exchangeTeamsUserAccessToken",
@@ -121,9 +145,9 @@ export class CommunicationIdentityOperationsImpl
       async (options) => {
         return this.client.sendOperationRequest(
           { token, appId, userId, options },
-          exchangeTeamsUserAccessTokenOperationSpec
+          exchangeTeamsUserAccessTokenOperationSpec,
         ) as Promise<CommunicationIdentityExchangeTeamsUserAccessTokenResponse>;
-      }
+      },
     );
   }
 
@@ -136,7 +160,7 @@ export class CommunicationIdentityOperationsImpl
   async issueAccessToken(
     id: string,
     scopes: CommunicationIdentityTokenScope[],
-    options?: CommunicationIdentityIssueAccessTokenOptionalParams
+    options?: CommunicationIdentityIssueAccessTokenOptionalParams,
   ): Promise<CommunicationIdentityIssueAccessTokenResponse> {
     return tracingClient.withSpan(
       "IdentityRestClient.issueAccessToken",
@@ -144,9 +168,9 @@ export class CommunicationIdentityOperationsImpl
       async (options) => {
         return this.client.sendOperationRequest(
           { id, scopes, options },
-          issueAccessTokenOperationSpec
+          issueAccessTokenOperationSpec,
         ) as Promise<CommunicationIdentityIssueAccessTokenResponse>;
-      }
+      },
     );
   }
 }
@@ -157,25 +181,29 @@ const createOperationSpec: coreClient.OperationSpec = {
   path: "/identities",
   httpMethod: "POST",
   responses: {
+    200: {
+      bodyMapper: Mappers.CommunicationIdentityAccessTokenResult,
+    },
     201: {
-      bodyMapper: Mappers.CommunicationIdentityAccessTokenResult
+      bodyMapper: Mappers.CommunicationIdentityAccessTokenResult,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
+      externalId: ["options", "externalId"],
       createTokenWithScopes: ["options", "createTokenWithScopes"],
-      expiresInMinutes: ["options", "expiresInMinutes"]
+      expiresInMinutes: ["options", "expiresInMinutes"],
     },
-    mapper: Mappers.CommunicationIdentityCreateRequest
+    mapper: Mappers.CommunicationIdentityCreateRequest,
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/identities/{id}",
@@ -183,13 +211,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/identities/{id}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CommunicationIdentityResult,
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.id],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const revokeAccessTokensOperationSpec: coreClient.OperationSpec = {
   path: "/identities/{id}/:revokeAccessTokens",
@@ -197,59 +241,59 @@ const revokeAccessTokensOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const exchangeTeamsUserAccessTokenOperationSpec: coreClient.OperationSpec = {
   path: "/teamsUser/:exchangeAccessToken",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunicationIdentityAccessToken
+      bodyMapper: Mappers.CommunicationIdentityAccessToken,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: { token: ["token"], appId: ["appId"], userId: ["userId"] },
-    mapper: { ...Mappers.TeamsUserExchangeTokenRequest, required: true }
+    mapper: { ...Mappers.TeamsUserExchangeTokenRequest, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const issueAccessTokenOperationSpec: coreClient.OperationSpec = {
   path: "/identities/{id}/:issueAccessToken",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CommunicationIdentityAccessToken
+      bodyMapper: Mappers.CommunicationIdentityAccessToken,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
       scopes: ["scopes"],
-      expiresInMinutes: ["options", "expiresInMinutes"]
+      expiresInMinutes: ["options", "expiresInMinutes"],
     },
     mapper: {
       ...Mappers.CommunicationIdentityAccessTokenRequest,
-      required: true
-    }
+      required: true,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

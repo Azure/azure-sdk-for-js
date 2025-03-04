@@ -38,6 +38,26 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
   user: CommunicationUserIdentifier;
 }
 
+/** Represents a communication identity. */
+export interface CommunicationIdentityGetResult {
+  /** Identifier of the identity. */
+  id: string;
+  /** The external Id if one has been associated with the identity. */
+  externalId?: string;
+  /** Last time a token has been issued for the identity. */
+  lastTokenIssuedAt?: Date;
+}
+
+/**
+ * The issued token and the user it was issued for.
+ */
+export interface CommunicationUserToken extends CommunicationAccessToken {
+  /**
+   * Represents the user the token was issued for
+   */
+  user: CommunicationUserIdentifier;
+}
+
 /**
  * Options used to exchange an AAD access token of a Teams user for a new Communication Identity access token.
  */
@@ -64,7 +84,18 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
 export declare interface CreateUserAndTokenOptions extends OperationOptions {
   /** Optional custom validity period of the token within [60,1440] minutes range. If not provided, the default value of 1440 minutes (24 hours) will be used. */
   tokenExpiresInMinutes?: number;
+  /** The external Id if one has been associated with the identity. */
+  externalId?: string;
 }
+
+/**
+ * Options to create a single user and a token simultaneously.
+ */
+export declare interface CreateUserOptions extends OperationOptions {
+  /** The external Id if one has been associated with the identity. */
+  externalId?: string;
+}
+
 
 /**
  * Options to create a scoped user token.
