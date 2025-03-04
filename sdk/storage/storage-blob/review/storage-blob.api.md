@@ -168,6 +168,7 @@ export interface AppendBlobAppendBlockHeaders {
     isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
     xMsContentCrc64?: Uint8Array;
 }
@@ -569,6 +570,8 @@ export interface BlobDownloadHeaders {
         [propertyName: string]: string;
     };
     requestId?: string;
+    structuredBodyType?: string;
+    structuredContentLength?: number;
     tagCount?: number;
     version?: string;
     versionId?: string;
@@ -584,6 +587,7 @@ export interface BlobDownloadOptionalParams extends coreClient.OperationOptions 
     rangeGetContentMD5?: boolean;
     requestId?: string;
     snapshot?: string;
+    structuredBodyType?: string;
     timeoutInSeconds?: number;
     versionId?: string;
 }
@@ -1532,6 +1536,7 @@ export interface BlockBlobStageBlockHeaders {
     errorCode?: string;
     isServerEncrypted?: boolean;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
     xMsContentCrc64?: Uint8Array;
 }
@@ -1588,6 +1593,7 @@ export interface BlockBlobUploadHeaders {
     isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
     versionId?: string;
 }
@@ -2712,6 +2718,7 @@ export interface PageBlobUploadPagesHeaders {
     isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
     xMsContentCrc64?: Uint8Array;
 }

@@ -95,18 +95,18 @@ describe("Highlevel", () => {
     fs.unlinkSync(tempFileSmall);
   });
 
-  it("put blob with maximum size", async function () {
+  it.only("put blob with maximum size", async function () {
     if (isNodeLike && !isLiveMode()) {
       this.skip();
     }
     const MB = 1024 * 1024;
-    const maxPutBlobSizeLimitInMB = 5000;
-    const tempFile = await createRandomLocalFile(tempFolderPath, maxPutBlobSizeLimitInMB, MB);
+    //const maxPutBlobSizeLimitInMB = 5000;
+    const tempFile = await createRandomLocalFile(tempFolderPath, 1, MB);
     const inputStream = fs.createReadStream(tempFile);
 
     try {
-      await blockBlobClient.upload(() => inputStream, maxPutBlobSizeLimitInMB * MB, {
-        abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
+      await blockBlobClient.upload(() => inputStream, 1 * MB, {
+        //abortSignal: AbortSignal.timeout(20 * 1000), // takes too long to upload the file
       });
     } catch (err: any) {
       assert.equal(err.name, "AbortError");

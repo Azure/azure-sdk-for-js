@@ -81,7 +81,7 @@ export function getGenericBSU(
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
     const pipeline = newPipeline(credential, pipelineOptions);
-    const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.core.windows.net/`;
+    const blobPrimaryURL = `https://${credential.accountName}${accountNameSuffix}.blob.preprod.core.windows.net/`;
     const client = new BlobServiceClient(blobPrimaryURL, pipeline);
     configureBlobStorageClient(recorder, client);
     return client;

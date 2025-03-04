@@ -203,6 +203,9 @@ import type { BlobSASPermissions } from "./sas/BlobSASPermissions";
 import { BlobLeaseClient } from "./BlobLeaseClient";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import type { UserDelegationKey } from "./BlobServiceClient";
+import { StructuredMessageDecodingStream } from "./utils/StructuredMessageDecodingStream";
+import { StorageCRC64Calculator } from "./utils/StorageCRC64Calculator";
+import { StructuredMessageEncodingStream } from "./utils/StructuredMessageEncodingStream";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -1220,6 +1223,8 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
+    await StorageCRC64Calculator.init();
+
     return tracingClient.withSpan("BlobClient-download", options, async (updatedOptions) => {
       const res = assertResponse<BlobDownloadResponseInternal, BlobDownloadHeaders>(
         await this.blobContext.download({
@@ -1238,6 +1243,7 @@ export class BlobClient extends StorageClient {
           snapshot: options.snapshot,
           cpkInfo: options.customerProvidedKey,
           tracingOptions: updatedOptions.tracingOptions,
+          structuredBodyType: "XSM/1.0; properties=crc64",
         }),
       );
 
@@ -1266,9 +1272,15 @@ export class BlobClient extends StorageClient {
         throw new RangeError(`File download response doesn't contain valid content length header`);
       }
 
+      if (res.structuredContentLength === undefined) {
+        throw new RangeError(`Unexpected structured content length`);
+      }
+
       if (!res.etag) {
         throw new RangeError(`File download response doesn't contain valid etag header`);
       }
+
+      const expectedContentLength = res.structuredContentLength;
 
       return new BlobDownloadResponse(
         wrappedRes,
@@ -1283,13 +1295,14 @@ export class BlobClient extends StorageClient {
               ifTags: options.conditions?.tagConditions,
             },
             range: rangeToString({
-              count: offset + res.contentLength! - start,
+              count: offset + expectedContentLength - start,
               offset: start,
             }),
             rangeGetContentMD5: options.rangeGetContentMD5,
             rangeGetContentCRC64: options.rangeGetContentCrc64,
             snapshot: options.snapshot,
             cpkInfo: options.customerProvidedKey,
+            structuredBodyType: "XSM/1.0; properties=crc64",
           };
 
           // Debug purpose only
@@ -1299,15 +1312,18 @@ export class BlobClient extends StorageClient {
           //   }, options: ${JSON.stringify(updatedOptions)}`
           // );
 
-          return (
-            await this.blobContext.download({
-              abortSignal: options.abortSignal,
-              ...updatedDownloadOptions,
-            })
-          ).readableStreamBody!;
+          return new StructuredMessageDecodingStream(
+            (
+              await this.blobContext.download({
+                abortSignal: options.abortSignal,
+                ...updatedDownloadOptions,
+              })
+            ).readableStreamBody!,
+            {},
+          );
         },
         offset,
-        res.contentLength!,
+        expectedContentLength,
         {
           maxRetryRequests: options.maxRetryRequests,
           onProgress: options.onProgress,
@@ -3848,9 +3864,11 @@ export class BlockBlobClient extends BlobClient {
   ): Promise<BlockBlobUploadResponse> {
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+    await StorageCRC64Calculator.init();
     return tracingClient.withSpan("BlockBlobClient-upload", options, async (updatedOptions) => {
+      const bodyInfo = await StructuredMessageEncodingStream.init(body, contentLength);
       return assertResponse<BlockBlobUploadHeaders, BlockBlobUploadHeaders>(
-        await this.blockBlobContext.upload(contentLength, body, {
+        await this.blockBlobContext.upload(bodyInfo.encoded_content_length, bodyInfo.body, {
           abortSignal: options.abortSignal,
           blobHttpHeaders: options.blobHTTPHeaders,
           leaseAccessConditions: options.conditions,

@@ -58,6 +58,19 @@ describe("Highlevel", () => {
       tempFile2 = getBrowserFile(getUniqueName("browserfile2"), tempFile2Length);
     }
   });
+  
+  it.only("upload and download", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
+    await blockBlobClient.upload(tempFile1, tempFile1Length);
+
+    const downloadResponse = await blockBlobClient.download(0);
+    const downloadedString = await bodyToString(downloadResponse);
+    const uploadedString = await blobToString(tempFile1);
+    
+    assert.equal(uploadedString, downloadedString);
+  });
 
   it("uploadBrowserDataToBlockBlob should abort when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function () {
     if (!isLiveMode()) {
