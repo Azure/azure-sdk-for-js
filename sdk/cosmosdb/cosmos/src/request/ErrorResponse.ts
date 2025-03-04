@@ -100,4 +100,10 @@ export class ErrorResponse extends Error {
   retryAfterInMilliseconds?: number;
   [key: string]: any;
   diagnostics?: CosmosDiagnostics;
+
+  constructor(message?: string, code?: number, substatus?: number) {
+    super(message);
+    this.code = code;
+    this.substatus = substatus;
+  }
 }
