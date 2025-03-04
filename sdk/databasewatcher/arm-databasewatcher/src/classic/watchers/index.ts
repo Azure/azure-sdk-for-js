@@ -3,6 +3,14 @@
 
 import { DatabaseWatcherContext } from "../../api/databaseWatcherContext.js";
 import {
+  stop,
+  start,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
   WatchersStopOptionalParams,
   WatchersStartOptionalParams,
   WatchersListBySubscriptionOptionalParams,
@@ -11,16 +19,6 @@ import {
   WatchersUpdateOptionalParams,
   WatchersCreateOrUpdateOptionalParams,
   WatchersGetOptionalParams,
-} from "../../api/options.js";
-import {
-  watchersStop,
-  watchersStart,
-  watchersListBySubscription,
-  watchersListByResourceGroup,
-  watchersDelete,
-  watchersUpdate,
-  watchersCreateOrUpdate,
-  watchersGet,
 } from "../../api/watchers/index.js";
 import { Watcher, WatcherUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -50,6 +48,11 @@ export interface WatchersOperations {
     options?: WatchersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Watcher>;
   /** Delete a Watcher */
+  /**
+   *  @fixme delete is a reserved word that cannot be used as an operation name.
+   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
+   *         to the operation to override the generated name.
+   */
   delete: (
     resourceGroupName: string,
     watcherName: string,
@@ -79,42 +82,57 @@ export interface WatchersOperations {
 
 function _getWatchers(context: DatabaseWatcherContext) {
   return {
-    stop: (resourceGroupName: string, watcherName: string, options?: WatchersStopOptionalParams) =>
-      watchersStop(context, resourceGroupName, watcherName, options),
+    stop: (
+      resourceGroupName: string,
+      watcherName: string,
+      options?: WatchersStopOptionalParams,
+    ) => stop(context, resourceGroupName, watcherName, options),
     start: (
       resourceGroupName: string,
       watcherName: string,
       options?: WatchersStartOptionalParams,
-    ) => watchersStart(context, resourceGroupName, watcherName, options),
+    ) => start(context, resourceGroupName, watcherName, options),
     listBySubscription: (options?: WatchersListBySubscriptionOptionalParams) =>
-      watchersListBySubscription(context, options),
+      listBySubscription(context, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: WatchersListByResourceGroupOptionalParams,
-    ) => watchersListByResourceGroup(context, resourceGroupName, options),
+    ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (
       resourceGroupName: string,
       watcherName: string,
       options?: WatchersDeleteOptionalParams,
-    ) => watchersDelete(context, resourceGroupName, watcherName, options),
+    ) => $delete(context, resourceGroupName, watcherName, options),
     update: (
       resourceGroupName: string,
       watcherName: string,
       properties: WatcherUpdate,
       options?: WatchersUpdateOptionalParams,
-    ) => watchersUpdate(context, resourceGroupName, watcherName, properties, options),
+    ) => update(context, resourceGroupName, watcherName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       watcherName: string,
       resource: Watcher,
       options?: WatchersCreateOrUpdateOptionalParams,
-    ) => watchersCreateOrUpdate(context, resourceGroupName, watcherName, resource, options),
-    get: (resourceGroupName: string, watcherName: string, options?: WatchersGetOptionalParams) =>
-      watchersGet(context, resourceGroupName, watcherName, options),
+    ) =>
+      createOrUpdate(
+        context,
+        resourceGroupName,
+        watcherName,
+        resource,
+        options,
+      ),
+    get: (
+      resourceGroupName: string,
+      watcherName: string,
+      options?: WatchersGetOptionalParams,
+    ) => get(context, resourceGroupName, watcherName, options),
   };
 }
 
-export function _getWatchersOperations(context: DatabaseWatcherContext): WatchersOperations {
+export function _getWatchersOperations(
+  context: DatabaseWatcherContext,
+): WatchersOperations {
   return {
     ..._getWatchers(context),
   };

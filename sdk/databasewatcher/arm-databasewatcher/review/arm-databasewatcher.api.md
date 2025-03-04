@@ -179,9 +179,9 @@ export enum KnownDatabaseWatcherProvisioningState {
 
 // @public
 export enum KnownKustoOfferingType {
-    Adx = "adx",
-    Fabric = "fabric",
-    Free = "free"
+    adx = "adx",
+    fabric = "fabric",
+    free = "free"
 }
 
 // @public
@@ -194,9 +194,9 @@ export enum KnownManagedServiceIdentityType {
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -232,7 +232,7 @@ export enum KnownValidationStatus {
 
 // @public
 export enum KnownVersions {
-    V20250102 = "2025-01-02"
+    v2025_01_02 = "2025-01-02"
 }
 
 // @public
