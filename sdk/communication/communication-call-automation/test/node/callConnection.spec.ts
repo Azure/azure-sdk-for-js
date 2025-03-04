@@ -344,7 +344,7 @@ describe("CallConnection Live Tests", function () {
     }
   });
 
-  it("List all participants", { timeout: 60000 }, async function (ctx) {
+  it("List all participants", { timeout: 90000 }, async function (ctx) {
     const fullTitle: string | undefined =
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
@@ -375,7 +375,7 @@ describe("CallConnection Live Tests", function () {
         answerCallOptions,
       );
     }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
     const allParticipants = await callConnection.listParticipants();
