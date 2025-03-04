@@ -6,6 +6,8 @@
 
 ### Features Added
 
+- Add `audience` in `AppConfigurationClientOptions` and `KnownAppConfigurationAudience` to support specifying the token credential's Microsoft Entra audience when creating a client. When unspecified, the SDK will check the resource endpoint to determine the correct audience.
+
 ### Breaking Changes
 
 ### Bugs Fixed

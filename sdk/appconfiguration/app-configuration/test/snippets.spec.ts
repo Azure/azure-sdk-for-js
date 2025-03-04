@@ -3,7 +3,7 @@
 
 import { describe, it } from "vitest";
 import { AzureAuthorityHosts, DefaultAzureCredential } from "@azure/identity";
-import { AppConfigurationClient } from "@azure/app-configuration";
+import { AppConfigurationClient, KnownAppConfigurationAudience } from "@azure/app-configuration";
 import { setLogLevel } from "@azure/logger";
 
 describe("snippets", () => {
@@ -20,7 +20,10 @@ describe("snippets", () => {
     // Create an AppConfigurationClient that will authenticate through AAD in the China cloud
     const client = new AppConfigurationClient(
       endpoint,
-      new DefaultAzureCredential({ authorityHost: AzureAuthorityHosts.AzureChina }),
+      new DefaultAzureCredential(),
+      {
+        audience: KnownAppConfigurationAudience.AzureChina
+      }
     );
   });
 
