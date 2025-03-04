@@ -11,15 +11,13 @@ import {
   SearchIndexerSkillset
 } from "@azure/search-documents";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 
 const skillsetName = "example-skillset-sample-1";
 
-async function createSkillset(skillsetName: string, client: SearchIndexerClient) {
+async function createSkillset(skillsetName: string, client: SearchIndexerClient): Promise<void> {
   console.log(`Creating Skillset Operation`);
   const skillset: SearchIndexerSkillset = {
     name: skillsetName,
@@ -57,7 +55,7 @@ async function createSkillset(skillsetName: string, client: SearchIndexerClient)
   await client.createSkillset(skillset);
 }
 
-async function getAndUpdateSkillset(skillsetName: string, client: SearchIndexerClient) {
+async function getAndUpdateSkillset(skillsetName: string, client: SearchIndexerClient): Promise<void> {
   console.log(`Get And Update Skillset Operation`);
   const skillset: SearchIndexerSkillset = await client.getSkillset(skillsetName);
 
@@ -75,7 +73,7 @@ async function getAndUpdateSkillset(skillsetName: string, client: SearchIndexerC
   await client.createOrUpdateSkillset(skillset);
 }
 
-async function listSkillsets(client: SearchIndexerClient) {
+async function listSkillsets(client: SearchIndexerClient): Promise<void> {
   console.log(`List Skillset Operation`);
   const listOfSkillsets: Array<SearchIndexerSkillset> = await client.listSkillsets();
 
@@ -102,12 +100,12 @@ async function listSkillsets(client: SearchIndexerClient) {
   }
 }
 
-async function deleteSkillset(skillsetName: string, client: SearchIndexerClient) {
+async function deleteSkillset(skillsetName: string, client: SearchIndexerClient): Promise<void> {
   console.log(`Deleting Skillset Operation`);
   await client.deleteSkillset(skillsetName);
 }
 
-async function main() {
+async function main(): Promise<void> {
   console.log(`Running Skillset Operations Sample....`);
   if (!endpoint || !apiKey) {
     console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");

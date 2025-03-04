@@ -8,9 +8,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { SearchIndexer, SearchIndexerClient, SearchIndexerStatus } from "@azure/search-documents";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 const endpoint = process.env.ENDPOINT || "";
 const dataSourceName = process.env.DATA_SOURCE_NAME || "";
 const targetIndexName = process.env.TARGET_INDEX_NAME || "";

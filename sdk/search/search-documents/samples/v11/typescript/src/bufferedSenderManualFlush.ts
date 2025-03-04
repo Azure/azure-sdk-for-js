@@ -12,12 +12,10 @@ import {
   GeographyPoint,
   SearchIndexClient
 } from "@azure/search-documents";
-import { createIndex, documentKeyRetriever, WAIT_TIME, delay } from "./setup";
-import { Hotel } from "./interfaces";
+import { createIndex, documentKeyRetriever, WAIT_TIME, delay } from "./setup.js";
+import { Hotel } from "./interfaces.js";
 
-import * as dotenv from "dotenv";
-dotenv.config();
-
+import "dotenv/config";
 /**
  * This sample is to demonstrate the use of SearchIndexingBufferedSender.
  * In this sample, the autoFlush is set to false. i.e. the user
@@ -27,7 +25,7 @@ const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-6";
 
-export async function main() {
+export async function main(): Promise<void> {
   if (!endpoint || !apiKey) {
     console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
     return;
