@@ -140,7 +140,7 @@ export async function getHeaders({
   }
 
   if (options.throughputBucket) {
-    headers[Constants.HttpHeaders.PriorityLevel] = options.throughputBucket;
+    headers[Constants.HttpHeaders.ThroughputBucket] = options.throughputBucket;
   }
 
   if (options.maxIntegratedCacheStalenessInMs && resourceType === ResourceType.item) {
