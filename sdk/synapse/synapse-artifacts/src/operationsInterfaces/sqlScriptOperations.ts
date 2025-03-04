@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import type { SimplePollerLike, OperationState } from "@azure/core-lro";
-import type {
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import {
   SqlScriptResource,
   SqlScriptGetSqlScriptsByWorkspaceOptionalParams,
   SqlScriptCreateOrUpdateSqlScriptOptionalParams,
@@ -20,20 +20,21 @@ import type {
   SqlScriptRenameSqlScriptOptionalParams,
 } from "../models/index.js";
 
+/// <reference lib="esnext.asynciterable" />
 /** Interface representing a SqlScriptOperations. */
 export interface SqlScriptOperations {
   /**
    * Lists sql scripts.
-   * @param options - The options parameters.
+   * @param options The options parameters.
    */
   listSqlScriptsByWorkspace(
     options?: SqlScriptGetSqlScriptsByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<SqlScriptResource>;
   /**
    * Creates or updates a Sql Script.
-   * @param sqlScriptName - The sql script name.
-   * @param sqlScript - Sql Script resource definition.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param sqlScript Sql Script resource definition.
+   * @param options The options parameters.
    */
   beginCreateOrUpdateSqlScript(
     sqlScriptName: string,
@@ -47,9 +48,9 @@ export interface SqlScriptOperations {
   >;
   /**
    * Creates or updates a Sql Script.
-   * @param sqlScriptName - The sql script name.
-   * @param sqlScript - Sql Script resource definition.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param sqlScript Sql Script resource definition.
+   * @param options The options parameters.
    */
   beginCreateOrUpdateSqlScriptAndWait(
     sqlScriptName: string,
@@ -58,8 +59,8 @@ export interface SqlScriptOperations {
   ): Promise<SqlScriptCreateOrUpdateSqlScriptResponse>;
   /**
    * Gets a sql script.
-   * @param sqlScriptName - The sql script name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param options The options parameters.
    */
   getSqlScript(
     sqlScriptName: string,
@@ -67,8 +68,8 @@ export interface SqlScriptOperations {
   ): Promise<SqlScriptGetSqlScriptResponse>;
   /**
    * Deletes a Sql Script.
-   * @param sqlScriptName - The sql script name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param options The options parameters.
    */
   beginDeleteSqlScript(
     sqlScriptName: string,
@@ -76,8 +77,8 @@ export interface SqlScriptOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Sql Script.
-   * @param sqlScriptName - The sql script name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param options The options parameters.
    */
   beginDeleteSqlScriptAndWait(
     sqlScriptName: string,
@@ -85,9 +86,9 @@ export interface SqlScriptOperations {
   ): Promise<void>;
   /**
    * Renames a sqlScript.
-   * @param sqlScriptName - The sql script name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   beginRenameSqlScript(
     sqlScriptName: string,
@@ -96,9 +97,9 @@ export interface SqlScriptOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a sqlScript.
-   * @param sqlScriptName - The sql script name.
-   * @param request - proposed new name.
-   * @param options - The options parameters.
+   * @param sqlScriptName The sql script name.
+   * @param request proposed new name.
+   * @param options The options parameters.
    */
   beginRenameSqlScriptAndWait(
     sqlScriptName: string,
