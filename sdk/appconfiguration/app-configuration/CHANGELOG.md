@@ -2,9 +2,11 @@
 
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.9.0 (Unreleased)
 
 ### Features Added
+
+- Add `audience` in `AppConfigurationClientOptions` and `KnownAppConfigurationAudience` to support specifying the token credential's Microsoft Entra audience when creating a client. When unspecified, the SDK will default to Azure Public Cloud.
 
 ### Breaking Changes
 
