@@ -22,7 +22,7 @@ describe("Agents - run steps", () => {
     await recorder.stop();
   });
 
-  it("should list run steps", async function () {
+  it("should list run steps", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",
@@ -65,7 +65,7 @@ describe("Agents - run steps", () => {
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
-  it("should get steps", async function () {
+  it("should get steps", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",

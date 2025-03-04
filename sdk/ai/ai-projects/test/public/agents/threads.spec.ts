@@ -21,12 +21,12 @@ describe("Agents - threads", () => {
     await recorder.stop();
   });
 
-  it("client and agents operations are accessible", async function () {
+  it("client and agents operations are accessible", async () => {
     assert.isNotNull(projectsClient);
     assert.isNotNull(agents);
   });
 
-  it("should create thread", async function () {
+  it("should create thread", async () => {
     // Create thread
     const thread = await agents.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
@@ -38,7 +38,7 @@ describe("Agents - threads", () => {
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
-  it("should retrieve thread", async function () {
+  it("should retrieve thread", async () => {
     // Create thread
     const thread = await agents.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
@@ -54,7 +54,7 @@ describe("Agents - threads", () => {
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
-  it("should update thread", async function () {
+  it("should update thread", async () => {
     // Create thread
     const thread = await agents.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);
@@ -74,7 +74,7 @@ describe("Agents - threads", () => {
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
-  it("should delete thread", async function () {
+  it("should delete thread", async () => {
     // Create thread
     const thread = await agents.createThread();
     console.log(`Created thread, thread ID: ${thread.id}`);

@@ -21,12 +21,12 @@ describe("Agents - assistants", () => {
     await recorder.stop();
   });
 
-  it("client and connection operations are accessible", async function () {
+  it("client and connection operations are accessible", async () => {
     assert.isNotNull(projectsClient);
     assert.isNotNull(connections);
   });
 
-  it("should list connections", async function () {
+  it("should list connections", async () => {
     // List connections
     const connectionsList = await connections.listConnections();
     assert.isNotNull(connectionsList);
@@ -34,7 +34,7 @@ describe("Agents - assistants", () => {
     console.log(`Retrieved ${connectionsList.length} connections`);
   });
 
-  it("should retrieve a connection without secrets", async function () {
+  it("should retrieve a connection without secrets", async () => {
     // List connections
     const connectionsList = await connections.listConnections();
     assert.isNotNull(connectionsList);
@@ -50,7 +50,7 @@ describe("Agents - assistants", () => {
     }
   });
 
-  it("should retrieve a connection with secrets", async function () {
+  it("should retrieve a connection with secrets", async () => {
     // List connections
     const connectionsList = await connections.listConnections();
     assert.isNotNull(connectionsList);

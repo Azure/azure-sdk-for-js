@@ -21,12 +21,12 @@ describe("Agents - vector stores", () => {
     await recorder.stop();
   });
 
-  it("client and agents operations are accessible", async function () {
+  it("client and agents operations are accessible", async () => {
     assert.isNotNull(projectsClient);
     assert.isNotNull(agents);
   });
 
-  it("should create vector store", async function () {
+  it("should create vector store", async () => {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     assert.isNotNull(vectorStore);
@@ -37,7 +37,7 @@ describe("Agents - vector stores", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("should delete vector store", async function () {
+  it("should delete vector store", async () => {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
@@ -48,7 +48,7 @@ describe("Agents - vector stores", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("get vector store", async function () {
+  it("get vector store", async () => {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
@@ -63,7 +63,7 @@ describe("Agents - vector stores", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("list vector stores", async function () {
+  it("list vector stores", async () => {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
@@ -79,7 +79,7 @@ describe("Agents - vector stores", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("modify vector store", async function () {
+  it("modify vector store", async () => {
     // Create vector store
     const vectorStore = await agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
@@ -97,7 +97,7 @@ describe("Agents - vector stores", () => {
     console.log(`Deleted vector store, vector store ID: ${vectorStore.id}`);
   });
 
-  it("should create vector store and poll", async function () {
+  it("should create vector store and poll", async () => {
     // Create vector store
     const poller = agents.createVectorStoreAndPoll();
     const vectorStore = await poller.pollUntilDone();

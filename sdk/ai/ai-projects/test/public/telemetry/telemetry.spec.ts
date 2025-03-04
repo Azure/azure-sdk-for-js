@@ -20,25 +20,25 @@ describe("AI Projects - Telemetry", () => {
   afterEach(async () => {
     await recorder.stop();
   });
-  it("client and connection operations are accessible", async function () {
+  it("client and connection operations are accessible", async () => {
     assert.isNotNull(projectsClient);
     assert.isNotNull(telemetry);
   });
 
-  it("update settings", async function () {
+  it("update settings", async () => {
     assert.equal(telemetry.getSettings().enableContentRecording, false);
     telemetry.updateSettings({ enableContentRecording: true });
     assert.equal(telemetry.getSettings().enableContentRecording, true);
   });
 
-  it("get settings", async function () {
+  it("get settings", async () => {
     const options = telemetry.getSettings();
     assert.equal(options.enableContentRecording, false);
     options.enableContentRecording = true;
     assert.equal(telemetry.getSettings().enableContentRecording, false);
   });
 
-  it("get app insights connection string", async function () {
+  it("get app insights connection string", async () => {
     const connectionString = await telemetry.getConnectionString();
     assert.isNotEmpty(connectionString);
     console.log(`Connection string retrieved ${connectionString}`);

@@ -45,7 +45,7 @@ describe("Agents - function tool", () => {
     return { currentDateTime: "2024-10-10 12:30:19" };
   }
 
-  it("should create agent with function tool", async function () {
+  it("should create agent with function tool", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",
@@ -63,7 +63,7 @@ describe("Agents - function tool", () => {
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
-  it("should create agent with run function tool", async function () {
+  it("should create agent with run function tool", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", {
       name: "my-agent",

@@ -22,7 +22,7 @@ describe("Agents - streaming", () => {
     await recorder.stop();
   });
 
-  it("should run streaming", async function () {
+  it("should run streaming", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4-1106-preview", {
       name: "My Friendly Test Assistant",
@@ -70,7 +70,7 @@ describe("Agents - streaming", () => {
   });
 
   // eslint-disable-next-line no-only-tests/no-only-tests
-  it("should create thread and run streaming", async function () {
+  it("should create thread and run streaming", async () => {
     // Create agent
     const agent = await agents.createAgent("gpt-4-1106-preview", {
       name: "My Friendly Test Assistant",

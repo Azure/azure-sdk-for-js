@@ -21,17 +21,17 @@ describe("Agents - files", () => {
     await recorder.stop();
   });
 
-  it("client and agents operations are accessible", async function () {
+  it("client and agents operations are accessible", async () => {
     assert.isNotNull(projectsClient);
     assert.isNotNull(agents);
   });
 
-  it("should list files", async function () {
+  it("should list files", async () => {
     const files = await agents.listFiles();
     assert.isNotEmpty(files);
   });
 
-  it("should upload file", async function () {
+  it("should upload file", async () => {
     const fileContent = new ReadableStream({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
@@ -42,7 +42,7 @@ describe("Agents - files", () => {
     assert.isNotEmpty(file);
   });
 
-  it("should upload file and poll", async function () {
+  it("should upload file and poll", async () => {
     const fileContent = new ReadableStream({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
@@ -58,7 +58,7 @@ describe("Agents - files", () => {
     assert.isNotEmpty(file);
   });
 
-  it("should delete file", async function () {
+  it("should delete file", async () => {
     const fileContent = new ReadableStream({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
@@ -70,7 +70,7 @@ describe("Agents - files", () => {
     assert.isNotNull(deleted);
   });
 
-  it("should retrieve file", async function () {
+  it("should retrieve file", async () => {
     const fileContent = new ReadableStream({
       start(controller) {
         controller.enqueue(new TextEncoder().encode("fileContent"));
